@@ -69,6 +69,7 @@ func _ready():
 	# Scale to our world scale
 	$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 	$Target.mesh.size = Vector2(ws, ws)
+	$Target/Player_figure.scale = Vector3(ws, ws, ws)
 	
 	# create shape object
 	collision_shape = CapsuleShape.new()
@@ -88,6 +89,7 @@ func _physics_process(delta):
 		ws = new_ws
 		$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 		$Target.mesh.size = Vector2(ws, ws)
+		$Target/Player_figure.scale = Vector3(ws, ws, ws)
 	
 	# button 15 is mapped to our trigger
 	if controller and controller.get_is_active() and controller.is_button_pressed(15):
