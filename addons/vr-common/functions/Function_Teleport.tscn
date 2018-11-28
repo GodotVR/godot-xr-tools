@@ -45,7 +45,7 @@ void vertex() {
 void fragment() {
 	// and do our color
 	float offset =  (TIME * 2.0);
-	vec4 col = texture(arrow_texture, vec2(UV.x, (UV.y * length * -4.0) + offset )).rgba;
+	vec4 col = texture(arrow_texture, vec2(1.0-UV.x, ((1.0-UV.y) * length * -4.0) + offset )).rgba;
 	ALBEDO = col.rgb * mix_color.rgb;
 	
 	// need to fix up our image and add an alpha channel
@@ -111,7 +111,7 @@ subsurf_scatter_enabled = false
 transmission_enabled = false
 refraction_enabled = false
 detail_enabled = false
-uv1_scale = Vector3( 1, 1, 1 )
+uv1_scale = Vector3( -1, -1, -1 )
 uv1_offset = Vector3( 0, 0, 0 )
 uv1_triplanar = false
 uv1_triplanar_sharpness = 1.0
