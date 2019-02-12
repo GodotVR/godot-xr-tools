@@ -211,7 +211,7 @@ func _physics_process(delta):
 
 			$Teleport.get_surface_material(0).set_shader_param("mix_color", color)
 			$Target.get_surface_material(0).albedo_color = color
-			$Target.visible = true
+			$Target.visible = can_teleport
 		else:
 			can_teleport = false
 			$Target.visible = false

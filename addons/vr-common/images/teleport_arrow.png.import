@@ -2,22 +2,20 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/teleport_arrow.png-0c3b6813c6a0a928c80589165477d2ab.s3tc.stex"
-path.etc2="res://.import/teleport_arrow.png-0c3b6813c6a0a928c80589165477d2ab.etc2.stex"
+path.s3tc="res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.s3tc.stex"
+path.etc2="res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.etc2.stex"
 
 [deps]
 
-source_file="res://addons/godot-openvr/images/teleport_arrow.png"
-source_md5="9ea03e433db9dad93d17c6eba7c1738c"
-
-dest_files=[ "res://.import/teleport_arrow.png-0c3b6813c6a0a928c80589165477d2ab.s3tc.stex", "res://.import/teleport_arrow.png-0c3b6813c6a0a928c80589165477d2ab.etc2.stex" ]
-dest_md5="5e7813469e2373463d314550534d0aff"
+source_file="res://addons/vr-common/images/teleport_arrow.png"
+dest_files=[ "res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.s3tc.stex", "res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.etc2.stex" ]
 
 [params]
 
 compress/mode=2
 compress/lossy_quality=0.7
 compress/hdr_mode=0
+compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=true
 flags/filter=true
@@ -27,6 +25,7 @@ flags/srgb=1
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
+process/invert_color=false
 stream=false
 size_limit=0
 detect_3d=false
