@@ -1,37 +1,20 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/vr-common/functions/Function_Teleport.gd" type="Script" id=1]
 [ext_resource path="res://addons/vr-common/materials/teleport.tres" type="Material" id=2]
-[ext_resource path="res://addons/vr-common/images/teleport_target.png" type="Texture" id=3]
+[ext_resource path="res://addons/vr-common/materials/target.tres" type="Material" id=3]
+[ext_resource path="res://addons/vr-common/materials/capule.tres" type="Material" id=4]
 
 [sub_resource type="PlaneMesh" id=1]
-
 size = Vector2( 0.05, 1 )
 subdivide_depth = 40
 
 [sub_resource type="PlaneMesh" id=2]
-
 size = Vector2( 1, 1 )
 
-[sub_resource type="SpatialMaterial" id=3]
-
-flags_transparent = true
-flags_unshaded = true
-params_diffuse_mode = 1
-params_cull_mode = 2
-albedo_color = Color( 0.176471, 0.313726, 0.862745, 1 )
-albedo_texture = ExtResource( 3 )
-
 [sub_resource type="CapsuleMesh" id=4]
-
 radius = 0.3
 mid_height = 1.2
-
-[sub_resource type="SpatialMaterial" id=5]
-
-flags_transparent = true
-albedo_color = Color( 0.0337219, 0.241112, 0.863281, 0.497255 )
-roughness = 0.0
 
 [node name="Function_Teleport" type="KinematicBody"]
 input_ray_pickable = false
@@ -45,12 +28,12 @@ material/0 = ExtResource( 2 )
 
 [node name="Target" type="MeshInstance" parent="."]
 mesh = SubResource( 2 )
-material/0 = SubResource( 3 )
+material/0 = ExtResource( 3 )
 
 [node name="Player_figure" type="Position3D" parent="Target"]
 
 [node name="Capsule" type="MeshInstance" parent="Target/Player_figure"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0.9, 0 )
 mesh = SubResource( 4 )
-material/0 = SubResource( 5 )
+material/0 = ExtResource( 4 )
 

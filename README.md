@@ -3,6 +3,14 @@ This repository contains a number of support files and support scenes that can b
 
 ## How to Use
 
+### Preventing hickups
+
+As many of the functions in this module will hide objects that are later shown as the user performs actions, the user will experience a hickup as Godot compiles the shader used to draw the object on screen.
+
+To combat this you will find a scene in this module called `misc/VR_Common_Shader_Cache.tscn`.
+Add this scene as a child node to your ARVRCamera. This will trigger the required shaders being
+compiled the first time your main scene loads.
+
 ### Teleportation
 - if your scene doesn't have a floor yet: 
   - add a `StaticBody` node to the scene root 
