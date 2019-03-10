@@ -4,7 +4,6 @@
 [ext_resource path="res://addons/vr-common/images/teleport_arrow.png" type="Texture" id=2]
 
 [resource]
-
 shader = ExtResource( 1 )
 shader_param/scale_t = 0.2
 shader_param/length = 30.0
