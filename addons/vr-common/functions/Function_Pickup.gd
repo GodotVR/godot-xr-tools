@@ -1,5 +1,8 @@
 extends Area
 
+signal has_picked_up(what)
+signal has_dropped
+
 export var impulse_factor = 1.0
 export var pickup_button_id = 2
 export var action_button_id = 15
@@ -26,9 +29,11 @@ func _on_button_pressed(p_button):
 			# let go of this object
 			picked_up_object.let_go(velocity * impulse_factor)
 			picked_up_object = null
+			emit_signal("has_dropped")
 		elif !object_in_area.empty():
 			picked_up_object = object_in_area[0]
-			picked_up_object.pick_up(self)
+			picked_up_object.pick_up(self, get_parent())
+			emit_signal("has_picked_up", picked_up_object)
 	elif p_button == action_button_id:
 		if picked_up_object and picked_up_object.has_method("action"):
 			picked_up_object.action()

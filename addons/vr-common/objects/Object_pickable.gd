@@ -7,9 +7,10 @@ onready var original_collision_layer = collision_layer
 
 # Who picked us up?
 var picked_up_by = null
+var by_controller : ARVRController = null
 
 # we are being picked up by...
-func pick_up(by):
+func pick_up(by, with_controller):
 	if picked_up_by == by:
 		return
 	
@@ -18,6 +19,7 @@ func pick_up(by):
 	
 	# remember who picked us up
 	picked_up_by = by
+	by_controller = with_controller
 	
 	# turn off physics on our pickable object
 	mode = RigidBody.MODE_STATIC
@@ -50,3 +52,4 @@ func let_go(impulse = Vector3(0.0, 0.0, 0.0)):
 		
 		# we are no longer picked up
 		picked_up_by = null
+		by_controller = null
