@@ -1,5 +1,9 @@
 extends RigidBody
 
+# Set hold mode
+export (bool) var press_to_hold = true
+export (int, FLAGS, "layer_1", "layer_2", "layer_3", "layer_4", "layer_5") var picked_up_layer = 0
+
 # Remember some state so we can return to it when the user drops the object
 onready var original_parent = get_parent()
 onready var original_collision_mask = collision_mask
@@ -8,6 +12,32 @@ onready var original_collision_layer = collision_layer
 # Who picked us up?
 var picked_up_by = null
 var by_controller : ARVRController = null
+var closest_count = 0
+
+# have we been picked up?
+func is_picked_up():
+	if picked_up_by:
+		return true
+	
+	return false
+
+func _update_highlight():
+	# should probably implement this in our subclass
+	pass
+
+func increase_is_closest():
+	closest_count += 1
+	_update_highlight()
+
+func decrease_is_closest():
+	closest_count -= 1
+	_update_highlight()
+
+func drop_and_free():
+	if picked_up_by:
+		picked_up_by.drop_object()
+	
+	queue_free()
 
 # we are being picked up by...
 func pick_up(by, with_controller):
@@ -23,7 +53,7 @@ func pick_up(by, with_controller):
 	
 	# turn off physics on our pickable object
 	mode = RigidBody.MODE_STATIC
-	collision_layer = 0
+	collision_layer = picked_up_layer
 	collision_mask = 0
 	
 	# now reparent it
