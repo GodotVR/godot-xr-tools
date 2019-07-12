@@ -2,9 +2,9 @@ extends KinematicBody
 # should really change this to Spatial once #17401 is resolved
 
 # Add this scene as a sub scene of your ARVRController node to implement a teleport function on that controller.
-# Then set origin to your ARVROrigin node
 
-export (NodePath) var origin = null
+# button 15 is mapped to our trigger
+export var teleport_button = 15
 export (Color) var can_teleport_color = Color(0.0, 1.0, 0.0, 1.0)
 export (Color) var cant_teleport_color = Color(1.0, 0.0, 0.0, 1.0)
 export (Color) var no_collision_color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
@@ -59,8 +59,8 @@ func set_player_radius(p_radius):
 			capsule.mesh.radius = player_radius
 
 func _ready():
-	# And its parent should be our origin point
-	origin_node = get_node(origin)
+	# We should be a child of an ARVRController and it should be a child or our ARVROrigin
+	origin_node = get_node("../..")
 
 	# It's inactive when we start
 	$Teleport.visible = false
@@ -78,7 +78,6 @@ func _ready():
 	set_player_height(player_height)
 	set_player_radius(player_radius)
 
-
 func _physics_process(delta):
 	# We should be the child or the controller on which the teleport is implemented
 	var controller = get_parent()
@@ -91,8 +90,7 @@ func _physics_process(delta):
 		$Target.mesh.size = Vector2(ws, ws)
 		$Target/Player_figure.scale = Vector3(ws, ws, ws)
 	
-	# button 15 is mapped to our trigger
-	if controller and controller.get_is_active() and controller.is_button_pressed(15):
+	if controller and controller.get_is_active() and controller.is_button_pressed(teleport_button):
 		if !is_teleporting:
 			is_teleporting = true
 			$Teleport.visible = true
