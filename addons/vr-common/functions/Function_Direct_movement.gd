@@ -1,11 +1,9 @@
-extends Spatial
+extends Node
 
-# some handy nodes...
-export (NodePath) var origin = null
+# We don't know the name of the camera node... 
 export (NodePath) var camera = null
 
 # size of our player
-export var player_height = 1.8 setget set_player_height, get_player_height
 export var player_radius = 0.4 setget set_player_radius, get_player_radius
 
 # to combat motion sickness we'll 'step' our left/right turning
@@ -22,35 +20,41 @@ var gravity = -30.0
 onready var collision_shape = get_node("KinematicBody/CollisionShape")
 onready var tail = get_node("KinematicBody/Tail")
 
-func get_player_height():
-	return player_height
-
-func set_player_height(p_height):
-	player_height = p_height
-	
-	if collision_shape:
-		# for some reason collision shape height measurement is half up, half down from center 
-		collision_shape.shape.height = (player_height / 2.0)
-		collision_shape.translation = Vector3(0.0, player_height / 2.0, 0.0)
-
 func get_player_radius():
 	return player_radius
 
 func set_player_radius(p_radius):
 	player_radius = p_radius
-	
-	if collision_shape:
-		collision_shape.shape.height = (player_height / 2.0)
-		collision_shape.shape.radius = player_radius
 
 func _ready():
-	origin_node = get_node(origin)
-	camera_node = get_node(camera)
+	# origin node should always be the parent of our parent
+	origin_node = get_node("../..")
 	
-	set_player_height(player_height)
+	if camera:
+		camera_node = get_node(camera)
+	else:
+		# see if we can find our default
+		camera_node = origin_node.get_node('ARVRCamera')
+	
 	set_player_radius(player_radius)
 
 func _physics_process(delta):
+	if !origin_node:
+		return
+	
+	if !camera_node:
+		return
+	
+	# Adjust the height of our player according to our camera position
+	var camera_height = camera_node.transform.origin.y
+	if camera_height < player_radius:
+		# not smaller than this
+		camera_height = player_radius
+	
+	collision_shape.shape.radius = player_radius
+	collision_shape.shape.height = camera_height - player_radius
+	collision_shape.transform.origin.y = (camera_height / 2.0) + player_radius
+	
 	# We should be the child or the controller on which the teleport is implemented
 	var controller = get_parent()
 	if controller.get_is_active():
@@ -99,11 +103,11 @@ func _physics_process(delta):
 		# now we do our movement
 		# We start with placing our KinematicBody in the right place
 		# by centering it on the camera but placing it on the ground
-		var new_transform = $KinematicBody.global_transform
+		var curr_transform = $KinematicBody.global_transform
 		var camera_transform = camera_node.global_transform
-		new_transform.origin = camera_transform.origin
-		new_transform.origin.y = origin_node.global_transform.origin.y
-		$KinematicBody.global_transform = new_transform
+		curr_transform.origin = camera_transform.origin
+		curr_transform.origin.y = origin_node.global_transform.origin.y
+		$KinematicBody.global_transform = curr_transform
 		
 		# we'll handle gravity separately
 		var gravity_velocity = Vector3(0.0, velocity.y, 0.0)
@@ -128,12 +132,9 @@ func _physics_process(delta):
 		velocity.y = gravity_velocity.y
 		
 		# now use our new position to move our origin point
-		var movement = ($KinematicBody.global_transform.origin - new_transform.origin)
+		var movement = ($KinematicBody.global_transform.origin - curr_transform.origin)
 		origin_node.global_transform.origin += movement
 		
 		# Return this back to where it was so we can use its collision shape for other things too
-		$KinematicBody.global_transform.origin = new_transform.origin
-		
-		# We can't use move and collide here because we're moving our world center and thus our kinematic body indirectly.
-		# Need to improve on that...
-		# origin_node.translation -= dir.normalized() * delta * forwards_backwards * max_speed * ARVRServer.world_scale;
+		# $KinematicBody.global_transform.origin = curr_transform.origin
+
