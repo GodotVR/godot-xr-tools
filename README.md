@@ -11,6 +11,12 @@ To combat this you will find a scene in this module called `misc/VR_Common_Shade
 Add this scene as a child node to your ARVRCamera. This will trigger the required shaders being
 compiled the first time your main scene loads.
 
+### Physics layers
+
+Right now this is only important for the direct movement but the assumption is that all player related collision shapes are in layer 1 and everything else is in the other layers.
+If you place environment collision shapes into layer 1 the physics engine goes a little crazy.
+This is something we're still looking into making easier.
+
 ### Teleportation
 - if your scene doesn't have a floor yet: 
   - add a `StaticBody` node to the scene root 

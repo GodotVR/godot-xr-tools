@@ -81,14 +81,14 @@ func _physics_process(delta):
 		return
 	
 	# Adjust the height of our player according to our camera position
-	var camera_height = camera_node.transform.origin.y
-	if camera_height < player_radius:
+	var player_height = camera_node.transform.origin.y + player_radius
+	if player_height < player_radius:
 		# not smaller than this
-		camera_height = player_radius
+		player_height = player_radius
 	
 	collision_shape.shape.radius = player_radius
-	collision_shape.shape.height = camera_height - player_radius
-	collision_shape.transform.origin.y = (camera_height / 2.0) + player_radius
+	collision_shape.shape.height = player_height - (player_radius * 2.0)
+	collision_shape.transform.origin.y = (player_height / 2.0)
 	
 	# We should be the child or the controller on which the teleport is implemented
 	var controller = get_parent()

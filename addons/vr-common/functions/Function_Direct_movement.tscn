@@ -21,4 +21,4 @@ shape = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
 enabled = true
 cast_to = Vector3( 0, -0.6, 0 )
-collision_mask = 1048575
+collision_mask = 1048574
