@@ -64,6 +64,9 @@ func _on_pointer_released(collisionVector3):
 
 _NOTE: If you want to use Teleport and Pointer together you probably need to edit one or both of their scripts since both are mapped to button 15 (the primary trigger for oculus touch). Double click the script icon next to each and search for `is_button_pressed` to make changes._
 
+### More info
+You can now find more information about this add on in the wiki: https://github.com/GodotVR/godot-vr-common/wiki
+
 Licensing
 ---------
 This repository is licensed under the MIT license.
