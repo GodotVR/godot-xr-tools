@@ -8,6 +8,7 @@ signal pointer_entered(body)
 signal pointer_exited(body)
 
 export var enabled = true setget set_enabled, get_enabled
+export var ducktyped_body = true
 export var active_button = 15
 export var distance = 10 setget set_distance, get_distance
 
@@ -60,10 +61,16 @@ func _on_button_pressed(p_button):
 			last_collided_at = $Laser/RayCast.get_collision_point()
 			
 			emit_signal("pointer_pressed", target, last_collided_at)
+			
+			if ducktyped_body and target.has_method("pointer_pressed"):
+				target.pointer_pressed(last_collided_at)
 
 func _on_button_release(p_button):
 	if p_button == active_button and target:
 		emit_signal("pointer_released", target, last_collided_at)
+		
+		if ducktyped_body and target.has_method("pointer_released"):
+			target.pointer_released(last_collided_at)
 		
 		# unset target
 		target = null
@@ -95,6 +102,9 @@ func _process(delta):
 			# if target is set our mouse must be down, we keep "focus" on our target
 			if new_at != last_collided_at:
 				emit_signal("pointer_moved", target, last_collided_at, new_at)
+				
+				if ducktyped_body and target.has_method("pointer_moved"):
+					target.pointer_moved(last_collided_at, new_at)
 		else:
 			var new_target = $Laser/RayCast.get_collider()
 			
@@ -103,19 +113,32 @@ func _process(delta):
 				# exit the old
 				if last_target:
 					emit_signal("pointer_exited", last_target)
+					
+					if ducktyped_body and last_target.has_method("pointer_exited"):
+						last_target.pointer_exited()
 				
 				# enter the new
 				if new_target:
 					emit_signal("pointer_entered", new_target)
+					
+					if ducktyped_body and new_target.has_method("pointer_entered"):
+						new_target.pointer_entered()
 				
 				last_target = new_target
 			
 			if new_at != last_collided_at:
 				emit_signal("pointer_moved", new_target, last_collided_at, new_at)
+				
+				if ducktyped_body and new_target.has_method("pointer_moved"):
+					new_target.pointer_moved(last_collided_at, new_at)
 		
 		# remember our new position
 		last_collided_at = new_at
 	elif last_target:
 		emit_signal("pointer_exited", last_target)
+		
+		if ducktyped_body and last_target.has_method("pointer_exited"):
+			last_target.pointer_exited()
+		
 		last_target = null
 
