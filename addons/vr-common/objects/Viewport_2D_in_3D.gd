@@ -67,6 +67,9 @@ func set_scene(new_scene: PackedScene):
 func get_scene():
 	return scene
 
+func get_scene_instance():
+	return scene_node
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# apply properties
