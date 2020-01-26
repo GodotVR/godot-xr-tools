@@ -64,7 +64,7 @@ func pick_up(by, with_controller):
 	transform = Transform()
 
 # we are being let go
-func let_go(impulse = Vector3(0.0, 0.0, 0.0)):
+func let_go(starting_linear_velocity = Vector3(0.0, 0.0, 0.0)):
 	if picked_up_by:
 		# get our current global transform
 		var t = global_transform
@@ -78,7 +78,11 @@ func let_go(impulse = Vector3(0.0, 0.0, 0.0)):
 		mode = RigidBody.MODE_RIGID
 		collision_mask = original_collision_mask
 		collision_layer = original_collision_layer
-		apply_impulse(Vector3(0.0, 0.0, 0.0), impulse)
+		
+		# set our starting velocity
+		linear_velocity = starting_linear_velocity
+		
+#		apply_impulse(Vector3(0.0, 0.0, 0.0), impulse)
 		
 		# we are no longer picked up
 		picked_up_by = null
