@@ -6,13 +6,26 @@ signal has_dropped
 export var impulse_factor = 1.0
 export var pickup_button_id = 2
 export var action_button_id = 15
+export var max_samples = 5
 
 var object_in_area = Array()
 var closest_object = null
 var picked_up_object = null
 
 var last_position = Vector3(0.0, 0.0, 0.0)
-var velocity = Vector3(0.0, 0.0, 0.0)
+var velocities = Array()
+
+func _get_velocity():
+	var velocity = Vector3(0.0, 0.0, 0.0)
+	var count = velocities.size()
+	
+	if count > 0:
+		for v in velocities:
+			velocity = velocity + v
+		
+		velocity = velocity / count
+	
+	return velocity
 
 func _on_Function_Pickup_body_entered(body):
 	# add our object to our array if required
@@ -52,7 +65,7 @@ func _update_closest_object():
 func drop_object():
 	if picked_up_object:
 		# let go of this object
-		picked_up_object.let_go(velocity * impulse_factor)
+		picked_up_object.let_go(_get_velocity() * impulse_factor)
 		picked_up_object = null
 		emit_signal("has_dropped")
 
@@ -92,6 +105,9 @@ func _ready():
 	last_position = global_transform.origin
 
 func _process(delta):
-	velocity = (global_transform.origin - last_position) / delta
+	velocities.push_back((global_transform.origin - last_position) / delta)
+	if velocities.size() > max_samples:
+		velocities.pop_front()
+	
 	last_position = global_transform.origin
 	_update_closest_object()

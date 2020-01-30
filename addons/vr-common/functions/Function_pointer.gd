@@ -90,6 +90,9 @@ func _ready():
 	set_enabled(enabled)
 
 func _process(delta):
+	if !is_inside_tree():
+		return
+	
 	var new_ws = ARVRServer.world_scale
 	if (ws != new_ws):
 		ws = new_ws
