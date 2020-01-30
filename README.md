@@ -3,6 +3,9 @@ This repository contains a number of support files and support scenes that can b
 
 ## How to Use
 
+Note that the below info is a quick write-up to get your started. More detailed information can be found in our WIKI:
+https://github.com/GodotVR/godot-vr-common/wiki
+
 ### Preventing hickups
 
 As many of the functions in this module will hide objects that are later shown as the user performs actions, the user will experience a hickup as Godot compiles the shader used to draw the object on screen.
@@ -64,12 +67,10 @@ func _on_pointer_released(collisionVector3):
 
 _NOTE: If you want to use Teleport and Pointer together you probably need to edit one or both of their scripts since both are mapped to button 15 (the primary trigger for oculus touch). Double click the script icon next to each and search for `is_button_pressed` to make changes._
 
-### More info
-You can now find more information about this add on in the wiki: https://github.com/GodotVR/godot-vr-common/wiki
-
 Licensing
 ---------
 This repository is licensed under the MIT license.
+See the full license inside of the addons folder.
 
 About this repository
 ---------------------
@@ -79,4 +80,4 @@ You can follow me on twitter for regular updates here:
 https://twitter.com/mux213
 
 Videos about my work with Godot including tutorials on working with VR in Godot can by found on my youtube page:
-https://www.youtube.com/channel/UCrbLJYzJjDf2p-vJC011lYw
+https://www.youtube.com/BastiaanOlij

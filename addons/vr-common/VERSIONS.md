@@ -1,4 +1,4 @@
-1.2  (in progress)
+1.2
 ===
 - Assign button to teleport function and no longer need to set origin
 - Added pickable object support
@@ -6,6 +6,7 @@
 - Added strafe and fly mode for directional 
 - Added ability to enable/disable the movement functions
 - Added 2D in 3D viewport for UI
+- Improved throwing by assigning linear velocity
 
 1.1*
 ====
