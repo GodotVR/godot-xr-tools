@@ -101,7 +101,7 @@ func _process(delta):
 	if enabled and $Laser/RayCast.is_colliding():
 		var new_at = $Laser/RayCast.get_collision_point()
 		
-		if target:
+		if is_instance_valid(target):
 			# if target is set our mouse must be down, we keep "focus" on our target
 			if new_at != last_collided_at:
 				emit_signal("pointer_moved", target, last_collided_at, new_at)
@@ -114,14 +114,14 @@ func _process(delta):
 			# are we pointing to a new target?
 			if new_target != last_target:
 				# exit the old
-				if last_target:
+				if is_instance_valid(last_target):
 					emit_signal("pointer_exited", last_target)
 					
 					if ducktyped_body and last_target.has_method("pointer_exited"):
 						last_target.pointer_exited()
 				
 				# enter the new
-				if new_target:
+				if is_instance_valid(new_target):
 					emit_signal("pointer_entered", new_target)
 					
 					if ducktyped_body and new_target.has_method("pointer_entered"):
@@ -137,7 +137,7 @@ func _process(delta):
 		
 		# remember our new position
 		last_collided_at = new_at
-	elif last_target:
+	elif is_instance_valid(last_target):
 		emit_signal("pointer_exited", last_target)
 		
 		if ducktyped_body and last_target.has_method("pointer_exited"):
