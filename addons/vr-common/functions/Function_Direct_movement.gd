@@ -86,6 +86,7 @@ func set_collision_mask(new_mask):
 	collision_mask = new_mask
 	if $KinematicBody:
 		$KinematicBody.collision_mask = collision_mask
+		$KinematicBody/Tail.collision_mask = collision_mask
 
 func get_collision_mask():
 	return collision_mask
