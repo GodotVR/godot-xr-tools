@@ -3,9 +3,28 @@ extends Area
 signal has_picked_up(what)
 signal has_dropped
 
+# enum our buttons, should find a way to put this more central
+enum Buttons {
+	VR_BUTTON_BY = 1,
+	VR_GRIP = 2,
+	VR_BUTTON_3 = 3,
+	VR_BUTTON_4 = 4,
+	VR_BUTTON_5 = 5,
+	VR_BUTTON_6 = 6,
+	VR_BUTTON_AX = 7,
+	VR_BUTTON_8 = 8,
+	VR_BUTTON_9 = 9,
+	VR_BUTTON_10 = 10,
+	VR_BUTTON_11 = 11,
+	VR_BUTTON_12 = 12,
+	VR_BUTTON_13 = 13,
+	VR_PAD = 14,
+	VR_TRIGGER = 15
+}
+
 export var impulse_factor = 1.0
-export var pickup_button_id = 2
-export var action_button_id = 15
+export (Buttons) var pickup_button_id = Buttons.VR_GRIP
+export (Buttons) var action_button_id = Buttons.VR_TRIGGER
 export var max_samples = 5
 
 var object_in_area = Array()

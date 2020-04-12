@@ -6,8 +6,26 @@ extends KinematicBody
 # Is this active?
 export var enabled = true setget set_enabled, get_enabled
 
-# button 15 is mapped to our trigger
-export var teleport_button = 15
+# enum our buttons, should find a way to put this more central
+enum Buttons {
+	VR_BUTTON_BY = 1,
+	VR_GRIP = 2,
+	VR_BUTTON_3 = 3,
+	VR_BUTTON_4 = 4,
+	VR_BUTTON_5 = 5,
+	VR_BUTTON_6 = 6,
+	VR_BUTTON_AX = 7,
+	VR_BUTTON_8 = 8,
+	VR_BUTTON_9 = 9,
+	VR_BUTTON_10 = 10,
+	VR_BUTTON_11 = 11,
+	VR_BUTTON_12 = 12,
+	VR_BUTTON_13 = 13,
+	VR_PAD = 14,
+	VR_TRIGGER = 15
+}
+
+export (Buttons) var teleport_button = Buttons.VR_TRIGGER
 export (Color) var can_teleport_color = Color(0.0, 1.0, 0.0, 1.0)
 export (Color) var cant_teleport_color = Color(1.0, 0.0, 0.0, 1.0)
 export (Color) var no_collision_color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
