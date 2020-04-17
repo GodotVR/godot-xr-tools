@@ -1,6 +1,7 @@
 1.3 (in progress)
 =================
 - Add enums to our export variables
+- Add a switch on pickable objects to keep their current positioning when picked up.
 
 1.2
 ===
