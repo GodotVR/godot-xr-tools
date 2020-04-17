@@ -12,8 +12,12 @@ export (NodePath) var camera = null
 export var player_radius = 0.4 setget set_player_radius, get_player_radius
 
 # to combat motion sickness we'll 'step' our left/right turning
-export var turn_delay = 0.2
-export var turn_angle = 20.0
+export var smooth_rotation = false
+export var smooth_turn_speed = 2.0
+export var step_turn_delay = 0.2
+export var step_turn_angle = 20.0
+
+# and movement
 export var max_speed = 5.0
 export var drag_factor = 0.1
 
@@ -164,39 +168,54 @@ func _physics_process(delta):
 		# move_type == MOVEMENT_TYPE.move_and_strafe
 		else:
 			if(move_type == MOVEMENT_TYPE.MOVE_AND_ROTATE && abs(left_right) > 0.1):
-				if left_right > 0.0:
-					if turn_step < 0.0:
-						# reset step
-						turn_step = 0
-				
-					turn_step += left_right * delta
-				else:
-					if turn_step > 0.0:
-						# reset step
-						turn_step = 0
-				
-					turn_step += left_right * delta
-			
-				if abs(turn_step) > turn_delay:
+				if smooth_rotation:
 					# we rotate around our Camera, but we adjust our origin, so we need a little bit of trickery
 					var t1 = Transform()
 					var t2 = Transform()
 					var rot = Transform()
-				
+					
 					t1.origin = -camera_node.transform.origin
 					t2.origin = camera_node.transform.origin
-				
-					# Rotating
-					while abs(turn_step) > turn_delay:
-						if (turn_step > 0.0):
-							rot = rot.rotated(Vector3(0.0,-1.0,0.0),turn_angle * PI / 180.0)
-							turn_step -= turn_delay
-						else:
-							rot = rot.rotated(Vector3(0.0,1.0,0.0),turn_angle * PI / 180.0)
-							turn_step += turn_delay
-				
+					rot = rot.rotated(Vector3(0.0, -1.0, 0.0), smooth_turn_speed * delta * left_right)
 					origin_node.transform *= t2 * rot * t1
+					
+					# reset turn step, doesn't apply
+					turn_step = 0.0
+				else:
+					if left_right > 0.0:
+						if turn_step < 0.0:
+							# reset step
+							turn_step = 0
+						
+						turn_step += left_right * delta
+					else:
+						if turn_step > 0.0:
+							# reset step
+							turn_step = 0
+						
+						turn_step += left_right * delta
+					
+					if abs(turn_step) > step_turn_delay:
+						# we rotate around our Camera, but we adjust our origin, so we need a little bit of trickery
+						var t1 = Transform()
+						var t2 = Transform()
+						var rot = Transform()
+						
+						t1.origin = -camera_node.transform.origin
+						t2.origin = camera_node.transform.origin
+						
+						# Rotating
+						while abs(turn_step) > step_turn_delay:
+							if (turn_step > 0.0):
+								rot = rot.rotated(Vector3(0.0, -1.0, 0.0), step_turn_angle * PI / 180.0)
+								turn_step -= step_turn_delay
+							else:
+								rot = rot.rotated(Vector3(0.0, 1.0, 0.0), step_turn_angle * PI / 180.0)
+								turn_step += step_turn_delay
+						
+						origin_node.transform *= t2 * rot * t1
 			else:
+				# reset turn step, no longer turning
 				turn_step = 0.0
 		
 			################################################################
@@ -207,6 +226,13 @@ func _physics_process(delta):
 			var camera_transform = camera_node.global_transform
 			curr_transform.origin = camera_transform.origin
 			curr_transform.origin.y = origin_node.global_transform.origin.y
+			
+			# now we move it slightly back
+			var forward_dir = -camera_transform.basis.z
+			forward_dir.y = 0.0
+			if forward_dir.length() > 0.01:
+				curr_transform.origin += forward_dir.normalized() * -0.75 * player_radius
+			
 			$KinematicBody.global_transform = curr_transform
 			
 			# we'll handle gravity separately
