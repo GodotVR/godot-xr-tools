@@ -1,9 +1,10 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://addons/vr-common/functions/Function_Teleport.gd" type="Script" id=1]
-[ext_resource path="res://addons/vr-common/materials/teleport.tres" type="Material" id=2]
-[ext_resource path="res://addons/vr-common/materials/target.tres" type="Material" id=3]
-[ext_resource path="res://addons/vr-common/materials/capule.tres" type="Material" id=4]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Teleport.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/materials/teleport.tres" type="Material" id=2]
+[ext_resource path="res://addons/godot-xr-tools/materials/target.tres" type="Material" id=3]
+[ext_resource path="res://addons/godot-xr-tools/materials/capule.tres" type="Material" id=4]
+
 
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 0.05, 1 )

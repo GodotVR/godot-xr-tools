@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/vr-common/functions/Function_Direct_movement.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Direct_movement.gd" type="Script" id=1]
+
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3

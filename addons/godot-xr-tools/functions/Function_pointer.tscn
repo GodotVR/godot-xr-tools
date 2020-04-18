@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://addons/vr-common/materials/pointer.tres" type="Material" id=1]
-[ext_resource path="res://addons/vr-common/functions/Function_pointer.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/materials/pointer.tres" type="Material" id=1]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_pointer.gd" type="Script" id=2]
 
 [sub_resource type="CubeMesh" id=1]
 resource_local_to_scene = true

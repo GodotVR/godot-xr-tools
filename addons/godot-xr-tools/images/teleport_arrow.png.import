@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.s3tc.stex"
-path.etc2="res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.etc2.stex"
+path.s3tc="res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex"
+path.etc2="res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/vr-common/images/teleport_arrow.png"
-dest_files=[ "res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.s3tc.stex", "res://.import/teleport_arrow.png-9ee8732a3d27e6e53f97efad743b9f9b.etc2.stex" ]
+source_file="res://addons/godot-xr-tools/images/teleport_arrow.png"
+dest_files=[ "res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex", "res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc2.stex" ]
 
 [params]
 
