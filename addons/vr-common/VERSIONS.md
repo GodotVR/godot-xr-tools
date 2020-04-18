@@ -1,7 +1,11 @@
 1.3 (in progress)
 =================
 - Add enums to our export variables
-- Add a switch on pickable objects to keep their current positioning when picked up.
+- Add a switch on pickable objects to keep their current positioning when picked up
+- Move direct movement player collision slightly backwards based on player radius
+- Added switch between step turning and smooth turning
+- Fixed sizing issue with teleport
+- Added option to change pickup range
 
 1.2
 ===
