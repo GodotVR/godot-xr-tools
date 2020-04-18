@@ -75,12 +75,11 @@ func set_player_height(p_height):
 	player_height = p_height
 	
 	if collision_shape:
-		# for some reason collision shape height measurement is half up, half down from center 
-		collision_shape.height = (player_height / 2.0) + 0.1
+		collision_shape.height = player_height - (2.0 * player_radius)
 		
-		if capsule:
-			capsule.mesh.mid_height = player_height - (2.0 * player_radius)
-			capsule.translation = Vector3(0.0, player_height/2.0, 0.0)
+	if capsule:
+		capsule.mesh.mid_height = player_height - (2.0 * player_radius)
+		capsule.translation = Vector3(0.0, player_height/2.0, 0.0)
 
 func get_player_radius():
 	return player_radius
@@ -89,11 +88,12 @@ func set_player_radius(p_radius):
 	player_radius = p_radius
 	
 	if collision_shape:
+		collision_shape.height = player_height - (2.0 * player_radius)
 		collision_shape.radius = player_radius
-
-		if capsule:
-			capsule.mesh.mid_height = player_height - (2.0 * player_radius)
-			capsule.mesh.radius = player_radius
+	
+	if capsule:
+		capsule.mesh.mid_height = player_height - (2.0 * player_radius)
+		capsule.mesh.radius = player_radius
 
 func _ready():
 	# We should be a child of an ARVRController and it should be a child or our ARVROrigin

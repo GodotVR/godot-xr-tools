@@ -22,6 +22,7 @@ enum Buttons {
 	VR_TRIGGER = 15
 }
 
+export var pickup_range = 0.5 setget set_pickup_range
 export var impulse_factor = 1.0
 export (Buttons) var pickup_button_id = Buttons.VR_GRIP
 export (Buttons) var action_button_id = Buttons.VR_TRIGGER
@@ -33,6 +34,11 @@ var picked_up_object = null
 
 var last_position = Vector3(0.0, 0.0, 0.0)
 var velocities = Array()
+
+func set_pickup_range(new_range):
+	pickup_range = new_range
+	if $CollisionShape:
+		$CollisionShape.shape.radius = pickup_range
 
 func _get_velocity():
 	var velocity = Vector3(0.0, 0.0, 0.0)
@@ -46,16 +52,16 @@ func _get_velocity():
 	
 	return velocity
 
-func _on_Function_Pickup_body_entered(body):
+func _on_Function_Pickup_entered(object):
 	# add our object to our array if required
-	if body.has_method('pick_up') and object_in_area.find(body) == -1:
-		object_in_area.push_back(body)
+	if object.has_method('pick_up') and object_in_area.find(object) == -1:
+		object_in_area.push_back(object)
 		_update_closest_object()
 
-func _on_Function_Pickup_body_exited(body):
+func _on_Function_Pickup_exited(object):
 	# remove our object from our array
-	if object_in_area.find(body) != -1:
-		object_in_area.erase(body)
+	if object_in_area.find(object) != -1:
+		object_in_area.erase(object)
 		_update_closest_object()
 
 func _update_closest_object():
@@ -122,6 +128,9 @@ func _ready():
 	get_parent().connect("button_pressed", self, "_on_button_pressed")
 	get_parent().connect("button_release", self, "_on_button_release")
 	last_position = global_transform.origin
+	
+	# re-assign now that our collision shape has been constructed
+	set_pickup_range(pickup_range)
 
 func _process(delta):
 	velocities.push_back((global_transform.origin - last_position) / delta)
@@ -130,3 +139,4 @@ func _process(delta):
 	
 	last_position = global_transform.origin
 	_update_closest_object()
+
