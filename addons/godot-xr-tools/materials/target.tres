@@ -1,6 +1,6 @@
 [gd_resource type="SpatialMaterial" load_steps=2 format=2]
 
-[ext_resource path="res://addons/vr-common/images/teleport_target.png" type="Texture" id=1]
+[ext_resource path="res://addons/godot-xr-tools/images/teleport_target.png" type="Texture" id=1]
 
 [resource]
 flags_transparent = true
@@ -9,4 +9,3 @@ params_diffuse_mode = 1
 params_cull_mode = 2
 albedo_color = Color( 0.176471, 0.313726, 0.862745, 1 )
 albedo_texture = ExtResource( 1 )
-

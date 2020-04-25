@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://addons/vr-common/objects/Viewport_2D_in_3D.gd" type="Script" id=1]
-[ext_resource path="res://addons/vr-common/objects/Viewport_2D_in_3D_body.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/objects/Viewport_2D_in_3D.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/objects/Viewport_2D_in_3D_body.gd" type="Script" id=2]
 
 [sub_resource type="QuadMesh" id=1]
 resource_local_to_scene = true

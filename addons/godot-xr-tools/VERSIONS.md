@@ -1,5 +1,6 @@
-1.3 (in progress)
-=================
+2.0
+===
+- Renamed add on to **godot-xr-tools**
 - Add enums to our export variables
 - Add a switch on pickable objects to keep their current positioning when picked up
 - Move direct movement player collision slightly backwards based on player radius
