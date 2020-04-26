@@ -1,3 +1,8 @@
+2.1 (in progress)
+=================
+- added option to highlight object that can be picked up
+- added option to snap object to given location (if reset transform is true)
+
 2.0
 ===
 - Renamed add on to **godot-xr-tools**
