@@ -2,6 +2,7 @@
 =================
 - added option to highlight object that can be picked up
 - added option to snap object to given location (if reset transform is true)
+- added callback when shader cache has finished
 
 2.0
 ===
