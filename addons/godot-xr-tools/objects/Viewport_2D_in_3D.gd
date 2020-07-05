@@ -6,8 +6,8 @@ export var viewport_size = Vector2(300.0, 200.0) setget set_viewport_size, get_v
 export var transparent = true setget set_transparent, get_transparent
 export (PackedScene) var scene = null setget set_scene, get_scene
 
-# Need to replace this with proper solution once support for layer selection has been added 
-export (int, FLAGS, "Layer 1", "Layer 2", "Layer 3", "Layer 4", "Layer 5", "Layer 6", "Layer 7", "Layer 8", "Layer 9", "Layer 10", "Layer 11", "Layer 12", "Layer 13", "Layer 14", "Layer 15", "Layer 16", "Layer 17", "Layer 18", "Layer 19", "Layer 20") var collision_layer = 15 setget set_collision_layer, get_collision_layer
+# Need to replace this with proper solution once support for layer selection has been added
+export (int, LAYERS_3D_PHYSICS) var collision_layer = 15 setget set_collision_layer, get_collision_layer
 
 var is_ready = false
 var scene_node = null
@@ -58,7 +58,7 @@ func set_scene(new_scene: PackedScene):
 		if scene_node:
 			$Viewport.remove_child(scene_node)
 			scene_node.queue_free()
-		
+
 		# in with the new
 		if scene:
 			scene_node = scene.instance()
