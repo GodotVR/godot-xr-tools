@@ -82,3 +82,4 @@ func _ready():
 	set_viewport_size(viewport_size)
 	set_scene(scene)
 	set_collision_layer(collision_layer)
+	set_transparent(transparent)
