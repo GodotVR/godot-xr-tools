@@ -1,16 +1,25 @@
 tool
 extends Spatial
 
-export var screen_size = Vector2(3.0, 2.0) setget set_screen_size, get_screen_size
-export var viewport_size = Vector2(300.0, 200.0) setget set_viewport_size, get_viewport_size
-export var transparent = true setget set_transparent, get_transparent
+signal pointer_entered
+signal pointer_exited
+
+export var enabled = true setget set_enabled
+export var screen_size = Vector2(3.0, 2.0) setget set_screen_size
+export var viewport_size = Vector2(300.0, 200.0) setget set_viewport_size
+export var transparent = true setget set_transparent
 export (PackedScene) var scene = null setget set_scene, get_scene
 
 # Need to replace this with proper solution once support for layer selection has been added
-export (int, LAYERS_3D_PHYSICS) var collision_layer = 15 setget set_collision_layer, get_collision_layer
+export (int, LAYERS_3D_PHYSICS) var collision_layer = 15 setget set_collision_layer
 
 var is_ready = false
 var scene_node = null
+
+func set_enabled(is_enabled: bool):
+	enabled = is_enabled
+	if is_ready:
+		$StaticBody/CollisionShape.disabled = !enabled
 
 func set_screen_size(new_size: Vector2):
 	screen_size = new_size
@@ -18,9 +27,6 @@ func set_screen_size(new_size: Vector2):
 		$Screen.mesh.size = screen_size
 		$StaticBody.screen_size = screen_size
 		$StaticBody/CollisionShape.shape.extents = Vector3(screen_size.x * 0.5, screen_size.y * 0.5, 0.01)
-
-func get_screen_size():
-	return screen_size
 
 func set_viewport_size(new_size: Vector2):
 	viewport_size = new_size
@@ -30,9 +36,6 @@ func set_viewport_size(new_size: Vector2):
 		var material : SpatialMaterial = $Screen.get_surface_material(0)
 		material.albedo_texture = $Viewport.get_texture()
 
-func get_viewport_size():
-	return viewport_size
-
 func set_transparent(new_transparent: bool):
 	transparent = new_transparent
 	if is_ready:
@@ -40,16 +43,10 @@ func set_transparent(new_transparent: bool):
 		material.flags_transparent = transparent
 		$Viewport.transparent_bg = transparent
 
-func get_transparent():
-	return transparent
-
 func set_collision_layer(new_layer: int):
 	collision_layer = new_layer
 	if is_ready:
 		$StaticBody.collision_layer = collision_layer
-
-func get_collision_layer():
-	return collision_layer
 
 func set_scene(new_scene: PackedScene):
 	scene = new_scene
@@ -78,6 +75,7 @@ func connect_scene_signal(which, on, callback):
 func _ready():
 	# apply properties
 	is_ready = true
+	set_enabled(enabled)
 	set_screen_size(screen_size)
 	set_viewport_size(viewport_size)
 	set_scene(scene)
