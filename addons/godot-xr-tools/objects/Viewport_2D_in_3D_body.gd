@@ -1,6 +1,5 @@
 extends StaticBody
 
-export (NodePath) var viewport = null
 export var screen_size = Vector2(3.0, 2.0)
 export var viewport_size = Vector2(100.0, 100.0)
 
@@ -9,10 +8,7 @@ var mouse_mask = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if viewport:
-		vp = get_node(viewport)
-	else:
-		vp = null
+	vp = get_node("../Viewport")
 
 # Convert intersection point to screen coordinate
 func global_to_viewport(p_at):
@@ -24,6 +20,12 @@ func global_to_viewport(p_at):
 	at.y = (0.5 - (at.y / screen_size.y)) * viewport_size.y
 	
 	return Vector2(at.x, at.y)
+
+func pointer_entered():
+	get_parent().emit_signal("pointer_entered")
+
+func pointer_exited():
+	get_parent().emit_signal("pointer_exited")
 
 func pointer_moved(from, to):
 	var local_from = global_to_viewport(from)
