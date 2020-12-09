@@ -19,7 +19,7 @@ animation = "Grip"
 [sub_resource type="AnimationNodeTimeSeek" id=7]
 
 [resource]
-graph_offset = Vector2( -144.181, 1.39384 )
+graph_offset = Vector2( -128.115, -8.14433 )
 "nodes/Animation 2/node" = SubResource( 1 )
 "nodes/Animation 2/position" = Vector2( 140, 240 )
 nodes/Blend2/node = SubResource( 2 )
