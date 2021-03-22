@@ -18,7 +18,7 @@ export var step_turn_delay = 0.2
 export var step_turn_angle = 20.0
 
 # and movement
-export var max_speed = 5.0
+export var max_speed = 10.0
 export var drag_factor = 0.1
 
 # enum our buttons, should find a way to put this more central
@@ -51,7 +51,7 @@ var turn_step = 0.0
 var origin_node = null
 var camera_node = null
 var velocity = Vector3(0.0, 0.0, 0.0)
-var gravity = -30.0
+var gravity = -9.8
 onready var collision_shape: CollisionShape = get_node("KinematicBody/CollisionShape")
 onready var tail : RayCast = get_node("KinematicBody/Tail")
 
@@ -158,7 +158,7 @@ func _physics_process(delta):
 			if controller.is_button_pressed(fly_move_button_id):
 				# is flying, so we will use the controller's transform to move the VR capsule follow its orientation
 				var curr_transform = $KinematicBody.global_transform
-				velocity = controller.global_transform.basis.z.normalized() * -delta * max_speed * ARVRServer.world_scale
+				velocity = -controller.global_transform.basis.z.normalized() * max_speed * ARVRServer.world_scale
 				velocity = $KinematicBody.move_and_slide(velocity)
 				var movement = ($KinematicBody.global_transform.origin - curr_transform.origin)
 				origin_node.global_transform.origin += movement
@@ -246,7 +246,7 @@ func _physics_process(delta):
 				if (abs(forwards_backwards) > 0.1 and tail.is_colliding()):
 					var dir = camera_transform.basis.z
 					dir.y = 0.0
-					velocity = dir.normalized() * -forwards_backwards * delta * max_speed * ARVRServer.world_scale
+					velocity = dir.normalized() * -forwards_backwards * max_speed * ARVRServer.world_scale
 					#velocity = velocity.linear_interpolate(dir, delta * 100.0)
 			elif move_type == MOVEMENT_TYPE.MOVE_AND_STRAFE:
 				if ((abs(forwards_backwards) > 0.1 ||  abs(left_right) > 0.1) and tail.is_colliding()):
@@ -255,13 +255,13 @@ func _physics_process(delta):
 					# VR Capsule will strafe left and right
 					var dir_right = camera_transform.basis.x;
 					dir_right.y = 0.0
-					velocity = (dir_forward * -forwards_backwards + dir_right * left_right).normalized() * delta * max_speed * ARVRServer.world_scale
+					velocity = (dir_forward * -forwards_backwards + dir_right * left_right).normalized() * max_speed * ARVRServer.world_scale
 
 			# apply move and slide to our kinematic body
 			velocity = $KinematicBody.move_and_slide(velocity, Vector3(0.0, 1.0, 0.0))
 
 			# apply our gravity
-			gravity_velocity.y += gravity * delta
+			gravity_velocity.y += 0.5 * gravity * delta
 			gravity_velocity = $KinematicBody.move_and_slide(gravity_velocity, Vector3(0.0, 1.0, 0.0))
 			velocity.y = gravity_velocity.y
 
