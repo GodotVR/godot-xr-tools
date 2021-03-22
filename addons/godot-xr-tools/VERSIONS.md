@@ -5,6 +5,7 @@
 - added callback when shader cache has finished
 - using proper UI for layers
 - added hand controllers that react on trigger and grip input
+- fixed delta on move and slide (breaking change!)
 
 2.0
 ===

@@ -9,7 +9,7 @@ height = 1.2
 
 [node name="Function_Direct_movement" type="Node"]
 script = ExtResource( 1 )
-max_speed = 500.0
+max_speed = 10.0
 
 [node name="KinematicBody" type="KinematicBody" parent="."]
 collision_mask = 1048574
