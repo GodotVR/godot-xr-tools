@@ -177,7 +177,7 @@ func _physics_process(delta):
 					t1.origin = -camera_node.transform.origin
 					t2.origin = camera_node.transform.origin
 					rot = rot.rotated(Vector3(0.0, -1.0, 0.0), smooth_turn_speed * delta * left_right)
-					origin_node.transform *= t2 * rot * t1
+					origin_node.transform = (origin_node.transform * t2 * rot * t1).orthonormalized()
 
 					# reset turn step, doesn't apply
 					turn_step = 0.0
