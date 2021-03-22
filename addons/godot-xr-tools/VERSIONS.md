@@ -4,6 +4,7 @@
 - added option to snap object to given location (if reset transform is true)
 - added callback when shader cache has finished
 - using proper UI for layers
+- added hand controllers that react on trigger and grip input
 
 2.0
 ===
