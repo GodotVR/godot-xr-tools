@@ -6,6 +6,7 @@
 - using proper UI for layers
 - added hand controllers that react on trigger and grip input
 - fixed delta on move and slide (breaking change!)
+- letting go of an object now adds angular velocity
 
 2.0
 ===
