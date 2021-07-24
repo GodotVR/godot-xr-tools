@@ -1,3 +1,10 @@
+# 2.2
+- Changed default physics layers to make more sense (minor breaking change)
+- Replaced Center On Node property with PickupCenter node you can place
+- Made Object_pickable script work by itself and registers as class `XRToolsPickable`
+- New Object_interactable convenience script that registers as class `XRToolsInteractable` that reacts to our pointer function
+- Removed ducktype switch from pointer, pointer will use signals over ducktyping automatically (minor breaking change)
+
 # 2.1
 - added option to highlight object that can be picked up
 - added option to snap object to given location (if reset transform is true)

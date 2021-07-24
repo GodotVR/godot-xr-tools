@@ -56,10 +56,10 @@ onready var collision_shape: CollisionShape = get_node("KinematicBody/CollisionS
 onready var tail : RayCast = get_node("KinematicBody/Tail")
 
 # Set our collision layer
-export  (int, LAYERS_3D_PHYSICS) var collision_layer = 1 setget set_collision_layer, get_collision_layer
+export  (int, LAYERS_3D_PHYSICS) var collision_layer = 1 << 19 setget set_collision_layer, get_collision_layer
 
 # Set our collision mask
-export  (int, LAYERS_3D_PHYSICS) var collision_mask = 1022 setget set_collision_mask, get_collision_mask
+export  (int, LAYERS_3D_PHYSICS) var collision_mask = 1023 setget set_collision_mask, get_collision_mask
 
 
 func set_enabled(new_value):

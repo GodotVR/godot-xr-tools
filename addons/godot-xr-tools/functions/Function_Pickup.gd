@@ -35,6 +35,7 @@ var picked_up_object = null
 var last_transform = Transform()
 var linear_velocities = Array()
 var angular_velocities = Array()
+var deltas = Array()
 
 func set_pickup_range(new_range):
 	pickup_range = new_range
@@ -44,24 +45,32 @@ func set_pickup_range(new_range):
 func _get_linear_velocity():
 	var velocity = Vector3(0.0, 0.0, 0.0)
 	var count = linear_velocities.size()
-	
-	if count > 0:
+	var delta = 0.0
+
+	for d in deltas:
+		delta = delta + d
+
+	if delta > 0.0 and count > 0:
 		for v in linear_velocities:
 			velocity = velocity + v
-		
-		velocity = velocity / count
+
+		velocity = velocity / delta
 	
 	return velocity
 
 func _get_angular_velocity():
 	var velocity = Vector3(0.0, 0.0, 0.0)
 	var count = angular_velocities.size()
-	
-	if count > 0:
+	var delta = 0.0
+
+	for d in deltas:
+		delta = delta + d
+
+	if delta > 0.0 and count > 0:
 		for v in angular_velocities:
 			velocity = velocity + v
-		
-		velocity = velocity / count
+
+		velocity = velocity / delta
 	
 	return velocity
 
@@ -147,17 +156,21 @@ func _ready():
 
 func _process(delta):
 	# Calculate our linear velocity
-	var linear_velocity = (global_transform.origin - last_transform.origin) / delta
+	var linear_velocity = (global_transform.origin - last_transform.origin)
 	linear_velocities.push_back(linear_velocity)
 	if linear_velocities.size() > max_samples:
 		linear_velocities.pop_front()
 	
 	# Calculate our angular velocity
 	var delta_basis = global_transform.basis * last_transform.basis.inverse()
-	var angular_velocity = delta_basis.get_euler() / delta
+	var angular_velocity = delta_basis.get_euler()
 	angular_velocities.push_back(angular_velocity)
 	if angular_velocities.size() > max_samples:
 		angular_velocities.pop_front()
+	
+	deltas.push_back(delta)
+	if deltas.size() > max_samples:
+		deltas.pop_front()
 	
 	last_transform = global_transform
 	_update_closest_object()

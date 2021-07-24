@@ -1,4 +1,4 @@
-extends StaticBody
+extends XRToolsInteractableBody
 
 export var screen_size = Vector2(3.0, 2.0)
 export var viewport_size = Vector2(100.0, 100.0)
@@ -21,13 +21,7 @@ func global_to_viewport(p_at):
 	
 	return Vector2(at.x, at.y)
 
-func pointer_entered():
-	get_parent().emit_signal("pointer_entered")
-
-func pointer_exited():
-	get_parent().emit_signal("pointer_exited")
-
-func pointer_moved(from, to):
+func _on_pointer_moved(from, to):
 	var local_from = global_to_viewport(from)
 	var local_to = global_to_viewport(to)
 	
@@ -41,7 +35,7 @@ func pointer_moved(from, to):
 	if vp:
 		vp.input(event)
 
-func pointer_pressed(at):
+func _on_pointer_pressed(at):
 	var local_at = global_to_viewport(at)
 	
 	# Let's mimic a mouse
@@ -56,7 +50,7 @@ func pointer_pressed(at):
 	if vp:
 		vp.input(event)
 
-func pointer_released(at):
+func _on_pointer_released(at):
 	var local_at = global_to_viewport(at)
 	
 	# Let's mimic a mouse
@@ -70,3 +64,4 @@ func pointer_released(at):
 	
 	if vp:
 		vp.input(event)
+
