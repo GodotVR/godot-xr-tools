@@ -1,11 +1,5 @@
+tool
 extends Spatial
-
-signal pointer_pressed(on, at)
-signal pointer_released(on, at)
-signal pointer_moved(on, from, to)
-
-signal pointer_entered(body)
-signal pointer_exited(body)
 
 # enum our buttons, should find a way to put this more central
 enum Buttons {
@@ -30,7 +24,6 @@ enum Buttons {
 export var enabled = true setget set_enabled
 export var show_laser = true setget set_show_laser
 export var show_target = false
-export var ducktyped_body = true
 export (Buttons) var active_button = Buttons.VR_TRIGGER
 export var action = ""
 export var y_offset = -0.05 setget set_y_offset
@@ -91,16 +84,16 @@ func _button_pressed():
 		target = $RayCast.get_collider()
 		last_collided_at = $RayCast.get_collision_point()
 		
-		emit_signal("pointer_pressed", target, last_collided_at)
-		
-		if ducktyped_body and target.has_method("pointer_pressed"):
+		if target.has_signal("pointer_pressed"):
+			target.emit_signal("pointer_pressed", last_collided_at)
+		elif target.has_method("pointer_pressed"):
 			target.pointer_pressed(last_collided_at)
 
 func _button_released():
 	if target:
-		emit_signal("pointer_released", target, last_collided_at)
-		
-		if ducktyped_body and target.has_method("pointer_released"):
+		if target.has_signal("pointer_released"):
+			target.emit_signal("pointer_released", last_collided_at)
+		elif target.has_method("pointer_released"):
 			target.pointer_released(last_collided_at)
 		
 		# unset target
@@ -153,9 +146,9 @@ func _process(delta):
 		if is_instance_valid(target):
 			# if target is set our mouse must be down, we keep "focus" on our target
 			if new_at != last_collided_at:
-				emit_signal("pointer_moved", target, last_collided_at, new_at)
-				
-				if ducktyped_body and target.has_method("pointer_moved"):
+				if target.has_signal("pointer_moved"):
+					target.emit_signal("pointer_moved", last_collided_at, new_at)
+				elif target.has_method("pointer_moved"):
 					target.pointer_moved(last_collided_at, new_at)
 		else:
 			var new_target = $RayCast.get_collider()
@@ -164,24 +157,24 @@ func _process(delta):
 			if new_target != last_target:
 				# exit the old
 				if is_instance_valid(last_target):
-					emit_signal("pointer_exited", last_target)
-
-					if ducktyped_body and last_target.has_method("pointer_exited"):
+					if last_target.has_signal("pointer_exited"):
+						last_target.emit_signal("pointer_exited")
+					elif last_target.has_method("pointer_exited"):
 						last_target.pointer_exited()
 
 				# enter the new
 				if is_instance_valid(new_target):
-					emit_signal("pointer_entered", new_target)
-
-					if ducktyped_body and new_target.has_method("pointer_entered"):
+					if new_target.has_signal("pointer_entered"):
+						new_target.emit_signal("pointer_entered")
+					elif new_target.has_method("pointer_entered"):
 						new_target.pointer_entered()
 
 				last_target = new_target
 
 			if new_at != last_collided_at:
-				emit_signal("pointer_moved", new_target, last_collided_at, new_at)
-
-				if ducktyped_body and new_target.has_method("pointer_moved"):
+				if new_target.has_signal("pointer_moved"):
+					new_target.emit_signal("pointer_moved", last_collided_at, new_at)
+				elif new_target.has_method("pointer_moved"):
 					new_target.pointer_moved(last_collided_at, new_at)
 
 		if last_target and show_target:
@@ -192,9 +185,9 @@ func _process(delta):
 		last_collided_at = new_at
 	else:
 		if is_instance_valid(last_target):
-			emit_signal("pointer_exited", last_target)
-			
-			if ducktyped_body and last_target.has_method("pointer_exited"):
+			if last_target.has_signal("pointer_exited"):
+				last_target.emit_signal("pointer_exited")
+			elif last_target.has_method("pointer_exited"):
 				last_target.pointer_exited()
 		
 		last_target = null

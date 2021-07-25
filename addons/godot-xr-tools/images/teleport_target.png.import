@@ -3,16 +3,16 @@
 importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.s3tc.stex"
-path.etc2="res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc2.stex"
+path.etc="res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/godot-xr-tools/images/teleport_target.png"
-dest_files=[ "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.s3tc.stex", "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc2.stex" ]
+dest_files=[ "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.s3tc.stex", "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc.stex" ]
 
 [params]
 
