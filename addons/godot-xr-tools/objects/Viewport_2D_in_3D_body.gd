@@ -65,3 +65,42 @@ func _on_pointer_released(at):
 	if vp:
 		vp.input(event)
 
+func _on_pointer_started_scroll(at, direction):
+	var local_at = global_to_viewport(at)
+
+	# Let's mimic a mouse
+	mouse_mask = 0
+	var event = InputEventMouseButton.new()
+	event.set_button_index(BUTTON_WHEEL_UP if direction > 0 else BUTTON_WHEEL_DOWN)
+	event.set_pressed(true)
+	event.set_position(local_at)
+	event.set_global_position(local_at)
+	event.set_button_mask(mouse_mask)
+
+	if vp:
+		vp.input(event)
+
+func _on_pointer_stopped_scroll(at):
+	var local_at = global_to_viewport(at)
+
+	# Let's mimic a mouse
+	mouse_mask = 0
+	var event = InputEventMouseButton.new()
+	event.set_button_index(BUTTON_WHEEL_UP)
+	event.set_pressed(false)
+	event.set_position(local_at)
+	event.set_global_position(local_at)
+	event.set_button_mask(mouse_mask)
+
+	if vp:
+		vp.input(event)
+
+	event = InputEventMouseButton.new()
+	event.set_button_index(BUTTON_WHEEL_DOWN)
+	event.set_pressed(false)
+	event.set_position(local_at)
+	event.set_global_position(local_at)
+	event.set_button_mask(mouse_mask)
+
+	if vp:
+		vp.input(event)

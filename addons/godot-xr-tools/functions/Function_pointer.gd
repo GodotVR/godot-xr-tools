@@ -35,6 +35,7 @@ export var collide_with_areas = false setget set_collide_with_areas
 var target = null
 var last_target = null
 var last_collided_at = Vector3(0, 0, 0)
+var scrolling = null
 
 var ws = 1.0
 
@@ -142,6 +143,7 @@ func _process(delta):
 	
 	if enabled and $RayCast.is_colliding():
 		var new_at = $RayCast.get_collision_point()
+		var top_bottom = get_parent().get_joystick_axis(1)
 		
 		if is_instance_valid(target):
 			# if target is set our mouse must be down, we keep "focus" on our target
@@ -176,6 +178,19 @@ func _process(delta):
 					new_target.emit_signal("pointer_moved", last_collided_at, new_at)
 				elif new_target.has_method("pointer_moved"):
 					new_target.pointer_moved(last_collided_at, new_at)
+
+			if abs(top_bottom) > 0.25:
+				scrolling = true
+				if new_target.has_signal("pointer_started_scroll"):
+					new_target.emit_signal("pointer_started_scroll", last_collided_at, top_bottom)
+				elif new_target.has_method("pointer_started_scroll"):
+					new_target.pointer_started_scroll(last_collided_at, top_bottom)
+			elif (scrolling):
+				scrolling = false
+				if new_target.has_signal("pointer_stopped_scroll"):
+					new_target.emit_signal("pointer_stopped_scroll", last_collided_at)
+				elif new_target.has_method("pointer_stopped_scroll"):
+					new_target.pointer_stopped_scroll(last_collided_at)
 
 		if last_target and show_target:
 			$Target.global_transform.origin = last_collided_at
