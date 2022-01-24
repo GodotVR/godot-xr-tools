@@ -93,12 +93,11 @@ func _update_closest_object():
 		for o in object_in_area:
 			# only check objects that aren't already picked up
 			if o.is_picked_up() == false:
-				var delta_pos = o.global_transform.origin - global_transform.origin
-				var distance = delta_pos.length()
-				if distance < new_closest_distance:
+				var distance_squared = global_transform.origin.distance_squared_to(o.global_transform.origin)
+				if distance_squared < new_closest_distance:
 					new_closest_obj = o
-					new_closest_distance = distance
 	
+					new_closest_distance = distance_squared
 	if closest_object != new_closest_obj:
 		# remove highlight on old object
 		if closest_object:
