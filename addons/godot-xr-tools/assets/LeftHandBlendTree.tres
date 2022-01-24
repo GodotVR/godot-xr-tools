@@ -5,7 +5,7 @@ animation = "IndexFinger"
 
 [sub_resource type="AnimationNodeBlend2" id=2]
 filter_enabled = true
-filters = [ "Armature_Left/Skeleton:index._distal", "Armature_Left/Skeleton:index._middle", "Armature_Left/Skeleton:index._proximal" ]
+filters = [ "Armature_Left/Skeleton:index_distal", "Armature_Left/Skeleton:index_middle", "Armature_Left/Skeleton:index_proximal" ]
 
 [sub_resource type="AnimationNodeAnimation" id=3]
 animation = "Grip"
