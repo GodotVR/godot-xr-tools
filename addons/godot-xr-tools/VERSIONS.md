@@ -1,3 +1,6 @@
+# 2.3
+- Added vignette
+
 # 2.2
 - Changed default physics layers to make more sense (minor breaking change)
 - Replaced Center On Node property with PickupCenter node you can place

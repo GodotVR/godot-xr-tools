@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/effects/vignette.gd" type="Script" id=1]
+
+[node name="Vignette" type="Spatial"]
+script = ExtResource( 1 )
+radius = 0.9
+
+[node name="Mesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1 )
