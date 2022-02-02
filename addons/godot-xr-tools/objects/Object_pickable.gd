@@ -1,6 +1,5 @@
 tool
 extends RigidBody
-
 class_name XRToolsPickable
 
 # Set hold mode
@@ -24,6 +23,8 @@ var picked_up_by = null
 var center_pickup_on_node = null
 var by_controller : ARVRController = null
 var closest_count = 0
+
+signal picked_up(pickable)
 
 # have we been picked up?
 func is_picked_up():
@@ -97,6 +98,9 @@ func pick_up(by, with_controller):
 	else:
 		# make sure we keep its original position
 		global_transform = original_transform
+
+	# let interested parties know
+	emit_signal("picked_up", self)
 
 # we are being let go
 func let_go(p_linear_velocity = Vector3(), p_angular_velocity = Vector3()):

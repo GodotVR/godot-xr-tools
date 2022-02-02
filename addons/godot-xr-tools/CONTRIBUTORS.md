@@ -9,5 +9,6 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [RMKD](https://github.com/RMKD)
 - [Alessandro Schillaci](https://github.com/silverslade)
 - [jtank4](https://github.com/jtank4)
+- [Malcolm Nixon](https://github.com/malcolmnixon)
 
 Want to be on this list? We would love your help.
