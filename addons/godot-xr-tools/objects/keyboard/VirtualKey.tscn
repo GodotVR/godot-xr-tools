@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/keyboard/VirtualKey.gd" type="Script" id=1]
+
+[node name="VirtualKey" type="Button"]
+margin_right = 30.0
+margin_bottom = 25.0
+focus_mode = 0
+enabled_focus_mode = 0
+script = ExtResource( 1 )

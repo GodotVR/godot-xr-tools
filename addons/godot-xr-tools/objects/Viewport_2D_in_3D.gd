@@ -81,9 +81,13 @@ func _ready():
 	set_scene(scene)
 	set_collision_layer(collision_layer)
 	set_transparent(transparent)
+	set_process_input(true)
 
 func _on_pointer_entered():
 	emit_signal("pointer_entered")
 
 func _on_pointer_exited():
 	emit_signal("pointer_exited")
+
+func _input(event):
+	$Viewport.input(event)
