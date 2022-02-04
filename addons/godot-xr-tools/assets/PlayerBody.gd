@@ -264,10 +264,6 @@ func _apply_velocity_and_control(delta: float):
 
 	# If the player is on the ground then give them control
 	if on_ground:
-		# Apply the ground drag
-		var current_drag := GroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
-		horizontal_velocity *= 1.0 - current_drag * delta
-
 		# If ground control is being supplied then update the horizontal velocity
 		var control_velocity := Vector3.ZERO
 		if abs(ground_control_velocity.x) > 0.1 or abs(ground_control_velocity.y) > 0.1:
@@ -289,6 +285,10 @@ func _apply_velocity_and_control(delta: float):
 				var vdot = down_direction.dot(horizontal_velocity)
 				if vdot < 0:
 					horizontal_velocity -= down_direction * vdot
+		else:
+			# User is not trying to move, so apply the ground drag
+			var current_drag := GroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
+			horizontal_velocity *= 1.0 - current_drag * delta
 
 	# Combine the velocities back to a 3-space velocity
 	velocity = horizontal_velocity + vertical_velocity
