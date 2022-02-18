@@ -24,7 +24,14 @@ var center_pickup_on_node = null
 var by_controller : ARVRController = null
 var closest_count = 0
 
+# Signal emitted when the user picks up this object
 signal picked_up(pickable)
+
+# Signal emitted when the user drops this object 
+signal dropped(pickable)
+
+# Signal emitted when the user presses the action button while holding this object
+signal action_pressed(pickable)
 
 # have we been picked up?
 func is_picked_up():
@@ -35,8 +42,8 @@ func is_picked_up():
 
 # action is called when user presses the action button while holding this object
 func action():
-	# override in script to implement
-	pass
+	# let interested parties know
+	emit_signal("action_pressed", self)
 
 func _update_highlight():
 	if highlight_mesh_instance_node:
@@ -125,6 +132,9 @@ func let_go(p_linear_velocity = Vector3(), p_angular_velocity = Vector3()):
 		# we are no longer picked up
 		picked_up_by = null
 		by_controller = null
+		
+		# let interested parties know
+		emit_signal("dropped", self)
 
 func _ready():
 	if highlight_mesh_instance:
@@ -136,7 +146,8 @@ func _ready():
 				original_materials.push_back(highlight_mesh_instance_node.get_surface_material(i))
 
 	# if we have center pickup on set obtain our node
-	center_pickup_on_node = get_node("PickupCenter")
+	if reset_transform_on_pickup:
+		center_pickup_on_node = get_node("PickupCenter")
 
 func _get_configuration_warning():
 	if reset_transform_on_pickup and !find_node("PickupCenter"):
