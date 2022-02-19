@@ -1,4 +1,7 @@
-# 2.3
+# 2.4.0
+- 
+
+# 2.3.0
 - Added vignette
 - Moved player physics into new PlayerBody asset (breaking change)
 - Moved Function_Direct_movement settings for player physics into PlayerBody
