@@ -1,16 +1,39 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
-export var radius = 1.0 setget set_radius
-export var fade = 0.05 setget set_fade
-export var steps = 32 setget set_steps
+@export var radius = 1.0:
+	set(new_value):
+		radius = new_value
+		if is_inside_tree():
+			_update_radius()
 
-export var auto_adjust = true setget set_auto_adjust
-export var auto_inner_radius = 0.35
-export var auto_fade_out_factor = 1.5
-export var auto_fade_delay = 1.0
-export var auto_rotation_limit = 20.0 setget set_auto_rotation_limit
-export var auto_velocity_limit = 10.0
+@export var fade = 0.05:
+	set(new_value):
+		fade = new_value
+		if is_inside_tree():
+			_update_fade()
+
+@export var steps = 32:
+	set(new_value):
+		steps = new_value
+		if is_inside_tree():
+			_update_mesh()
+
+@export var auto_adjust = true:
+	set(new_value):
+		auto_adjust = new_value
+		if is_inside_tree() and !Engine.is_editor_hint():
+			_update_auto_adjust()
+
+@export var auto_inner_radius = 0.35
+@export var auto_fade_out_factor = 1.5
+@export var auto_fade_delay = 1.0
+@export var auto_rotation_limit = 20.0:
+	set(new_value):
+		auto_rotation_limit = new_value
+		auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
+
+@export var auto_velocity_limit = 10.0
 
 var material : ShaderMaterial = preload("res://addons/godot-xr-tools/effects/vignette.material")
 
@@ -19,12 +42,7 @@ var fade_delay = 0.0
 var origin_node = null
 var last_origin_basis : Basis
 var last_location : Vector3
-onready var auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
-
-func set_radius(new_radius):
-	radius = new_radius
-	if is_inside_tree():
-		_update_radius()
+@onready var auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
 
 func _update_radius():
 	if radius < 1.0:
@@ -34,24 +52,13 @@ func _update_radius():
 	else:
 		$Mesh.visible = false
 
-func set_fade(new_fade):
-	fade = new_fade
-	if is_inside_tree():
-		_update_fade()
-
 func _update_fade():
 	if material:
 		material.set_shader_param("fade", fade)
 
-
-func set_steps(new_steps):
-	steps = new_steps
-	if is_inside_tree():
-		_update_mesh()
-
 func _update_mesh():
-	var vertices : PoolVector3Array
-	var indices : PoolIntArray
+	var vertices : PackedVector3Array
+	var indices : PackedInt32Array
 
 	vertices.resize(2 * steps)
 	indices.resize(6 * steps)
@@ -76,14 +83,10 @@ func _update_mesh():
 	arr[ArrayMesh.ARRAY_VERTEX] = vertices
 	arr[ArrayMesh.ARRAY_INDEX] = indices
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, arr)
+	arr_mesh.custom_aabb = AABB(Vector3(-1.0, -1.0, -1.0), Vector3(1.0, 1.0, 1.0))
 
 	$Mesh.mesh = arr_mesh
-	$Mesh.set_surface_material(0, material)
-
-func set_auto_adjust(new_auto_adjust):
-	auto_adjust = new_auto_adjust
-	if is_inside_tree() and !Engine.editor_hint:
-		_update_auto_adjust()
+	$Mesh.set_surface_override_material(0, material)
 
 func _update_auto_adjust():
 	# Turn process on if auto adjust is true.
@@ -91,14 +94,10 @@ func _update_auto_adjust():
 	if auto_adjust:
 		set_process(true)
 
-func set_auto_rotation_limit(new_auto_rotation_limit):
-	auto_rotation_limit = new_auto_rotation_limit
-	auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
-
-func _get_origin_node() -> ARVROrigin:
+func _get_origin_node() -> XROrigin3D:
 	var parent = get_parent()
 	while parent:
-		if parent and parent is ARVROrigin:
+		if parent and parent is XROrigin3D:
 			return parent
 		parent = parent.get_parent()
 
@@ -106,7 +105,7 @@ func _get_origin_node() -> ARVROrigin:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if !Engine.editor_hint:
+	if !Engine.is_editor_hint():
 		origin_node = _get_origin_node()
 		_update_mesh()
 		_update_radius()
@@ -117,7 +116,7 @@ func _ready():
 
 # Called on process
 func _process(delta):
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
 	if !origin_node:
@@ -146,7 +145,7 @@ func _process(delta):
 	# Adjust radius based on rotation speed of our origin point (not of head movement).
 	# We convert our delta rotation to a quaterion.
 	# A quaternion represents a rotation around an angle. 
-	var q = delta_b.get_rotation_quat()
+	var q = delta_b.get_rotation_quaternion()
 
 	# We get our angle from our w component and then adjust to get a 
 	# rotation speed per second by dividing by delta
@@ -164,29 +163,29 @@ func _process(delta):
 
 	# if our radius is small then our current we apply it
 	if target_radius < radius:
-		set_radius(target_radius)
+		radius = target_radius
 		fade_delay = auto_fade_delay
 	elif fade_delay > 0.0:
 		fade_delay -= delta
 	else: 
-		set_radius(clamp(radius + delta / auto_fade_out_factor, 0.0, 1.0))
+		radius = clamp(radius + delta / auto_fade_out_factor, 0.0, 1.0)
 
 	last_origin_basis = origin_node.global_transform.basis
 	last_location = global_transform.origin
 
 # This method verifies the vignette has a valid configuration.
 # Specifically it checks the following:
-# - ARVROrigin is a parent
-# - ARVRCamera is our parent
+# - XROrigin3D is a parent
+# - XRCamera3D is our parent
 func _get_configuration_warning():
 	# Check the origin node
 	var node = _get_origin_node()
 	if !node: 
-		return "Parent node must be in a branch from ARVROrigin"
+		return "Parent node must be in a branch from XROrigin3D"
 	
 	# check camera node
 	var parent = get_parent()
-	if !parent or !parent is ARVRCamera:
-		return "Parent node must be an ARVRCamera"
+	if !parent or !parent is XRCamera3D:
+		return "Parent node must be an XRCamera3D"
 
 	return ""

@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode depth_test_disable, skip_vertex_transform, unshaded;
+render_mode depth_test_disabled, skip_vertex_transform, unshaded;
 
 uniform vec4 color : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform float radius = 1.0;
@@ -23,6 +23,8 @@ void vertex() {
 		// and we offset our inner circle
 		v.xy += eye.xy / eye.z;
 	}
+	
+	// looks like this is broken in Godot 4...
 	POSITION = vec4(v, 1.0);
 }
 

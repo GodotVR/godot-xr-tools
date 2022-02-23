@@ -1,4 +1,4 @@
-tool
+@tool
 class_name MovementProvider
 extends Node
 
@@ -16,32 +16,34 @@ extends Node
 ##
 
 ## Enable movement provider
-export var enabled := true
+@export var enabled : bool = true
 
 # Get our origin node, we should be in a branch of this
-func get_arvr_origin() -> ARVROrigin:
+func get_xr_origin() -> XROrigin3D:
 	var parent = get_parent()
 	while parent:
-		if parent is ARVROrigin:
+		if parent is XROrigin3D:
 			return parent
 		parent = parent.get_parent()
 	
 	return null
 
-# Get our player body, this should be a node on our ARVROrigin node.
-func get_player_body() -> PlayerBody:
+## Note, using PlayerBody here creates a cyclic dependency so we are going for duck typing :)
+
+# Get our player body, this should be a node on our XROrigin3D node.
+func get_player_body() -> Node:
 	# get our origin node
-	var arvr_origin = get_arvr_origin()
-	if !arvr_origin:
+	var xr_origin = get_xr_origin()
+	if !xr_origin:
 		return null
 
 	# checking if the node exists before fetching it prevents error spam
-	if !arvr_origin.has_node("PlayerBody"):
+	if !xr_origin.has_node("PlayerBody"):
 		return null
 
 	# get our player node
-	var player_body = arvr_origin.get_node("PlayerBody")
-	if player_body and player_body is PlayerBody:
+	var player_body = xr_origin.get_node("PlayerBody")
+	if player_body:
 		return player_body
 
 	return null
@@ -49,24 +51,24 @@ func get_player_body() -> PlayerBody:
 # If missing we need to add our player body 
 func _create_player_body_node():
 	# get our origin node
-	var arvr_origin = get_arvr_origin()
-	if !arvr_origin:
+	var xr_origin = get_xr_origin()
+	if !xr_origin:
 		return
 
 	# Double check if it hasn't already been created by another movement function
 	var player_body = get_player_body()
 	if !player_body:
 		# create our player body node and add it into our tree
-		player_body = preload("res://addons/godot-xr-tools/assets/PlayerBody.tscn")
-		player_body = player_body.instance()
+		player_body = load("res://addons/godot-xr-tools/assets/PlayerBody.tscn")
+		player_body = player_body.instantiate()
 		player_body.set_name("PlayerBody")
-		arvr_origin.add_child(player_body)
-		player_body.set_owner(arvr_origin.owner)
+		xr_origin.add_child(player_body)
+		player_body.set_owner(xr_origin.owner)
 
 # Function run when node is added to scene
 func _ready():
 	# If we're in the editor, help the user out by creating our player body node automatically when needed.
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		var player_body = get_player_body()
 		if !player_body:
 			# This call needs to be deferred, we can't add nodes during scene construction
@@ -78,14 +80,14 @@ func physics_movement(delta: float, player_body: PlayerBody):
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
-	# Verify we're within the tree of an ARVROrigin node
-	var arvr_origin = get_arvr_origin()
-	if !arvr_origin:
-		return "This node must be within a branch on an ARVROrigin node"
+	# Verify we're within the tree of an XROrigin3D node
+	var xr_origin = get_xr_origin()
+	if !xr_origin:
+		return "This node must be within a branch on an XROrigin3D node"
 
 	var player_body = get_player_body()
 	if !player_body:
-		return "Missing player body node on the ARVROrigin"
+		return "Missing player body node on the XROrigin3D"
 
 	# Verify movement provider is in the correct group
 	if !is_in_group("movement_providers"):

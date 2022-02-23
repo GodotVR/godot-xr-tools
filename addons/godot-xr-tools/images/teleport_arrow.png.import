@@ -1,36 +1,36 @@
 [remap]
 
 importer="texture"
-type="StreamTexture"
-path.s3tc="res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex"
-path.etc="res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc.stex"
+type="StreamTexture2D"
+uid="uid://ddoj6c345cb0c"
+path.s3tc="res://.godot/imported/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex"
+path.etc2="res://.godot/imported/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc2.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc" ],
+"imported_formats": ["s3tc", "etc2"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/godot-xr-tools/images/teleport_arrow.png"
-dest_files=[ "res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex", "res://.import/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc.stex" ]
+dest_files=["res://.godot/imported/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.s3tc.stex", "res://.godot/imported/teleport_arrow.png-f1bd44b6f478277692b3fa29171b62d3.etc2.stex"]
 
 [params]
 
 compress/mode=2
 compress/lossy_quality=0.7
-compress/hdr_mode=0
+compress/hdr_compression=1
 compress/bptc_ldr=0
 compress/normal_map=0
-flags/repeat=true
-flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=false
-flags/srgb=1
+compress/channel_pack=0
+compress/streamed=false
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
-stream=false
-size_limit=0
-detect_3d=false
-svg/scale=1.0
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/size_limit=0
+detect_3d/compress_to=0

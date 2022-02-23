@@ -1,17 +1,33 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://ks5advemsv8d"]
 
-[ext_resource path="res://addons/godot-xr-tools/assets/LeftHand.glb" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/assets/Hand.gd" type="Script" id=2]
-[ext_resource path="res://addons/godot-xr-tools/assets/HandBlendTree.tres" type="AnimationNodeBlendTree" id=3]
+[ext_resource type="PackedScene" uid="uid://080d3mces54o" path="res://addons/godot-xr-tools/assets/LeftHand.glb" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/Hand.gd" id="2"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://dp7hy45jo7f4x" path="res://addons/godot-xr-tools/assets/HandBlendTree.tres" id="3"]
 
-[node name="LeftHand" type="Spatial"]
-script = ExtResource( 2 )
+[node name="LeftHand" type="Node3D"]
+script = ExtResource( "2" )
 
-[node name="LeftHand" parent="." instance=ExtResource( 1 )]
-transform = Transform( -0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, 0, 0 )
+[node name="LeftHand" parent="." instance=ExtResource( "1" )]
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, 0, -0.03, 0.15)
+
+[node name="Skeleton3D" parent="LeftHand/Armature_Left" index="0"]
+bones/2/rotation = Quaternion(0.253774, 0.0991975, 0.130968, 0.953208)
+bones/3/rotation = Quaternion(0.0272358, -0.00745519, 0.0169876, 0.999457)
+bones/5/rotation = Quaternion(0.0158641, 0.00352781, -0.0490804, 0.998663)
+bones/6/rotation = Quaternion(0.156098, 0.00317533, 0.137669, 0.978095)
+bones/7/rotation = Quaternion(0.0149969, 0.0124148, 0.102016, 0.994592)
+bones/9/rotation = Quaternion(0.0821832, 0.00292176, 0.0217395, 0.996376)
+bones/10/rotation = Quaternion(0.0545661, 0.000884079, 0.241461, 0.968875)
+bones/11/rotation = Quaternion(0.0347991, -0.0371998, 0.156823, 0.986312)
+bones/13/rotation = Quaternion(-0.0171483, -0.00440917, -0.0360487, 0.999193)
+bones/14/rotation = Quaternion(0.0443504, -0.0295383, 0.31258, 0.948396)
+bones/15/rotation = Quaternion(0.0397679, -0.133869, 0.252752, 0.9574)
+bones/17/rotation = Quaternion(-0.0944304, -0.00336634, 0.0820851, 0.992136)
+bones/18/rotation = Quaternion(-0.0151291, -0.0637052, 0.283732, 0.956666)
+bones/19/rotation = Quaternion(-0.0435841, -0.103597, 0.15083, 0.98215)
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = ExtResource( 3 )
+tree_root = ExtResource( "3" )
 anim_player = NodePath("../LeftHand/AnimationPlayer")
 active = true
 parameters/Grip/blend_amount = 0.0

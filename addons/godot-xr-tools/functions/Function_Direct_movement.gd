@@ -1,4 +1,4 @@
-tool
+@tool
 class_name Function_DirectMovement
 extends MovementProvider
 
@@ -8,7 +8,7 @@ extends MovementProvider
 ## @desc:
 ##     This script works with the Function_Direct_movement asset to provide
 ##     direct movement for the player. This script works with the PlayerBody
-##     attached to the players ARVROrigin.
+##     attached to the players XROrigin3D.
 ##
 ##     The following types of direct movement are supported:
 ##      - Flying
@@ -29,59 +29,43 @@ extends MovementProvider
 enum MOVEMENT_TYPE { MOVE_AND_ROTATE, MOVE_AND_STRAFE }
 
 ## Movement provider order
-export var order := 10
+@export var order : int = 10
 
 ## Use smooth rotation (may cause motion sickness)
-export var smooth_rotation := false
+@export var smooth_rotation : bool = false
 
 ## Smooth turn speed in radians per second
-export var smooth_turn_speed := 2.0
+@export var smooth_turn_speed : float = 2.0
 
 ## Seconds per step (at maximum turn rate)
-export var step_turn_delay := 0.2
+@export var step_turn_delay : float = 0.2
 
 ## Step turn angle in degrees
-export var step_turn_angle := 20.0
+@export var step_turn_angle : float = 20.0
 
 ## Movement speed
-export var max_speed := 10.0
-
-# enum our buttons, should find a way to put this more central
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15
-}
+@export var max_speed : float = 10.0
 
 ## Type of movement to perform
-export (MOVEMENT_TYPE) var move_type = MOVEMENT_TYPE.MOVE_AND_ROTATE
+@export var move_type : MOVEMENT_TYPE = MOVEMENT_TYPE.MOVE_AND_ROTATE
 
 ## Can Fly flag
-export var canFly := true
+@export var canFly : bool = true
 
 ## Flight movement button (moves in controller direction if flight active)
-export (Buttons) var fly_move_button_id = Buttons.VR_TRIGGER
+@export var fly_move_button_action = "trigger_click"
 
 ## Flight activate button
-export (Buttons) var fly_activate_button_id = Buttons.VR_GRIP
+@export var fly_activate_button_action = "grip_click"
+
+## Our directional input
+@export var input_action = "primary"
 
 # Turn step accumulator
 var _turn_step := 0.0
 
 # Controller node
-onready var _controller : ARVRController = get_parent()
+@onready var _controller : XRController3D = get_parent()
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: PlayerBody):
@@ -94,11 +78,11 @@ func physics_movement(delta: float, player_body: PlayerBody):
 		_perform_player_rotation(delta, player_body)
 
 	# Detect flying
-	if canFly and _controller.is_button_pressed(fly_activate_button_id):
-		if _controller.is_button_pressed(fly_move_button_id):
+	if canFly and _controller.is_button_pressed(fly_activate_button_action):
+		if _controller.is_button_pressed(fly_move_button_action):
 			# Use the controller's transform to move the VR capsule follow its orientation
 			var curr_transform := player_body.kinematic_node.global_transform
-			var fly_velocity := -_controller.global_transform.basis.z.normalized() * max_speed * ARVRServer.world_scale
+			var fly_velocity := -_controller.global_transform.basis.z.normalized() * max_speed * XRServer.world_scale
 			player_body.velocity = player_body.move_and_slide(fly_velocity)
 		else:
 			player_body.velocity = Vector3.ZERO
@@ -107,11 +91,11 @@ func physics_movement(delta: float, player_body: PlayerBody):
 		return true
 
 	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_joystick_axis(1) * max_speed
+	player_body.ground_control_velocity.y += _controller.get_axis(input_action).y * max_speed
 
 	# Apply left/right ground control
 	if move_type == MOVEMENT_TYPE.MOVE_AND_STRAFE:
-		player_body.ground_control_velocity.x += _controller.get_joystick_axis(0) * max_speed
+		player_body.ground_control_velocity.x += _controller.get_axis(input_action).x * max_speed
 
 	# Clamp ground control
 	player_body.ground_control_velocity.x = clamp(player_body.ground_control_velocity.x, -max_speed, max_speed)
@@ -119,7 +103,7 @@ func physics_movement(delta: float, player_body: PlayerBody):
 
 # Perform rotation based on the players rotation controller input
 func _perform_player_rotation(delta: float, player_body: PlayerBody):
-	var left_right := _controller.get_joystick_axis(0)
+	var left_right := _controller.get_axis(input_action).x
 	
 	if abs(left_right) <= 0.1:
 		# Not turning
@@ -150,9 +134,9 @@ func _perform_player_rotation(delta: float, player_body: PlayerBody):
 
 # Rotate the origin node around the camera
 func _rotate_player(player_body: PlayerBody, angle: float):
-	var t1 := Transform()
-	var t2 := Transform()
-	var rot := Transform()
+	var t1 := Transform3D()
+	var t2 := Transform3D()
+	var rot := Transform3D()
 
 	t1.origin = -player_body.camera_node.transform.origin
 	t2.origin = player_body.camera_node.transform.origin
@@ -163,8 +147,12 @@ func _rotate_player(player_body: PlayerBody, angle: float):
 func _get_configuration_warning():
 	# Check the controller node
 	var test_controller = get_parent()
-	if !test_controller or !test_controller is ARVRController:
-		return "Unable to find ARVR Controller node"
+	if !test_controller or !test_controller is XRController3D:
+		return "Unable to find XR Controller node"
 
 	# Call base class
-	return ._get_configuration_warning()
+	return super._get_configuration_warning()
+
+func _ready():
+	# Workaround for issue #52223, our onready var is preventing ready from being called on the super class
+	super()

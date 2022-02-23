@@ -1,4 +1,4 @@
-tool
+@tool
 class_name PlayerBody
 extends Node
 
@@ -8,7 +8,7 @@ extends Node
 ## @desc:
 ##     This script works with the PlayerBody asset to provide the player with
 ##     a PlayerBody. This PlayerBody is a capsule tracking the players hear
-##     via the ARVRCamera node.
+##     via the XRCamera3D node.
 ##
 ##     The PlayerBody can detect when the player is in the air, on the ground,
 ##     or on a steep slope.
@@ -16,45 +16,62 @@ extends Node
 ##     The PlayerBody works with movement providers to allow the player to move
 ##     around the environment.
 ##
-##     At the end of each physics process step the ARVROrigin is updated to
+##     At the end of each physics process step the XROrigin3D is updated to
 ##     track any movement to the PlayerBody.
 ##
 
 ## PlayerBody enabled flag
-export var enabled := true setget set_enabled, get_enabled
+@export var enabled = true:
+	set(new_value):
+		enabled = new_value
+
+		# Update collision_shape
+		if _collision_node:
+			_collision_node.disabled = !enabled
+
+		# Update physics processing
+		if enabled:
+			set_physics_process(true)
 
 ## Player radius
-export var player_radius := 0.4
+@export var player_radius : float = 0.4
+
+## Player camera to head top
+@export var player_cam_to_head_top : float = 0.1
 
 ## Eyes forward offset from center of body in player_radius units
-export (float, 0.0, 1.0) var eye_forward_offset := 0.66
+@export_range(0.0, 1.0) var eye_forward_offset : float = 0.66
 
 ## Force of gravity on the player
-export var gravity := -9.8
+@export var gravity : float = -9.8
 
 ## Lets the player push rigid bodies
-export var push_rigid_bodies := true
+@export var push_rigid_bodies : bool = true
 
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-export (Resource) var physics = null setget set_physics, get_physics
+@export var physics : Resource:
+	set(new_value):
+		# Save the property
+		physics = new_value
+		default_physics = _guaranteed_physics()
 
-## Path to the ARVROrigin node
-export (NodePath) var origin = null
+## Path to the XROrigin3D node
+@export_node_path(XROrigin3D) var origin
 
-## Path to the ARVRCamera node
-export (NodePath) var camera = null
+## Path to the XRCamera3D node
+@export_node_path(XRCamera3D) var camera
 
-## ARVROrigin node
-var origin_node: ARVROrigin = null
+## XROrigin3D node
+var origin_node: XROrigin3D
 
-## ARVRCamera node
-var camera_node: ARVRCamera = null
+## XRCamera3D node
+var camera_node: XRCamera3D
 
-## Player KinematicBody node
-onready var kinematic_node: KinematicBody = $KinematicBody
+## Player CharacterBody3D node
+@onready var kinematic_node: CharacterBody3D = $CharacterBody3D
 
 # Default physics (if not specified by the user or the current ground)
-onready var default_physics = _guaranteed_physics()
+@onready var default_physics = _guaranteed_physics()
 
 ## Player Velocity - modifiable by MovementProvider nodes
 var velocity := Vector3.ZERO
@@ -81,43 +98,42 @@ var ground_control_velocity := Vector2.ZERO
 var _movement_providers := Array()
 
 # Collision node
-onready var _collision_node: CollisionShape = $KinematicBody/CollisionShape
+@onready var _collision_node: CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
 # Horizontal vector (multiply by this to get only the horizontal components
 const horizontal := Vector3(1.0, 0.0, 1.0)
 
-# Class to sort movement providers by order
-class SortProviderByOrder:
-	static func sort_by_order(a, b) -> bool:
-		return true if a.order < b.order else false
+# Function to sort movement providers by order
+func sort_by_order(a, b) -> bool:
+	return true if a.order < b.order else false
 
 # Get our origin node, make sure we have consistent code here
-func _get_origin_node() -> ARVROrigin:
-	var node : ARVROrigin = get_node_or_null(origin) if origin else get_parent()
+func _get_origin_node() -> XROrigin3D:
+	var node : XROrigin3D = get_node_or_null(origin) if origin else get_parent()
 	return node
 
 # Get our camera node
-func _get_camera_node() -> ARVRCamera:
+func _get_camera_node() -> XRCamera3D:
 	# if we have set a node, try and use it
-	var node : ARVRCamera
+	var node : XRCamera3D
 	
 	if camera:
 		node = get_node_or_null(camera)
 		if node:
 			return node
 
-	var o : ARVROrigin = _get_origin_node()
+	var o : XROrigin3D = _get_origin_node()
 	if !o:
 		return null
 
 	# else get by default name 
-	node = o.get_node_or_null("ARVRCamera")
+	node = o.get_node_or_null("XRCamera3D")
 	if node:
 		return node
 
 	# else find the first camera child
 	for child in o.get_children():
-		if child is ARVRCamera:
+		if child is XRCamera3D:
 			return child
 
 	# no luck
@@ -131,33 +147,12 @@ func _ready():
 
 	# Get the movement providers ordered by increasing order
 	_movement_providers = get_tree().get_nodes_in_group("movement_providers")
-	_movement_providers.sort_custom(SortProviderByOrder, "sort_by_order")
+	_movement_providers.sort_custom(sort_by_order)
 
-func set_enabled(new_value):
-	enabled = new_value
-
-	# Update collision_shape
-	if _collision_node:
-		_collision_node.disabled = !enabled
-
-	# Update physics processing
-	if enabled:
-		set_physics_process(true)
-
-func get_enabled():
-	return enabled
-
-func set_physics(new_value: Resource):
-	# Save the property
-	physics = new_value
-	default_physics = _guaranteed_physics()
-
-func get_physics() -> Resource:
-	return physics
 
 func _physics_process(delta):
 	# Do not run physics if in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
 	# If disabled then turn of physics processing and bail out
@@ -176,7 +171,7 @@ func _physics_process(delta):
 
 	# Run the movement providers in order. The providers can:
 	# - Move the kinematic node around (to move the player)
-	# - Rotate the ARVROrigin around the camera (to rotate the player)
+	# - Rotate the XROrigin3D around the camera (to rotate the player)
 	# - Read and modify the player velocity
 	# - Read and modify the ground-control velocity
 	# - Perform exclusive updating of the player (bypassing other movement providers)
@@ -194,24 +189,31 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 		_apply_velocity_and_control(delta)
 
-	# Apply the player-body movement to the ARVR origin
+	# Apply the player-body movement to the XR origin
 	var movement := kinematic_node.global_transform.origin - position_before_movement
 	origin_node.global_transform.origin += movement
 
 # Perform a move_and_slide on the kinematic node
-func move_and_slide(var velocity: Vector3) -> Vector3:
-	return kinematic_node.move_and_slide(velocity, Vector3.UP, false, 4, 0.785398, push_rigid_bodies)
+func move_and_slide(p_velocity: Vector3) -> Vector3:
+	kinematic_node.velocity = p_velocity
+	kinematic_node.up_direction = Vector3.UP
+	kinematic_node.floor_stop_on_slope = false
+	kinematic_node.floor_max_angle = 0.785398
+	kinematic_node.max_slides = 4
+	# push_rigid_bodies seems to no longer be supported...
+	var can_move = kinematic_node.move_and_slide()
+	return kinematic_node.velocity
 
 # This method updates the body to match the player position
 func _update_body_under_camera():
 	# Calculate the player height based on the origin and camera position
-	var player_height := camera_node.transform.origin.y + player_radius
+	var player_height := camera_node.transform.origin.y + player_cam_to_head_top
 	if player_height < player_radius:
 		player_height = player_radius
 
 	# Adjust the collision shape to match the player geometry
 	_collision_node.shape.radius = player_radius
-	_collision_node.shape.height = player_height - (player_radius * 2.0)
+	_collision_node.shape.height = player_height
 	_collision_node.transform.origin.y = (player_height / 2.0)
 
 	# Center the kinematic body on the ground under the camera
@@ -231,7 +233,7 @@ func _update_body_under_camera():
 # This method updates the information about the ground under the players feet
 func _update_ground_information():
 	# Update the ground information
-	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.05, 0.0), true, true, true)
+	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.05, 0.0), true)
 	if !ground_collision:
 		on_ground = false
 		ground_vector = Vector3.UP
@@ -240,9 +242,9 @@ func _update_ground_information():
 		ground_physics = null
 	else:
 		on_ground = true
-		ground_vector = ground_collision.normal
+		ground_vector = ground_collision.get_normal()
 		ground_angle = rad2deg(ground_collision.get_angle())
-		ground_node = ground_collision.collider
+		ground_node = ground_collision.get_collider()
 		
 		# Select the ground physics
 		var physics_node := ground_node.get_node_or_null("GroundPhysics") as GroundPhysics
@@ -270,12 +272,12 @@ func _apply_velocity_and_control(delta: float):
 			var camera_transform := camera_node.global_transform
 			var dir_forward := (camera_transform.basis.z * horizontal).normalized()
 			var dir_right := (camera_transform.basis.x * horizontal).normalized()
-			control_velocity = (dir_forward * -ground_control_velocity.y + dir_right * ground_control_velocity.x) * ARVRServer.world_scale
+			control_velocity = (dir_forward * -ground_control_velocity.y + dir_right * ground_control_velocity.x) * XRServer.world_scale
 
 			# Apply control velocity to horizontal velocity based on traction
 			var current_traction := GroundPhysicsSettings.get_move_traction(ground_physics, default_physics)
 			var traction_factor = clamp(current_traction * delta, 0.0, 1.0)
-			horizontal_velocity = lerp(horizontal_velocity, control_velocity, traction_factor)
+			horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
 			var current_max_slope := GroundPhysicsSettings.get_move_max_slope(ground_physics, default_physics)	
@@ -309,20 +311,20 @@ func _guaranteed_physics():
 
 # This method verifies the PlayerBody has a valid configuration. Specifically it
 # checks the following:
-# - ARVROrigin can be identified
-# - ARVRCamera can be identified
+# - XROrigin3D can be identified
+# - XRCamera3D can be identified
 # - Player radius is valid
 # - Maximum slope is valid
 func _get_configuration_warning():
 	# Check the origin node
 	var test_origin_node = _get_origin_node()
-	if !test_origin_node or !test_origin_node is ARVROrigin:
-		return "Unable to find ARVR Origin node"
+	if !test_origin_node or !test_origin_node is XROrigin3D:
+		return "Unable to find XR Origin node"
 
 	# Check the camera node
 	var test_camera_node = _get_camera_node()
-	if !test_camera_node or !test_camera_node is ARVRCamera:
-		return "Unable to find ARVR Camera node"
+	if !test_camera_node or !test_camera_node is XRCamera3D:
+		return "Unable to find XR Camera node"
 
 	# Verify the player radius is valid
 	if player_radius <= 0:

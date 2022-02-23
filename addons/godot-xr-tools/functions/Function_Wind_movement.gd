@@ -1,4 +1,4 @@
-tool
+@tool
 class_name Function_WindMovement
 extends MovementProvider
 
@@ -6,37 +6,41 @@ extends MovementProvider
 signal wind_area_changed(active_wind_area)
 
 ## Movement provider order
-export var order := 25
+@export var order : int = 25
 
 ## Drag multiplier for the player
-export var drag_multiplier := 1.0
+@export var drag_multiplier : float = 1.0
 
 # Wind area
-onready var _sense_area: Area = $Area
+@onready var _sense_area: Area3D = $Area3D
 
 # Array of wind areas the player is in
 var _in_wind_areas := Array()
 
 # Currently active wind area
-var _active_wind_area: WindArea = null
+var _active_wind_area: WindArea
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Skip if running in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
+		super()
 		return
 
 	# Reparent the sense area to the camera
-	var camera = get_arvr_camera()
+	var camera = get_xr_camera()
 	if camera:
 		self.remove_child(_sense_area)
 		camera.add_child(_sense_area)
 
 	# Subscribe to area notifications
-	_sense_area.connect("area_entered", self, "_on_area_entered")
-	_sense_area.connect("area_exited", self, "_on_area_exited")
+	_sense_area.connect("area_entered", _on_area_entered)
+	_sense_area.connect("area_exited", _on_area_exited)
 
-func _on_area_entered(area: Area):
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
+func _on_area_entered(area: Area3D):
 	# Skip if not wind area
 	var wind_area = area as WindArea
 	if !wind_area:
@@ -49,7 +53,7 @@ func _on_area_entered(area: Area):
 	# Report the wind area change
 	emit_signal("wind_area_changed", _active_wind_area)
 
-func _on_area_exited(area: Area):
+func _on_area_exited(area: Area3D):
 	# Erase from the wind area
 	_in_wind_areas.erase(area)
 	
@@ -58,7 +62,7 @@ func _on_area_exited(area: Area):
 		return
 
 	# Select a new active wind area
-	if _in_wind_areas.empty():
+	if _in_wind_areas.is_empty():
 		_active_wind_area = null
 	else:
 		_active_wind_area = _in_wind_areas.front()
@@ -73,35 +77,35 @@ func physics_movement(delta: float, player_body: PlayerBody):
 		return
 
 	# Calculate the global wind velocity of the wind area
-	var wind_velocity := _active_wind_area.global_transform.basis.xform(_active_wind_area.wind_vector)
+	var wind_velocity := _active_wind_area.global_transform.basis * _active_wind_area.wind_vector
 
 	# Drag the player into the wind
 	var drag_factor := _active_wind_area.drag * drag_multiplier * delta
 	drag_factor = clamp(drag_factor, 0.0, 1.0)
-	player_body.velocity = lerp(player_body.velocity, wind_velocity, drag_factor)
+	player_body.velocity = player_body.velocity.lerp(wind_velocity, drag_factor)
 
 # Get our camera node
-func get_arvr_camera() -> ARVRCamera:
-	# Get the ARVROrigin node
-	var origin := get_arvr_origin()
+func get_xr_camera() -> XRCamera3D:
+	# Get the XROrigin3D node
+	var origin := get_xr_origin()
 	if !origin:
 		return null
 
 	# Attempt to get using the default name
-	var camera := origin.get_node_or_null("ARVRCamera") as ARVRCamera
+	var camera := origin.get_node_or_null("XRCamera3D") as XRCamera3D
 	if camera:
 		return camera
 
-	# Find the first ARVRCamera child
+	# Find the first XRCamera3D child
 	for child in origin.get_children():
-		camera = child as ARVRCamera
+		camera = child as XRCamera3D
 		if camera:
 			return camera
 
-	# Unable to find ARVRCamera
+	# Unable to find XRCamera3D
 	return null
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
 	# Call base class
-	return ._get_configuration_warning()
+	return super._get_configuration_warning()

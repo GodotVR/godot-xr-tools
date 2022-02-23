@@ -1,6 +1,5 @@
 class_name VelocityAverager
 
-
 ##
 ## Velocity Averager class
 ##
@@ -28,14 +27,13 @@ var _linear_distances := Array()
 var _angular_distances := Array()
 
 # Last transform
-var _last_transform := Transform()
+var _last_transform := Transform3D()
 
 # Has last transform flag
 var _has_last_transform := false
 
-
 ## Initialize the VelocityAverager with an averaging count
-func _init(var count: int):
+func _init(count: int):
 	_count = count
 
 ## Clear the averages
@@ -46,7 +44,7 @@ func clear():
 	_has_last_transform = false
 
 ## Add linear and angular distances to the averager
-func add_distance(var delta: float, var linear_distance: Vector3, var angular_distance: Vector3):
+func add_distance(delta: float, linear_distance: Vector3, angular_distance: Vector3):
 	# Sanity check
 	assert(delta > 0, "Velocity averager requires positive time-deltas")
 	
@@ -62,7 +60,7 @@ func add_distance(var delta: float, var linear_distance: Vector3, var angular_di
 		_angular_distances.pop_front()
 
 ## Add a transform to the averager
-func add_transform(var delta: float, var transform: Transform):
+func add_transform(delta: float, transform: Transform3D):
 	# Handle saving the first transform
 	if !_has_last_transform:
 		_last_transform = transform
