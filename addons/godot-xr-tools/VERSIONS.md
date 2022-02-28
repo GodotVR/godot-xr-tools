@@ -1,8 +1,5 @@
-# 3.0
+# 4.0
 - Port to Godot 4
-
-# 2.4.0
-- 
 
 # 2.3.0
 - Added vignette
