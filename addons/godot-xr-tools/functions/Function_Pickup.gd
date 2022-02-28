@@ -1,44 +1,28 @@
 class_name Function_Pickup
-extends Area
+extends Area3D
 
 signal has_picked_up(what)
 signal has_dropped
 
-# enum our buttons, should find a way to put this more central
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15
-}
+@export var pickup_range = 0.5:
+	set(new_value):
+		pickup_range = new_value
+		if $CollisionShape3D:
+			_update_pickup_range()
 
-export var pickup_range = 0.5 setget set_pickup_range
-export var impulse_factor = 1.0
-export (Buttons) var pickup_button_id = Buttons.VR_GRIP
-export (Buttons) var action_button_id = Buttons.VR_TRIGGER
-export var max_samples = 5
+func _update_pickup_range():
+	$CollisionShape3D.shape.radius = pickup_range
+
+@export var impulse_factor = 1.0
+@export var pickup_button_action = "grip_click"
+@export var action_button_action = "trigger_click"
+@export var max_samples = 5
 
 var object_in_area = Array()
 var closest_object = null
 var picked_up_object = null
 
 var _velocity_averager = VelocityAverager.new(max_samples)
-
-func set_pickup_range(new_range):
-	pickup_range = new_range
-	if $CollisionShape:
-		$CollisionShape.shape.radius = pickup_range
 
 func _on_Function_Pickup_entered(object):
 	# add our object to our array if required
@@ -100,28 +84,35 @@ func _pick_up_object(p_object):
 		emit_signal("has_picked_up", picked_up_object)
 
 func _on_button_pressed(p_button):
-	if p_button == pickup_button_id:
+	if p_button == pickup_button_action:
 		if is_instance_valid(picked_up_object) and !picked_up_object.press_to_hold:
 			drop_object()
 		elif is_instance_valid(closest_object):
 			_pick_up_object(closest_object)
-	elif p_button == action_button_id:
+	elif p_button == action_button_action:
 		if is_instance_valid(picked_up_object) and picked_up_object.has_method("action"):
 			picked_up_object.action()
 
-func _on_button_release(p_button):
-	if p_button == pickup_button_id:
+func _on_button_released(p_button):
+	if p_button == pickup_button_action:
 		if is_instance_valid(picked_up_object) and picked_up_object.press_to_hold:
 			drop_object()
 
 func _ready():
-	get_parent().connect("button_pressed", self, "_on_button_pressed")
-	get_parent().connect("button_release", self, "_on_button_release")
+	# Do not initialise if in the editor
+	if Engine.is_editor_hint():
+		return
 
-	# re-assign now that our collision shape has been constructed
-	set_pickup_range(pickup_range)
+	get_parent().connect("button_pressed", _on_button_pressed)
+	get_parent().connect("button_released", _on_button_released)
+
+	_update_pickup_range()
 
 func _process(delta):
+	# Do not run physics if in the editor
+	if Engine.is_editor_hint():
+		return
+
 	# Calculate velocity averaging on any picked up object
 	if picked_up_object:
 		_velocity_averager.add_transform(delta, picked_up_object.global_transform)

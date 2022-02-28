@@ -1,11 +1,11 @@
 class_name Object_climbable
-extends Spatial
+extends Node3D
 
 ##
 ## Climbable Object
 ##
 ## @desc:
-##     This script adds climbing support to any StaticBody.
+##     This script adds climbing support to any StaticBody3D.
 ##
 ##     For climbing to work, the player must have a Function_Climb_movement.
 ##
@@ -32,7 +32,7 @@ func decrease_is_closest():
 	pass
 
 # Called by Function_pickup when this is picked up by a controller
-func pick_up(by: Function_Pickup, with_controller: ARVRController):
+func pick_up(by: Function_Pickup, with_controller: XRController3D):
 	save_grab_location(by)
 
 # Called by Function_pickup when this is let go by a controller

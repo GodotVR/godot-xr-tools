@@ -1,4 +1,4 @@
-tool
+@tool
 class_name Function_ClimbMovement
 extends MovementProvider
 
@@ -8,9 +8,9 @@ extends MovementProvider
 ## @desc:
 ##     This script works with the Function_Climb_movement asset to provide
 ##     climbing movement for the player. This script works with the PlayerBody
-##     attached to the players ARVROrigin.
+##     attached to the players XROrigin3D.
 ##
-##     StaticBody objects can be marked as climbable by adding the
+##     StaticBody3D objects can be marked as climbable by adding the
 ##     Object_climbable script to them
 ##
 ##     When climbing, the global velocity of the PlayerBody is averaged for
@@ -26,25 +26,25 @@ signal player_climb_start
 signal player_climb_end
 
 ## Movement provider order
-export var order := 15
+@export var order : int = 15
 
 ## Push forward when flinging
-export var forward_push := 1.0
+@export var forward_push : float = 1.0
 
 ## Velocity multiplier when flinging up walls
-export var fling_multiplier := 1.0
+@export var fling_multiplier : float = 1.0
 
 ## Averages for velocity measurement
-export var velocity_averages := 5
+@export var velocity_averages : int = 5
 
 ## Pickup function for the left hand
-export (NodePath) var left_pickup = null
+@export var left_pickup : NodePath
 
 ## Pickup function for the right hand
-export (NodePath) var right_pickup = null
+@export var right_pickup : NodePath
 
 # Is the player climbing
-var is_climbing := false
+var is_climbing : bool = false
 
 # Node references
 var _left_pickup_node : Function_Pickup = null
@@ -61,6 +61,9 @@ const horizontal := Vector3(1.0, 0.0, 1.0)
 func _ready():
 	_left_pickup_node = get_node(left_pickup)
 	_right_pickup_node = get_node(right_pickup)
+
+	# In Godot 4 we must now manually call our super class ready function
+	super()
 
 func physics_movement(delta: float, player_body: PlayerBody):
 	# Get the left-hand climbable
@@ -157,4 +160,4 @@ func _get_configuration_warning():
 		return "Minimum of 2 velocity averages needed"
 
 	# Call base class
-	return ._get_configuration_warning()
+	return super._get_configuration_warning()

@@ -26,14 +26,14 @@ var _time_deltas := Array()
 var _linear_distances := Array()
 
 # Last transform
-var _last_transform := Transform()
+var _last_transform := Transform3D()
 
 # Has last transform flag
 var _has_last_transform := false
 
 
 ## Initialize the VelocityAverager with an averaging count
-func _init(var count: int):
+func _init(count: int):
 	_count = count
 
 ## Clear the averages
@@ -43,7 +43,7 @@ func clear():
 	_has_last_transform = false
 
 ## Add a linear distance to the averager
-func add_distance(var delta: float, var linear_distance: Vector3):
+func add_distance(delta: float, linear_distance: Vector3):
 	# Add data averaging arrays
 	_time_deltas.push_back(delta)
 	_linear_distances.push_back(linear_distance)
@@ -54,11 +54,11 @@ func add_distance(var delta: float, var linear_distance: Vector3):
 		_linear_distances.pop_front()
 
 ## Add a linear velocity to the averager
-func add_velocity(var delta: float, var linear_velocity: Vector3):
+func add_velocity(delta: float, linear_velocity: Vector3):
 	add_distance(delta, linear_velocity * delta)
 
 ## Add a transform to the averager
-func add_transform(var delta: float, var transform: Transform):
+func add_transform(delta: float, transform: Transform3D):
 	# Handle saving the first transform
 	if !_has_last_transform:
 		_last_transform = transform

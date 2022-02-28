@@ -1,4 +1,4 @@
-tool
+@tool
 class_name GroundPhysics
 extends Node
 
@@ -17,7 +17,7 @@ extends Node
 ##
 
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-export (Resource) var physics
+@export var physics : Resource
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():

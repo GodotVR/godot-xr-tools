@@ -1,8 +1,8 @@
 class_name WindArea
-extends Area
+extends Area3D
 
 ## Vector (direction and magnitude) of wind in this area
-export var wind_vector := Vector3.ZERO
+@export var wind_vector = Vector3.ZERO
 
 ## Wind drag factor
-export var drag := 1.0
+@export var drag := 1.0
