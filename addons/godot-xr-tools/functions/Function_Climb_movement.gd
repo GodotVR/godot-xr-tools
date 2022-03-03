@@ -38,17 +38,17 @@ export var fling_multiplier := 1.0
 export var velocity_averages := 5
 
 ## Pickup function for the left hand
-export (NodePath) var left_pickup = null
+export (NodePath) var left_pickup
 
 ## Pickup function for the right hand
-export (NodePath) var right_pickup = null
+export (NodePath) var right_pickup
 
 # Is the player climbing
 var is_climbing := false
 
 # Node references
-var _left_pickup_node : Function_Pickup = null
-var _right_pickup_node : Function_Pickup = null
+onready var _left_pickup_node: Function_Pickup = get_node(left_pickup)
+onready var _right_pickup_node: Function_Pickup = get_node(right_pickup)
 
 # Velocity averaging fields
 var _distances = Array()
@@ -56,11 +56,6 @@ var _deltas = Array()
 
 # Horizontal vector (multiply by this to get only the horizontal components
 const horizontal := Vector3(1.0, 0.0, 1.0)
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	_left_pickup_node = get_node(left_pickup)
-	_right_pickup_node = get_node(right_pickup)
 
 func physics_movement(delta: float, player_body: PlayerBody):
 	# Get the left-hand climbable

@@ -38,17 +38,11 @@ export var push_rigid_bodies := true
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
 export (Resource) var physics = null setget set_physics, get_physics
 
-## Path to the ARVROrigin node
-export (NodePath) var origin = null
-
-## Path to the ARVRCamera node
-export (NodePath) var camera = null
-
 ## ARVROrigin node
-var origin_node: ARVROrigin = null
+onready var origin_node := ARVRHelpers.get_arvr_origin(self)
 
 ## ARVRCamera node
-var camera_node: ARVRCamera = null
+onready var camera_node := ARVRHelpers.get_arvr_camera(self)
 
 ## Player KinematicBody node
 onready var kinematic_node: KinematicBody = $KinematicBody
@@ -91,44 +85,8 @@ class SortProviderByOrder:
 	static func sort_by_order(a, b) -> bool:
 		return true if a.order < b.order else false
 
-# Get our origin node, make sure we have consistent code here
-func _get_origin_node() -> ARVROrigin:
-	var node : ARVROrigin = get_node_or_null(origin) if origin else get_parent()
-	return node
-
-# Get our camera node
-func _get_camera_node() -> ARVRCamera:
-	# if we have set a node, try and use it
-	var node : ARVRCamera
-	
-	if camera:
-		node = get_node_or_null(camera)
-		if node:
-			return node
-
-	var o : ARVROrigin = _get_origin_node()
-	if !o:
-		return null
-
-	# else get by default name 
-	node = o.get_node_or_null("ARVRCamera")
-	if node:
-		return node
-
-	# else find the first camera child
-	for child in o.get_children():
-		if child is ARVRCamera:
-			return child
-
-	# no luck
-	return null
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Get the origin and camera nodes
-	origin_node = _get_origin_node()
-	camera_node = _get_camera_node()
-
 	# Get the movement providers ordered by increasing order
 	_movement_providers = get_tree().get_nodes_in_group("movement_providers")
 	_movement_providers.sort_custom(SortProviderByOrder, "sort_by_order")
@@ -315,13 +273,13 @@ func _guaranteed_physics():
 # - Maximum slope is valid
 func _get_configuration_warning():
 	# Check the origin node
-	var test_origin_node = _get_origin_node()
-	if !test_origin_node or !test_origin_node is ARVROrigin:
+	var test_origin_node = ARVRHelpers.get_arvr_origin(self)
+	if !test_origin_node:
 		return "Unable to find ARVR Origin node"
 
 	# Check the camera node
-	var test_camera_node = _get_camera_node()
-	if !test_camera_node or !test_camera_node is ARVRCamera:
+	var test_camera_node = ARVRHelpers.get_arvr_camera(self)
+	if !test_camera_node:
 		return "Unable to find ARVR Camera node"
 
 	# Verify the player radius is valid
@@ -339,3 +297,32 @@ func _get_configuration_warning():
 
 	# Passed basic validation
 	return ""
+
+## Find the Player Body from a player node and an optional path
+static func get_player_body(node: Node, var path: NodePath = "") -> PlayerBody:
+	var player_body: PlayerBody
+
+	# Try using the node path first
+	if path:
+		player_body = node.get_node(path) as PlayerBody
+		if player_body:
+			return player_body
+	
+	# Get the origin
+	var arvr_origin := ARVRHelpers.get_arvr_origin(node)
+	if !arvr_origin:
+		return null
+
+	# Attempt to get by the default name
+	player_body = arvr_origin.get_node_or_null("PlayerBody") as PlayerBody
+	if player_body:
+		return player_body
+
+	# Search all children of the origin for the player body
+	for child in arvr_origin.get_children():
+		player_body = child as PlayerBody
+		if player_body:
+			return player_body
+
+	# Could not find player body
+	return null
