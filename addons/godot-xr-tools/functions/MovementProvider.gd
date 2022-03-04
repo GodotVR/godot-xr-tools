@@ -61,7 +61,7 @@ func _create_player_body_node():
 		player_body = player_body.instance()
 		player_body.set_name("PlayerBody")
 		arvr_origin.add_child(player_body)
-		player_body.set_owner(arvr_origin.owner)
+		player_body.set_owner(get_tree().get_edited_scene_root())
 
 # Function run when node is added to scene
 func _ready():
