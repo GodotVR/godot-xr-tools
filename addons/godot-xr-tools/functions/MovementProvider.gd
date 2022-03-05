@@ -18,20 +18,10 @@ extends Node
 ## Enable movement provider
 export var enabled := true
 
-# Get our origin node, we should be in a branch of this
-func get_arvr_origin() -> ARVROrigin:
-	var parent = get_parent()
-	while parent:
-		if parent is ARVROrigin:
-			return parent
-		parent = parent.get_parent()
-	
-	return null
-
 # Get our player body, this should be a node on our ARVROrigin node.
 func get_player_body() -> PlayerBody:
 	# get our origin node
-	var arvr_origin = get_arvr_origin()
+	var arvr_origin := ARVRHelpers.get_arvr_origin(self)
 	if !arvr_origin:
 		return null
 
@@ -40,8 +30,8 @@ func get_player_body() -> PlayerBody:
 		return null
 
 	# get our player node
-	var player_body = arvr_origin.get_node("PlayerBody")
-	if player_body and player_body is PlayerBody:
+	var player_body := arvr_origin.get_node("PlayerBody") as PlayerBody
+	if player_body:
 		return player_body
 
 	return null
@@ -49,7 +39,7 @@ func get_player_body() -> PlayerBody:
 # If missing we need to add our player body 
 func _create_player_body_node():
 	# get our origin node
-	var arvr_origin = get_arvr_origin()
+	var arvr_origin := ARVRHelpers.get_arvr_origin(self)
 	if !arvr_origin:
 		return
 
@@ -61,7 +51,7 @@ func _create_player_body_node():
 		player_body = player_body.instance()
 		player_body.set_name("PlayerBody")
 		arvr_origin.add_child(player_body)
-		player_body.set_owner(arvr_origin.owner)
+		player_body.set_owner(get_tree().get_edited_scene_root())
 
 # Function run when node is added to scene
 func _ready():
@@ -79,7 +69,7 @@ func physics_movement(delta: float, player_body: PlayerBody):
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
 	# Verify we're within the tree of an ARVROrigin node
-	var arvr_origin = get_arvr_origin()
+	var arvr_origin = ARVRHelpers.get_arvr_origin(self)
 	if !arvr_origin:
 		return "This node must be within a branch on an ARVROrigin node"
 

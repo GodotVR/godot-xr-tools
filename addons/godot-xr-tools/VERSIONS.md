@@ -1,5 +1,5 @@
 # 2.4.0
-- 
+- Added configuration setting for head height in player body.
 
 # 2.3.0
 - Added vignette
