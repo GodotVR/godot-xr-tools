@@ -34,9 +34,6 @@ enum Buttons {
 	VR_TRIGGER = 15
 }
 
-## Player jumped signal
-signal player_jumped
-
 ## Movement provider order
 export var order := 20
 
@@ -48,27 +45,13 @@ onready var _controller: ARVRController = get_parent()
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: PlayerBody):
-	# Skip if the player isn't on the ground
-	if !player_body.on_ground:
-		return
-
 	# Skip if the jump controller isn't active
 	if !_controller.get_is_active():
 		return
 
-	# Skip if the jump button isn't pressed
-	if !_controller.is_button_pressed(jump_button_id):
-		return
-
-	# Skip if the ground is too steep to jump
-	var current_max_slope := GroundPhysicsSettings.get_jump_max_slope(player_body.ground_physics, player_body.default_physics)
-	if player_body.ground_angle > current_max_slope:
-		return
-
-	# Perform the jump
-	emit_signal("player_jumped")
-	var current_jump_velocity := GroundPhysicsSettings.get_jump_velocity(player_body.ground_physics, player_body.default_physics)
-	player_body.velocity.y = current_jump_velocity * ARVRServer.world_scale
+	# Request jump if the button is pressed
+	if _controller.is_button_pressed(jump_button_id):
+		player_body.request_jump()
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():

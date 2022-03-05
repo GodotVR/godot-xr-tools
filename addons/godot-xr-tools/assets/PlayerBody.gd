@@ -20,6 +20,11 @@ extends Node
 ##     track any movement to the PlayerBody.
 ##
 
+
+## Signal emitted when the player jumps
+signal player_jumped()
+
+
 ## PlayerBody enabled flag
 export var enabled := true setget set_enabled
 
@@ -82,6 +87,9 @@ var ground_control_velocity := Vector2.ZERO
 
 # Movement providers
 var _movement_providers := Array()
+
+# Jump cool-down counter
+var _jump_cooldown := 0
 
 # Collision node
 onready var _collision_node: CollisionShape = $KinematicBody/CollisionShape
@@ -162,6 +170,10 @@ func _physics_process(delta):
 		set_physics_process(false)
 		return
 
+	# Decrement the jump cool-down on each physics update
+	if _jump_cooldown:
+		_jump_cooldown -= 1
+
 	# Update the kinematic body to be under the camera
 	_update_body_under_camera()
 
@@ -177,6 +189,7 @@ func _physics_process(delta):
 	# - Read and modify the player velocity
 	# - Read and modify the ground-control velocity
 	# - Perform exclusive updating of the player (bypassing other movement providers)
+	# - Request a jump
 	ground_control_velocity = Vector2.ZERO
 	var exclusive := false
 	for p in _movement_providers:
@@ -194,6 +207,30 @@ func _physics_process(delta):
 	# Apply the player-body movement to the ARVR origin
 	var movement := kinematic_node.global_transform.origin - position_before_movement
 	origin_node.global_transform.origin += movement
+
+# Request a jump
+func request_jump(var skip_jump_velocity := false):
+	# Skip if cooling down from a previous jump
+	if _jump_cooldown:
+		return;
+
+	# Skip if not on ground
+	if !on_ground:
+		return
+
+	# Skip if the ground is too steep to jump
+	var current_max_slope := GroundPhysicsSettings.get_jump_max_slope(ground_physics, default_physics)
+	if ground_angle > current_max_slope:
+		return
+
+	# Perform the jump
+	if !skip_jump_velocity:
+		var current_jump_velocity := GroundPhysicsSettings.get_jump_velocity(ground_physics, default_physics)
+		velocity.y = current_jump_velocity * ARVRServer.world_scale
+
+	# Report the jump
+	emit_signal("player_jumped")
+	_jump_cooldown = 4
 
 # Perform a move_and_slide on the kinematic node
 func move_and_slide(var velocity: Vector3) -> Vector3:
