@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbpow68mojq5k"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/Function_JumpDetect_movement.gd" id="1"]
+
+[node name="Function_JumpDetect_Movement" type="Node" groups=["movement_providers"]]
+script = ExtResource( "1" )
+arms_jump_enable = true

@@ -38,17 +38,17 @@ signal player_climb_end
 @export var velocity_averages : int = 5
 
 ## Pickup function for the left hand
-@export var left_pickup : NodePath
+@export_node_path(Area3D, Function_Pickup) var left_pickup
 
 ## Pickup function for the right hand
-@export var right_pickup : NodePath
+@export_node_path(Area3D, Function_Pickup) var right_pickup
 
 # Is the player climbing
 var is_climbing : bool = false
 
 # Node references
-var _left_pickup_node : Function_Pickup = null
-var _right_pickup_node : Function_Pickup = null
+@onready var _left_pickup_node : Function_Pickup = get_node(left_pickup)
+@onready var _right_pickup_node : Function_Pickup = get_node(right_pickup)
 
 # Velocity averaging fields
 var _distances = Array()
@@ -57,13 +57,9 @@ var _deltas = Array()
 # Horizontal vector (multiply by this to get only the horizontal components
 const horizontal := Vector3(1.0, 0.0, 1.0)
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
-	_left_pickup_node = get_node(left_pickup)
-	_right_pickup_node = get_node(right_pickup)
-
 	# In Godot 4 we must now manually call our super class ready function
-	super()
+	super._ready()
 
 func physics_movement(delta: float, player_body: PlayerBody):
 	# Get the left-hand climbable

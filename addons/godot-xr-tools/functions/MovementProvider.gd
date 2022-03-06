@@ -18,22 +18,12 @@ extends Node
 ## Enable movement provider
 @export var enabled : bool = true
 
-# Get our origin node, we should be in a branch of this
-func get_xr_origin() -> XROrigin3D:
-	var parent = get_parent()
-	while parent:
-		if parent is XROrigin3D:
-			return parent
-		parent = parent.get_parent()
-	
-	return null
-
 ## Note, using PlayerBody here creates a cyclic dependency so we are going for duck typing :)
 
 # Get our player body, this should be a node on our XROrigin3D node.
 func get_player_body() -> Node:
 	# get our origin node
-	var xr_origin = get_xr_origin()
+	var xr_origin := XRHelpers.get_xr_origin(self)
 	if !xr_origin:
 		return null
 
@@ -51,7 +41,7 @@ func get_player_body() -> Node:
 # If missing we need to add our player body 
 func _create_player_body_node():
 	# get our origin node
-	var xr_origin = get_xr_origin()
+	var xr_origin = XRHelpers.get_xr_origin(self)
 	if !xr_origin:
 		return
 
@@ -63,7 +53,7 @@ func _create_player_body_node():
 		player_body = player_body.instantiate()
 		player_body.set_name("PlayerBody")
 		xr_origin.add_child(player_body)
-		player_body.set_owner(xr_origin.owner)
+		player_body.set_owner(get_tree().get_edited_scene_root())
 
 # Function run when node is added to scene
 func _ready():
@@ -81,7 +71,7 @@ func physics_movement(delta: float, player_body: PlayerBody):
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
 	# Verify we're within the tree of an XROrigin3D node
-	var xr_origin = get_xr_origin()
+	var xr_origin = XRHelpers.get_xr_origin(self)
 	if !xr_origin:
 		return "This node must be within a branch on an XROrigin3D node"
 
