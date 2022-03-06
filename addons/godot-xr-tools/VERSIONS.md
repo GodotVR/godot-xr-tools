@@ -1,6 +1,10 @@
 # 4.0
 - Port to Godot 4
 
+# 2.4.0
+- Added configuration setting for head height in player body.
+- Added Function_JumpDetect_movement to detect jumping via the players body and/or arms
+
 # 2.3.0
 - Added vignette
 - Moved player physics into new PlayerBody asset (breaking change)

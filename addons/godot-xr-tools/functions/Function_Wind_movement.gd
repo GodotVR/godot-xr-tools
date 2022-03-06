@@ -22,13 +22,15 @@ var _active_wind_area: WindArea
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super._ready()
+
 	# Skip if running in the editor
 	if Engine.is_editor_hint():
-		super()
 		return
 
 	# Reparent the sense area to the camera
-	var camera = get_xr_camera()
+	var camera = XRHelpers.get_xr_camera(self)
 	if camera:
 		self.remove_child(_sense_area)
 		camera.add_child(_sense_area)
@@ -36,9 +38,6 @@ func _ready():
 	# Subscribe to area notifications
 	_sense_area.connect("area_entered", _on_area_entered)
 	_sense_area.connect("area_exited", _on_area_exited)
-
-	# In Godot 4 we must now manually call our super class ready function
-	super()
 
 func _on_area_entered(area: Area3D):
 	# Skip if not wind area
@@ -83,27 +82,6 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	var drag_factor := _active_wind_area.drag * drag_multiplier * delta
 	drag_factor = clamp(drag_factor, 0.0, 1.0)
 	player_body.velocity = player_body.velocity.lerp(wind_velocity, drag_factor)
-
-# Get our camera node
-func get_xr_camera() -> XRCamera3D:
-	# Get the XROrigin3D node
-	var origin := get_xr_origin()
-	if !origin:
-		return null
-
-	# Attempt to get using the default name
-	var camera := origin.get_node_or_null("XRCamera3D") as XRCamera3D
-	if camera:
-		return camera
-
-	# Find the first XRCamera3D child
-	for child in origin.get_children():
-		camera = child as XRCamera3D
-		if camera:
-			return camera
-
-	# Unable to find XRCamera3D
-	return null
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
