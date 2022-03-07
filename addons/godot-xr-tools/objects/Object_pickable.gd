@@ -91,20 +91,15 @@ func pick_up(by, with_controller):
 	collision_layer = picked_up_layer
 	collision_mask = 0
 
-	# now reparent it
-	var original_transform = global_transform
-	original_parent.remove_child(self)
-	picked_up_by.add_child(self)
-
+	# now create a RemoteTransform node to point to it
+	var pickupremotetransform = RemoteTransform.new()
+	pickupremotetransform.name = "RemoteTransform"
+	pickupremotetransform.transform = picked_up_by.global_transform.inverse()*global_transform
 	if reset_transform_on_pickup:
 		if center_pickup_on_node:
-			transform = center_pickup_on_node.global_transform.inverse() * global_transform
-		else:
-			# reset our transform
-			transform = Transform()
-	else:
-		# make sure we keep its original position
-		global_transform = original_transform
+			pickupremotetransform.transform = center_pickup_on_node.transform
+	pickupremotetransform.remote_path = picked_up_by.get_node("CollisionShape").get_path_to(self)
+	picked_up_by.add_child(pickupremotetransform)
 
 	# let interested parties know
 	emit_signal("picked_up", self)
@@ -115,9 +110,10 @@ func let_go(p_linear_velocity = Vector3(), p_angular_velocity = Vector3()):
 		# get our current global transform
 		var t = global_transform
 
-		# reparent it
-		picked_up_by.remove_child(self)
-		original_parent.add_child(self)
+		# abolish the remote transform
+		var pickupremotetransform = picked_up_by.get_node("RemoteTransform")
+		picked_up_by.remove_child(pickupremotetransform)
+		pickupremotetransform.queue_free()
 
 		# reposition it and apply impulse
 		global_transform = t
