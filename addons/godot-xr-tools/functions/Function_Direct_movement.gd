@@ -126,27 +126,19 @@ func _perform_player_rotation(delta: float, player_body: PlayerBody):
 		_turn_step = 0.0
 		return
 
-	# Handle smooth rotation		
+	# Handle smooth rotation
 	if smooth_rotation:
 		_rotate_player(player_body, smooth_turn_speed * delta * left_right)
 		return
 
-	# Clear step accumulator on direction change (opposite signs)
-	if left_right * _turn_step < 0.0:
-		_turn_step = 0.0
+	# Update the next turn-step delay
+	_turn_step -= abs(left_right) * delta
+	if _turn_step >= 0.0:
+		return
 
-	# Integrate the control into the step accumulator
-	_turn_step += left_right * delta
-
-	# Calculate how many steps to perform (if any)
-	var steps := int(_turn_step / step_turn_delay)
-	if steps != 0:
-		# Apply the rotation
-		var step_angle = steps * step_turn_angle
-		_rotate_player(player_body, step_angle * PI / 180.0)
-
-		# Subtract the rotation from the accumulator
-		_turn_step -= step_angle
+	# Turn one step in the requested direction
+	_turn_step = step_turn_delay
+	_rotate_player(player_body, deg2rad(step_turn_angle) * sign(left_right))
 
 # Rotate the origin node around the camera
 func _rotate_player(player_body: PlayerBody, angle: float):
