@@ -11,7 +11,6 @@ extends MovementProvider
 ##     attached to the players ARVROrigin.
 ##
 ##     The following types of direct movement are supported:
-##      - Flying
 ##      - Snap turning
 ##      - Smooth turning
 ##      - Slewing
@@ -19,11 +18,6 @@ extends MovementProvider
 ##
 ##     The player may have multiple direct movement nodes attached to different
 ##     controllers to provide different types of direct movement.
-##
-##     Direct movement with flight support should be ordered after any direct
-##     movement providing rotation. This is to ensure the rotation is performed
-##     before the flight performs its exclusive control (which prevents any
-##     other type of motion form occurring)
 ##
 
 enum MOVEMENT_TYPE { MOVE_AND_ROTATE, MOVE_AND_STRAFE }
@@ -46,36 +40,8 @@ export var step_turn_angle := 20.0
 ## Movement speed
 export var max_speed := 10.0
 
-# enum our buttons, should find a way to put this more central
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15
-}
-
 ## Type of movement to perform
 export (MOVEMENT_TYPE) var move_type = MOVEMENT_TYPE.MOVE_AND_ROTATE
-
-## Can Fly flag
-export var canFly := true
-
-## Flight movement button (moves in controller direction if flight active)
-export (Buttons) var fly_move_button_id = Buttons.VR_TRIGGER
-
-## Flight activate button
-export (Buttons) var fly_activate_button_id = Buttons.VR_GRIP
 
 # Turn step accumulator
 var _turn_step := 0.0
@@ -92,19 +58,6 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Handle rotation
 	if move_type == MOVEMENT_TYPE.MOVE_AND_ROTATE:
 		_perform_player_rotation(delta, player_body)
-
-	# Detect flying
-	if canFly and _controller.is_button_pressed(fly_activate_button_id):
-		if _controller.is_button_pressed(fly_move_button_id):
-			# Use the controller's transform to move the VR capsule follow its orientation
-			var curr_transform := player_body.kinematic_node.global_transform
-			var fly_velocity := -_controller.global_transform.basis.z.normalized() * max_speed * ARVRServer.world_scale
-			player_body.velocity = player_body.move_and_slide(fly_velocity)
-		else:
-			player_body.velocity = Vector3.ZERO
-
-		# Report exclusive motion performed (to bypass gravity)
-		return true
 
 	# Apply forwards/backwards ground control
 	player_body.ground_control_velocity.y += _controller.get_joystick_axis(1) * max_speed

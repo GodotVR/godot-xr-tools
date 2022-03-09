@@ -28,7 +28,7 @@ signal player_glide_start
 signal player_glide_end
 
 ## Movement provider order
-export var order := 30
+export var order := 35
 
 ## Controller separation distance to register as glide
 export var glide_detect_distance := 1.0
