@@ -1,0 +1,825 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/keyboard/VirtualKeyboard_2D.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/objects/keyboard/VirtualKey.tscn" type="PackedScene" id=2]
+
+[node name="VirtualKeyboard_2D" type="CanvasLayer"]
+script = ExtResource( 1 )
+
+[node name="Background" type="ColorRect" parent="."]
+margin_right = 390.0
+margin_bottom = 145.0
+color = Color( 0.12549, 0.12549, 0.12549, 0.752941 )
+
+[node name="Standard" type="Control" parent="Background"]
+margin_right = 390.0
+margin_bottom = 145.0
+
+[node name="VirtualKey1" parent="Background/Standard" instance=ExtResource( 2 )]
+text = "1"
+scan_code_text = "1"
+unicode = 49
+
+[node name="VirtualKey2" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 40.0
+margin_right = 70.0
+text = "2"
+scan_code_text = "2"
+unicode = 50
+
+[node name="VirtualKey3" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 80.0
+margin_right = 110.0
+text = "3"
+scan_code_text = "3"
+unicode = 51
+
+[node name="VirtualKey4" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 120.0
+margin_right = 150.0
+text = "4"
+scan_code_text = "4"
+unicode = 52
+
+[node name="VirtualKey5" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 160.0
+margin_right = 190.0
+text = "5"
+scan_code_text = "5"
+unicode = 53
+
+[node name="VirtualKey6" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 200.0
+margin_right = 230.0
+text = "6"
+scan_code_text = "6"
+unicode = 54
+
+[node name="VirtualKey7" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 240.0
+margin_right = 270.0
+text = "7"
+scan_code_text = "7"
+unicode = 55
+
+[node name="VirtualKey8" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 280.0
+margin_right = 310.0
+text = "8"
+scan_code_text = "8"
+unicode = 56
+
+[node name="VirtualKey9" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 320.0
+margin_right = 350.0
+text = "9"
+scan_code_text = "9"
+unicode = 57
+
+[node name="VirtualKey0" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 360.0
+margin_right = 390.0
+text = "0"
+scan_code_text = "0"
+unicode = 48
+
+[node name="ToggleShift" type="Button" parent="Background/Standard"]
+margin_top = 90.0
+margin_right = 50.0
+margin_bottom = 115.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "SHIFT"
+
+[node name="ToggleCaps" type="Button" parent="Background/Standard"]
+margin_top = 120.0
+margin_right = 45.0
+margin_bottom = 145.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "CAPS"
+
+[node name="ToggleAlt" type="Button" parent="Background/Standard"]
+margin_left = 55.0
+margin_top = 120.0
+margin_right = 90.0
+margin_bottom = 145.0
+focus_mode = 0
+toggle_mode = true
+enabled_focus_mode = 0
+text = "ALT"
+
+[node name="VirtualKeyBackspace" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 340.0
+margin_top = 90.0
+margin_right = 390.0
+margin_bottom = 115.0
+text = "BKSP"
+scan_code_text = "BackSpace"
+
+[node name="VirtualKeySpace" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 120.0
+margin_right = 290.0
+margin_bottom = 145.0
+text = "Space"
+scan_code_text = "Space"
+unicode = 32
+
+[node name="VirtualKeyPeriod" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 120.0
+margin_right = 330.0
+margin_bottom = 145.0
+text = "."
+scan_code_text = "Period"
+unicode = 46
+
+[node name="VirtualKeyEnter" parent="Background/Standard" instance=ExtResource( 2 )]
+margin_left = 340.0
+margin_top = 120.0
+margin_right = 390.0
+margin_bottom = 145.0
+text = "Enter"
+scan_code_text = "Enter"
+
+[node name="LowerCase" type="Node2D" parent="Background"]
+position = Vector2( 0, 30 )
+
+[node name="VirtualKeyLowerQ" parent="Background/LowerCase" instance=ExtResource( 2 )]
+text = "q"
+scan_code_text = "Q"
+unicode = 113
+
+[node name="VirtualKeyLowerW" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 40.0
+margin_right = 70.0
+text = "w"
+scan_code_text = "W"
+unicode = 119
+
+[node name="VirtualKeyLowerE" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 80.0
+margin_right = 110.0
+text = "e"
+scan_code_text = "E"
+unicode = 101
+
+[node name="VirtualKeyLowerR" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 120.0
+margin_right = 150.0
+text = "r"
+scan_code_text = "R"
+unicode = 114
+
+[node name="VirtualKeyLowerT" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 160.0
+margin_right = 190.0
+text = "t"
+scan_code_text = "T"
+unicode = 116
+
+[node name="VirtualKeyLowerY" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 200.0
+margin_right = 230.0
+text = "y"
+scan_code_text = "Y"
+unicode = 121
+
+[node name="VirtualKeyLowerU" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 240.0
+margin_right = 270.0
+text = "u"
+scan_code_text = "U"
+unicode = 117
+
+[node name="VirtualKeyLowerI" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 280.0
+margin_right = 310.0
+text = "i"
+scan_code_text = "I"
+unicode = 105
+
+[node name="VirtualKeyLowerO" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 320.0
+margin_right = 350.0
+text = "o"
+scan_code_text = "O"
+unicode = 111
+
+[node name="VirtualKeyLowerP" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 360.0
+margin_right = 390.0
+text = "p"
+scan_code_text = "P"
+unicode = 112
+
+[node name="VirtualKeyLowerA" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 20.0
+margin_top = 30.0
+margin_right = 50.0
+margin_bottom = 55.0
+text = "a"
+scan_code_text = "A"
+unicode = 97
+
+[node name="VirtualKeyLowerS" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 30.0
+margin_right = 90.0
+margin_bottom = 55.0
+text = "s"
+scan_code_text = "S"
+unicode = 115
+
+[node name="VirtualKeyLowerD" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 30.0
+margin_right = 130.0
+margin_bottom = 55.0
+text = "d"
+scan_code_text = "D"
+unicode = 100
+
+[node name="VirtualKeyLowerF" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 30.0
+margin_right = 170.0
+margin_bottom = 55.0
+text = "f"
+scan_code_text = "F"
+unicode = 102
+
+[node name="VirtualKeyLowerG" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 30.0
+margin_right = 210.0
+margin_bottom = 55.0
+text = "g"
+scan_code_text = "G"
+unicode = 103
+
+[node name="VirtualKeyLowerH" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 30.0
+margin_right = 250.0
+margin_bottom = 55.0
+text = "h"
+scan_code_text = "H"
+unicode = 104
+
+[node name="VirtualKeyLowerJ" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 30.0
+margin_right = 290.0
+margin_bottom = 55.0
+text = "j"
+scan_code_text = "J"
+unicode = 106
+
+[node name="VirtualKeyLowerK" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 30.0
+margin_right = 330.0
+margin_bottom = 55.0
+text = "k"
+scan_code_text = "K"
+unicode = 107
+
+[node name="VirtualKeyLowerL" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 340.0
+margin_top = 30.0
+margin_right = 370.0
+margin_bottom = 55.0
+text = "l"
+scan_code_text = "L"
+unicode = 108
+
+[node name="VirtualKeyLowerZ" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 90.0
+margin_bottom = 85.0
+text = "z"
+scan_code_text = "Z"
+unicode = 122
+
+[node name="VirtualKeyLowerX" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 60.0
+margin_right = 130.0
+margin_bottom = 85.0
+text = "x"
+scan_code_text = "X"
+unicode = 120
+
+[node name="VirtualKeyLowerC" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 60.0
+margin_right = 170.0
+margin_bottom = 85.0
+text = "c"
+scan_code_text = "C"
+unicode = 99
+
+[node name="VirtualKeyLowerV" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 60.0
+margin_right = 210.0
+margin_bottom = 85.0
+text = "v"
+scan_code_text = "V"
+unicode = 118
+
+[node name="VirtualKeyLowerB" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 60.0
+margin_right = 250.0
+margin_bottom = 85.0
+text = "b"
+scan_code_text = "B"
+unicode = 98
+
+[node name="VirtualKeyLowerN" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 60.0
+margin_right = 290.0
+margin_bottom = 85.0
+text = "n"
+scan_code_text = "N"
+unicode = 110
+
+[node name="VirtualKeyLowerM" parent="Background/LowerCase" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 60.0
+margin_right = 330.0
+margin_bottom = 85.0
+text = "m"
+scan_code_text = "M"
+unicode = 109
+
+[node name="UpperCase" type="Node2D" parent="Background"]
+visible = false
+position = Vector2( 0, 30 )
+
+[node name="VirtualKeyUpperQ" parent="Background/UpperCase" instance=ExtResource( 2 )]
+text = "Q"
+scan_code_text = "Q"
+unicode = 81
+shift_modifier = true
+
+[node name="VirtualKeyUpperW" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 40.0
+margin_right = 70.0
+text = "W"
+scan_code_text = "W"
+unicode = 87
+shift_modifier = true
+
+[node name="VirtualKeyUpperE" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 80.0
+margin_right = 110.0
+text = "E"
+scan_code_text = "E"
+unicode = 69
+shift_modifier = true
+
+[node name="VirtualKeyUpperR" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 120.0
+margin_right = 150.0
+text = "R"
+scan_code_text = "R"
+unicode = 82
+shift_modifier = true
+
+[node name="VirtualKeyUpperT" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 160.0
+margin_right = 190.0
+text = "T"
+scan_code_text = "T"
+unicode = 84
+shift_modifier = true
+
+[node name="VirtualKeyUpperY" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 200.0
+margin_right = 230.0
+text = "Y"
+scan_code_text = "Y"
+unicode = 89
+shift_modifier = true
+
+[node name="VirtualKeyUpperU" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 240.0
+margin_right = 270.0
+text = "U"
+scan_code_text = "U"
+unicode = 85
+shift_modifier = true
+
+[node name="VirtualKeyUpperI" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 280.0
+margin_right = 310.0
+text = "I"
+scan_code_text = "I"
+unicode = 73
+shift_modifier = true
+
+[node name="VirtualKeyUpperO" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 320.0
+margin_right = 350.0
+text = "O"
+scan_code_text = "O"
+unicode = 79
+shift_modifier = true
+
+[node name="VirtualKeyUpperP" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 360.0
+margin_right = 390.0
+text = "P"
+scan_code_text = "P"
+unicode = 80
+shift_modifier = true
+
+[node name="VirtualKeyUpperA" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 20.0
+margin_top = 30.0
+margin_right = 50.0
+margin_bottom = 55.0
+text = "A"
+scan_code_text = "A"
+unicode = 65
+shift_modifier = true
+
+[node name="VirtualKeyUpperS" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 30.0
+margin_right = 90.0
+margin_bottom = 55.0
+text = "S"
+scan_code_text = "S"
+unicode = 83
+shift_modifier = true
+
+[node name="VirtualKeyUpperD" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 30.0
+margin_right = 130.0
+margin_bottom = 55.0
+text = "D"
+scan_code_text = "D"
+unicode = 68
+shift_modifier = true
+
+[node name="VirtualKeyUpperF" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 30.0
+margin_right = 170.0
+margin_bottom = 55.0
+text = "F"
+scan_code_text = "F"
+unicode = 70
+shift_modifier = true
+
+[node name="VirtualKeyUpperG" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 30.0
+margin_right = 210.0
+margin_bottom = 55.0
+text = "G"
+scan_code_text = "G"
+unicode = 71
+shift_modifier = true
+
+[node name="VirtualKeyUpperH" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 30.0
+margin_right = 250.0
+margin_bottom = 55.0
+text = "H"
+scan_code_text = "H"
+unicode = 72
+shift_modifier = true
+
+[node name="VirtualKeyUpperJ" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 30.0
+margin_right = 290.0
+margin_bottom = 55.0
+text = "J"
+scan_code_text = "J"
+unicode = 74
+shift_modifier = true
+
+[node name="VirtualKeyUpperK" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 30.0
+margin_right = 330.0
+margin_bottom = 55.0
+text = "K"
+scan_code_text = "K"
+unicode = 75
+shift_modifier = true
+
+[node name="VirtualKeyUpperL" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 340.0
+margin_top = 30.0
+margin_right = 370.0
+margin_bottom = 55.0
+text = "L"
+scan_code_text = "L"
+unicode = 76
+shift_modifier = true
+
+[node name="VirtualKeyUpperZ" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 90.0
+margin_bottom = 85.0
+text = "Z"
+scan_code_text = "Z"
+unicode = 90
+shift_modifier = true
+
+[node name="VirtualKeyUpperX" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 60.0
+margin_right = 130.0
+margin_bottom = 85.0
+text = "X"
+scan_code_text = "X"
+unicode = 88
+shift_modifier = true
+
+[node name="VirtualKeyUpperC" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 60.0
+margin_right = 170.0
+margin_bottom = 85.0
+text = "C"
+scan_code_text = "C"
+unicode = 67
+shift_modifier = true
+
+[node name="VirtualKeyUpperV" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 60.0
+margin_right = 210.0
+margin_bottom = 85.0
+text = "V"
+scan_code_text = "V"
+unicode = 86
+shift_modifier = true
+
+[node name="VirtualKeyUpperB" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 60.0
+margin_right = 250.0
+margin_bottom = 85.0
+text = "B"
+scan_code_text = "B"
+unicode = 66
+shift_modifier = true
+
+[node name="VirtualKeyUpperN" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 60.0
+margin_right = 290.0
+margin_bottom = 85.0
+text = "N"
+scan_code_text = "N"
+unicode = 78
+shift_modifier = true
+
+[node name="VirtualKeyUpperM" parent="Background/UpperCase" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 60.0
+margin_right = 330.0
+margin_bottom = 85.0
+text = "M"
+scan_code_text = "M"
+unicode = 77
+shift_modifier = true
+
+[node name="Alternate" type="Node2D" parent="Background"]
+visible = false
+position = Vector2( 0, 30 )
+
+[node name="VirtualKeyPlus" parent="Background/Alternate" instance=ExtResource( 2 )]
+text = "+"
+scan_code_text = "Plus"
+unicode = 43
+
+[node name="VirtualKeyAsterisk" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 40.0
+margin_right = 70.0
+text = "*"
+scan_code_text = "Asterisk"
+unicode = 42
+
+[node name="VirtualKeyDivision" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 80.0
+margin_right = 110.0
+text = "÷"
+scan_code_text = "Division"
+unicode = 247
+
+[node name="VirtualKeyEqual" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 120.0
+margin_right = 150.0
+text = "="
+scan_code_text = "Equal"
+unicode = 61
+
+[node name="VirtualKeySlash" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 160.0
+margin_right = 190.0
+text = "/"
+scan_code_text = "Slash"
+unicode = 47
+
+[node name="VirtualKeyUnderScore" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 200.0
+margin_right = 230.0
+text = "_"
+scan_code_text = "UnderScore"
+unicode = 95
+
+[node name="VirtualKeyLess" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 240.0
+margin_right = 270.0
+text = "<"
+scan_code_text = "Less"
+unicode = 60
+shift_modifier = true
+
+[node name="VirtualKeyGreater" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 280.0
+margin_right = 310.0
+text = ">"
+scan_code_text = "Greater"
+unicode = 62
+
+[node name="VirtualKeyBracketLeft" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 320.0
+margin_right = 350.0
+text = "["
+scan_code_text = "BracketLeft"
+unicode = 91
+shift_modifier = true
+
+[node name="VirtualKeyBracketRight" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 360.0
+margin_right = 390.0
+text = "]"
+scan_code_text = "BracketRight"
+unicode = 93
+
+[node name="VirtualKeyExclam" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 20.0
+margin_top = 30.0
+margin_right = 50.0
+margin_bottom = 55.0
+text = "!"
+scan_code_text = "Exclam"
+unicode = 33
+
+[node name="VirtualKeyAt" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 30.0
+margin_right = 90.0
+margin_bottom = 55.0
+text = "@"
+scan_code_text = "At"
+unicode = 64
+
+[node name="VirtualKeyNumberSign" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 30.0
+margin_right = 130.0
+margin_bottom = 55.0
+text = "#"
+scan_code_text = "NumberSign"
+unicode = 35
+
+[node name="VirtualKeyDollar" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 30.0
+margin_right = 170.0
+margin_bottom = 55.0
+text = "$"
+scan_code_text = "Dollar"
+unicode = 36
+
+[node name="VirtualKeyPercent" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 30.0
+margin_right = 210.0
+margin_bottom = 55.0
+text = "%"
+scan_code_text = "Percent"
+unicode = 37
+
+[node name="VirtualKeyCircumflex" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 30.0
+margin_right = 250.0
+margin_bottom = 55.0
+text = "^"
+scan_code_text = "AsciiCircum"
+unicode = 94
+
+[node name="VirtualKeyAmpersand" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 30.0
+margin_right = 290.0
+margin_bottom = 55.0
+text = "&"
+scan_code_text = "Ampersand"
+unicode = 38
+
+[node name="VirtualKeyParenLeft" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 30.0
+margin_right = 330.0
+margin_bottom = 55.0
+text = "("
+scan_code_text = "ParenLeft"
+unicode = 40
+
+[node name="VirtualKeyParenRight" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 340.0
+margin_top = 30.0
+margin_right = 370.0
+margin_bottom = 55.0
+text = ")"
+scan_code_text = "ParenRight"
+unicode = 41
+
+[node name="VirtualKeyMinus" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 60.0
+margin_top = 60.0
+margin_right = 90.0
+margin_bottom = 85.0
+text = "-"
+scan_code_text = "Minus"
+unicode = 45
+
+[node name="VirtualKeyApostrophe" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 100.0
+margin_top = 60.0
+margin_right = 130.0
+margin_bottom = 85.0
+text = "'"
+scan_code_text = "Apostrophe"
+unicode = 39
+
+[node name="VirtualKeyQuoteDbl" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 140.0
+margin_top = 60.0
+margin_right = 170.0
+margin_bottom = 85.0
+text = "\""
+scan_code_text = "QuoteDbl"
+unicode = 34
+
+[node name="VirtualKeyColon" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 180.0
+margin_top = 60.0
+margin_right = 210.0
+margin_bottom = 85.0
+text = ":"
+scan_code_text = "Colon"
+unicode = 58
+
+[node name="VirtualKeySemicolon" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 220.0
+margin_top = 60.0
+margin_right = 250.0
+margin_bottom = 85.0
+text = ";"
+scan_code_text = "Semicolon"
+unicode = 59
+
+[node name="VirtualKeyComma" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 260.0
+margin_top = 60.0
+margin_right = 290.0
+margin_bottom = 85.0
+text = ","
+scan_code_text = "Comma"
+unicode = 44
+
+[node name="VirtualKeyQuestion" parent="Background/Alternate" instance=ExtResource( 2 )]
+margin_left = 300.0
+margin_top = 60.0
+margin_right = 330.0
+margin_bottom = 85.0
+text = "?"
+scan_code_text = "Question"
+unicode = 63
+
+[connection signal="toggled" from="Background/Standard/ToggleShift" to="." method="on_shift_toggle"]
+[connection signal="toggled" from="Background/Standard/ToggleCaps" to="." method="on_caps_toggle"]
+[connection signal="toggled" from="Background/Standard/ToggleAlt" to="." method="on_alt_toggle"]
