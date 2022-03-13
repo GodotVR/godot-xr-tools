@@ -11,7 +11,7 @@ extends MovementProvider
 ##     are intended to support a wide variety of flight mechanics.
 ##
 ##     Pitch and Bearing input devices are selected which produce a "forwards"
-##     reference frame. The player controls (forwards/backwards and 
+##     reference frame. The player controls (forwards/backwards and
 ##     left/right) are applied in relation to this reference frame.
 ##
 ##     The Speed Scale and Traction parameters allow primitive flight where
@@ -27,9 +27,16 @@ extends MovementProvider
 ##     forwards direction as if the player had guide-fins or wings.
 ##
 ##     The Exclusive property specifies whether flight is exclusive (no further
-##     physics effects after flying) or whether additional effects such as 
+##     physics effects after flying) or whether additional effects such as
 ##     the default player gravity are applied.
 ##
+
+
+## Signal emitted when flight starts
+signal flight_started()
+
+## Signal emitted when flight finishes
+signal flight_finished()
 
 
 # enum our buttons, should find a way to put this more central
@@ -78,13 +85,6 @@ const VERTICAL := Vector3(0.0, 1.0, 0.0)
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
-## Signal emitted when flight starts
-signal flight_started()
-
-## Signal emitted when flight finishes
-signal flight_finished()
-
-
 ## Movement provider order
 export var order := 30
 
@@ -122,9 +122,6 @@ export var exclusive: bool = true
 # Flight button state
 var _flight_button: bool = false
 
-# Current flying state
-var _is_flying: bool = false
-
 # Flight controller
 var _controller: ARVRController
 
@@ -145,25 +142,19 @@ func _ready():
 
 # Process physics movement for
 func physics_movement(delta: float, player_body: PlayerBody):
-	# Skip if the controller isn't active
-	if !_controller.get_is_active():
+	# Skip if disabled or the controller isn't active
+	if !enabled or !_controller.get_is_active():
+		set_flying(false)
 		return
 
 	# Detect press of flight button
 	var old_flight_button = _flight_button
 	_flight_button = _controller.is_button_pressed(flight_button)
 	if _flight_button and !old_flight_button:
-		# Toggle flying
-		_is_flying = !_is_flying
-
-		# Report change of flying state
-		if _is_flying:
-			emit_signal("flight_started")
-		else:
-			emit_signal("flight_finished")
+		set_flying(!is_active)
 
 	# Skip if not flying
-	if !_is_flying:
+	if !is_active:
 		return
 
 	# Select the pitch vector
@@ -195,7 +186,9 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	var side := forwards.cross(Vector3.UP)
 
 	# Construct the target velocity
-	var heading := forwards * _controller.get_joystick_axis(1) + side * _controller.get_joystick_axis(0)
+	var joy_forwards := _controller.get_joystick_axis(1)
+	var joy_side := _controller.get_joystick_axis(0)
+	var heading := forwards * joy_forwards + side * joy_side
 
 	# Calculate the flight velocity
 	var flight_velocity := player_body.velocity
@@ -216,6 +209,21 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Update velocity and return for additional effects
 	player_body.velocity = flight_velocity
 	return
+
+
+func set_flying(active: bool) -> void:
+	# Skip if no change
+	if active == is_active:
+		return
+
+	# Update state
+	is_active = active
+
+	# Handle state change
+	if is_active:
+		emit_signal("flight_started")
+	else:
+		emit_signal("flight_finished")
 
 
 # This method verifies the MovementProvider has a valid configuration.

@@ -18,6 +18,11 @@ extends Node
 ## Enable movement provider
 export var enabled := true
 
+
+# Is the movement provider actively performing a move
+var is_active := false
+
+
 # Get our player body, this should be a node on our ARVROrigin node.
 func get_player_body() -> PlayerBody:
 	# get our origin node
@@ -36,7 +41,7 @@ func get_player_body() -> PlayerBody:
 
 	return null
 
-# If missing we need to add our player body 
+# If missing we need to add our player body
 func _create_player_body_node():
 	# get our origin node
 	var arvr_origin := ARVRHelpers.get_arvr_origin(self)
@@ -55,7 +60,8 @@ func _create_player_body_node():
 
 # Function run when node is added to scene
 func _ready():
-	# If we're in the editor, help the user out by creating our player body node automatically when needed.
+	# If we're in the editor, help the user out by creating our player body node
+	# automatically when needed.
 	if Engine.editor_hint:
 		var player_body = get_player_body()
 		if !player_body:
@@ -63,7 +69,7 @@ func _ready():
 			call_deferred("_create_player_body_node")
 
 # Override this function to apply motion to the PlayerBody
-func physics_movement(delta: float, player_body: PlayerBody):
+func physics_movement(_delta: float, _player_body: PlayerBody):
 	pass
 
 # This method verifies the MovementProvider has a valid configuration.
