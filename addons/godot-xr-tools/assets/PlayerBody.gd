@@ -239,7 +239,7 @@ func request_jump(var skip_jump_velocity := false):
 
 	# Perform the jump
 	if !skip_jump_velocity:
-		velocity.y = jump_velocity * ARVRServer.world_scale
+		velocity += ground_vector * jump_velocity * ARVRServer.world_scale
 
 	# Report the jump
 	emit_signal("player_jumped")
