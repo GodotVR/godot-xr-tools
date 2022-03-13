@@ -201,7 +201,12 @@ func _physics_process(delta):
 	# If no controller has performed an exclusive-update then apply gravity and
 	# perform any ground-control
 	if !exclusive:
-		velocity.y += gravity * delta
+		if on_ground and ground_physics.stop_on_slope and ground_angle < ground_physics.move_max_slope:
+			# Apply gravity towards slope to prevent sliding
+			velocity += ground_vector * gravity * delta
+		else:
+			# Apply gravity down
+			velocity += Vector3.UP * gravity * delta
 		_apply_velocity_and_control(delta)
 
 	# Apply the player-body movement to the ARVR origin

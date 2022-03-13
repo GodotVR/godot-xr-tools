@@ -3,6 +3,7 @@
 - Added Function_JumpDetect_movement to detect jumping via the players body and/or arms
 - Improved responsiveness of snap-turning
 - Moved flight logic from Function_Direct_movement to Function_Flight_movement
+- Added option to disable player sliding on slopes
 
 # 2.3.0
 - Added vignette
