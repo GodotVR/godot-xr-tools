@@ -20,6 +20,9 @@ export var move_drag := 5.0
 ## Movement traction factor
 export var move_traction := 30.0
 
+## Stop sliding on slope
+export var stop_on_slope := true
+
 ## Movement maximum slope
 export (float, 0.0, 85.0) var move_max_slope := 45.0
 
