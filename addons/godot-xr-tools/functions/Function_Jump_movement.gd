@@ -2,6 +2,7 @@
 class_name Function_Jump
 extends MovementProvider
 
+
 ##
 ## Movement Provider for Jumping
 ##
@@ -15,18 +16,22 @@ extends MovementProvider
 ##     and jump velocity.
 ##
 
+
 ## Movement provider order
 @export var order : int = 20
 
 ## Button to trigger jump
 @export var jump_button_action = "trigger_click"
 
+
 # Node references
 @onready var _controller: XRController3D = get_parent()
+
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super._ready()
+
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: PlayerBody):
@@ -37,6 +42,7 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Skip if the jump button isn't pressed
 	if _controller.is_button_pressed(jump_button_action):
 		player_body.request_jump()
+
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():

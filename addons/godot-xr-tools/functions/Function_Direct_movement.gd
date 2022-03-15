@@ -2,6 +2,7 @@
 class_name Function_DirectMovement
 extends MovementProvider
 
+
 ##
 ## Movement Provider for Direct Movement
 ##
@@ -11,7 +12,6 @@ extends MovementProvider
 ##     attached to the players XROrigin3D.
 ##
 ##     The following types of direct movement are supported:
-##      - Flying
 ##      - Snap turning
 ##      - Smooth turning
 ##      - Slewing
@@ -20,13 +20,10 @@ extends MovementProvider
 ##     The player may have multiple direct movement nodes attached to different
 ##     controllers to provide different types of direct movement.
 ##
-##     Direct movement with flight support should be ordered after any direct
-##     movement providing rotation. This is to ensure the rotation is performed
-##     before the flight performs its exclusive control (which prevents any
-##     other type of motion form occurring)
-##
+
 
 enum MOVEMENT_TYPE { MOVE_AND_ROTATE, MOVE_AND_STRAFE }
+
 
 ## Movement provider order
 @export var order : int = 10
@@ -49,23 +46,22 @@ enum MOVEMENT_TYPE { MOVE_AND_ROTATE, MOVE_AND_STRAFE }
 ## Type of movement to perform
 @export var move_type : MOVEMENT_TYPE = MOVEMENT_TYPE.MOVE_AND_ROTATE
 
-## Can Fly flag
-@export var canFly : bool = true
-
-## Flight movement button (moves in controller direction if flight active)
-@export var fly_move_button_action = "trigger_click"
-
-## Flight activate button
-@export var fly_activate_button_action = "grip_click"
-
 ## Our directional input
 @export var input_action = "primary"
+
 
 # Turn step accumulator
 var _turn_step := 0.0
 
+
 # Controller node
 @onready var _controller : XRController3D = get_parent()
+
+
+func _ready():
+	# Workaround for issue #52223, our onready var is preventing ready from being called on the super class
+	super()
+
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: PlayerBody):
@@ -76,19 +72,6 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Handle rotation
 	if move_type == MOVEMENT_TYPE.MOVE_AND_ROTATE:
 		_perform_player_rotation(delta, player_body)
-
-	# Detect flying
-	if canFly and _controller.is_button_pressed(fly_activate_button_action):
-		if _controller.is_button_pressed(fly_move_button_action):
-			# Use the controller's transform to move the VR capsule follow its orientation
-			var curr_transform := player_body.kinematic_node.global_transform
-			var fly_velocity := -_controller.global_transform.basis.z.normalized() * max_speed * XRServer.world_scale
-			player_body.velocity = player_body.move_and_slide(fly_velocity)
-		else:
-			player_body.velocity = Vector3.ZERO
-
-		# Report exclusive motion performed (to bypass gravity)
-		return true
 
 	# Apply forwards/backwards ground control
 	player_body.ground_control_velocity.y += _controller.get_axis(input_action).y * max_speed
@@ -115,22 +98,15 @@ func _perform_player_rotation(delta: float, player_body: PlayerBody):
 		_rotate_player(player_body, smooth_turn_speed * delta * left_right)
 		return
 
-	# Clear step accumulator on direction change (opposite signs)
-	if left_right * _turn_step < 0.0:
-		_turn_step = 0.0
+	# Update the next turn-step delay
+	_turn_step -= abs(left_right) * delta
+	if _turn_step >= 0.0:
+		return
 
-	# Integrate the control into the step accumulator
-	_turn_step += left_right * delta
+	# Turn one step in the requested direction
+	_turn_step = step_turn_delay
+	_rotate_player(player_body, deg2rad(step_turn_angle) * sign(left_right))
 
-	# Calculate how many steps to perform (if any)
-	var steps := int(_turn_step / step_turn_delay)
-	if steps != 0:
-		# Apply the rotation
-		var step_angle = steps * step_turn_angle
-		_rotate_player(player_body, step_angle * PI / 180.0)
-
-		# Subtract the rotation from the accumulator
-		_turn_step -= step_angle
 
 # Rotate the origin node around the camera
 func _rotate_player(player_body: PlayerBody, angle: float):
@@ -143,6 +119,7 @@ func _rotate_player(player_body: PlayerBody, angle: float):
 	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
 	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
 
+
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
@@ -152,7 +129,3 @@ func _get_configuration_warning():
 
 	# Call base class
 	return super._get_configuration_warning()
-
-func _ready():
-	# Workaround for issue #52223, our onready var is preventing ready from being called on the super class
-	super()

@@ -2,6 +2,7 @@
 class_name Function_Glide
 extends MovementProvider
 
+
 ##
 ## Movement Provider for Gliding
 ##
@@ -21,14 +22,20 @@ extends MovementProvider
 ##     after any Direct movement providers responsible for turning.
 ##
 
+
 ## Signal invoked when the player starts gliding
 signal player_glide_start
 
 ## Signal invoked when the player ends gliding
 signal player_glide_end
 
+
+# Horizontal vector (multiply by this to get only the horizontal components
+const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
+
+
 ## Movement provider order
-@export var order : int = 30
+@export var order : int = 35
 
 ## Controller separation distance to register as glide
 @export var glide_detect_distance : float = 1.0
@@ -48,38 +55,38 @@ signal player_glide_end
 ## Slew rate to transition to gliding
 @export var vertical_slew_rate : float = 2.0
 
+
 # Node references
-@onready var _left_controller_node := XRHelpers.get_left_controller(self)
-@onready var _right_controller_node := XRHelpers.get_right_controller(self)
+@onready var _left_controller := XRHelpers.get_left_controller(self)
+@onready var _right_controller := XRHelpers.get_right_controller(self)
 
-# Is the player gliding
-var is_gliding : bool = false
-
-# Horizontal vector (multiply by this to get only the horizontal components
-const horizontal := Vector3(1.0, 0.0, 1.0)
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super._ready()
 
+
 func physics_movement(delta: float, player_body: PlayerBody):
-	# Skip if either controller is off
-	if !_left_controller_node.get_is_active() or !_right_controller_node.get_is_active():
+	# Skip if disabled or either controller is off
+	if !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
+		_set_gliding(false)
 		return
 
 	# If on the ground, or not falling, then not gliding
 	if player_body.on_ground || player_body.velocity.y >= glide_min_fall_speed:
-		_set_is_gliding(false)
+		_set_gliding(false)
 		return
 
-	# Get the controller left ands right global horizontal positions
-	var left_position := _left_controller_node.global_transform.origin * horizontal
-	var right_position := _right_controller_node.global_transform.origin * horizontal
+	# Get the controller left and right global horizontal positions
+	var left_position := _left_controller.global_transform.origin * HORIZONTAL
+	var right_position := _right_controller.global_transform.origin * HORIZONTAL
 	var left_to_right := right_position - left_position
 
-	# If the hands are too close then not gliding
-	if left_to_right.length() < glide_detect_distance:
-		_set_is_gliding(false)
+	# Set gliding based on hand separation
+	_set_gliding(left_to_right.length() >= glide_detect_distance)
+
+	# Skip if not gliding
+	if !is_active:
 		return
 
 	# Lerp the vertical velocity to glide_fall_speed
@@ -87,7 +94,7 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	vertical_velocity = lerp(vertical_velocity, glide_fall_speed, vertical_slew_rate * delta)
 
 	# Lerp the horizontal velocity towards forward_speed
-	var horizontal_velocity := player_body.velocity * horizontal
+	var horizontal_velocity := player_body.velocity * HORIZONTAL
 	var dir_forward := left_to_right.rotated(Vector3.UP, PI/2).normalized()
 	var forward_velocity := dir_forward * glide_forward_speed
 	horizontal_velocity = horizontal_velocity.lerp(forward_velocity, horizontal_slew_rate * delta)
@@ -99,20 +106,22 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Report exclusive motion performed (to bypass gravity)
 	return true
 
+
 # Set the is_gliding flag and fire any signals
-func _set_is_gliding(gliding: bool):
+func _set_gliding(active: bool) -> void:
 	# Skip if no change
-	if gliding == is_gliding:
+	if active == is_active:
 		return
 
 	# Update the is_gliding flag
-	is_gliding = gliding;
+	is_active = active;
 	
 	# Report transition
-	if is_gliding:
+	if is_active:
 		emit_signal("player_glide_start")
 	else:
 		emit_signal("player_glide_end")
+
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
