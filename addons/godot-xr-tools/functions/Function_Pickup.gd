@@ -20,7 +20,7 @@ func _update_pickup_range():
 
 var object_in_area = Array()
 var closest_object = null
-var picked_up_object = null
+var picked_up_object: Node = null
 
 var _velocity_averager = VelocityAverager.new(max_samples)
 

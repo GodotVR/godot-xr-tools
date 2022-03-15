@@ -2,6 +2,7 @@
 class_name Function_ClimbMovement
 extends MovementProvider
 
+
 ##
 ## Movement Provider for Climbing
 ##
@@ -19,11 +20,17 @@ extends MovementProvider
 ##     desired.
 ##
 
+
 ## Signal invoked when the player starts climing
 signal player_climb_start
 
 ## Signal invoked when the player ends climbing
 signal player_climb_end
+
+
+# Horizontal vector (multiply by this to get only the horizontal components
+const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
+
 
 ## Movement provider order
 @export var order : int = 15
@@ -43,61 +50,55 @@ signal player_climb_end
 ## Pickup function for the right hand
 @export_node_path(Area3D, Function_Pickup) var right_pickup
 
-# Is the player climbing
-var is_climbing : bool = false
-
-# Node references
-@onready var _left_pickup_node : Function_Pickup = get_node(left_pickup)
-@onready var _right_pickup_node : Function_Pickup = get_node(right_pickup)
 
 # Velocity averaging fields
 var _distances = Array()
 var _deltas = Array()
 
-# Horizontal vector (multiply by this to get only the horizontal components
-const horizontal := Vector3(1.0, 0.0, 1.0)
+
+# Node references
+@onready var _left_pickup_node : Function_Pickup = get_node(left_pickup)
+@onready var _right_pickup_node : Function_Pickup = get_node(right_pickup)
+
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super._ready()
 
+
 func physics_movement(delta: float, player_body: PlayerBody):
+	# Skip if disabled
+	if !enabled:
+		_set_climbing(false, player_body)
+		return
+
 	# Get the left-hand climbable
-	var left_climbable = _left_pickup_node.picked_up_object
-	if !is_instance_valid(left_climbable) or !left_climbable is Object_climbable:
+	var left_climbable := _left_pickup_node.picked_up_object as Object_climbable
+	if !is_instance_valid(left_climbable):
 		left_climbable = null
 
 	# Get the right-hand climbable
-	var right_climbable : Node = _right_pickup_node.picked_up_object
-	if !is_instance_valid(right_climbable) or !right_climbable is Object_climbable:
+	var right_climbable := _right_pickup_node.picked_up_object as Object_climbable
+	if !is_instance_valid(right_climbable):
 		right_climbable = null
 
-	# Detect if we are climbing now
-	var old_is_climbing := is_climbing
-	is_climbing = left_climbable or right_climbable
+	# Update climbing
+	_set_climbing(left_climbable or right_climbable, player_body)
 
-	# Skip if no current or previous climbing
-	if !is_climbing and !old_is_climbing:
-		return
-
-	# Detect change of climbing state
-	if !old_is_climbing:
-		_distances.clear()
-		_deltas.clear()
-		emit_signal("player_climb_start")
-	elif !is_climbing:
-		var velocity := _average_velocity()
-		var dir_forward = -(player_body.camera_node.global_transform.basis.z * horizontal).normalized()
-		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
-		emit_signal("player_climb_end")
+	# Skip if not actively climbing
+	if !is_active:
 		return
 
 	# Calculate how much the player has moved
 	var offset := Vector3.ZERO
 	if left_climbable:
-		offset += _left_pickup_node.global_transform.origin - left_climbable.get_grab_location(_left_pickup_node)
+		var left_pickup_pos := _left_pickup_node.global_transform.origin
+		var left_grab_pos := left_climbable.get_grab_location(_left_pickup_node)
+		offset += left_pickup_pos - left_grab_pos
 	if right_climbable:
-		offset += _right_pickup_node.global_transform.origin - right_climbable.get_grab_location(_right_pickup_node)
+		var right_pickup_pos := _right_pickup_node.global_transform.origin
+		var right_grab_pos := right_climbable.get_grab_location(_right_pickup_node)
+		offset += right_pickup_pos - right_grab_pos
 
 	# Average the offset if we have two hands moving
 	if left_climbable and right_climbable:
@@ -115,6 +116,27 @@ func physics_movement(delta: float, player_body: PlayerBody):
 	# Report exclusive motion performed (to bypass gravity)
 	return true
 
+
+func _set_climbing(active: bool, player_body: PlayerBody) -> void:
+	# Skip if no change
+	if active == is_active:
+		return
+
+	# Update state
+	is_active = active
+
+	# Handle state change
+	if is_active:
+		_distances.clear()
+		_deltas.clear()
+		emit_signal("player_climb_start")
+	else:
+		var velocity := _average_velocity()
+		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
+		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
+		emit_signal("player_climb_end")
+
+
 # Update player velocity averaging data
 func _update_velocity(delta: float, distance: Vector3):
 	# Add delta and distance to averaging arrays
@@ -123,6 +145,7 @@ func _update_velocity(delta: float, distance: Vector3):
 	if _distances.size() > velocity_averages:
 		_distances.pop_front()
 		_deltas.pop_front()
+
 
 # Calculate average player velocity
 func _average_velocity() -> Vector3:
@@ -138,6 +161,7 @@ func _average_velocity() -> Vector3:
 
 	# Return the average
 	return total_distance / total_time
+
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():

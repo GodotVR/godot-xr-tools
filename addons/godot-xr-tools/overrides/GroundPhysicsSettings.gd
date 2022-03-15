@@ -20,6 +20,9 @@ enum GroundPhysicsFlags {
 ## Movement traction factor
 @export var move_traction : float = 30.0
 
+## Stop sliding on slope
+@export var stop_on_slope := true
+
 ## Movement maximum slope
 @export_range(0.0, 85.0) var move_max_slope : float = 45.0
 

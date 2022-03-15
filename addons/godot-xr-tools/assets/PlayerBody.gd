@@ -25,6 +25,10 @@ extends Node
 signal player_jumped()
 
 
+# Horizontal vector (multiply by this to get only the horizontal components
+const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
+
+
 ## PlayerBody enabled flag
 @export var enabled = true:
 	set(new_value):
@@ -72,17 +76,6 @@ signal player_jumped()
 		if is_inside_tree():
 			_update_collision_mask()
 
-## XROrigin3D node
-@onready var origin_node: XROrigin3D = XRHelpers.get_xr_origin(self)
-
-## XRCamera3D node
-@onready var camera_node: XRCamera3D = XRHelpers.get_xr_camera(self)
-
-## Player CharacterBody3D node
-@onready var kinematic_node: CharacterBody3D = $CharacterBody3D
-
-# Default physics (if not specified by the user or the current ground)
-@onready var default_physics = _guaranteed_physics()
 
 ## Player Velocity - modifiable by MovementProvider nodes
 var velocity := Vector3.ZERO
@@ -111,11 +104,22 @@ var _movement_providers := Array()
 # Jump cool-down counter
 var _jump_cooldown := 0
 
+
+## XROrigin3D node
+@onready var origin_node: XROrigin3D = XRHelpers.get_xr_origin(self)
+
+## XRCamera3D node
+@onready var camera_node: XRCamera3D = XRHelpers.get_xr_camera(self)
+
+## Player CharacterBody3D node
+@onready var kinematic_node: CharacterBody3D = $CharacterBody3D
+
+# Default physics (if not specified by the user or the current ground)
+@onready var default_physics = _guaranteed_physics()
+
 # Collision node
 @onready var _collision_node: CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
-# Horizontal vector (multiply by this to get only the horizontal components
-const horizontal := Vector3(1.0, 0.0, 1.0)
 
 # Function to sort movement providers by order
 func sort_by_order(a, b) -> bool:
@@ -187,7 +191,7 @@ func _physics_process(delta):
 	ground_control_velocity = Vector2.ZERO
 	var exclusive := false
 	for p in _movement_providers:
-		if p.enabled:
+		if p.enabled or p.is_active:
 			if p.physics_movement(delta, self):
 				exclusive = true
 				break
@@ -195,7 +199,12 @@ func _physics_process(delta):
 	# If no controller has performed an exclusive-update then apply gravity and
 	# perform any ground-control
 	if !exclusive:
-		velocity.y += gravity * delta
+		if on_ground and ground_physics.stop_on_slope and ground_angle < ground_physics.move_max_slope:
+			# Apply gravity towards slope to prevent sliding
+			velocity += ground_vector * gravity * delta
+		else:
+			# Apply gravity down
+			velocity += Vector3.UP * gravity * delta
 		_apply_velocity_and_control(delta)
 
 	# Apply the player-body movement to the XR origin
@@ -212,15 +221,19 @@ func request_jump(skip_jump_velocity := false):
 	if !on_ground:
 		return
 
+	# Skip if jump disabled on this ground
+	var jump_velocity := GroundPhysicsSettings.get_jump_velocity(ground_physics, default_physics)
+	if jump_velocity == 0.0:
+		return
+
 	# Skip if the ground is too steep to jump
-	var current_max_slope := GroundPhysicsSettings.get_jump_max_slope(ground_physics, default_physics)
-	if ground_angle > current_max_slope:
+	var max_slope := GroundPhysicsSettings.get_jump_max_slope(ground_physics, default_physics)
+	if ground_angle > max_slope:
 		return
 
 	# Perform the jump
 	if !skip_jump_velocity:
-		var current_jump_velocity := GroundPhysicsSettings.get_jump_velocity(ground_physics, default_physics)
-		velocity.y = current_jump_velocity * XRServer.world_scale
+		velocity += ground_vector * jump_velocity * XRServer.world_scale
 
 	# Report the jump
 	emit_signal("player_jumped")
@@ -256,7 +269,7 @@ func _update_body_under_camera():
 	curr_transform.origin.y = origin_node.global_transform.origin.y
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
-	var forward_dir := -camera_transform.basis.z * horizontal
+	var forward_dir := -camera_transform.basis.z * HORIZONTAL
 	if forward_dir.length() > 0.01:
 		curr_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
 
@@ -278,7 +291,7 @@ func _update_ground_information():
 		ground_vector = ground_collision.get_normal()
 		ground_angle = rad2deg(ground_collision.get_angle())
 		ground_node = ground_collision.get_collider()
-		
+
 		# Select the ground physics
 		var physics_node := ground_node.get_node_or_null("GroundPhysics") as GroundPhysics
 		if physics_node:
@@ -294,7 +307,7 @@ func _update_ground_information():
 # This method applies the player velocity and ground-control velocity to the physical body
 func _apply_velocity_and_control(delta: float):
 	# Split the velocity into horizontal and vertical components
-	var horizontal_velocity := velocity * horizontal
+	var horizontal_velocity := velocity * HORIZONTAL
 	var vertical_velocity := velocity * Vector3.UP
 
 	# If the player is on the ground then give them control
@@ -303,8 +316,8 @@ func _apply_velocity_and_control(delta: float):
 		var control_velocity := Vector3.ZERO
 		if abs(ground_control_velocity.x) > 0.1 or abs(ground_control_velocity.y) > 0.1:
 			var camera_transform := camera_node.global_transform
-			var dir_forward := (camera_transform.basis.z * horizontal).normalized()
-			var dir_right := (camera_transform.basis.x * horizontal).normalized()
+			var dir_forward := (camera_transform.basis.z * HORIZONTAL).normalized()
+			var dir_right := (camera_transform.basis.x * HORIZONTAL).normalized()
 			control_velocity = (dir_forward * -ground_control_velocity.y + dir_right * ground_control_velocity.x) * XRServer.world_scale
 
 			# Apply control velocity to horizontal velocity based on traction
@@ -313,10 +326,10 @@ func _apply_velocity_and_control(delta: float):
 			horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
-			var current_max_slope := GroundPhysicsSettings.get_move_max_slope(ground_physics, default_physics)	
+			var current_max_slope := GroundPhysicsSettings.get_move_max_slope(ground_physics, default_physics)
 			if ground_angle > current_max_slope:
 				# Get a vector in the down-hill direction
-				var down_direction := (ground_vector * horizontal).normalized()
+				var down_direction := (ground_vector * HORIZONTAL).normalized()
 				var vdot = down_direction.dot(horizontal_velocity)
 				if vdot < 0:
 					horizontal_velocity -= down_direction * vdot
@@ -384,7 +397,7 @@ static func get_player_body(node: Node, path: NodePath = NodePath()) -> PlayerBo
 		player_body = node.get_node(path) as PlayerBody
 		if player_body:
 			return player_body
-	
+
 	# Get the origin
 	var xr_origin := XRHelpers.get_xr_origin(node)
 	if !xr_origin:
