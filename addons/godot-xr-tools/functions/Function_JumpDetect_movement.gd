@@ -38,7 +38,7 @@ export var body_jump_threshold := 2.5
 export var arms_jump_enable := false
 
 ## Arms jump detection threshold (M/S^2)
-export var arms_jump_threshold := 10.0
+export var arms_jump_threshold := 5.0
 
 
 # Sliding Average class
