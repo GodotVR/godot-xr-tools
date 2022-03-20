@@ -19,6 +19,9 @@ var grab_locations := {}
 func is_picked_up():
 	return false
 
+func can_pick_up():
+	return true
+
 # Called by Function_pickup when user presses the action button while holding this object
 func action():
 	pass
