@@ -10,5 +10,6 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Alessandro Schillaci](https://github.com/silverslade)
 - [jtank4](https://github.com/jtank4)
 - [Malcolm Nixon](https://github.com/malcolmnixon)
+- [Sam Sarette](https://github.com/lunarcloud)
 
 Want to be on this list? We would love your help.
