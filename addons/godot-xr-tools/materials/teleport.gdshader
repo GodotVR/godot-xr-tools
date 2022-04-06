@@ -19,13 +19,13 @@ void vertex() {
 	float t2 = t * t;
 
 	// translate to our world vector
-	VERTEX = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xyz; 
+	VERTEX = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xyz; 
 	
 	// and now create our arch
 	VERTEX += down * t2;
 	
-	// and apply our camera matrix
-	VERTEX = (INV_CAMERA_MATRIX * vec4(VERTEX, 1.0)).xyz;
+	// and apply our view matrix
+	VERTEX = (VIEW_MATRIX * vec4(VERTEX, 1.0)).xyz;
 }
 
 void fragment() {
