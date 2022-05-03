@@ -4,4 +4,8 @@
 
 [node name="Function_Direct_movement" type="Node" groups=["movement_providers"]]
 script = ExtResource( 1 )
-controller = null
+smooth_rotation = false
+smooth_turn_speed = 2.0
+step_turn_delay = 0.2
+step_turn_angle = 20.0
+move_type = 0
