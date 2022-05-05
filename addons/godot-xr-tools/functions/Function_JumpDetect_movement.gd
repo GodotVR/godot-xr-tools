@@ -94,7 +94,7 @@ onready var _controller_right_node := ARVRHelpers.get_right_controller(self)
 
 
 # Perform jump detection
-func physics_movement(delta: float, player_body: PlayerBody):
+func physics_movement(delta: float, player_body: PlayerBody, _disabled: bool):
 	# Handle detecting body jump
 	if body_jump_enable:
 		_detect_body_jump(delta, player_body)

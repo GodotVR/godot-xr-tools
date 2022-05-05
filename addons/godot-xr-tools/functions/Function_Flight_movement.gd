@@ -140,9 +140,10 @@ func _ready():
 		_controller = _right_controller
 
 
-func _process(_delta: float):
-	# Skip if disabled or the controller isn't active
-	if !enabled or !_controller.get_is_active():
+# Process physics movement for
+func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
+	# Disable flying if requested, or if no controller
+	if disabled or !enabled or !_controller.get_is_active():
 		set_flying(false)
 		return
 
@@ -152,9 +153,6 @@ func _process(_delta: float):
 	if _flight_button and !old_flight_button:
 		set_flying(!is_active)
 
-
-# Process physics movement for
-func physics_movement(delta: float, player_body: PlayerBody):
 	# Skip if not flying
 	if !is_active:
 		return

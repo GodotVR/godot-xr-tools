@@ -40,7 +40,7 @@ onready var _controller : ARVRController = get_parent()
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: PlayerBody):
+func physics_movement(delta: float, player_body: PlayerBody, _disabled: bool):
 	# Skip if the controller isn't active
 	if !_controller.get_is_active():
 		return
