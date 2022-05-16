@@ -69,7 +69,7 @@ func _ready():
 			call_deferred("_create_player_body_node")
 
 # Override this function to apply motion to the PlayerBody
-func physics_movement(_delta: float, _player_body: PlayerBody):
+func physics_movement(_delta: float, _player_body: PlayerBody, _disabled: bool):
 	pass
 
 # This method verifies the MovementProvider has a valid configuration.

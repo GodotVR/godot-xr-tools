@@ -6,6 +6,8 @@
 - Added option to disable player sliding on slopes
 - Added support for remote grabbing
 - Moved turning logic from Function_Direct_movement to Function_Turn_movement
+- Fixed movement provider servicing so disabled/bypassed providers can report their finished events
+- Added grappling movement provider
 
 # 2.3.0
 - Added vignette

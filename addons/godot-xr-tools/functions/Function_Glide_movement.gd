@@ -59,9 +59,9 @@ onready var _left_controller := ARVRHelpers.get_left_controller(self)
 onready var _right_controller := ARVRHelpers.get_right_controller(self)
 
 
-func physics_movement(delta: float, player_body: PlayerBody):
+func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 	# Skip if disabled or either controller is off
-	if !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
+	if disabled or !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
 		_set_gliding(false)
 		return
 

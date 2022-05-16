@@ -100,7 +100,7 @@ func _on_area_exited(area: Area):
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: PlayerBody):
+func physics_movement(delta: float, player_body: PlayerBody, _disabled: bool):
 	# Skip if no active wind area
 	if !_active_wind_area:
 		return

@@ -59,9 +59,9 @@ onready var _left_pickup_node: Function_Pickup = get_node(left_pickup)
 onready var _right_pickup_node: Function_Pickup = get_node(right_pickup)
 
 
-func physics_movement(delta: float, player_body: PlayerBody):
-	# Skip if disabled
-	if !enabled:
+func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
+	# Disable climbing if requested
+	if disabled or !enabled:
 		_set_climbing(false, player_body)
 		return
 
