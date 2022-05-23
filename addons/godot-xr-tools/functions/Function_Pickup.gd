@@ -29,7 +29,7 @@ enum Buttons {
 }
 
 # Constant for worst-case grab distance
-const MAX_GRAB_DISTANCE2: float = 1000.0
+const MAX_GRAB_DISTANCE2: float = 1000000.0
 
 
 ## Grip controller button
