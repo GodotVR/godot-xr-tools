@@ -76,13 +76,15 @@ var _grab_area: Area
 var _grab_collision: CollisionShape
 var _ranged_area: Area
 var _ranged_collision: CollisionShape
-
+var _controller: ARVRController
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Skip if running in the editor
 	if Engine.editor_hint:
 		return
+
+	_controller = get_parent()
 
 	# Create the grab collision shape
 	_grab_collision = CollisionShape.new()
@@ -124,12 +126,16 @@ func _ready():
 	_update_colliders()
 
 	# Monitor Grab Button
-	get_parent().connect("button_pressed", self, "_on_button_pressed")
-	get_parent().connect("button_release", self, "_on_button_release")
+	_controller.connect("button_pressed", self, "_on_button_pressed")
+	_controller.connect("button_release", self, "_on_button_release")
 
 
 # Called on each frame to update the pickup
 func _process(delta):
+	# Skip if the controller isn't active
+	if !_controller.get_is_active():
+		return
+
 	# Calculate average velocity
 	if picked_up_object and picked_up_object.is_picked_up():
 		# Average velocity of picked up object
@@ -258,7 +264,7 @@ func _get_closest_grab() -> Spatial:
 	var new_closest_distance := MAX_GRAB_DISTANCE2
 	for o in _object_in_grab_area:
 		# skip objects that can not be picked up
-		if not o.can_pick_up():
+		if not o.can_pick_up(self):
 			continue
 
 		# Save if this object is closer than the current best
@@ -278,7 +284,7 @@ func _get_closest_ranged() -> Spatial:
 	var hand_forwards := -global_transform.basis.z
 	for o in _object_in_ranged_area:
 		# skip objects that can not be picked up
-		if not o.can_pick_up():
+		if not o.can_pick_up(self):
 			continue
 
 		# Save if this object is closer than the current best
@@ -319,10 +325,10 @@ func _pick_up_object(target: Spatial) -> void:
 		return
 
 	# pick up our target
-	picked_up_object = target
 	picked_up_ranged = not _object_in_grab_area.has(target)
-	picked_up_object.pick_up(self, get_parent())
-	emit_signal("has_picked_up", picked_up_object)
+	picked_up_object = target.pick_up(self, _controller)
+	if is_instance_valid(picked_up_object):
+		emit_signal("has_picked_up", picked_up_object)
 
 
 func _on_button_pressed(p_button) -> void:
