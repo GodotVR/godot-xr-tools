@@ -197,7 +197,7 @@ func _physics_process(delta):
 	ground_control_velocity = Vector2.ZERO
 	var exclusive := false
 	for p in _movement_providers:
-		if p.enabled or p.is_active or !exclusive:
+		if p.is_active or (p.enabled and not exclusive):
 			if p.physics_movement(delta, self, exclusive):
 				exclusive = true
 
