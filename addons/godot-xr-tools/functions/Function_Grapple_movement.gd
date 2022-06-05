@@ -135,7 +135,7 @@ func _process(_delta: float):
 		_line.visible = false
 
 	# Update grapple target
-	if !is_active and _grapple_raycast.is_colliding():
+	if enabled and !is_active and _grapple_raycast.is_colliding():
 		_grapple_target.global_transform.origin  = _grapple_raycast.get_collision_point()
 		_grapple_target.global_transform = _grapple_target.global_transform.orthonormalized()
 		_grapple_target.visible = true
