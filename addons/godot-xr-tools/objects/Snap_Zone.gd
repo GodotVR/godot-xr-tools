@@ -107,21 +107,8 @@ func decrease_is_closest():
 
 
 # Pickable Method: Object being grabbed from this snap zone
-func pick_up(by: Spatial, with_controller: ARVRController) -> Spatial:
-	# Ignore if no object in snap-zone
-	if not is_instance_valid(picked_up_object):
-		return null
-
-	# Detach the object from snap-zone
-	var target = picked_up_object
-	picked_up_object = null
-	target.let_go(Vector3.ZERO, Vector3.ZERO)
-
-	# Show snap-zone highlight when empty
-	emit_signal("highlight_updated", self, true)
-
-	# Have the target be picked up by the object
-	return target.pick_up(by, with_controller)
+func pick_up(by: Spatial, with_controller: ARVRController) -> void:
+	pass
 
 
 # Pickable Method: Player never graps snap-zone
@@ -135,9 +122,10 @@ func drop_object() -> void:
 		return
 
 	# let go of this object
-	picked_up_object.let_go()
+	picked_up_object.let_go(Vector3.ZERO, Vector3.ZERO)
 	picked_up_object = null
 	emit_signal("has_dropped")
+	emit_signal("highlight_updated", self, true)
 
 
 func _on_Snap_Zone_body_entered(target: Spatial) -> void:
@@ -191,8 +179,11 @@ func _pick_up_object(target: Spatial) -> void:
 	if not is_instance_valid(target):
 		return
 
-	# pick up our target
-	picked_up_object = target.pick_up(self, null)
+	# Pick up our target. Note, target may do instant drop_and_free
+	picked_up_object = target
+	target.pick_up(self, null)
+
+	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
 		emit_signal("has_picked_up", picked_up_object)
 		emit_signal("highlight_updated", self, false)

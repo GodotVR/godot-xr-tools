@@ -35,9 +35,8 @@ func decrease_is_closest():
 	pass
 
 # Called by Function_pickup when this is picked up by a controller
-func pick_up(by: Spatial, with_controller: ARVRController) -> Spatial:
+func pick_up(by: Spatial, with_controller: ARVRController) -> void:
 	save_grab_location(by)
-	return self
 
 # Called by Function_pickup when this is let go by a controller
 func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:

@@ -277,7 +277,7 @@ func _update_body_under_camera():
 # This method updates the information about the ground under the players feet
 func _update_ground_information():
 	# Update the ground information
-	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.05, 0.0), true, true, true)
+	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.1, 0.0), true, true, true)
 	if !ground_collision:
 		on_ground = false
 		ground_vector = Vector3.UP

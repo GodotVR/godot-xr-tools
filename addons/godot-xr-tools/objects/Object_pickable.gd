@@ -170,10 +170,10 @@ func drop_and_free():
 
 
 # Called when this object is picked up
-func pick_up(by: Spatial, with_controller: ARVRController) -> Spatial:
+func pick_up(by: Spatial, with_controller: ARVRController) -> void:
 	# Skip if not idle
 	if _state != PickableState.IDLE:
-		return null
+		return
 
 	if picked_up_by:
 		let_go(Vector3.ZERO, Vector3.ZERO)
@@ -199,8 +199,6 @@ func pick_up(by: Spatial, with_controller: ARVRController) -> Spatial:
 		_do_snap_grab()
 	else:
 		_do_precise_grab()
-
-	return self
 
 
 # Called when this object is dropped
