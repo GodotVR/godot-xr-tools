@@ -1,4 +1,8 @@
-# 2.5.0
+# 2.4.1
+- Fixed grab distance
+- Fixed snap-zone instance drop and free issue
+- Movement provides react properly when disabled
+- Hiding grapple target when disabled
 
 # 2.4.0
 - Added configuration setting for head height in player body.
