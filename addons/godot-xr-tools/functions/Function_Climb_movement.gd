@@ -122,11 +122,13 @@ func _set_climbing(active: bool, player_body: PlayerBody) -> void:
 	if is_active:
 		_distances.clear()
 		_deltas.clear()
+		player_body.override_player_height(self, 0.0)
 		emit_signal("player_climb_start")
 	else:
 		var velocity := _average_velocity()
 		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
 		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
+		player_body.override_player_height(self)
 		emit_signal("player_climb_end")
 
 
