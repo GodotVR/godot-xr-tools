@@ -1,3 +1,8 @@
+# 2.5.0
+- Added advanced player height control
+- Modified climbing to collapse player to a sphere to allow mounting climbed objects
+- Added crouch movement provider
+
 # 2.4.1
 - Fixed grab distance
 - Fixed snap-zone instance drop and free issue

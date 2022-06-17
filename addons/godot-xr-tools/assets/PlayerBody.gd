@@ -38,6 +38,12 @@ export var player_radius := 0.4 setget set_player_radius
 ## Player head height (distance between between camera and top of head)
 export var player_head_height := 0.1
 
+## Minimum player height
+export var player_height_min := 1.0
+
+## Maximum player height
+export var player_height_max := 2.2
+
 ## Eyes forward offset from center of body in player_radius units
 export (float, 0.0, 1.0) var eye_forward_offset := 0.66
 
@@ -78,11 +84,21 @@ var ground_physics: GroundPhysicsSettings = null
 ## Ground control velocity - modified by MovementProvider nodes
 var ground_control_velocity := Vector2.ZERO
 
+## Player height offset (for height calibration)
+var player_height_offset := 0.0
+
+
 # Movement providers
 var _movement_providers := Array()
 
 # Jump cool-down counter
 var _jump_cooldown := 0
+
+## Player height overrides
+var _player_height_overrides := { }
+
+# Player height override (enabled when non-negative)
+var _player_height_override := -1.0
 
 
 ## ARVROrigin node
@@ -248,12 +264,32 @@ func request_jump(var skip_jump_velocity := false):
 func move_and_slide(var velocity: Vector3) -> Vector3:
 	return kinematic_node.move_and_slide(velocity, Vector3.UP, false, 4, 0.785398, push_rigid_bodies)
 
+# Set or clear a named height override
+func override_player_height(key, value: float = -1.0):
+	# Clear or set the override
+	if value < 0.0:
+		_player_height_overrides.erase(key)
+	else:
+		_player_height_overrides[key] = value
+
+	# Set or clear the override value
+	var override = _player_height_overrides.values().min()
+	_player_height_override = override if override != null else -1.0
+
 # This method updates the body to match the player position
 func _update_body_under_camera():
-	# Calculate the player height based on the origin and camera position
-	var player_height := camera_node.transform.origin.y + player_head_height
-	if player_height < player_radius:
-		player_height = player_radius
+	# Calculate the player height based on the camera position in the origin and the calibration
+	var player_height := clamp(
+		camera_node.transform.origin.y + player_head_height + player_height_offset,
+		player_height_min,
+		player_height_max)
+
+	# Allow forced overriding of height
+	if _player_height_override >= 0.0:
+		player_height = _player_height_override
+
+	# Ensure player height makes mathematical sense
+	player_height = max(player_height, player_radius * 2.0)
 
 	# Adjust the collision shape to match the player geometry
 	_collision_node.shape.radius = player_radius
@@ -264,7 +300,7 @@ func _update_body_under_camera():
 	var curr_transform := kinematic_node.global_transform
 	var camera_transform := camera_node.global_transform
 	curr_transform.origin = camera_transform.origin
-	curr_transform.origin.y = origin_node.global_transform.origin.y
+	curr_transform.origin.y += player_head_height - player_height
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := -camera_transform.basis.z * HORIZONTAL
@@ -373,6 +409,14 @@ func _get_configuration_warning():
 	# Verify the player radius is valid
 	if player_radius <= 0:
 		return "Player radius must be configured"
+
+	# Verify the player height minimum is valid
+	if player_height_min < player_radius * 2.0:
+		return "Player height minimum smaller than 2x radius"
+
+	# Verify the player height maximum is valid
+	if player_height_max < player_height_min:
+		return "Player height maximum cannot be smaller than minimum"
 
 	# Verify eye-forward does not allow near-clip-plane look through
 	var eyes_to_collider = (1.0 - eye_forward_offset) * player_radius
