@@ -3,6 +3,7 @@
 - Modified climbing to collapse player to a sphere to allow mounting climbed objects
 - Added crouch movement provider
 - Added example fall damage detection
+- Added moving platform support to player body
 
 # 2.4.1
 - Fixed grab distance
