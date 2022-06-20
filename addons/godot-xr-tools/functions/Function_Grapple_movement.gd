@@ -78,6 +78,8 @@ export var friction := 0.1
 export (Buttons) var grapple_button_id : int = Buttons.VR_TRIGGER
 
 # Hook related variables
+var hook_object : Spatial = null
+var hook_local := Vector3(0,0,0)
 var hook_point := Vector3(0,0,0)
 
 # Grapple button state
@@ -159,7 +161,9 @@ func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 	if is_active and !_grapple_button:
 		_set_grappling(false)
 	elif _grapple_button and !old_grapple_button and _grapple_raycast.is_colliding():
+		hook_object = _grapple_raycast.get_collider()
 		hook_point = _grapple_raycast.get_collision_point()
+		hook_local = hook_object.global_transform.xform_inv(hook_point)
 		do_impulse = true
 		_set_grappling(true)
 
@@ -168,6 +172,7 @@ func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 		return
 
 	# Get hook direction
+	hook_point = hook_object.global_transform.xform(hook_local)
 	var hook_vector := hook_point - _controller.global_transform.origin
 	var hook_length := hook_vector.length()
 	var hook_direction := hook_vector / hook_length
