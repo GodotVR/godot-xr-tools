@@ -76,7 +76,7 @@ var ground_vector := Vector3.UP
 var ground_angle := 0.0
 
 ## Ground node the player is touching
-var ground_node: Node = null
+var ground_node: Spatial = null
 
 ## Ground physics override (if present)
 var ground_physics: GroundPhysicsSettings = null
@@ -86,6 +86,9 @@ var ground_control_velocity := Vector2.ZERO
 
 ## Player height offset (for height calibration)
 var player_height_offset := 0.0
+
+## Velocity of the ground under the players feet
+var ground_velocity := Vector3.ZERO
 
 
 # Movement providers
@@ -99,6 +102,15 @@ var _player_height_overrides := { }
 
 # Player height override (enabled when non-negative)
 var _player_height_override := -1.0
+
+# Previous ground node
+var _previous_ground_node: Spatial = null
+
+# Previous ground local position
+var _previous_ground_local := Vector3.ZERO
+
+# Previous ground global position
+var _previous_ground_global := Vector3.ZERO
 
 
 ## ARVROrigin node
@@ -180,7 +192,7 @@ func _update_collision_mask() -> void:
 	if kinematic_node:
 		kinematic_node.collision_mask = collision_mask
 
-func _physics_process(delta):
+func _physics_process(delta: float):
 	# Do not run physics if in the editor
 	if Engine.editor_hint:
 		return
@@ -198,7 +210,7 @@ func _physics_process(delta):
 	_update_body_under_camera()
 
 	# Update the ground information
-	_update_ground_information()
+	_update_ground_information(delta)
 
 	# Get the player body location before movement occurs
 	var position_before_movement := kinematic_node.global_transform.origin
@@ -311,7 +323,7 @@ func _update_body_under_camera():
 	kinematic_node.global_transform = curr_transform
 
 # This method updates the information about the ground under the players feet
-func _update_ground_information():
+func _update_ground_information(delta: float):
 	# Update the ground information
 	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.1, 0.0), true, true, true)
 	if !ground_collision:
@@ -320,29 +332,47 @@ func _update_ground_information():
 		ground_angle = 0.0
 		ground_node = null
 		ground_physics = null
+		_previous_ground_node = null
+		return
+
+	# Save the ground information from the collision
+	on_ground = true
+	ground_vector = ground_collision.normal
+	ground_angle = rad2deg(ground_collision.get_angle())
+	ground_node = ground_collision.collider
+
+	# Select the ground physics
+	var physics_node := ground_node.get_node_or_null("GroundPhysics") as GroundPhysics
+	if physics_node:
+		ground_physics = physics_node.physics
 	else:
-		on_ground = true
-		ground_vector = ground_collision.normal
-		ground_angle = rad2deg(ground_collision.get_angle())
-		ground_node = ground_collision.collider
+		ground_physics = default_physics
 
-		# Select the ground physics
-		var physics_node := ground_node.get_node_or_null("GroundPhysics") as GroundPhysics
-		if physics_node:
-			ground_physics = physics_node.physics
-		else:
-			ground_physics = default_physics
+	# Detect if we're sliding on a wall
+	# TODO: consider reworking this magic angle
+	if ground_angle > 85:
+		on_ground = false
 
-		# Detect if we're sliding on a wall
-		# TODO: consider reworking this magic angle
-		if ground_angle > 85:
-			on_ground = false
+	# Detect ground velocity under players feet
+	if _previous_ground_node == ground_node:
+		var pos_old := _previous_ground_global
+		var pos_new := ground_node.to_global(_previous_ground_local)
+		ground_velocity = (pos_new - pos_old) / delta
+	
+	# Update ground velocity information
+	_previous_ground_node = ground_node
+	_previous_ground_global = ground_collision.position
+	_previous_ground_local = ground_node.to_local(_previous_ground_global)
+
 
 # This method applies the player velocity and ground-control velocity to the physical body
 func _apply_velocity_and_control(delta: float):
+	# Calculate local velocity
+	var local_velocity := velocity - ground_velocity
+	
 	# Split the velocity into horizontal and vertical components
-	var horizontal_velocity := velocity * HORIZONTAL
-	var vertical_velocity := velocity * Vector3.UP
+	var horizontal_velocity := local_velocity * HORIZONTAL
+	var vertical_velocity := local_velocity * Vector3.UP
 
 	# If the player is on the ground then give them control
 	if on_ground:
@@ -356,7 +386,7 @@ func _apply_velocity_and_control(delta: float):
 
 			# Apply control velocity to horizontal velocity based on traction
 			var current_traction := GroundPhysicsSettings.get_move_traction(ground_physics, default_physics)
-			var traction_factor = clamp(current_traction * delta, 0.0, 1.0)
+			var traction_factor := clamp(current_traction * delta, 0.0, 1.0)
 			horizontal_velocity = lerp(horizontal_velocity, control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
@@ -364,19 +394,24 @@ func _apply_velocity_and_control(delta: float):
 			if ground_angle > current_max_slope:
 				# Get a vector in the down-hill direction
 				var down_direction := (ground_vector * HORIZONTAL).normalized()
-				var vdot = down_direction.dot(horizontal_velocity)
+				var vdot := down_direction.dot(horizontal_velocity)
 				if vdot < 0:
 					horizontal_velocity -= down_direction * vdot
 		else:
 			# User is not trying to move, so apply the ground drag
 			var current_drag := GroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
-			horizontal_velocity *= 1.0 - current_drag * delta
+			var drag_factor := clamp(current_drag * delta, 0, 1)
+			horizontal_velocity = lerp(horizontal_velocity, control_velocity, drag_factor)
 
 	# Combine the velocities back to a 3-space velocity
-	velocity = horizontal_velocity + vertical_velocity
+	local_velocity = horizontal_velocity + vertical_velocity
 
 	# Move the player body with the desired velocity
-	velocity = move_and_slide(velocity)
+	velocity = move_and_slide(local_velocity + ground_velocity)
+
+	# Hack to ensure feet stick to ground (if not jumping)
+	if abs(velocity.y) < 0.001:
+		velocity.y = ground_velocity.y
 
 # Get a guaranteed-valid physics
 func _guaranteed_physics():
