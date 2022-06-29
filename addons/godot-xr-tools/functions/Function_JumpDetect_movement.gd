@@ -115,6 +115,9 @@ func _detect_body_jump(delta: float, player_body: PlayerBody) -> void:
 	if abs(camera_vel) < 0.001:
 		return;
 
+	# Correct for ARVR world-scale (convert to player units)
+	camera_vel /= ARVRServer.world_scale
+
 	# Clamp the camera instantaneous velocity to +/- 2x the jump threshold
 	camera_vel = clamp(camera_vel, -2.0 * body_jump_threshold, 2.0 * body_jump_threshold)
 
@@ -144,6 +147,10 @@ func _detect_arms_jump(delta: float, player_body: PlayerBody) -> void:
 	if abs(controller_left_vel) <= 0.001 and abs(controller_right_vel) <= 0.001:
 		return
 
+	# Correct for ARVR world-scale (convert to player units)
+	controller_left_vel /= ARVRServer.world_scale
+	controller_right_vel /= ARVRServer.world_scale
+	
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
 	controller_left_vel = clamp(controller_left_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
 	controller_right_vel = clamp(controller_right_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
