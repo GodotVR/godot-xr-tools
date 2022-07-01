@@ -34,6 +34,7 @@ export var player_height = 1.8 setget set_player_height, get_player_height
 export var player_radius = 0.4 setget set_player_radius, get_player_radius
 export var strength = 5.0
 export var max_slope = 20.0
+export (int, LAYERS_3D_PHYSICS) var valid_teleport_mask = ~0
 
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
@@ -254,6 +255,11 @@ func _physics_process(delta):
 							
 							if diff.length() > 0.1:
 								collided_at = intersects["position"]
+							
+							# Fail if the hit target isn't in our valid mask
+							var collider_mask = intersects["collider"].collision_layer
+							if not valid_teleport_mask & collider_mask:
+								is_on_floor = false
 					
 					# we are colliding, find our if we're colliding on a wall or floor, one we can do, the other nope...
 					cast_length += (collided_at - target_global_origin).length()
