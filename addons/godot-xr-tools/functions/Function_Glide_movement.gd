@@ -76,7 +76,8 @@ func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 	var left_to_right := (right_position - left_position) * HORIZONTAL
 
 	# Set gliding based on hand separation
-	_set_gliding(left_to_right.length() >= glide_detect_distance)
+	var separation := left_to_right.length() / ARVRServer.world_scale
+	_set_gliding(separation >= glide_detect_distance)
 
 	# Skip if not gliding
 	if !is_active:

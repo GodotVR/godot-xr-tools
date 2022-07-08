@@ -4,6 +4,9 @@
 - Added crouch movement provider
 - Added example fall damage detection
 - Added moving platform support to player body
+- Fixed player height-clamping to work in player-units
+- Fixed glide T-pose detection to work in player-units
+- Fixed jump detection to work in player-units
 
 # 2.4.1
 - Fixed grab distance

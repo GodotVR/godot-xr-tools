@@ -293,8 +293,8 @@ func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height := clamp(
 		camera_node.transform.origin.y + player_head_height + player_height_offset,
-		player_height_min,
-		player_height_max)
+		player_height_min * ARVRServer.world_scale,
+		player_height_max * ARVRServer.world_scale)
 
 	# Allow forced overriding of height
 	if _player_height_override >= 0.0:
