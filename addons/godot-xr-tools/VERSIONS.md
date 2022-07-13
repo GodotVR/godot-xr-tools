@@ -7,6 +7,7 @@
 - Fixed player height-clamping to work in player-units
 - Fixed glide T-pose detection to work in player-units
 - Fixed jump detection to work in player-units
+- Added valid-layer checking to teleport movement
 
 # 2.4.1
 - Fixed grab distance
