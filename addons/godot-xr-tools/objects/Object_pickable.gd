@@ -217,6 +217,7 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 				global_transform = original_transform
 
 			HoldMethod.REMOTE_TRANSFORM:
+				_remote_transform.remote_path = NodePath()
 				_remote_transform.queue_free()
 				_remote_transform = null
 
