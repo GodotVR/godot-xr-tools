@@ -94,6 +94,9 @@ var _state = PickableState.IDLE
 # Remote transform
 var _remote_transform: RemoteTransform = null
 
+# Move-to node for performing remote grab
+var _move_to: XRToolsMoveTo = null
+
 
 # Remember some state so we can return to it when the user drops the object
 onready var original_parent = get_parent()
@@ -105,23 +108,6 @@ onready var original_collision_layer: int = collision_layer
 func _ready():
 	# Attempt to get the pickup center if provided
 	center_pickup_on_node = get_node_or_null("PickupCenter")
-
-
-# Called to process the current frame
-func _process(delta: float) -> void:
-	# If not performing a ranged grab then shut down processing
-	if _state != PickableState.GRABBING_RANGED:
-		set_process(false)
-		return
-
-	# Lerp to holder
-	var move := picked_up_by.global_transform.origin - global_transform.origin
-	var move_length := move.length()
-	var step := ranged_grab_speed * delta
-	if step >= move_length:
-		_do_snap_grab()
-	else:
-		global_transform.origin += move * step / move_length
 
 
 # Test if this object can be picked up
@@ -235,6 +221,12 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 	picked_up_by = null
 	by_controller = null
 
+	# Stop any XRToolsMoveTo being used for remote grabbing
+	if _move_to:
+		_move_to.stop()
+		_move_to.queue_free()
+		_move_to = null
+
 	# let interested parties know
 	emit_signal("dropped", self)
 
@@ -242,13 +234,28 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 func _start_ranged_grab() -> void:
 	# Set state to grabbing at range and enable processing
 	_state = PickableState.GRABBING_RANGED
-	set_process(true)
+
+	# Create a XRToolsMoveTo to perform the remote-grab. The remote grab will move
+	# us to the pickup object at the ranged-grab speed, and also takes into account
+	# the center-pickup position
+	_move_to = XRToolsMoveTo.new()
+	_move_to.start(self, picked_up_by, center_pickup_on_node.transform.inverse(), ranged_grab_speed)
+	_move_to.connect("move_complete", self, "_ranged_grab_complete")
+	self.add_child(_move_to)
+
+
+func _ranged_grab_complete() -> void:
+	# Discard the XRToolsMoveTo performing the remote-grab
+	_move_to.queue_free()
+	_move_to = null
+	
+	# Perform the snap grab
+	_do_snap_grab()
 
 
 func _do_snap_grab() -> void:
 	# Set state to held
 	_state = PickableState.HELD
-	set_process(false)
 
 	# Perform the hold
 	match hold_method:
@@ -287,7 +294,6 @@ func _do_snap_grab() -> void:
 func _do_precise_grab() -> void:
 	# Set state to held
 	_state = PickableState.HELD
-	set_process(false)
 
 	# Reparent to the holder
 	match hold_method:
