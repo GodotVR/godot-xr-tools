@@ -1,10 +1,10 @@
-*.o
-*.os
+# Godot files to ignore
 .import/
-*.dblite
-*.exp
-*.lib
-*.obj
-*.TMP
+
+# Filesystem files to ignore
 logs
 Thumbs.db
+.DS_Store
+
+# Addons sourced externally
+addons/godot-openxr/

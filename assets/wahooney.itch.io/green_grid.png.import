@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.s3tc.stex"
-path.etc="res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc.stex"
+path.s3tc="res://.import/green_grid.png-e9d81b3d42c428786d9997769a6729a2.s3tc.stex"
+path.etc="res://.import/green_grid.png-e9d81b3d42c428786d9997769a6729a2.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/godot-xr-tools/images/teleport_target.png"
-dest_files=[ "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.s3tc.stex", "res://.import/teleport_target.png-cd812f7d5692711ac91f6c8a4753ad73.etc.stex" ]
+source_file="res://assets/wahooney.itch.io/green_grid.png"
+dest_files=[ "res://.import/green_grid.png-e9d81b3d42c428786d9997769a6729a2.s3tc.stex", "res://.import/green_grid.png-e9d81b3d42c428786d9997769a6729a2.etc.stex" ]
 
 [params]
 
