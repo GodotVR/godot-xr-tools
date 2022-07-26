@@ -1,3 +1,6 @@
+# 2.6.0
+- Fixed enforcement of direct-movement maximum speed
+
 # 2.5.0
 - Added advanced player height control
 - Modified climbing to collapse player to a sphere to allow mounting climbed objects

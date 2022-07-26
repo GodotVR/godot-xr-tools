@@ -47,8 +47,9 @@ func physics_movement(delta: float, player_body: PlayerBody, _disabled: bool):
 		player_body.ground_control_velocity.x += _controller.get_joystick_axis(0) * max_speed
 
 	# Clamp ground control
-	player_body.ground_control_velocity.x = clamp(player_body.ground_control_velocity.x, -max_speed, max_speed)
-	player_body.ground_control_velocity.y = clamp(player_body.ground_control_velocity.y, -max_speed, max_speed)
+	var length := player_body.ground_control_velocity.length()
+	if length > max_speed:
+		player_body.ground_control_velocity *= max_speed / length
 
 
 # This method verifies the MovementProvider has a valid configuration.
