@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/icon.png-1d8efcc4c33e64800e22ea3150ef148d.stex"
+path="res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/godot-xr-tools/images/icon.png"
-dest_files=[ "res://.import/icon.png-1d8efcc4c33e64800e22ea3150ef148d.stex" ]
+source_file="res://assets/wahooney.itch.io/brown_grid.png"
+dest_files=[ "res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.stex" ]
 
 [params]
 
@@ -28,7 +28,6 @@ process/fix_alpha_border=true
 process/premult_alpha=false
 process/HDR_as_SRGB=false
 process/invert_color=false
-process/normal_map_invert_y=false
 stream=false
 size_limit=0
 detect_3d=true

@@ -12,14 +12,28 @@ This repository contains a number of support files and support scenes that can b
 Official releases are tagged and can be found [here](https://github.com/GodotVR/godot-xr-tools/releases).
 
 The following branches are in active development:
-|  Branch   |  Description  |
-|-----------|---------------|
-|  master   | Godot 3 development branch  |
-|  4.0-dev  | Godot 4 development branch  |
+|  Branch   |  Description                |  Godot version  |
+|-----------|-----------------------------|-----------------|
+|  master   | Current development branch  |  Godot 3.4+     |
+|  2.x      | Current stable release      |  Godot 3.4+     |
+|  4.0-dev  | Future development branch   |  Godot 4.0      |
 
 ## How to Use
 
 Information about how to use this plugin can be found [in our WIKI](https://github.com/GodotVR/godot-xr-tools/wiki).
+
+### Demo
+
+This repository now contains a full demo for XR Tools with the XR Tools add on included in this demo.
+
+After cloning this repository you will need to install the OpenXR plugin for it to work. The OpenXR plugin is not included within this repository.
+You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/releases) or download it from the asset library within Godot.
+
+Note that the demo was created using Godot 3.5.
+
+### XR Tools library
+
+To obtain just the XR Tools library for your own project, please check [releases](https://github.com/GodotVR/godot-xr-tools/releases) or download it from the asset library within Godot.
 
 ### Preventing hickups
 
@@ -29,17 +43,21 @@ To combat this you will find a scene in this module called `misc/VR_Common_Shade
 Add this scene as a child node to your ARVRCamera. This will trigger the required shaders being
 compiled the first time your main scene loads.
 
-Licensing
----------
+## Licensing
+
 This repository is licensed under the MIT license.
-See the full license inside of the addons folder.
 
-About this repository
----------------------
-This repository was created by and is maintained by Bastiaan Olij a.k.a. Mux213
+## About this repository
 
-You can follow me on twitter for regular updates here:
-https://twitter.com/mux213
+This repository was created by Bastiaan Olij a.k.a. Mux213
 
-Videos about my work with Godot including tutorials on working with VR in Godot can by found on my youtube page:
-https://www.youtube.com/BastiaanOlij
+It is primarily maintained by:
+- [Bastiaan Olij](https://github.com/BastiaanOlij/)
+- [Malcolm Nixon](https://github.com/Malcolmnixon/)
+
+For further contributors please see `CONTRIBUTORS.md`
+
+Further resources:
+- [Bastiaan Olij on Twitter](https://twitter.com/mux213) for regular updates
+- [Bastiaan Olij on Youtube](https://www.youtube.com/BastiaanOlij) for tutorials
+- [Malcolm Nixon on Youtube](https://www.youtube.com/user/MalcolmANixon) for demonstrations of Godot XR Tools.
