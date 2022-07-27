@@ -30,4 +30,4 @@ nodes/Grip/position = Vector2( 780, 180 )
 nodes/Trigger/node = SubResource( 2 )
 nodes/Trigger/position = Vector2( 560, 80 )
 nodes/output/position = Vector2( 1020, 80 )
-node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "Fist2", "Trigger", 0, "Default", "Trigger", 1, "Fist" ]
+node_connections = [ "output", 0, "Grip", "Trigger", 0, "Default", "Trigger", 1, "Fist", "Grip", 0, "Trigger", "Grip", 1, "Fist2" ]
