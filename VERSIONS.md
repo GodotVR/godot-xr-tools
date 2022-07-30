@@ -4,6 +4,7 @@
 # 2.6.0
 - Fixed enforcement of direct-movement maximum speed
 - Added editor icons for all nodes
+- Added collision bouncing to PlayerBody
 
 # 2.5.0
 - Added advanced player height control

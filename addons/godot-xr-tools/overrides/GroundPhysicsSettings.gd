@@ -8,11 +8,20 @@ enum GroundPhysicsFlags {
 	MOVE_TRACTION = 2,
 	MOVE_MAX_SLOPE = 4,
 	JUMP_MAX_SLOP = 8,
-	JUMP_VELOCITY = 16
+	JUMP_VELOCITY = 16,
+	BOUNCINESS = 32,
+	BOUNCE_THRESHOLD = 64
 }
 
 ## Flags defining which ground velocities are enabled
-export (int, FLAGS, "Move Drag", "Move Traction", "Move Max Slope", "Jump Max Slope", "Jump Velocity") var flags := 0
+export (int, FLAGS, 
+	"Move Drag", 
+	"Move Traction", 
+	"Move Max Slope", 
+	"Jump Max Slope", 
+	"Jump Velocity", 
+	"Bounciness", 
+	"Bounce Threshold") var flags := 0
 
 ## Movement drag factor
 export var move_drag := 5.0
@@ -32,6 +41,13 @@ export (float, 0.0, 85.0) var jump_max_slope := 45.0
 ## Jump velocity
 export var jump_velocity := 3.0
 
+## Ground bounciness (0 = no bounce, 1 = full bounciness)
+export var bounciness := 0.0
+
+## Bounce threshold (skip bounce if velocity less than threshold)
+export var bounce_threshold := 1.0
+
+
 # Handle class initialization with default parameters
 func _init(
 	p_flags = 0, 
@@ -39,7 +55,9 @@ func _init(
 	p_move_traction = 30.0, 
 	p_move_max_slope = 45.0, 
 	p_jump_max_slope = 45.0,
-	p_jump_velocity = 3.0):
+	p_jump_velocity = 3.0,
+	p_bounciness = 0.0,
+	p_bounce_threshold = 1.0):
 	# Save the parameters
 	flags = p_flags
 	move_drag = p_move_drag
@@ -47,6 +65,8 @@ func _init(
 	move_max_slope = p_move_max_slope
 	jump_max_slope = p_jump_max_slope
 	jump_velocity = p_jump_velocity
+	bounciness = p_bounciness
+	bounce_threshold = p_bounce_threshold
 
 static func get_move_drag(override: GroundPhysicsSettings, default: GroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.MOVE_DRAG:
@@ -77,3 +97,15 @@ static func get_jump_velocity(override: GroundPhysicsSettings, default: GroundPh
 		return override.jump_velocity
 	else:
 		return default.jump_velocity
+
+static func get_bounciness(override: GroundPhysicsSettings, default: GroundPhysicsSettings) -> float:
+	if override and override.flags & GroundPhysicsFlags.BOUNCINESS:
+		return override.bounciness
+	else:
+		return default.bounciness
+
+static func get_bounce_threshold(override: GroundPhysicsSettings, default: GroundPhysicsSettings) -> float:
+	if override and override.flags & GroundPhysicsFlags.BOUNCE_THRESHOLD:
+		return override.bounce_threshold
+	else:
+		return default.bounce_threshold
