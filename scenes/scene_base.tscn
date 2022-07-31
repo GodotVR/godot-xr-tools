@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/scene_base.gd" type="Script" id=1]
+[ext_resource path="res://default_env.tres" type="Environment" id=2]
+
+[node name="SceneBase" type="Spatial"]
+script = ExtResource( 1 )
+environment = ExtResource( 2 )
+
+[node name="ARVROrigin" type="ARVROrigin" parent="."]
+
+[node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0 )
+
+[node name="LeftHand" type="ARVRController" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5 )
+
+[node name="RightHand" type="ARVRController" parent="ARVROrigin"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5 )
+controller_id = 2
