@@ -8,3 +8,6 @@
 *.TMP
 logs
 Thumbs.db
+
+# Just to protect from accidentally checking in due to switching to master and back...
+addons/godot-openxr/
