@@ -1,4 +1,4 @@
-class_name XRToolsHand
+class_name XRToolsHand, "res://addons/godot-xr-tools/editor/icons/XRToolsHand.svg"
 extends Spatial
 
 

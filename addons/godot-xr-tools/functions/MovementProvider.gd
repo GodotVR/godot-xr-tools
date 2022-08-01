@@ -1,5 +1,5 @@
 tool
-class_name MovementProvider
+class_name MovementProvider, "res://addons/godot-xr-tools/editor/icons/XRToolsMovementProvider.svg"
 extends Node
 
 ##
