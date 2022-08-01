@@ -1,4 +1,4 @@
-class_name Function_Pickup, "res://addons/godot-xr-tools/editor/icons/XRToolsNode.svg"
+class_name Function_Pickup, "res://addons/godot-xr-tools/editor/icons/XRToolsFunction.svg"
 extends Spatial
 
 
