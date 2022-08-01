@@ -3,6 +3,7 @@
 
 # 2.6.0
 - Fixed enforcement of direct-movement maximum speed
+- Added editor icons for all nodes
 
 # 2.5.0
 - Added advanced player height control

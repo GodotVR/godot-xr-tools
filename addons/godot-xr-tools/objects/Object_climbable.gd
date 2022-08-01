@@ -1,4 +1,4 @@
-class_name Object_climbable
+class_name Object_climbable, "res://addons/godot-xr-tools/editor/icons/XRToolsHand.svg"
 extends Spatial
 
 ##
