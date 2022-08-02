@@ -1,0 +1,93 @@
+[gd_resource type="ShaderMaterial" load_steps=8 format=2]
+
+[sub_resource type="VisualShaderNodeTextureUniform" id=5]
+uniform_name = "Title"
+texture_type = 1
+
+[sub_resource type="VisualShaderNodeInput" id=7]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeInput" id=8]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeVectorOp" id=9]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.2, 0, 0 ) ]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id=10]
+output_port_for_preview = 0
+
+[sub_resource type="VisualShaderNodeVectorOp" id=11]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 2, 1, 0 ) ]
+operator = 2
+
+[sub_resource type="VisualShader" id=6]
+code = "shader_type spatial;
+render_mode specular_schlick_ggx, unshaded;
+
+uniform sampler2D Title : hint_albedo;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:4
+	float n_out4p0 = TIME;
+
+// VectorOp:5
+	vec3 n_in5p1 = vec3(0.20000, 0.00000, 0.00000);
+	vec3 n_out5p0 = vec3(n_out4p0) * n_in5p1;
+
+// Input:3
+	vec3 n_out3p0 = vec3(UV, 0.0);
+
+// VectorOp:7
+	vec3 n_in7p1 = vec3(2.00000, 1.00000, 0.00000);
+	vec3 n_out7p0 = n_out3p0 * n_in7p1;
+
+// VectorOp:6
+	vec3 n_out6p0 = n_out5p0 + n_out7p0;
+
+// TextureUniform:2
+	vec3 n_out2p0;
+	float n_out2p1;
+	{
+		vec4 n_tex_read = texture(Title, n_out6p0.xy);
+		n_out2p0 = n_tex_read.rgb;
+		n_out2p1 = n_tex_read.a;
+	}
+
+// Output:0
+	ALBEDO = n_out2p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+graph_offset = Vector2( 75.5651, 149 )
+flags/unshaded = true
+nodes/fragment/0/position = Vector2( 798, 252 )
+nodes/fragment/2/node = SubResource( 5 )
+nodes/fragment/2/position = Vector2( 378, 315 )
+nodes/fragment/3/node = SubResource( 7 )
+nodes/fragment/3/position = Vector2( -378, 567 )
+nodes/fragment/4/node = SubResource( 8 )
+nodes/fragment/4/position = Vector2( -378, 315 )
+nodes/fragment/5/node = SubResource( 9 )
+nodes/fragment/5/position = Vector2( -189, 294 )
+nodes/fragment/6/node = SubResource( 10 )
+nodes/fragment/6/position = Vector2( 84, 378 )
+nodes/fragment/7/node = SubResource( 11 )
+nodes/fragment/7/position = Vector2( -189, 546 )
+nodes/fragment/connections = PoolIntArray( 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 2, 0, 3, 0, 7, 0, 7, 0, 6, 1, 2, 0, 0, 0 )
+
+[resource]
+resource_local_to_scene = true
+shader = SubResource( 6 )
