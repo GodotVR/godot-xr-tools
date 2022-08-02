@@ -1,5 +1,5 @@
 tool
-class_name PlayerBody
+class_name PlayerBody, "res://addons/godot-xr-tools/editor/icons/XRToolsBody.svg"
 extends Node
 
 ##
