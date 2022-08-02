@@ -45,7 +45,10 @@ compiled the first time your main scene loads.
 
 ## Licensing
 
-This repository is licensed under the MIT license.
+Code in this repository is licensed under the MIT license.
+Images are licensed under CC0 unless otherwise specified.
+
+See the full license inside of the addons folder.
 
 ## About this repository
 
