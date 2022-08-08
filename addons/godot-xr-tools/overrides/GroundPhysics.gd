@@ -31,3 +31,7 @@ func _get_configuration_warning():
 
 	# Report valid
 	return ""
+
+# Get the physics from a ground physics node
+static func get_physics(var node: GroundPhysics, var default: GroundPhysicsSettings) -> GroundPhysicsSettings:
+	return node.physics if node else default

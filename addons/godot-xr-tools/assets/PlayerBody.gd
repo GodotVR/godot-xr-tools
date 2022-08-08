@@ -24,6 +24,9 @@ extends Node
 ## Signal emitted when the player jumps
 signal player_jumped()
 
+## Signal emitted when the player bounces
+signal player_bounced(collider, magnitude)
+
 
 # Horizontal vector (multiply by this to get only the horizontal components
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
@@ -343,10 +346,7 @@ func _update_ground_information(delta: float):
 
 	# Select the ground physics
 	var physics_node := ground_node.get_node_or_null("GroundPhysics") as GroundPhysics
-	if physics_node:
-		ground_physics = physics_node.physics
-	else:
-		ground_physics = default_physics
+	ground_physics = GroundPhysics.get_physics(physics_node, default_physics)
 
 	# Detect if we're sliding on a wall
 	# TODO: consider reworking this magic angle
@@ -408,6 +408,23 @@ func _apply_velocity_and_control(delta: float):
 
 	# Move the player body with the desired velocity
 	velocity = move_and_slide(local_velocity + ground_velocity)
+
+	# Perform bounce test if a collision occurred
+	if kinematic_node.get_slide_count():
+		# Detect bounciness
+		var collision := kinematic_node.get_slide_collision(0)
+		var collision_node := collision.collider
+		var collision_physics_node := collision_node.get_node_or_null("GroundPhysics") as GroundPhysics
+		var collision_physics = GroundPhysics.get_physics(collision_physics_node, default_physics)
+		var bounce_threshold := GroundPhysicsSettings.get_bounce_threshold(collision_physics, default_physics)
+		var bounciness := GroundPhysicsSettings.get_bounciness(collision_physics, default_physics)
+		var magnitude := -collision.normal.dot(local_velocity)
+		
+		# Detect if bounce should be performed
+		if bounciness > 0.0 and magnitude >= bounce_threshold:
+			local_velocity += 2 * collision.normal * magnitude * bounciness
+			velocity = local_velocity + ground_velocity
+			emit_signal("player_bounced", collision_node, magnitude)
 
 	# Hack to ensure feet stick to ground (if not jumping)
 	if abs(velocity.y) < 0.001:
