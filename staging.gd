@@ -80,7 +80,10 @@ func load_scene(p_scene_path : String):
 	if current_scene:
 		# Start by unloading our scene
 		
-		# First we fade to black
+		# First remove signals
+		_remove_signals(current_scene)
+		
+		# Fade to black
 		$Tween.remove_all()
 		$Tween.interpolate_method(self, "set_fade", 0.0, 1.0, 1.0)
 		$Tween.start()
@@ -88,7 +91,6 @@ func load_scene(p_scene_path : String):
 		
 		# Now we remove our scene
 		current_scene.scene_exiting()
-		_remove_signals(current_scene)
 		$Scene.remove_child(current_scene)
 		current_scene.queue_free()
 		current_scene = null
