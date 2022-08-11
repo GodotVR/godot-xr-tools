@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.s3tc.stex"
-path.etc="res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.etc.stex"
+path.s3tc="res://.import/grappling_demo.png-3277f986c37005ed2326287520676e8f.s3tc.stex"
+path.etc="res://.import/grappling_demo.png-3277f986c37005ed2326287520676e8f.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/wahooney.itch.io/brown_grid.png"
-dest_files=[ "res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.s3tc.stex", "res://.import/brown_grid.png-5cbd37038e3ea1da588854d56a43bef6.etc.stex" ]
+source_file="res://scenes/grappling_demo/grappling_demo.png"
+dest_files=[ "res://.import/grappling_demo.png-3277f986c37005ed2326287520676e8f.s3tc.stex", "res://.import/grappling_demo.png-3277f986c37005ed2326287520676e8f.etc.stex" ]
 
 [params]
 

@@ -1,7 +1,13 @@
-[gd_resource type="Environment" load_steps=2 format=2]
+[gd_resource type="Environment" load_steps=3 format=2]
 
-[sub_resource type="ProceduralSky" id=1]
+[ext_resource path="res://assets/ambientcg.com/SkyOnlyHDRI023_2K-TONEMAPPED.jpg" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=1]
+panorama = ExtResource( 1 )
 
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
+background_sky_orientation = Basis( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025 )
+ambient_light_color = Color( 0.247059, 0.247059, 0.247059, 1 )
+ambient_light_sky_contribution = 0.0
