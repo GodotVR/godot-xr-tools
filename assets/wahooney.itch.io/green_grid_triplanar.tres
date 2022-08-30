@@ -6,4 +6,5 @@
 params_diffuse_mode = 1
 albedo_texture = ExtResource( 1 )
 roughness = 0.8
-uv1_scale = Vector3( 100, 100, 100 )
+uv1_scale = Vector3( 0.25, 0.25, 0.25 )
+uv1_triplanar = true

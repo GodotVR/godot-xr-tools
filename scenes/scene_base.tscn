@@ -11,6 +11,7 @@ environment = ExtResource( 2 )
 
 [node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0 )
+far = 300.0
 
 [node name="LeftHand" type="ARVRController" parent="ARVROrigin"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5 )

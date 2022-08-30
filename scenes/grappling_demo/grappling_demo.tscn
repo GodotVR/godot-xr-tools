@@ -1,0 +1,316 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Grapple_movement.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Direct_movement.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Climb_movement.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Jump_movement.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-xr-tools/assets/LeftHand.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Turn_movement.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Pickup.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Glide_movement.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/assets/RightHand.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/assets/PlayerBody.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=12]
+[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=13]
+[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=15]
+[ext_resource path="res://addons/godot-xr-tools/objects/Object_climbable.gd" type="Script" id=16]
+[ext_resource path="res://scenes/grappling_demo/moving_platforms.gd" type="Script" id=17]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 3, 8, 3 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 1.5, 4, 1.5 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 5, 1, 5 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 2.5, 0.5, 2.5 )
+
+[sub_resource type="ViewportTexture" id=5]
+viewport_path = NodePath("Instructions/Viewport")
+
+[node name="GrapplingDemo" instance=ExtResource( 1 )]
+
+[node name="ARVROrigin" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24 )
+
+[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+
+[node name="Function_Direct_movement" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 3 )]
+max_speed = 3.0
+strafe = true
+
+[node name="Function_Jump_movement" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 5 )]
+jump_button_id = 7
+
+[node name="Function_Pickup" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 8 )]
+grab_collision_mask = 3
+ranged_enable = false
+
+[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+
+[node name="Function_Direct_movement" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 3 )]
+max_speed = 3.0
+
+[node name="Function_Turn_movement" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
+smooth_rotation = true
+
+[node name="Function_Jump_movement" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
+jump_button_id = 7
+
+[node name="Function_Grapple_movement" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 2 )]
+grapple_collision_mask = 2
+
+[node name="Function_Pickup" parent="ARVROrigin/RightHand" index="5" instance=ExtResource( 8 )]
+grab_collision_mask = 3
+ranged_enable = false
+
+[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 11 )]
+
+[node name="Function_Climb_movement" parent="ARVROrigin" index="4" instance=ExtResource( 4 )]
+left_pickup = NodePath("../LeftHand/Function_Pickup")
+right_pickup = NodePath("../RightHand/Function_Pickup")
+
+[node name="Function_Glide_movement" parent="ARVROrigin" index="5" instance=ExtResource( 9 )]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 13 )]
+
+[node name="Towers" type="Spatial" parent="." index="2"]
+
+[node name="Tower1" type="StaticBody" parent="Towers" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, -8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower1" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower1" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower2" type="StaticBody" parent="Towers" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower2" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower2" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower3" type="StaticBody" parent="Towers" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower3" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower3" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower4" type="StaticBody" parent="Towers" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 0 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower4" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower4" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower5" type="StaticBody" parent="Towers" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower5" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower5" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower6" type="StaticBody" parent="Towers" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 0 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower6" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower6" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower7" type="StaticBody" parent="Towers" index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower7" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower7" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower8" type="StaticBody" parent="Towers" index="7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower8" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower8" index="1"]
+shape = SubResource( 2 )
+
+[node name="Tower9" type="StaticBody" parent="Towers" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 8 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower9" index="0"]
+mesh = SubResource( 1 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower9" index="1"]
+shape = SubResource( 2 )
+
+[node name="MovingPlatforms" type="Spatial" parent="." index="3"]
+script = ExtResource( 17 )
+
+[node name="Platform1" type="StaticBody" parent="MovingPlatforms" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 17 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform1" index="0"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform1" index="1"]
+shape = SubResource( 4 )
+
+[node name="Platform2" type="StaticBody" parent="MovingPlatforms" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 5, 0 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform2" index="0"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform2" index="1"]
+shape = SubResource( 4 )
+
+[node name="Platform3" type="StaticBody" parent="MovingPlatforms" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -17 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform3" index="0"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform3" index="1"]
+shape = SubResource( 4 )
+
+[node name="Platform4" type="StaticBody" parent="MovingPlatforms" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 5, 0 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 16 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform4" index="0"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 12 )
+
+[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform4" index="1"]
+shape = SubResource( 4 )
+
+[node name="ToMainMenu" parent="." index="4" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 24 )
+scene_base = NodePath("..")
+title = ExtResource( 15 )
+
+[node name="Instructions" type="Spatial" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20 )
+
+[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
+size = Vector2( 370, 270 )
+
+[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Grappling Demo[/u]
+
+This scene demonstrates grappling movement including:
+ * Left Controller:
+   - Joystick: Move/Strafe
+   - Button A/X: Jump
+   - Grip: Climb
+ * Right Controller:
+   - Joystick: Move/Rotate
+   - Button A/X: Jump
+   - Grip: Climb
+   - Trigger: Grapple
+
+Test objects have been placed in the scene to allow testing of grappling and climbing. T-Pose to glide."
+text = "Grappling Demo
+
+This scene demonstrates grappling movement including:
+ * Left Controller:
+   - Joystick: Move/Strafe
+   - Button A/X: Jump
+   - Grip: Climb
+ * Right Controller:
+   - Joystick: Move/Rotate
+   - Button A/X: Jump
+   - Grip: Climb
+   - Trigger: Grapple
+
+Test objects have been placed in the scene to allow testing of grappling and climbing. T-Pose to glide."
+
+[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 5 )
