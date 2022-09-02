@@ -1,0 +1,84 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=1]
+[ext_resource path="res://addons/godot-xr-tools/interactables/xrt_interactable_slider.gd" type="Script" id=2]
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=3]
+[ext_resource path="res://addons/godot-xr-tools/interactables/xrt_interactable_handle.gd" type="Script" id=4]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 0.1, 0.3, 0.05 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 0.2, 0.6, 0.1 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.02, 0.02, 0.1 )
+
+[sub_resource type="SphereShape" id=4]
+radius = 0.06
+
+[sub_resource type="CubeMesh" id=5]
+size = Vector3( 0.04, 0.04, 0.2 )
+
+[sub_resource type="SphereMesh" id=6]
+radius = 0.06
+height = 0.12
+radial_segments = 16
+rings = 8
+
+[sub_resource type="SphereShape" id=7]
+margin = 0.12
+radius = 0.06
+
+[node name="SliderSnap" type="Spatial"]
+
+[node name="Frame" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="Frame"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Frame"]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="SliderOrigin" type="Spatial" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.2, 0 )
+
+[node name="InteractableSlider" type="Spatial" parent="SliderOrigin"]
+script = ExtResource( 2 )
+slider_limit_max = 0.4
+slider_steps = 0.1
+slider_position = 0.2
+default_position = 0.2
+
+[node name="SliderBody" type="StaticBody" parent="SliderOrigin/InteractableSlider"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
+
+[node name="BarCollision" type="CollisionShape" parent="SliderOrigin/InteractableSlider/SliderBody"]
+shape = SubResource( 3 )
+
+[node name="HandleCollision" type="CollisionShape" parent="SliderOrigin/InteractableSlider/SliderBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
+shape = SubResource( 4 )
+
+[node name="BarMesh" type="MeshInstance" parent="SliderOrigin/InteractableSlider/SliderBody"]
+mesh = SubResource( 5 )
+material/0 = ExtResource( 3 )
+
+[node name="HandleMesh" type="MeshInstance" parent="SliderOrigin/InteractableSlider/SliderBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
+mesh = SubResource( 6 )
+material/0 = ExtResource( 3 )
+
+[node name="HandleOrigin" type="Spatial" parent="SliderOrigin/InteractableSlider"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2 )
+
+[node name="InteractableHandle" type="RigidBody" parent="SliderOrigin/InteractableSlider/HandleOrigin"]
+collision_layer = 262144
+collision_mask = 0
+mode = 1
+script = ExtResource( 4 )
+reset_transform_on_pickup = false
+
+[node name="CollisionShape" type="CollisionShape" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle"]
+shape = SubResource( 7 )
