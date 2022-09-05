@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=1]
+[ext_resource path="res://addons/godot-xr-tools/interactables/xrt_interactable_area_button.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+radius = 0.05
+height = 0.05
+
+[sub_resource type="CylinderMesh" id=2]
+top_radius = 0.05
+bottom_radius = 0.05
+height = 0.05
+radial_segments = 16
+rings = 0
+
+[sub_resource type="CylinderShape" id=3]
+radius = 0.04
+height = 0.04
+
+[sub_resource type="CylinderMesh" id=4]
+top_radius = 0.04
+bottom_radius = 0.04
+height = 0.04
+radial_segments = 16
+rings = 0
+
+[sub_resource type="SpatialMaterial" id=5]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CylinderShape" id=6]
+radius = 0.04
+height = 0.05
+
+[node name="PushButton" type="Spatial"]
+
+[node name="ButtonBase" type="StaticBody" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="ButtonBase"]
+shape = SubResource( 1 )
+
+[node name="MeshInstance" type="MeshInstance" parent="ButtonBase"]
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="Button" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.03, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Button"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Button"]
+mesh = SubResource( 4 )
+material/0 = SubResource( 5 )
+
+[node name="InteractableAreaButton" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 131072
+script = ExtResource( 2 )
+button = NodePath("../Button")
+
+[node name="CollisionShape" type="CollisionShape" parent="InteractableAreaButton"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0 )
+shape = SubResource( 6 )
