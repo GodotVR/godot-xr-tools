@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/assets/RightHand.tscn" type="PackedScene" id=2]
@@ -20,6 +20,8 @@
 [ext_resource path="res://scenes/interactables_demo/interactables_demo.tscn" type="PackedScene" id=18]
 [ext_resource path="res://scenes/pointer_demo/pointer_demo.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/pointer_demo/pointer_demo.png" type="Texture" id=20]
+[ext_resource path="res://scenes/pickable_demo/pickable_demo.tscn" type="PackedScene" id=21]
+[ext_resource path="res://scenes/pickable_demo/pickable_demo.png" type="Texture" id=22]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 
@@ -44,37 +46,43 @@ smooth_rotation = true
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 4 )]
 
 [node name="ToBasicMovementDemo" parent="." index="2" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 7 )
 title = ExtResource( 10 )
 
 [node name="ToTeleportDemo" parent="." index="3" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 11 )
 title = ExtResource( 12 )
 
 [node name="ToClimbingGlidingDemo" parent="." index="4" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 14 )
 title = ExtResource( 13 )
 
 [node name="ToGrapplingDemo" parent="." index="5" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 15 )
 title = ExtResource( 16 )
 
 [node name="ToInteractablesDemo" parent="." index="6" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 18 )
 title = ExtResource( 17 )
 
 [node name="ToPointerDemo" parent="." index="7" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 10, 0, -6 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, -6 )
 scene_base = NodePath("..")
 scene = ExtResource( 19 )
 title = ExtResource( 20 )
+
+[node name="ToPickableDemo" parent="." index="8" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0, -6 )
+scene_base = NodePath("..")
+scene = ExtResource( 21 )
+title = ExtResource( 22 )

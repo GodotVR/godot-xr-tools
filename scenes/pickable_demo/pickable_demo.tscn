@@ -1,0 +1,96 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/assets/LeftPhysicsHand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/assets/RightPhysicsHand.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=6]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Direct_movement.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Pickup.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/godot-xr-tools/assets/PlayerBody.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/functions/Function_Turn_movement.tscn" type="PackedScene" id=10]
+[ext_resource path="res://scenes/pickable_demo/snap_toy_red.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/pickable_demo/snap_toy_yellow.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/pickable_demo/grab_ball.tscn" type="PackedScene" id=13]
+[ext_resource path="res://scenes/pickable_demo/grab_cube.tscn" type="PackedScene" id=14]
+[ext_resource path="res://assets/meshes/table/table.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/pickable_demo/snap_tray.tscn" type="PackedScene" id=16]
+
+[node name="PickableDemo" instance=ExtResource( 1 )]
+
+[node name="LeftPhysicsHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+
+[node name="Function_Direct_movement" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 7 )]
+max_speed = 3.0
+strafe = true
+
+[node name="Function_Pickup" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 8 )]
+grab_distance = 0.1
+grab_collision_mask = 4
+ranged_angle = 10.0
+ranged_collision_mask = 4
+
+[node name="RightPhysicsHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+
+[node name="Function_Direct_movement" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 7 )]
+max_speed = 3.0
+
+[node name="Function_Turn_movement" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 10 )]
+smooth_rotation = true
+
+[node name="Function_Pickup" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 8 )]
+grab_distance = 0.1
+grab_collision_mask = 4
+ranged_angle = 10.0
+ranged_collision_mask = 4
+
+[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 9 )]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 2 )]
+
+[node name="Teleport" parent="." index="2" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+scene_base = NodePath("..")
+title = ExtResource( 6 )
+
+[node name="Table1" parent="." index="3" instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
+
+[node name="Table2" parent="." index="4" instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )
+
+[node name="RemoteGrabBalls" type="Spatial" parent="." index="5"]
+
+[node name="Ball1" parent="RemoteGrabBalls" index="0" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -2.6 )
+
+[node name="Ball2" parent="RemoteGrabBalls" index="1" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -3.2 )
+
+[node name="Ball3" parent="RemoteGrabBalls" index="2" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -2.9 )
+
+[node name="GrabCubes" type="Spatial" parent="." index="6"]
+
+[node name="Cube1" parent="GrabCubes" index="0" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.875, -2.8 )
+
+[node name="Cube2" parent="GrabCubes" index="1" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.875, -2.8 )
+
+[node name="Cube3" parent="GrabCubes" index="2" instance=ExtResource( 14 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.975, -2.8 )
+
+[node name="SnapToys" type="Spatial" parent="." index="7"]
+
+[node name="SnapTray" parent="SnapToys" index="0" instance=ExtResource( 16 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.5, 1, -2.9 )
+
+[node name="SnapToyRed" parent="SnapToys" index="1" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.9, -3 )
+
+[node name="SnapToyYellow" parent="SnapToys" index="2" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.9, -3 )
