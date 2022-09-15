@@ -4,13 +4,13 @@ extends Resource
 
 ## Enumeration flags for which ground physics properties are enabled
 enum GroundPhysicsFlags {
-	MOVE_DRAG = 1,
-	MOVE_TRACTION = 2,
-	MOVE_MAX_SLOPE = 4,
-	JUMP_MAX_SLOP = 8,
-	JUMP_VELOCITY = 16,
-	BOUNCINESS = 32,
-	BOUNCE_THRESHOLD = 64
+	MOVE_DRAG = 		0b00000001,
+	MOVE_TRACTION = 	0b00000010,
+	MOVE_MAX_SLOPE = 	0b00000100,
+	JUMP_MAX_SLOP = 	0b00001000,
+	JUMP_VELOCITY = 	0b00010000,
+	BOUNCINESS = 		0b00100000,
+	BOUNCE_THRESHOLD = 	0b01000000,
 }
 
 ## Flags defining which ground velocities are enabled
