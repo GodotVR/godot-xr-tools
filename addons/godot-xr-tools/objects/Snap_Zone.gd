@@ -25,7 +25,7 @@ export var snap_require: String = ""
 export var snap_exclude: String = ""
 
 ## Require grab-by to be in the specified group
-export var grap_require: String = ""
+export var grab_require: String = ""
 
 ## Deny grab-by 
 export var grab_exclude: String= ""
@@ -75,7 +75,7 @@ func can_pick_up(by: Spatial) -> bool:
 		return false
 
 	# Refuse if the grab-by is not in the required group
-	if not grap_require.empty() and not by.is_in_group(grap_require):
+	if not grab_require.empty() and not by.is_in_group(grab_require):
 		return false
 	
 	# Refuse if the grab-by is in the excluded group
