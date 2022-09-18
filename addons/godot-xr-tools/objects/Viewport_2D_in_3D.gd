@@ -8,7 +8,7 @@ export var enabled = true setget set_enabled
 export var screen_size = Vector2(3.0, 2.0) setget set_screen_size
 export var viewport_size = Vector2(300.0, 200.0) setget set_viewport_size
 export var transparent = true setget set_transparent
-export (PackedScene) var scene = null setget set_scene, get_scene
+export var scene: PackedScene setget set_scene, get_scene
 
 # Need to replace this with proper solution once support for layer selection has been added
 export (int, LAYERS_3D_PHYSICS) var collision_layer = 15 setget set_collision_layer

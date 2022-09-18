@@ -27,9 +27,9 @@ enum Buttons {
 }
 
 export (Buttons) var teleport_button = Buttons.VR_TRIGGER
-export (Color) var can_teleport_color = Color(0.0, 1.0, 0.0, 1.0)
-export (Color) var cant_teleport_color = Color(1.0, 0.0, 0.0, 1.0)
-export (Color) var no_collision_color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
+export var can_teleport_color: Color = Color(0.0, 1.0, 0.0, 1.0)
+export var cant_teleport_color: Color = Color(1.0, 0.0, 0.0, 1.0)
+export var no_collision_color: Color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
 export var player_height = 1.8 setget set_player_height, get_player_height
 export var player_radius = 0.4 setget set_player_radius, get_player_radius
 export var strength = 5.0
@@ -40,7 +40,7 @@ export (int, LAYERS_3D_PHYSICS) var valid_teleport_mask = ~0
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
 
 # We don't know the name of the camera node...
-export (NodePath) var camera = null
+export var camera: NodePath
 
 onready var ws = ARVRServer.world_scale
 var origin_node = null

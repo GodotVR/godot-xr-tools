@@ -57,7 +57,7 @@ export var gravity := -9.8
 export var push_rigid_bodies := true
 
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-export (Resource) var physics = null setget set_physics
+export var physics: Resource = null setget set_physics
 
 # Set our collision layer
 export (int, LAYERS_3D_PHYSICS) var collision_layer = 1 << 19 setget set_collision_layer
@@ -275,8 +275,8 @@ func request_jump(var skip_jump_velocity := false):
 	emit_signal("player_jumped")
 	_jump_cooldown = 4
 
-# Perform a move_and_slide on the kinematic node
-func move_and_slide(var velocity: Vector3) -> Vector3:
+# Move the players body
+func move_body(var velocity: Vector3) -> Vector3:
 	return kinematic_node.move_and_slide(velocity, Vector3.UP, false, 4, 0.785398, push_rigid_bodies)
 
 # Set or clear a named height override
@@ -294,7 +294,7 @@ func override_player_height(key, value: float = -1.0):
 # This method updates the body to match the player position
 func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
-	var player_height := clamp(
+	var player_height: float = clamp(
 		camera_node.transform.origin.y + player_head_height + player_height_offset,
 		player_height_min * ARVRServer.world_scale,
 		player_height_max * ARVRServer.world_scale)
@@ -386,7 +386,7 @@ func _apply_velocity_and_control(delta: float):
 
 			# Apply control velocity to horizontal velocity based on traction
 			var current_traction := GroundPhysicsSettings.get_move_traction(ground_physics, default_physics)
-			var traction_factor := clamp(current_traction * delta, 0.0, 1.0)
+			var traction_factor: float = clamp(current_traction * delta, 0.0, 1.0)
 			horizontal_velocity = lerp(horizontal_velocity, control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
@@ -400,14 +400,14 @@ func _apply_velocity_and_control(delta: float):
 		else:
 			# User is not trying to move, so apply the ground drag
 			var current_drag := GroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
-			var drag_factor := clamp(current_drag * delta, 0, 1)
+			var drag_factor: float = clamp(current_drag * delta, 0, 1)
 			horizontal_velocity = lerp(horizontal_velocity, control_velocity, drag_factor)
 
 	# Combine the velocities back to a 3-space velocity
 	local_velocity = horizontal_velocity + vertical_velocity
 
 	# Move the player body with the desired velocity
-	velocity = move_and_slide(local_velocity + ground_velocity)
+	velocity = move_body(local_velocity + ground_velocity)
 
 	# Perform bounce test if a collision occurred
 	if kinematic_node.get_slide_count():
@@ -483,7 +483,7 @@ func _get_configuration_warning():
 	return ""
 
 ## Find the Player Body from a player node and an optional path
-static func get_player_body(node: Node, var path: NodePath = "") -> PlayerBody:
+static func get_player_body(node: Node, path: NodePath = NodePath("")) -> PlayerBody:
 	var player_body: PlayerBody
 
 	# Try using the node path first

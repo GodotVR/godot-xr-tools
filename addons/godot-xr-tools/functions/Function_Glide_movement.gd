@@ -95,7 +95,7 @@ func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 
 	# Perform the glide
 	var glide_velocity := horizontal_velocity + vertical_velocity * Vector3.UP
-	player_body.velocity = player_body.move_and_slide(glide_velocity)
+	player_body.velocity = player_body.move_body(glide_velocity)
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true
