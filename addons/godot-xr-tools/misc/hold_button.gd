@@ -6,7 +6,7 @@ class_name XRToolsHoldButton
 signal pressed
 
 # Enable our button
-export (bool) var enabled = false setget set_enabled
+export var enabled: bool = false setget set_enabled
 
 func set_enabled(p_enabled):
 	enabled = p_enabled
@@ -41,7 +41,7 @@ export (Buttons) var activate_button: int = Buttons.VR_TRIGGER
 
 # Countdown
 
-export (float) var hold_time = 2.0
+export var hold_time: float = 2.0
 var time_held = 0.0
 
 func _set_time_held(p_time_held):
@@ -52,7 +52,7 @@ func _set_time_held(p_time_held):
 
 # Size
 
-export (Vector2) var size = Vector2(1.0, 1.0) setget set_size
+export var size: Vector2 = Vector2(1.0, 1.0) setget set_size
 
 func set_size(p_size):
 	size = p_size
@@ -68,7 +68,7 @@ func _update_size():
 			$Visualise.set_surface_material(0, material)
 
 # Color our our visualisation
-export (Color) var color = Color(1.0, 1.0, 1.0, 1.0) setget set_color
+export var color: Color = Color(1.0, 1.0, 1.0, 1.0) setget set_color
 
 var material : ShaderMaterial
 

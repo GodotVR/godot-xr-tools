@@ -194,7 +194,7 @@ func physics_movement(delta: float, player_body: PlayerBody, disabled: bool):
 	player_body.velocity *= 1.0 - friction * delta
 
 	# Perform exclusive movement as we have dealt with gravity
-	player_body.velocity = player_body.move_and_slide(player_body.velocity)
+	player_body.velocity = player_body.move_body(player_body.velocity)
 	return true
 
 

@@ -14,7 +14,7 @@ class_name ARVRHelpers
 
 
 ## Find the ARVR Origin from a player node and an optional path
-static func get_arvr_origin(node: Node, var path: NodePath = "") -> ARVROrigin:
+static func get_arvr_origin(node: Node, path: NodePath = NodePath("")) -> ARVROrigin:
 	var origin: ARVROrigin
 
 	# Try using the node path first
@@ -35,7 +35,7 @@ static func get_arvr_origin(node: Node, var path: NodePath = "") -> ARVROrigin:
 	return null
 
 ## Find the ARVR Camera from a player node and an optional path
-static func get_arvr_camera(node: Node, var path: NodePath = "") -> ARVRCamera:
+static func get_arvr_camera(node: Node, path: NodePath = NodePath("")) -> ARVRCamera:
 	var camera: ARVRCamera
 	
 	# Try using the node path first
@@ -64,11 +64,11 @@ static func get_arvr_camera(node: Node, var path: NodePath = "") -> ARVRCamera:
 	return null
 
 ## Find the Left Hand Controller from a player node and an optional path
-static func get_left_controller(node: Node, var path: NodePath = "") -> ARVRController:
+static func get_left_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
 	return _get_controller(node, "LeftHandController", 1, path)
 
 ## Find the Right Hand Controller from a player node and an optional path
-static func get_right_controller(node: Node, var path: NodePath = "") -> ARVRController:
+static func get_right_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
 	return _get_controller(node, "RightHandController", 2, path)
 
 ## Find a controller given some search parameters

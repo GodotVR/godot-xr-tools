@@ -43,10 +43,10 @@ export var fling_multiplier := 1.0
 export var velocity_averages := 5
 
 ## Pickup function for the left hand
-export (NodePath) var left_pickup
+export var left_pickup: NodePath
 
 ## Pickup function for the right hand
-export (NodePath) var right_pickup
+export var right_pickup: NodePath
 
 
 # Velocity averaging fields

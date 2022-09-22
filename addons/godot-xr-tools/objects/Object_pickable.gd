@@ -46,10 +46,10 @@ enum PickableState {
 
 
 ## Flag indicating if the grip control must be held
-export (bool) var press_to_hold = true
+export var press_to_hold: bool = true
 
 ## Flag indicating transform should be reset to pickup center
-export (bool) var reset_transform_on_pickup = true
+export var reset_transform_on_pickup: bool = true
 
 ## Layer for this object while picked up
 export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0

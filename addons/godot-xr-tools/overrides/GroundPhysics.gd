@@ -17,7 +17,7 @@ extends Node
 ##
 
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-export (Resource) var physics
+export var physics: Resource
 
 # This method verifies the MovementProvider has a valid configuration.
 func _get_configuration_warning():
@@ -34,4 +34,4 @@ func _get_configuration_warning():
 
 # Get the physics from a ground physics node
 static func get_physics(var node: GroundPhysics, var default: GroundPhysicsSettings) -> GroundPhysicsSettings:
-	return node.physics if node else default
+	return node.physics as GroundPhysicsSettings if node else default
