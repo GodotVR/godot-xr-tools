@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/Object_pickable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=2]
+[ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" type="Script" id=3]
+
+[sub_resource type="SphereShape" id=2]
+margin = 0.01
+radius = 0.2
+
+[sub_resource type="SphereMesh" id=3]
+radius = 0.2
+height = 0.4
+radial_segments = 16
+rings = 7
+
+[sub_resource type="SphereMesh" id=4]
+flip_faces = true
+radius = 0.21
+height = 0.42
+radial_segments = 16
+rings = 7
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_unshaded = true
+albedo_color = Color( 1, 1, 0, 1 )
+
+[node name="GrabBall" instance=ExtResource( 1 )]
+collision_layer = 4
+collision_mask = 720903
+reset_transform_on_pickup = false
+picked_up_layer = 65536
+ranged_grab_method = 2
+
+[node name="PickupCenter" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0 )
+
+[node name="CollisionShape" parent="." index="1"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="." index="2"]
+mesh = SubResource( 3 )
+material/0 = ExtResource( 2 )
+
+[node name="GrabHighlight" type="Spatial" parent="." index="3"]
+script = ExtResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="GrabHighlight" index="0"]
+mesh = SubResource( 4 )
+skeleton = NodePath("../../MeshInstance")
+material/0 = SubResource( 5 )

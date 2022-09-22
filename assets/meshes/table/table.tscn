@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=1]
+
+[sub_resource type="CubeMesh" id=1]
+size = Vector3( 0.05, 0.8, 0.05 )
+
+[sub_resource type="CubeMesh" id=2]
+size = Vector3( 1.6, 0.05, 0.8 )
+
+[sub_resource type="BoxShape" id=3]
+extents = Vector3( 0.025, 0.4, 0.025 )
+
+[sub_resource type="BoxShape" id=4]
+margin = 0.01
+extents = Vector3( 0.8, 0.025, 0.4 )
+
+[node name="Table" type="StaticBody"]
+
+[node name="LegMesh1" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, 0.3 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="LegMesh2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, -0.3 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="LegMesh3" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, 0.3 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="LegMesh4" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, -0.3 )
+mesh = SubResource( 1 )
+material/0 = ExtResource( 1 )
+
+[node name="TopMesh" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
+mesh = SubResource( 2 )
+material/0 = ExtResource( 1 )
+
+[node name="LegShape1" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, 0.3 )
+shape = SubResource( 3 )
+
+[node name="LegShape2" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7, 0.4, -0.3 )
+shape = SubResource( 3 )
+
+[node name="LegShape3" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, 0.3 )
+shape = SubResource( 3 )
+
+[node name="LegShape4" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.7, 0.4, -0.3 )
+shape = SubResource( 3 )
+
+[node name="TopShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0 )
+shape = SubResource( 4 )
