@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/objects/Object_pickable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/objects/pickable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=2]
 [ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/godot-xr-tools/objects/Snap_Zone.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=4]
 
 [sub_resource type="BoxShape" id=9]
 extents = Vector3( 0.15, 0.2, 0.05 )
@@ -52,7 +52,7 @@ collision_mask = 65536
 grab_distance = 0.05
 snap_require = "SnapToyRed"
 
-[node name="XRTHighlightRing" parent="SnapArea1/SnapZone1" index="1" instance=ExtResource( 3 )]
+[node name="HighlightRing" parent="SnapArea1/SnapZone1" index="1" instance=ExtResource( 3 )]
 
 [node name="SnapArea2" type="MeshInstance" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.06 )
@@ -66,7 +66,7 @@ collision_mask = 65536
 grab_distance = 0.05
 snap_require = "SnapToyYellow"
 
-[node name="XRTHighlightRing" parent="SnapArea2/SnapZone2" index="1" instance=ExtResource( 3 )]
+[node name="HighlightRing" parent="SnapArea2/SnapZone2" index="1" instance=ExtResource( 3 )]
 
 [node name="SnapArea3" type="MeshInstance" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.06 )
@@ -80,7 +80,7 @@ collision_mask = 65536
 grab_distance = 0.05
 snap_require = "SnapToy"
 
-[node name="XRTHighlightRing" parent="SnapArea3/SnapZone3" index="1" instance=ExtResource( 3 )]
+[node name="HighlightRing" parent="SnapArea3/SnapZone3" index="1" instance=ExtResource( 3 )]
 
 [node name="SnapArea4" type="MeshInstance" parent="." index="6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.06 )
@@ -94,4 +94,4 @@ collision_mask = 65536
 grab_distance = 0.05
 snap_require = "SnapToy"
 
-[node name="XRTHighlightRing" parent="SnapArea4/SnapZone4" index="1" instance=ExtResource( 3 )]
+[node name="HighlightRing" parent="SnapArea4/SnapZone4" index="1" instance=ExtResource( 3 )]

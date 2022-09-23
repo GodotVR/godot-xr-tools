@@ -4,15 +4,15 @@
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=4]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_pointer.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/assets/LeftHand.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_Direct_movement.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/godot-xr-tools/assets/PlayerBody.tscn" type="PackedScene" id=8]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_Turn_movement.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/assets/RightHand.tscn" type="PackedScene" id=10]
-[ext_resource path="res://addons/godot-xr-tools/objects/Virtual_Keyboard.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pointer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/objects/virtual_keyboard.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/pointer_demo/keyboard_test_screen.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/godot-xr-tools/objects/Viewport_2D_in_3D.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" type="PackedScene" id=13]
 [ext_resource path="res://scenes/pointer_demo/color_change_cube.gd" type="Script" id=14]
 
 [sub_resource type="CubeMesh" id=1]
@@ -26,20 +26,25 @@ extents = Vector3( 0.25, 0.25, 0.25 )
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 
-[node name="Function_Direct_movement" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 7 )]
+[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 7 )]
+enabled = true
+order = 10
 max_speed = 3.0
 strafe = true
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
 
-[node name="Function_Direct_movement" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 7 )]
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 7 )]
+enabled = true
+order = 10
 max_speed = 3.0
+strafe = false
 
-[node name="Function_Turn_movement" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 9 )]
+[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 9 )]
 smooth_rotation = true
 
-[node name="Function_pointer" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
+[node name="FunctionPointer" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 8 )]
 
@@ -50,7 +55,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 scene_base = NodePath("..")
 title = ExtResource( 4 )
 
-[node name="Virtual_Keyboard" parent="." index="3" instance=ExtResource( 11 )]
+[node name="VirtualKeyboard" parent="." index="3" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, -2 )
 
 [node name="Display" parent="." index="4" instance=ExtResource( 13 )]

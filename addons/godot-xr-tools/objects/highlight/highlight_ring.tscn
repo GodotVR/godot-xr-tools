@@ -6,7 +6,7 @@
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 0.05, 0.05 )
 
-[node name="XRTHighlightRing" type="MeshInstance"]
+[node name="HighlightRing" type="MeshInstance"]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 script = ExtResource( 1 )

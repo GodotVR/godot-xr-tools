@@ -145,10 +145,10 @@ func _process(delta):
 
 	# Adjust radius based on rotation speed of our origin point (not of head movement).
 	# We convert our delta rotation to a quaterion.
-	# A quaternion represents a rotation around an angle. 
+	# A quaternion represents a rotation around an angle.
 	var q = delta_b.get_rotation_quat()
 
-	# We get our angle from our w component and then adjust to get a 
+	# We get our angle from our w component and then adjust to get a
 	# rotation speed per second by dividing by delta
 	var angle = (2 * acos(q.w)) / delta
 
@@ -168,7 +168,7 @@ func _process(delta):
 		fade_delay = auto_fade_delay
 	elif fade_delay > 0.0:
 		fade_delay -= delta
-	else: 
+	else:
 		set_radius(clamp(radius + delta / auto_fade_out_factor, 0.0, 1.0))
 
 	last_origin_basis = origin_node.global_transform.basis
@@ -181,9 +181,9 @@ func _process(delta):
 func _get_configuration_warning():
 	# Check the origin node
 	var node = _get_origin_node()
-	if !node: 
+	if !node:
 		return "Parent node must be in a branch from ARVROrigin"
-	
+
 	# check camera node
 	var parent = get_parent()
 	if !parent or !parent is ARVRCamera:

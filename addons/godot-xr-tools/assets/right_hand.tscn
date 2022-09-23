@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/assets/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=1]
+[ext_resource path="res://addons/godot-xr-tools/assets/hand.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.glb" type="PackedScene" id=3]
+
+[node name="RightHand" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="RightHand" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource( 1 )
+anim_player = NodePath("../RightHand/AnimationPlayer")
+active = true
+parameters/Grip/blend_amount = 0.0
+parameters/Trigger/blend_amount = 0.0
+
+[editable path="RightHand"]

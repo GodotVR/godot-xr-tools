@@ -1,15 +1,15 @@
 [gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/assets/RightHand.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/godot-xr-tools/assets/LeftHand.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_Turn_movement.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_Direct_movement.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/assets/PlayerBody.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=6]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/meshes/ramps/ramps.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/meshes/mound/mound.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/functions/Function_Jump_movement.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=10]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=12]
 
@@ -21,23 +21,28 @@ viewport_path = NodePath("Instructions/Viewport")
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 
-[node name="Function_Direct_movement" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 5 )]
+[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 5 )]
+enabled = true
+order = 10
 max_speed = 3.0
 strafe = true
 
-[node name="Function_Jump_movement" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 10 )]
+[node name="MovementJump" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 10 )]
 jump_button_id = 7
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
 
-[node name="Function_Direct_movement" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 5 )]
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 5 )]
+enabled = true
+order = 10
 max_speed = 3.0
+strafe = false
 
-[node name="Function_Turn_movement" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 4 )]
+[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 4 )]
 smooth_rotation = true
 
-[node name="Function_Jump_movement" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 10 )]
+[node name="MovementJump" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 10 )]
 jump_button_id = 7
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 6 )]

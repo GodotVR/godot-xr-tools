@@ -7,8 +7,6 @@ operator = 3
 
 [sub_resource type="VisualShaderNodeScalarUniform" id=2]
 uniform_name = "width"
-default_value_enabled = true
-default_value = 0.2
 
 [sub_resource type="VisualShaderNodeScalarOp" id=11]
 output_port_for_preview = 0
@@ -21,8 +19,6 @@ operator = 1
 
 [sub_resource type="VisualShaderNodeScalarUniform" id=13]
 uniform_name = "fade"
-default_value_enabled = true
-default_value = 0.05
 
 [sub_resource type="VisualShaderNodeScalarOp" id=14]
 default_input_values = [ 0, 0.0, 1, 2.0 ]
@@ -40,7 +36,6 @@ operator = 8
 
 [sub_resource type="VisualShaderNodeColorUniform" id=3]
 uniform_name = "albedo"
-default_value_enabled = true
 
 [sub_resource type="VisualShaderNodeVectorDecompose" id=18]
 
@@ -61,9 +56,6 @@ operator = 3
 
 [sub_resource type="VisualShaderNodeScalarUniform" id=23]
 uniform_name = "value"
-hint = 1
-default_value_enabled = true
-default_value = 0.2
 
 [sub_resource type="VisualShaderNodeScalarOp" id=24]
 output_port_for_preview = 0
@@ -103,8 +95,6 @@ operator = 1
 
 [sub_resource type="VisualShaderNodeScalarUniform" id=9]
 uniform_name = "radius"
-default_value_enabled = true
-default_value = 0.8
 
 [sub_resource type="VisualShaderNodeScalarFunc" id=10]
 output_port_for_preview = 0
@@ -112,13 +102,13 @@ function = 12
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, async_visible, unshaded;
+render_mode specular_schlick_ggx, unshaded;
 
-uniform vec4 albedo : hint_color = vec4(1.000000, 1.000000, 1.000000, 1.000000);
-uniform float value : hint_range(0, 1) = 0.2;
-uniform float fade = 0.05;
-uniform float radius = 0.8;
-uniform float width = 0.2;
+uniform vec4 albedo : hint_color;
+uniform float value;
+uniform float fade;
+uniform float radius;
+uniform float width;
 
 
 
@@ -303,4 +293,4 @@ nodes/fragment/29/node = SubResource( 26 )
 nodes/fragment/29/position = Vector2( 1400, 60 )
 nodes/fragment/30/node = SubResource( 27 )
 nodes/fragment/30/position = Vector2( 1000, -240 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 7, 0, 8, 0, 7, 1, 7, 0, 9, 0, 12, 0, 0, 1, 9, 0, 13, 0, 13, 0, 10, 0, 14, 0, 10, 1, 11, 0, 15, 0, 15, 0, 13, 1, 5, 0, 17, 0, 17, 0, 18, 0, 17, 0, 19, 0, 19, 0, 20, 0, 18, 0, 24, 0, 24, 0, 23, 1, 22, 0, 25, 0, 20, 2, 22, 0, 24, 0, 22, 3, 23, 0, 22, 4, 24, 0, 22, 5, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 28, 0, 28, 0, 29, 0, 10, 0, 29, 1, 29, 0, 12, 1, 14, 0, 30, 0, 30, 0, 28, 1 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 7, 0, 8, 0, 7, 1, 7, 0, 9, 0, 12, 0, 0, 1, 9, 0, 13, 0, 13, 0, 10, 0, 14, 0, 10, 1, 11, 0, 15, 0, 15, 0, 13, 1, 5, 0, 17, 0, 17, 0, 18, 0, 17, 0, 19, 0, 19, 0, 20, 0, 18, 0, 24, 0, 24, 0, 23, 1, 22, 0, 25, 0, 20, 2, 22, 0, 24, 0, 22, 3, 23, 0, 22, 4, 24, 0, 22, 5, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 28, 0, 28, 0, 29, 0, 10, 0, 29, 1, 29, 0, 12, 1, 14, 0, 30, 0, 30, 0, 28, 1, 2, 0, 0, 0, 3, 0, 4, 0, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 7, 0, 8, 0, 7, 1, 7, 0, 9, 0, 12, 0, 0, 1, 9, 0, 13, 0, 13, 0, 10, 0, 14, 0, 10, 1, 11, 0, 15, 0, 15, 0, 13, 1, 5, 0, 17, 0, 17, 0, 18, 0, 17, 0, 19, 0, 19, 0, 20, 0, 18, 0, 24, 0, 24, 0, 23, 1, 22, 0, 25, 0, 20, 2, 22, 0, 24, 0, 22, 3, 23, 0, 22, 4, 24, 0, 22, 5, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 28, 0, 28, 0, 29, 0, 10, 0, 29, 1, 29, 0, 12, 1, 14, 0, 30, 0, 30, 0, 28, 1 )

@@ -1,5 +1,5 @@
 tool
-class_name XRTHighlightVisible
+class_name XRToolsHighlightVisible
 extends Spatial
 
 
@@ -15,7 +15,7 @@ func _ready():
 
 
 # Called when the pickable highlight changes
-func _on_highlight_updated(pickable, enable: bool) -> void:
+func _on_highlight_updated(_pickable, enable: bool) -> void:
 	visible = enable
 
 
