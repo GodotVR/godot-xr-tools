@@ -1,5 +1,5 @@
 tool
-class_name XRTHighlightMaterial
+class_name XRToolsHighlightMaterial
 extends Node
 
 
@@ -30,7 +30,7 @@ func _ready():
 
 
 # Called when the pickable highlight changes
-func _on_highlight_updated(pickable, enable: bool) -> void:
+func _on_highlight_updated(_pickable, enable: bool) -> void:
 	# Set the materials
 	if _highlight_mesh_instance:
 		for i in range(0, _highlight_mesh_instance.get_surface_material_count()):

@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.gd" type="Script" id=1]
+
+[node name="MovementDirect" type="Node" groups=["movement_providers"]]
+script = ExtResource( 1 )
+enabled = null
+order = null
+max_speed = null
+strafe = null

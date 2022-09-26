@@ -4,7 +4,7 @@
 [ext_resource path="res://staging.gd" type="Script" id=2]
 [ext_resource path="res://loading_screen/loading_screen.tscn" type="PackedScene" id=3]
 [ext_resource path="res://loading_screen/fade.gdshader" type="Shader" id=4]
-[ext_resource path="res://addons/godot-xr-tools/misc/VR_Common_Shader_Cache.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" type="PackedScene" id=9]
 
 [sub_resource type="QuadMesh" id=4]
 custom_aabb = AABB( -5000, -5000, -5000, 10000, 10000, 10000 )

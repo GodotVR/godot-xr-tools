@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.gd" type="Script" id=1]
+
+[node name="FunctionPickup" type="Spatial"]
+script = ExtResource( 1 )

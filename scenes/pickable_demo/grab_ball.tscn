@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/objects/Object_pickable.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/objects/pickable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=2]
 [ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" type="Script" id=3]
 
