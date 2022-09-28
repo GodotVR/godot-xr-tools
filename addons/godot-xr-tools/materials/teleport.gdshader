@@ -4,8 +4,8 @@ render_mode unshaded, cull_disabled, skip_vertex_transform;
 uniform float scale_t = 0.2;
 uniform float length = 20.0;
 uniform float ws = 1.0;
-uniform vec4 mix_color : hint_color;
-uniform sampler2D arrow_texture : hint_albedo;
+uniform vec4 mix_color : source_color;
+uniform sampler2D arrow_texture : source_color;
 
 void vertex() {
 	vec3 down = vec3(0.0, -1.0 / ws, 0.0);

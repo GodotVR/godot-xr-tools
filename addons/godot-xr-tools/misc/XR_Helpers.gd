@@ -65,14 +65,14 @@ static func get_xr_camera(node: Node, path: NodePath = NodePath()) -> XRCamera3D
 
 ## Find the Left Hand Controller from a player node and an optional path
 static func get_left_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
-	return _get_controller(node, "LeftHandController", 1, path)
+	return _get_controller(node, "LeftHandController", "left_hand", path)
 
 ## Find the Right Hand Controller from a player node and an optional path
 static func get_right_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
-	return _get_controller(node, "RightHandController", 2, path)
+	return _get_controller(node, "RightHandController", "right_hand", path)
 
 ## Find a controller given some search parameters
-static func _get_controller(node: Node, default_name: String, id: int, path: NodePath) -> XRController3D:
+static func _get_controller(node: Node, default_name: String, tracker: String, path: NodePath) -> XRController3D:
 	var controller: XRController3D
 	
 	# Try using the node path first
@@ -94,7 +94,7 @@ static func _get_controller(node: Node, default_name: String, id: int, path: Nod
 	# Search all children of the origin for the controller
 	for child in origin.get_children():
 		controller = child as XRController3D
-		if controller and controller.controller_id == id:
+		if controller and controller.tracker == tracker:
 			return controller
 
 	# Could not find the controller

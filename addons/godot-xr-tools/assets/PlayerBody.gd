@@ -289,7 +289,7 @@ func _update_ground_information():
 	else:
 		on_ground = true
 		ground_vector = ground_collision.get_normal()
-		ground_angle = rad2deg(ground_collision.get_angle())
+		ground_angle = rad_to_deg(ground_collision.get_angle())
 		ground_node = ground_collision.get_collider()
 
 		# Select the ground physics
