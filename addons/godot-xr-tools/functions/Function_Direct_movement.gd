@@ -105,7 +105,7 @@ func _perform_player_rotation(delta: float, player_body: PlayerBody):
 
 	# Turn one step in the requested direction
 	_turn_step = step_turn_delay
-	_rotate_player(player_body, deg2rad(step_turn_angle) * sign(left_right))
+	_rotate_player(player_body, deg_to_rad(step_turn_angle) * sign(left_right))
 
 
 # Rotate the origin node around the camera

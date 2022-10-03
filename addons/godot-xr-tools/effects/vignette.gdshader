@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode depth_test_disabled, skip_vertex_transform, unshaded;
 
-uniform vec4 color : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform vec4 color : source_color = vec4(0.0, 0.0, 0.0, 1.0);
 uniform float radius = 1.0;
 uniform float fade = 0.05;
 

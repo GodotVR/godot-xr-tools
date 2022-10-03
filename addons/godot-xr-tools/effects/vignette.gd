@@ -1,4 +1,4 @@
-@tool
+#@tool
 extends Node3D
 
 @export var radius = 1.0:
@@ -31,7 +31,7 @@ extends Node3D
 @export var auto_rotation_limit = 20.0:
 	set(new_value):
 		auto_rotation_limit = new_value
-		auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
+		auto_rotation_limit_rad = deg_to_rad(auto_rotation_limit)
 
 @export var auto_velocity_limit = 10.0
 
@@ -42,19 +42,19 @@ var fade_delay = 0.0
 var origin_node = null
 var last_origin_basis : Basis
 var last_location : Vector3
-@onready var auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
+@onready var auto_rotation_limit_rad = deg_to_rad(auto_rotation_limit)
 
 func _update_radius():
 	if radius < 1.0:
 		if material:
-			material.set_shader_param("radius", radius * sqrt(2))
+			material.set_shader_parameter("radius", radius * sqrt(2))
 		$Mesh.visible = true
 	else:
 		$Mesh.visible = false
 
 func _update_fade():
 	if material:
-		material.set_shader_param("fade", fade)
+		material.set_shader_parameter("fade", fade)
 
 func _update_mesh():
 	var vertices : PackedVector3Array
@@ -63,7 +63,7 @@ func _update_mesh():
 	vertices.resize(2 * steps)
 	indices.resize(6 * steps)
 	for i in steps:
-		var v : Vector3 = Vector3.RIGHT.rotated(Vector3.FORWARD, deg2rad((360.0 * i) / steps))
+		var v : Vector3 = Vector3.RIGHT.rotated(Vector3.FORWARD, deg_to_rad((360.0 * i) / steps))
 		vertices[i] = v
 		vertices[steps+i] = v * 2.0
 

@@ -122,6 +122,10 @@ func _ready():
 
 
 func _process(_delta: float):
+	# Do not run physics if in the editor
+	if Engine.is_editor_hint():
+		return
+
 	# Skip if disabled or the controller isn't active
 	if !enabled or !_controller.get_is_active():
 		set_flying(false)
