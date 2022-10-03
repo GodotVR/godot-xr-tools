@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://clujaf3u776a3"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.gd" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d_body.gd" id="2"]
+
+[sub_resource type="QuadMesh" id="1"]
+resource_local_to_scene = true
+size = Vector2(3, 2)
+
+[sub_resource type="BoxShape3D" id="4"]
+resource_local_to_scene = true
+size = Vector3(3, 2, 0.02)
+
+[node name="Viewport2Din3D" type="Node3D"]
+script = ExtResource("1")
+collision_layer = 1023
+
+[node name="Viewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(300, 200)
+render_target_update_mode = 3
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+mesh = SubResource("1")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+collision_layer = 15
+collision_mask = 0
+script = ExtResource("2")
+viewport_size = Vector2(300, 200)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+shape = SubResource("4")
+
+[connection signal="pointer_entered" from="StaticBody3D" to="." method="_on_pointer_entered"]
+[connection signal="pointer_exited" from="StaticBody3D" to="." method="_on_pointer_exited"]
+[connection signal="pointer_moved" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_moved"]
+[connection signal="pointer_pressed" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_pressed"]
+[connection signal="pointer_released" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_released"]

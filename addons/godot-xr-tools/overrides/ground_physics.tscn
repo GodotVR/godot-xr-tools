@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ohmfk2ly8312"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/overrides/ground_physics.gd" id="1"]
+
+[node name="GroundPhysics" type="Node"]
+script = ExtResource("1")

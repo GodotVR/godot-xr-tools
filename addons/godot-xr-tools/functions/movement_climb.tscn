@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bxm1ply47vaan"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_climb.gd" id="1"]
+
+[node name="MovementClimb" type="Node" groups=["movement_providers"]]
+script = ExtResource("1")
