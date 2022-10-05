@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dkbe7ndgv0ovc"]
-
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/Function_Direct_movement.gd" id="1"]
-
-[node name="Function_Direct_movement" type="Node" groups=["movement_providers"]]
-script = ExtResource( "1" )
