@@ -7,9 +7,8 @@ extends XRToolsMovementProvider
 ## Movement Provider for Gliding
 ##
 ## @desc:
-##     This script works with the Function_Glide_movement asset to provide glide
-##     mechanics for the player. This script works with the PlayerBody attached
-##     to the players XROrigin3D.
+##     This script provides glide mechanics for the player. This script works
+##     with the PlayerBody attached to the players ARVROrigin.
 ##
 ##     The player enables flying by moving the controllers apart further than
 ##     'glide_detect_distance'.
@@ -66,9 +65,9 @@ func _ready():
 	super._ready()
 
 
-func physics_movement(delta: float, player_body: XRToolsPlayerBody):
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if disabled or either controller is off
-	if !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
+	if disabled or !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
 		_set_gliding(false)
 		return
 
@@ -78,12 +77,13 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody):
 		return
 
 	# Get the controller left and right global horizontal positions
-	var left_position := _left_controller.global_transform.origin * HORIZONTAL
-	var right_position := _right_controller.global_transform.origin * HORIZONTAL
-	var left_to_right := right_position - left_position
+	var left_position := _left_controller.global_transform.origin
+	var right_position := _right_controller.global_transform.origin
+	var left_to_right := (right_position - left_position) * HORIZONTAL
 
 	# Set gliding based on hand separation
-	_set_gliding(left_to_right.length() >= glide_detect_distance)
+	var separation := left_to_right.length() / XRServer.world_scale
+	_set_gliding(separation >= glide_detect_distance)
 
 	# Skip if not gliding
 	if !is_active:
@@ -101,13 +101,12 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody):
 
 	# Perform the glide
 	var glide_velocity := horizontal_velocity + vertical_velocity * Vector3.UP
-	player_body.velocity = player_body.move_and_slide(glide_velocity)
+	player_body.velocity = player_body.move_body(glide_velocity)
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true
 
-
-# Set the is_gliding flag and fire any signals
+# Set the gliding state and fire any signals
 func _set_gliding(active: bool) -> void:
 	# Skip if no change
 	if active == is_active:
@@ -115,7 +114,7 @@ func _set_gliding(active: bool) -> void:
 
 	# Update the is_gliding flag
 	is_active = active;
-	
+
 	# Report transition
 	if is_active:
 		emit_signal("player_glide_start")
@@ -123,7 +122,7 @@ func _set_gliding(active: bool) -> void:
 		emit_signal("player_glide_end")
 
 
-# This method verifies the MovementProvider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify the left controller
 	var test_left_controller_node := XRHelpers.get_left_controller(self)

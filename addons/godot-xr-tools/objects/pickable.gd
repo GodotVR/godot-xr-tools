@@ -1,69 +1,155 @@
 @tool
-extends RigidBody3D
 class_name XRToolsPickable
+extends RigidBody3D
 
-# Set hold mode
-@export var press_to_hold : bool = true
-@export var reset_transform_on_pickup : bool = true
-@export_node_path(MeshInstance3D) var highlight_mesh_instance
-@export_flags_3d_physics var picked_up_layer = 0
 
-# Remember some state so we can return to it when the user drops the object
-@onready var original_parent = get_parent()
-@onready var original_collision_mask = collision_mask
-@onready var original_collision_layer = collision_layer
-var was_frozen : bool = false
+##
+## Pickable Object
+##
+## @desc:
+##     This script manages a RigidBody that supports being picked up.
+##
 
-@onready var highlight_material = preload("res://addons/godot-xr-tools/materials/highlight.tres")
-var original_materials = Array()
-var highlight_mesh_instance_node : MeshInstance3D = null
-
-# Who picked us up?
-var picked_up_by = null
-var center_pickup_on_node = null
-var by_controller : XRController3D = null
-var closest_count = 0
 
 # Signal emitted when the user picks up this object
 signal picked_up(pickable)
 
-# Signal emitted when the user drops this object 
+# Signal emitted when the user drops this object
 signal dropped(pickable)
 
 # Signal emitted when the user presses the action button while holding this object
 signal action_pressed(pickable)
 
-# have we been picked up?
-func is_picked_up():
-	if picked_up_by:
-		return true
+# Signal emitted when the highlight state changes
+signal highlight_updated(pickable, enable)
 
-	return false
+
+# Method used to hold object
+enum HoldMethod {
+	REMOTE_TRANSFORM,	# Remote transform to holder
+	REPARENT,			# Reparent to holder
+}
+
+# Method used to grab object at range
+enum RangedMethod {
+	NONE,				# Not supported
+	SNAP,				# Snap to holder
+	LERP,				# Lerp to holder
+}
+
+# Current pickable object state
+enum PickableState {
+	IDLE,				# Object not held
+	GRABBING_RANGED,	# Object being grabbed at range
+	HELD,				# Object held
+}
+
+
+## Flag indicating if the grip control must be held
+@export var press_to_hold : bool = true
+
+## Flag indicating transform should be reset to pickup center
+@export var reset_transform_on_pickup : bool = true
+
+## Layer for this object while picked up
+@export_flags_3d_physics var picked_up_layer = 0
+
+## Method used to hold an object
+@export_enum (HoldMethod) var hold_method : int = HoldMethod.REMOTE_TRANSFORM
+
+## Method used to perform a ranged grab
+@export_enum (RangedMethod) var ranged_grab_method : int = RangedMethod.SNAP:
+	set(new_value):
+		ranged_grab_method = new_value
+		can_ranged_grab = new_value != RangedMethod.NONE
+
+## Speed for ranged grab
+@export var ranged_grab_speed : float = 20.0
+
+## Refuse pick-by when in the specified group
+@export var picked_by_exclude : String = ""
+
+## Require pick-by to be in the specified group
+@export var picked_by_require : String = ""
+
+
+# Can object be grabbed at range
+var can_ranged_grab: bool = true
+
+# Original frozen state
+var was_frozen : bool = false
+
+# Entity holding this item
+var picked_up_by: Node3D = null
+
+# Controller holding this item (may be null if held by snap-zone)
+var by_controller : XRController3D = null
+
+# Pickup center
+var center_pickup_on_node: Node3D = null
+
+# Count of 'is_closest' grabbers
+var _closest_count: int = 0
+
+# Current state
+var _state = PickableState.IDLE
+
+# Remote transform
+var _remote_transform: RemoteTransform3D = null
+
+# Move-to node for performing remote grab
+var _move_to: XRToolsMoveTo = null
+
+
+# Remember some state so we can return to it when the user drops the object
+@onready var original_parent = get_parent()
+@onready var original_collision_mask : int = collision_mask
+@onready var original_collision_layer : int = collision_layer
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	# Attempt to get the pickup center if provided
+	center_pickup_on_node = get_node_or_null("PickupCenter")
+
+
+# Test if this object can be picked up
+func can_pick_up(_by: Node3D) -> bool:
+	return _state == PickableState.IDLE
+
+
+# Test if this object is picked up
+func is_picked_up():
+	return _state == PickableState.HELD
+
 
 # action is called when user presses the action button while holding this object
 func action():
 	# let interested parties know
 	emit_signal("action_pressed", self)
 
-func _update_highlight():
-	if highlight_mesh_instance_node:
-		# if we can find a node remember which materials are currently set on each surface
-		for i in range(0, highlight_mesh_instance_node.get_surface_override_material_count()):
-			if closest_count > 0:
-				highlight_mesh_instance_node.set_surface_override_material(i, highlight_material)
-			else:
-				highlight_mesh_instance_node.set_surface_override_material(i, original_materials[i])
-	else:
-		# should probably implement this in our subclass
-		pass
 
+# This method is invoked when it becomes the closest pickable object to one of
+# the pickup functions.
 func increase_is_closest():
-	closest_count += 1
-	_update_highlight()
+	# Increment the closest counter
+	_closest_count += 1
 
+	# If this object has just become highlighted then emit the signal
+	if _closest_count == 1:
+		emit_signal("highlight_updated", self, true)
+
+
+# This method is invoked when it stops being the closest pickable object to one
+# of the pickup functions.
 func decrease_is_closest():
-	closest_count -= 1
-	_update_highlight()
+	# Decrement the closest counter
+	_closest_count -= 1
+
+	# If no-longer highlighted then emit the signal
+	if _closest_count == 0:
+		emit_signal("highlight_updated", self, false)
+
 
 func drop_and_free():
 	if picked_up_by:
@@ -71,13 +157,15 @@ func drop_and_free():
 
 	queue_free()
 
-# we are being picked up by...
-func pick_up(by, with_controller):
-	if picked_up_by == by:
+
+# Called when this object is picked up
+func pick_up(by: Node3D, with_controller: XRController3D) -> void:
+	# Skip if not idle
+	if _state != PickableState.IDLE:
 		return
 
 	if picked_up_by:
-		let_go()
+		let_go(Vector3.ZERO, Vector3.ZERO)
 
 	# remember who picked us up
 	picked_up_by = by
@@ -91,65 +179,158 @@ func pick_up(by, with_controller):
 	collision_layer = picked_up_layer
 	collision_mask = 0
 
-	# now reparent it
-	var original_transform = global_transform
-	original_parent.remove_child(self)
-	picked_up_by.add_child(self)
-
-	if reset_transform_on_pickup:
-		if center_pickup_on_node:
-			transform = center_pickup_on_node.global_transform.inverse() * global_transform
+	if by.picked_up_ranged:
+		if ranged_grab_method == RangedMethod.LERP:
+			_start_ranged_grab()
 		else:
-			# reset our transform
-			transform = Transform3D()
+			_do_snap_grab()
+	elif reset_transform_on_pickup:
+		_do_snap_grab()
 	else:
-		# make sure we keep its original position
-		global_transform = original_transform
+		_do_precise_grab()
+
+
+# Called when this object is dropped
+func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
+	# Skip if idle
+	if _state == PickableState.IDLE:
+		return
+
+	# If held then detach from holder
+	if _state == PickableState.HELD:
+		match hold_method:
+			HoldMethod.REPARENT:
+				var original_transform = global_transform
+				picked_up_by.remove_child(self)
+				original_parent.add_child(self)
+				global_transform = original_transform
+
+			HoldMethod.REMOTE_TRANSFORM:
+				_remote_transform.remote_path = NodePath()
+				_remote_transform.queue_free()
+				_remote_transform = null
+
+	# Restore RigidBody mode
+	freeze = was_frozen
+	collision_mask = original_collision_mask
+	collision_layer = original_collision_layer
+
+	# Set velocity
+	linear_velocity = p_linear_velocity
+	angular_velocity = p_angular_velocity
+
+	# we are no longer picked up
+	_state = PickableState.IDLE
+	picked_up_by = null
+	by_controller = null
+
+	# Stop any XRToolsMoveTo being used for remote grabbing
+	if _move_to:
+		_move_to.stop()
+		_move_to.queue_free()
+		_move_to = null
 
 	# let interested parties know
+	emit_signal("dropped", self)
+
+
+func _start_ranged_grab() -> void:
+	# Set state to grabbing at range and enable processing
+	_state = PickableState.GRABBING_RANGED
+
+	# Create a XRToolsMoveTo to perform the remote-grab. The remote grab will move
+	# us to the pickup object at the ranged-grab speed, and also takes into account
+	# the center-pickup position
+	_move_to = XRToolsMoveTo.new()
+	_move_to.start(self, picked_up_by, center_pickup_on_node.transform.inverse(), ranged_grab_speed)
+	_move_to.move_complete.connect(_ranged_grab_complete)
+	self.add_child(_move_to)
+
+
+func _ranged_grab_complete() -> void:
+	# Discard the XRToolsMoveTo performing the remote-grab
+	_move_to.queue_free()
+	_move_to = null
+
+	# Perform the snap grab
+	_do_snap_grab()
+
+
+func _do_snap_grab() -> void:
+	# Set state to held
+	_state = PickableState.HELD
+
+	# Perform the hold
+	match hold_method:
+		HoldMethod.REMOTE_TRANSFORM:
+			# Calculate the snap transform for remote-transforming
+			var snap_transform: Transform3D
+			if center_pickup_on_node:
+				snap_transform = center_pickup_on_node.transform
+			else:
+				snap_transform = Transform3D()
+
+			# Construct the remote transform
+			_remote_transform = RemoteTransform3D.new()
+			_remote_transform.set_name("PickupRemoteTransform")
+			picked_up_by.add_child(_remote_transform)
+			_remote_transform.transform = snap_transform
+			_remote_transform.remote_path = _remote_transform.get_path_to(self)
+
+		HoldMethod.REPARENT:
+			# Calculate the snap transform for reparenting
+			var snap_transform: Transform3D
+			if center_pickup_on_node:
+				snap_transform = center_pickup_on_node.global_transform.inverse() * global_transform
+			else:
+				snap_transform = Transform3D()
+
+			# Reparent to the holder with snap transform
+			original_parent.remove_child(self)
+			picked_up_by.add_child(self)
+			transform = snap_transform
+
+	# Emit the picked up signal
 	emit_signal("picked_up", self)
 
-# we are being let go
-func let_go(p_linear_velocity = Vector3(), p_angular_velocity = Vector3()):
-	if picked_up_by:
-		# get our current global transform
-		var t = global_transform
 
-		# reparent it
-		picked_up_by.remove_child(self)
-		original_parent.add_child(self)
+func _do_precise_grab() -> void:
+	# Set state to held
+	_state = PickableState.HELD
 
-		# reposition it and apply impulse
-		global_transform = t
-		freeze = was_frozen
-		collision_mask = original_collision_mask
-		collision_layer = original_collision_layer
+	# Reparent to the holder
+	match hold_method:
+		HoldMethod.REMOTE_TRANSFORM:
+			# Calculate the precise transform for remote-transforming
+			var precise_transform = picked_up_by.global_transform.inverse() * global_transform
 
-		# set our starting velocity
-		linear_velocity = p_linear_velocity
-		angular_velocity = p_angular_velocity
+			# Construct the remote transform
+			_remote_transform = RemoteTransform3D.new()
+			_remote_transform.set_name("PickupRemoteTransform")
+			picked_up_by.add_child(_remote_transform)
+			_remote_transform.transform = picked_up_by.global_transform.inverse() * global_transform
+			_remote_transform.remote_path = _remote_transform.get_path_to(self)
 
-		# we are no longer picked up
-		picked_up_by = null
-		by_controller = null
-		
-		# let interested parties know
-		emit_signal("dropped", self)
+		HoldMethod.REPARENT:
+			# Calculate the precise transform for reparenting
+			var precise_transform = global_transform
 
-func _ready():
-	if highlight_mesh_instance:
-		# if we have a highlight mesh instance selected obtain our node
-		highlight_mesh_instance_node = get_node(highlight_mesh_instance)
-		if highlight_mesh_instance_node:
-			# if we can find a node remember which materials are currently set on each surface
-			for i in range(0, highlight_mesh_instance_node.get_surface_override_material_count()):
-				original_materials.push_back(highlight_mesh_instance_node.get_surface_override_material(i))
+			# Reparent to the holder with precise transform
+			original_parent.remove_child(self)
+			picked_up_by.add_child(self)
+			global_transform = precise_transform
 
-	# if we have center pickup on set obtain our node
-	if reset_transform_on_pickup:
-		center_pickup_on_node = get_node("PickupCenter")
+	# Emit the picked up signal
+	emit_signal("picked_up", self)
+
 
 func _get_configuration_warning():
-	if reset_transform_on_pickup and !get_node_or_null("PickupCenter"):
-		return "Missing PickupCenter child node for 'reset transform on pickup'"
+	# Check for error cases when missing a PickupCenter
+	if not get_node_or_null("PickupCenter"):
+		if reset_transform_on_pickup:
+			return "Missing PickupCenter child node for 'reset transform on pickup'"
+		if ranged_grab_method != RangedMethod.NONE:
+			return "Missing PickupCenter child node for 'remote grabbing'"
+
+	# No issues found
 	return ""

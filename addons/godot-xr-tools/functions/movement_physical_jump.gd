@@ -4,7 +4,7 @@ extends XRToolsMovementProvider
 
 
 ##
-## Movement Provider for Player Jump Detection
+## Movement Provider for Player Physical Jump Detection
 ##
 ## @desc:
 ##     This script can detect jumping based on either the players body jumping,
@@ -18,27 +18,44 @@ extends XRToolsMovementProvider
 ##     The player arms jumping is detected by putting both controllers instantaneous
 ##     Y velocity (in the tracking space) into a sliding-window averager. If both
 ##     average Y velocities exceed a threshold parameter then the player has
-##     jumped. 
+##     jumped.
 ##
 
 
 ## Movement provider order
-@export var order := 20
+@export var order : int = 20
 
 ## Enable detecting of jump via body (through the camera)
-@export var body_jump_enable := true
+@export var body_jump_enable : bool = true
 
 ## Only jump as high as the player (no ground physics)
-@export var body_jump_player_only := false
+@export var body_jump_player_only : bool = false
 
 ## Body jump detection threshold (M/S^2)
-@export var body_jump_threshold := 2.5
+@export var body_jump_threshold : float = 2.5
 
 ## Enable detectionm of jump via arms (through the controllers)
-@export var arms_jump_enable := false
+@export var arms_jump_enable : bool = false
 
 ## Arms jump detection threshold (M/S^2)
-@export var arms_jump_threshold := 10.0
+@export var arms_jump_threshold : float = 10.0
+
+
+# Node Positions
+var _camera_position : float = 0.0
+var _controller_left_position : float = 0.0
+var _controller_right_position : float = 0.0
+
+# Node Velocities
+var _camera_velocity :SlidingAverage = SlidingAverage.new(5)
+var _controller_left_velocity : SlidingAverage = SlidingAverage.new(5)
+var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
+
+# Node references
+@onready var _origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
+@onready var _camera_node : XRCamera3D = XRHelpers.get_xr_camera(self)
+@onready var _controller_left_node : XRController3D = XRHelpers.get_left_controller(self)
+@onready var _controller_right_node : XRController3D = XRHelpers.get_right_controller(self)
 
 
 # Sliding Average class
@@ -76,29 +93,17 @@ class SlidingAverage:
 		return _sum / _size
 
 
-# Node Positions
-var _camera_position := 0.0
-var _controller_left_position := 0.0
-var _controller_right_position := 0.0
-
-# Node Velocities
-var _camera_velocity := SlidingAverage.new(5)
-var _controller_left_velocity := SlidingAverage.new(5)
-var _controller_right_velocity := SlidingAverage.new(5)
-
-# Node references
-@onready var _origin_node := XRHelpers.get_xr_origin(self)
-@onready var _camera_node := XRHelpers.get_xr_camera(self)
-@onready var _controller_left_node := XRHelpers.get_left_controller(self)
-@onready var _controller_right_node := XRHelpers.get_right_controller(self)
+func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super._ready()
 
 
 # Perform jump detection
-func physics_movement(delta: float, player_body: XRToolsPlayerBody):
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Handle detecting body jump
 	if body_jump_enable:
 		_detect_body_jump(delta, player_body)
-	
+
 	# Handle detecting arms jump
 	if arms_jump_enable:
 		_detect_arms_jump(delta, player_body)
@@ -114,6 +119,9 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	# Ignore zero moves (either not tracking, or no update since last physics)
 	if abs(camera_vel) < 0.001:
 		return;
+
+	# Correct for XR world-scale (convert to player units)
+	camera_vel /= XRServer.world_scale
 
 	# Clamp the camera instantaneous velocity to +/- 2x the jump threshold
 	camera_vel = clamp(camera_vel, -2.0 * body_jump_threshold, 2.0 * body_jump_threshold)
@@ -143,6 +151,10 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	# Ignore zero moves (either not tracking, or no update since last physics)
 	if abs(controller_left_vel) <= 0.001 and abs(controller_right_vel) <= 0.001:
 		return
+
+	# Correct for XR world-scale (convert to player units)
+	controller_left_vel /= XRServer.world_scale
+	controller_right_vel /= XRServer.world_scale
 
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
 	controller_left_vel = clamp(controller_left_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)

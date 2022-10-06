@@ -61,7 +61,7 @@ func _update_scene():
 
 	# in with the new
 	if scene:
-		scene_node = scene.instance()
+		scene_node = scene.instantiate()
 		$Viewport.add_child(scene_node)
 
 @export_flags_3d_physics var collision_layer = 15:
@@ -93,6 +93,7 @@ func _ready():
 	is_ready = true
 	_update_enabled()
 	_update_screen_size()
+	_update_viewport_size()
 	_update_collision_layer()
 	_update_scene()
 	_update_collision_layer()

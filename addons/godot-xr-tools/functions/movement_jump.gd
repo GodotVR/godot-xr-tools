@@ -7,12 +7,11 @@ extends XRToolsMovementProvider
 ## Movement Provider for Jumping
 ##
 ## @desc:
-##     This script works with the Function_Jump_movement asset to provide 
-##     jumping mechanics for the player. This script works with the PlayerBody
-##     attached to the players XROrigin3D.
+##     This script provides jumping mechanics for the player. This script works
+##     with the player body attached to the players XROrigin3D.
 ##
-##     The player enables jumping by attaching a Function_Jump_movement as a 
-##     child of the appropriate XRController3D, then configuring the jump button 
+##     The player enables jumping by attaching an XRToolsMovementJump as a
+##     child of the appropriate XRController3D, then configuring the jump button
 ##     and jump velocity.
 ##
 
@@ -34,17 +33,17 @@ func _ready():
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody):
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the jump controller isn't active
 	if !_controller.get_is_active():
 		return
 
-	# Skip if the jump button isn't pressed
+	# Request jump if the button is pressed
 	if _controller.is_button_pressed(jump_button_action):
 		player_body.request_jump()
 
 
-# This method verifies the MovementProvider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
 	var test_controller = get_parent()

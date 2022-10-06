@@ -8,11 +8,11 @@ extends Node
 ## Movement Provider base class
 ##
 ## @desc:
-##     This MovementProvider class is the base class of all movement providers.
+##     This movement provider class is the base class of all movement providers.
 ##     Movement providers are invoked by the PlayerBody object in order to apply
 ##     motion to the player
 ##
-##     MovementProvider implementations should:
+##     Movement provider implementations should:
 ##      - Export an 'order' integer to control order of processing
 ##      - Override the physics_movement method to impelment motion
 ##
@@ -77,7 +77,7 @@ func _ready():
 
 
 # Override this function to apply motion to the PlayerBody
-func physics_movement(_delta: float, _player_body: XRToolsPlayerBody):
+func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled: bool):
 	pass
 
 

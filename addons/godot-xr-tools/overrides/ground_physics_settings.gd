@@ -4,24 +4,32 @@ extends Resource
 
 ## Enumeration flags for which ground physics properties are enabled
 enum GroundPhysicsFlags {
-	MOVE_DRAG = 1,
-	MOVE_TRACTION = 2,
-	MOVE_MAX_SLOPE = 4,
-	JUMP_MAX_SLOP = 8,
-	JUMP_VELOCITY = 16
+	MOVE_DRAG = 		0b00000001,
+	MOVE_TRACTION = 	0b00000010,
+	MOVE_MAX_SLOPE = 	0b00000100,
+	JUMP_MAX_SLOP = 	0b00001000,
+	JUMP_VELOCITY = 	0b00010000,
+	BOUNCINESS = 		0b00100000,
+	BOUNCE_THRESHOLD = 	0b01000000,
 }
 
 ## Flags defining which ground velocities are enabled
-@export_flags("Move Drag", "Move Traction", "Move Max Slope", "Jump Max Slope", "Jump Velocity") var flags : int = 0
+@export_flags("Move Drag",
+	"Move Traction",
+	"Move Max Slope",
+	"Jump Max Slope",
+	"Jump Velocity",
+	"Bounciness",
+	"Bounce Threshold") var flags : int = 0
 
 ## Movement drag factor
-@export var move_drag := 5.0
+@export var move_drag : float = 5.0
 
 ## Movement traction factor
 @export var move_traction : float = 30.0
 
 ## Stop sliding on slope
-@export var stop_on_slope := true
+@export var stop_on_slope : bool = true
 
 ## Movement maximum slope
 @export_range(0.0, 85.0) var move_max_slope : float = 45.0
@@ -32,14 +40,23 @@ enum GroundPhysicsFlags {
 ## Jump velocity
 @export var jump_velocity : float = 3.0
 
+## Ground bounciness (0 = no bounce, 1 = full bounciness)
+@export var bounciness : float = 0.0
+
+## Bounce threshold (skip bounce if velocity less than threshold)
+@export var bounce_threshold : float = 1.0
+
+
 # Handle class initialization with default parameters
 func _init(
-	p_flags = 0, 
-	p_move_drag = 5.0, 
-	p_move_traction = 30.0, 
-	p_move_max_slope = 45.0, 
+	p_flags = 0,
+	p_move_drag = 5.0,
+	p_move_traction = 30.0,
+	p_move_max_slope = 45.0,
 	p_jump_max_slope = 45.0,
-	p_jump_velocity = 3.0):
+	p_jump_velocity = 3.0,
+	p_bounciness = 0.0,
+	p_bounce_threshold = 1.0):
 	# Save the parameters
 	flags = p_flags
 	move_drag = p_move_drag
@@ -47,33 +64,47 @@ func _init(
 	move_max_slope = p_move_max_slope
 	jump_max_slope = p_jump_max_slope
 	jump_velocity = p_jump_velocity
+	bounciness = p_bounciness
+	bounce_threshold = p_bounce_threshold
 
 static func get_move_drag(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.MOVE_DRAG:
 		return override.move_drag
-	else:
-		return default.move_drag
+
+	return default.move_drag
 
 static func get_move_traction(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.MOVE_TRACTION:
 		return override.move_traction
-	else:
-		return default.move_traction
+
+	return default.move_traction
 
 static func get_move_max_slope(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.MOVE_MAX_SLOPE:
 		return override.move_max_slope
-	else:
-		return default.move_max_slope
+
+	return default.move_max_slope
 
 static func get_jump_max_slope(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.JUMP_MAX_SLOP:
 		return override.jump_max_slope
-	else:
-		return default.jump_max_slope
+
+	return default.jump_max_slope
 
 static func get_jump_velocity(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
 	if override and override.flags & GroundPhysicsFlags.JUMP_VELOCITY:
 		return override.jump_velocity
-	else:
-		return default.jump_velocity
+
+	return default.jump_velocity
+
+static func get_bounciness(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
+	if override and override.flags & GroundPhysicsFlags.BOUNCINESS:
+		return override.bounciness
+
+	return default.bounciness
+
+static func get_bounce_threshold(override: XRToolsGroundPhysicsSettings, default: XRToolsGroundPhysicsSettings) -> float:
+	if override and override.flags & GroundPhysicsFlags.BOUNCE_THRESHOLD:
+		return override.bounce_threshold
+
+	return default.bounce_threshold

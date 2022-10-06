@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6bk2pj8vbj28"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_turn.gd" id="1"]
+
+[node name="MovementTurn" type="Node" groups=["movement_providers"]]
+script = ExtResource("1")
