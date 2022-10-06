@@ -67,53 +67,56 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
 ## Movement provider order
-@export var order := 30
+@export var order : int = 30
 
 ## Flight controller
-@export_enum (FlightController) var controller: int = FlightController.LEFT
+@export_enum (FlightController) var controller : int = FlightController.LEFT
 
 ## Flight toggle button
-@export var flight_button = "by_button"
+@export var flight_button : String = "by_button"
 
 ## Flight pitch control
-@export_enum (FlightPitch) var pitch: int = FlightPitch.CONTROLLER
+@export_enum (FlightPitch) var pitch : int = FlightPitch.CONTROLLER
 
 ## Flight bearing control
-@export_enum (FlightBearing) var bearing: int = FlightBearing.CONTROLLER
+@export_enum (FlightBearing) var bearing : int = FlightBearing.CONTROLLER
 
 ## Flight speed from control
-@export var speed_scale: float = 5.0
+@export var speed_scale : float = 5.0
 
 ## Flight traction pulling flight velocity towards the controlled speed
-@export var speed_traction: float = 3.0
+@export var speed_traction : float = 3.0
 
 ## Flight acceleration from control
-@export var acceleration_scale: float = 0.0
+@export var acceleration_scale : float = 0.0
 
 ## Flight drag
-@export var drag: float = 0.1
+@export var drag : float = 0.1
 
 ## Guidance effect (virtual fins/wings)
-@export var guidance: float = 0.0
+@export var guidance : float = 0.0
 
 ## Flight exclusive enable
-@export var exclusive: bool = true
+@export var exclusive : bool = true
 
 
 # Flight button state
-var _flight_button: bool = false
+var _flight_button : bool = false
 
 # Flight controller
-var _controller: XRController3D
+var _controller : XRController3D
 
 
 # Node references
-@onready var _camera: XRCamera3D = XRHelpers.get_xr_camera(self)
-@onready var _left_controller: XRController3D = XRHelpers.get_left_controller(self)
-@onready var _right_controller: XRController3D = XRHelpers.get_right_controller(self)
+@onready var _camera : XRCamera3D = XRHelpers.get_xr_camera(self)
+@onready var _left_controller : XRController3D = XRHelpers.get_left_controller(self)
+@onready var _right_controller : XRController3D = XRHelpers.get_right_controller(self)
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super._ready()
+
 	# Get the flight controller
 	if controller == FlightController.LEFT:
 		_controller = _left_controller
@@ -121,13 +124,10 @@ func _ready():
 		_controller = _right_controller
 
 
-func _process(_delta: float):
-	# Do not run physics if in the editor
-	if Engine.is_editor_hint():
-		return
-
-	# Skip if disabled or the controller isn't active
-	if !enabled or !_controller.get_is_active():
+# Process physics movement for
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+	# Disable flying if requested, or if no controller
+	if disabled or !enabled or !_controller.get_is_active():
 		set_flying(false)
 		return
 
@@ -137,9 +137,6 @@ func _process(_delta: float):
 	if _flight_button and !old_flight_button:
 		set_flying(!is_active)
 
-
-# Process physics movement for
-func physics_movement(delta: float, player_body: XRToolsPlayerBody):
 	# Skip if not flying
 	if !is_active:
 		return
@@ -190,7 +187,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody):
 
 	# If exclusive then perform the exclusive move-and-slide
 	if exclusive:
-		player_body.velocity = player_body.move_and_slide(flight_velocity)
+		player_body.velocity = player_body.move_body(flight_velocity)
 		return true
 
 	# Update velocity and return for additional effects
@@ -213,7 +210,7 @@ func set_flying(active: bool) -> void:
 		emit_signal("flight_finished")
 
 
-# This method verifies the MovementProvider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Call base class
 	return super._get_configuration_warning()

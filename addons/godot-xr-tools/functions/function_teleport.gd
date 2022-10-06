@@ -53,6 +53,7 @@ func _update_player_radius():
 
 @export var strength : float = 5.0
 @export var max_slope : float = 20.0
+@export_flags_3d_physics var valid_teleport_mask : int = ~0
 
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
@@ -60,7 +61,6 @@ func _update_player_radius():
 # We don't know the name of the camera node...
 @export_node_path(XRCamera3D) var camera
 
-@onready var ws = XRServer.world_scale
 var origin_node : XROrigin3D
 var camera_node : XRCamera3D
 var is_on_floor = true
@@ -72,6 +72,8 @@ var last_target_transform = Transform3D()
 var collision_shape : Shape3D
 var step_size = 0.5
 
+@onready var ws = XRServer.world_scale
+
 # By default we show a capsule to indicate where the player lands.
 # Turn on editable children,
 # hide the capsule,
@@ -81,36 +83,36 @@ var step_size = 0.5
 func _get_configuration_warning():
 	if camera == null:
 		return "You need to assign a camera"
-	
+
 	return ""
 
 func _ready():
 	if !Engine.is_editor_hint():
 		# We should be a child of an XRController3D and it should be a child or our XROrigin3D
 		origin_node = get_node("../..")
-		
+
 		# It's inactive when we start
 		$Teleport.visible = false
 		$Target.visible = false
-		
+
 		# Scale to our world scale
 		$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 		$Target.mesh.size = Vector2(ws, ws)
 		$Target/Player_figure.scale = Vector3(ws, ws, ws)
-		
+
 		if camera:
 			camera_node = get_node(camera)
 		else:
 			# see if we can find our default
 			camera_node = origin_node.get_node('XRCamera3D')
-		
+
 		# get our capsule shape
 		collision_shape = $CollisionShape3D.shape
 		$CollisionShape3D.shape = null
-		
+
 		# now remove our collision shape, we are not using our kinematic body
 		remove_child($CollisionShape3D)
-	
+
 	# call set player to ensure our collision shape is sized
 	_update_player_height()
 	_update_player_radius()
@@ -239,6 +241,11 @@ func _physics_process(delta):
 						
 						if diff.length() > 0.1:
 							collided_at = intersects["position"]
+
+						# Fail if the hit target isn't in our valid mask
+						var collider_mask = intersects["collider"].collision_layer
+						if not valid_teleport_mask & collider_mask:
+							is_on_floor = false
 				
 				# we are colliding, find our if we're colliding on a wall or floor, one we can do, the other nope...
 				cast_length += (collided_at - target_global_origin).length()

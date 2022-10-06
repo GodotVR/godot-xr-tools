@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://clujaf3u776a3"]
+[gd_scene load_steps=6 format=3 uid="uid://clujaf3u776a3"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.gd" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d_body.gd" id="2"]
@@ -6,6 +6,9 @@
 [sub_resource type="QuadMesh" id="1"]
 resource_local_to_scene = true
 size = Vector2(3, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r4mtg"]
+resource_local_to_scene = true
 
 [sub_resource type="BoxShape3D" id="4"]
 resource_local_to_scene = true
@@ -22,6 +25,7 @@ render_target_update_mode = 3
 
 [node name="Screen" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")
+surface_material_override/0 = SubResource("StandardMaterial3D_r4mtg")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 15

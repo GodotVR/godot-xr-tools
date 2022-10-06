@@ -3,6 +3,7 @@ class_name XRToolsPlayerBody
 extends Node
 @icon("res://addons/godot-xr-tools/editor/icons/body.svg")
 
+
 ##
 ## Player Physics Body Script
 ##
@@ -25,27 +26,36 @@ extends Node
 ## Signal emitted when the player jumps
 signal player_jumped()
 
+## Signal emitted when the player bounces
+signal player_bounced(collider, magnitude)
+
 
 # Horizontal vector (multiply by this to get only the horizontal components
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
-## PlayerBody enabled flag
-@export var enabled = true:
+## Player body enabled flag
+@export var enabled: bool = true:
 	set(new_value):
 		enabled = new_value
 		if is_inside_tree():
 			_update_enabled()
 
 ## Player radius
-@export var player_radius : float = 0.4:
+@export var player_radius: float = 0.4:
 	set(new_value):
 		player_radius = new_value
 		if is_inside_tree():
 			_update_player_radius()
 
-## Player camera to head top
-@export var player_cam_to_head_top : float = 0.1
+## Player head height (distance between between camera and top of head)
+@export var player_head_height : float = 0.1
+
+## Minimum player height
+@export var player_height_min : float = 1.0
+
+## Maximum player height
+@export var player_height_max : float = 2.2
 
 ## Eyes forward offset from center of body in player_radius units
 @export_range(0.0, 1.0) var eye_forward_offset : float = 0.66
@@ -78,26 +88,33 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 			_update_collision_mask()
 
 
-## Player Velocity - modifiable by MovementProvider nodes
-var velocity := Vector3.ZERO
+## Player Velocity - modifiable by movement providers
+var velocity : Vector3 = Vector3.ZERO
 
-## Player On Ground flag - used by MovementProvider nodes
-var on_ground := true
+## Player On Ground flag - used by movement providers
+var on_ground : bool = true
 
-## Ground 'up' vector - used by MovementProvider nodes
-var ground_vector := Vector3.UP
+## Ground 'up' vector - used by movement providers
+var ground_vector : Vector3 = Vector3.UP
 
-## Ground slope angle - used by MovementProvider nodes
-var ground_angle := 0.0
+## Ground slope angle - used by movement providers
+var ground_angle : float = 0.0
 
 ## Ground node the player is touching
-var ground_node: Node = null
+var ground_node : Node3D = null
 
 ## Ground physics override (if present)
-var ground_physics: XRToolsGroundPhysicsSettings = null
+var ground_physics : XRToolsGroundPhysicsSettings = null
 
-## Ground control velocity - modified by MovementProvider nodes
-var ground_control_velocity := Vector2.ZERO
+## Ground control velocity - modified by movement providers
+var ground_control_velocity : Vector2 = Vector2.ZERO
+
+## Player height offset (for height calibration)
+var player_height_offset : float = 0.0
+
+## Velocity of the ground under the players feet
+var ground_velocity : Vector3 = Vector3.ZERO
+
 
 # Movement providers
 var _movement_providers := Array()
@@ -105,21 +122,36 @@ var _movement_providers := Array()
 # Jump cool-down counter
 var _jump_cooldown := 0
 
+## Player height overrides
+var _player_height_overrides := { }
+
+# Player height override (enabled when non-negative)
+var _player_height_override : float = -1.0
+
+# Previous ground node
+var _previous_ground_node : Node3D = null
+
+# Previous ground local position
+var _previous_ground_local : Vector3 = Vector3.ZERO
+
+# Previous ground global position
+var _previous_ground_global : Vector3 = Vector3.ZERO
+
 
 ## XROrigin3D node
-@onready var origin_node: XROrigin3D = XRHelpers.get_xr_origin(self)
+@onready var origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
 
 ## XRCamera3D node
-@onready var camera_node: XRCamera3D = XRHelpers.get_xr_camera(self)
+@onready var camera_node : XRCamera3D = XRHelpers.get_xr_camera(self)
 
 ## Player CharacterBody3D node
-@onready var kinematic_node: CharacterBody3D = $CharacterBody3D
+@onready var kinematic_node : CharacterBody3D = $CharacterBody3D
 
 # Default physics (if not specified by the user or the current ground)
 @onready var default_physics = _guaranteed_physics()
 
 # Collision node
-@onready var _collision_node: CollisionShape3D = $CharacterBody3D/CollisionShape3D
+@onready var _collision_node : CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
 
 # Function to sort movement providers by order
@@ -159,7 +191,7 @@ func _update_collision_mask() -> void:
 	if kinematic_node:
 		kinematic_node.collision_mask = collision_mask
 
-func _physics_process(delta):
+func _physics_process(delta: float):
 	# Do not run physics if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -177,7 +209,7 @@ func _physics_process(delta):
 	_update_body_under_camera()
 
 	# Update the ground information
-	_update_ground_information()
+	_update_ground_information(delta)
 
 	# Get the player body location before movement occurs
 	var position_before_movement := kinematic_node.global_transform.origin
@@ -192,10 +224,9 @@ func _physics_process(delta):
 	ground_control_velocity = Vector2.ZERO
 	var exclusive := false
 	for p in _movement_providers:
-		if p.enabled or p.is_active:
-			if p.physics_movement(delta, self):
+		if p.is_active or (p.enabled and not exclusive):
+			if p.physics_movement(delta, self, exclusive):
 				exclusive = true
-				break
 
 	# If no controller has performed an exclusive-update then apply gravity and
 	# perform any ground-control
@@ -240,8 +271,8 @@ func request_jump(skip_jump_velocity := false):
 	emit_signal("player_jumped")
 	_jump_cooldown = 4
 
-# Perform a move_and_slide on the kinematic node
-func move_and_slide(p_velocity: Vector3) -> Vector3:
+# Move the players body
+func move_body(p_velocity: Vector3) -> Vector3:
 	kinematic_node.velocity = p_velocity
 	kinematic_node.up_direction = Vector3.UP
 	kinematic_node.floor_stop_on_slope = false
@@ -251,12 +282,32 @@ func move_and_slide(p_velocity: Vector3) -> Vector3:
 	var can_move = kinematic_node.move_and_slide()
 	return kinematic_node.velocity
 
+# Set or clear a named height override
+func override_player_height(key, value: float = -1.0):
+	# Clear or set the override
+	if value < 0.0:
+		_player_height_overrides.erase(key)
+	else:
+		_player_height_overrides[key] = value
+
+	# Set or clear the override value
+	var override = _player_height_overrides.values().min()
+	_player_height_override = override if override != null else -1.0
+
 # This method updates the body to match the player position
 func _update_body_under_camera():
-	# Calculate the player height based on the origin and camera position
-	var player_height := camera_node.transform.origin.y + player_cam_to_head_top
-	if player_height < player_radius:
-		player_height = player_radius
+	# Calculate the player height based on the camera position in the origin and the calibration
+	var player_height: float = clamp(
+		camera_node.transform.origin.y + player_head_height + player_height_offset,
+		player_height_min * XRServer.world_scale,
+		player_height_max * XRServer.world_scale)
+
+	# Allow forced overriding of height
+	if _player_height_override >= 0.0:
+		player_height = _player_height_override
+
+	# Ensure player height makes mathematical sense
+	player_height = max(player_height, player_radius)
 
 	# Adjust the collision shape to match the player geometry
 	_collision_node.shape.radius = player_radius
@@ -267,7 +318,7 @@ func _update_body_under_camera():
 	var curr_transform := kinematic_node.global_transform
 	var camera_transform := camera_node.global_transform
 	curr_transform.origin = camera_transform.origin
-	curr_transform.origin.y = origin_node.global_transform.origin.y
+	curr_transform.origin.y += player_head_height - player_height
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := -camera_transform.basis.z * HORIZONTAL
@@ -278,38 +329,53 @@ func _update_body_under_camera():
 	kinematic_node.global_transform = curr_transform
 
 # This method updates the information about the ground under the players feet
-func _update_ground_information():
+func _update_ground_information(delta: float):
 	# Update the ground information
-	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.05, 0.0), true)
+	var ground_collision := kinematic_node.move_and_collide(Vector3(0.0, -0.1, 0.0), true)
 	if !ground_collision:
 		on_ground = false
 		ground_vector = Vector3.UP
 		ground_angle = 0.0
 		ground_node = null
 		ground_physics = null
-	else:
-		on_ground = true
-		ground_vector = ground_collision.get_normal()
-		ground_angle = rad_to_deg(ground_collision.get_angle())
-		ground_node = ground_collision.get_collider()
+		_previous_ground_node = null
+		return
 
-		# Select the ground physics
-		var physics_node := ground_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
-		if physics_node:
-			ground_physics = physics_node.physics
-		else:
-			ground_physics = default_physics
+	# Save the ground information from the collision
+	on_ground = true
+	ground_vector = ground_collision.get_normal()
+	ground_angle = rad_to_deg(ground_collision.get_angle())
+	ground_node = ground_collision.get_collider()
 
-		# Detect if we're sliding on a wall
-		# TODO: consider reworking this magic angle
-		if ground_angle > 85:
-			on_ground = false
+	# Select the ground physics
+	var physics_node := ground_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
+	ground_physics = XRToolsGroundPhysics.get_physics(physics_node, default_physics)
+
+	# Detect if we're sliding on a wall
+	# TODO: consider reworking this magic angle
+	if ground_angle > 85:
+		on_ground = false
+
+	# Detect ground velocity under players feet
+	if _previous_ground_node == ground_node:
+		var pos_old := _previous_ground_global
+		var pos_new := ground_node.to_global(_previous_ground_local)
+		ground_velocity = (pos_new - pos_old) / delta
+
+	# Update ground velocity information
+	_previous_ground_node = ground_node
+	_previous_ground_global = ground_collision.get_position()
+	_previous_ground_local = ground_node.to_local(_previous_ground_global)
+
 
 # This method applies the player velocity and ground-control velocity to the physical body
 func _apply_velocity_and_control(delta: float):
+	# Calculate local velocity
+	var local_velocity := velocity - ground_velocity
+
 	# Split the velocity into horizontal and vertical components
-	var horizontal_velocity := velocity * HORIZONTAL
-	var vertical_velocity := velocity * Vector3.UP
+	var horizontal_velocity := local_velocity * HORIZONTAL
+	var vertical_velocity := local_velocity * Vector3.UP
 
 	# If the player is on the ground then give them control
 	if on_ground:
@@ -323,7 +389,7 @@ func _apply_velocity_and_control(delta: float):
 
 			# Apply control velocity to horizontal velocity based on traction
 			var current_traction := XRToolsGroundPhysicsSettings.get_move_traction(ground_physics, default_physics)
-			var traction_factor = clamp(current_traction * delta, 0.0, 1.0)
+			var traction_factor: float = clamp(current_traction * delta, 0.0, 1.0)
 			horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
@@ -331,23 +397,45 @@ func _apply_velocity_and_control(delta: float):
 			if ground_angle > current_max_slope:
 				# Get a vector in the down-hill direction
 				var down_direction := (ground_vector * HORIZONTAL).normalized()
-				var vdot = down_direction.dot(horizontal_velocity)
+				var vdot: float = down_direction.dot(horizontal_velocity)
 				if vdot < 0:
 					horizontal_velocity -= down_direction * vdot
 		else:
 			# User is not trying to move, so apply the ground drag
 			var current_drag := XRToolsGroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
-			horizontal_velocity *= 1.0 - current_drag * delta
+			var drag_factor: float = clamp(current_drag * delta, 0, 1)
+			horizontal_velocity = horizontal_velocity.lerp(control_velocity, drag_factor)
 
 	# Combine the velocities back to a 3-space velocity
-	velocity = horizontal_velocity + vertical_velocity
+	local_velocity = horizontal_velocity + vertical_velocity
 
 	# Move the player body with the desired velocity
-	velocity = move_and_slide(velocity)
+	velocity = move_body(local_velocity + ground_velocity)
+
+	# Perform bounce test if a collision occurred
+	if kinematic_node.get_slide_collision_count():
+		# Detect bounciness
+		var collision := kinematic_node.get_slide_collision(0)
+		var collision_node := collision.get_collider()
+		var collision_physics_node := collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
+		var collision_physics = XRToolsGroundPhysics.get_physics(collision_physics_node, default_physics)
+		var bounce_threshold := XRToolsGroundPhysicsSettings.get_bounce_threshold(collision_physics, default_physics)
+		var bounciness := XRToolsGroundPhysicsSettings.get_bounciness(collision_physics, default_physics)
+		var magnitude := -collision.get_normal().dot(local_velocity)
+
+		# Detect if bounce should be performed
+		if bounciness > 0.0 and magnitude >= bounce_threshold:
+			local_velocity += 2 * collision.normal * magnitude * bounciness
+			velocity = local_velocity + ground_velocity
+			emit_signal("player_bounced", collision_node, magnitude)
+
+	# Hack to ensure feet stick to ground (if not jumping)
+	if abs(velocity.y) < 0.001:
+		velocity.y = ground_velocity.y
 
 # Get a guaranteed-valid physics
 func _guaranteed_physics():
-	# Ensure we have a guaranteed-valid GroundPhysicsSettings value
+	# Ensure we have a guaranteed-valid XRToolsGroundPhysicsSettings value
 	var valid_physics := physics as XRToolsGroundPhysicsSettings
 	if !valid_physics:
 		valid_physics = XRToolsGroundPhysicsSettings.new()
@@ -356,7 +444,7 @@ func _guaranteed_physics():
 	# Return the guaranteed-valid physics
 	return valid_physics
 
-# This method verifies the PlayerBody has a valid configuration. Specifically it
+# This method verifies the player body has a valid configuration. Specifically it
 # checks the following:
 # - XROrigin3D can be identified
 # - XRCamera3D can be identified
@@ -377,6 +465,14 @@ func _get_configuration_warning():
 	if player_radius <= 0:
 		return "Player radius must be configured"
 
+	# Verify the player height minimum is valid
+	if player_height_min < player_radius * 2.0:
+		return "Player height minimum smaller than 2x radius"
+
+	# Verify the player height maximum is valid
+	if player_height_max < player_height_min:
+		return "Player height maximum cannot be smaller than minimum"
+
 	# Verify eye-forward does not allow near-clip-plane look through
 	var eyes_to_collider = (1.0 - eye_forward_offset) * player_radius
 	if eyes_to_collider < test_camera_node.near:
@@ -384,13 +480,13 @@ func _get_configuration_warning():
 
 	# If specified, verify the ground physics is a valid type
 	if physics and !physics is XRToolsGroundPhysicsSettings:
-		return "Physics resource must be a GroundPhysicsSetting"
+		return "Physics resource must be a GroundPhysicsSettings"
 
 	# Passed basic validation
 	return ""
 
 ## Find the Player Body from a player node and an optional path
-static func get_player_body(node: Node, path: NodePath = NodePath()) -> XRToolsPlayerBody:
+static func get_player_body(node: Node, path: NodePath = NodePath("")) -> XRToolsPlayerBody:
 	var player_body: XRToolsPlayerBody
 
 	# Try using the node path first

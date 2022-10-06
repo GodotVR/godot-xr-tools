@@ -2,24 +2,21 @@
 class_name XRToolsMovementClimb
 extends XRToolsMovementProvider
 
-
 ##
 ## Movement Provider for Climbing
 ##
 ## @desc:
-##     This script works with the Function_Climb_movement asset to provide
-##     climbing movement for the player. This script works with the PlayerBody
-##     attached to the players XROrigin3D.
+##     This script provides climbing movement for the player. This script works
+##     with the PlayerBody attached to the players ARVROrigin.
 ##
-##     StaticBody3D objects can be marked as climbable by adding the
-##     Object_climbable script to them
+##     StaticBody objects can be marked as climbable by adding the
+##     climbable object script to them.
 ##
 ##     When climbing, the global velocity of the PlayerBody is averaged for
 ##     velocity_averages samples, and upon release the velocity is applied
 ##     to the PlayerBody so the player can fling themselves up walls if
 ##     desired.
 ##
-
 
 ## Signal invoked when the player starts climing
 signal player_climb_start
@@ -45,10 +42,10 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 @export var velocity_averages : int = 5
 
 ## Pickup function for the left hand
-@export_node_path(Area3D, Function_Pickup) var left_pickup
+@export_node_path(Node3D, XRToolsFunctionPickup) var left_pickup
 
 ## Pickup function for the right hand
-@export_node_path(Area3D, Function_Pickup) var right_pickup
+@export_node_path(Node3D, XRToolsFunctionPickup) var right_pickup
 
 
 # Velocity averaging fields
@@ -66,9 +63,9 @@ func _ready():
 	super._ready()
 
 
-func physics_movement(delta: float, player_body: XRToolsPlayerBody):
-	# Skip if disabled
-	if !enabled:
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+	# Disable climbing if requested
+	if disabled or !enabled:
 		_set_climbing(false, player_body)
 		return
 
@@ -129,11 +126,13 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 	if is_active:
 		_distances.clear()
 		_deltas.clear()
+		player_body.override_player_height(self, 0.0)
 		emit_signal("player_climb_start")
 	else:
 		var velocity := _average_velocity()
 		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
 		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
+		player_body.override_player_height(self)
 		emit_signal("player_climb_end")
 
 
@@ -145,7 +144,6 @@ func _update_velocity(delta: float, distance: Vector3):
 	if _distances.size() > velocity_averages:
 		_distances.pop_front()
 		_deltas.pop_front()
-
 
 # Calculate average player velocity
 func _average_velocity() -> Vector3:
@@ -162,18 +160,17 @@ func _average_velocity() -> Vector3:
 	# Return the average
 	return total_distance / total_time
 
-
-# This method verifies the MovementProvider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify the left controller
 	var test_left_pickup_node = get_node_or_null(left_pickup) if left_pickup else null
 	if !test_left_pickup_node or !test_left_pickup_node is XRToolsFunctionPickup:
-		return "Unable to find left Function_Pickup"
+		return "Unable to find left XRToolsFunctionPickup"
 
 	# Verify the right controller
 	var test_right_pickup_node = get_node_or_null(right_pickup) if right_pickup else null
 	if !test_right_pickup_node or !test_right_pickup_node is XRToolsFunctionPickup:
-		return "Unable to find right Function_Pickup"
+		return "Unable to find right XRToolsFunctionPickup"
 
 	# Verify velocity averages
 	if velocity_averages < 2:
