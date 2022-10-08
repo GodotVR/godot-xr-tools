@@ -68,7 +68,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	# Ignore launching the player
 	if ignore_launch:
 		# Forgive "up" acceleration equal to our "up" speed
-		var forgive : float = clamp(accel_vec.y, 0.0, player_body.velocity.y)
+		var forgive : float = max(0, min(accel_vec.y, player_body.velocity.y))
 		accel_vec.y -= forgive
 
 	# Handle ground-only collisions

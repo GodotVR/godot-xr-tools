@@ -55,10 +55,10 @@ enum PickableState {
 @export_flags_3d_physics var picked_up_layer = 0
 
 ## Method used to hold an object
-@export_enum (HoldMethod) var hold_method : int = HoldMethod.REMOTE_TRANSFORM
+@export var hold_method : HoldMethod = HoldMethod.REMOTE_TRANSFORM
 
 ## Method used to perform a ranged grab
-@export_enum (RangedMethod) var ranged_grab_method : int = RangedMethod.SNAP:
+@export var ranged_grab_method : RangedMethod = RangedMethod.SNAP:
 	set(new_value):
 		ranged_grab_method = new_value
 		can_ranged_grab = new_value != RangedMethod.NONE
