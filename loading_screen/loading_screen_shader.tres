@@ -45,7 +45,7 @@ function = 6
 
 [sub_resource type="VisualShaderNodeCompare" id=15]
 output_port_for_preview = 0
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0, 0, 0 ), 2, 1e-05 ]
+default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 4.85, 0.33, 0 ), 2, 1e-05 ]
 type = 1
 function = 2
 condition = 1
@@ -97,7 +97,7 @@ void fragment() {
 	vec3 n_out6p0 = abs(n_out5p0);
 
 // Compare:8
-	vec3 n_in8p1 = vec3(0.00000, 0.00000, 0.00000);
+	vec3 n_in8p1 = vec3(4.85000, 0.33000, 0.00000);
 	bool n_out8p0;
 	{
 		bvec3 _bv = greaterThan(n_out6p0, n_in8p1);
@@ -136,7 +136,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( -263.139, 234.261 )
+graph_offset = Vector2( 0, 450 )
 flags/unshaded = true
 nodes/fragment/0/position = Vector2( 1220, 440 )
 nodes/fragment/3/node = SubResource( 10 )
