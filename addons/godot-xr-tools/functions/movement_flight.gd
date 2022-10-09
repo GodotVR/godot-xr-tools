@@ -70,16 +70,16 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 @export var order : int = 30
 
 ## Flight controller
-@export_enum (FlightController) var controller : int = FlightController.LEFT
+@export var controller : FlightController = FlightController.LEFT
 
 ## Flight toggle button
 @export var flight_button : String = "by_button"
 
 ## Flight pitch control
-@export_enum (FlightPitch) var pitch : int = FlightPitch.CONTROLLER
+@export var pitch : FlightPitch = FlightPitch.CONTROLLER
 
 ## Flight bearing control
-@export_enum (FlightBearing) var bearing : int = FlightBearing.CONTROLLER
+@export var bearing : FlightBearing = FlightBearing.CONTROLLER
 
 ## Flight speed from control
 @export var speed_scale : float = 5.0
