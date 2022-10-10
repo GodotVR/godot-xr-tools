@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dj1u4xow5rykh"]
+
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="1"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="2"]
+[ext_resource type="Script" path="res://start_xr.gd" id="3_ic0sb"]
+
+[node name="SceneBase" type="Node3D"]
+script = ExtResource("1")
+environment = ExtResource("2")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
+script = ExtResource("3_ic0sb")
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+far = 300.0
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+pose = &"aim"

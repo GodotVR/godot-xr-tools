@@ -1,0 +1,94 @@
+[gd_scene load_steps=11 format=3 uid="uid://br1bdpbkuyq4b"]
+
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="4"]
+
+[sub_resource type="BoxShape3D" id="9"]
+size = Vector3(0.3, 0.4, 0.1)
+
+[sub_resource type="BoxMesh" id="1"]
+size = Vector3(0.3, 0.4, 0.1)
+
+[sub_resource type="BoxMesh" id="10"]
+size = Vector3(0.08, 0.08, 0.02)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l236q"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3wbs7"]
+albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og648"]
+albedo_color = Color(0.498039, 0.498039, 0.498039, 1)
+
+[node name="SnapTray" instance=ExtResource("1")]
+collision_layer = 4
+collision_mask = 65543
+reset_transform_on_pickup = false
+picked_up_layer = 65536
+ranged_grab_method = 0
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("9")
+
+[node name="Body" type="MeshInstance3D" parent="." index="2"]
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("2")
+
+[node name="SnapArea1" type="MeshInstance3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.06)
+mesh = SubResource("10")
+surface_material_override/0 = SubResource("StandardMaterial3D_l236q")
+
+[node name="SnapZone1" parent="SnapArea1" index="0" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
+collision_layer = 4
+collision_mask = 65536
+grab_distance = 0.05
+snap_require = "SnapToyRed"
+
+[node name="HighlightRing" parent="SnapArea1/SnapZone1" index="1" instance=ExtResource("3")]
+
+[node name="SnapArea2" type="MeshInstance3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.06)
+mesh = SubResource("10")
+surface_material_override/0 = SubResource("StandardMaterial3D_3wbs7")
+
+[node name="SnapZone2" parent="SnapArea2" index="0" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
+collision_layer = 4
+collision_mask = 65536
+grab_distance = 0.05
+snap_require = "SnapToyYellow"
+
+[node name="HighlightRing" parent="SnapArea2/SnapZone2" index="1" instance=ExtResource("3")]
+
+[node name="SnapArea3" type="MeshInstance3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.06)
+mesh = SubResource("10")
+surface_material_override/0 = SubResource("StandardMaterial3D_og648")
+
+[node name="SnapZone3" parent="SnapArea3" index="0" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
+collision_layer = 4
+collision_mask = 65536
+grab_distance = 0.05
+snap_require = "SnapToy"
+
+[node name="HighlightRing" parent="SnapArea3/SnapZone3" index="1" instance=ExtResource("3")]
+
+[node name="SnapArea4" type="MeshInstance3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.06)
+mesh = SubResource("10")
+surface_material_override/0 = SubResource("StandardMaterial3D_og648")
+
+[node name="SnapZone4" parent="SnapArea4" index="0" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
+collision_layer = 4
+collision_mask = 65536
+grab_distance = 0.05
+snap_require = "SnapToy"
+
+[node name="HighlightRing" parent="SnapArea4/SnapZone4" index="1" instance=ExtResource("3")]

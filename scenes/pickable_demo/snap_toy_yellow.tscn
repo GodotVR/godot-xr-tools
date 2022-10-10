@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://da2y0apf8spex"]
+
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]
+
+[sub_resource type="ConvexPolygonShape3D" id="20"]
+margin = 0.01
+points = PackedVector3Array(-0.0285317, -0.04, 0.00926607, -0.017634, -0.04, -0.0242705, -5.58421e-06, -0.04, 0.0299947, -0.0285317, 0.04, 0.00926607, -0.017634, 0.04, -0.0242705, 0.0176284, -0.04, -0.0242705, 0.0285261, -0.04, 0.00926607, -5.58421e-06, 0.04, 0.0299947, 0.0176284, 0.04, -0.0242705, 0.0285261, 0.04, 0.00926607)
+
+[sub_resource type="CylinderMesh" id="21"]
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.08
+radial_segments = 5
+rings = 0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yys6g"]
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="SnapToyYellow" groups=["SnapToy", "SnapToyYellow"] instance=ExtResource("1")]
+collision_layer = 4
+collision_mask = 65543
+reset_transform_on_pickup = false
+ranged_grab_method = 0
+
+[node name="CollisionShape3D" parent="." index="1"]
+shape = SubResource("20")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+mesh = SubResource("21")
+surface_material_override/0 = SubResource("StandardMaterial3D_yys6g")
+
+[node name="HighlightRing" parent="." index="3" instance=ExtResource("2")]

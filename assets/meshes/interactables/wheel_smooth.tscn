@@ -1,0 +1,144 @@
+[gd_scene load_steps=7 format=3 uid="uid://d2td5hwh2oluy"]
+
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3"]
+
+[sub_resource type="CylinderShape3D" id="1"]
+height = 0.02
+radius = 0.2
+
+[sub_resource type="CylinderMesh" id="2"]
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.02
+radial_segments = 32
+rings = 0
+
+[sub_resource type="BoxShape3D" id="3"]
+size = Vector3(0.02, 0.08, 0.1)
+
+[node name="WheelSmooth" type="Node3D"]
+
+[node name="HingeOrigin" type="Node3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="InteractableHinge" type="Node3D" parent="HingeOrigin"]
+script = ExtResource("2")
+hinge_limit_min = -360.0
+hinge_limit_max = 360.0
+
+[node name="WheelBody" type="StaticBody3D" parent="HingeOrigin/InteractableHinge"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/WheelBody"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="HingeOrigin/InteractableHinge/WheelBody"]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("2")
+surface_material_override/0 = ExtResource("1")
+
+[node name="Handle1" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle1"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle1/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle2" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.141, -0.141)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle2"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle2/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle3" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.2)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle3"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle3/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle4" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, -0.141, -0.141)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle4"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle4/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle5" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, -0.2, 0)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle5"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle5/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle6" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, -0.707107, -0.707107, 0, 0.707107, -0.707107, 0, -0.141, 0.141)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle6"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle6/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle7" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, 1.19249e-08, -1, 0, 1, 1.19249e-08, 0, 0, 0.2)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle7"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle7/InteractableHandle"]
+shape = SubResource("3")
+
+[node name="Handle8" type="Node3D" parent="HingeOrigin/InteractableHinge"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.141, 0.141)
+
+[node name="InteractableHandle" type="RigidBody3D" parent="HingeOrigin/InteractableHinge/Handle8"]
+collision_layer = 262144
+collision_mask = 0
+freeze = true
+script = ExtResource("3")
+reset_transform_on_pickup = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle"]
+shape = SubResource("3")

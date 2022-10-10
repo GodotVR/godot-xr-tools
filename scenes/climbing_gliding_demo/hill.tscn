@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d37kskirs6gj4"]
+
+[ext_resource type="CylinderMesh" path="res://scenes/climbing_gliding_demo/hill_mesh.tres" id="1_pnbkt"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2_q57r7"]
+[ext_resource type="Shape3D" path="res://scenes/climbing_gliding_demo/hill_collider.tres" id="3_v8prn"]
+
+[node name="Hill" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -158, 0, -45)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+mesh = ExtResource("1_pnbkt")
+skeleton = NodePath("../../..")
+surface_material_override/0 = ExtResource("2_q57r7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+shape = ExtResource("3_v8prn")

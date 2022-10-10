@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/blue_grid.png" type="Texture2D" id=1]
+
+[resource]
+albedo_texture = ExtResource( 1 )
+uv1_offset = Vector3( 0.5, 0.5, 0.5 )
+uv1_triplanar = true
