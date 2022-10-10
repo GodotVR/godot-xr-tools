@@ -1,6 +1,7 @@
 *.o
 *.os
 .import/
+.godot/
 *.dblite
 *.exp
 *.lib

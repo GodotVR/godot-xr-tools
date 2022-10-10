@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://cymteydkxagpp"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/misc/hold_button.gd" id="1"]
+[ext_resource type="Shader" uid="uid://c6okm2ay0fkjf" path="res://addons/godot-xr-tools/misc/hold_button_visualshader.tres" id="2"]
+
+[sub_resource type="QuadMesh" id="1"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tkbhq"]
+render_priority = 0
+shader = ExtResource("2")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/fade = 0.05
+shader_parameter/radius = 0.8
+shader_parameter/value = 0.2
+shader_parameter/width = 0.2
+
+[node name="HoldButton" type="Node3D"]
+script = ExtResource("1")
+
+[node name="Visualise" type="MeshInstance3D" parent="."]
+mesh = SubResource("1")
+surface_material_override/0 = SubResource("ShaderMaterial_tkbhq")
