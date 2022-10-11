@@ -23,22 +23,22 @@ signal slider_moved(position)
 
 
 ## Slider minimum limit
-export var slider_limit_min := 0.0
+export var slider_limit_min : float = 0.0
 
 ## Slider maximum limit
-export var slider_limit_max := 1.0
+export var slider_limit_max : float = 1.0
 
 ## Slider step size (zero for no steps)
-export var slider_steps := 0.0
+export var slider_steps : float = 0.0
 
 ## Slider position
-export var slider_position := 0.0 setget _set_slider_position
+export var slider_position : float = 0.0 setget _set_slider_position
 
 ## Default position
-export var default_position := 0.0
+export var default_position : float = 0.0
 
 ## Move to default position on release
-export var default_on_release := false
+export var default_on_release : bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -55,7 +55,7 @@ func _ready() -> void:
 
 
 # Called every frame when one or more handles are held by the player
-func _process(var _delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Get the total handle offsets
 	var offset_sum := Vector3.ZERO
 	for item in grabbed_handles:
@@ -73,7 +73,33 @@ func _process(var _delta: float) -> void:
 
 
 # Move the slider to the specified position
-func move_slider(var position: float) -> void:
+func move_slider(position: float) -> void:
+	# Do the slider move
+	position = _do_move_slider(position)
+	if position == slider_position:
+		return
+
+	# Update the current position
+	slider_position = position
+
+	# Emit the moved signal
+	emit_signal("slider_moved", position)
+
+
+# Handle release of slider
+func _on_slider_released(_interactable: XRToolsInteractableSlider):
+	if default_on_release:
+		move_slider(default_position)
+
+
+# Called when the slider position is set externally
+func _set_slider_position(position: float) -> void:
+	position = _do_move_slider(position)
+	slider_position = position
+
+
+# Do the slider move
+func _do_move_slider(position: float) -> float:
 	# Apply slider step-quantization
 	if slider_steps:
 		position = round(position / slider_steps) * slider_steps
@@ -81,28 +107,9 @@ func move_slider(var position: float) -> void:
 	# Apply slider limits
 	position = clamp(position, slider_limit_min, slider_limit_max)
 
-	# Skip if the position has not changed
-	if position == slider_position:
-		return
+	# Move if necessary
+	if position != slider_position:
+		transform.origin.x = position
 
-	# Update the current position
-	slider_position = position
-
-	# Update the transform
-	transform.origin.x = position
-
-	# Emit the moved signal
-	emit_signal("slider_moved", position)
-
-
-# Handle release of slider
-func _on_slider_released(var _interactable):
-	if default_on_release:
-		move_slider(default_position)
-
-
-# Called when the slider position is set externally
-func _set_slider_position(var position: float) -> void:
-	slider_position = position
-	if is_inside_tree():
-		move_slider(position)
+	# Return the updated position
+	return position

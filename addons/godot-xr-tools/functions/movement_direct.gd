@@ -2,6 +2,7 @@ tool
 class_name XRToolsMovementDirect
 extends XRToolsMovementProvider
 
+
 ##
 ## Movement Provider for Direct Movement
 ##
@@ -19,13 +20,13 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-export var order := 10
+export var order : int = 10
 
 ## Movement speed
-export var max_speed := 10.0
+export var max_speed : float = 10.0
 
 ## Enable player strafing
-export var strafe := false
+export var strafe : bool = false
 
 
 # Controller node

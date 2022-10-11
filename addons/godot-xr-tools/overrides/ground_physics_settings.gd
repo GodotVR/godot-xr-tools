@@ -21,31 +21,31 @@ export (int, FLAGS,
 	"Jump Max Slope",
 	"Jump Velocity",
 	"Bounciness",
-	"Bounce Threshold") var flags := 0
+	"Bounce Threshold") var flags : int = 0
 
 ## Movement drag factor
-export var move_drag := 5.0
+export var move_drag : float = 5.0
 
 ## Movement traction factor
-export var move_traction := 30.0
+export var move_traction : float = 30.0
 
 ## Stop sliding on slope
-export var stop_on_slope := true
+export var stop_on_slope : bool = true
 
 ## Movement maximum slope
-export (float, 0.0, 85.0) var move_max_slope := 45.0
+export (float, 0.0, 85.0) var move_max_slope : float = 45.0
 
 ## Jump maximum slope
-export (float, 0.0, 85.0) var jump_max_slope := 45.0
+export (float, 0.0, 85.0) var jump_max_slope : float = 45.0
 
 ## Jump velocity
-export var jump_velocity := 3.0
+export var jump_velocity : float = 3.0
 
 ## Ground bounciness (0 = no bounce, 1 = full bounciness)
-export var bounciness := 0.0
+export var bounciness : float = 0.0
 
 ## Bounce threshold (skip bounce if velocity less than threshold)
-export var bounce_threshold := 1.0
+export var bounce_threshold : float = 1.0
 
 
 # Handle class initialization with default parameters

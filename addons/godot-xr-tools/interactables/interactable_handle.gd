@@ -22,7 +22,7 @@ extends XRToolsPickable
 
 
 ## Distance from the handle origin to auto-snap the grab
-export var snap_distance := 0.3
+export var snap_distance : float = 0.3
 
 
 # Handle origin spatial node
@@ -39,7 +39,7 @@ func _ready() -> void:
 
 
 # Called on every frame when the handle is held to check for snapping
-func _process(var _delta: float) -> void:
+func _process(_delta: float) -> void:
 	# Skip if not picked up
 	if !picked_up_by:
 		return

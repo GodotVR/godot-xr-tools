@@ -23,39 +23,39 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-export var order := 20
+export var order : int = 20
 
 ## Enable detecting of jump via body (through the camera)
-export var body_jump_enable := true
+export var body_jump_enable : bool = true
 
 ## Only jump as high as the player (no ground physics)
-export var body_jump_player_only := false
+export var body_jump_player_only : bool = false
 
 ## Body jump detection threshold (M/S^2)
-export var body_jump_threshold := 2.5
+export var body_jump_threshold : float = 2.5
 
 ## Enable detectionm of jump via arms (through the controllers)
-export var arms_jump_enable := false
+export var arms_jump_enable : bool = false
 
 ## Arms jump detection threshold (M/S^2)
-export var arms_jump_threshold := 5.0
+export var arms_jump_threshold : float = 5.0
 
 
 # Node Positions
-var _camera_position := 0.0
-var _controller_left_position := 0.0
-var _controller_right_position := 0.0
+var _camera_position : float = 0.0
+var _controller_left_position : float = 0.0
+var _controller_right_position : float = 0.0
 
 # Node Velocities
-var _camera_velocity := SlidingAverage.new(5)
-var _controller_left_velocity := SlidingAverage.new(5)
-var _controller_right_velocity := SlidingAverage.new(5)
+var _camera_velocity : SlidingAverage = SlidingAverage.new(5)
+var _controller_left_velocity : SlidingAverage = SlidingAverage.new(5)
+var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
 
 # Node references
-onready var _origin_node := ARVRHelpers.get_arvr_origin(self)
-onready var _camera_node := ARVRHelpers.get_arvr_camera(self)
-onready var _controller_left_node := ARVRHelpers.get_left_controller(self)
-onready var _controller_right_node := ARVRHelpers.get_right_controller(self)
+onready var _origin_node : ARVROrigin = ARVRHelpers.get_arvr_origin(self)
+onready var _camera_node : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
+onready var _controller_left_node : ARVRController = ARVRHelpers.get_left_controller(self)
+onready var _controller_right_node : ARVRController = ARVRHelpers.get_right_controller(self)
 
 
 # Sliding Average class
@@ -73,14 +73,14 @@ class SlidingAverage:
 	var _data := Array()
 
 	# Constructor
-	func _init(var size: int):
+	func _init(size: int):
 		# Set the size and fill the array
 		_size = size
 		for i in size:
 			_data.push_back(0.0)
 
 	# Update the average
-	func update(var entry: float) -> float:
+	func update(entry: float) -> float:
 		# Add the new entry and subtract the old
 		_sum += entry
 		_sum -= _data[_pos]

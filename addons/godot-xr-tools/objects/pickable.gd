@@ -46,10 +46,10 @@ enum PickableState {
 
 
 ## Flag indicating if the grip control must be held
-export var press_to_hold: bool = true
+export var press_to_hold : bool = true
 
 ## Flag indicating transform should be reset to pickup center
-export var reset_transform_on_pickup: bool = true
+export var reset_transform_on_pickup : bool = true
 
 ## Layer for this object while picked up
 export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0
@@ -61,13 +61,13 @@ export (HoldMethod) var hold_method = HoldMethod.REMOTE_TRANSFORM
 export (RangedMethod) var ranged_grab_method = RangedMethod.SNAP setget _set_ranged_grab_method
 
 ## Speed for ranged grab
-export var ranged_grab_speed: float = 20.0
+export var ranged_grab_speed : float = 20.0
 
 ## Refuse pick-by when in the specified group
-export var picked_by_exclude: String = ""
+export var picked_by_exclude : String = ""
 
 ## Require pick-by to be in the specified group
-export var picked_by_require: String = ""
+export var picked_by_require : String = ""
 
 
 # Can object be grabbed at range
@@ -80,7 +80,7 @@ var original_mode
 var picked_up_by: Spatial = null
 
 # Controller holding this item (may be null if held by snap-zone)
-var by_controller: ARVRController = null
+var by_controller : ARVRController = null
 
 # Pickup center
 var center_pickup_on_node: Spatial = null
@@ -100,8 +100,8 @@ var _move_to: XRToolsMoveTo = null
 
 # Remember some state so we can return to it when the user drops the object
 onready var original_parent = get_parent()
-onready var original_collision_mask: int = collision_mask
-onready var original_collision_layer: int = collision_layer
+onready var original_collision_mask : int = collision_mask
+onready var original_collision_layer : int = collision_layer
 
 
 # Called when the node enters the scene tree for the first time.
@@ -328,7 +328,7 @@ func _set_ranged_grab_method(new_value: int) -> void:
 
 func _get_configuration_warning():
 	# Check for error cases when missing a PickupCenter
-	if not find_node("PickupCenter"):
+	if not get_node_or_null("PickupCenter"):
 		if reset_transform_on_pickup:
 			return "Missing PickupCenter child node for 'reset transform on pickup'"
 		if ranged_grab_method != RangedMethod.NONE:

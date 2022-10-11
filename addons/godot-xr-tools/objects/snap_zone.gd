@@ -16,25 +16,25 @@ signal close_highlight_updated(pickable, enable)
 
 
 ## Grab distance
-export var grab_distance: float = 0.3 setget _set_grab_distance
+export var grab_distance : float = 0.3 setget _set_grab_distance
 
 ## Require snap items to be in specified group
-export var snap_require: String = ""
+export var snap_require : String = ""
 
 ## Deny snapping items in the specified group
-export var snap_exclude: String = ""
+export var snap_exclude : String = ""
 
 ## Require grab-by to be in the specified group
-export var grab_require: String = ""
+export var grab_require : String = ""
 
 ## Deny grab-by
-export var grab_exclude: String= ""
+export var grab_exclude : String= ""
 
 
 # Public fields
-var closest_object: Spatial = null
-var picked_up_object: Spatial = null
-var picked_up_ranged: bool = true
+var closest_object : Spatial = null
+var picked_up_object : Spatial = null
+var picked_up_ranged : bool = true
 
 
 # Private fields
@@ -42,10 +42,6 @@ var _object_in_grab_area = Array()
 
 
 func _ready():
-	# Skip if running in the editor
-	if Engine.editor_hint:
-		return
-
 	# Set collision shape radius
 	$CollisionShape.shape.radius = grab_distance
 
@@ -190,7 +186,7 @@ func _pick_up_object(target: Spatial) -> void:
 
 
 # Called when the grab distance has been modified
-func _set_grab_distance(var new_value: float) -> void:
+func _set_grab_distance(new_value: float) -> void:
 	grab_distance = new_value
 	if is_inside_tree() and $CollisionShape:
 		$CollisionShape.shape.radius = grab_distance

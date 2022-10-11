@@ -8,23 +8,23 @@ signal wind_area_changed(active_wind_area)
 
 
 ## Movement provider order
-export var order := 25
+export var order : int = 25
 
 ## Drag multiplier for the player
-export var drag_multiplier := 1.0
+export var drag_multiplier : float = 1.0
 
 # Set our collision mask
-export (int, LAYERS_3D_PHYSICS) var collision_mask = 524288 setget set_collision_mask
+export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 524288 setget set_collision_mask
 
 
 # Wind area
-var _sense_area: Area
+var _sense_area : Area
 
 # Array of wind areas the player is in
 var _in_wind_areas := Array()
 
 # Currently active wind area
-var _active_wind_area: XRToolsWindArea = null
+var _active_wind_area : XRToolsWindArea
 
 
 # Called when the node enters the scene tree for the first time.

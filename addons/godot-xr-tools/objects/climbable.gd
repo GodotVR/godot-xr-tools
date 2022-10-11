@@ -11,10 +11,11 @@ extends Spatial
 ##     climbing.
 ##
 
-var press_to_hold := true
+var press_to_hold : bool = true
 
 ## Dictionary of grab locations by pickup
 var grab_locations := {}
+
 
 # Called by XRToolsFunctionPickup
 func is_picked_up() -> bool:

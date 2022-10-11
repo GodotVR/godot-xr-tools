@@ -67,7 +67,7 @@ func _process(delta: float) -> void:
 
 
 ## Start the move
-func start(var control: Spatial, var target: Spatial, var offset: Transform, var speed: float) -> void:
+func start(control: Spatial, target: Spatial, offset: Transform, speed: float) -> void:
 	# Save the control and target
 	_control = control
 	_target = target
