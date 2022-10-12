@@ -26,9 +26,9 @@ extends Node
 var is_active := false
 
 
-## Note, using PlayerBody here creates a cyclic dependency so we are going for duck typing :)
+## Note, using XRToolsPlayerBody here creates a cyclic dependency so we are going for duck typing :)
 
-# Get our player body, this should be a node on our XROrigin3D node.
+# Get our XRToolsPlayerBody, this should be a node on our XROrigin3D node.
 func get_player_body() -> Node:
 	# get our origin node
 	var xr_origin := XRHelpers.get_xr_origin(self)
@@ -47,7 +47,7 @@ func get_player_body() -> Node:
 	return null
 
 
-# If missing we need to add our player body
+# If missing we need to add our XRToolsPlayerBody
 func _create_player_body_node():
 	# get our origin node
 	var xr_origin = XRHelpers.get_xr_origin(self)
@@ -57,7 +57,7 @@ func _create_player_body_node():
 	# Double check if it hasn't already been created by another movement function
 	var player_body = get_player_body()
 	if !player_body:
-		# create our player body node and add it into our tree
+		# create our XRToolsPlayerBody node and add it into our tree
 		player_body = load("res://addons/godot-xr-tools/assets/player_body.tscn")
 		player_body = player_body.instantiate()
 		player_body.set_name("PlayerBody")
@@ -67,7 +67,7 @@ func _create_player_body_node():
 
 # Function run when node is added to scene
 func _ready():
-	# If we're in the editor, help the user out by creating our player body node
+	# If we're in the editor, help the user out by creating our XRToolsPlayerBody node
 	# automatically when needed.
 	if Engine.is_editor_hint():
 		var player_body = get_player_body()
@@ -81,7 +81,7 @@ func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled:
 	pass
 
 
-# This method verifies the MovementProvider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify we're within the tree of an XROrigin3D node
 	var xr_origin = XRHelpers.get_xr_origin(self)
@@ -90,7 +90,7 @@ func _get_configuration_warning():
 
 	var player_body = get_player_body()
 	if !player_body:
-		return "Missing player body node on the XROrigin3D"
+		return "Missing PlayerBody node on the XROrigin3D"
 
 	# Verify movement provider is in the correct group
 	if !is_in_group("movement_providers"):

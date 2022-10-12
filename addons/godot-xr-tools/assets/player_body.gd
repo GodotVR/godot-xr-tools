@@ -35,18 +35,10 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
 ## Player body enabled flag
-@export var enabled: bool = true:
-	set(new_value):
-		enabled = new_value
-		if is_inside_tree():
-			_update_enabled()
+@export var enabled : bool = true: set = set_enabled
 
 ## Player radius
-@export var player_radius: float = 0.4:
-	set(new_value):
-		player_radius = new_value
-		if is_inside_tree():
-			_update_player_radius()
+@export var player_radius : float = 0.4: set = set_player_radius
 
 ## Player head height (distance between between camera and top of head)
 @export var player_head_height : float = 0.1
@@ -67,25 +59,13 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 @export var push_rigid_bodies : bool = true
 
 ## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-@export var physics : Resource:
-	set(new_value):
-		# Save the property
-		physics = new_value
-		default_physics = _guaranteed_physics()
+@export var physics : Resource: set = set_physics
 
 # Set our collision layer
-@export_flags_3d_physics var collision_layer : int = 1 << 19:
-	set(new_value):
-		collision_layer = new_value
-		if is_inside_tree():
-			_update_collision_layer()
+@export_flags_3d_physics var collision_layer : int = 1 << 19: set = set_collision_layer
 
 # Set our collision mask
-@export_flags_3d_physics var collision_mask : int = 1023:
-	set(new_value):
-		collision_mask = new_value
-		if is_inside_tree():
-			_update_collision_mask()
+@export_flags_3d_physics var collision_mask : int = 1023: set = set_collision_mask
 
 
 ## Player Velocity - modifiable by movement providers
@@ -170,6 +150,11 @@ func _ready():
 	_update_collision_layer()
 	_update_collision_mask()
 
+func set_enabled(new_value) -> void:
+	enabled = new_value
+	if is_inside_tree():
+		_update_enabled()
+
 func _update_enabled() -> void:
 	# Update collision_shape
 	if _collision_node:
@@ -179,13 +164,33 @@ func _update_enabled() -> void:
 	if enabled:
 		set_physics_process(true)
 
+func set_player_radius(new_value: float) -> void:
+	player_radius = new_value
+	if is_inside_tree():
+		_update_player_radius()
+
 func _update_player_radius() -> void:
 	if _collision_node and _collision_node.shape:
 		_collision_node.shape.radius = player_radius
 
+func set_physics(new_value: Resource) -> void:
+	# Save the property
+	physics = new_value
+	default_physics = _guaranteed_physics()
+
+func set_collision_layer(new_layer: int) -> void:
+	collision_layer = new_layer
+	if is_inside_tree():
+		_update_collision_layer()
+
 func _update_collision_layer() -> void:
 	if kinematic_node:
 		kinematic_node.collision_layer = collision_layer
+
+func set_collision_mask(new_mask: int) -> void:
+	collision_mask = new_mask
+	if is_inside_tree():
+		_update_collision_mask()
 
 func _update_collision_mask() -> void:
 	if kinematic_node:
@@ -444,7 +449,7 @@ func _guaranteed_physics():
 	# Return the guaranteed-valid physics
 	return valid_physics
 
-# This method verifies the player body has a valid configuration. Specifically it
+# This method verifies the XRToolsPlayerBody has a valid configuration. Specifically it
 # checks the following:
 # - XROrigin3D can be identified
 # - XRCamera3D can be identified
@@ -505,11 +510,11 @@ static func get_player_body(node: Node, path: NodePath = NodePath("")) -> XRTool
 	if player_body:
 		return player_body
 
-	# Search all children of the origin for the player body
+	# Search all children of the origin for the XRToolsPlayerBody
 	for child in xr_origin.get_children():
 		player_body = child as XRToolsPlayerBody
 		if player_body:
 			return player_body
 
-	# Could not find player body
+	# Could not find XRToolsPlayerBody
 	return null

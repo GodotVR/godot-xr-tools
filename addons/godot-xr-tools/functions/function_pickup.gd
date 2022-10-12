@@ -21,42 +21,22 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 @export var action_button_action = "trigger_click"
 
 ## Grab distance
-@export var grab_distance : float = 0.3:
-	set(new_value):
-		grab_distance = new_value
-		if is_inside_tree():
-			_update_colliders()
-		
+@export var grab_distance : float = 0.3: set = _set_grab_distance
+
 ## Grab collision mask
-@export_flags_3d_physics var grab_collision_mask : int = 1:
-	set(new_value):
-		grab_collision_mask = new_value
-		if is_inside_tree() and _grab_collision:
-			_grab_collision.collision_mask = new_value
+@export_flags_3d_physics var grab_collision_mask : int = 1: set = _set_grab_collision_mask
 
 ## Enable ranged-grab
 @export var ranged_enable : bool = true
 
 ## Ranged-grab distance
-@export var ranged_distance : float = 5.0:
-	set(new_value):
-		ranged_distance = new_value
-		if is_inside_tree():
-			_update_colliders()
+@export var ranged_distance : float = 5.0: set = _set_ranged_distance
 
 ## Ranged-grab angle
-@export_range(0.0, 45.0) var ranged_angle : float = 5.0:
-	set(new_value):
-		ranged_angle = new_value
-		if is_inside_tree():
-			_update_colliders()
+@export_range(0.0, 45.0) var ranged_angle : float = 5.0: set = _set_ranged_angle
 
 ## Ranged-grab collision mask
-@export_flags_3d_physics var ranged_collision_mask : int = 1:
-	set(new_value):
-		ranged_collision_mask = new_value
-		if is_inside_tree() and _ranged_collision:
-			_ranged_collision.collision_mask = new_value	
+@export_flags_3d_physics var ranged_collision_mask : int = 1: set = _set_ranged_collision_mask
 
 ## Throw impulse factor
 @export var impulse_factor : float = 1.0
@@ -82,10 +62,6 @@ var _controller : XRController3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Do not initialise if in the editor
-	if Engine.is_editor_hint():
-		return
-
 	_controller = get_parent()
 
 	# Create the grab collision shape
@@ -132,8 +108,9 @@ func _ready():
 	get_parent().connect("button_released", _on_button_released)
 
 
+# Called on each frame to update the pickup
 func _process(delta):
-	# Do not run physics if in the editor
+	# Do not process if in the editor
 	if Engine.is_editor_hint():
 		return
 
@@ -150,6 +127,41 @@ func _process(delta):
 		_velocity_averager.add_transform(delta, global_transform)
 
 	_update_closest_object()
+
+
+# Called when the grab distance has been modified
+func _set_grab_distance(new_value: float) -> void:
+	grab_distance = new_value
+	if is_inside_tree():
+		_update_colliders()
+
+
+# Called when the grab collision mask has been modified
+func _set_grab_collision_mask(new_value: int) -> void:
+	grab_collision_mask = new_value
+	if is_inside_tree() and _grab_collision:
+		_grab_collision.collision_mask = new_value
+
+
+# Called when the ranged-grab distance has been modified
+func _set_ranged_distance(new_value: float) -> void:
+	ranged_distance = new_value
+	if is_inside_tree():
+		_update_colliders()
+
+
+# Called when the ranged-grab angle has been modified
+func _set_ranged_angle(new_value: float) -> void:
+	ranged_angle = new_value
+	if is_inside_tree():
+		_update_colliders()
+
+
+# Called when the ranged-grab collision mask has been modified
+func _set_ranged_collision_mask(new_value: int) -> void:
+	ranged_collision_mask = new_value
+	if is_inside_tree() and _ranged_collision:
+		_ranged_collision.collision_mask = new_value
 
 
 # Update the colliders geometry

@@ -38,7 +38,7 @@ extends XRToolsMovementProvider
 @export var arms_jump_enable : bool = false
 
 ## Arms jump detection threshold (M/S^2)
-@export var arms_jump_threshold : float = 10.0
+@export var arms_jump_threshold : float = 5.0
 
 
 # Node Positions
@@ -47,7 +47,7 @@ var _controller_left_position : float = 0.0
 var _controller_right_position : float = 0.0
 
 # Node Velocities
-var _camera_velocity :SlidingAverage = SlidingAverage.new(5)
+var _camera_velocity : SlidingAverage = SlidingAverage.new(5)
 var _controller_left_velocity : SlidingAverage = SlidingAverage.new(5)
 var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
 

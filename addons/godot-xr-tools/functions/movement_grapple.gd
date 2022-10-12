@@ -41,11 +41,7 @@ enum GrappleState {
 @export var grapple_length : float = 15.0
 
 ## Grapple collision mask
-@export_flags_3d_physics var grapple_collision_mask : int = 1:
-	set(new_value):
-		grapple_collision_mask = new_value
-		if is_inside_tree() and _grapple_raycast:
-			_grapple_raycast.collision_mask = new_value
+@export_flags_3d_physics var grapple_collision_mask : int = 1: set = _set_grapple_collision_mask
 
 ## Impulse speed applied to the player on first grapple
 @export var impulse_speed : float = 10.0
@@ -185,6 +181,13 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	# Perform exclusive movement as we have dealt with gravity
 	player_body.velocity = player_body.move_body(player_body.velocity)
 	return true
+
+
+# Called when the grapple collision mask has been modified
+func _set_grapple_collision_mask(new_value: int) -> void:
+	grapple_collision_mask = new_value
+	if is_inside_tree() and _grapple_raycast:
+		_grapple_raycast.collision_mask = new_value
 
 
 # Set the grappling state and fire any signals

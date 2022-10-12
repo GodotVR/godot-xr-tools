@@ -50,12 +50,12 @@ func scene_loaded():
 	# Make sure our camera becomes the current camera
 	$XROrigin3D/XRCamera3D.current = true
 	
-	# Center our player checked our origin point
+	# Center our player on our origin point
 	# Note, this means you can place the XROrigin3D point in the start
 	# position where you want the player to spawn, even if the player is
 	# physically halfway across the room.
 	center_player_on($XROrigin3D.global_transform)
 
 func scene_exiting():
-	# called when we're about to remove_at this scene
+	# called when we're about to remove this scene
 	pass

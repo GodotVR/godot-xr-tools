@@ -8,7 +8,7 @@ extends XRToolsMovementProvider
 ##
 ## @desc:
 ##     This script provides jumping mechanics for the player. This script works
-##     with the player body attached to the players XROrigin3D.
+##     with the XRToolsPlayerBody attached to the players XROrigin3D.
 ##
 ##     The player enables jumping by attaching an XRToolsMovementJump as a
 ##     child of the appropriate XRController3D, then configuring the jump button
@@ -20,7 +20,7 @@ extends XRToolsMovementProvider
 @export var order : int = 20
 
 ## Button to trigger jump
-@export var jump_button_action = "trigger_click"
+@export var jump_button_action : String = "trigger_click"
 
 
 # Node references
@@ -33,7 +33,7 @@ func _ready():
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the jump controller isn't active
 	if !_controller.get_is_active():
 		return

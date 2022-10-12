@@ -6,7 +6,7 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Turn unchecked until requested
+	# Turn off until requested
 	if not Engine.is_editor_hint():
 		visible = false
 
