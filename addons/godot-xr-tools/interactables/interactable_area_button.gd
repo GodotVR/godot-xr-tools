@@ -37,7 +37,7 @@ var pressed : bool = false
 var _trigger_items := {}
 
 # Tween for animating button
-var _tween: Tween = null
+var _tween: Tween
 
 # Node references
 @onready var _button: Node3D = get_node(button)

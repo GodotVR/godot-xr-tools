@@ -5,21 +5,21 @@ class_name XRToolsVelocityAveragerLinear
 ## Linear Velocity Averager class
 ##
 ## @desc:
-##     This class assists in calculating the average linear velocity of an 
+##     This class assists in calculating the average linear velocity of an
 ##     object. It accepts the following types of input:
 ##      - Periodic distances
 ##      - Periodic velocities
 ##      - Periodic transforms (for the origin position)
 ##
-##     It provides the average velocity calculated from the total distance 
+##     It provides the average velocity calculated from the total distance
 ##     divided by the total time.
-## 
+##
 
 
 # Count of averages to perform
 var _count: int
 
-# Array of time deltas (in float seconds) 
+# Array of time deltas (in float seconds)
 var _time_deltas := Array()
 
 # Array of linear distances (in Vector3)
@@ -67,7 +67,7 @@ func add_transform(delta: float, transform: Transform3D):
 
 	# Calculate the linear distances
 	var linear_distance := transform.origin - _last_transform.origin
-	
+
 	# Update the last transform
 	_last_transform = transform
 

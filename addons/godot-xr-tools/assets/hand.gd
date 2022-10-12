@@ -37,10 +37,6 @@ var _last_world_scale : float = 1.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
-	# Do not run physics if in the editor
-	if Engine.is_editor_hint():
-		return
-
 	# Scale the hand mesh with the world scale.
 	if XRServer.world_scale != _last_world_scale:
 		_last_world_scale = XRServer.world_scale

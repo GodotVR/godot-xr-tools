@@ -1,5 +1,6 @@
 class_name XRToolsVelocityAverager
 
+
 ##
 ## Velocity Averager class
 ##
@@ -9,15 +10,15 @@ class_name XRToolsVelocityAverager
 ##      - Periodic distances
 ##      - Periodic transforms (for the origin position)
 ##
-##     It provides the average velocity calculated from the total distance 
+##     It provides the average velocity calculated from the total distance
 ##     divided by the total time.
-## 
+##
 
 
 # Count of averages to perform
 var _count: int
 
-# Array of time deltas (in float seconds) 
+# Array of time deltas (in float seconds)
 var _time_deltas := Array()
 
 # Array of linear distances (Vector3 Castesian Distances)
@@ -32,7 +33,8 @@ var _last_transform := Transform3D()
 # Has last transform flag
 var _has_last_transform := false
 
-## Initialize the VelocityAverager with an averaging count
+
+## Initialize the XRToolsVelocityAverager with an averaging count
 func _init(count: int):
 	_count = count
 
@@ -47,7 +49,7 @@ func clear():
 func add_distance(delta: float, linear_distance: Vector3, angular_distance: Vector3):
 	# Sanity check
 	assert(delta > 0, "Velocity averager requires positive time-deltas")
-	
+
 	# Add data averaging arrays
 	_time_deltas.push_back(delta)
 	_linear_distances.push_back(linear_distance)
@@ -69,13 +71,13 @@ func add_transform(delta: float, transform: Transform3D):
 
 	# Calculate the linear cartesian distance
 	var linear_distance := transform.origin - _last_transform.origin
-	
+
 	# Calculate the euler angular distance
 	var angular_distance := (transform.basis * _last_transform.basis.inverse()).get_euler()
-	
+
 	# Update the last transform
 	_last_transform = transform
-	
+
 	# Add distances
 	add_distance(delta, linear_distance, angular_distance)
 
@@ -113,7 +115,7 @@ func angular_velocity() -> Vector3:
 	# to involve scaling of euler angles which isn't a valid operation.
 	#
 	# They are actually correct due to the value being a euler-velocity rather
-	# than a euler-angle. The difference is that physics engines process euler 
+	# than a euler-angle. The difference is that physics engines process euler
 	# velocities by converting them to axis-angle form by:
 	# - Angle-velocity: euler-velocity vector magnitude
 	# - Axis: euler-velocity normalized and axis evaluated on 1-radian rotation

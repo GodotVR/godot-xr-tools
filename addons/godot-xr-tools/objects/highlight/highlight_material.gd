@@ -21,7 +21,7 @@ func _ready():
 
 	# Save the materials
 	if _highlight_mesh_instance:
-		# if we can find a node remember which materials are currently set checked each surface
+		# if we can find a node remember which materials are currently set on each surface
 		for i in range(0, _highlight_mesh_instance.get_surface_override_material_count()):
 			_original_materials.push_back(_highlight_mesh_instance.get_surface_override_material(i))
 

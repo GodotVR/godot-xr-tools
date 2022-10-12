@@ -22,40 +22,22 @@ signal hinge_moved(angle)
 
 
 ## Hinge minimum limit
-@export var hinge_limit_min : float = -45.0:
-	set(new_value):
-		hinge_limit_min = new_value
-		_hinge_limit_min_rad = deg_to_rad(new_value)
-		
+@export var hinge_limit_min : float = -45.0: set = _set_hinge_limit_min
+
 ## Hinge maximum limit
-@export var hinge_limit_max : float = 45.0:
-	set(new_value):
-		hinge_limit_max = new_value
-		_hinge_limit_min_rad = deg_to_rad(new_value)
+@export var hinge_limit_max : float = 45.0: set = _set_hinge_limit_max
 
 ## Hinge step size (zero for no steps)
-@export var hinge_steps : float = 0.0:
-	set(new_value):
-		hinge_steps = new_value
-		_hinge_steps_rad = deg_to_rad(new_value)
+@export var hinge_steps : float = 0.0: set = _set_hinge_steps
 
 ## Hinge position
-@export var hinge_position : float = 0.0:
-	set(new_value):
-		var position := deg_to_rad(new_value)
-		if is_inside_tree():
-			position = _do_move_hinge(position)
-		hinge_position = rad_to_deg(position)
-		_hinge_position_rad = position
+@export var hinge_position : float = 0.0: set = _set_hinge_position
 
 ## Default position
-@export var default_position : float = 0.0:
-	set(new_value):
-		default_position = new_value
-		_default_position_rad = deg_to_rad(new_value)
+@export var default_position : float = 0.0: set = _set_default_position
 
 ## Move to default position on release
-@export var default_on_release := false
+@export var default_on_release : bool = false
 
 
 # Hinge values in radians
@@ -73,7 +55,7 @@ func _ready():
 
 	# Set the initial position to match the initial hinge position value
 	transform = Transform3D(
-		Basis.from_euler(Vector3(_hinge_position_rad, 0.0, 0.0)),
+		Basis.from_euler(Vector3(_hinge_position_rad, 0, 0)),
 		Vector3.ZERO
 	)
 
@@ -111,15 +93,47 @@ func move_hinge(position: float) -> void:
 	# Update the current positon
 	_hinge_position_rad = position
 	hinge_position = rad_to_deg(position)
-	
+
 	# Emit the moved signal
 	emit_signal("hinge_moved", hinge_position)
 
 
 # Handle release of hinge
-func _on_hinge_released(_interactable):
+func _on_hinge_released(_interactable: XRToolsInteractableHinge):
 	if default_on_release:
 		move_hinge(_default_position_rad)
+
+
+# Called when hinge_limit_min is set externally
+func _set_hinge_limit_min(value: float) -> void:
+	hinge_limit_min = value
+	_hinge_limit_min_rad = deg_to_rad(value)
+
+
+# Called when hinge_limit_max is set externally
+func _set_hinge_limit_max(value: float) -> void:
+	hinge_limit_max = value
+	_hinge_limit_max_rad = deg_to_rad(value)
+
+
+# Called when hinge_steps is set externally
+func _set_hinge_steps(value: float) -> void:
+	hinge_steps = value
+	_hinge_steps_rad = deg_to_rad(value)
+
+
+# Called when hinge_position is set externally
+func _set_hinge_position(value: float) -> void:
+	var position := deg_to_rad(value)
+	position = _do_move_hinge(position)
+	hinge_position = rad_to_deg(position)
+	_hinge_position_rad = position
+
+
+# Called when default_position is set externally
+func _set_default_position(value: float) -> void:
+	default_position = value
+	_default_position_rad = deg_to_rad(value)
 
 
 # Do the hinge move

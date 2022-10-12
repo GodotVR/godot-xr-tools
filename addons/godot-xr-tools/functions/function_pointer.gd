@@ -137,15 +137,15 @@ func _process(delta):
 
 	if !is_inside_tree():
 		return
-	
+
 	var new_ws = XRServer.world_scale
 	if (ws != new_ws):
 		ws = new_ws
 		_update_y_offset()
-	
+
 	if enabled and $RayCast.is_colliding():
 		var new_at = $RayCast.get_collision_point()
-		
+
 		if is_instance_valid(target):
 			# if target is set our mouse must be down, we keep "focus" on our target
 			if new_at != last_collided_at:
@@ -192,6 +192,6 @@ func _process(delta):
 				last_target.emit_signal("pointer_exited")
 			elif last_target.has_method("pointer_exited"):
 				last_target.pointer_exited()
-		
+
 		last_target = null
 		$Target.visible = false

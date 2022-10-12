@@ -14,14 +14,11 @@ signal wind_area_changed(active_wind_area)
 @export var drag_multiplier : float = 1.0
 
 # Set our collision mask
-@export_flags_3d_physics var collision_mask : int = 524288:
-	set(new_value):
-		collision_mask = new_value
-		if is_inside_tree():
-			_sense_area.collision_mask = collision_mask
+@export_flags_3d_physics var collision_mask : int = 524288: set = set_collision_mask
+
 
 # Wind area
-@onready var _sense_area : Area3D
+var _sense_area : Area3D
 
 # Array of wind areas the player is in
 var _in_wind_areas := Array()
@@ -66,6 +63,13 @@ func _ready():
 	_sense_area.area_entered.connect(_on_area_entered)
 	_sense_area.area_exited.connect(_on_area_exited)
 
+
+func set_collision_mask(new_mask: int) -> void:
+	collision_mask = new_mask
+	if is_inside_tree() and _sense_area:
+		_sense_area.collision_mask = collision_mask
+
+
 func _on_area_entered(area: Area3D):
 	# Skip if not wind area
 	var wind_area = area as XRToolsWindArea
@@ -78,6 +82,7 @@ func _on_area_entered(area: Area3D):
 
 	# Report the wind area change
 	emit_signal("wind_area_changed", _active_wind_area)
+
 
 func _on_area_exited(area: Area3D):
 	# Erase from the wind area

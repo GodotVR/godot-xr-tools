@@ -2,7 +2,7 @@ extends Node3D
 
 ## Introduction
 #
-# Staging is our main containing scene that we load checked startup.
+# Staging is our main containing scene that we load on startup.
 #
 # This scene sets up our XR environment. We do this by including
 # the First Person Controller from our OpenXR plugin. 
@@ -140,7 +140,7 @@ func load_scene(p_scene_path : String):
 	$LoadingScreen.follow_camera = false
 	$LoadingScreen.visible = false
 	
-	# Turn unchecked internal process checked our FPController, the internal process
+	# Turn off internal process on our FPController, the internal process
 	# of our XROrigin3D will submit its positioning data to the XRServer.
 	# With two XROrigin3D nodes we'll get competing data.
 	$FPController.set_process_internal(false)

@@ -7,10 +7,7 @@ signal pressed
 
 
 # Enable our button
-@export var enabled : bool = false:
-	set(new_value):
-		enabled = new_value
-		_update_enabled()
+@export var enabled : bool = false: set = set_enabled
 
 @export var activate_action : String = "trigger_click"
 
@@ -18,17 +15,10 @@ signal pressed
 @export var hold_time : float = 2.0
 
 # Color our our visualisation
-@export var color : Color = Color(1.0, 1.0, 1.0, 1.0):
-	set(new_value):
-		color = new_value
-		_update_color()
+@export var color : Color = Color(1.0, 1.0, 1.0, 1.0): set = set_color
 
 # Size
-@export var size : Vector2 = Vector2(1.0, 1.0):
-	set(new_value):
-		size = new_value
-		if !Engine.is_editor_hint():
-			_update_size()
+@export var size : Vector2 = Vector2(1.0, 1.0): set = set_size
 
 
 var time_held = 0.0

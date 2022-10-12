@@ -30,80 +30,50 @@ const VECTOR_YZ := Vector3(0.0, 1.0, 1.0)
 
 
 ## Joystick X minimum limit
-@export var joystick_x_limit_min : float = -45.0:
-	set(new_value):
-		joystick_x_limit_min = new_value
-		_joystick_x_limit_min_rad = deg_to_rad(new_value)
+@export var joystick_x_limit_min : float = -45.0: set = _set_joystick_x_limit_min
 
 ## Joystick X maximum limit
-@export var joystick_x_limit_max : float = 45.0:
-	set(new_value):
-		joystick_x_limit_max = new_value
-		_joystick_x_limit_max_rad = deg_to_rad(new_value)
+@export var joystick_x_limit_max : float = 45.0: set = _set_joystick_x_limit_max
 
 ## Joystick Y minimum limit
-@export var joystick_y_limit_min : float = -45.0:
-	set(new_value):
-		joystick_y_limit_min = new_value
-		_joystick_y_limit_min_rad = deg_to_rad(new_value)
+@export var joystick_y_limit_min : float = -45.0: set = _set_joystick_y_limit_min
 
 ## Joystick Y maximum limit
-@export var joystick_y_limit_max : float = 45.0:
-	set(new_value):
-		joystick_y_limit_max = new_value
-		_joystick_y_limit_max_rad = deg_to_rad(new_value)
+@export var joystick_y_limit_max : float = 45.0: set = _set_joystick_y_limit_max
 
 ## Joystick X step size (zero for no steps)
-@export var joystick_x_steps : float = 0.0:
-	set(new_value):
-		joystick_x_steps = new_value
-		_joystick_x_steps_rad = deg_to_rad(new_value)
+@export var joystick_x_steps : float = 0.0: set = _set_joystick_x_steps
 
 ## Joystick Y step size (zero for no steps)
-@export var joystick_y_steps : float = 0.0:
-	set(new_value):
-		joystick_y_steps = new_value
-		_joystick_y_steps_rad = deg_to_rad(new_value)
+@export var joystick_y_steps : float = 0.0: set = _set_joystick_y_steps
 
 ## Joystick X position
-@export var joystick_x_position : float = 0.0:
-	set(new_value):
-		var position := Vector2(deg_to_rad(new_value), _joystick_y_position_rad)
-		if is_inside_tree():
-			position = _do_move_joystick(position)
-		joystick_x_position = rad_to_deg(position.x)
-		_joystick_x_position_rad = position.x
+@export var joystick_x_position : float = 0.0: set = _set_joystick_x_position
 
 ## Joystick Y position
-@export var joystick_y_position : float = 0.0:
-	set(new_value):
-		var position := Vector2(_joystick_x_position_rad, deg_to_rad(new_value))
-		if is_inside_tree():
-			position = _do_move_joystick(position)
-		joystick_y_position = rad_to_deg(position.y)
-		_joystick_y_position_rad = position.y
+@export var joystick_y_position : float = 0.0: set = _set_joystick_y_position
 
 ## Default X position
-@export var default_x_position : float = 0.0
+@export var default_x_position : float = 0.0: set = _set_default_x_position
 
 ## Default Y position
-@export var default_y_position : float = 0.0
+@export var default_y_position : float = 0.0: set = _set_default_y_position
 
 ## Move to default position on release
 @export var default_on_release : bool = false
 
 
 # Joystick values in radians
-@onready var _joystick_x_limit_min_rad := deg_to_rad(joystick_x_limit_min)
-@onready var _joystick_x_limit_max_rad := deg_to_rad(joystick_x_limit_max)
-@onready var _joystick_y_limit_min_rad := deg_to_rad(joystick_y_limit_min)
-@onready var _joystick_y_limit_max_rad := deg_to_rad(joystick_y_limit_max)
-@onready var _joystick_x_steps_rad := deg_to_rad(joystick_x_steps)
-@onready var _joystick_y_steps_rad := deg_to_rad(joystick_y_steps)
-@onready var _joystick_x_position_rad := deg_to_rad(joystick_x_position)
-@onready var _joystick_y_position_rad := deg_to_rad(joystick_y_position)
-@onready var _default_x_position_rad := deg_to_rad(default_x_position)
-@onready var _default_y_position_rad := deg_to_rad(default_y_position)
+@onready var _joystick_x_limit_min_rad : float = deg_to_rad(joystick_x_limit_min)
+@onready var _joystick_x_limit_max_rad : float = deg_to_rad(joystick_x_limit_max)
+@onready var _joystick_y_limit_min_rad : float = deg_to_rad(joystick_y_limit_min)
+@onready var _joystick_y_limit_max_rad : float = deg_to_rad(joystick_y_limit_max)
+@onready var _joystick_x_steps_rad : float = deg_to_rad(joystick_x_steps)
+@onready var _joystick_y_steps_rad : float = deg_to_rad(joystick_y_steps)
+@onready var _joystick_x_position_rad : float = deg_to_rad(joystick_x_position)
+@onready var _joystick_y_position_rad : float = deg_to_rad(joystick_y_position)
+@onready var _default_x_position_rad : float = deg_to_rad(default_x_position)
+@onready var _default_y_position_rad : float = deg_to_rad(default_y_position)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -123,7 +93,7 @@ func _ready():
 
 # Called every frame when one or more handles are held by the player
 func _process(_delta: float) -> void:
-	# Do not run interactables in the editor
+	# Do not process in the editor
 	if Engine.is_editor_hint():
 		return
 
@@ -175,9 +145,73 @@ func move_joystick(position_x: float, position_y: float) -> void:
 
 
 # Handle release of joystick
-func _on_joystick_released(_interactable):
+func _on_joystick_released(_interactable: XRToolsInteractableJoystick):
 	if default_on_release:
 		move_joystick(_default_x_position_rad, _default_y_position_rad)
+
+
+# Called when joystick_x_limit_min is set externally
+func _set_joystick_x_limit_min(value: float) -> void:
+	joystick_x_limit_min = value
+	_joystick_x_limit_min_rad = deg_to_rad(value)
+
+
+# Called when joystick_y_limit_min is set externally
+func _set_joystick_y_limit_min(value: float) -> void:
+	joystick_y_limit_min = value
+	_joystick_y_limit_min_rad = deg_to_rad(value)
+
+
+# Called when joystick_x_limit_max is set externally
+func _set_joystick_x_limit_max(value: float) -> void:
+	joystick_x_limit_max = value
+	_joystick_x_limit_max_rad = deg_to_rad(value)
+
+
+# Called when joystick_y_limit_max is set externally
+func _set_joystick_y_limit_max(value: float) -> void:
+	joystick_y_limit_max = value
+	_joystick_y_limit_max_rad = deg_to_rad(value)
+
+
+# Called when joystick_x_steps is set externally
+func _set_joystick_x_steps(value: float) -> void:
+	joystick_x_steps = value
+	_joystick_x_steps_rad = deg_to_rad(value)
+
+
+# Called when joystick_y_steps is set externally
+func _set_joystick_y_steps(value: float) -> void:
+	joystick_y_steps = value
+	_joystick_y_steps_rad = deg_to_rad(value)
+
+
+# Called when joystick_x_position is set externally
+func _set_joystick_x_position(value: float) -> void:
+	var position := Vector2(deg_to_rad(value), _joystick_y_position_rad)
+	position = _do_move_joystick(position)
+	joystick_x_position = rad_to_deg(position.x)
+	_joystick_x_position_rad = position.x
+
+
+# Called when joystick_y_position is set externally
+func _set_joystick_y_position(value: float) -> void:
+	var position := Vector2(_joystick_x_position_rad, deg_to_rad(value))
+	position = _do_move_joystick(position)
+	joystick_y_position = rad_to_deg(position.y)
+	_joystick_y_position_rad = position.y
+
+
+# Called when default_x_position is set externally
+func _set_default_x_position(value: float) -> void:
+	default_x_position = value
+	_default_x_position_rad = deg_to_rad(value)
+
+
+# Called when default_y_position is set externally
+func _set_default_y_position(value: float) -> void:
+	default_y_position = value
+	_default_y_position_rad = deg_to_rad(value)
 
 
 # Do the joystick move

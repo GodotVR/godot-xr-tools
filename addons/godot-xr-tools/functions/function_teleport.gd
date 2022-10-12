@@ -124,24 +124,24 @@ func _physics_process(delta):
 
 	# We should be the child or the controller on which the teleport is implemented
 	var controller = get_parent()
-	
+
 	if !origin_node:
 		return
-	
+
 	if !camera_node:
 		return
-	
+
 	# if we're not enabled no point in doing mode
 	if !enabled:
 		# reset these
 		is_teleporting = false;
 		$Teleport.visible = false
 		$Target.visible = false
-		
+
 		# and stop this from running until we enable again
 		set_physics_process(false)
 		return
-	
+
 	# check if our world scale has changed..
 	var new_ws = XRServer.world_scale
 	if ws != new_ws:
@@ -149,32 +149,32 @@ func _physics_process(delta):
 		$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 		$Target.mesh.size = Vector2(ws, ws)
 		$Target/Player_figure.scale = Vector3(ws, ws, ws)
-	
+
 	if controller and controller.get_is_active() and controller.is_button_pressed(teleport_button_action):
 		if !is_teleporting:
 			is_teleporting = true
 			$Teleport.visible = true
 			$Target.visible = true
 			teleport_rotation = 0.0
-		
+
 		# get our physics engine state
 		var space = PhysicsServer3D.body_get_space(self.get_rid())
 		var state = PhysicsServer3D.space_get_direct_state(space)
 		var query = PhysicsShapeQueryParameters3D.new()
-		
+
 		# init stuff about our query that doesn't change
 		query.collision_mask = collision_mask
 		query.margin = get_safe_margin()
 		query.shape_rid = collision_shape.get_rid()
-		
+
 		# make a transform for offsetting our shape, it's always lying on its side by default...
 		var shape_transform = Transform3D(Basis(), Vector3(0.0, player_height / 2.0, 0.0))
-		
+
 		# update location
 		var teleport_global_transform = $Teleport.global_transform
 		var target_global_origin = teleport_global_transform.origin
 		var down = Vector3(0.0, -1.0 / ws, 0.0)
-		
+
 		############################################################
 		# New teleport logic
 		# We're going to use test move in steps to find out where we hit something...
@@ -187,17 +187,17 @@ func _physics_process(delta):
 		for i in range(1,26):
 			var new_cast_length = cast_length + (step_size / fine_tune)
 			var global_target = Vector3(0.0, 0.0, -new_cast_length)
-			
+
 			# our quadratic values
 			var t = global_target.z / strength
 			var t2 = t * t
-			
+
 			# target to world space
 			global_target = teleport_global_transform * global_target
-			
+
 			# adjust for gravity
 			global_target += down * t2
-			
+
 			# test our new location for collisions
 			query.transform = Transform3D(Basis(), global_target) * shape_transform
 			var cast_result = state.collide_shape(query, 10)
@@ -211,7 +211,7 @@ func _physics_process(delta):
 			else:
 				# if we don't collide make sure we keep using our current origin point
 				var collided_at = target_global_origin
-				
+
 				# check for collision
 				if global_target.y > target_global_origin.y:
 					# if we're moving up, we hit the ceiling of something, we don't really care what
@@ -230,15 +230,15 @@ func _physics_process(delta):
 						# did we collide with a floor or a wall?
 						floor_normal = intersects["normal"]
 						var dot = floor_normal.dot(Vector3.UP)
-						
+
 						if dot > max_slope_cos:
 							is_on_floor = true
 						else:
 							is_on_floor = false
-						
+
 						# Update our collision point if it's moved enough, this solves a little bit of jittering
 						var diff = collided_at - intersects["position"]
-						
+
 						if diff.length() > 0.1:
 							collided_at = intersects["position"]
 
@@ -246,13 +246,13 @@ func _physics_process(delta):
 						var collider_mask = intersects["collider"].collision_layer
 						if not valid_teleport_mask & collider_mask:
 							is_on_floor = false
-				
+
 				# we are colliding, find our if we're colliding on a wall or floor, one we can do, the other nope...
 				cast_length += (collided_at - target_global_origin).length()
 				target_global_origin = collided_at
 				hit_something = true
 				break
-		
+
 		# and just update our shader
 		$Teleport.get_surface_override_material(0).set_shader_parameter("scale_t", 1.0 / strength)
 		$Teleport.get_surface_override_material(0).set_shader_parameter("ws", ws)
@@ -267,22 +267,22 @@ func _physics_process(delta):
 			else:
 				can_teleport = false
 				color = cant_teleport_color
-			
+
 			# check our axis to see if we need to rotate
 			teleport_rotation += (delta * controller.get_axis(rotation_action).x * -4.0)
-			
+
 			# update target and colour
 			var target_basis = Basis()
 			target_basis.z = Vector3(teleport_global_transform.basis.z.x, 0.0, teleport_global_transform.basis.z.z).normalized()
 			target_basis.y = normal
 			target_basis.x = target_basis.y.cross(target_basis.z)
 			target_basis.z = target_basis.x.cross(target_basis.y)
-			
+
 			target_basis = target_basis.rotated(normal, teleport_rotation)
 			last_target_transform.basis = target_basis
 			last_target_transform.origin = target_global_origin + Vector3(0.0, 0.001, 0.0)
 			$Target.global_transform = last_target_transform
-			
+
 			$Teleport.get_surface_override_material(0).set_shader_parameter("mix_color", color)
 			$Target.get_surface_override_material(0).albedo_color = color
 			$Target.visible = can_teleport
@@ -292,27 +292,27 @@ func _physics_process(delta):
 			$Teleport.get_surface_override_material(0).set_shader_parameter("mix_color", no_collision_color)
 	elif is_teleporting:
 		if can_teleport:
-			
+
 			# make our target horizontal again
 			var new_transform = last_target_transform
 			new_transform.basis.y = Vector3(0.0, 1.0, 0.0)
 			new_transform.basis.x = new_transform.basis.y.cross(new_transform.basis.z).normalized()
 			new_transform.basis.z = new_transform.basis.x.cross(new_transform.basis.y).normalized()
-			
+
 			# find out our user's feet's transformation
 			var cam_transform = camera_node.transform
 			var user_feet_transform = Transform3D()
 			user_feet_transform.origin = cam_transform.origin
 			user_feet_transform.origin.y = 0 # the feet are on the ground, but have the same X,Z as the camera
-			
+
 			# ensure this transform is upright
 			user_feet_transform.basis.y = Vector3(0.0, 1.0, 0.0)
 			user_feet_transform.basis.x = user_feet_transform.basis.y.cross(cam_transform.basis.z).normalized()
 			user_feet_transform.basis.z = user_feet_transform.basis.x.cross(user_feet_transform.basis.y).normalized()
-			
+
 			# now move the origin such that the new global user_feet_transform would be == new_transform
 			origin_node.global_transform = new_transform * user_feet_transform.inverse()
-		
+
 		# and disable
 		is_teleporting = false;
 		$Teleport.visible = false

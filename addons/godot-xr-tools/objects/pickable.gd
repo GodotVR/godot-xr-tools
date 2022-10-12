@@ -58,10 +58,7 @@ enum PickableState {
 @export var hold_method : HoldMethod = HoldMethod.REMOTE_TRANSFORM
 
 ## Method used to perform a ranged grab
-@export var ranged_grab_method : RangedMethod = RangedMethod.SNAP:
-	set(new_value):
-		ranged_grab_method = new_value
-		can_ranged_grab = new_value != RangedMethod.NONE
+@export var ranged_grab_method : RangedMethod = RangedMethod.SNAP: set = _set_ranged_grab_method
 
 ## Speed for ranged grab
 @export var ranged_grab_speed : float = 20.0
@@ -322,6 +319,11 @@ func _do_precise_grab() -> void:
 
 	# Emit the picked up signal
 	emit_signal("picked_up", self)
+
+
+func _set_ranged_grab_method(new_value: int) -> void:
+	ranged_grab_method = new_value
+	can_ranged_grab = new_value != RangedMethod.NONE
 
 
 func _get_configuration_warning():

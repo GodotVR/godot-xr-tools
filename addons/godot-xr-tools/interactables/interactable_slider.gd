@@ -32,12 +32,7 @@ signal slider_moved(position)
 @export var slider_steps : float = 0.0
 
 ## Slider position
-@export var slider_position : float = 0.0:
-	set(new_value):
-		var position := new_value
-		if is_inside_tree():
-			position = _do_move_slider(position)
-		slider_position = position
+@export var slider_position : float = 0.0: set = _set_slider_position
 
 ## Default position
 @export var default_position : float = 0.0
@@ -95,9 +90,15 @@ func move_slider(position: float) -> void:
 
 
 # Handle release of slider
-func _on_slider_released(_interactable):
+func _on_slider_released(_interactable: XRToolsInteractableSlider):
 	if default_on_release:
 		move_slider(default_position)
+
+
+# Called when the slider position is set externally
+func _set_slider_position(position: float) -> void:
+	position = _do_move_slider(position)
+	slider_position = position
 
 
 # Do the slider move

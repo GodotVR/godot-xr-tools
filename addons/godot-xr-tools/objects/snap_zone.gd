@@ -16,12 +16,8 @@ signal close_highlight_updated(pickable, enable)
 
 
 ## Grab distance
-@export var grab_distance : float = 0.3 :
-	set(new_value):
-		grab_distance = new_value
-		if is_inside_tree() and $CollisionShape:
-			$CollisionShape.shape.radius = grab_distance
-		
+@export var grab_distance : float = 0.3: set = _set_grab_distance
+
 ## Require snap items to be in specified group
 @export var snap_require : String = ""
 
@@ -187,3 +183,10 @@ func _pick_up_object(target: Node3D) -> void:
 	if is_instance_valid(picked_up_object):
 		emit_signal("has_picked_up", picked_up_object)
 		emit_signal("highlight_updated", self, false)
+
+
+# Called when the grab distance has been modified
+func _set_grab_distance(new_value: float) -> void:
+	grab_distance = new_value
+	if is_inside_tree() and $CollisionShape:
+		$CollisionShape.shape.radius = grab_distance
