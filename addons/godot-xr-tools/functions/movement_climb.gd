@@ -30,22 +30,22 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
 ## Movement provider order
-export var order := 15
+export var order : int = 15
 
 ## Push forward when flinging
-export var forward_push := 1.0
+export var forward_push : float = 1.0
 
 ## Velocity multiplier when flinging up walls
-export var fling_multiplier := 1.0
+export var fling_multiplier : float = 1.0
 
 ## Averages for velocity measurement
-export var velocity_averages := 5
+export var velocity_averages : int = 5
 
 ## Pickup function for the left hand
-export var left_pickup: NodePath
+export var left_pickup : NodePath
 
 ## Pickup function for the right hand
-export var right_pickup: NodePath
+export var right_pickup : NodePath
 
 
 # Velocity averaging fields
@@ -54,8 +54,8 @@ var _deltas = Array()
 
 
 # Node references
-onready var _left_pickup_node: XRToolsFunctionPickup = get_node(left_pickup)
-onready var _right_pickup_node: XRToolsFunctionPickup = get_node(right_pickup)
+onready var _left_pickup_node : XRToolsFunctionPickup = get_node(left_pickup)
+onready var _right_pickup_node : XRToolsFunctionPickup = get_node(right_pickup)
 
 
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):

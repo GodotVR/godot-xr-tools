@@ -16,23 +16,23 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-export var order := 5
+export var order : int = 5
 
 ## Use smooth rotation (may cause motion sickness)
-export var smooth_rotation := false
+export var smooth_rotation : bool = false
 
 ## Smooth turn speed in radians per second
-export var smooth_turn_speed := 2.0
+export var smooth_turn_speed : float = 2.0
 
 ## Seconds per step (at maximum turn rate)
-export var step_turn_delay := 0.2
+export var step_turn_delay : float = 0.2
 
 ## Step turn angle in degrees
-export var step_turn_angle := 20.0
+export var step_turn_angle : float = 20.0
 
 
 # Turn step accumulator
-var _turn_step := 0.0
+var _turn_step : float = 0.0
 
 
 # Controller node

@@ -20,11 +20,11 @@ signal hand_scale_changed(scale)
 
 
 # Last world scale (for scaling hands)
-var _last_world_scale := 1.0
+var _last_world_scale : float = 1.0
 
 
 # Capture the initial transform
-onready var _transform := transform
+onready var _transform : Transform = transform
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

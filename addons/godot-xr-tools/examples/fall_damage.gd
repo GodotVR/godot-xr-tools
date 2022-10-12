@@ -35,20 +35,20 @@ signal player_fall_damage(damage)
 
 
 ## Movement provider order
-export var order := 1000
+export var order : int = 1000
 
 ## Ignore damage if player is launched up
-export var ignore_launch := true
+export var ignore_launch : bool = true
 
 ## Only take damage on ground
-export var ground_only := false
+export var ground_only : bool = false
 
 ## Acceleration limit
-export var damage_threshold := 8.0
+export var damage_threshold : float = 8.0
 
 
 # Previous velocity
-var _previous_velocity := Vector3.ZERO
+var _previous_velocity : Vector3 = Vector3.ZERO
 
 
 func _ready():
@@ -66,10 +66,10 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	_previous_velocity = player_body.velocity
 
 	# Ignore launching the player
-	var forgive := 0.0
 	if ignore_launch:
 		# Forgive "up" acceleration equal to our "up" speed
-		accel_vec.y -= max(0, min(accel_vec.y, player_body.velocity.y));
+		var forgive : float = max(0, min(accel_vec.y, player_body.velocity.y))
+		accel_vec.y -= forgive
 
 	# Handle ground-only collisions
 	if ground_only:

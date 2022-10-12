@@ -16,7 +16,8 @@ extends Node
 ##
 
 ## XRToolsGroundPhysicsSettings to apply - can only be typed in Godot 4+
-export var physics: Resource
+export var physics : Resource
+
 
 # This method verifies the ground physics has a valid configuration.
 func _get_configuration_warning():
@@ -32,5 +33,5 @@ func _get_configuration_warning():
 	return ""
 
 # Get the physics from a ground physics node
-static func get_physics(var node: XRToolsGroundPhysics, var default: XRToolsGroundPhysicsSettings) -> XRToolsGroundPhysicsSettings:
+static func get_physics(node: XRToolsGroundPhysics, default: XRToolsGroundPhysicsSettings) -> XRToolsGroundPhysicsSettings:
 	return node.physics as XRToolsGroundPhysicsSettings if node else default

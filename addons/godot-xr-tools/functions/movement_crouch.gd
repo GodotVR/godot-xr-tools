@@ -35,17 +35,17 @@ enum Buttons {
 
 
 ## Movement provider order
-export var order := 10
+export var order : int = 10
 
 ## Crouch height
-export var crouch_height := 1.0
+export var crouch_height : float = 1.0
 
 ## Crouch button
-export (Buttons) var crouch_button: int = Buttons.VR_PAD
+export (Buttons) var crouch_button : int = Buttons.VR_PAD
 
 
 ## Crouching flag
-var _crouching := false
+var _crouching : bool = false
 
 
 # Controller node

@@ -54,26 +54,26 @@ enum GrappleState {
 
 
 ## Movement provider order
-export var order := 20
+export var order : int = 20
 
 ## Grapple length - use to adjust maximum distance for possible grapple hooking.
-export var grapple_length := 15.0
+export var grapple_length : float = 15.0
 
 ## Grapple collision mask
-export (int, LAYERS_3D_PHYSICS) var grapple_collision_mask = 1 setget _set_grapple_collision_mask
+export (int, LAYERS_3D_PHYSICS) var grapple_collision_mask : int = 1 setget _set_grapple_collision_mask
 
 ## Impulse speed applied to the player on first grapple
-export var impulse_speed := 10.0
+export var impulse_speed : float = 10.0
 
 ## Winch speed applied to the player while the grapple is held
-export var winch_speed := 2.0
+export var winch_speed : float = 2.0
 
 ##Probably need to add export variables for line size, maybe line material at some point so dev does not need to make children editable to do this
 ##For now, right click on grapple node and make children editable to edit these facets.
-export var rope_width := 0.02
+export var rope_width : float = 0.02
 
 ## Air friction while grappling
-export var friction := 0.1
+export var friction : float = 0.1
 
 ## Grapple button (triggers grappling movement).  Be sure this button does not conflict with other functions.
 export (Buttons) var grapple_button_id : int = Buttons.VR_TRIGGER
@@ -200,14 +200,14 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 
 # Called when the grapple collision mask has been modified
-func _set_grapple_collision_mask(var new_value: int) -> void:
+func _set_grapple_collision_mask(new_value: int) -> void:
 	grapple_collision_mask = new_value
 	if is_inside_tree() and _grapple_raycast:
 		_grapple_raycast.collision_mask = new_value
 
 
 # Set the grappling state and fire any signals
-func _set_grappling(var active: bool) -> void:
+func _set_grappling(active: bool) -> void:
 	# Skip if no change
 	if active == is_active:
 		return

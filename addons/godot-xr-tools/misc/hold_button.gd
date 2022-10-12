@@ -27,18 +27,18 @@ enum Buttons {
 
 
 # Enable our button
-export var enabled: bool = false setget set_enabled
+export var enabled : bool = false setget set_enabled
 
-export (Buttons) var activate_button: int = Buttons.VR_TRIGGER
+export (Buttons) var activate_button : int = Buttons.VR_TRIGGER
 
 # Countdown
-export var hold_time: float = 2.0
+export var hold_time : float = 2.0
 
 # Color our our visualisation
-export var color: Color = Color(1.0, 1.0, 1.0, 1.0) setget set_color
+export var color : Color = Color(1.0, 1.0, 1.0, 1.0) setget set_color
 
 # Size
-export var size: Vector2 = Vector2(1.0, 1.0) setget set_size
+export var size : Vector2 = Vector2(1.0, 1.0) setget set_size
 
 
 var time_held = 0.0
@@ -78,7 +78,6 @@ func _process(delta):
 		if time_held > hold_time:
 			# done, disable this
 			set_enabled(false)
-
 			emit_signal("pressed")
 	else:
 		_set_time_held(max(0.0, time_held - delta))
