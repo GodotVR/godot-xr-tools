@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" type="PackedScene" id=1]
+[ext_resource path="res://scenes/pointer_demo/objects/keyboard_test_screen.tscn" type="PackedScene" id=2]
+
+[sub_resource type="QuadMesh" id=1]
+resource_local_to_scene = true
+size = Vector2( 2.8, 1.3 )
+
+[sub_resource type="ViewportTexture" id=2]
+
+[sub_resource type="SpatialMaterial" id=3]
+resource_local_to_scene = true
+flags_transparent = true
+flags_unshaded = true
+params_cull_mode = 2
+albedo_texture = SubResource( 2 )
+
+[sub_resource type="BoxShape" id=4]
+resource_local_to_scene = true
+extents = Vector3( 1.4, 0.65, 0.01 )
+
+[node name="Display" instance=ExtResource( 1 )]
+screen_size = Vector2( 2.8, 1.3 )
+viewport_size = Vector2( 280, 130 )
+scene = ExtResource( 2 )
+
+[node name="Viewport" parent="." index="0"]
+size = Vector2( 280, 130 )
+
+[node name="Screen" parent="." index="1"]
+mesh = SubResource( 1 )
+material/0 = SubResource( 3 )
+
+[node name="StaticBody" parent="." index="2"]
+screen_size = Vector2( 2.8, 1.3 )
+viewport_size = Vector2( 280, 130 )
+
+[node name="CollisionShape" parent="StaticBody" index="0"]
+shape = SubResource( 4 )

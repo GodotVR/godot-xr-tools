@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" type="PackedScene" id=2]
@@ -11,24 +11,11 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=11]
-[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=12]
+[ext_resource path="res://scenes/grappling_demo/objects/moving_platforms.tscn" type="PackedScene" id=12]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=15]
-[ext_resource path="res://addons/godot-xr-tools/objects/climbable.gd" type="Script" id=16]
-[ext_resource path="res://scenes/grappling_demo/moving_platforms.gd" type="Script" id=17]
-
-[sub_resource type="CubeMesh" id=1]
-size = Vector3( 3, 8, 3 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 1.5, 4, 1.5 )
-
-[sub_resource type="CubeMesh" id=3]
-size = Vector3( 5, 1, 5 )
-
-[sub_resource type="BoxShape" id=4]
-extents = Vector3( 2.5, 0.5, 2.5 )
+[ext_resource path="res://scenes/grappling_demo/objects/tower.tscn" type="PackedScene" id=18]
 
 [sub_resource type="ViewportTexture" id=5]
 viewport_path = NodePath("Instructions/Viewport")
@@ -42,6 +29,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 3 )]
+enabled = true
+order = 10
 max_speed = 3.0
 strafe = true
 
@@ -56,7 +45,10 @@ ranged_enable = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 3 )]
+enabled = true
+order = 10
 max_speed = 3.0
+strafe = false
 
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
 smooth_rotation = true
@@ -83,184 +75,45 @@ right_pickup = NodePath("../RightHand/FunctionPickup")
 
 [node name="Towers" type="Spatial" parent="." index="2"]
 
-[node name="Tower1" type="StaticBody" parent="Towers" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, -8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
+[node name="Tower1" parent="Towers" index="0" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -8 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower1" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
+[node name="Tower2" parent="Towers" index="1" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower1" index="1"]
-shape = SubResource( 2 )
+[node name="Tower3" parent="Towers" index="2" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, -8 )
 
-[node name="Tower2" type="StaticBody" parent="Towers" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
+[node name="Tower4" parent="Towers" index="3" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower2" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
+[node name="Tower5" parent="Towers" index="4" instance=ExtResource( 18 )]
 
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower2" index="1"]
-shape = SubResource( 2 )
+[node name="Tower6" parent="Towers" index="5" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
 
-[node name="Tower3" type="StaticBody" parent="Towers" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, -8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
+[node name="Tower7" parent="Towers" index="6" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, 8 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower3" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
+[node name="Tower8" parent="Towers" index="7" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower3" index="1"]
-shape = SubResource( 2 )
+[node name="Tower9" parent="Towers" index="8" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, 8 )
 
-[node name="Tower4" type="StaticBody" parent="Towers" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 4, 0 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
+[node name="MovingPlatformsLow" parent="." index="3" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower4" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
+[node name="MovingPlatformsHigh" parent="." index="4" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
+rate = -10.0
 
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower4" index="1"]
-shape = SubResource( 2 )
-
-[node name="Tower5" type="StaticBody" parent="Towers" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower5" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower5" index="1"]
-shape = SubResource( 2 )
-
-[node name="Tower6" type="StaticBody" parent="Towers" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 4, 0 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower6" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower6" index="1"]
-shape = SubResource( 2 )
-
-[node name="Tower7" type="StaticBody" parent="Towers" index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 2, 8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower7" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower7" index="1"]
-shape = SubResource( 2 )
-
-[node name="Tower8" type="StaticBody" parent="Towers" index="7"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower8" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower8" index="1"]
-shape = SubResource( 2 )
-
-[node name="Tower9" type="StaticBody" parent="Towers" index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 2, 8 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Towers/Tower9" index="0"]
-mesh = SubResource( 1 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Towers/Tower9" index="1"]
-shape = SubResource( 2 )
-
-[node name="MovingPlatforms" type="Spatial" parent="." index="3"]
-script = ExtResource( 17 )
-
-[node name="Platform1" type="StaticBody" parent="MovingPlatforms" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 17 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform1" index="0"]
-mesh = SubResource( 3 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform1" index="1"]
-shape = SubResource( 4 )
-
-[node name="Platform2" type="StaticBody" parent="MovingPlatforms" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 5, 0 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform2" index="0"]
-mesh = SubResource( 3 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform2" index="1"]
-shape = SubResource( 4 )
-
-[node name="Platform3" type="StaticBody" parent="MovingPlatforms" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -17 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform3" index="0"]
-mesh = SubResource( 3 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform3" index="1"]
-shape = SubResource( 4 )
-
-[node name="Platform4" type="StaticBody" parent="MovingPlatforms" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 5, 0 )
-collision_layer = 2
-collision_mask = 0
-script = ExtResource( 16 )
-
-[node name="MeshInstance" type="MeshInstance" parent="MovingPlatforms/Platform4" index="0"]
-mesh = SubResource( 3 )
-material/0 = ExtResource( 12 )
-
-[node name="CollisionShape" type="CollisionShape" parent="MovingPlatforms/Platform4" index="1"]
-shape = SubResource( 4 )
-
-[node name="ToMainMenu" parent="." index="4" instance=ExtResource( 14 )]
+[node name="ToMainMenu" parent="." index="5" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 24 )
 scene_base = NodePath("..")
 title = ExtResource( 15 )
 
-[node name="Instructions" type="Spatial" parent="." index="5"]
+[node name="Instructions" type="Spatial" parent="." index="6"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20 )
 
 [node name="Viewport" type="Viewport" parent="Instructions" index="0"]
