@@ -1,5 +1,9 @@
-# 3.0.0 Alpha
-- Included demo
+# 3.0.0 (in progress)
+- Included demo project with test scenes to evaluate features
+- Standardized class naming convention for all scripts to "XRTools<PascalCaseName>"
+- Standardized file naming convention to "snake_case_name.ext"
+- Added many explicit type specifiers in preparation for GDScript 2.0
+- Renamed some functions to avoid name-collisions with Godot 4.0
 
 # 2.6.0
 - Fixed enforcement of direct-movement maximum speed
