@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://fkq38m08sshc"]
+[gd_scene load_steps=6 format=3 uid="uid://djkjuy7wct10q"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]

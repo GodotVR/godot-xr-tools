@@ -5,74 +5,72 @@ extends CharacterBody3D
 
 # should really change this to Node3D once #17401 is resolved
 
-# Add this scene as a sub scene of your XRController3D node to implement a teleport function on that controller.
 
-# Is this active?
-@export var enabled : bool = true:
-	set(new_value):
-		enabled = new_value
-		if enabled:
-			# make sure our physics process is on
-			set_physics_process(true)
-		else:
-			# we turn this off in physics process just in case we want to do some cleanup
-			pass
+##
+## Teleport Function Script
+##
+## @desc:
+##     This script provides teleport functionality.
+##
+##     Add this scene as a sub scene of your ARVRController node to implement
+##     a teleport function on that controller.
+##
 
-@export var teleport_button_action = "trigger_click"
-@export var rotation_action = "primary"
+
+## Teleport enabled property
+@export var enabled : bool = true: set = set_enabled
+
+## Teleport allowed color property
 @export var can_teleport_color : Color = Color(0.0, 1.0, 0.0, 1.0)
+
+## Teleport denied color property
 @export var cant_teleport_color : Color = Color(1.0, 0.0, 0.0, 1.0)
+
+## Teleport no-collision color property
 @export var no_collision_color : Color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
-@export var player_height : float = 1.8:
-	set(new_value):
-		player_height = new_value
-		_update_player_height()
 
-func _update_player_height():
-	if collision_shape:
-		collision_shape.height = player_height - (2.0 * player_radius)
+## Player height property
+@export var player_height : float = 1.8: set = set_player_height
 
-	if capsule:
-		capsule.mesh.height = player_height
-		capsule.position = Vector3(0.0, player_height/2.0, 0.0)
+## Player radius property
+@export var player_radius : float = 0.4: set = set_player_radius
 
-@export var player_radius : float = 0.4:
-	set(new_value):
-		player_radius = new_value
-		_update_player_radius()
-
-func _update_player_radius():
-	if collision_shape:
-		collision_shape.height = player_height # - (2.0 * player_radius)
-		collision_shape.radius = player_radius
-
-	if capsule:
-		capsule.mesh.height = player_height
-		capsule.mesh.radius = player_radius
-
-
+## Teleport-arc strength
 @export var strength : float = 5.0
+
+## Maximum floor slope
 @export var max_slope : float = 20.0
+
+## Valid teleport layer mask
 @export_flags_3d_physics var valid_teleport_mask : int = ~0
 
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
 
-# We don't know the name of the camera node...
-@export_node_path(XRCamera3D) var camera
+## Camera node path
+@export_node_path(XRCamera3D) var camera : NodePath
+
+## Teleport button action
+@export var teleport_button_action : String = "trigger_click"
+
+## Teleport rotation action
+@export var rotation_action : String = "primary"
+
 
 var origin_node : XROrigin3D
 var camera_node : XRCamera3D
-var is_on_floor = true
-var is_teleporting = false
-var can_teleport = true
-var teleport_rotation = 0.0;
-var floor_normal = Vector3(0.0, 1.0, 0.0)
-var last_target_transform = Transform3D()
+var is_on_floor : bool = true
+var is_teleporting : bool = false
+var can_teleport : bool = true
+var teleport_rotation : float = 0.0;
+var floor_normal : Vector3 = Vector3.UP
+var last_target_transform : Transform3D = Transform3D()
 var collision_shape : Shape3D
-var step_size = 0.5
+var step_size : float = 0.5
 
-@onready var ws = XRServer.world_scale
+
+# World scale
+@onready var ws : float = XRServer.world_scale
 
 # By default we show a capsule to indicate where the player lands.
 # Turn on editable children,
@@ -80,45 +78,45 @@ var step_size = 0.5
 # and add your own player character as child.
 @onready var capsule : MeshInstance3D = get_node("Target/Player_figure/Capsule")
 
-func _get_configuration_warning():
-	if camera == null:
-		return "You need to assign a camera"
 
-	return ""
-
+# Called when the node enters the scene tree for the first time.
 func _ready():
-	if !Engine.is_editor_hint():
-		# We should be a child of an XRController3D and it should be a child or our XROrigin3D
-		origin_node = get_node("../..")
+	# Do not initialise if in the editor
+	if Engine.is_editor_hint():
+		return
 
-		# It's inactive when we start
-		$Teleport.visible = false
-		$Target.visible = false
+	# We should be a child of an XRController3D and it should be a child or our XROrigin3D
+	origin_node = get_node("../..")
 
-		# Scale to our world scale
-		$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
-		$Target.mesh.size = Vector2(ws, ws)
-		$Target/Player_figure.scale = Vector3(ws, ws, ws)
+	# It's inactive when we start
+	$Teleport.visible = false
+	$Target.visible = false
 
-		if camera:
-			camera_node = get_node(camera)
-		else:
-			# see if we can find our default
-			camera_node = origin_node.get_node('XRCamera3D')
+	# Scale to our world scale
+	$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
+	$Target.mesh.size = Vector2(ws, ws)
+	$Target/Player_figure.scale = Vector3(ws, ws, ws)
 
-		# get our capsule shape
-		collision_shape = $CollisionShape3D.shape
-		$CollisionShape3D.shape = null
+	if camera:
+		camera_node = get_node(camera)
+	else:
+		# see if we can find our default
+		camera_node = origin_node.get_node('XRCamera3D')
 
-		# now remove our collision shape, we are not using our kinematic body
-		remove_child($CollisionShape3D)
+	# get our capsule shape
+	collision_shape = $CollisionShape3D.shape
+	$CollisionShape3D.shape = null
+
+	# now remove our collision shape, we are not using our kinematic body
+	remove_child($CollisionShape3D)
 
 	# call set player to ensure our collision shape is sized
 	_update_player_height()
 	_update_player_radius()
 
+
 func _physics_process(delta):
-	# Do not run physics if in the editor
+	# Do not process physics if in the editor
 	if Engine.is_editor_hint():
 		return
 
@@ -317,3 +315,55 @@ func _physics_process(delta):
 		is_teleporting = false;
 		$Teleport.visible = false
 		$Target.visible = false
+
+
+# This method verifies the teleport has a valid configuration.
+func _get_configuration_warning():
+	if camera == null:
+		return "You need to assign a camera"
+
+	return ""
+
+
+# Set enabled property
+func set_enabled(new_value : bool) -> void:
+	enabled = new_value
+	if enabled:
+		# make sure our physics process is on
+		set_physics_process(true)
+	else:
+		# we turn this off in physics process just in case we want to do some cleanup
+		pass
+
+
+# Set player height property
+func set_player_height(p_height : float) -> void:
+	player_height = p_height
+	_update_player_height()
+
+
+# Set player radius property
+func set_player_radius(p_radius : float) -> void:
+	player_radius = p_radius
+	_update_player_radius()
+
+
+# Player height update handler
+func _update_player_height() -> void:
+	if collision_shape:
+		collision_shape.height = player_height - (2.0 * player_radius)
+
+	if capsule:
+		capsule.mesh.height = player_height
+		capsule.position = Vector3(0.0, player_height/2.0, 0.0)
+
+
+# Player radius update handler
+func _update_player_radius():
+	if collision_shape:
+		collision_shape.height = player_height
+		collision_shape.radius = player_radius
+
+	if capsule:
+		capsule.mesh.height = player_height
+		capsule.mesh.radius = player_radius

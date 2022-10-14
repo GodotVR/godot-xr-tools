@@ -25,6 +25,7 @@ render_priority = 0
 shader = ExtResource("3")
 shader_parameter/bar_color = Color(1, 1, 1, 1)
 shader_parameter/bar_texture = ExtResource("4")
+shader_parameter/cutout = Vector3(4.85, 0.33, 0)
 shader_parameter/progress = 0.5
 
 [sub_resource type="PlaneMesh" id="3"]

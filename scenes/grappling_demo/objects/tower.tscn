@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://lelocs2v705t"]
+
+[ext_resource type="PackedScene" uid="uid://cjyilbm4ucc7s" path="res://addons/godot-xr-tools/objects/climbable.tscn" id="1"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
+
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(3, 8, 3)
+
+[sub_resource type="BoxMesh" id="2"]
+size = Vector3(3, 8, 3)
+
+[node name="Tower" instance=ExtResource("1")]
+collision_layer = 2
+collision_mask = 0
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+shape = SubResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0)
+mesh = SubResource("2")
+surface_material_override/0 = ExtResource("2")

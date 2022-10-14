@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cbcnrjuftb5lt"]
+[gd_scene load_steps=8 format=3 uid="uid://clta811tt773x"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
@@ -21,7 +21,7 @@ height = 0.42
 radial_segments = 16
 rings = 7
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ss8gj"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qeoic"]
 shading_mode = 0
 albedo_color = Color(1, 1, 0, 1)
 
@@ -48,4 +48,4 @@ script = ExtResource("3")
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GrabHighlight" index="0"]
 mesh = SubResource("4")
 skeleton = NodePath("../../MeshInstance3D")
-surface_material_override/0 = SubResource("StandardMaterial3D_ss8gj")
+surface_material_override/0 = SubResource("StandardMaterial3D_qeoic")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://br1bdpbkuyq4b"]
+[gd_scene load_steps=11 format=3 uid="uid://c6rmke57xw5lg"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="2"]
@@ -14,13 +14,13 @@ size = Vector3(0.3, 0.4, 0.1)
 [sub_resource type="BoxMesh" id="10"]
 size = Vector3(0.08, 0.08, 0.02)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l236q"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2eorr"]
 albedo_color = Color(1, 0, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3wbs7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ti2r6"]
 albedo_color = Color(1, 1, 0, 1)
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_og648"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_73h0y"]
 albedo_color = Color(0.498039, 0.498039, 0.498039, 1)
 
 [node name="SnapTray" instance=ExtResource("1")]
@@ -40,7 +40,7 @@ surface_material_override/0 = ExtResource("2")
 [node name="SnapArea1" type="MeshInstance3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.06)
 mesh = SubResource("10")
-surface_material_override/0 = SubResource("StandardMaterial3D_l236q")
+surface_material_override/0 = SubResource("StandardMaterial3D_2eorr")
 
 [node name="SnapZone1" parent="SnapArea1" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
@@ -54,7 +54,7 @@ snap_require = "SnapToyRed"
 [node name="SnapArea2" type="MeshInstance3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.06)
 mesh = SubResource("10")
-surface_material_override/0 = SubResource("StandardMaterial3D_3wbs7")
+surface_material_override/0 = SubResource("StandardMaterial3D_ti2r6")
 
 [node name="SnapZone2" parent="SnapArea2" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
@@ -68,7 +68,7 @@ snap_require = "SnapToyYellow"
 [node name="SnapArea3" type="MeshInstance3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.06)
 mesh = SubResource("10")
-surface_material_override/0 = SubResource("StandardMaterial3D_og648")
+surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")
 
 [node name="SnapZone3" parent="SnapArea3" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
@@ -82,7 +82,7 @@ snap_require = "SnapToy"
 [node name="SnapArea4" type="MeshInstance3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.06)
 mesh = SubResource("10")
-surface_material_override/0 = SubResource("StandardMaterial3D_og648")
+surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")
 
 [node name="SnapZone4" parent="SnapArea4" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)

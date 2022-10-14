@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://cm0cpldqa6j4d"]
+
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2"]
+
+[sub_resource type="CylinderMesh" id="2"]
+top_radius = 70.0
+bottom_radius = 100.0
+height = 50.0
+radial_segments = 6
+rings = 0
+
+[sub_resource type="ConvexPolygonShape3D" id="3"]
+points = PackedVector3Array(86.6025, -25, 49.9804, 60.6116, 25, 34.9843, 0, -25, 100, 86.5856, -25, -50.0196, 60.6116, 25, -35.0039, 0, 25, 69.9883, -60.6286, 25, 34.9843, -86.6025, -25, 49.9804, 0, -25, -100, 0, 25, -70.0078, -60.6286, 25, -35.0039, -86.6025, -25, -50)
+
+[node name="Hill" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+mesh = SubResource("2")
+surface_material_override/0 = ExtResource("2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0)
+shape = SubResource("3")

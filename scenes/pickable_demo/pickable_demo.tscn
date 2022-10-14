@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bg11syxt5scu"]
+[gd_scene load_steps=18 format=3 uid="uid://byyr2bg2nfytq"]
 
 [ext_resource type="PackedScene" uid="uid://dj1u4xow5rykh" path="res://scenes/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
@@ -10,12 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/snap_toy_red.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/snap_toy_yellow.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/grab_ball.tscn" id="13"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/grab_cube.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://clta811tt773x" path="res://scenes/pickable_demo/objects/grab_ball.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://djkjuy7wct10q" path="res://scenes/pickable_demo/objects/grab_cube.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://cbcbffvk7xth4" path="res://assets/meshes/table/table.tscn" id="15"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/snap_tray.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://c6rmke57xw5lg" path="res://scenes/pickable_demo/objects/snap_tray.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://de0guxhrn5ouk" path="res://scenes/pickable_demo/objects/hammer.tscn" id="17"]
 
 [node name="PickableDemo" instance=ExtResource("1")]
 
@@ -71,7 +72,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -3.2)
 [node name="Ball3" parent="RemoteGrabBalls" index="2" instance=ExtResource("13")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -2.9)
 
-[node name="GrabCubes" type="Node3D" parent="." index="6"]
+[node name="Hammers" type="Node3D" parent="." index="6"]
+
+[node name="Hammer" parent="Hammers" index="0" instance=ExtResource("17")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.6)
+
+[node name="Hammer4" parent="Hammers" index="1" instance=ExtResource("17")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.2)
+
+[node name="Hammer2" parent="Hammers" index="2" instance=ExtResource("17")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2.6, 0.15, -3.5)
+
+[node name="Hammer3" parent="Hammers" index="3" instance=ExtResource("17")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -2.2, 0.15, -3.3)
+
+[node name="GrabCubes" type="Node3D" parent="." index="7"]
 
 [node name="Cube1" parent="GrabCubes" index="0" instance=ExtResource("14")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.875, -2.8)
@@ -82,7 +97,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.875, -2.8)
 [node name="Cube3" parent="GrabCubes" index="2" instance=ExtResource("14")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.975, -2.8)
 
-[node name="SnapToys" type="Node3D" parent="." index="7"]
+[node name="SnapToys" type="Node3D" parent="." index="8"]
 
 [node name="SnapTray" parent="SnapToys" index="0" instance=ExtResource("16")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.5, 1, -2.9)

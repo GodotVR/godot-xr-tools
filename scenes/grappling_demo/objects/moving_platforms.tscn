@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://scenes/grappling_demo/objects/platform.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/grappling_demo/objects/moving_platforms.gd" type="Script" id=3]
+
+[node name="MovingPlatforms" type="Node3D"]
+script = ExtResource( 3 )
+
+[node name="Platform1" parent="." instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 17 )
+
+[node name="Platform2" parent="." instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 0, 0 )
+
+[node name="Platform3" parent="." instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -17 )
+
+[node name="Platform4" parent="." instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 17, 0, 0 )

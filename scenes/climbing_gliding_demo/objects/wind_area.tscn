@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cvljcm3wxfolg"]
+[gd_scene load_steps=7 format=3 uid="uid://bt2i205mlq1q0"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/wind_area.gd" id="1_xnf45"]
-[ext_resource type="Material" uid="uid://b5c8o7a55fyx5" path="res://scenes/climbing_gliding_demo/wind_area_shader.tres" id="2_rnrwy"]
+[ext_resource type="PackedScene" uid="uid://nack1qite6lx" path="res://addons/godot-xr-tools/objects/wind_area.tscn" id="1"]
+[ext_resource type="Material" uid="uid://b5c8o7a55fyx5" path="res://scenes/climbing_gliding_demo/objects/wind_area_shader.tres" id="2"]
 
-[sub_resource type="CylinderShape3D" id="9"]
+[sub_resource type="CylinderShape3D" id="2"]
 height = 10.0
 radius = 5.0
 
@@ -39,19 +39,16 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_hgony")
 
-[node name="WindArea1" type="Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 5, -70)
+[node name="WindArea" instance=ExtResource("1")]
 collision_layer = 524288
-collision_mask = 0
-script = ExtResource("1_xnf45")
 wind_vector = Vector3(0, 20, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("9")
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("2")
 
-[node name="Cylinder" type="MeshInstance3D" parent="."]
+[node name="Cylinder" type="MeshInstance3D" parent="." index="1"]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
 gi_mode = 0
 mesh = SubResource("ArrayMesh_6nlh0")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("2_rnrwy")
+surface_material_override/0 = ExtResource("2")

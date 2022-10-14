@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cm6y3fjx08tbj"]
+[gd_scene load_steps=21 format=3 uid="uid://ddfc8mm6rsutc"]
 
 [ext_resource type="PackedScene" uid="uid://dj1u4xow5rykh" path="res://scenes/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bq7552awr5er8" path="res://addons/godot-xr-tools/assets/left_hand.tscn" id="2"]
@@ -10,12 +10,12 @@
 [ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="9"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="10"]
+[ext_resource type="PackedScene" uid="uid://bt8kw5a34upwm" path="res://scenes/climbing_gliding_demo/objects/cliff.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://bt2i205mlq1q0" path="res://scenes/climbing_gliding_demo/objects/wind_area.tscn" id="12"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="13"]
-[ext_resource type="PackedScene" uid="uid://d37kskirs6gj4" path="res://scenes/climbing_gliding_demo/hill.tscn" id="13_aeesw"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="14"]
-[ext_resource type="PackedScene" uid="uid://dvbcsw4pf2v3k" path="res://scenes/climbing_gliding_demo/cliff.tscn" id="14_itqo3"]
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="15"]
-[ext_resource type="PackedScene" uid="uid://cvljcm3wxfolg" path="res://scenes/climbing_gliding_demo/wind_area.tscn" id="17_7d3my"]
+[ext_resource type="PackedScene" uid="uid://cm0cpldqa6j4d" path="res://scenes/climbing_gliding_demo/objects/hill.tscn" id="16"]
 [ext_resource type="PackedScene" uid="uid://bgts3vpmjn6bb" path="res://addons/godot-xr-tools/functions/movement_wind.tscn" id="22"]
 
 [sub_resource type="BoxMesh" id="1"]
@@ -86,113 +86,116 @@ shape = SubResource("2")
 
 [node name="Hills" type="Node3D" parent="Terrain" index="1"]
 
-[node name="Hill1" parent="Terrain/Hills" index="0" instance=ExtResource("13_aeesw")]
+[node name="Hill1" parent="Terrain/Hills" index="0" instance=ExtResource("16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -158, 0, -45)
 
-[node name="Hill2" parent="Terrain/Hills" index="1" instance=ExtResource("13_aeesw")]
+[node name="Hill2" parent="Terrain/Hills" index="1" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 0, -142)
 
-[node name="Hill3" parent="Terrain/Hills" index="2" instance=ExtResource("13_aeesw")]
+[node name="Hill3" parent="Terrain/Hills" index="2" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -142)
 
-[node name="Hill4" parent="Terrain/Hills" index="3" instance=ExtResource("13_aeesw")]
+[node name="Hill4" parent="Terrain/Hills" index="3" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 127, 0, -76)
 
-[node name="Hill5" parent="Terrain/Hills" index="4" instance=ExtResource("13_aeesw")]
+[node name="Hill5" parent="Terrain/Hills" index="4" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 0, -8)
 
-[node name="Hill6" parent="Terrain/Hills" index="5" instance=ExtResource("13_aeesw")]
+[node name="Hill6" parent="Terrain/Hills" index="5" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 176, 0, 84)
 
-[node name="Hill7" parent="Terrain/Hills" index="6" instance=ExtResource("13_aeesw")]
+[node name="Hill7" parent="Terrain/Hills" index="6" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 120, 0, 163)
 
-[node name="Hill8" parent="Terrain/Hills" index="7" instance=ExtResource("13_aeesw")]
+[node name="Hill8" parent="Terrain/Hills" index="7" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 164)
 
-[node name="Hill9" parent="Terrain/Hills" index="8" instance=ExtResource("13_aeesw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, 114)
+[node name="Hill9" parent="Terrain/Hills" index="8" instance=ExtResource("16")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 90)
 
-[node name="Hill10" parent="Terrain/Hills" index="9" instance=ExtResource("13_aeesw")]
+[node name="Hill10" parent="Terrain/Hills" index="9" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -113, 0, 45)
 
-[node name="Hill11" parent="Terrain/Hills" index="10" instance=ExtResource("13_aeesw")]
+[node name="Hill11" parent="Terrain/Hills" index="10" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -54, -37, 46)
 
-[node name="Hill12" parent="Terrain/Hills" index="11" instance=ExtResource("13_aeesw")]
+[node name="Hill12" parent="Terrain/Hills" index="11" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -44, 87)
 
-[node name="Hill13" parent="Terrain/Hills" index="12" instance=ExtResource("13_aeesw")]
+[node name="Hill13" parent="Terrain/Hills" index="12" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 43, -37, -86)
 
-[node name="Hill14" parent="Terrain/Hills" index="13" instance=ExtResource("13_aeesw")]
+[node name="Hill14" parent="Terrain/Hills" index="13" instance=ExtResource("16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 96, -45, -18)
 
 [node name="Cliffs" type="Node3D" parent="Terrain" index="2"]
 
-[node name="Cliff1" parent="Terrain/Cliffs" index="0" instance=ExtResource("14_itqo3")]
+[node name="Cliff1" parent="Terrain/Cliffs" index="0" instance=ExtResource("11")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -77, -14, -63)
 
-[node name="Cliff2" parent="Terrain/Cliffs" index="1" instance=ExtResource("14_itqo3")]
+[node name="Cliff2" parent="Terrain/Cliffs" index="1" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -79, -8, -63)
 
-[node name="Cliff3" parent="Terrain/Cliffs" index="2" instance=ExtResource("14_itqo3")]
+[node name="Cliff3" parent="Terrain/Cliffs" index="2" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -82, -2, -62)
 
-[node name="Cliff4" parent="Terrain/Cliffs" index="3" instance=ExtResource("14_itqo3")]
+[node name="Cliff4" parent="Terrain/Cliffs" index="3" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 4, -64)
 
-[node name="Cliff5" parent="Terrain/Cliffs" index="4" instance=ExtResource("14_itqo3")]
+[node name="Cliff5" parent="Terrain/Cliffs" index="4" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 10, -70)
 
-[node name="Cliff6" parent="Terrain/Cliffs" index="5" instance=ExtResource("14_itqo3")]
+[node name="Cliff6" parent="Terrain/Cliffs" index="5" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -87, 16, -65)
 
-[node name="Cliff7" parent="Terrain/Cliffs" index="6" instance=ExtResource("14_itqo3")]
+[node name="Cliff7" parent="Terrain/Cliffs" index="6" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 93, -14, 82)
 
-[node name="Cliff8" parent="Terrain/Cliffs" index="7" instance=ExtResource("14_itqo3")]
+[node name="Cliff8" parent="Terrain/Cliffs" index="7" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -1, -66)
 
-[node name="Cliff9" parent="Terrain/Cliffs" index="8" instance=ExtResource("14_itqo3")]
+[node name="Cliff9" parent="Terrain/Cliffs" index="8" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -63, -2, -18)
 
-[node name="Cliff10" parent="Terrain/Cliffs" index="9" instance=ExtResource("14_itqo3")]
+[node name="Cliff10" parent="Terrain/Cliffs" index="9" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -62, -8, -20)
 
-[node name="Cliff11" parent="Terrain/Cliffs" index="10" instance=ExtResource("14_itqo3")]
+[node name="Cliff11" parent="Terrain/Cliffs" index="10" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -5, 22)
 
-[node name="Cliff12" parent="Terrain/Cliffs" index="11" instance=ExtResource("14_itqo3")]
+[node name="Cliff12" parent="Terrain/Cliffs" index="11" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -3, 30)
 
-[node name="Cliff13" parent="Terrain/Cliffs" index="12" instance=ExtResource("14_itqo3")]
+[node name="Cliff13" parent="Terrain/Cliffs" index="12" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 59, -3, -26)
 
-[node name="Cliff14" parent="Terrain/Cliffs" index="13" instance=ExtResource("14_itqo3")]
+[node name="Cliff14" parent="Terrain/Cliffs" index="13" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 94, -8, 48)
 
 [node name="Winds" type="Node3D" parent="Terrain" index="3"]
 
-[node name="WindArea1" parent="Terrain/Winds" index="0" instance=ExtResource("17_7d3my")]
+[node name="WindArea" parent="Terrain/Winds" index="0" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 5, -70)
 
-[node name="WindArea2" parent="Terrain/Winds" index="1" instance=ExtResource("17_7d3my")]
+[node name="WindArea2" parent="Terrain/Winds" index="1" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 15, -70)
 
-[node name="WindArea3" parent="Terrain/Winds" index="2" instance=ExtResource("17_7d3my")]
+[node name="WindArea3" parent="Terrain/Winds" index="2" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 25, -70)
 
-[node name="WindArea4" parent="Terrain/Winds" index="3" instance=ExtResource("17_7d3my")]
+[node name="WindArea4" parent="Terrain/Winds" index="3" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 35, -70)
 
-[node name="WindArea5" parent="Terrain/Winds" index="4" instance=ExtResource("17_7d3my")]
+[node name="WindArea5" parent="Terrain/Winds" index="4" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5, -10)
 
-[node name="WindArea6" parent="Terrain/Winds" index="5" instance=ExtResource("17_7d3my")]
+[node name="WindArea6" parent="Terrain/Winds" index="5" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 15, -10)
 
-[node name="WindArea7" parent="Terrain/Winds" index="6" instance=ExtResource("17_7d3my")]
+[node name="WindArea7" parent="Terrain/Winds" index="6" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 25, -10)
 
-[node name="WindArea8" parent="Terrain/Winds" index="7" instance=ExtResource("17_7d3my")]
+[node name="WindArea8" parent="Terrain/Winds" index="7" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 35, -10)
 
 [node name="MainMenuTeleport1" parent="." index="3" instance=ExtResource("14")]
