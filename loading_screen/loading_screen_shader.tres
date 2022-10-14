@@ -1,4 +1,4 @@
-[gd_resource type="VisualShader" load_steps=15 format=3 uid="uid://4i0pwdtfmtsv"]
+[gd_resource type="VisualShader" load_steps=16 format=3 uid="uid://4i0pwdtfmtsv"]
 
 [sub_resource type="VisualShaderNodeCompare" id="5"]
 output_port_for_preview = 0
@@ -35,6 +35,11 @@ expanded_output_ports = [0]
 source = 5
 texture_type = 1
 
+[sub_resource type="VisualShaderNodeVec3Parameter" id="VisualShaderNodeVec3Parameter_fhc2j"]
+parameter_name = "cutout"
+default_value_enabled = true
+default_value = Vector3(4.85, 0.33, 0)
+
 [sub_resource type="VisualShaderNodeInput" id="10"]
 input_name = "uv"
 
@@ -62,6 +67,7 @@ render_mode unshaded;
 
 uniform vec4 bar_color : source_color;
 uniform sampler2D bar_texture : source_color;
+uniform vec3 cutout = vec3(4.850000, 0.330000, 0.000000);
 uniform float progress;
 
 
@@ -100,11 +106,14 @@ void fragment() {
 	vec3 n_out6p0 = abs(n_out5p0);
 
 
+// Vector3Parameter:20
+	vec3 n_out20p0 = cutout;
+
+
 	bool n_out8p0;
 // Compare:8
-	vec3 n_in8p1 = vec3(4.85000, 0.33000, 0.00000);
 	{
-		bvec3 _bv = greaterThan(n_out6p0, n_in8p1);
+		bvec3 _bv = greaterThan(n_out6p0, n_out20p0);
 		n_out8p0 = any(_bv);
 	}
 
@@ -142,7 +151,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(0, 450)
+graph_offset = Vector2(-744.269, 307.118)
 flags/unshaded = true
 nodes/fragment/0/position = Vector2(1220, 440)
 nodes/fragment/3/node = SubResource("10")
@@ -173,4 +182,6 @@ nodes/fragment/18/node = SubResource("19")
 nodes/fragment/18/position = Vector2(940, 500)
 nodes/fragment/19/node = SubResource("VisualShaderNodeTexture_hpnli")
 nodes/fragment/19/position = Vector2(480, 260)
-nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 8, 0, 3, 0, 11, 0, 13, 0, 11, 1, 12, 0, 13, 0, 8, 0, 14, 0, 11, 0, 14, 1, 15, 0, 17, 0, 17, 0, 0, 0, 18, 0, 0, 1, 14, 0, 18, 1, 16, 0, 19, 2, 19, 4, 18, 0, 19, 0, 17, 1)
+nodes/fragment/20/node = SubResource("VisualShaderNodeVec3Parameter_fhc2j")
+nodes/fragment/20/position = Vector2(-280, 600)
+nodes/fragment/connections = PackedInt32Array(3, 0, 4, 0, 4, 0, 5, 0, 5, 0, 6, 0, 6, 0, 8, 0, 3, 0, 11, 0, 13, 0, 11, 1, 12, 0, 13, 0, 8, 0, 14, 0, 11, 0, 14, 1, 15, 0, 17, 0, 17, 0, 0, 0, 18, 0, 0, 1, 14, 0, 18, 1, 16, 0, 19, 2, 19, 4, 18, 0, 19, 0, 17, 1, 20, 0, 8, 1)

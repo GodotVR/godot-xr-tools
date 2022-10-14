@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfagt23i6sx20"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/climbable.gd" id="1"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
+
+[sub_resource type="BoxMesh" id="3"]
+size = Vector3(5, 1, 5)
+
+[sub_resource type="BoxShape3D" id="4"]
+size = Vector3(5, 1, 5)
+
+[node name="Platform" type="StaticBody3D"]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("3")
+surface_material_override/0 = ExtResource("2")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("4")

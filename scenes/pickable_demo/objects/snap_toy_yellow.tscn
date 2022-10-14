@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://da2y0apf8spex"]
+[gd_scene load_steps=6 format=3 uid="uid://cboxrvj4xdi6f"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]
@@ -14,7 +14,7 @@ height = 0.08
 radial_segments = 5
 rings = 0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_yys6g"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xkmnl"]
 albedo_color = Color(1, 1, 0, 1)
 
 [node name="SnapToyYellow" groups=["SnapToy", "SnapToyYellow"] instance=ExtResource("1")]
@@ -28,6 +28,6 @@ shape = SubResource("20")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
 mesh = SubResource("21")
-surface_material_override/0 = SubResource("StandardMaterial3D_yys6g")
+surface_material_override/0 = SubResource("StandardMaterial3D_xkmnl")
 
 [node name="HighlightRing" parent="." index="3" instance=ExtResource("2")]

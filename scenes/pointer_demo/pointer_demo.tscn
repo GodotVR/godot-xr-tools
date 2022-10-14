@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://btp2hfc758i17"]
+[gd_scene load_steps=14 format=3 uid="uid://1jtmlrtp5y7d"]
 
 [ext_resource type="PackedScene" uid="uid://dj1u4xow5rykh" path="res://scenes/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="2"]
@@ -11,15 +11,8 @@
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://chmr4dedp3pl5" path="res://addons/godot-xr-tools/assets/right_hand.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://dgdb1texynduw" path="res://addons/godot-xr-tools/objects/virtual_keyboard.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://scenes/pointer_demo/keyboard_test_screen.tscn" id="12"]
-[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="13"]
-[ext_resource type="Script" path="res://scenes/pointer_demo/color_change_cube.gd" id="14"]
-
-[sub_resource type="BoxMesh" id="1"]
-size = Vector3(0.5, 0.5, 0.5)
-
-[sub_resource type="BoxShape3D" id="2"]
-size = Vector3(0.5, 0.5, 0.5)
+[ext_resource type="PackedScene" path="res://scenes/pointer_demo/objects/display.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://scenes/pointer_demo/objects/color_change_cube.tscn" id="15"]
 
 [node name="PointerDemo" instance=ExtResource("1")]
 
@@ -38,6 +31,7 @@ max_speed = 3.0
 smooth_rotation = true
 
 [node name="FunctionPointer" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5")]
+distance = 10.0
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("8")]
 
@@ -48,55 +42,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 scene_base = NodePath("..")
 title = ExtResource("4")
 
-[node name="VirtualKeyboard" parent="." index="3" instance=ExtResource("11")]
+[node name="Display" parent="." index="3" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
+
+[node name="VirtualKeyboard" parent="." index="4" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 1, -2)
 
-[node name="Display" parent="." index="4" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -3)
-screen_size = Vector2(2.8, 1.3)
-viewport_size = Vector2(280, 130)
-scene = ExtResource("12")
-
-[node name="ColorChangeCube1" type="RigidBody3D" parent="." index="5"]
+[node name="ColorChangeCube1" parent="." index="5" instance=ExtResource("15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 2.5, -3)
-freeze = true
-script = ExtResource("14")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ColorChangeCube1" index="0"]
-mesh = SubResource("1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ColorChangeCube1" index="1"]
-shape = SubResource("2")
-
-[node name="ColorChangeCube2" type="RigidBody3D" parent="." index="6"]
+[node name="ColorChangeCube2" parent="." index="6" instance=ExtResource("15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 1.7, -3)
-freeze = true
-script = ExtResource("14")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ColorChangeCube2" index="0"]
-mesh = SubResource("1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ColorChangeCube2" index="1"]
-shape = SubResource("2")
-
-[node name="ColorChangeCube3" type="RigidBody3D" parent="." index="7"]
+[node name="ColorChangeCube3" parent="." index="7" instance=ExtResource("15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.5, -3)
-freeze = true
-script = ExtResource("14")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ColorChangeCube3" index="0"]
-mesh = SubResource("1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ColorChangeCube3" index="1"]
-shape = SubResource("2")
-
-[node name="ColorChangeCube4" type="RigidBody3D" parent="." index="8"]
+[node name="ColorChangeCube4" parent="." index="8" instance=ExtResource("15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.7, -3)
-freeze = true
-script = ExtResource("14")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="ColorChangeCube4" index="0"]
-mesh = SubResource("1")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="ColorChangeCube4" index="1"]
-shape = SubResource("2")
