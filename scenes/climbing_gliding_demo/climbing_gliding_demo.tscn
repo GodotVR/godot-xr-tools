@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=2]
@@ -10,34 +10,19 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=9]
 [ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=10]
-[ext_resource path="res://assets/wahooney.itch.io/brown_grid.png" type="Texture" id=11]
-[ext_resource path="res://addons/godot-xr-tools/objects/climbable.gd" type="Script" id=12]
+[ext_resource path="res://scenes/climbing_gliding_demo/objects/cliff.tscn" type="PackedScene" id=11]
+[ext_resource path="res://scenes/climbing_gliding_demo/objects/wind_area.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=13]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=15]
-[ext_resource path="res://scenes/climbing_gliding_demo/hill_mesh.tres" type="CylinderMesh" id=16]
-[ext_resource path="res://scenes/climbing_gliding_demo/wind_area_shader.tres" type="Material" id=17]
-[ext_resource path="res://scenes/climbing_gliding_demo/hill_collider.tres" type="Shape" id=18]
-[ext_resource path="res://scenes/climbing_gliding_demo/cliff_mesh.tres" type="CylinderMesh" id=19]
-[ext_resource path="res://scenes/climbing_gliding_demo/cliff_collider.tres" type="Shape" id=20]
-[ext_resource path="res://assets/meshes/tube/tube_mesh.tres" type="ArrayMesh" id=21]
+[ext_resource path="res://scenes/climbing_gliding_demo/objects/hill.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=22]
-[ext_resource path="res://addons/godot-xr-tools/objects/wind_area.gd" type="Script" id=23]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 200, 1, 200 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 100, 0.5, 100 )
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_texture = ExtResource( 11 )
-uv1_scale = Vector3( 0.5, 0.5, 0.5 )
-uv1_triplanar = true
-
-[sub_resource type="CylinderShape" id=9]
-radius = 5.0
-height = 10.0
 
 [sub_resource type="ViewportTexture" id=8]
 viewport_path = NodePath("Instructions/Viewport")
@@ -110,501 +95,117 @@ shape = SubResource( 2 )
 
 [node name="Hills" type="Spatial" parent="Terrain" index="1"]
 
-[node name="Hill1" type="StaticBody" parent="Terrain/Hills" index="0"]
+[node name="Hill1" parent="Terrain/Hills" index="0" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -158, 0, -45 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill1" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../../..")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill1" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill2" type="StaticBody" parent="Terrain/Hills" index="1"]
+[node name="Hill2" parent="Terrain/Hills" index="1" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -103, 0, -142 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill2" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill2" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill3" type="StaticBody" parent="Terrain/Hills" index="2"]
+[node name="Hill3" parent="Terrain/Hills" index="2" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 0, -142 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill3" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill3" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill4" type="StaticBody" parent="Terrain/Hills" index="3"]
+[node name="Hill4" parent="Terrain/Hills" index="3" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 127, 0, -76 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill4" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill4" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill5" type="StaticBody" parent="Terrain/Hills" index="4"]
+[node name="Hill5" parent="Terrain/Hills" index="4" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 165, 0, -8 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill5" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill5" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill6" type="StaticBody" parent="Terrain/Hills" index="5"]
+[node name="Hill6" parent="Terrain/Hills" index="5" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 176, 0, 84 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill6" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill6" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill7" type="StaticBody" parent="Terrain/Hills" index="6"]
+[node name="Hill7" parent="Terrain/Hills" index="6" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 120, 0, 163 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill7" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill7" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill8" type="StaticBody" parent="Terrain/Hills" index="7"]
+[node name="Hill8" parent="Terrain/Hills" index="7" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 164 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill8" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
+[node name="Hill9" parent="Terrain/Hills" index="8" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -55, 0, 90 )
 
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill8" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill9" type="StaticBody" parent="Terrain/Hills" index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -44, 0, 114 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill9" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 25, -24 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill9" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill10" type="StaticBody" parent="Terrain/Hills" index="9"]
+[node name="Hill10" parent="Terrain/Hills" index="9" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -113, 0, 45 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill10" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill10" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill11" type="StaticBody" parent="Terrain/Hills" index="10"]
+[node name="Hill11" parent="Terrain/Hills" index="10" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -54, -37, 46 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill11" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill11" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill12" type="StaticBody" parent="Terrain/Hills" index="11"]
+[node name="Hill12" parent="Terrain/Hills" index="11" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, -44, 87 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill12" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill12" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill13" type="StaticBody" parent="Terrain/Hills" index="12"]
+[node name="Hill13" parent="Terrain/Hills" index="12" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 43, -37, -86 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill13" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill13" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
-
-[node name="Hill14" type="StaticBody" parent="Terrain/Hills" index="13"]
+[node name="Hill14" parent="Terrain/Hills" index="13" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 96, -45, -18 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Hills/Hill14" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-mesh = ExtResource( 16 )
-skeleton = NodePath("../Hill1")
-material/0 = ExtResource( 10 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Hills/Hill14" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 25, 0 )
-shape = ExtResource( 18 )
 
 [node name="Cliffs" type="Spatial" parent="Terrain" index="2"]
 
-[node name="Cliff1" type="StaticBody" parent="Terrain/Cliffs" index="0"]
+[node name="Cliff1" parent="Terrain/Cliffs" index="0" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -77, -14, -63 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff1" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff1" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff2" type="StaticBody" parent="Terrain/Cliffs" index="1"]
+[node name="Cliff2" parent="Terrain/Cliffs" index="1" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -79, -8, -63 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff2" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff2" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff3" type="StaticBody" parent="Terrain/Cliffs" index="2"]
+[node name="Cliff3" parent="Terrain/Cliffs" index="2" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -82, -2, -62 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff3" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff3" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff4" type="StaticBody" parent="Terrain/Cliffs" index="3"]
+[node name="Cliff4" parent="Terrain/Cliffs" index="3" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 4, -64 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff4" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff4" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff5" type="StaticBody" parent="Terrain/Cliffs" index="4"]
+[node name="Cliff5" parent="Terrain/Cliffs" index="4" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -81, 10, -70 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff5" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff5" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff6" type="StaticBody" parent="Terrain/Cliffs" index="5"]
+[node name="Cliff6" parent="Terrain/Cliffs" index="5" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -87, 16, -65 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff6" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff6" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff7" type="StaticBody" parent="Terrain/Cliffs" index="6"]
+[node name="Cliff7" parent="Terrain/Cliffs" index="6" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 93, -14, 82 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff7" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff7" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff8" type="StaticBody" parent="Terrain/Cliffs" index="7"]
+[node name="Cliff8" parent="Terrain/Cliffs" index="7" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, -1, -66 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff8" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff8" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff9" type="StaticBody" parent="Terrain/Cliffs" index="8"]
+[node name="Cliff9" parent="Terrain/Cliffs" index="8" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -63, -2, -18 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff9" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff9" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff10" type="StaticBody" parent="Terrain/Cliffs" index="9"]
+[node name="Cliff10" parent="Terrain/Cliffs" index="9" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -62, -8, -20 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff10" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff10" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff11" type="StaticBody" parent="Terrain/Cliffs" index="10"]
+[node name="Cliff11" parent="Terrain/Cliffs" index="10" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, -5, 22 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff11" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff11" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff12" type="StaticBody" parent="Terrain/Cliffs" index="11"]
+[node name="Cliff12" parent="Terrain/Cliffs" index="11" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4, -3, 30 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff12" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff12" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff13" type="StaticBody" parent="Terrain/Cliffs" index="12"]
+[node name="Cliff13" parent="Terrain/Cliffs" index="12" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 59, -3, -26 )
-script = ExtResource( 12 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff13" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff13" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
-
-[node name="Cliff14" type="StaticBody" parent="Terrain/Cliffs" index="13"]
+[node name="Cliff14" parent="Terrain/Cliffs" index="13" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 94, -8, 48 )
-script = ExtResource( 12 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Cliffs/Cliff14" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-mesh = ExtResource( 19 )
-material/0 = SubResource( 6 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Cliffs/Cliff14" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
-shape = ExtResource( 20 )
 
 [node name="Winds" type="Spatial" parent="Terrain" index="3"]
 
-[node name="WindArea1" type="Area" parent="Terrain/Winds" index="0"]
+[node name="WindArea" parent="Terrain/Winds" index="0" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 5, -70 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea1" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea1" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea2" type="Area" parent="Terrain/Winds" index="1"]
+[node name="WindArea2" parent="Terrain/Winds" index="1" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 15, -70 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea2" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea2" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea3" type="Area" parent="Terrain/Winds" index="2"]
+[node name="WindArea3" parent="Terrain/Winds" index="2" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 25, -70 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea3" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea3" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea4" type="Area" parent="Terrain/Winds" index="3"]
+[node name="WindArea4" parent="Terrain/Winds" index="3" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 35, -70 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea4" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea4" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea5" type="Area" parent="Terrain/Winds" index="4"]
+[node name="WindArea5" parent="Terrain/Winds" index="4" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 5, -10 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea5" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea5" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea6" type="Area" parent="Terrain/Winds" index="5"]
+[node name="WindArea6" parent="Terrain/Winds" index="5" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 15, -10 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea6" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea6" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea7" type="Area" parent="Terrain/Winds" index="6"]
+[node name="WindArea7" parent="Terrain/Winds" index="6" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 25, -10 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea7" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea7" index="1"]
-shape = SubResource( 9 )
-
-[node name="WindArea8" type="Area" parent="Terrain/Winds" index="7"]
+[node name="WindArea8" parent="Terrain/Winds" index="7" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 35, -10 )
-collision_layer = 524288
-collision_mask = 0
-script = ExtResource( 23 )
-wind_vector = Vector3( 0, 20, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Terrain/Winds/WindArea8" index="0"]
-transform = Transform( 10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0 )
-mesh = ExtResource( 21 )
-skeleton = NodePath("../..")
-material/0 = ExtResource( 17 )
-
-[node name="CollisionShape" type="CollisionShape" parent="Terrain/Winds/WindArea8" index="1"]
-shape = SubResource( 9 )
 
 [node name="MainMenuTeleport1" parent="." index="3" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 36, -68 )
