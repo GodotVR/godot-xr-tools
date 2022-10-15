@@ -3,45 +3,43 @@ extends Node3D
 @icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 
 
+## XR Tools Hand Script
 ##
-## XR Hand Script
-##
-## @desc:
-##     This script manages a godot-xr-tools hand. It animates the hand blending
-##     grip and trigger animations based on controller input.
-##
-##     Additionally the hand script detects world-scale changes in the XRServer
-##     and re-scales the hand appropriately so the hand stays scaled to the
-##     physical hand of the user.
-##
+## This script manages a godot-xr-tools hand. It animates the hand blending
+## grip and trigger animations based on controller input. Additionally the 
+## hand script detects world-scale changes in the XRServer and re-scales the
+## hand appropriately so the hand stays scaled to the physical hand of the
+## user.
 
 
-# Signal emitted when the hand scale changes
+## Signal emitted when the hand scale changes
 signal hand_scale_changed(scale)
 
 
-## Grip action
-@export var grip_action = "grip"
+## Name of the Grip action in the OpenXR Action Map.
+@export var grip_action : String = "grip"
 
-## Trigger action
-@export var trigger_action = "trigger"
-
-
-# Last world scale (for scaling hands)
-var _last_world_scale : float = 1.0
+## Name of the Trigger action in the OpenXR Action Map.
+@export var trigger_action : String = "trigger"
 
 
-# Capture the initial transform
+## World scale - used for scaling hands
+var _world_scale : float = 1.0
+
+
+## Initial hand transform (from controller) - used for scaling hands
 @onready var _transform : Transform3D = transform
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+## This method is called on every frame. It checks for world-scale changes and
+## scales itself causing the hand mesh and skeleton to scale appropriately.
+## It then reads the grip and trigger action values to animate the hand.
 func _process(_delta: float) -> void:
 	# Scale the hand mesh with the world scale.
-	if XRServer.world_scale != _last_world_scale:
-		_last_world_scale = XRServer.world_scale
-		transform = _transform.scaled(Vector3.ONE * _last_world_scale)
-		emit_signal("hand_scale_changed", _last_world_scale)
+	if XRServer.world_scale != _world_scale:
+		_world_scale = XRServer.world_scale
+		transform = _transform.scaled(Vector3.ONE * _world_scale)
+		emit_signal("hand_scale_changed", _world_scale)
 
 	# Animate the hand mesh with the controller inputs
 	var controller : XRController3D = get_parent()
@@ -51,6 +49,3 @@ func _process(_delta: float) -> void:
 
 		$AnimationTree.set("parameters/Grip/blend_amount", grip)
 		$AnimationTree.set("parameters/Trigger/blend_amount", trigger)
-
-		# var grip_state = controller.is_button_pressed(grip_button_action)
-		# print("Pressed: " + str(grip_state))

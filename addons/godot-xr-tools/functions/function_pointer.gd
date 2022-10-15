@@ -4,30 +4,23 @@ extends Node3D
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 
 
-##
 ## Pointer Function Script
 ##
-## @desc:
-##     This script implements a pointer function for a players controller. The
-##     pointer supports sending signals to XRToolsInteractableArea or 
-##     XRToolsInteractableBody objects.
+## This script implements a pointer function for a players controller. Pointer
+## events (entered, exited, pressed, release, and movement) are delivered by
+## invoking signals on the target node.
 ##
-##     The following signals are sent to these objects:
-##      - pointer_pressed(at) with the pointer location
-##      - pointer_released(at) with the pointer location
-##      - pointer_moved(from, to) with the pointer movement
-##      - pointer_entered()
-##      - pointer_exited()
-##
+## Pointer target nodes commonly extend from [XRToolsInteractableArea] or 
+## [XRToolsInteractableBody].
 
 
 ## Pointer enabled property
 @export var enabled : bool = true: set = set_enabled
 
-## Show laser property
+## If true, the laser pointer is shown
 @export var show_laser : bool = true: set = set_show_laser
 
-## Show laser target
+## If true, the pointer target is shown
 @export var show_target : bool = false
 
 ## Y Offset for pointer
@@ -49,16 +42,16 @@ extends Node3D
 @export var active_button_action : String = "trigger_click"
 
 
-# Current target
+## Current target node
 var target : Node3D
 
-# Last target
+## Last target node
 var last_target : Node3D
 
-# Last collision point
+## Last collision point
 var last_collided_at : Vector3 = Vector3.ZERO
 
-# World scale
+## World scale
 var ws : float = 1.0
 
 

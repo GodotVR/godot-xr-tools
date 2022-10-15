@@ -4,23 +4,20 @@ extends Node
 @icon("res://addons/godot-xr-tools/editor/icons/body.svg")
 
 
+## XR Tools Player Physics Body Script
 ##
-## Player Physics Body Script
+## This node provides the player with a physics body. The body is a 
+## [CapsuleShape3D] which tracks the player location as measured by the 
+## [XRCamera3D] for the players head.
 ##
-## @desc:
-##     This script works with the PlayerBody asset to provide the player with
-##     a PlayerBody. This PlayerBody is a capsule tracking the players hear
-##     via the XRCamera3D node.
+## The player body can detect when the player is in the air, on the ground,
+## or on a steep slope.
 ##
-##     The PlayerBody can detect when the player is in the air, on the ground,
-##     or on a steep slope.
+## Player movement is achieved by a number of movement providers attached to
+## either the player or their controllers.
 ##
-##     The PlayerBody works with movement providers to allow the player to move
-##     around the environment.
-##
-##     At the end of each physics process step the XROrigin3D is updated to
-##     track any movement to the PlayerBody.
-##
+## After the player body moves, the [XROrigin3D] is updated as necessary to 
+## track the players movement.
 
 
 ## Signal emitted when the player jumps
@@ -30,14 +27,14 @@ signal player_jumped()
 signal player_bounced(collider, magnitude)
 
 
-# Horizontal vector (multiply by this to get only the horizontal components
+## Horizontal vector - used to extract horizontal-only components of a Vector3
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 
-## Player body enabled flag
+## If true, the player body performs physics processing and movement
 @export var enabled : bool = true: set = set_enabled
 
-## Player radius
+## Radius of the player body collider
 @export var player_radius : float = 0.4: set = set_player_radius
 
 ## Player head height (distance between between camera and top of head)
@@ -58,26 +55,26 @@ const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 ## Lets the player push rigid bodies
 @export var push_rigid_bodies : bool = true
 
-## GroundPhysicsSettings to apply - can only be typed in Godot 4+
-@export var physics : Resource: set = set_physics
+## Default ground physics settings
+@export var physics : XRToolsGroundPhysicsSettings: set = set_physics
 
-# Set our collision layer
+## Collision layer for the player body
 @export_flags_3d_physics var collision_layer : int = 1 << 19: set = set_collision_layer
 
-# Set our collision mask
+## Collision mask for the player body
 @export_flags_3d_physics var collision_mask : int = 1023: set = set_collision_mask
 
 
-## Player Velocity - modifiable by movement providers
+## Player 3D Velocity - modified by [XRToolsMovementProvider] nodes
 var velocity : Vector3 = Vector3.ZERO
 
-## Player On Ground flag - used by movement providers
+## Set true when the player is on the ground
 var on_ground : bool = true
 
-## Ground 'up' vector - used by movement providers
+## Normal vector for the ground under the player
 var ground_vector : Vector3 = Vector3.UP
 
-## Ground slope angle - used by movement providers
+## Ground slope angle
 var ground_angle : float = 0.0
 
 ## Ground node the player is touching
@@ -86,35 +83,35 @@ var ground_node : Node3D = null
 ## Ground physics override (if present)
 var ground_physics : XRToolsGroundPhysicsSettings = null
 
-## Ground control velocity - modified by movement providers
+## Ground control velocity - modified by [XRToolsMovementProvider] nodes
 var ground_control_velocity : Vector2 = Vector2.ZERO
 
-## Player height offset (for height calibration)
+## Player height offset - used for height calibration
 var player_height_offset : float = 0.0
 
 ## Velocity of the ground under the players feet
 var ground_velocity : Vector3 = Vector3.ZERO
 
 
-# Movement providers
+## Array of [XRToolsMovementProvider] nodes for the player
 var _movement_providers := Array()
 
-# Jump cool-down counter
+## Jump cool-down counter
 var _jump_cooldown := 0
 
 ## Player height overrides
 var _player_height_overrides := { }
 
-# Player height override (enabled when non-negative)
+## Player height override (enabled when non-negative)
 var _player_height_override : float = -1.0
 
-# Previous ground node
+## Previous ground node
 var _previous_ground_node : Node3D = null
 
-# Previous ground local position
+## Previous ground local position
 var _previous_ground_local : Vector3 = Vector3.ZERO
 
-# Previous ground global position
+## Previous ground global position
 var _previous_ground_global : Vector3 = Vector3.ZERO
 
 
@@ -124,21 +121,22 @@ var _previous_ground_global : Vector3 = Vector3.ZERO
 ## XRCamera3D node
 @onready var camera_node : XRCamera3D = XRHelpers.get_xr_camera(self)
 
-## Player CharacterBody3D node
+## Player body node
 @onready var kinematic_node : CharacterBody3D = $CharacterBody3D
 
-# Default physics (if not specified by the user or the current ground)
+## Default physics (if not specified by the player or the current ground)
 @onready var default_physics = _guaranteed_physics()
 
-# Collision node
+## Player body collision node
 @onready var _collision_node : CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
 
-# Function to sort movement providers by order
+## Function to sort movement providers by order
 func sort_by_order(a, b) -> bool:
 	return true if a.order < b.order else false
 
-# Called when the node enters the scene tree for the first time.
+
+## Called when the node enters the scene tree for the first time.
 func _ready():
 	# Get the movement providers ordered by increasing order
 	_movement_providers = get_tree().get_nodes_in_group("movement_providers")
@@ -173,7 +171,7 @@ func _update_player_radius() -> void:
 	if _collision_node and _collision_node.shape:
 		_collision_node.shape.radius = player_radius
 
-func set_physics(new_value: Resource) -> void:
+func set_physics(new_value: XRToolsGroundPhysicsSettings) -> void:
 	# Save the property
 	physics = new_value
 	default_physics = _guaranteed_physics()
@@ -248,7 +246,7 @@ func _physics_process(delta: float):
 	var movement := kinematic_node.global_transform.origin - position_before_movement
 	origin_node.global_transform.origin += movement
 
-# Request a jump
+## Request a jump
 func request_jump(skip_jump_velocity := false):
 	# Skip if cooling down from a previous jump
 	if _jump_cooldown:
@@ -276,7 +274,8 @@ func request_jump(skip_jump_velocity := false):
 	emit_signal("player_jumped")
 	_jump_cooldown = 4
 
-# Move the players body
+## This function moves the players body using the provided velocity. Movement
+## providers may use this function if they are exclusively driving the player.
 func move_body(p_velocity: Vector3) -> Vector3:
 	kinematic_node.velocity = p_velocity
 	kinematic_node.up_direction = Vector3.UP
@@ -287,7 +286,7 @@ func move_body(p_velocity: Vector3) -> Vector3:
 	var can_move = kinematic_node.move_and_slide()
 	return kinematic_node.velocity
 
-# Set or clear a named height override
+## Set or clear a named height override
 func override_player_height(key, value: float = -1.0):
 	# Clear or set the override
 	if value < 0.0:
@@ -299,7 +298,7 @@ func override_player_height(key, value: float = -1.0):
 	var override = _player_height_overrides.values().min()
 	_player_height_override = override if override != null else -1.0
 
-# This method updates the body to match the player position
+## This method updates the player body to match the player position
 func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
