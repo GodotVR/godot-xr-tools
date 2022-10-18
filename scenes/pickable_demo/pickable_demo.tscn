@@ -9,7 +9,7 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_turn.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" type="PackedScene" id=12]
 [ext_resource path="res://scenes/pickable_demo/objects/grab_ball.tscn" type="PackedScene" id=13]
@@ -44,7 +44,7 @@ order = 10
 max_speed = 3.0
 strafe = false
 
-[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 10 )]
+[node name="FunctionTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 10 )]
 smooth_rotation = true
 
 [node name="FunctionPickup" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 8 )]

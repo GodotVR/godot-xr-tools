@@ -6,7 +6,7 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_turn.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=10]
@@ -50,7 +50,7 @@ order = 10
 max_speed = 3.0
 strafe = false
 
-[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
+[node name="FunctionTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
 smooth_rotation = true
 
 [node name="MovementJump" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
