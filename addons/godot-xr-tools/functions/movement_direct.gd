@@ -3,20 +3,13 @@ class_name XRToolsMovementDirect
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Direct Movement
 ##
-## Movement Provider for Direct Movement
+## This script provides direct movement for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [XROrigin3D].
 ##
-## @desc:
-##     This script provides direct movement for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
-##
-##     The following types of direct movement are supported:
-##      - Slewing
-##      - Forwards and backwards motion
-##
-##     The player may have multiple direct movement nodes attached to different
-##     controllers to provide different types of direct movement.
-##
+## The player may have multiple [XRToolsMovementDirect] nodes attached to
+## different controllers to provide different types of direct movement.
 
 
 ## Movement provider order
@@ -25,11 +18,11 @@ extends XRToolsMovementProvider
 ## Movement speed
 @export var max_speed : float = 10.0
 
-## Enable player strafing
+## If true, the player can strafe 
 @export var strafe : bool = false
 
-## Our directional input
-@export var input_action = "primary"
+## Input action for movement direction
+@export var input_action : String = "primary"
 
 
 # Controller node

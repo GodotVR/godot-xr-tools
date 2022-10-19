@@ -6,18 +6,15 @@ extends CharacterBody3D
 # should really change this to Node3D once #17401 is resolved
 
 
+## XR Tools Function Teleport Script
 ##
-## Teleport Function Script
+## This script provides teleport functionality.
 ##
-## @desc:
-##     This script provides teleport functionality.
-##
-##     Add this scene as a sub scene of your ARVRController node to implement
-##     a teleport function on that controller.
-##
+## Add this scene as a sub scene of your ARVRController node to implement
+## a teleport function on that controller.
 
 
-## Teleport enabled property
+## If true, teleporting is enabled
 @export var enabled : bool = true: set = set_enabled
 
 ## Teleport allowed color property

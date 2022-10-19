@@ -4,7 +4,7 @@ extends Node3D
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 
 
-## Pointer Function Script
+## XR Tools Function Pointer Script
 ##
 ## This script implements a pointer function for a players controller. Pointer
 ## events (entered, exited, pressed, release, and movement) are delivered by

@@ -3,6 +3,16 @@ extends Node3D
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 
 
+## XR Tools Function Pickup Script
+##
+## This script implements picking up of objects. Most pickable 
+## objects are instances of the [XRToolsPickable] class.
+##
+## Additionally this script can work in conjunction with the 
+## [XRToolsMovementProvider] class support climbing. Most climbable objects are
+## instances of the [XRToolsClimbable] class.
+
+
 ## Signal emitted when the pickup picks something up
 signal has_picked_up(what)
 
@@ -15,10 +25,10 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 
 
 ## Grip controller button
-@export var pickup_button_action = "grip_click"
+@export var pickup_button_action : String = "grip_click"
 
 ## Action controller button
-@export var action_button_action = "trigger_click"
+@export var action_button_action : String = "trigger_click"
 
 ## Grab distance
 @export var grab_distance : float = 0.3: set = _set_grab_distance
@@ -26,7 +36,7 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 ## Grab collision mask
 @export_flags_3d_physics var grab_collision_mask : int = 1: set = _set_grab_collision_mask
 
-## Enable ranged-grab
+## If true, ranged-grabbing is enabled
 @export var ranged_enable : bool = true
 
 ## Ranged-grab distance
@@ -59,6 +69,7 @@ var _grab_collision : CollisionShape3D
 var _ranged_area : Area3D
 var _ranged_collision : CollisionShape3D
 var _controller : XRController3D
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -281,6 +292,7 @@ func _get_closest_ranged() -> Node3D:
 	return new_closest_obj
 
 
+## Drop the currently held object
 func drop_object() -> void:
 	if not is_instance_valid(picked_up_object):
 		return

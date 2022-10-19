@@ -44,6 +44,7 @@ strafe = true
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("9")]
 
 [node name="MovementJump" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("15")]
+jump_button_action = "ax_button"
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("3")]
 
@@ -56,6 +57,7 @@ smooth_rotation = true
 [node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("9")]
 
 [node name="MovementJump" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("15")]
+jump_button_action = "ax_button"
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("6")]
 

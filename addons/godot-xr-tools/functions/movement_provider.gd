@@ -4,31 +4,28 @@ extends Node
 @icon("res://addons/godot-xr-tools/editor/icons/movement_provider.svg")
 
 
+## XR Tools Movement Provider base class
 ##
-## Movement Provider base class
+## This movement provider class is the base class of all movement providers.
+## Movement providers are invoked by the [XRToolsPlayerBody] object in order 
+## to apply motion to the player
 ##
-## @desc:
-##     This movement provider class is the base class of all movement providers.
-##     Movement providers are invoked by the PlayerBody object in order to apply
-##     motion to the player
-##
-##     Movement provider implementations should:
-##      - Export an 'order' integer to control order of processing
-##      - Override the physics_movement method to impelment motion
-##
+## Movement provider implementations should:
+##  - Export an 'order' integer to control order of processing
+##  - Override the physics_movement method to impelment motion
 
 
 ## Enable movement provider
 @export var enabled : bool = true
 
 
-# Is the movement provider actively performing a move
+## If true, the movement provider is actively performing a move
 var is_active := false
 
 
 ## Note, using XRToolsPlayerBody here creates a cyclic dependency so we are going for duck typing :)
 
-# Get our XRToolsPlayerBody, this should be a node on our XROrigin3D node.
+## Get our [XRToolsPlayerBody], this should be a node on our [XROrigin3D] node.
 func get_player_body() -> Node:
 	# get our origin node
 	var xr_origin := XRHelpers.get_xr_origin(self)
@@ -47,7 +44,7 @@ func get_player_body() -> Node:
 	return null
 
 
-# If missing we need to add our XRToolsPlayerBody
+## If missing we need to add our [XRToolsPlayerBody]
 func _create_player_body_node():
 	# get our origin node
 	var xr_origin = XRHelpers.get_xr_origin(self)
@@ -76,12 +73,12 @@ func _ready():
 			call_deferred("_create_player_body_node")
 
 
-# Override this function to apply motion to the PlayerBody
+## Override this function to apply motion to the PlayerBody
 func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled: bool):
 	pass
 
 
-# This method verifies the movement provider has a valid configuration.
+## This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify we're within the tree of an XROrigin3D node
 	var xr_origin = XRHelpers.get_xr_origin(self)

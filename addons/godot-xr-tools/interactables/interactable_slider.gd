@@ -2,20 +2,16 @@ class_name XRToolsInteractableSlider
 extends XRToolsInteractableHandleDriven
 
 
+## XR Tools Interactable Slider script
 ##
-## Interactable Slider script
+## The interactable slider is a slider transform node controlled by the
+## player through [XRToolsInteractableHandle] instances.
 ##
-## @desc:
-##     The interactable slider is a slider transform node controlled by the
-##     player through interactable handles.
+## The slider translates itelf along its local X axis, and so should be
+## placed as a child of a Node3D to translate and rotate as appropriate.
 ##
-##     The slider translates itelf along its local X axis, and so should be
-##     placed as a child of a spatial node to translate and rotate as
-##     appropriate.
-##
-##     The interactable slider is not a rigid body, and as such will not react
-##     to any collisions.
-##
+## The interactable slider is not a [RigidBody3D], and as such will not react
+## to any collisions.
 
 
 ## Signal for slider moved
@@ -37,7 +33,7 @@ signal slider_moved(position)
 ## Default position
 @export var default_position : float = 0.0
 
-## Move to default position on release
+## If true, the slider moves to the default position when released
 @export var default_on_release : bool = false
 
 
