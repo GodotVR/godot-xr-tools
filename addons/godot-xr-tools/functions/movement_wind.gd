@@ -3,6 +3,15 @@ class_name XRToolsMovementWind
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Wind
+##
+## This script provides wind mechanics for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [XROrigin3D].
+##
+## When the player enters an [XRToolsWindArea], the wind pushes the player
+## around, and can even lift the player into the air.
+
+
 ## Signal invoked when changing active wind areas
 signal wind_area_changed(active_wind_area)
 
@@ -17,13 +26,13 @@ signal wind_area_changed(active_wind_area)
 @export_flags_3d_physics var collision_mask : int = 524288: set = set_collision_mask
 
 
-# Wind area
+## Wind detection area
 var _sense_area : Area3D
 
-# Array of wind areas the player is in
+## Array of wind areas the player is in
 var _in_wind_areas := Array()
 
-# Currently active wind area
+## Currently active wind area
 var _active_wind_area : XRToolsWindArea
 
 

@@ -2,21 +2,22 @@
 class_name XRToolsMovementClimb
 extends XRToolsMovementProvider
 
+
+## XR Tools Movement Provider for Climbing
 ##
-## Movement Provider for Climbing
+## This script provides climbing movement for the player. To add climbing 
+## support, the player must also have [XRToolsFunctionPickup] nodes attached 
+## to the left and right controllers, and an [XRToolsPlayerBody] under the
+## [XROrigin3D].
 ##
-## @desc:
-##     This script provides climbing movement for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
+## Climbable objects can inherit from the climbable scene, or be [StaticBody] 
+## objects with the [XRToolsClimbable] script attached to them.
 ##
-##     StaticBody objects can be marked as climbable by adding the
-##     climbable object script to them.
-##
-##     When climbing, the global velocity of the PlayerBody is averaged for
-##     velocity_averages samples, and upon release the velocity is applied
-##     to the PlayerBody so the player can fling themselves up walls if
-##     desired.
-##
+## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged, 
+## and upon release the velocity is applied to the [XRToolsPlayerBody] with an
+## optional fling multiplier, so the player can fling themselves up walls if
+## desired.
+
 
 ## Signal invoked when the player starts climing
 signal player_climb_start
@@ -25,7 +26,7 @@ signal player_climb_start
 signal player_climb_end
 
 
-# Horizontal vector (multiply by this to get only the horizontal components
+## Horizontal vector used to calculate the horizontal component of vectors
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 

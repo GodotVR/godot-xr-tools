@@ -3,23 +3,20 @@ class_name XRToolsMovementGlide
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Gliding
 ##
-## Movement Provider for Gliding
+## This script provides glide mechanics for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [XROrigin3D].
 ##
-## @desc:
-##     This script provides glide mechanics for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
+## The player enables flying by moving the controllers apart further than
+## 'glide_detect_distance'.
 ##
-##     The player enables flying by moving the controllers apart further than
-##     'glide_detect_distance'.
+## When gliding, the players fall speed will slew to 'glide_fall_speed' and
+## the velocity will slew to 'glide_forward_speed' in the direction the
+## player is facing.
 ##
-##     When gliding, the players fall speed will slew to 'glide_fall_speed' and
-##     the velocity will slew to 'glide_forward_speed' in the direction the
-##     player is facing.
-##
-##     Gliding is an exclusive motion operation, and so gliding should be ordered
-##     after any Direct movement providers responsible for turning.
-##
+## Gliding is an exclusive motion operation, and so gliding should be ordered
+## after any Direct movement providers responsible for turning.
 
 
 ## Signal invoked when the player starts gliding
@@ -29,7 +26,7 @@ signal player_glide_start
 signal player_glide_end
 
 
-# Horizontal vector (multiply by this to get only the horizontal components
+## Constant to extract the horizontal components of a Vector3
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 

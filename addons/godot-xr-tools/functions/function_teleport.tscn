@@ -26,6 +26,7 @@ collision_mask = 1023
 input_ray_pickable = false
 script = ExtResource("1")
 no_collision_color = Color(0.176471, 0.313726, 0.862745, 1)
+camera = NodePath("")
 
 [node name="Teleport" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")

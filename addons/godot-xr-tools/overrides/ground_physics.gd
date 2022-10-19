@@ -3,20 +3,18 @@ class_name XRToolsGroundPhysics
 extends Node
 
 
+## XR Tools Ground Physics Data
 ##
-## Ground Physics Data
+## This script override the default ground physics settings of the
+## [XRToolsPlayerBody] when they are standing on a specific type of ground.
 ##
-## @desc:
-##     This script override the default ground physics settings of the
-##     player when they are standing on a specific type of ground.
-##
-##     In order to override the ground physics properties, the user must add a
-##     ground physics node to the object the player would stand on, then
-##     enable the appropriate flags and provide new values.
-##
+## In order to override the ground physics properties, the user must add a
+## ground physics node to the object the player would stand on, then
+## enable the appropriate flags and provide new values.
 
-## XRToolsGroundPhysicsSettings to apply - can only be typed in Godot 4+
-@export var physics : Resource
+
+## XRToolsGroundPhysicsSettings to apply
+@export var physics : XRToolsGroundPhysicsSettings
 
 
 # This method verifies the ground physics has a valid configuration.

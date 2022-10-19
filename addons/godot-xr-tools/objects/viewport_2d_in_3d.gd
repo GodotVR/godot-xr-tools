@@ -2,14 +2,11 @@
 extends Node3D
 
 
+## XR ToolsViewport 2D in 3D
 ##
-## Viewport 2D in 3D
+## This script manages a 2D scene rendered as a texture on a 3D quad.
 ##
-## @desc:
-##     This script manages a 2D scene rendered as a texture on a 3D quad.
-##
-##     Pointer and keyboard input are mapped into the 2D scene.
-##
+## Pointer and keyboard input are mapped into the 2D scene.
 
 
 signal pointer_entered

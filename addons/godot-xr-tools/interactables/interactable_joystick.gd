@@ -2,20 +2,16 @@ class_name XRToolsInteractableJoystick
 extends XRToolsInteractableHandleDriven
 
 
+## XR Tools Interactable Joystick script
 ##
-## Interactable Joystick script
+## The interactable joystick is a joystick transform node controlled by the
+## player through [XRToolsInteractableHandle] instances.
 ##
-## @desc:
-##     The interactable joystick is a joystick transform node controlled by the
-##     player through interactable handles.
+## The joystick rotates itelf around its local X/Y axes, and so should be
+## placed as a child of a Node3D to translate and rotate as appropriate.
 ##
-##     The joystick rotates itelf around its local X/Y axes, and so should be
-##     placed as a child of a spatial node to translate and rotate as
-##     appropriate.
-##
-##     The interactable joystick is not a rigid body, and as such will not react
-##     to any collisions.
-##
+## The interactable joystick is not a [RigidBody3D], and as such will not react
+## to any collisions.
 
 
 ## Signal for hinge moved
@@ -59,7 +55,7 @@ const VECTOR_YZ := Vector3(0.0, 1.0, 1.0)
 ## Default Y position
 @export var default_y_position : float = 0.0: set = _set_default_y_position
 
-## Move to default position on release
+## If true, the joystick moves to the default position when released
 @export var default_on_release : bool = false
 
 

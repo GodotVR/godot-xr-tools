@@ -2,18 +2,15 @@
 class_name XRHelpers
 
 
+## XR Tools Helper Rountines
 ##
-## XR Helper Rountines
+## This script contains static functions to help find XR player nodes.
 ##
-## @desc:
-##     This script contains static functions to help find XR player nodes.
-##
-##     As these functions are static, the caller must pass in a node located
-##     somewhere under the players XROrigin3D.
-##
+## As these functions are static, the caller must pass in a node located
+## somewhere under the players [XROrigin3D].
 
 
-## Find the XROrigin3D from a player node and an optional path
+## Find the [XROrigin3D] from a player node and an optional path
 static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D:
 	var origin: XROrigin3D
 
@@ -34,7 +31,8 @@ static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D
 	# Could not find origin
 	return null
 
-## Find the XRCamera3D from a player node and an optional path
+
+## Find the [XRCamera3D] from a player node and an optional path
 static func get_xr_camera(node: Node, path: NodePath = NodePath()) -> XRCamera3D:
 	var camera: XRCamera3D
 
@@ -63,15 +61,18 @@ static func get_xr_camera(node: Node, path: NodePath = NodePath()) -> XRCamera3D
 	# Could not find camera
 	return null
 
-## Find the Left Hand Controller from a player node and an optional path
+
+## Find the Left Hand [XRController3D] from a player node and an optional path
 static func get_left_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
 	return _get_controller(node, "LeftHandController", "left_hand", path)
 
-## Find the Right Hand Controller from a player node and an optional path
+
+## Find the Right Hand [XRController3D] from a player node and an optional path
 static func get_right_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
 	return _get_controller(node, "RightHandController", "right_hand", path)
 
-## Find a controller given some search parameters
+
+## Find an [XRController3D] given some search parameters
 static func _get_controller(node: Node, default_name: String, tracker: String, path: NodePath) -> XRController3D:
 	var controller: XRController3D
 	

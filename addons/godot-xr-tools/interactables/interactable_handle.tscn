@@ -1,11 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bddj5m7ull6g0"]
 
-[ext_resource path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="1"]
 
-[node name="InteractableHandle" type="RigidBody"]
+[node name="InteractableHandle" type="RigidBody3D"]
 collision_layer = 262144
 collision_mask = 0
-mode = 1
 gravity_scale = 0.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 reset_transform_on_pickup = false

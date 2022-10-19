@@ -3,12 +3,13 @@ class_name XRToolsPickable
 extends RigidBody3D
 
 
+## XR Tools Pickable Object
 ##
-## Pickable Object
+## This script allows a [RigidBody3D] to be picked up by an 
+## [XRToolsFunctionPickup] attached to a players controller.
 ##
-## @desc:
-##     This script manages a RigidBody that supports being picked up.
-##
+## Additionally pickable objects may support being snapped into
+## [XRToolsSnapZone] areas.
 
 
 # Signal emitted when the user picks up this object
@@ -24,31 +25,31 @@ signal action_pressed(pickable)
 signal highlight_updated(pickable, enable)
 
 
-# Method used to hold object
+## Method used to hold object
 enum HoldMethod {
-	REMOTE_TRANSFORM,	# Remote transform to holder
-	REPARENT,			# Reparent to holder
+	REMOTE_TRANSFORM,	## Object is held via a remote transform
+	REPARENT,			## Object is held by reparenting
 }
 
-# Method used to grab object at range
+## Method used to grab object at range
 enum RangedMethod {
-	NONE,				# Not supported
-	SNAP,				# Snap to holder
-	LERP,				# Lerp to holder
+	NONE,				## Ranged grab is not supported
+	SNAP,				## Object snaps to holder
+	LERP,				## Object lerps to holder
 }
 
-# Current pickable object state
+## Current pickable object state
 enum PickableState {
-	IDLE,				# Object not held
-	GRABBING_RANGED,	# Object being grabbed at range
-	HELD,				# Object held
+	IDLE,				## Object not held
+	GRABBING_RANGED,	## Object being grabbed at range
+	HELD,				## Object held
 }
 
 
-## Flag indicating if the grip control must be held
+## If true, the grip control must be held to keep the object picked up
 @export var press_to_hold : bool = true
 
-## Flag indicating transform should be reset to pickup center
+## If true, the object is picked up at the "PickupCenter" location
 @export var reset_transform_on_pickup : bool = true
 
 ## Layer for this object while picked up
@@ -70,31 +71,31 @@ enum PickableState {
 @export var picked_by_require : String = ""
 
 
-# Can object be grabbed at range
+## If true, the object can be picked up at range
 var can_ranged_grab: bool = true
 
-# Original frozen state
+## Original frozen state before pickup
 var was_frozen : bool = false
 
-# Entity holding this item
+## Entity holding this item
 var picked_up_by: Node3D = null
 
-# Controller holding this item (may be null if held by snap-zone)
+## Controller holding this item (may be null if held by snap-zone)
 var by_controller : XRController3D = null
 
-# Pickup center
+## Pickup center
 var center_pickup_on_node: Node3D = null
 
-# Count of 'is_closest' grabbers
+## Count of 'is_closest' grabbers
 var _closest_count: int = 0
 
-# Current state
+## Current state
 var _state = PickableState.IDLE
 
-# Remote transform
+## Remote transform
 var _remote_transform: RemoteTransform3D = null
 
-# Move-to node for performing remote grab
+## Move-to node for performing remote grab
 var _move_to: XRToolsMoveTo = null
 
 

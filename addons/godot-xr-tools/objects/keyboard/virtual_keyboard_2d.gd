@@ -1,12 +1,14 @@
 class_name XRToolsVirtualKeyboard2D
 extends CanvasLayer
 
-# Enumeration of keyboard view modes
+
+## Enumeration of keyboard view modes
 enum KeyboardMode {
-	LOWER_CASE,		# Lower-case keys mode
-	UPPER_CASE,		# Upper-case keys mode
-	ALTERNATE		# Alternate keys mode
+	LOWER_CASE,		## Lower-case keys mode
+	UPPER_CASE,		## Upper-case keys mode
+	ALTERNATE		## Alternate keys mode
 }
+
 
 # Shift button down
 var _shift_down := false

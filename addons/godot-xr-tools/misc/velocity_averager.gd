@@ -1,18 +1,15 @@
 class_name XRToolsVelocityAverager
 
 
+## XR Tools Velocity Averager class
 ##
-## Velocity Averager class
+## This class assists in calculating the velocity (both linear and angular)
+## of an object. It accepts the following types of input:
+##  - Periodic distances
+##  - Periodic transforms (for the origin position)
 ##
-## @desc:
-##     This class assists in calculating the velocity (both linear and angular)
-##     of an object. It accepts the following types of input:
-##      - Periodic distances
-##      - Periodic transforms (for the origin position)
-##
-##     It provides the average velocity calculated from the total distance
-##     divided by the total time.
-##
+## It provides the average velocity calculated from the total distance
+## divided by the total time.
 
 
 # Count of averages to perform

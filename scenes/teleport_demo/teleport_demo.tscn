@@ -18,8 +18,6 @@ viewport_path = NodePath("Instructions/SubViewport")
 [node name="FunctionTeleport" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2")]
 camera = NodePath("../../XRCamera3D")
 
-[node name="MovementTurn" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
-
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("5")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("4")]
