@@ -188,5 +188,5 @@ func _pick_up_object(target: Node3D) -> void:
 # Called when the grab distance has been modified
 func _set_grab_distance(new_value: float) -> void:
 	grab_distance = new_value
-	if is_inside_tree() and $CollisionShape:
-		$CollisionShape.shape.radius = grab_distance
+	if is_inside_tree() and $CollisionShape3D:
+		$CollisionShape3D.shape.radius = grab_distance

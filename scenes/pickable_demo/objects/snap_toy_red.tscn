@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cf024hg5alcif"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]
 
 [sub_resource type="ConvexPolygonShape3D" id="17"]
@@ -21,6 +21,7 @@ albedo_color = Color(1, 0, 0, 1)
 collision_layer = 4
 collision_mask = 65543
 reset_transform_on_pickup = false
+picked_up_layer = 65536
 ranged_grab_method = 0
 
 [node name="CollisionShape3D" parent="." index="1"]
