@@ -31,6 +31,7 @@ func _on_pointer_moved(from, to):
 	event.set_global_position(local_to)
 	event.set_relative(local_to - local_from) # should this be scaled/warped?
 	event.set_button_mask(mouse_mask)
+	event.set_pressure(mouse_mask)
 
 	if vp:
 		vp.input(event)
