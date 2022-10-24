@@ -1,4 +1,4 @@
-# 3.0.0 (in progress)
+# 3.0.0
 - Included demo project with test scenes to evaluate features
 - Standardized class naming convention for all scripts to "XRTools<PascalCaseName>"
 - Standardized file naming convention to "snake_case_name.ext"
