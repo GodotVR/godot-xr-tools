@@ -46,7 +46,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 		return
 
 	# Read the left/right joystick axis
-	var left_right := _controller.get_joystick_axis(0)
+	var left_right := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS)
 	if abs(left_right) <= 0.1:
 		# Not turning
 		_turn_step = 0.0

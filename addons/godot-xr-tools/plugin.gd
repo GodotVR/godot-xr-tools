@@ -30,7 +30,8 @@ enum Buttons {
 	VR_BUTTON_12 = 12,
 	VR_BUTTON_13 = 13,
 	VR_PAD = 14,
-	VR_TRIGGER = 15
+	VR_TRIGGER = 15,
+	VR_ACTION = 255 ## Only supported in function pointer, should solve that differently!!
 }
 
 
