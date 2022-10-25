@@ -24,6 +24,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://assets/meshes/teleport/teleport.gd"
 }, {
+"base": "EditorPlugin",
+"class": "XRTools",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/plugin.gd"
+}, {
 "base": "Spatial",
 "class": "XRToolsClimbable",
 "language": "GDScript",
@@ -233,6 +238,7 @@ _global_script_class_icons={
 "ARVRHelpers": "",
 "SceneBase": "",
 "Teleport": "",
+"XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFallDamage": "",
 "XRToolsFunctionPickup": "res://addons/godot-xr-tools/editor/icons/function.svg",
