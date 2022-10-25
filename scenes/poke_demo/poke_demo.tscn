@@ -1,0 +1,75 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://scenes/scene_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=5]
+[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=6]
+[ext_resource path="res://addons/godot-xr-tools/assets/poke.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scenes/poke_demo/objects/canvas.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=11]
+[ext_resource path="res://assets/meshes/table/table.tscn" type="PackedScene" id=12]
+[ext_resource path="res://scenes/pickable_demo/objects/grab_cube.tscn" type="PackedScene" id=13]
+
+[node name="PokeDemo" instance=ExtResource( 1 )]
+
+[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+
+[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/LeftHand/Armature_Left/Skeleton" index="1"]
+transform = Transform( 0.927501, -0.373365, 0.0184361, -0.00490146, -0.0614605, -0.998098, 0.373788, 0.925646, -0.0588348, -0.000317366, 0.0346926, 0.155956 )
+bone_name = "index_distal"
+
+[node name="Poke" parent="ARVROrigin/LeftHand/LeftHand/LeftHand/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 7 )]
+transform = Transform( 1, -1.49012e-07, 9.31323e-09, 1.49012e-07, 1, -7.45058e-09, 5.58794e-09, 1.86265e-08, 1, -0.00103837, 0.0212199, -0.00130188 )
+
+[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+
+[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/RightHand/Armature_Left/Skeleton" index="1"]
+transform = Transform( 0.927501, -0.373365, 0.0184361, -0.00490146, -0.0614605, -0.998098, 0.373788, 0.925646, -0.0588348, -0.000317366, 0.0346926, 0.155956 )
+bone_name = "index_distal"
+
+[node name="Poke" parent="ARVROrigin/RightHand/RightHand/RightHand/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 7 )]
+transform = Transform( 1, -2.08616e-07, 1.11759e-08, 1.78814e-07, 1, -1.11759e-08, 5.58794e-09, 2.6077e-08, 1, -0.0019933, 0.0181514, -0.00110793 )
+
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 11 )]
+enabled = true
+order = 10
+max_speed = 5.0
+strafe = true
+
+[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 10 )]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 4 )]
+
+[node name="Teleport" parent="." index="2" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
+scene_base = NodePath("..")
+title = ExtResource( 6 )
+
+[node name="Viewport2Din3D" parent="." index="3" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.581 )
+screen_size = Vector2( 1, 0.5 )
+viewport_size = Vector2( 1000, 500 )
+scene = ExtResource( 9 )
+
+[node name="Table" parent="." index="4" instance=ExtResource( 12 )]
+transform = Transform( 0.515726, 0, -0.856754, 0, 1, 0, 0.856754, 0, 0.515726, 2.37791, 0, -0.681984 )
+
+[node name="GrabCube01" parent="Table" index="10" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.890771, 0 )
+
+[node name="GrabCube02" parent="Table" index="11" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.149316, 0.890771, 0.0898814 )
+
+[node name="GrabCube03" parent="Table" index="12" instance=ExtResource( 13 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.138419, 0.890771, 0.13692 )
+
+[editable path="ARVROrigin/LeftHand/LeftHand"]
+[editable path="ARVROrigin/LeftHand/LeftHand/LeftHand"]
+[editable path="ARVROrigin/RightHand/RightHand"]
+[editable path="ARVROrigin/RightHand/RightHand/RightHand"]

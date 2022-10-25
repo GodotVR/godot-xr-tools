@@ -4,6 +4,7 @@
 - Use value based grip input with threshold
 - Improved pointer demo supporting left hand with switching
 - Enhanced pointer laser visibility options for colliding with targets.
+- Implement poke feature (finger interaction)
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features
