@@ -6,30 +6,10 @@ extends Spatial
 signal pressed
 
 
-# Button
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15
-}
-
-
 # Enable our button
 export var enabled : bool = false setget set_enabled
 
-export (Buttons) var activate_button : int = Buttons.VR_TRIGGER
+export (XRTools.Buttons) var activate_button : int = XRTools.Buttons.VR_TRIGGER
 
 # Countdown
 export var hold_time : float = 2.0

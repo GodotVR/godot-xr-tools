@@ -20,27 +20,6 @@ extends Spatial
 ##
 
 
-# enum our buttons, should find a way to put this more central
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15,
-	VR_ACTION = 255
-}
-
-
 ## Pointer enabled property
 export var enabled : bool = true setget set_enabled
 
@@ -66,7 +45,7 @@ export var collide_with_bodies : bool = true setget set_collide_with_bodies
 export var collide_with_areas : bool = false setget set_collide_with_areas
 
 ## Active button
-export (Buttons) var active_button : int = Buttons.VR_TRIGGER
+export (XRTools.Buttons) var active_button : int = XRTools.Buttons.VR_TRIGGER
 
 ## Action to monitor (if button set to VR_ACTION)
 export var action = ""
@@ -95,7 +74,7 @@ func _ready():
 	ws = ARVRServer.world_scale
 
 	# If pointer-trigger is a button then subscribe to button signals
-	if active_button != Buttons.VR_ACTION:
+	if active_button != XRTools.Buttons.VR_ACTION:
 		# Get button press feedback from our parent (should be an ARVRController)
 		get_parent().connect("button_pressed", self, "_on_button_pressed")
 		get_parent().connect("button_release", self, "_on_button_release")
@@ -117,7 +96,7 @@ func _process(_delta):
 		return
 
 	# If pointer-trigger is an action then check for action
-	if active_button == Buttons.VR_ACTION and action != "":
+	if active_button == XRTools.Buttons.VR_ACTION and action != "":
 		if Input.is_action_just_pressed(action):
 			_button_pressed()
 		elif !Input.is_action_pressed(action) and target:

@@ -15,26 +15,6 @@ extends KinematicBody
 ##
 
 
-# enum our buttons, should find a way to put this more central
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15
-}
-
-
 ## Teleport enabled property
 export var enabled : bool = true setget set_enabled
 
@@ -69,7 +49,7 @@ export (int, LAYERS_3D_PHYSICS) var valid_teleport_mask : int = ~0
 export var camera : NodePath
 
 ## Teleport button
-export (Buttons) var teleport_button : int = Buttons.VR_TRIGGER
+export (XRTools.Buttons) var teleport_button : int = XRTools.Buttons.VR_TRIGGER
 
 
 var origin_node : ARVROrigin
@@ -280,7 +260,7 @@ func _physics_process(delta):
 				color = cant_teleport_color
 
 			# check our axis to see if we need to rotate
-			teleport_rotation += (delta * controller.get_joystick_axis(0) * -4.0)
+			teleport_rotation += (delta * controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS) * -4.0)
 
 			# update target and colour
 			var target_basis = Basis()

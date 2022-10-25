@@ -40,11 +40,11 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_joystick_axis(1) * max_speed
+	player_body.ground_control_velocity.y += _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_Y_AXIS) * max_speed
 
 	# Apply left/right ground control
 	if strafe:
-		player_body.ground_control_velocity.x += _controller.get_joystick_axis(0) * max_speed
+		player_body.ground_control_velocity.x += _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS) * max_speed
 
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()
