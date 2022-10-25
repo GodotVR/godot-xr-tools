@@ -1,3 +1,6 @@
+# 3.1.0 (Development)
+- Improvements to our 2D in 3D viewport
+
 # 3.0.0
 - Included demo project with test scenes to evaluate features
 - Standardized class naming convention for all scripts to "XRTools<PascalCaseName>"
