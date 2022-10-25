@@ -20,11 +20,27 @@ extends Spatial
 ##
 
 
+## Enumeration of laser show modes
+enum LaserShow {
+	HIDE = 0,		## Hide laser
+	SHOW = 1,		## Show laser
+	COLLIDE = 2,	## Only show laser on collision
+}
+
+## Enumeration of laser length modes
+enum LaserLength {
+	FULL = 0,		## Full length
+	COLLIDE = 1		## Draw to collision
+}
+
 ## Pointer enabled property
 export var enabled : bool = true setget set_enabled
 
 ## Show laser property
-export var show_laser : bool = true setget set_show_laser
+export (LaserShow) var show_laser : int = LaserShow.SHOW setget set_show_laser
+
+## Laser length property
+export (LaserLength) var laser_length : int = LaserLength.FULL
 
 ## Show laser target
 export var show_target : bool = false
@@ -145,9 +161,21 @@ func _process(_delta):
 				elif new_target.has_method("pointer_moved"):
 					new_target.pointer_moved(last_collided_at, new_at)
 
-		if last_target and show_target:
-			$Target.global_transform.origin = last_collided_at
-			$Target.visible = true
+		if last_target:
+			# Show target if configured
+			if show_target:
+				$Target.global_transform.origin = new_at
+				$Target.visible = true
+
+			# Show laser if set to show-on-collide
+			if show_laser == LaserShow.COLLIDE:
+				$Laser.visible = true
+
+			# Adjust laser length if set to collide-length
+			if laser_length == LaserLength.COLLIDE:
+				var collide_len : float = new_at.distance_to(global_transform.origin)
+				$Laser.mesh.size.z = collide_len
+				$Laser.translation.z = collide_len * -0.5
 
 		# remember our new position
 		last_collided_at = new_at
@@ -159,7 +187,18 @@ func _process(_delta):
 				last_target.pointer_exited()
 
 		last_target = null
+
+		# Ensure target is hidden
 		$Target.visible = false
+
+		# Hide laser if set to show-on-collide
+		if show_laser == LaserShow.COLLIDE:
+			$Laser.visible = false
+
+		# Restore laser length if set to collide-length
+		if laser_length == LaserLength.COLLIDE:
+			$Laser.mesh.size.z = distance
+			$Laser.translation.z = distance * -0.5
 
 
 # Set pointer enabled property
@@ -172,7 +211,7 @@ func set_enabled(p_enabled : bool) -> void:
 
 
 # Set show-laser property
-func set_show_laser(p_show : bool) -> void:
+func set_show_laser(p_show : int) -> void:
 	show_laser = p_show
 	if is_inside_tree():
 		_update_show_laser()
@@ -221,7 +260,7 @@ func _update_set_enabled() -> void:
 
 # Pointer show-laser update handler
 func _update_show_laser() -> void:
-	$Laser.visible = enabled and show_laser
+	$Laser.visible = enabled and show_laser == LaserShow.SHOW
 
 
 # Pointer Y offset update handler
