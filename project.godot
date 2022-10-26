@@ -312,6 +312,7 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_17="held_object"
 3d_physics/layer_18="player_hand"
 3d_physics/layer_20="player_body"
+3d_physics/layer_21="pointable"
 
 [physics]
 
