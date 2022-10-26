@@ -31,6 +31,12 @@ static func get_arvr_origin(node: Node, path: NodePath = NodePath("")) -> ARVROr
 			return origin
 		current = current.get_parent()
 
+	# We check our children but only one level
+	for child in node.get_children():
+		origin = child as ARVROrigin
+		if origin:
+			return origin
+
 	# Could not find origin
 	return null
 

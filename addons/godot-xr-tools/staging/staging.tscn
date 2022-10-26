@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/staging/staging.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/staging/loading_screen.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/staging/fade.gdshader" type="Shader" id=4]
+
+[sub_resource type="QuadMesh" id=4]
+custom_aabb = AABB( -5000, -5000, -5000, 10000, 10000, 10000 )
+size = Vector2( 2, 2 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 4 )
+shader_param/alpha = 0.0
+
+[sub_resource type="ProceduralSky" id=1]
+
+[sub_resource type="Environment" id=2]
+background_mode = 1
+background_sky = SubResource( 1 )
+
+[node name="Staging" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Fade" type="MeshInstance" parent="."]
+mesh = SubResource( 4 )
+material/0 = SubResource( 3 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="LoadingScreen" parent="." instance=ExtResource( 3 )]
+splash_screen = null
+progress = 0.0
+
+[node name="Scene" type="Spatial" parent="."]
+
+[node name="Tween" type="Tween" parent="."]

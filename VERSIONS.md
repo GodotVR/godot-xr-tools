@@ -6,6 +6,7 @@
 - Enhanced pointer laser visibility options for colliding with targets.
 - Implement poke feature (finger interaction)
 - Improvements to snap turning
+- Moved staging solution into plugin so it can be re-used
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features

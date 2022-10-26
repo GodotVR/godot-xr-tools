@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.s3tc.stex"
-path.etc="res://.import/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.etc.stex"
+path.s3tc="res://.import/progress_bar.png-2ef3cbffca173889900be004fdeb1700.s3tc.stex"
+path.etc="res://.import/progress_bar.png-2ef3cbffca173889900be004fdeb1700.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/misc/progress_bar.png"
-dest_files=[ "res://.import/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.s3tc.stex", "res://.import/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.etc.stex" ]
+source_file="res://addons/godot-xr-tools/assets/misc/progress_bar.png"
+dest_files=[ "res://.import/progress_bar.png-2ef3cbffca173889900be004fdeb1700.s3tc.stex", "res://.import/progress_bar.png-2ef3cbffca173889900be004fdeb1700.etc.stex" ]
 
 [params]
 
