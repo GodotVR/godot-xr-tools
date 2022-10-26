@@ -30,6 +30,9 @@ strafe = true
 
 [node name="FunctionPointer" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 5 )]
 enabled = false
+show_laser = 2
+laser_length = 1
+show_target = true
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
@@ -44,6 +47,7 @@ strafe = false
 smooth_rotation = true
 
 [node name="FunctionPointer" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
+laser_length = 1
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 8 )]
 
