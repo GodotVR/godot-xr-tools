@@ -296,7 +296,7 @@ func override_player_height(key, value: float = -1.0):
 func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
-		camera_node.transform.origin.y + player_head_height + player_height_offset,
+		camera_node.transform.origin.y + player_head_height + player_height_offset + XRToolsUserSettings.player_height_adjust,
 		player_height_min * ARVRServer.world_scale,
 		player_height_max * ARVRServer.world_scale)
 

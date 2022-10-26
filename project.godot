@@ -297,6 +297,7 @@ config/icon="res://icon.png"
 [autoload]
 
 ResourceQueue="*res://assets/resource_queue/resource_queue.gd"
+XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
 
 [editor_plugins]
 

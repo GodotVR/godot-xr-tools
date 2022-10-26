@@ -1,0 +1,21 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/user_settings/user_settings_ui.tscn" type="PackedScene" id=1]
+
+[node name="SettingsUIContent" type="VBoxContainer"]
+
+[node name="Header" type="HBoxContainer" parent="."]
+margin_right = 250.0
+margin_bottom = 48.0
+
+[node name="Label" type="Label" parent="Header"]
+margin_right = 250.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 250, 0 )
+text = "Welcome to Godot XR Tools. Use the joysticks on your controllers to move around."
+autowrap = true
+
+[node name="UserSettingsUI" parent="." instance=ExtResource( 1 )]
+margin_top = 52.0
+margin_right = 250.0
+margin_bottom = 252.0
