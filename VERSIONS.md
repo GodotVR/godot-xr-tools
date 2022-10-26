@@ -5,6 +5,7 @@
 - Improved pointer demo supporting left hand with switching
 - Enhanced pointer laser visibility options for colliding with targets.
 - Implement poke feature (finger interaction)
+- Improvements to snap turning
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features
