@@ -1,5 +1,6 @@
 # 3.1.0 (Development)
 - Improvements to our 2D in 3D viewport
+- Fixed editor preview system for our 2D in 3D viewport
 - Use value based grip input with threshold
 - Improved pointer demo supporting left hand with switching
 - Enhanced pointer laser visibility options for colliding with targets.

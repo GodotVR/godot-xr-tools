@@ -55,10 +55,6 @@ var material : SpatialMaterial
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Do not initialize if in the editor
-	if Engine.editor_hint:
-		return
-
 	is_ready = true
 
 	# Setup our viewport texture and material
@@ -106,6 +102,11 @@ func _input(event):
 
 # Process event
 func _process(delta):
+	if Engine.editor_hint:
+		# Don't run in editor (will auto run on load)
+		set_process(false)
+		return
+
 	if update_mode == UpdateMode.UPDATE_THROTTLED:
 		var frame_time = 1.0 / throttle_fps
 		time_since_last_update += delta
@@ -171,6 +172,9 @@ func set_collision_layer(new_layer: int) -> void:
 
 # Enabled update handler
 func _update_enabled() -> void:
+	if Engine.editor_hint:
+		return
+
 	$StaticBody/CollisionShape.disabled = !enabled
 
 
@@ -212,6 +216,9 @@ func _update_scene() -> void:
 		scene_node = scene.instance()
 		$Viewport.add_child(scene_node)
 
+	# make sure we update atleast once
+	$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+
 # Filter update handler
 func _update_filter() -> void:
 	if viewport_texture:
@@ -219,6 +226,10 @@ func _update_filter() -> void:
 
 # Update mode handler
 func _update_update_mode() -> void:
+	if Engine.editor_hint:
+		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		return
+
 	if update_mode == UpdateMode.UPDATE_ONCE:
 		# this will trigger redrawing our screen
 		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
