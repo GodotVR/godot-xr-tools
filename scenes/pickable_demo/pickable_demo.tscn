@@ -22,6 +22,8 @@
 
 [node name="LeftPhysicsHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+collision_layer = 131072
+margin = 0.004
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 7 )]
 enabled = true
@@ -37,6 +39,8 @@ ranged_collision_mask = 4
 
 [node name="RightPhysicsHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+collision_layer = 131072
+margin = 0.004
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 7 )]
 enabled = true

@@ -59,3 +59,4 @@ func scene_loaded():
 func scene_exiting():
 	# called when we're about to remove this scene
 	pass
+
