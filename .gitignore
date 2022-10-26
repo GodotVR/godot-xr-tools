@@ -8,3 +8,6 @@ Thumbs.db
 
 # Addons sourced externally
 addons/godot-openxr/
+
+# Blender backup files
+*.blend1
