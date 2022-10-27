@@ -22,7 +22,7 @@ extends XRToolsStaging
 # note that most XR runtimes stop giving us controller
 # tracking data at this point.
 
-var scene_is_loaded = true
+var scene_is_loaded = false
 
 func _on_Staging_scene_loaded(scene):
 	# We only show the press to continue the first time we load a scene
