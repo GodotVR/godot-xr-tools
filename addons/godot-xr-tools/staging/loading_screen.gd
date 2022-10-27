@@ -21,17 +21,20 @@ signal continue_pressed
 # If enabled, rotate our screen to follow the camera
 
 export (bool) var follow_camera = true setget set_follow_camera
-export (NodePath) var camera
 export (Curve) var follow_speed
 
-var camera_node : ARVRCamera
+var camera : ARVRCamera
 
 func set_follow_camera(p_enabled):
 	follow_camera = p_enabled
 	_update_follow_camera()
 
+func set_camera(p_camera : ARVRCamera):
+	camera = p_camera
+	_update_follow_camera()
+
 func _update_follow_camera():
-	if camera_node and !Engine.is_editor_hint():
+	if camera and !Engine.is_editor_hint():
 		set_process(follow_camera)
 
 ## Splash screen
@@ -103,14 +106,16 @@ func _ready():
 	
 	_update_enable_press_to_continue()
 	
-	camera_node = get_node_or_null(camera)
 	_update_follow_camera()
 
 func _process(delta):
 	if Engine.is_editor_hint():
 		return
 
-	var camera_dir = camera_node.global_transform.basis.z
+	if !camera:
+		return
+
+	var camera_dir = camera.global_transform.basis.z
 	camera_dir.y = 0.0
 	camera_dir = camera_dir.normalized()
 

@@ -15,11 +15,6 @@ _global_script_classes=[ {
 "path": "res://addons/godot-xr-tools/misc/arvr_helpers.gd"
 }, {
 "base": "Spatial",
-"class": "SceneBase",
-"language": "GDScript",
-"path": "res://scenes/scene_base.gd"
-}, {
-"base": "Spatial",
 "class": "Teleport",
 "language": "GDScript",
 "path": "res://assets/meshes/teleport/teleport.gd"
@@ -214,10 +209,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/assets/poke.gd"
 }, {
+"base": "Spatial",
+"class": "XRToolsSceneBase",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/staging/scene_base.gd"
+}, {
 "base": "Area",
 "class": "XRToolsSnapZone",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/objects/snap_zone.gd"
+}, {
+"base": "Spatial",
+"class": "XRToolsStaging",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/staging/staging.gd"
 }, {
 "base": "Reference",
 "class": "XRToolsVelocityAverager",
@@ -241,7 +246,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ARVRHelpers": "",
-"SceneBase": "",
 "Teleport": "",
 "XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
@@ -281,7 +285,9 @@ _global_script_class_icons={
 "XRToolsPickable": "",
 "XRToolsPlayerBody": "res://addons/godot-xr-tools/editor/icons/body.svg",
 "XRToolsPoke": "",
+"XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
+"XRToolsStaging": "",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
 "XRToolsVirtualKeyboard2D": "",
@@ -296,7 +302,6 @@ config/icon="res://icon.png"
 
 [autoload]
 
-ResourceQueue="*res://assets/resource_queue/resource_queue.gd"
 XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
 
 [editor_plugins]
@@ -330,3 +335,4 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"

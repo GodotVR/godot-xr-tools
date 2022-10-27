@@ -1,3 +1,4 @@
+class_name XRToolsSceneBase
 extends Spatial
 
 ## Introduction
@@ -5,8 +6,6 @@ extends Spatial
 # This is our base scene for all our levels.
 # It ensures that we have all bits in place to load
 # our scene into our staging scene.
-
-class_name SceneBase
 
 # Emit this signal to let staging know we should return to our menu scene
 signal exit_to_main_menu
@@ -56,7 +55,15 @@ func scene_loaded():
 	# physically halfway across the room.
 	center_player_on($ARVROrigin.global_transform)
 
+func scene_visible():
+	# Called after the scene becomes fully visible
+	pass
+
+func scene_pre_exiting():
+	# Called before we start fading out and removing our scene
+	pass
+
 func scene_exiting():
-	# called when we're about to remove this scene
+	# called right before we remove this scene
 	pass
 

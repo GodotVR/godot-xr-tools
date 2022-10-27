@@ -1,4 +1,4 @@
-extends SceneBase
+extends XRToolsSceneBase
 
 
 enum Pointer {

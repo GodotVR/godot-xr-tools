@@ -14,7 +14,7 @@ export var title: Texture setget _set_title
 
 
 # Scene base to trigger loading
-onready var _scene_base: SceneBase = get_node(scene_base)
+onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
 
 
 func _ready():
