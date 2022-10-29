@@ -335,4 +335,5 @@ common/enable_pause_aware_picking=true
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
+limits/time/time_rollover_secs=30.0
 environment/default_environment="res://default_env.tres"
