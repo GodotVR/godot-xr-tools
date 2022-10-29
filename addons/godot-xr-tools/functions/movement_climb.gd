@@ -2,21 +2,22 @@ tool
 class_name XRToolsMovementClimb
 extends XRToolsMovementProvider
 
+
+## XR Tools Movement Provider for Climbing
 ##
-## Movement Provider for Climbing
+## This script provides climbing movement for the player. To add climbing 
+## support, the player must also have [XRToolsFunctionPickup] nodes attached 
+## to the left and right controllers, and an [XRToolsPlayerBody] under the
+## [ARVROrigin].
 ##
-## @desc:
-##     This script provides climbing movement for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
+## Climbable objects can inherit from the climbable scene, or be [StaticBody] 
+## objects with the [XRToolsClimbable] script attached to them.
 ##
-##     StaticBody objects can be marked as climbable by adding the
-##     climbable object script to them.
-##
-##     When climbing, the global velocity of the PlayerBody is averaged for
-##     velocity_averages samples, and upon release the velocity is applied
-##     to the PlayerBody so the player can fling themselves up walls if
-##     desired.
-##
+## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged, 
+## and upon release the velocity is applied to the [XRToolsPlayerBody] with an
+## optional fling multiplier, so the player can fling themselves up walls if
+## desired.
+
 
 ## Signal invoked when the player starts climing
 signal player_climb_start
@@ -25,8 +26,11 @@ signal player_climb_start
 signal player_climb_end
 
 
-# Horizontal vector (multiply by this to get only the horizontal components
+## Horizontal vector used to calculate the horizontal component of vectors
 const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
+
+## Distance at which grabs snap
+const SNAP_DISTANCE : float = 1.0
 
 
 ## Movement provider order
@@ -48,34 +52,58 @@ export var left_pickup : NodePath
 export var right_pickup : NodePath
 
 
-# Velocity averaging fields
-var _distances = Array()
-var _deltas = Array()
+## Left climbable
+var _left_climbable : XRToolsClimbable
 
+## Right climbable
+var _right_climbable : XRToolsClimbable
+
+## Dominant pickup (moving the player)
+var _dominant : XRToolsFunctionPickup
+
+
+# Velocity averager
+onready var _averager := XRToolsVelocityAveragerLinear.new(velocity_averages)
 
 # Node references
 onready var _left_pickup_node : XRToolsFunctionPickup = get_node(left_pickup)
 onready var _right_pickup_node : XRToolsFunctionPickup = get_node(right_pickup)
 
 
+## Called when the node enters the scene tree for the first time.
+func _ready():
+	# Connect pickup funcitons
+	if _left_pickup_node.connect("has_picked_up", self, "_on_left_picked_up"):
+		push_error("Unable to connect left picked up signal")
+	if _right_pickup_node.connect("has_picked_up", self, "_on_right_picked_up"):
+		push_error("Unable to connect right picked up signal")
+	if _left_pickup_node.connect("has_dropped", self, "_on_left_dropped"):
+		push_error("Unable to connect left dropped signal")
+	if _right_pickup_node.connect("has_dropped", self, "_on_right_dropped"):
+		push_error("Unable to connect right dropped signal")
+
+
+## Perform player physics movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Disable climbing if requested
 	if disabled or !enabled:
 		_set_climbing(false, player_body)
 		return
 
-	# Get the left-hand climbable
-	var left_climbable := _left_pickup_node.picked_up_object as XRToolsClimbable
-	if !is_instance_valid(left_climbable):
-		left_climbable = null
-
-	# Get the right-hand climbable
-	var right_climbable := _right_pickup_node.picked_up_object as XRToolsClimbable
-	if !is_instance_valid(right_climbable):
-		right_climbable = null
+	# Snap grabs if too far
+	if is_instance_valid(_left_climbable):
+		var left_pickup_pos := _left_pickup_node.global_transform.origin
+		var left_grab_pos := _left_climbable.get_grab_location(_left_pickup_node)
+		if left_pickup_pos.distance_to(left_grab_pos) > SNAP_DISTANCE:
+			_left_pickup_node.drop_object()
+	if is_instance_valid(_right_climbable):
+		var right_pickup_pos := _right_pickup_node.global_transform.origin
+		var right_grab_pos := _right_climbable.get_grab_location(_right_pickup_node)
+		if right_pickup_pos.distance_to(right_grab_pos) > SNAP_DISTANCE:
+			_right_pickup_node.drop_object()
 
 	# Update climbing
-	_set_climbing(left_climbable or right_climbable, player_body)
+	_set_climbing(_dominant != null, player_body)
 
 	# Skip if not actively climbing
 	if !is_active:
@@ -83,18 +111,14 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Calculate how much the player has moved
 	var offset := Vector3.ZERO
-	if left_climbable:
+	if _dominant == _left_pickup_node:
 		var left_pickup_pos := _left_pickup_node.global_transform.origin
-		var left_grab_pos := left_climbable.get_grab_location(_left_pickup_node)
-		offset += left_pickup_pos - left_grab_pos
-	if right_climbable:
+		var left_grab_pos := _left_climbable.get_grab_location(_left_pickup_node)
+		offset = left_pickup_pos - left_grab_pos
+	elif _dominant == _right_pickup_node:
 		var right_pickup_pos := _right_pickup_node.global_transform.origin
-		var right_grab_pos := right_climbable.get_grab_location(_right_pickup_node)
-		offset += right_pickup_pos - right_grab_pos
-
-	# Average the offset if we have two hands moving
-	if left_climbable and right_climbable:
-		offset *= 0.5
+		var right_grab_pos := _right_climbable.get_grab_location(_right_pickup_node)
+		offset = right_pickup_pos - right_grab_pos
 
 	# Move the player by the offset
 	var old_position := player_body.kinematic_node.global_transform.origin
@@ -103,12 +127,13 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Update the players average-velocity data
 	var distance := player_body.kinematic_node.global_transform.origin - old_position
-	_update_velocity(delta, distance)
+	_averager.add_distance(delta, distance)
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true
 
 
+## Start or stop climbing
 func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 	# Skip if no change
 	if active == is_active:
@@ -119,41 +144,64 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 
 	# Handle state change
 	if is_active:
-		_distances.clear()
-		_deltas.clear()
+		_averager.clear()
 		player_body.override_player_height(self, 0.0)
 		emit_signal("player_climb_start")
 	else:
-		var velocity := _average_velocity()
+		var velocity := _averager.velocity()
 		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
 		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
 		player_body.override_player_height(self)
 		emit_signal("player_climb_end")
 
 
-# Update player velocity averaging data
-func _update_velocity(delta: float, distance: Vector3):
-	# Add delta and distance to averaging arrays
-	_distances.push_back(distance)
-	_deltas.push_back(delta)
-	if _distances.size() > velocity_averages:
-		_distances.pop_front()
-		_deltas.pop_front()
+## Handler for left controller picked up
+func _on_left_picked_up(what : Spatial) -> void:
+	# Get the climbable
+	_left_climbable = what as XRToolsClimbable
 
-# Calculate average player velocity
-func _average_velocity() -> Vector3:
-	# Calculate the total time
-	var total_time := 0.0
-	for dt in _deltas:
-		total_time += dt
+	# Transfer climb dominance
+	if is_instance_valid(_left_climbable):
+		_dominant = _left_pickup_node
+	else:
+		_left_climbable = null
 
-	# Calculate the total distance
-	var total_distance := Vector3(0.0, 0.0, 0.0)
-	for dd in _distances:
-		total_distance += dd
 
-	# Return the average
-	return total_distance / total_time
+## Handler for right controller picked up
+func _on_right_picked_up(what : Spatial) -> void:
+	# Get the climbable
+	_right_climbable = what as XRToolsClimbable
+
+	# Transfer climb dominance
+	if is_instance_valid(_right_climbable):
+		_dominant = _right_pickup_node
+	else:
+		_right_climbable = null
+
+
+## Handler for left controller dropped
+func _on_left_dropped() -> void:
+	# Release climbable
+	_left_climbable = null
+
+	# Transfer climb dominance
+	if is_instance_valid(_right_climbable):
+		_dominant = _right_pickup_node
+	else:
+		_dominant = null
+
+
+## Handler for righ controller dropped
+func _on_right_dropped() -> void:
+	# Release climbable
+	_right_climbable = null
+
+	# Transfer climb dominance
+	if is_instance_valid(_left_climbable):
+		_dominant = _left_pickup_node
+	else:
+		_dominant = null
+
 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
