@@ -2,6 +2,16 @@ class_name XRToolsFunctionPickup, "res://addons/godot-xr-tools/editor/icons/func
 extends Spatial
 
 
+## XR Tools Function Pickup Script
+##
+## This script implements picking up of objects. Most pickable 
+## objects are instances of the [XRToolsPickable] class.
+##
+## Additionally this script can work in conjunction with the 
+## [XRToolsMovementProvider] class support climbing. Most climbable objects are
+## instances of the [XRToolsClimbable] class.
+
+
 ## Signal emitted when the pickup picks something up
 signal has_picked_up(what)
 
@@ -13,10 +23,11 @@ signal has_dropped
 const MAX_GRAB_DISTANCE2: float = 1000000.0
 
 
+## Pickup enabled property
+export var enabled : bool = true
+
 ## Grip controller button
 export (XRTools.Axis) var pickup_axis_id = XRTools.Axis.VR_GRIP_AXIS
-onready var grip_threshold = XRTools.get_grip_threshold()
-var grip_pressed = false
 
 ## Action controller button
 export (XRTools.Buttons) var action_button_id = XRTools.Buttons.VR_TRIGGER
@@ -50,6 +61,7 @@ export var velocity_samples: int = 5
 var closest_object : Spatial = null
 var picked_up_object : Spatial = null
 var picked_up_ranged: bool = false
+var grip_pressed = false
 
 # Private fields
 var _object_in_grab_area := Array()
@@ -60,6 +72,11 @@ var _grab_collision : CollisionShape
 var _ranged_area : Area
 var _ranged_collision : CollisionShape
 var _controller : ARVRController
+
+
+## Grip threshold (from configuration)
+onready var grip_threshold = XRTools.get_grip_threshold()
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -115,8 +132,8 @@ func _process(delta):
 	if Engine.editor_hint:
 		return
 
-	# Skip if the controller isn't active
-	if !_controller.get_is_active():
+	# Skip if disabled, or the controller isn't active
+	if !enabled or !_controller.get_is_active():
 		return
 
 	# Handle our grip
