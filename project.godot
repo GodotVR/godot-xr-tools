@@ -59,7 +59,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/functions/function_teleport.gd"
 }, {
-"base": "Spatial",
+"base": "Position3D",
 "class": "XRToolsGrabPoint",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/objects/grab_points/grab_point.gd"
@@ -391,3 +391,4 @@ quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 limits/time/time_rollover_secs=30.0
+environment/default_environment="res://default_env.tres"

@@ -1,16 +1,20 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/objects/pickable.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=2]
 [ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=3]
 [ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" type="PackedScene" id=6]
+[ext_resource path="res://scenes/pickable_demo/poses/pose_hammer_left.tres" type="Resource" id=7]
+[ext_resource path="res://scenes/pickable_demo/poses/pose_hammer_right.tres" type="Resource" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.05, 0.05, 0.1 )
 
 [sub_resource type="CylinderShape" id=3]
-radius = 0.02
 height = 0.6
+radius = 0.02
 
 [sub_resource type="CylinderMesh" id=2]
 top_radius = 0.02
@@ -25,30 +29,35 @@ size = Vector3( 0.1, 0.1, 0.2 )
 [node name="Hammer" instance=ExtResource( 1 )]
 collision_layer = 4
 collision_mask = 7
-reset_transform_on_pickup = false
 picked_up_layer = 65536
 ranged_grab_method = 0
 
-[node name="PickupCenter" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0 )
+[node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource( 5 )]
+transform = Transform( -1, -8.74228e-08, 0, 8.58166e-08, -0.981627, 0.190809, -1.66811e-08, 0.190809, 0.981627, -0.007, 0.355, -0.071 )
+hand_pose = ExtResource( 7 )
 
-[node name="CollisionShape" parent="." index="1"]
+[node name="GrabPointHandRight" parent="." index="1" instance=ExtResource( 6 )]
+transform = Transform( -1, -8.74228e-08, 0, 8.58166e-08, -0.981627, 0.190809, -1.66811e-08, 0.190809, 0.981627, 0.00734175, 0.355408, -0.0707028 )
+hand_pose = ExtResource( 8 )
+editor_preview_mode = 2
+
+[node name="CollisionShape" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
 shape = SubResource( 1 )
 
-[node name="CollisionShape2" type="CollisionShape" parent="." index="2"]
+[node name="CollisionShape2" type="CollisionShape" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
 shape = SubResource( 3 )
 
-[node name="Handle" type="MeshInstance" parent="." index="3"]
+[node name="Handle" type="MeshInstance" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
 mesh = SubResource( 2 )
 material/0 = ExtResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="4"]
+[node name="MeshInstance" type="MeshInstance" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
 mesh = SubResource( 4 )
 material/0 = ExtResource( 3 )
 
-[node name="HighlightRing" parent="." index="5" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0 )
+[node name="HighlightRing" parent="." index="6" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0 )
