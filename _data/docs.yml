@@ -1,0 +1,29 @@
+- title: Getting Started
+  docs:
+  - home
+  - installation
+  - setup
+
+- title: Features
+  docs:
+  - movement
+  - interaction
+
+- title: Movement
+  docs:
+  - climbing
+  - crouching
+  - direct
+  - flight
+  - glide
+  - grapple
+  - jump
+  - physical_jump
+  - teleport
+  - turn
+  - wind
+
+- title: Interaction
+  docs:
+  - pickup
+  - pointer
