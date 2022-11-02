@@ -36,10 +36,10 @@ note that as with other movement functions this will add a PlayerBody node to yo
 ARVROrigin node if it doesn't already exist.
 
 Your setup should now look like this:
-![ARVR Climb Movement]({{ site.url }}/assets/img/arvr_climb_movement.png)
+![ARVR Climb Movement]({{ site.url }}/assets/img/climbing/arvr_climb_movement.png)
 
 Next select the climb movement node and link the two pickup functions:
-![Climb Movement Link]({{ site.url }}/assets/img/climb_movement_link.png)
+![Climb Movement Link]({{ site.url }}/assets/img/climbing/climb_movement_link.png)
 *Note, we may make this automatic in a future version.*
 
 Now that our player is able to climb, we need to define the things they can climb
@@ -58,7 +58,7 @@ the player holds the shape.
 We're taking the later as an example, the screenshot below sets up a scene, I've
 renamed the root node, added a MeshInstance with a box, and then added a collision
 shape to the CollisionShape node giving it the same size as the block:
-![ARVR Climbing Block]({{ site.url }}/assets/img/arvr_climbing_block.png)
+![ARVR Climbing Block]({{ site.url }}/assets/img/climbing/arvr_climbing_block.png)
 
 Now save the scene and add it to your main scene and your player can climb the block.
 
