@@ -35,6 +35,8 @@
 [ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.tscn" type="PackedScene" id=33]
 [ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.png" type="Texture" id=34]
 [ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.tscn" type="PackedScene" id=35]
+[ext_resource path="res://scenes/rumble_demo/rumble function demo.png" type="Texture" id=36]
+[ext_resource path="res://scenes/rumble_demo/rumble_demo.tscn" type="PackedScene" id=37]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -224,6 +226,12 @@ transform = Transform( 0.841253, 0, -0.540641, 0, 1, 0, 0.540641, 0, 0.841253, 5
 scene_base = NodePath("../..")
 scene = ExtResource( 35 )
 title = ExtResource( 34 )
+
+[node name="ToRumbleDemo" parent="Demos" index="8" instance=ExtResource( 9 )]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.94975, 0, -4.94975 )
+scene_base = NodePath("../..")
+scene = ExtResource( 37 )
+title = ExtResource( 36 )
 
 [node name="SettingsUI" parent="." index="3" instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )

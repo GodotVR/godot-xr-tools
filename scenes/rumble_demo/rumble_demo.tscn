@@ -1,0 +1,375 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=3]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_rumble.gd" type="Script" id=8]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/highpoly/left_physics_hand.tscn" type="PackedScene" id=9]
+[ext_resource path="res://assets/meshes/interactables/slider_snap.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/highpoly/right_physics_hand.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=12]
+[ext_resource path="res://assets/meshes/interactables/push_button.tscn" type="PackedScene" id=14]
+[ext_resource path="res://scenes/rumble_demo/rumble_controls.gd" type="Script" id=16]
+
+[sub_resource type="ViewportTexture" id=4]
+viewport_path = NodePath("Instructions/Viewport")
+
+[sub_resource type="ViewportTexture" id=8]
+viewport_path = NodePath("RumbleControls/LeftRumble/Label/Viewport")
+
+[sub_resource type="ViewportTexture" id=9]
+viewport_path = NodePath("RumbleControls/RightRumble/Label/Viewport")
+
+[sub_resource type="ViewportTexture" id=5]
+viewport_path = NodePath("RumbleControls/BothHandsRumble/Label/Viewport")
+
+[sub_resource type="ViewportTexture" id=6]
+viewport_path = NodePath("RumbleControls/IndefiniteBothRumble/Label/Viewport")
+
+[sub_resource type="SpatialMaterial" id=7]
+albedo_color = Color( 1, 0.854902, 0, 1 )
+
+[node name="RumbleDemo" instance=ExtResource( 1 )]
+
+[node name="LeftPhysicsHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+
+[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 12 )]
+enabled = true
+order = 10
+max_speed = 3.0
+strafe = true
+
+[node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 2 )]
+grab_collision_mask = 262144
+ranged_enable = false
+ranged_collision_mask = 0
+
+[node name="RightPhysicsHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 12 )]
+enabled = true
+order = 10
+max_speed = 3.0
+strafe = false
+
+[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 5 )]
+
+[node name="FunctionPickup" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 2 )]
+grab_collision_mask = 262144
+ranged_enable = false
+ranged_collision_mask = 0
+
+[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 4 )]
+
+[node name="RumbleManager" type="Node" parent="ARVROrigin" index="4"]
+script = ExtResource( 8 )
+wakeup_rumble = 0.2
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 7 )]
+
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7 )
+scene_base = NodePath("..")
+title = ExtResource( 3 )
+
+[node name="Instructions" type="Spatial" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2 )
+
+[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
+size = Vector2( 370, 270 )
+
+[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Rumble Demo[/u]
+
+	This scene demonstrates rumble events.
+	
+	There are controls to activate a rumble event for the left, right, and both hands.
+	
+	Also, one can turn the \"indefinite\" rumble on and off, and still feel the other rumbles whilst it is active or not,so long as the rumble events are of a stronger magnitude."
+text = "Rumble Demo
+
+	This scene demonstrates rumble events.
+	
+	There are controls to activate a rumble event for the left, right, and both hands.
+	
+	Also, one can turn the \"indefinite\" rumble on and off, and still feel the other rumbles whilst it is active or not,so long as the rumble events are of a stronger magnitude."
+
+[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.671196, 0, 1.32795 )
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 4 )
+
+[node name="RumbleControls" type="Spatial" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 1.40269, 2.02314, -1.43709 )
+
+[node name="LeftRumble" type="Spatial" parent="RumbleControls" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.873459, 0, 0 )
+script = ExtResource( 16 )
+event_name = "LeftRumble"
+hand = 1
+magnitude_max = 1.0
+magnitude_slider_path = NodePath("Magnitude/SliderOrigin/InteractableSlider")
+duration_slider_path = NodePath("Duration/SliderOrigin/InteractableSlider")
+activate_button_path = NodePath("ActivateButton/InteractableAreaButton")
+label_path = NodePath("Label/Viewport/Node2D/Description")
+rumble_path = NodePath("../../ARVROrigin/RumbleManager")
+
+[node name="Label" type="Spatial" parent="RumbleControls/LeftRumble" index="0"]
+
+[node name="Viewport" type="Viewport" parent="RumbleControls/LeftRumble/Label" index="0"]
+size = Vector2( 128, 64 )
+
+[node name="Node2D" type="Node2D" parent="RumbleControls/LeftRumble/Label/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="RumbleControls/LeftRumble/Label/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="RumbleControls/LeftRumble/Label/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Left[/u]
+	%s"
+text = "Left
+	%s"
+
+[node name="Sprite3D" type="Sprite3D" parent="RumbleControls/LeftRumble/Label" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 8 )
+
+[node name="ActivateButton" parent="RumbleControls/LeftRumble" index="1" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0122727, 0, 0.0893531 )
+
+[node name="Magnitude" parent="RumbleControls/LeftRumble" index="2" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.152341, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/LeftRumble/Magnitude/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="Duration" parent="RumbleControls/LeftRumble" index="3" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.126755, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/LeftRumble/Duration/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="RightRumble" type="Spatial" parent="RumbleControls" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0441871, 0, 0 )
+script = ExtResource( 16 )
+event_name = "RightRumble"
+hand = 2
+magnitude_max = 1.0
+magnitude_slider_path = NodePath("Magnitude/SliderOrigin/InteractableSlider")
+duration_slider_path = NodePath("Duration/SliderOrigin/InteractableSlider")
+activate_button_path = NodePath("ActivateButton/InteractableAreaButton")
+label_path = NodePath("Label/Viewport/Node2D/Description")
+rumble_path = NodePath("../../ARVROrigin/RumbleManager")
+
+[node name="Label" type="Spatial" parent="RumbleControls/RightRumble" index="0"]
+
+[node name="Viewport" type="Viewport" parent="RumbleControls/RightRumble/Label" index="0"]
+size = Vector2( 128, 64 )
+
+[node name="Node2D" type="Node2D" parent="RumbleControls/RightRumble/Label/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="RumbleControls/RightRumble/Label/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="RumbleControls/RightRumble/Label/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Right[/u]
+	%s"
+text = "Right
+	%s"
+
+[node name="Sprite3D" type="Sprite3D" parent="RumbleControls/RightRumble/Label" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 9 )
+
+[node name="ActivateButton" parent="RumbleControls/RightRumble" index="1" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0122727, 0, 0.0893531 )
+
+[node name="Magnitude" parent="RumbleControls/RightRumble" index="2" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.152341, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/RightRumble/Magnitude/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="Duration" parent="RumbleControls/RightRumble" index="3" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.126755, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/RightRumble/Duration/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="BothHandsRumble" type="Spatial" parent="RumbleControls" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.80302, 0, 0 )
+script = ExtResource( 16 )
+event_name = "BothHandsRumble"
+magnitude_max = 1.0
+magnitude_slider_path = NodePath("Magnitude/SliderOrigin/InteractableSlider")
+duration_slider_path = NodePath("Duration/SliderOrigin/InteractableSlider")
+activate_button_path = NodePath("ActivateButton/InteractableAreaButton")
+label_path = NodePath("Label/Viewport/Node2D/Description")
+rumble_path = NodePath("../../ARVROrigin/RumbleManager")
+
+[node name="Label" type="Spatial" parent="RumbleControls/BothHandsRumble" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0306399, 0, 0 )
+
+[node name="Viewport" type="Viewport" parent="RumbleControls/BothHandsRumble/Label" index="0"]
+size = Vector2( 128, 64 )
+
+[node name="Node2D" type="Node2D" parent="RumbleControls/BothHandsRumble/Label/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="RumbleControls/BothHandsRumble/Label/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="RumbleControls/BothHandsRumble/Label/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Both	[/u]
+	%s"
+text = "Both	
+	%s"
+
+[node name="Sprite3D" type="Sprite3D" parent="RumbleControls/BothHandsRumble/Label" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 5 )
+
+[node name="ActivateButton" parent="RumbleControls/BothHandsRumble" index="1" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0322568, 0, 0.094523 )
+
+[node name="Magnitude" parent="RumbleControls/BothHandsRumble" index="2" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.104274, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/BothHandsRumble/Magnitude/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="Duration" parent="RumbleControls/BothHandsRumble" index="3" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.146209, 0, 0.511592 )
+
+[node name="InteractableSlider" parent="RumbleControls/BothHandsRumble/Duration/SliderOrigin" index="0"]
+slider_position = 0.1
+default_position = 0.1
+
+[node name="IndefiniteBothRumble" type="Spatial" parent="RumbleControls" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.61098, 0, 0 )
+script = ExtResource( 16 )
+event_name = "IndefiniteBothRumble"
+magnitude_slider_path = NodePath("Magnitude/SliderOrigin/InteractableSlider")
+activate_button_path = NodePath("ActivateButton/InteractableAreaButton")
+off_button_path = NodePath("OffButton/InteractableAreaButton")
+label_path = NodePath("Label/Viewport/Node2D/Description")
+rumble_path = NodePath("../../ARVROrigin/RumbleManager")
+
+[node name="Label" type="Spatial" parent="RumbleControls/IndefiniteBothRumble" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0123525, 0, 0 )
+
+[node name="Viewport" type="Viewport" parent="RumbleControls/IndefiniteBothRumble/Label" index="0"]
+size = Vector2( 128, 64 )
+
+[node name="Node2D" type="Node2D" parent="RumbleControls/IndefiniteBothRumble/Label/Viewport" index="0"]
+
+[node name="ColorRect" type="ColorRect" parent="RumbleControls/IndefiniteBothRumble/Label/Viewport/Node2D" index="0"]
+margin_right = 370.0
+margin_bottom = 270.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="Description" type="RichTextLabel" parent="RumbleControls/IndefiniteBothRumble/Label/Viewport/Node2D" index="1"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 360.0
+margin_bottom = 260.0
+bbcode_enabled = true
+bbcode_text = "[u]Indefinite Both[/u]
+	%s
+		On		Off"
+text = "Indefinite Both
+	%s
+		On		Off"
+
+[node name="Sprite3D" type="Sprite3D" parent="RumbleControls/IndefiniteBothRumble/Label" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+flip_v = true
+opacity = 0.5
+pixel_size = 0.005
+double_sided = false
+texture = SubResource( 6 )
+
+[node name="Magnitude" parent="RumbleControls/IndefiniteBothRumble" index="1" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.00161719, 0, 0.511592 )
+
+[node name="ActivateButton" parent="RumbleControls/IndefiniteBothRumble" index="2" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.160177, 0, 0.0899634 )
+
+[node name="OffButton" parent="RumbleControls/IndefiniteBothRumble" index="3" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.10382, 0, 0.0830345 )
+
+[node name="MeshInstance" parent="RumbleControls/IndefiniteBothRumble/OffButton/Button" index="1"]
+material/0 = SubResource( 7 )
+
+[connection signal="player_jumped" from="ARVROrigin/PlayerBody" to="ARVROrigin/RumbleManager" method="_on_player_jumped"]
+
+[editable path="RumbleControls/LeftRumble/ActivateButton"]
+[editable path="RumbleControls/LeftRumble/Magnitude"]
+[editable path="RumbleControls/LeftRumble/Duration"]
+[editable path="RumbleControls/RightRumble/ActivateButton"]
+[editable path="RumbleControls/RightRumble/Magnitude"]
+[editable path="RumbleControls/RightRumble/Duration"]
+[editable path="RumbleControls/BothHandsRumble/ActivateButton"]
+[editable path="RumbleControls/BothHandsRumble/Magnitude"]
+[editable path="RumbleControls/BothHandsRumble/Duration"]
+[editable path="RumbleControls/IndefiniteBothRumble/Magnitude"]
+[editable path="RumbleControls/IndefiniteBothRumble/ActivateButton"]
+[editable path="RumbleControls/IndefiniteBothRumble/OffButton"]
