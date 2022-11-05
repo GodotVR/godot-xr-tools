@@ -26,7 +26,16 @@ export var screen_size : Vector2 = Vector2(3.0, 2.0) setget set_screen_size
 export var viewport_size : Vector2 = Vector2(300.0, 200.0) setget set_viewport_size
 
 ## Transparent property
-export var transparent : bool = true setget set_transparent
+enum TransparancyMode {
+	OPAQUE,
+	TRANSPARENT,
+	SCISSOR
+}
+export (TransparancyMode) var transparent : int = TransparancyMode.TRANSPARENT setget set_transparent
+export var alpha_scissor_threshold : float = 0.25 setget set_alpha_scissor_threshold
+
+## Unshaded
+export var unshaded : bool = false setget set_unshaded
 
 ## Scene property
 export var scene : PackedScene setget set_scene
@@ -73,6 +82,7 @@ func _ready():
 	_update_update_mode()
 	_update_collision_layer()
 	_update_transparent()
+	_update_unshaded()
 
 
 # Get the 2D scene instance
@@ -140,11 +150,21 @@ func set_viewport_size(new_size: Vector2) -> void:
 
 
 # Set transparent property
-func set_transparent(new_transparent: bool) -> void:
+func set_transparent(new_transparent: int) -> void:
 	transparent = new_transparent
 	if is_ready:
 		_update_transparent()
 
+# Set the alpha scisser threshold
+func set_alpha_scissor_threshold(new_threshold: float) -> void:
+	alpha_scissor_threshold = new_threshold
+	if is_ready:
+		_update_transparent()
+
+func set_unshaded(new_unshaded : bool) -> void:
+	unshaded = new_unshaded
+	if is_ready:
+		_update_unshaded()
 
 # Set scene property
 func set_scene(new_scene: PackedScene) -> void:
@@ -200,9 +220,26 @@ func _update_viewport_size() -> void:
 # Transparent update handler
 func _update_transparent() -> void:
 	if material:
-		material.flags_transparent = transparent
-	$Viewport.transparent_bg = transparent
+		material.flags_transparent = transparent != TransparancyMode.OPAQUE
+		material.params_use_alpha_scissor = transparent == TransparancyMode.SCISSOR
+		if transparent == TransparancyMode.SCISSOR:
+			material.params_alpha_scissor_threshold = alpha_scissor_threshold
+	$Viewport.transparent_bg = transparent != TransparancyMode.OPAQUE
 
+	# make sure we redraw the screen atleast once
+	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+		# this will trigger redrawing our screen
+		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+
+# Unshaded update handler
+func _update_unshaded() -> void:
+	if material:
+		material.flags_unshaded = unshaded
+
+	# make sure we redraw the screen atleast once
+	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+		# this will trigger redrawing our screen
+		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
 
 # Scene update handler
 func _update_scene() -> void:
@@ -223,6 +260,11 @@ func _update_scene() -> void:
 func _update_filter() -> void:
 	if viewport_texture:
 		viewport_texture.flags = Texture.FLAG_FILTER if filter else 0
+
+	# make sure we redraw the screen atleast once
+	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+		# this will trigger redrawing our screen
+		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
 
 # Update mode handler
 func _update_update_mode() -> void:
