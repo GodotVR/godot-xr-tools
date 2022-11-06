@@ -1,0 +1,13 @@
+[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+params_depth_draw_mode = 1
+
+[resource]
+render_priority = -1
+next_pass = SubResource( 1 )
+flags_transparent = true
+flags_unshaded = true
+flags_no_depth_test = true
+albedo_color = Color( 0, 1, 1, 0.25098 )
