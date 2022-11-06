@@ -5,12 +5,12 @@
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=3]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=4]
 [ext_resource path="res://assets/meshes/interactables/slider_snap.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/assets/right_physics_hand.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/assets/hands/right_physics_hand_low.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=10]
-[ext_resource path="res://addons/godot-xr-tools/assets/left_physics_hand.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/godot-xr-tools/assets/hands/left_physics_hand_low.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/meshes/interactables/slider_smooth.tscn" type="PackedScene" id=12]
 [ext_resource path="res://assets/meshes/interactables/slider_zero.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/meshes/interactables/lever_smooth.tscn" type="PackedScene" id=14]
@@ -25,9 +25,10 @@
 [node name="InteractablesDemo" instance=ExtResource( 1 )]
 
 [node name="LeftPhysicsHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 8 )]
+enabled = true
+order = 10
 max_speed = 3.0
 strafe = true
 
@@ -37,13 +38,14 @@ ranged_enable = false
 ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 8 )]
+enabled = true
+order = 10
 max_speed = 3.0
+strafe = false
 
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 10 )]
-smooth_rotation = true
 
 [node name="FunctionPickup" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 7 )]
 grab_collision_mask = 262144

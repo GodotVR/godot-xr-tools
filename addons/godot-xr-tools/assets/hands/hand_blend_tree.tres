@@ -1,0 +1,33 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=6 format=2]
+
+[sub_resource type="AnimationNodeAnimation" id=1]
+animation = "Grip 5"
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Grip"
+
+[sub_resource type="AnimationNodeAnimation" id=3]
+animation = "Grip"
+
+[sub_resource type="AnimationNodeBlend2" id=4]
+filter_enabled = true
+filters = [ "Armature_Left/Skeleton:Middle.Distal", "Armature_Left/Skeleton:Middle.Middle", "Armature_Left/Skeleton:Middle.Proximal", "Armature_Left/Skeleton:Pinky.Distal", "Armature_Left/Skeleton:Pinky.Middle", "Armature_Left/Skeleton:Pinky.Proximal", "Armature_Left/Skeleton:Ring.Distal", "Armature_Left/Skeleton:Ring.Middle", "Armature_Left/Skeleton:Ring.Proximal", "Armature_Left/Skeleton:Thumb.Distal", "Armature_Left/Skeleton:Thumb.Proximal" ]
+
+[sub_resource type="AnimationNodeBlend2" id=5]
+filter_enabled = true
+filters = [ "Armature_Left/Skeleton:Index.Distal", "Armature_Left/Skeleton:Index.Middle", "Armature_Left/Skeleton:Index.Proximal" ]
+
+[resource]
+graph_offset = Vector2( -308.569, -91.5776 )
+nodes/Default/node = SubResource( 1 )
+nodes/Default/position = Vector2( -400, 0 )
+nodes/Fist/node = SubResource( 3 )
+nodes/Fist/position = Vector2( -400, 200 )
+"nodes/Fist 2/node" = SubResource( 2 )
+"nodes/Fist 2/position" = Vector2( -200, 300 )
+nodes/Grip/node = SubResource( 4 )
+nodes/Grip/position = Vector2( 200, 0 )
+nodes/Trigger/node = SubResource( 5 )
+nodes/Trigger/position = Vector2( -160, 0 )
+nodes/output/position = Vector2( 400, 0 )
+node_connections = [ "Trigger", 0, "Default", "Trigger", 1, "Fist", "Grip", 0, "Trigger", "Grip", 1, "Fist 2", "output", 0, "Grip" ]
