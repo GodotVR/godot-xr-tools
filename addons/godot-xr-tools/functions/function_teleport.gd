@@ -4,18 +4,15 @@ extends KinematicBody
 # should really change this to Spatial once #17401 is resolved
 
 
+## XR Tools Function Teleport Script
 ##
-## Teleport Function Script
+## This script provides teleport functionality.
 ##
-## @desc:
-##     This script provides teleport functionality.
-##
-##     Add this scene as a sub scene of your ARVRController node to implement
-##     a teleport function on that controller.
-##
+## Add this scene as a sub scene of your ARVRController node to implement
+## a teleport function on that controller.
 
 
-## Teleport enabled property
+## If true, teleporting is enabled
 export var enabled : bool = true setget set_enabled
 
 ## Teleport allowed color property
@@ -44,9 +41,6 @@ export (int, LAYERS_3D_PHYSICS) var valid_teleport_mask : int = ~0
 
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
-
-## Camera node path
-export var camera : NodePath
 
 ## Teleport button
 export (XRTools.Buttons) var teleport_button : int = XRTools.Buttons.VR_TRIGGER
@@ -80,8 +74,9 @@ func _ready():
 	if Engine.editor_hint:
 		return
 
-	# We should be a child of an ARVRController and it should be a child or our ARVROrigin
-	origin_node = get_node("../..")
+	# Get the origin and camera
+	origin_node = ARVRHelpers.get_arvr_origin(self)
+	camera_node = ARVRHelpers.get_arvr_camera(self)
 
 	# It's inactive when we start
 	$Teleport.visible = false
@@ -91,12 +86,6 @@ func _ready():
 	$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 	$Target.mesh.size = Vector2(ws, ws)
 	$Target/Player_figure.scale = Vector3(ws, ws, ws)
-
-	if camera:
-		camera_node = get_node(camera)
-	else:
-		# see if we can find our default
-		camera_node = origin_node.get_node('ARVRCamera')
 
 	# get our capsule shape
 	collision_shape = $CollisionShape.shape
@@ -312,9 +301,12 @@ func _physics_process(delta):
 
 # This method verifies the teleport has a valid configuration.
 func _get_configuration_warning():
-	if camera == null:
-		return "You need to assign a camera"
+	# Verify we're within the tree of an ARVROrigin node
+	var arvr_origin = ARVRHelpers.get_arvr_origin(self)
+	if !arvr_origin:
+		return "This node must be within a branch on an ARVROrigin node"
 
+	# Pass basic validation
 	return ""
 
 
