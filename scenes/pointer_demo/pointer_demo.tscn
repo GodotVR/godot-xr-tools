@@ -44,7 +44,6 @@ max_speed = 3.0
 strafe = false
 
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 9 )]
-smooth_rotation = true
 
 [node name="FunctionPointer" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
 laser_length = 1
