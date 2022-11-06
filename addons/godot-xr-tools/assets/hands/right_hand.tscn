@@ -2,7 +2,7 @@
 
 [ext_resource path="res://addons/godot-xr-tools/assets/hands/animations/right/AnimationPlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/assets/hand.gd" type="Script" id=2]
-[ext_resource path="res://addons/godot-xr-tools/assets/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=3]
+[ext_resource path="res://addons/godot-xr-tools/assets/hands/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=3]
 [ext_resource path="res://addons/godot-xr-tools/assets/hands/materials/caucasian_hand.material" type="Material" id=4]
 
 [sub_resource type="ArrayMesh" id=3]
