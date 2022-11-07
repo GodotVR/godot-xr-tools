@@ -85,13 +85,16 @@ bind/19/bone = -1
 bind/19/pose = Transform( -0.821515, 0.358476, -0.443404, 0.360268, -0.276415, -0.890956, -0.44195, -0.891678, 0.0979318, -0.0280761, -0.116006, -0.0406429 )
 
 [node name="LeftPhysicsHand" type="Spatial"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 script = ExtResource( 3 )
 __meta__ = {
 "_editor_description_": ""
 }
 
 [node name="hand_l" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+__meta__ = {
+"_editor_description_": ""
+}
 
 [node name="Armature_Left" type="Spatial" parent="hand_l"]
 
