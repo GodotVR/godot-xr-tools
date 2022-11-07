@@ -16,7 +16,6 @@ viewport_path = NodePath("Instructions/Viewport")
 [node name="TeleportDemo" instance=ExtResource( 1 )]
 
 [node name="FunctionTeleport" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 2 )]
-camera = NodePath("../../ARVRCamera")
 
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 5 )]
 
