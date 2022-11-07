@@ -1,0 +1,76 @@
+[gd_scene load_steps=37 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 3.anim" type="Animation" id=1]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 4.anim" type="Animation" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip Shaft.anim" type="Animation" id=3]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip.anim" type="Animation" id=4]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 5.anim" type="Animation" id=5]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Default pose.anim" type="Animation" id=6]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Cup.anim" type="Animation" id=7]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 1.anim" type="Animation" id=8]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 2.anim" type="Animation" id=9]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Straight.anim" type="Animation" id=10]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign 4.anim" type="Animation" id=11]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign_Point.anim" type="Animation" id=12]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign 2.anim" type="Animation" id=13]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Surfer.anim" type="Animation" id=14]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Thumb.anim" type="Animation" id=15]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign 5.anim" type="Animation" id=16]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign 3.anim" type="Animation" id=17]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Ring.anim" type="Animation" id=18]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/PingPong.anim" type="Animation" id=19]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Rounded.anim" type="Animation" id=20]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Middle.anim" type="Animation" id=21]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Tight.anim" type="Animation" id=22]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Horns.anim" type="Animation" id=23]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Middle.anim" type="Animation" id=24]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinky.anim" type="Animation" id=25]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign 1.anim" type="Animation" id=26]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Metal.anim" type="Animation" id=27]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Hold.anim" type="Animation" id=28]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Peace.anim" type="Animation" id=29]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Large.anim" type="Animation" id=30]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/OK.anim" type="Animation" id=31]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Ring.anim" type="Animation" id=32]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pistol.anim" type="Animation" id=33]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Flat.anim" type="Animation" id=34]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Pinch Up.anim" type="Animation" id=35]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Spread pose.anim" type="Animation" id=36]
+
+[node name="AnimationPlayer" type="AnimationPlayer"]
+anims/Cup = ExtResource( 7 )
+"anims/Default pose" = ExtResource( 6 )
+anims/Grip = ExtResource( 4 )
+"anims/Grip 1" = ExtResource( 8 )
+"anims/Grip 2" = ExtResource( 9 )
+"anims/Grip 3" = ExtResource( 1 )
+"anims/Grip 4" = ExtResource( 2 )
+"anims/Grip 5" = ExtResource( 5 )
+"anims/Grip Shaft" = ExtResource( 3 )
+anims/Hold = ExtResource( 28 )
+anims/Horns = ExtResource( 23 )
+anims/Metal = ExtResource( 27 )
+anims/Middle = ExtResource( 24 )
+anims/OK = ExtResource( 31 )
+anims/Peace = ExtResource( 29 )
+"anims/Pinch Flat" = ExtResource( 34 )
+"anims/Pinch Large" = ExtResource( 30 )
+"anims/Pinch Middle" = ExtResource( 21 )
+"anims/Pinch Ring" = ExtResource( 32 )
+"anims/Pinch Tight" = ExtResource( 22 )
+"anims/Pinch Up" = ExtResource( 35 )
+anims/PingPong = ExtResource( 19 )
+anims/Pinky = ExtResource( 25 )
+anims/Pistol = ExtResource( 33 )
+anims/Ring = ExtResource( 18 )
+anims/Rounded = ExtResource( 20 )
+"anims/Sign 1" = ExtResource( 26 )
+"anims/Sign 2" = ExtResource( 13 )
+"anims/Sign 3" = ExtResource( 17 )
+"anims/Sign 4" = ExtResource( 11 )
+"anims/Sign 5" = ExtResource( 16 )
+anims/Sign_Point = ExtResource( 12 )
+"anims/Spread pose" = ExtResource( 36 )
+anims/Straight = ExtResource( 10 )
+anims/Surfer = ExtResource( 14 )
+anims/Thumb = ExtResource( 15 )
