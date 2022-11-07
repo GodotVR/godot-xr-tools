@@ -23,9 +23,9 @@ jobs:
           mkdir plugin/godot-xr-tools
           mkdir plugin/godot-xr-tools/addons
           cp -r demo/godot-xr-tools/addons/godot-xr-tools plugin/godot-xr-tools/addons
-          cp demo/godot-xr-tools/LICENSE plugin/godot-xr-tools
-          cp demo/godot-xr-tools/CONTRIBUTORS.md plugin/godot-xr-tools
-          cp demo/godot-xr-tools/VERSIONS.md plugin/godot-xr-tools
+          cp demo/godot-xr-tools/LICENSE plugin/godot-xr-tools/addons/godot-xr-tools
+          cp demo/godot-xr-tools/CONTRIBUTORS.md plugin/godot-xr-tools/addons/godot-xr-tools
+          cp demo/godot-xr-tools/VERSIONS.md plugin/godot-xr-tools/addons/godot-xr-tools
           rm -rf demo/godot-xr-tools/.git
           rm -rf demo/godot-xr-tools/.github
       - name: Add OpenXR Plugin
