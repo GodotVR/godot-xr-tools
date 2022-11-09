@@ -1,8 +1,22 @@
 # 4.0.0 Alpha
 - Conversion to Godot 4
 
-# 3.0.0 Alpha
-- Included demo
+# 3.1.0 (Development)
+- Improvements to our 2D in 3D viewport
+- Fixed editor preview system for our 2D in 3D viewport
+- Use value based grip input with threshold
+- Improved pointer demo supporting left hand with switching
+- Enhanced pointer laser visibility options for colliding with targets.
+- Implement poke feature (finger interaction)
+- Improvements to snap turning
+- Moved staging solution into plugin so it can be re-used
+
+# 3.0.0
+- Included demo project with test scenes to evaluate features
+- Standardized class naming convention for all scripts to "XRTools<PascalCaseName>"
+- Standardized file naming convention to "snake_case_name.ext"
+- Added many explicit type specifiers in preparation for GDScript 2.0
+- Renamed some functions to avoid name-collisions with Godot 4.0
 
 # 2.6.0
 - Fixed enforcement of direct-movement maximum speed

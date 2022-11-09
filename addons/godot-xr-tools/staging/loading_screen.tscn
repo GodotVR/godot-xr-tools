@@ -1,10 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://dhvlp0ncpqk0m"]
+[gd_scene load_steps=14 format=3]
 
 [ext_resource type="Texture2D" uid="uid://ftrrxm7sxndi" path="res://assets/godot/splash.png" id="1"]
-[ext_resource type="Script" path="res://loading_screen/loading_screen.gd" id="2"]
-[ext_resource type="Shader" uid="uid://4i0pwdtfmtsv" path="res://loading_screen/loading_screen_shader.tres" id="3"]
-[ext_resource type="Texture2D" uid="uid://clbtsf0ahb3fm" path="res://assets/misc/progress_bar.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://ocyj01x5mtt7" path="res://assets/misc/Hold trigger to continue.png" id="5"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/staging/loading_screen.gd" id="2"]
+[ext_resource type="Shader" uid="uid://4i0pwdtfmtsv" path="res://addons/godot-xr-tools/staging/loading_screen/loading_screen_shader.tres" id="3"]
+[ext_resource type="Texture2D" uid="uid://clbtsf0ahb3fm" path="res://addons/godot-xr-tools/assets/misc/progress_bar.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://ocyj01x5mtt7" path="res://addons/godot-xr-tools/assets/misc/Hold trigger to continue.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://cymteydkxagpp" path="res://addons/godot-xr-tools/misc/hold_button.tscn" id="6"]
 
 [sub_resource type="Curve" id="21"]

@@ -1,6 +1,6 @@
-[gd_scene load_steps=18 format=3 uid="uid://cv5c6ujoac801"]
+[gd_scene load_steps=18 format=3 uid="uid://bah1yhypfnkrt"]
 
-[ext_resource type="PackedScene" uid="uid://dj1u4xow5rykh" path="res://scenes/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c78tjrtiyqna8" path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="4"]
@@ -44,7 +44,6 @@ ranged_enable = false
 max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("7")]
-smooth_rotation = true
 
 [node name="MovementJump" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5")]
 jump_button_action = "ax_button"

@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://3bsyhd7ehoa1"]
+
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://hpxufsmhvnq0" path="res://scenes/main_menu/objects/settings_ui_content.tscn" id="2"]
+[ext_resource type="Material" uid="uid://bhj8fob2pxx4l" path="res://scenes/main_menu/objects/settings_ui_material.tres" id="2_jyjdc"]
+[ext_resource type="Script" path="res://scenes/main_menu/objects/settings_ui.gd" id="3"]
+
+[sub_resource type="BoxMesh" id="1"]
+size = Vector3(0.65, 0.525, 0.02)
+
+[node name="SettingsUI" type="Node3D"]
+script = ExtResource("3")
+
+[node name="Screen" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 1.3, 0)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("2_jyjdc")
+
+[node name="Viewport2Din3D" parent="Screen" instance=ExtResource("1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.015)
+screen_size = Vector2(0.625, 0.5)
+viewport_size = Vector2(250, 200)
+scene = ExtResource("2")
+
+[node name="CSGCylinder" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
+radius = 0.05
+height = 1.8
+material = ExtResource("2_jyjdc")
+
+[node name="CSGBox" type="CSGBox3D" parent="CSGCylinder"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.761732, 0)
+operation = 2
+size = Vector3(0.5, 1, 0.5)

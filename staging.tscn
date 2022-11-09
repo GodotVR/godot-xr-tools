@@ -1,53 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://co3jrthiaecpe"]
+[gd_scene load_steps=3 format=3 uid="uid://gccd8o3egmv7"]
 
+[ext_resource type="PackedScene" uid="uid://bnqnnnet4dw12" path="res://addons/godot-xr-tools/staging/staging.tscn" id="1"]
 [ext_resource type="Script" path="res://staging.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://dhvlp0ncpqk0m" path="res://loading_screen/loading_screen.tscn" id="3"]
-[ext_resource type="Script" path="res://start_xr.gd" id="3_m5xnj"]
-[ext_resource type="Shader" path="res://loading_screen/fade.gdshader" id="4"]
-[ext_resource type="PackedScene" uid="uid://bj0t0hwtuf25g" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="9"]
 
-[sub_resource type="QuadMesh" id="4"]
-custom_aabb = AABB(-5000, -5000, -5000, 10000, 10000, 10000)
-size = Vector2(2, 2)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_snlak"]
-render_priority = 0
-shader = ExtResource("4")
-shader_parameter/alpha = null
-
-[sub_resource type="Sky" id="1"]
-
-[sub_resource type="Environment" id="2"]
-background_mode = 1
-sky = SubResource("1")
-
-[node name="Staging" type="Node3D"]
+[node name="Staging" instance=ExtResource("1")]
 script = ExtResource("2")
-
-[node name="Fade" type="MeshInstance3D" parent="."]
-mesh = SubResource("4")
-surface_material_override/0 = SubResource("ShaderMaterial_snlak")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("2")
-
-[node name="FPController" type="XROrigin3D" parent="."]
-script = ExtResource("3_m5xnj")
-
-[node name="XRCamera3D" type="XRCamera3D" parent="FPController"]
-
-[node name="VRCommonShaderCache" parent="FPController/XRCamera3D" instance=ExtResource("9")]
-
-[node name="LeftHandController" type="XRController3D" parent="FPController"]
-tracker = &"left_hand"
-pose = &"aim"
-
-[node name="RightHandController" type="XRController3D" parent="FPController"]
-tracker = &"right_hand"
-pose = &"aim"
-
-[node name="LoadingScreen" parent="." instance=ExtResource("3")]
-camera = NodePath("../FPController/XRCamera3D")
-progress = 0.0
-
-[node name="Scene" type="Node3D" parent="."]
+main_scene = "res://scenes/main_menu/main_menu_level.tscn"

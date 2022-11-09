@@ -1,9 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkauil4lnirk"]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_teleport.gd" id="1"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/target.tres" id="3"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capule.tres" id="4"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capsule.tres" id="4"]
 
 [sub_resource type="PlaneMesh" id="1"]
 size = Vector2(0.05, 1)

@@ -8,7 +8,7 @@ signal continue_pressed
 # The loading screen is shown while the player is waiting
 # while we load in a new scene.
 # As the player may start in any location and likely hasn't
-# put their HMD checked yet when the game first starts, we place
+# put their HMD on yet when the game first starts, we place
 # our splash screen far away and make it over sized.
 #
 # Note that we made this a tool script so you can test the
@@ -20,31 +20,34 @@ signal continue_pressed
 #
 # If enabled, rotate our screen to follow the camera
 
-@export var follow_camera : bool = true:
-	set(new_value):
-		follow_camera = new_value
-		_update_follow_camera()
-
-@export_node_path(XRCamera3D) var camera : NodePath
-
+@export var follow_camera : bool = true: set = set_follow_camera
 @export var follow_speed : Curve
 
-var camera_node : XRCamera3D
+var camera : XRCamera3D
+
+func set_follow_camera(p_enabled : bool) -> void:
+	follow_camera = p_enabled
+	_update_follow_camera()
+
+func set_camera(p_camera : XRCamera3D) -> void:
+	camera = p_camera
+	_update_follow_camera()
 
 func _update_follow_camera():
-	if camera_node and !Engine.is_editor_hint():
+	if camera and !Engine.is_editor_hint():
 		set_process(follow_camera)
 
 ## Splash screen
 #
 # Make it possible to change the splash screen we show 
 
-@export var splash_screen : Texture2D:
-	set(new_value):
-		splash_screen = new_value
-		_update_splash_screen()
+@export var splash_screen : Texture2D: set = set_splash_screen
 
 var splash_screen_material : StandardMaterial3D
+
+func set_splash_screen(p_splash_screen : Texture2D) -> void:
+	splash_screen = p_splash_screen
+	_update_splash_screen()
 
 func _update_splash_screen():
 	if splash_screen_material:
@@ -52,16 +55,17 @@ func _update_splash_screen():
 
 ## Progress bar
 #
-# We show a progress bar checked screen. Note that we show
+# We show a progress bar on screen. Note that we show
 # this at a different distance to create a nice depth
 # effect. 
 
-@export_range(0.0, 1.0, 0.01) var progress : float = 0.5:
-	set(new_value):
-		progress = new_value
-		_update_progress_bar()
+@export_range(0.0, 1.0, 0.01) var progress : float = 0.5: set = set_progress_bar
 
 var progress_material : ShaderMaterial
+
+func set_progress_bar(p_progress : float) -> void:
+	progress = p_progress
+	_update_progress_bar()
 
 func _update_progress_bar():
 	if progress_material:
@@ -71,10 +75,11 @@ func _update_progress_bar():
 #
 # When toggled we show our press to continue message and enable our trigger
 
-@export var enable_press_to_continue : bool = false:
-	set(new_value):
-		enable_press_to_continue = new_value
-		_update_enable_press_to_continue()
+@export var enable_press_to_continue : bool = false: set = set_enable_press_to_continue
+
+func set_enable_press_to_continue(p_enable : bool) -> void:
+	enable_press_to_continue = p_enable
+	_update_enable_press_to_continue()
 
 func _update_enable_press_to_continue():
 	if is_inside_tree():
@@ -101,14 +106,16 @@ func _ready():
 	
 	_update_enable_press_to_continue()
 	
-	camera_node = get_node_or_null(camera)
 	_update_follow_camera()
 
 func _process(delta):
 	if Engine.is_editor_hint():
 		return
 
-	var camera_dir = camera_node.global_transform.basis.z
+	if !camera:
+		return
+
+	var camera_dir = camera.global_transform.basis.z
 	camera_dir.y = 0.0
 	camera_dir = camera_dir.normalized()
 
@@ -124,5 +131,5 @@ func _process(delta):
 	var dot = loading_screen_dir.dot(camera_dir)
 	var angle = acos(dot)
 
-	# Do rotation based checked the curve
+	# Do rotation based on the curve
 	global_transform.basis = global_transform.basis.rotated(cross, follow_speed.sample_baked(angle / PI) * delta).orthonormalized()

@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://clbtsf0ahb3fm"
-path.s3tc="res://.godot/imported/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.s3tc.ctex"
-path.etc2="res://.godot/imported/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.etc2.ctex"
+uid="uid://ocyj01x5mtt7"
+path.s3tc="res://.godot/imported/Hold trigger to continue.png-ce0a3a4de13c262f7015326bad2cb09d.s3tc.ctex"
+path.etc2="res://.godot/imported/Hold trigger to continue.png-ce0a3a4de13c262f7015326bad2cb09d.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc", "etc2"],
 "vram_texture": true
@@ -12,8 +12,8 @@ metadata={
 
 [deps]
 
-source_file="res://assets/misc/progress_bar.png"
-dest_files=["res://.godot/imported/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.s3tc.ctex", "res://.godot/imported/progress_bar.png-e635a708d4c3d6f7e2c7a059ddb765fc.etc2.ctex"]
+source_file="res://addons/godot-xr-tools/assets/misc/Hold trigger to continue.png"
+dest_files=["res://.godot/imported/Hold trigger to continue.png-ce0a3a4de13c262f7015326bad2cb09d.s3tc.ctex", "res://.godot/imported/Hold trigger to continue.png-ce0a3a4de13c262f7015326bad2cb09d.etc2.ctex"]
 
 [params]
 
