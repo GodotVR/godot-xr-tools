@@ -1,8 +1,11 @@
-[gd_resource type="SpatialMaterial" load_steps=2 format=2]
+[gd_resource type="SpatialMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/hands/textures/glove_caucasian_green_camo.png" type="Texture" id=1]
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
 params_depth_draw_mode = 1
+albedo_texture = ExtResource( 1 )
 
 [resource]
 render_priority = -1
