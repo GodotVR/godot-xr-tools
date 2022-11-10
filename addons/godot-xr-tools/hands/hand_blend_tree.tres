@@ -1,0 +1,33 @@
+[gd_resource type="AnimationNodeBlendTree" load_steps=6 format=3 uid="uid://dkdmjcedekm0g"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_mxbf8"]
+animation = &"Handpose_Library/Grip 5"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3gifc"]
+animation = &"Handpose_Library/Grip"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_vu7a8"]
+animation = &"Handpose_Library/Grip"
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_c8n8v"]
+filter_enabled = true
+filters = ["Armature_Left/Skeleton3D:Middle.Distal", "Armature_Left/Skeleton3D:Middle.Middle", "Armature_Left/Skeleton3D:Middle.Proximal", "Armature_Left/Skeleton3D:Pinky.Distal", "Armature_Left/Skeleton3D:Pinky.Middle", "Armature_Left/Skeleton3D:Pinky.Proximal", "Armature_Left/Skeleton3D:Ring.Distal", "Armature_Left/Skeleton3D:Ring.Middle", "Armature_Left/Skeleton3D:Ring.Proximal", "Armature_Left/Skeleton3D:Thumb.Distal", "Armature_Left/Skeleton3D:Thumb.Proximal"]
+
+[sub_resource type="AnimationNodeBlend2" id="AnimationNodeBlend2_xb6wh"]
+filter_enabled = true
+filters = ["Armature_Left/Skeleton3D:Index.Distal", "Armature_Left/Skeleton3D:Index.Middle", "Armature_Left/Skeleton3D:Index.Proximal"]
+
+[resource]
+graph_offset = Vector2(-301.091, -97.4395)
+nodes/Default/node = SubResource("AnimationNodeAnimation_mxbf8")
+nodes/Default/position = Vector2(-400, 100)
+nodes/Fist/node = SubResource("AnimationNodeAnimation_vu7a8")
+nodes/Fist/position = Vector2(-400, 300)
+"nodes/Fist 2/node" = SubResource("AnimationNodeAnimation_3gifc")
+"nodes/Fist 2/position" = Vector2(0, 300)
+nodes/Grip/node = SubResource("AnimationNodeBlend2_c8n8v")
+nodes/Grip/position = Vector2(280, 20)
+nodes/Trigger/node = SubResource("AnimationNodeBlend2_xb6wh")
+nodes/Trigger/position = Vector2(0, 20)
+nodes/output/position = Vector2(600, 140)
+node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"Fist 2", &"Trigger", 0, &"Default", &"Trigger", 1, &"Fist"]
