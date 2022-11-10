@@ -10,11 +10,6 @@ config_version=5
 
 _global_script_classes=[{
 "base": "Node3D",
-"class": &"SceneBase",
-"language": &"GDScript",
-"path": "res://scenes/scene_base.gd"
-}, {
-"base": "Node3D",
 "class": &"Teleport",
 "language": &"GDScript",
 "path": "res://assets/meshes/teleport/teleport.gd"
@@ -23,6 +18,11 @@ _global_script_classes=[{
 "class": &"XRHelpers",
 "language": &"GDScript",
 "path": "res://addons/godot-xr-tools/misc/xr_helpers.gd"
+}, {
+"base": "Node",
+"class": &"XRTools",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/xr_tools.gd"
 }, {
 "base": "Node3D",
 "class": &"XRToolsClimbable",
@@ -204,10 +204,25 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/godot-xr-tools/assets/player_body.gd"
 }, {
+"base": "Node3D",
+"class": &"XRToolsPoke",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/assets/poke.gd"
+}, {
+"base": "Node3D",
+"class": &"XRToolsSceneBase",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/staging/scene_base.gd"
+}, {
 "base": "Area3D",
 "class": &"XRToolsSnapZone",
 "language": &"GDScript",
 "path": "res://addons/godot-xr-tools/objects/snap_zone.gd"
+}, {
+"base": "Node3D",
+"class": &"XRToolsStaging",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/staging/staging.gd"
 }, {
 "base": "RefCounted",
 "class": &"XRToolsVelocityAverager",
@@ -230,9 +245,9 @@ _global_script_classes=[{
 "path": "res://addons/godot-xr-tools/objects/wind_area.gd"
 }]
 _global_script_class_icons={
-"SceneBase": "",
 "Teleport": "",
 "XRHelpers": "",
+"XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFallDamage": "",
 "XRToolsFunctionPickup": "res://addons/godot-xr-tools/editor/icons/function.svg",
@@ -269,7 +284,10 @@ _global_script_class_icons={
 "XRToolsPhysicsHand": "",
 "XRToolsPickable": "",
 "XRToolsPlayerBody": "res://addons/godot-xr-tools/editor/icons/body.svg",
+"XRToolsPoke": "",
+"XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
+"XRToolsStaging": "",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
 "XRToolsVirtualKeyboard2D": "",
@@ -282,6 +300,10 @@ config/name="Godot XR Tools Demo"
 run/main_scene="res://staging.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
+
+[autoload]
+
+XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
 
 [editor_plugins]
 
@@ -303,6 +325,7 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_17="held_object"
 3d_physics/layer_18="player_hand"
 3d_physics/layer_20="player_body"
+3d_physics/layer_21="pointable"
 
 [physics]
 
@@ -311,6 +334,7 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 renderer/rendering_method="mobile"
+limits/time/time_rollover_secs=30.0
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false

@@ -44,9 +44,6 @@ extends CharacterBody3D
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
 
-## Camera node path
-@export_node_path(XRCamera3D) var camera : NodePath
-
 ## Teleport button action
 @export var teleport_button_action : String = "trigger_click"
 
@@ -82,8 +79,9 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	# We should be a child of an XRController3D and it should be a child or our XROrigin3D
-	origin_node = get_node("../..")
+	# Get the origin and camera
+	origin_node = XRHelpers.get_xr_origin(self)
+	camera_node = XRHelpers.get_xr_camera(self)
 
 	# It's inactive when we start
 	$Teleport.visible = false
@@ -93,12 +91,6 @@ func _ready():
 	$Teleport.mesh.size = Vector2(0.05 * ws, 1.0)
 	$Target.mesh.size = Vector2(ws, ws)
 	$Target/Player_figure.scale = Vector3(ws, ws, ws)
-
-	if camera:
-		camera_node = get_node(camera)
-	else:
-		# see if we can find our default
-		camera_node = origin_node.get_node('XRCamera3D')
 
 	# get our capsule shape
 	collision_shape = $CollisionShape3D.shape
@@ -316,9 +308,12 @@ func _physics_process(delta):
 
 # This method verifies the teleport has a valid configuration.
 func _get_configuration_warning():
-	if camera == null:
-		return "You need to assign a camera"
+	# Verify we're within the tree of an XROrigin3D node
+	var xr_origin = XRHelpers.get_xr_origin(self)
+	if !xr_origin:
+		return "This node must be within a branch on an XROrigin3D node"
 
+	# Pass basic validation
 	return ""
 
 

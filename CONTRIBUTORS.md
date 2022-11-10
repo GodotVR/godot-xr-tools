@@ -11,5 +11,7 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [jtank4](https://github.com/jtank4)
 - [Malcolm Nixon](https://github.com/malcolmnixon)
 - [Sam Sarette](https://github.com/lunarcloud)
+- [Henodude](https://github.com/Henodude)
+- [Miodrag Sejic](https://github.com/DigitalN8m4r3)
 
 Want to be on this list? We would love your help.

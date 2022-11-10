@@ -1,9 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://c6rmke57xw5lg"]
+[gd_scene load_steps=13 format=3 uid="uid://c6rmke57xw5lg"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="2"]
+[ext_resource type="Script" path="res://scenes/pickable_demo/objects/snap_tray.gd" id="2_bnyxu"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="4"]
+[ext_resource type="Material" path="res://scenes/pickable_demo/objects/snap_tray_inactive_material.tres" id="4_4l77u"]
 
 [sub_resource type="BoxShape3D" id="9"]
 size = Vector3(0.3, 0.4, 0.1)
@@ -24,10 +26,14 @@ albedo_color = Color(1, 1, 0, 1)
 albedo_color = Color(0.498039, 0.498039, 0.498039, 1)
 
 [node name="SnapTray" instance=ExtResource("1")]
-collision_layer = 4
+collision_layer = 1048580
 collision_mask = 65543
+script = ExtResource("2_bnyxu")
+tray_active = true
+active_material = ExtResource("2")
+inactive_material = ExtResource("4_4l77u")
 reset_transform_on_pickup = false
-picked_up_layer = 65536
+picked_up_layer = 1114112
 ranged_grab_method = 0
 
 [node name="CollisionShape3D" parent="." index="1"]

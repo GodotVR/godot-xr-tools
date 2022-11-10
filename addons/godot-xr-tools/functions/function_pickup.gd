@@ -24,8 +24,11 @@ signal has_dropped
 const MAX_GRAB_DISTANCE2: float = 1000000.0
 
 
-## Grip controller button
-@export var pickup_button_action : String = "grip_click"
+## Pickup enabled property
+@export var enabled : bool = true
+
+## Grip controller axis
+@export var pickup_axis_action : String = "grip"
 
 ## Action controller button
 @export var action_button_action : String = "trigger_click"
@@ -58,7 +61,8 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 # Public fields
 var closest_object : Node3D = null
 var picked_up_object : Node3D = null
-var picked_up_ranged: bool = false
+var picked_up_ranged : bool = false
+var grip_pressed : bool = false
 
 # Private fields
 var _object_in_grab_area := Array()
@@ -69,6 +73,10 @@ var _grab_collision : CollisionShape3D
 var _ranged_area : Area3D
 var _ranged_collision : CollisionShape3D
 var _controller : XRController3D
+
+
+## Grip threshold (from configuration)
+@onready var grip_threshold : float = XRTools.get_grip_threshold()
 
 
 # Called when the node enters the scene tree for the first time.
@@ -125,9 +133,18 @@ func _process(delta):
 	if Engine.is_editor_hint():
 		return
 
-	# Skip if the controller isn't active
-	if !_controller.get_is_active():
+	# Skip if disabled, or the controller isn't active
+	if !enabled or !_controller.get_is_active():
 		return
+
+	# Handle our grip
+	var grip_value = _controller.get_value(pickup_axis_action)
+	if (grip_pressed and grip_value < (grip_threshold - 0.1)):
+		grip_pressed = false
+		_on_grip_release()
+	elif (!grip_pressed and grip_value > (grip_threshold + 0.1)):
+		grip_pressed = true
+		_on_grip_pressed()
 
 	# Calculate average velocity
 	if is_instance_valid(picked_up_object) and picked_up_object.is_picked_up():
@@ -335,17 +352,22 @@ func _pick_up_object(target: Node3D) -> void:
 
 
 func _on_button_pressed(p_button) -> void:
-	if p_button == pickup_button_action:
-		if is_instance_valid(picked_up_object) and !picked_up_object.press_to_hold:
-			drop_object()
-		elif is_instance_valid(closest_object):
-			_pick_up_object(closest_object)
-	elif p_button == action_button_action:
+	if p_button == action_button_action:
 		if is_instance_valid(picked_up_object) and picked_up_object.has_method("action"):
 			picked_up_object.action()
 
 
 func _on_button_released(p_button) -> void:
-	if p_button == pickup_button_action:
-		if is_instance_valid(picked_up_object) and picked_up_object.press_to_hold:
-			drop_object()
+	pass
+
+
+func _on_grip_pressed() -> void:
+	if is_instance_valid(picked_up_object) and !picked_up_object.press_to_hold:
+		drop_object()
+	elif is_instance_valid(closest_object):
+		_pick_up_object(closest_object)
+
+
+func _on_grip_release() -> void:
+	if is_instance_valid(picked_up_object) and picked_up_object.press_to_hold:
+		drop_object()

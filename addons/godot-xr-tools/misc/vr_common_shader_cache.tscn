@@ -1,9 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bj0t0hwtuf25g"]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.gd" id="1"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2_6822k"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/target.tres" id="3_agvdv"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capule.tres" id="4_gxjsg"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capsule.tres" id="4_gxjsg"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="5_12251"]
 [ext_resource type="Material" uid="uid://dyuaw57o8y3i" path="res://addons/godot-xr-tools/materials/highlight.tres" id="6_ld6la"]
 

@@ -1,6 +1,6 @@
-[gd_scene load_steps=22 format=3 uid="uid://y8nbp2oujysj"]
+[gd_scene load_steps=22 format=3 uid="uid://q5pnyfkqql8p"]
 
-[ext_resource type="PackedScene" uid="uid://dj1u4xow5rykh" path="res://scenes/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
@@ -41,7 +41,6 @@ ranged_collision_mask = 0
 max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("10")]
-smooth_rotation = true
 
 [node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("7")]
 grab_collision_mask = 262144

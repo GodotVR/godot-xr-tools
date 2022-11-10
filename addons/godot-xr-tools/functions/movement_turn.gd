@@ -2,24 +2,26 @@
 class_name XRToolsMovementTurn
 extends XRToolsMovementProvider
 
+
+## XR Tools Movement Provider for Turning
 ##
-## Movement Provider for Turning
-##
-## @desc:
-##     This script provides turning support for the player. This script works
-##     with the PlayerBody attached to the players XROrigin3D.
-##
-##     The following types of turning are supported:
-##      - Snap turning
-##      - Smooth turning
-##
+## This script provides turning support for the player. This script works
+## with the PlayerBody attached to the players XROrigin3D.
+
+
+## Movement mode
+enum TurnMode {
+	DEFAULT,	## 
+	SNAP,
+	SMOOTH
+}
 
 
 ## Movement provider order
 @export var order : int = 5
 
-## Use smooth rotation (may cause motion sickness)
-@export var smooth_rotation : bool = false
+## Movement mode property
+@export var turn_mode : TurnMode = TurnMode.DEFAULT
 
 ## Smooth turn speed in radians per second
 @export var smooth_turn_speed : float = 2.0
@@ -52,15 +54,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	if !_controller.get_is_active():
 		return
 
+	var deadzone = 0.1
+	if _snap_turning():
+		deadzone = XRTools.get_snap_turning_deadzone()
+
 	# Read the left/right joystick axis
 	var left_right := _controller.get_axis(input_action).x
-	if abs(left_right) <= 0.1:
+	if abs(left_right) <= deadzone:
 		# Not turning
 		_turn_step = 0.0
 		return
 
 	# Handle smooth rotation
-	if smooth_rotation:
+	if !_snap_turning():
 		_rotate_player(player_body, smooth_turn_speed * delta * left_right)
 		return
 
@@ -84,6 +90,16 @@ func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
 	t2.origin = player_body.camera_node.transform.origin
 	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
 	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
+
+
+# Test if snap turning should be used
+func _snap_turning():
+	if turn_mode == TurnMode.SNAP:
+		return true
+	elif turn_mode == TurnMode.SMOOTH:
+		return false
+	else:
+		return XRToolsUserSettings.snap_turning
 
 
 # This method verifies the movement provider has a valid configuration.

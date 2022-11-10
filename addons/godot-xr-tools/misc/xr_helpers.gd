@@ -28,6 +28,12 @@ static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D
 			return origin
 		current = current.get_parent()
 
+	# We check our children but only one level
+	for child in node.get_children():
+		origin = child as XROrigin3D
+		if origin:
+			return origin
+
 	# Could not find origin
 	return null
 

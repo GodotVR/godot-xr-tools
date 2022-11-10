@@ -1,6 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://dj1u4xow5rykh"]
+[gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://scenes/scene_base.gd" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/staging/scene_base.gd" id="1"]
 [ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="2"]
 [ext_resource type="Script" path="res://start_xr.gd" id="3_ic0sb"]
 
