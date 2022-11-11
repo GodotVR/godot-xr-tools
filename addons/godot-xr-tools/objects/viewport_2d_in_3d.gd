@@ -253,6 +253,10 @@ func _update_scene() -> void:
 		scene_node = scene.instance()
 		$Viewport.add_child(scene_node)
 
+	# (or use the scene if there is one already under the Viewport)
+	elif $Viewport.get_child_count() == 1:
+		scene_node = $Viewport.get_child(0)
+	
 	# make sure we update atleast once
 	$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
 
