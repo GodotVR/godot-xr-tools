@@ -26,6 +26,9 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 ## Pickup enabled property
 export var enabled : bool = true
 
+## Controller tied to this pickup function
+export (NodePath) var _controller_node_path = get_parent().get_path()
+
 ## Grip controller button
 export (XRTools.Axis) var pickup_axis_id = XRTools.Axis.VR_GRIP_AXIS
 
@@ -71,17 +74,16 @@ var _grab_area : Area
 var _grab_collision : CollisionShape
 var _ranged_area : Area
 var _ranged_collision : CollisionShape
-var _controller : ARVRController
+
 
 
 ## Grip threshold (from configuration)
 onready var grip_threshold = XRTools.get_grip_threshold()
-
+onready var _controller : ARVRController = get_node(_controller_node_path)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_controller = get_parent()
-
+	
 	# Create the grab collision shape
 	_grab_collision = CollisionShape.new()
 	_grab_collision.set_name("GrabCollisionShape")
