@@ -1,11 +1,11 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/hands/right_hand_low.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/right_hand_low.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=9]
@@ -36,7 +36,7 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -89, 36
 [node name="ARVRCamera" parent="ARVROrigin" index="0"]
 far = 400.0
 
-[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
+[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 2 )]
 hand_material_override = ExtResource( 17 )
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 5 )]
@@ -50,7 +50,7 @@ strafe = true
 [node name="MovementJump" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 15 )]
 jump_button_id = 7
 
-[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
+[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 3 )]
 hand_material_override = ExtResource( 17 )
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 5 )]

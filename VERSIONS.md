@@ -7,6 +7,7 @@
 - Implement poke feature (finger interaction)
 - Improvements to snap turning
 - Moved staging solution into plugin so it can be re-used
+- Allow setting different animations for hands
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features

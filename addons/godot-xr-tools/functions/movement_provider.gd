@@ -55,7 +55,7 @@ func _create_player_body_node():
 	var player_body = get_player_body()
 	if !player_body:
 		# create our XRToolsPlayerBody node and add it into our tree
-		player_body = preload("res://addons/godot-xr-tools/assets/player_body.tscn")
+		player_body = preload("res://addons/godot-xr-tools/player/player_body.tscn")
 		player_body = player_body.instance()
 		player_body.set_name("PlayerBody")
 		arvr_origin.add_child(player_body)

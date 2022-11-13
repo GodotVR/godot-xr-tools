@@ -8,7 +8,7 @@
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=6]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
-[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=10]
 [ext_resource path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" type="PackedScene" id=12]
