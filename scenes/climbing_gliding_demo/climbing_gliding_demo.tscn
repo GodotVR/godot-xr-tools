@@ -1,7 +1,8 @@
-[gd_scene load_steps=21 format=3 uid="uid://bv61g5dv1wpfv"]
+[gd_scene load_steps=22 format=3 uid="uid://cy385yfjaq718"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://caah5fxm8jb2l" path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" id="2_xkd6u"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_dark_camo.material" id="3_br6yk"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="6"]
@@ -36,6 +37,28 @@ transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -89, 3
 far = 400.0
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_xkd6u")]
+hand_material_override = ExtResource("3_br6yk")
+
+[node name="Skeleton3D" parent="XROrigin3D/LeftHand/LeftHand/hand_l/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.543239, -0.00366291, 0.20967, 0.812968)
+bones/2/rotation = Quaternion(0.304129, 0.506435, 0.0963934, 0.801085)
+bones/3/rotation = Quaternion(-0.0789876, -0.0836779, 0.106511, 0.987631)
+bones/5/rotation = Quaternion(0.127321, 0.888686, -0.0846908, -0.432266)
+bones/6/rotation = Quaternion(0.0380634, 0.973347, 0.0758925, 0.213043)
+bones/7/rotation = Quaternion(-0.14395, 0.0852115, 0.22688, 0.959449)
+bones/8/rotation = Quaternion(-0.136408, 0.0621234, 0.127152, 0.980493)
+bones/10/rotation = Quaternion(0.082645, 0.889173, 0.0593071, -0.446121)
+bones/11/rotation = Quaternion(0.130796, 0.953318, 0.128399, 0.239982)
+bones/12/rotation = Quaternion(-0.0907331, 0.0585828, 0.154416, 0.982085)
+bones/13/rotation = Quaternion(-0.0927954, 0.0228819, 0.132862, 0.986516)
+bones/15/rotation = Quaternion(-0.00825624, 0.878898, 0.170009, -0.445609)
+bones/16/rotation = Quaternion(0.0657447, 0.956105, 0.123413, 0.257507)
+bones/17/rotation = Quaternion(-0.0906621, 0.0297631, 0.170594, 0.98071)
+bones/18/rotation = Quaternion(-0.0814065, -0.00603888, 0.17095, 0.981892)
+bones/20/rotation = Quaternion(-0.119286, 0.855777, 0.258797, -0.431788)
+bones/21/rotation = Quaternion(0.0179537, 0.96113, 0.095808, 0.258319)
+bones/22/rotation = Quaternion(-0.107286, 0.026284, 0.227959, 0.967385)
+bones/23/rotation = Quaternion(-0.0441928, -0.0356708, 0.114504, 0.991798)
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
 max_speed = 3.0
@@ -47,6 +70,28 @@ strafe = true
 jump_button_action = "ax_button"
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_vqlyr")]
+hand_material_override = ExtResource("3_br6yk")
+
+[node name="Skeleton3D" parent="XROrigin3D/RightHand/RightHand/hand_r/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.543239, 0.00366289, -0.20967, 0.812968)
+bones/2/rotation = Quaternion(0.304129, -0.506435, -0.0963935, 0.801085)
+bones/3/rotation = Quaternion(-0.0789876, 0.0836779, -0.106511, 0.987631)
+bones/5/rotation = Quaternion(-0.127321, 0.888686, -0.0846908, 0.432266)
+bones/6/rotation = Quaternion(-0.0380634, 0.973347, 0.0758925, -0.213043)
+bones/7/rotation = Quaternion(-0.14395, -0.0852115, -0.22688, 0.959449)
+bones/8/rotation = Quaternion(-0.136408, -0.0621234, -0.127152, 0.980493)
+bones/10/rotation = Quaternion(-0.082645, 0.889173, 0.0593071, 0.446121)
+bones/11/rotation = Quaternion(-0.130796, 0.953318, 0.128399, -0.239982)
+bones/12/rotation = Quaternion(-0.0907331, -0.0585828, -0.154416, 0.982085)
+bones/13/rotation = Quaternion(-0.0927954, -0.0228819, -0.132862, 0.986516)
+bones/15/rotation = Quaternion(0.00825624, 0.878898, 0.170009, 0.445609)
+bones/16/rotation = Quaternion(-0.0657447, 0.956105, 0.123413, -0.257507)
+bones/17/rotation = Quaternion(-0.0906621, -0.0297631, -0.170594, 0.98071)
+bones/18/rotation = Quaternion(-0.0814065, 0.00603887, -0.17095, 0.981892)
+bones/20/rotation = Quaternion(0.119286, 0.855777, 0.258797, 0.431788)
+bones/21/rotation = Quaternion(-0.0179537, 0.96113, 0.095808, -0.258319)
+bones/22/rotation = Quaternion(-0.107286, -0.026284, -0.227959, 0.967385)
+bones/23/rotation = Quaternion(-0.0441928, 0.0356708, -0.114504, 0.991798)
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
 max_speed = 3.0
@@ -248,3 +293,6 @@ flip_v = true
 pixel_size = 0.005
 double_sided = false
 texture = SubResource("8")
+
+[editable path="XROrigin3D/LeftHand/LeftHand"]
+[editable path="XROrigin3D/RightHand/RightHand"]
