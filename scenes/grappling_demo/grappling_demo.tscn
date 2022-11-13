@@ -5,11 +5,11 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/hands/right_hand_low.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/grappling_demo/objects/moving_platforms.tscn" type="PackedScene" id=12]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=13]
@@ -26,7 +26,6 @@ viewport_path = NodePath("Instructions/Viewport")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 3 )]
 enabled = true
@@ -42,7 +41,6 @@ grab_collision_mask = 3
 ranged_enable = false
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 3 )]
 enabled = true
@@ -51,7 +49,6 @@ max_speed = 3.0
 strafe = false
 
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
-smooth_rotation = true
 
 [node name="MovementJump" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
 jump_button_id = 7
