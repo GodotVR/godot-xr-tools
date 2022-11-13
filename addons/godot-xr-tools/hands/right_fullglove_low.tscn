@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" type="Material" id=1]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" type="Material" id=1]
 [ext_resource path="res://addons/godot-xr-tools/assets/hand.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=4]

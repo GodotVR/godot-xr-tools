@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=1]
-[ext_resource path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" type="Material" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/labglove.material" type="Material" id=2]
 [ext_resource path="res://addons/godot-xr-tools/assets/physics_hand.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/left/AnimationPlayer.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/assets/hand_physics_bone.gd" type="Script" id=5]
