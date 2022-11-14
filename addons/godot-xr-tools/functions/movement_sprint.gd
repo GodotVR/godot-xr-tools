@@ -101,6 +101,7 @@ func _ready():
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if the controller isn't active or is not enabled 
 	if !_controller.get_is_active() or disabled == true or !enabled:
+		set_sprinting(false)
 		return
 	
 	# Get present state of left and right movement nodes, since nodes can be removed or made inactive while game is running
