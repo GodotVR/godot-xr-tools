@@ -1,0 +1,195 @@
+[gd_scene load_steps=7 format=3 uid="uid://2pylr1fuuxdx"]
+
+[ext_resource type="AnimationNodeBlendTree" uid="uid://bj7ovnbip75k0" path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/physics_hand.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://dfpf1ved51iy5" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_low_R.gltf" id="2_4elfb"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand_physics_bone.gd" id="4"]
+[ext_resource type="AnimationLibrary" uid="uid://df5dhaf5tmtho" path="res://addons/godot-xr-tools/hands/animations/right/Handpose_Library.res" id="4_0ubtj"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" id="5"]
+
+[node name="RightPhysicsHand" type="Node3D"]
+script = ExtResource("2")
+
+[node name="Hand_Nails_low_R" parent="." instance=ExtResource("2_4elfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15)
+
+[node name="Skeleton3D" parent="Hand_Nails_low_R/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.543239, 0.00366289, -0.20967, 0.812968)
+bones/2/rotation = Quaternion(0.304129, -0.506435, -0.0963934, 0.801085)
+bones/3/rotation = Quaternion(-0.0789876, 0.0836779, -0.106511, 0.987631)
+bones/5/rotation = Quaternion(-0.127321, 0.888686, -0.0846908, 0.432266)
+bones/6/rotation = Quaternion(-0.0380634, 0.973347, 0.0758925, -0.213043)
+bones/7/rotation = Quaternion(-0.14395, -0.0852115, -0.22688, 0.959449)
+bones/8/rotation = Quaternion(-0.136408, -0.0621234, -0.127152, 0.980493)
+bones/10/rotation = Quaternion(-0.082645, 0.889173, 0.0593071, 0.446121)
+bones/11/rotation = Quaternion(-0.130796, 0.953318, 0.128399, -0.239982)
+bones/12/rotation = Quaternion(-0.0907331, -0.0585828, -0.154416, 0.982085)
+bones/13/rotation = Quaternion(-0.0927954, -0.0228819, -0.132862, 0.986516)
+bones/15/rotation = Quaternion(0.00825624, 0.878898, 0.170009, 0.445609)
+bones/16/rotation = Quaternion(-0.0657447, 0.956105, 0.123413, -0.257507)
+bones/17/rotation = Quaternion(-0.0906621, -0.0297631, -0.170594, 0.98071)
+bones/18/rotation = Quaternion(-0.0814065, 0.00603887, -0.17095, 0.981892)
+bones/20/rotation = Quaternion(0.119286, 0.855777, 0.258797, 0.431788)
+bones/21/rotation = Quaternion(-0.0179537, 0.96113, 0.095808, -0.258319)
+bones/22/rotation = Quaternion(-0.107286, -0.026284, -0.227959, 0.967385)
+bones/23/rotation = Quaternion(-0.0441928, 0.0356708, -0.114504, 0.991798)
+
+[node name="mesh_Hand_Nails_low_R" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("5")
+
+[node name="BoneRoot" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="1"]
+transform = Transform3D(-0.99975, 1.83061e-05, 0.0223758, -0.0223757, 0.00166792, -0.999748, -5.56223e-05, -0.999998, -0.00166714, -3.86425e-08, -1.86975e-05, 0.0271756)
+bone_name = "Wrist_R"
+bone_idx = 0
+script = ExtResource("4")
+width_ratio = 0.8
+
+[node name="BoneThumbMetacarpal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="2"]
+transform = Transform3D(-0.906864, -0.356638, -0.224514, -0.242773, 0.877583, -0.413412, 0.344468, -0.320402, -0.882431, 4.58179e-07, 2.65693e-05, 3.59323e-05)
+bone_name = "Thumb_Metacarpal_R"
+bone_idx = 1
+script = ExtResource("4")
+length = 0.05
+
+[node name="BoneThumbProximal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="3"]
+transform = Transform3D(-0.428901, -0.276056, 0.860138, -0.830798, 0.494418, -0.25559, -0.35471, -0.824223, -0.441403, -0.0182991, 0.0450564, -0.0164043)
+bone_name = "Thumb_Proximal_R"
+bone_idx = 2
+script = ExtResource("4")
+
+[node name="BoneThumbDistal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="4"]
+transform = Transform3D(-0.479131, -0.500445, 0.721102, -0.872923, 0.357657, -0.331793, -0.0918633, -0.788439, -0.608215, -0.0333144, 0.0719489, -0.0612356)
+bone_name = "Thumb_Distal_R"
+bone_idx = 3
+script = ExtResource("4")
+length = 0.02
+
+[node name="BoneIndexMetacarpal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="5"]
+transform = Transform3D(0.577008, 0.147228, -0.803359, 0.759332, 0.26555, 0.594052, 0.300793, -0.952789, 0.0414299, 4.58179e-07, 2.65693e-05, 3.59323e-05)
+bone_name = "Index_Metacarpal_R"
+bone_idx = 5
+script = ExtResource("4")
+length = 0.08
+width_ratio = 0.2
+
+[node name="BoneIndexProximal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="6"]
+transform = Transform3D(-0.867164, -0.0107082, 0.497907, -0.473528, 0.327411, -0.817663, -0.154264, -0.944821, -0.288989, 0.0124443, 0.0224711, -0.0804946)
+bone_name = "Index_Proximal_R"
+bone_idx = 6
+script = ExtResource("4")
+
+[node name="BoneIndexMiddle" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="7"]
+transform = Transform3D(-0.646962, -0.526247, 0.55182, -0.739518, 0.256607, -0.622307, 0.185886, -0.810689, -0.555184, 0.0120051, 0.0359004, -0.119248)
+bone_name = "Index_Intermediate_R"
+bone_idx = 7
+script = ExtResource("4")
+length = 0.025
+bone_group = "index_finger"
+
+[node name="BoneIndexDistal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="8"]
+transform = Transform3D(-0.412385, -0.800818, 0.434315, -0.86693, 0.198466, -0.457212, 0.279947, -0.565068, -0.776097, -0.00227304, 0.0428626, -0.141244)
+bone_name = "Index_Distal_R"
+bone_idx = 8
+script = ExtResource("4")
+length = 0.02
+bone_group = "index_finger"
+
+[node name="BoneMiddleMetacarpal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="9"]
+transform = Transform3D(0.570172, 0.200566, -0.796666, 0.815964, -0.0256153, 0.577534, 0.0954266, -0.979345, -0.178259, 4.58179e-07, 2.65693e-05, 3.59323e-05)
+bone_name = "Middle_Metacarpal_R"
+bone_idx = 10
+script = ExtResource("4")
+length = 0.08
+width_ratio = 0.2
+
+[node name="BoneMiddleProximal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="10"]
+transform = Transform3D(-0.885129, -0.165006, 0.435108, -0.441238, 0.000548452, -0.89739, 0.147836, -0.986292, -0.0732925, 0.0164269, -0.00207134, -0.0801728)
+bone_name = "Middle_Proximal_R"
+bone_idx = 11
+script = ExtResource("4")
+
+[node name="BoneMiddleMiddle" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="11"]
+transform = Transform3D(-0.726292, -0.50196, 0.469612, -0.545733, 0.00568798, -0.837939, 0.417941, -0.864871, -0.278068, 0.00862099, -0.00204539, -0.126831)
+bone_name = "Middle_Intermediate_R"
+bone_idx = 12
+script = ExtResource("4")
+length = 0.025
+
+[node name="BoneMiddleDistal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="12"]
+transform = Transform3D(-0.537656, -0.752194, 0.380958, -0.585854, 0.00833453, -0.810373, 0.606383, -0.658888, -0.445157, -0.00705857, -0.00186772, -0.153847)
+bone_name = "Middle_Distal_R"
+bone_idx = 13
+script = ExtResource("4")
+length = 0.02
+
+[node name="BoneRingMetacarpal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="13"]
+transform = Transform3D(0.585118, 0.143837, -0.79809, 0.794048, -0.301486, 0.527819, -0.164693, -0.942558, -0.290618, 4.58179e-07, 2.65693e-05, 3.59323e-05)
+bone_name = "Ring_Metacarpal_R"
+bone_idx = 15
+script = ExtResource("4")
+length = 0.07
+width_ratio = 0.2
+
+[node name="BoneRingProximal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="14"]
+transform = Transform3D(-0.909721, -0.113524, 0.399399, -0.373476, -0.196619, -0.906563, 0.181446, -0.973885, 0.13647, 0.0112018, -0.0234518, -0.0733663)
+bone_name = "Ring_Proximal_R"
+bone_idx = 16
+script = ExtResource("4")
+length = 0.028
+
+[node name="BoneRingMiddle" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="15"]
+transform = Transform3D(-0.782115, -0.481326, 0.395753, -0.367314, -0.156921, -0.916764, 0.503365, -0.86238, -0.054067, 0.00632024, -0.0319065, -0.115244)
+bone_name = "Ring_Intermediate_R"
+bone_idx = 17
+script = ExtResource("4")
+length = 0.025
+
+[node name="BoneRingDistal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="16"]
+transform = Transform3D(-0.567965, -0.772692, 0.283482, -0.307628, -0.120168, -0.943888, 0.7634, -0.623302, -0.169451, -0.00745049, -0.036396, -0.139916)
+bone_name = "Ring_Distal_R"
+bone_idx = 18
+script = ExtResource("4")
+length = 0.02
+
+[node name="BonePinkyMetacarpal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="17"]
+transform = Transform3D(0.583363, 0.0315536, -0.811599, 0.691226, -0.54399, 0.475691, -0.426492, -0.838498, -0.339154, 4.58179e-07, 2.65693e-05, 3.59323e-05)
+bone_name = "Little_Metacarpal_R"
+bone_idx = 20
+script = ExtResource("4")
+length = 0.07
+width_ratio = 0.18
+
+[node name="BonePinkyProximal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="18"]
+transform = Transform3D(-0.907995, -0.117302, 0.402226, -0.31826, -0.431274, -0.844223, 0.272499, -0.894562, 0.354263, 0.00243066, -0.0418705, -0.0645436)
+bone_name = "Little_Proximal_R"
+bone_idx = 21
+script = ExtResource("4")
+length = 0.02
+
+[node name="BonePinkyMiddle" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="19"]
+transform = Transform3D(-0.721169, -0.586673, 0.368417, -0.181189, -0.353564, -0.917694, 0.668645, -0.728565, 0.148681, -0.0014548, -0.0561559, -0.0941747)
+bone_name = "Little_Intermediate_R"
+bone_idx = 22
+script = ExtResource("4")
+length = 0.015
+
+[node name="BonePinkyDistal" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="20"]
+transform = Transform3D(-0.587661, -0.765828, 0.261079, -0.0389112, -0.295552, -0.954534, 0.808171, -0.571101, 0.143885, -0.0120292, -0.0625286, -0.107307)
+bone_name = "Little_Distal_R"
+bone_idx = 23
+script = ExtResource("4")
+length = 0.015
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand_Nails_low_R"]
+libraries = {
+"Handpose_Library": ExtResource("4_0ubtj")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource("1")
+anim_player = NodePath("../Hand_Nails_low_R/AnimationPlayer")
+active = true
+parameters/Grip/blend_amount = 0.0
+parameters/Trigger/blend_amount = 0.0
+
+[editable path="Hand_Nails_low_R"]

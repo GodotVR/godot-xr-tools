@@ -1,0 +1,51 @@
+[gd_scene load_steps=6 format=3 uid="uid://caah5fxm8jb2l"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand.gd" id="1_c1qww"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" id="2_pnn55"]
+[ext_resource type="PackedScene" uid="uid://f0a1unjcs11h" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_low_L.gltf" id="2_vvit7"]
+[ext_resource type="AnimationLibrary" uid="uid://bbau4lo624ba0" path="res://addons/godot-xr-tools/hands/animations/left/Handpose_Library.res" id="3_hnpw7"]
+[ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="4_4gtll"]
+
+[node name="LeftHand" type="Node3D"]
+script = ExtResource("1_c1qww")
+
+[node name="Hand_Nails_low_L" parent="." instance=ExtResource("2_vvit7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15)
+
+[node name="Skeleton3D" parent="Hand_Nails_low_L/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.543239, -0.0036629, 0.20967, 0.812968)
+bones/2/rotation = Quaternion(0.304129, 0.506435, 0.0963934, 0.801085)
+bones/3/rotation = Quaternion(-0.0789876, -0.0836779, 0.106511, 0.987631)
+bones/5/rotation = Quaternion(0.127321, 0.888686, -0.0846908, -0.432266)
+bones/6/rotation = Quaternion(0.0380634, 0.973347, 0.0758925, 0.213043)
+bones/7/rotation = Quaternion(-0.14395, 0.0852115, 0.22688, 0.959449)
+bones/8/rotation = Quaternion(-0.136408, 0.0621234, 0.127152, 0.980493)
+bones/10/rotation = Quaternion(0.082645, 0.889173, 0.0593071, -0.446121)
+bones/11/rotation = Quaternion(0.130796, 0.953318, 0.128399, 0.239982)
+bones/12/rotation = Quaternion(-0.0907331, 0.0585828, 0.154416, 0.982085)
+bones/13/rotation = Quaternion(-0.0927954, 0.0228819, 0.132862, 0.986516)
+bones/15/rotation = Quaternion(-0.00825624, 0.878898, 0.170009, -0.445609)
+bones/16/rotation = Quaternion(0.0657447, 0.956105, 0.123413, 0.257507)
+bones/17/rotation = Quaternion(-0.0906621, 0.0297631, 0.170594, 0.98071)
+bones/18/rotation = Quaternion(-0.0814065, -0.00603887, 0.17095, 0.981892)
+bones/20/rotation = Quaternion(-0.119286, 0.855777, 0.258797, -0.431788)
+bones/21/rotation = Quaternion(0.0179537, 0.96113, 0.095808, 0.258319)
+bones/22/rotation = Quaternion(-0.107286, 0.026284, 0.227959, 0.967385)
+bones/23/rotation = Quaternion(-0.0441928, -0.0356708, 0.114504, 0.991798)
+
+[node name="mesh_Hand_Nails_low_L" parent="Hand_Nails_low_L/Armature/Skeleton3D" index="0"]
+surface_material_override/0 = ExtResource("2_pnn55")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hand_Nails_low_L"]
+libraries = {
+"Handpose_Library": ExtResource("3_hnpw7")
+}
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource("4_4gtll")
+anim_player = NodePath("../Hand_Nails_low_L/AnimationPlayer")
+active = true
+parameters/Grip/blend_amount = 0.0
+parameters/Trigger/blend_amount = 0.0
+
+[editable path="Hand_Nails_low_L"]
