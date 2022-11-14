@@ -1,13 +1,13 @@
-[gd_scene load_steps=28 format=2]
+[gd_scene load_steps=30 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/assets/right_hand.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/godot-xr-tools/assets/left_hand.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/right_hand_low.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=6]
 [ext_resource path="res://scenes/basic_movement_demo/basic_movement_demo.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/godot-xr-tools/assets/player_body.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/basic_movement_demo/basic movement demo.png" type="Texture" id=10]
 [ext_resource path="res://scenes/teleport_demo/teleport_demo.tscn" type="PackedScene" id=11]
@@ -26,24 +26,25 @@
 [ext_resource path="res://scenes/poke_demo/poke_demo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://scenes/poke_demo/poke_demo.png" type="Texture" id=25]
 [ext_resource path="res://scenes/main_menu/objects/settings_ui.tscn" type="PackedScene" id=26]
-[ext_resource path="res://addons/godot-xr-tools/assets/poke.tscn" type="PackedScene" id=27]
+[ext_resource path="res://addons/godot-xr-tools/player/poke/poke.tscn" type="PackedScene" id=27]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Straight.anim" type="Animation" id=28]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Grip 1.anim" type="Animation" id=29]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
 environment = null
 
-[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
+[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 2 )]
 
-[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/LeftHand/Armature_Left" index="0"]
+[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/hand_l/Armature_Left" index="0"]
 bones/7/bound_children = [ NodePath("BoneAttachment") ]
 
-[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/LeftHand/Armature_Left/Skeleton" index="1"]
-transform = Transform( 0.927501, -0.373365, 0.0184361, -0.00490146, -0.0614605, -0.998098, 0.373788, 0.925646, -0.0588348, -0.000317366, 0.0346926, 0.155956 )
-bone_name = "index_distal"
+[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/hand_l/Armature_Left/Skeleton" index="1"]
+transform = Transform( -0.412386, 0.800817, -0.434316, 0.866931, 0.198466, -0.457213, -0.279948, -0.565068, -0.776097, 0.00227298, 0.0428626, -0.141244 )
+bone_name = "Index.Distal"
 
-[node name="Poke" parent="ARVROrigin/LeftHand/LeftHand/LeftHand/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
-transform = Transform( 1, -1.49012e-07, 9.31323e-09, 1.49012e-07, 1, -7.45058e-09, 5.58794e-09, 1.86265e-08, 1, 0.001, 0.02, -0.001 )
+[node name="Poke" parent="ARVROrigin/LeftHand/LeftHand/hand_l/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
+transform = Transform( 1, -1.63913e-07, 2.98023e-08, 8.9407e-08, 1, 0, -2.98023e-08, -2.98023e-08, 1, 0, 0.03, 0 )
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 6 )]
 enabled = true
@@ -51,18 +52,19 @@ order = 10
 max_speed = 3.0
 strafe = true
 
-[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 3 )]
+open_hand = ExtResource( 28 )
+closed_hand = ExtResource( 29 )
 
-[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/RightHand/Armature_Left" index="0"]
+[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/hand_r/Armature_Left" index="0"]
 bones/7/bound_children = [ NodePath("BoneAttachment") ]
 
-[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/RightHand/Armature_Left/Skeleton" index="1"]
-transform = Transform( 0.927501, -0.373365, 0.0184361, -0.00490146, -0.0614605, -0.998098, 0.373788, 0.925646, -0.0588348, -0.000317366, 0.0346926, 0.155956 )
-bone_name = "index_distal"
+[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/hand_r/Armature_Left/Skeleton" index="1"]
+transform = Transform( -0.412386, 0.800817, -0.434316, 0.866931, 0.198466, -0.457213, -0.279948, -0.565068, -0.776097, 0.00227297, 0.0428626, -0.141244 )
+bone_name = "Index.Distal"
 
-[node name="Poke" parent="ARVROrigin/RightHand/RightHand/RightHand/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
-transform = Transform( 1, -1.49012e-07, 9.31323e-09, 1.49012e-07, 1, -7.45058e-09, 5.58794e-09, 1.86265e-08, 1, -0.001, 0.023, 0 )
+[node name="Poke" parent="ARVROrigin/RightHand/RightHand/hand_r/Armature_Left/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
+transform = Transform( 1, -1.49012e-07, 9.31323e-09, 1.49012e-07, 1, -7.45058e-09, 5.58794e-09, 1.86265e-08, 1, 0, 0.03, 0 )
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 6 )]
 enabled = true
@@ -130,10 +132,5 @@ title = ExtResource( 25 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
 camera = NodePath("../ARVROrigin/ARVRCamera")
 
-[connection signal="child_entered_tree" from="Demos" to="." method="_on_Demos_child_entered_tree"]
-[connection signal="child_exiting_tree" from="Demos" to="." method="_on_Demos_child_exiting_tree"]
-
 [editable path="ARVROrigin/LeftHand/LeftHand"]
-[editable path="ARVROrigin/LeftHand/LeftHand/LeftHand"]
 [editable path="ARVROrigin/RightHand/RightHand"]
-[editable path="ARVROrigin/RightHand/RightHand/RightHand"]

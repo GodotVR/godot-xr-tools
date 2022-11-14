@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/assets/player_body.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.gd" type="Script" id=1]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.4
