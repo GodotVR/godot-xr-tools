@@ -1,12 +1,10 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cf6y1af3ouutt"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_munsj"]
-transparency = 1
-depth_draw_mode = 1
+[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.material" id="1_3o4sh"]
 
 [resource]
 render_priority = -1
-next_pass = SubResource("StandardMaterial3D_munsj")
+next_pass = ExtResource("1_3o4sh")
 transparency = 1
 no_depth_test = true
 shading_mode = 0

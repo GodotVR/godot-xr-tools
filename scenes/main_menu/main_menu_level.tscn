@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://ds7saom43lutk"]
+[gd_scene load_steps=29 format=3 uid="uid://bsbw6f2wfdw1b"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu_level.gd" id="2_taoax"]
@@ -10,10 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://8jxrr3gqnxck" path="res://scenes/basic_movement_demo/basic movement demo.png" id="10"]
-[ext_resource type="PackedScene" path="res://scenes/teleport_demo/teleport_demo.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://dlp2e3e2r1fu8" path="res://scenes/teleport_demo/teleport_demo.tscn" id="11"]
 [ext_resource type="Texture2D" uid="uid://c8qc5ja60n3u8" path="res://scenes/teleport_demo/teleport movement demo.png" id="12"]
 [ext_resource type="Texture2D" uid="uid://d3epm85d4s28f" path="res://scenes/climbing_gliding_demo/climbing_gliding_demo.png" id="13"]
-[ext_resource type="PackedScene" path="res://scenes/climbing_gliding_demo/climbing_gliding_demo.tscn" id="14"]
+[ext_resource type="PackedScene" uid="uid://c3nwgt02fdpxu" path="res://scenes/climbing_gliding_demo/climbing_gliding_demo.tscn" id="14"]
 [ext_resource type="PackedScene" path="res://scenes/grappling_demo/grappling_demo.tscn" id="15"]
 [ext_resource type="Texture2D" uid="uid://bwkm0t73t80cs" path="res://scenes/grappling_demo/grappling_demo.png" id="16"]
 [ext_resource type="Texture2D" uid="uid://bv0r0klv2u7tl" path="res://scenes/interactables_demo/interactables_demo.png" id="17"]
@@ -22,12 +22,12 @@
 [ext_resource type="Texture2D" uid="uid://bh5j2q7vpmr0b" path="res://scenes/pointer_demo/pointer_demo.png" id="20"]
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/pickable_demo.tscn" id="21"]
 [ext_resource type="Texture2D" uid="uid://ny4n43p3e3du" path="res://scenes/pickable_demo/pickable_demo.png" id="22"]
-[ext_resource type="PackedScene" uid="uid://ce1ad2t853bw5" path="res://addons/godot-xr-tools/hands/left_fullglove_low.tscn" id="23_pr05t"]
-[ext_resource type="PackedScene" uid="uid://t0wasotghc1g" path="res://scenes/poke_demo/poke_demo.tscn" id="24_qtcxq"]
-[ext_resource type="PackedScene" uid="uid://cus66d8b1gx5" path="res://addons/godot-xr-tools/hands/right_fullglove_low.tscn" id="25_2b81d"]
+[ext_resource type="PackedScene" uid="uid://ce1ad2t853bw5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="23_pr05t"]
+[ext_resource type="PackedScene" path="res://scenes/poke_demo/poke_demo.tscn" id="24_qtcxq"]
+[ext_resource type="PackedScene" uid="uid://cus66d8b1gx5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="25_2b81d"]
 [ext_resource type="Texture2D" uid="uid://bbe7o7pdq38m2" path="res://scenes/poke_demo/poke_demo.png" id="25_rg3rn"]
 [ext_resource type="PackedScene" uid="uid://3bsyhd7ehoa1" path="res://scenes/main_menu/objects/settings_ui.tscn" id="26_0uyxa"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/labglove.material" id="26_id1x7"]
+[ext_resource type="Material" uid="uid://c1bt71pgxtpc6" path="res://addons/godot-xr-tools/hands/materials/labglove.material" id="26_id1x7"]
 
 [node name="MainMenuLevel" instance=ExtResource("1")]
 script = ExtResource("2_taoax")
@@ -90,8 +90,8 @@ camera = NodePath("../XROrigin3D/XRCamera3D")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("23_pr05t")]
 
-[node name="Skeleton3D" parent="XROrigin3D/LeftHand/LeftHand/hand_l/Armature" index="0"]
-bones/1/rotation = Quaternion(-0.543239, -0.00366291, 0.20967, 0.812968)
+[node name="Skeleton3D" parent="XROrigin3D/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.543239, -0.0036629, 0.20967, 0.812968)
 bones/2/rotation = Quaternion(0.304129, 0.506435, 0.0963934, 0.801085)
 bones/3/rotation = Quaternion(-0.0789876, -0.0836779, 0.106511, 0.987631)
 bones/5/rotation = Quaternion(0.127321, 0.888686, -0.0846908, -0.432266)
@@ -105,18 +105,19 @@ bones/13/rotation = Quaternion(-0.0927954, 0.0228819, 0.132862, 0.986516)
 bones/15/rotation = Quaternion(-0.00825624, 0.878898, 0.170009, -0.445609)
 bones/16/rotation = Quaternion(0.0657447, 0.956105, 0.123413, 0.257507)
 bones/17/rotation = Quaternion(-0.0906621, 0.0297631, 0.170594, 0.98071)
-bones/18/rotation = Quaternion(-0.0814065, -0.00603888, 0.17095, 0.981892)
+bones/18/rotation = Quaternion(-0.0814065, -0.00603887, 0.17095, 0.981892)
 bones/20/rotation = Quaternion(-0.119286, 0.855777, 0.258797, -0.431788)
 bones/21/rotation = Quaternion(0.0179537, 0.96113, 0.095808, 0.258319)
 bones/22/rotation = Quaternion(-0.107286, 0.026284, 0.227959, 0.967385)
 bones/23/rotation = Quaternion(-0.0441928, -0.0356708, 0.114504, 0.991798)
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/LeftHand/LeftHand/hand_l/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.412385, 0.800818, -0.434315, 0.86693, 0.198466, -0.457212, -0.279947, -0.565069, -0.776097, 0.0265249, 0.0488729, -0.158356)
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton3D" index="1"]
+transform = Transform3D(-0.412385, 0.800817, -0.434315, 0.86693, 0.198466, -0.457212, -0.279947, -0.565068, -0.776097, 0.0265249, 0.048873, -0.158356)
 bone_name = "Index_Tip_L"
 bone_idx = 9
 
-[node name="Poke" parent="XROrigin3D/LeftHand/LeftHand/hand_l/Armature/Skeleton3D/BoneAttachment3D" index="0" instance=ExtResource("4_eoo0b")]
+[node name="Poke" parent="XROrigin3D/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton3D/BoneAttachment3D" index="0" instance=ExtResource("4_eoo0b")]
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("6")]
 max_speed = 3.0
@@ -124,9 +125,9 @@ strafe = true
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("25_2b81d")]
 
-[node name="Skeleton3D" parent="XROrigin3D/RightHand/RightHand/hand_r/Armature" index="0"]
+[node name="Skeleton3D" parent="XROrigin3D/RightHand/RightHand/Hand_low_R/Armature" index="0"]
 bones/1/rotation = Quaternion(-0.543239, 0.00366289, -0.20967, 0.812968)
-bones/2/rotation = Quaternion(0.304129, -0.506435, -0.0963935, 0.801085)
+bones/2/rotation = Quaternion(0.304129, -0.506435, -0.0963934, 0.801085)
 bones/3/rotation = Quaternion(-0.0789876, 0.0836779, -0.106511, 0.987631)
 bones/5/rotation = Quaternion(-0.127321, 0.888686, -0.0846908, 0.432266)
 bones/6/rotation = Quaternion(-0.0380634, 0.973347, 0.0758925, -0.213043)
@@ -145,15 +146,16 @@ bones/21/rotation = Quaternion(-0.0179537, 0.96113, 0.095808, -0.258319)
 bones/22/rotation = Quaternion(-0.107286, -0.026284, -0.227959, 0.967385)
 bones/23/rotation = Quaternion(-0.0441928, 0.0356708, -0.114504, 0.991798)
 
-[node name="Hand_low_R" parent="XROrigin3D/RightHand/RightHand/hand_r/Armature/Skeleton3D" index="0"]
+[node name="mesh_Hand_low_R" parent="XROrigin3D/RightHand/RightHand/Hand_low_R/Armature/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("26_id1x7")
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/RightHand/RightHand/hand_r/Armature/Skeleton3D" index="1"]
-transform = Transform3D(-0.412385, -0.800818, 0.434315, -0.86693, 0.198466, -0.457212, 0.279947, -0.565069, -0.776097, -0.0265249, 0.0488729, -0.158356)
+[node name="BoneAttachment3D" type="BoneAttachment3D" parent="XROrigin3D/RightHand/RightHand/Hand_low_R/Armature/Skeleton3D" index="1"]
+transform = Transform3D(-0.412385, -0.800818, 0.434315, -0.86693, 0.198466, -0.457212, 0.279946, -0.565068, -0.776097, -0.0265249, 0.048873, -0.158356)
 bone_name = "Index_Tip_R"
 bone_idx = 9
 
-[node name="Poke" parent="XROrigin3D/RightHand/RightHand/hand_r/Armature/Skeleton3D/BoneAttachment3D" index="0" instance=ExtResource("4_eoo0b")]
+[node name="Poke" parent="XROrigin3D/RightHand/RightHand/Hand_low_R/Armature/Skeleton3D/BoneAttachment3D" index="0" instance=ExtResource("4_eoo0b")]
+transform = Transform3D(0.999999, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("6")]
 max_speed = 3.0
@@ -166,4 +168,6 @@ max_speed = 3.0
 [connection signal="child_exiting_tree" from="Demos" to="." method="_on_Demos_child_exiting_tree"]
 
 [editable path="XROrigin3D/LeftHand/LeftHand"]
+[editable path="XROrigin3D/LeftHand/LeftHand/Hand_low_L"]
 [editable path="XROrigin3D/RightHand/RightHand"]
+[editable path="XROrigin3D/RightHand/RightHand/Hand_low_R"]
