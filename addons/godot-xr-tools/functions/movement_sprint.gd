@@ -59,9 +59,6 @@ var _left_controller_original_max_speed : float = 0.0
 ## Variable to hold right controller direct movement node original max speed
 var _right_controller_original_max_speed : float = 0.0
 
-## Variable to hold overall max speed between direct movement nodes if multiple
-var _overall_max_speed : float = 0.0
-
 ## Variable used to cache left controller direct movement function, if any 
 var _left_controller_direct_move : XRToolsMovementDirect = null 
 
@@ -129,6 +126,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 		else:
 			set_sprinting(false)
 			
+			
 # Public function used to set sprinting active or not active
 func set_sprinting(active: bool) -> void:
 	# Skip if no change
@@ -149,15 +147,12 @@ func set_sprinting(active: bool) -> void:
 			_left_controller_original_max_speed = _left_controller_direct_move.max_speed
 		if _right_controller_direct_move:
 			_right_controller_original_max_speed = _right_controller_direct_move.max_speed
-	
-		# Set overall max speed based on current status during runtime
-		_overall_max_speed = max(_left_controller_original_max_speed, _right_controller_original_max_speed)
 		
 		# Set both controllers' direct movement functions, if appliable, to the sprinting speed
 		if _left_controller_direct_move:
-			_left_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
+			_left_controller_direct_move.max_speed = _left_controller_original_max_speed * sprint_speed_multiplier
 		if _right_controller_direct_move:
-			_right_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
+			_right_controller_direct_move.max_speed = _right_controller_original_max_speed * sprint_speed_multiplier
 	
 	else:
 		# We are not sprinting
