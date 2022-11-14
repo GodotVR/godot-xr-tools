@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/hand_l.gltf-6ba1595ac4c28aef3719b7f0b4f2f4f2.scn"
+path="res://.import/Hand_L.gltf-bd291cd904a201c8e6c1c7cc3951b082.scn"
 
 [deps]
 
-source_file="res://addons/godot-xr-tools/hands/model/hand_l.gltf"
-dest_files=[ "res://.import/hand_l.gltf-6ba1595ac4c28aef3719b7f0b4f2f4f2.scn" ]
+source_file="res://addons/godot-xr-tools/hands/model/Hand_L.gltf"
+dest_files=[ "res://.import/Hand_L.gltf-bd291cd904a201c8e6c1c7cc3951b082.scn" ]
 
 [params]
 
@@ -20,7 +20,7 @@ nodes/use_legacy_names=false
 materials/location=1
 materials/storage=1
 materials/keep_on_reimport=true
-meshes/octahedral_compression=false
+meshes/octahedral_compression=true
 meshes/compress=4286
 meshes/ensure_tangents=true
 meshes/storage=0
