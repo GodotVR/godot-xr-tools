@@ -37,7 +37,7 @@ enum SprintType {
 export (SprintType) var sprint_type : int = SprintType.HOLD_TO_SPRINT
 
 ## Sprint speed multiplier (multiplier from speed set by direct movement node(s))
-export var sprint_speed_multiplier : float = clamp(2.0, 1.0, 3.0)
+export (float, 1.0, 4.0) var sprint_speed_multiplier : float = 2.0
 
 ## Movement provider order
 export var order : int = 11
@@ -71,8 +71,8 @@ var _overall_max_speed : float = 0.0
 ## Fetch controllers and their direct movement nodes if any
 onready var _left_controller : ARVRController = ARVRHelpers.get_left_controller(self)
 onready var _right_controller : ARVRController = ARVRHelpers.get_right_controller(self)
-onready var _left_controller_direct_move = _left_controller.get_node_or_null("MovementDirect")
-onready var _right_controller_direct_move = _right_controller.get_node_or_null("MovementDirect")
+onready var _left_controller_direct_move : XRToolsMovementDirect = ARVRHelpers.find_child(_left_controller, "*", "XRToolsMovementDirect")
+onready var _right_controller_direct_move : XRToolsMovementDirect = ARVRHelpers.find_child(_right_controller, "*", "XRToolsMovementDirect")
 
 func _ready():
 	# Get the sprinting controller
@@ -104,8 +104,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 		return
 	
 	# Get present state of left and right movement nodes, since nodes can be removed or made inactive while game is running
-	_left_controller_direct_move = _left_controller.get_node_or_null("MovementDirect")
-	_right_controller_direct_move = _right_controller.get_node_or_null("MovementDirect")
+	_left_controller_direct_move = ARVRHelpers.find_child(_left_controller, "*", "XRToolsMovementDirect")
+	_right_controller_direct_move = ARVRHelpers.find_child(_right_controller, "*", "XRToolsMovementDirect")
 	
 	# If no direct movement node found or both direct movement nodes are disabled, do not execute further, no speed to sprint
 	if (_left_controller_direct_move == null and _right_controller_direct_move == null) or (_left_controller_direct_move.enabled == false and _right_controller_direct_move.enabled == false):
@@ -144,20 +144,38 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	if sprinting != _sprinting:
 		_sprinting = sprinting
 		if sprinting:
-			emit_signal("sprinting_started")
-			# Set both controllers' direct movement functions, if appliable, to the sprinting speed
-			if _left_controller_direct_move != null:
-				_left_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
-			if _right_controller_direct_move != null:
-				_right_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
+			set_sprinting(true)
 		else:
-			emit_signal("sprinting_finished")
-			# Set both controllers' direct movement functions, if applicable, to their original speeds
-			if _left_controller_direct_move != null:
-				_left_controller_direct_move.max_speed = _left_controller_original_max_speed
-			if _right_controller_direct_move != null:
-				_right_controller_direct_move.max_speed = _right_controller_original_max_speed
-			return
+			set_sprinting(false)
+			
+
+func set_sprinting(active: bool) -> void:
+	# Skip if no change
+	if active == is_active:
+		return
+
+	# Update state
+	is_active = active
+
+	# Handle state change
+	if is_active:
+		emit_signal("sprinting_started")
+		_sprinting = true
+		# Set both controllers' direct movement functions, if appliable, to the sprinting speed
+		if _left_controller_direct_move != null:
+			_left_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
+		if _right_controller_direct_move != null:
+			_right_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
+	else:
+		emit_signal("sprinting_finished")
+		_sprinting = false
+		# Set both controllers' direct movement functions, if applicable, to their original speeds
+		if _left_controller_direct_move != null:
+			_left_controller_direct_move.max_speed = _left_controller_original_max_speed
+		if _right_controller_direct_move != null:
+			_right_controller_direct_move.max_speed = _right_controller_original_max_speed
+
+
 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():

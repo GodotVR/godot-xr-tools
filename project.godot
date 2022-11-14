@@ -312,11 +312,11 @@ XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/godot-xr-tools/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/godot-openxr/plugin.cfg", "res://addons/godot-xr-tools/plugin.cfg" )
 
 [gdnative]
 
-singletons=[  ]
+singletons=[ "res://addons/godot-openxr/config/godot_openxr.gdnlib" ]
 
 [gui]
 
