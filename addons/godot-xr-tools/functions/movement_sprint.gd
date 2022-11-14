@@ -17,7 +17,6 @@ signal sprinting_started()
 ## Signal emitted when sprinting finishes
 signal sprinting_finished()
 
-
 ## Enumeration of controller to use for triggering sprinting.  This allows the developer to assign the sprint button to either controller
 enum SprintController {
 	LEFT,		# Use left controller
@@ -63,17 +62,18 @@ var _right_controller_original_max_speed : float = 0.0
 ## Variable to hold overall max speed between direct movement nodes if multiple
 var _overall_max_speed : float = 0.0
 
+## Variable used to cache left controller direct movement function, if any 
+var _left_controller_direct_move : XRToolsMovementDirect = null 
+
+## Variable used to cache right controller direct movement function, if any
+var _right_controller_direct_move : XRToolsMovementDirect = null
+
 ## Fetch left controller
 onready var _left_controller : ARVRController = ARVRHelpers.get_left_controller(self)
 
 ## Fetch right controller
 onready var _right_controller : ARVRController = ARVRHelpers.get_right_controller(self)
 
-## Fetch left controller direct movement function if any using XRTools' ARVRHelpers function
-onready var _left_controller_direct_move : XRToolsMovementDirect = _left_controller.get_node_or_null("MovementDirect") #ARVRHelpers.find_child(_left_controller, "*", "XRToolsMovementDirect")
-
-## Fetch right controller direct movement function if any using XRTools' ARVRHelpers function
-onready var _right_controller_direct_move : XRToolsMovementDirect = _right_controller.get_node_or_null("MovementDirect") #ARVRHelpers.find_child(_right_controller, "*", "XRToolsMovementDirect")
 
 func _ready():
 	# Get the sprinting controller
@@ -82,6 +82,21 @@ func _ready():
 	else:
 		_controller = _right_controller
 
+	# Cache the left controller direct movement node, if any
+	var left_controller_nodes = _left_controller.get_children()
+	for child in left_controller_nodes:
+		if child is XRToolsMovementDirect:
+			_left_controller_direct_move = child
+			break
+	
+	# Cache the right controller direct movement node, if any
+	var right_controller_nodes = _right_controller.get_children()
+	for child in right_controller_nodes:
+		if child is XRToolsMovementDirect:
+			_right_controller_direct_move = child
+			break
+	
+	
 # Perform sprinting
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if the controller isn't active or is not enabled 
@@ -114,7 +129,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 		else:
 			set_sprinting(false)
 			
-
+# Public function used to set sprinting active or not active
 func set_sprinting(active: bool) -> void:
 	# Skip if no change
 	if active == is_active:
@@ -125,6 +140,7 @@ func set_sprinting(active: bool) -> void:
 
 	# Handle state change
 	if is_active:
+		# We are sprinting
 		emit_signal("sprinting_started")
 		_sprinting = true
 		
@@ -144,6 +160,7 @@ func set_sprinting(active: bool) -> void:
 			_right_controller_direct_move.max_speed = _overall_max_speed*sprint_speed_multiplier
 	
 	else:
+		# We are not sprinting
 		emit_signal("sprinting_finished")
 		_sprinting = false
 		
@@ -154,15 +171,23 @@ func set_sprinting(active: bool) -> void:
 			_right_controller_direct_move.max_speed = _right_controller_original_max_speed
 
 
-
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	
-#	# Make sure player has a direct movement node
-#	var _left_direct = ARVRHelpers.find_child(ARVRHelpers.get_left_controller(self), "*", "XRToolsMovementDirect")
-#	var _right_direct = ARVRHelpers.find_child(ARVRHelpers.get_right_controller(self), "*", "XRToolsMovementDirect")
-#	if _left_direct == null and _right_direct == null:
-#		return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
-#
-	# Call base class
-	return ._get_configuration_warning()
+#	# Make sure player has at least one direct movement node
+	var test_left_controller_nodes = _left_controller.get_children()
+	for child in test_left_controller_nodes:
+		if child is XRToolsMovementDirect:
+			# At least one direct movement node found, so call base class
+			return ._get_configuration_warning()
+	
+	# Get the right controller direct movement node, if any
+	var test_right_controller_nodes = _right_controller.get_children()
+	for child in test_right_controller_nodes:
+		if child is XRToolsMovementDirect:
+			# At least one direct movement node found, so call base class
+			return ._get_configuration_warning()
+
+	# Could not find any direct movement node if have not returned so far, so display error
+	return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
+	
