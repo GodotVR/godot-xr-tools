@@ -4,9 +4,8 @@ extends XRToolsMovementProvider
 
 
 ##
-## Movement Provider for Sprinting
+## XR Tools Movement Provider for Sprinting
 ##
-## @desc:
 ##     This script provides sprinting movement for the player. It assumes there is a direct movement
 ##	   node in the scene otherwise it will not be functional. There will not be an error, there just
 ##	   will not be any reason for it to have any impact on the player.  This node should be a direct
@@ -27,7 +26,6 @@ enum SprintController {
 }
 
 ## Enumeration of sprinting modes - toggle or hold button
-
 enum SprintType {
 	HOLD_TO_SPRINT,	## Hold button to sprint
 	TOGGLE_SPRINT,	## Toggle sprinting on button press
@@ -57,21 +55,31 @@ var _sprinting : bool = false
 ## Sprint button down state
 var _sprint_button_down : bool = false
 
-## Variables to hold left controller direct movement node max speed if any
+## Variable to hold left controller direct movement node max speed if any
 var _left_controller_max_speed : float = 0.0
+
+## Variable to hold left controller direct movement node original max speed
 var _left_controller_original_max_speed : float = 0.0
 
-## Variables to hold right controller direct movement max speed if any
+## Variable to hold right controller direct movement node max speed if any
 var _right_controller_max_speed : float = 0.0
+
+## Variable to hold right controller direct movement node original max speed
 var _right_controller_original_max_speed : float = 0.0
 
 ## Variable to hold overall max speed between direct movement nodes if multiple
 var _overall_max_speed : float = 0.0
 
-## Fetch controllers and their direct movement nodes if any
+## Fetch left controller
 onready var _left_controller : ARVRController = ARVRHelpers.get_left_controller(self)
+
+## Fetch right controller
 onready var _right_controller : ARVRController = ARVRHelpers.get_right_controller(self)
+
+## Fetch left controller direct movement function if any using XRTools' ARVRHelpers function
 onready var _left_controller_direct_move : XRToolsMovementDirect = ARVRHelpers.find_child(_left_controller, "*", "XRToolsMovementDirect")
+
+## Fetch right controller direct movement function if any using XRTools' ARVRHelpers function
 onready var _right_controller_direct_move : XRToolsMovementDirect = ARVRHelpers.find_child(_right_controller, "*", "XRToolsMovementDirect")
 
 func _ready():
