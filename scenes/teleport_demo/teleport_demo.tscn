@@ -9,8 +9,8 @@
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=7]
 [ext_resource path="res://assets/meshes/ramps/ramps.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/meshes/mound/mound.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/hands/right_hand_low.tscn" type="PackedScene" id=10]
-[ext_resource path="res://addons/godot-xr-tools/hands/left_hand_low.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" type="PackedScene" id=11]
 
 [sub_resource type="ViewportTexture" id=3]
 viewport_path = NodePath("Instructions/Viewport")
