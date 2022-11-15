@@ -1,7 +1,7 @@
 [gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" type="PackedScene" id=3]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=5]
@@ -69,28 +69,27 @@ animation = "Grip"
 
 [sub_resource type="AnimationNodeBlend2" id=9]
 filter_enabled = true
-filters = [ "Armature/Skeleton:Little_Distal_R", "Armature/Skeleton:Little_Intermediate_R", "Armature/Skeleton:Little_Proximal_R", "Armature/Skeleton:Middle_Distal_R", "Armature/Skeleton:Middle_Intermediate_R", "Armature/Skeleton:Middle_Proximal_R", "Armature/Skeleton:Ring_Distal_R", "Armature/Skeleton:Ring_Intermediate_R", "Armature/Skeleton:Ring_Proximal_R", "Armature/Skeleton:Thumb_Distal_R", "Armature/Skeleton:Thumb_Proximal_R", "Armature_Left/Skeleton:Middle.Distal", "Armature_Left/Skeleton:Middle.Middle", "Armature_Left/Skeleton:Middle.Proximal", "Armature_Left/Skeleton:Pinky.Distal", "Armature_Left/Skeleton:Pinky.Middle", "Armature_Left/Skeleton:Pinky.Proximal", "Armature_Left/Skeleton:Ring.Distal", "Armature_Left/Skeleton:Ring.Middle", "Armature_Left/Skeleton:Ring.Proximal", "Armature_Left/Skeleton:Thumb.Distal", "Armature_Left/Skeleton:Thumb.Proximal" ]
+filters = [ "Armature/Skeleton:Little_Distal_R", "Armature/Skeleton:Little_Intermediate_R", "Armature/Skeleton:Little_Proximal_R", "Armature/Skeleton:Middle_Distal_R", "Armature/Skeleton:Middle_Intermediate_R", "Armature/Skeleton:Middle_Proximal_R", "Armature/Skeleton:Ring_Distal_R", "Armature/Skeleton:Ring_Intermediate_R", "Armature/Skeleton:Ring_Proximal_R", "Armature/Skeleton:Thumb_Distal_R", "Armature/Skeleton:Thumb_Proximal_R" ]
 
 [sub_resource type="AnimationNodeAnimation" id=10]
 animation = "Grip 5"
 
 [sub_resource type="AnimationNodeBlend2" id=11]
 filter_enabled = true
-filters = [ "Armature/Skeleton:Index_Distal_R", "Armature/Skeleton:Index_Intermediate_R", "Armature/Skeleton:Index_Proximal_R", "Armature_Left/Skeleton:Index.Distal", "Armature_Left/Skeleton:Index.Middle", "Armature_Left/Skeleton:Index.Proximal" ]
+filters = [ "Armature/Skeleton:Index_Distal_R", "Armature/Skeleton:Index_Intermediate_R", "Armature/Skeleton:Index_Proximal_R" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=12]
-graph_offset = Vector2( -239.618, 12.3058 )
+graph_offset = Vector2( -753.664, -85.6991 )
 nodes/ClosedHand1/node = SubResource( 7 )
-nodes/ClosedHand1/position = Vector2( -400, 200 )
+nodes/ClosedHand1/position = Vector2( -600, 300 )
 nodes/ClosedHand2/node = SubResource( 8 )
-nodes/ClosedHand2/position = Vector2( -200, 300 )
+nodes/ClosedHand2/position = Vector2( -360, 300 )
 nodes/Grip/node = SubResource( 9 )
-nodes/Grip/position = Vector2( 200, 0 )
+nodes/Grip/position = Vector2( 0, 40 )
 nodes/OpenHand/node = SubResource( 10 )
-nodes/OpenHand/position = Vector2( -400, 0 )
+nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
-nodes/Trigger/position = Vector2( -160, 0 )
-nodes/output/position = Vector2( 400, 0 )
+nodes/Trigger/position = Vector2( -360, 40 )
 node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
@@ -98,9 +97,6 @@ script = ExtResource( 23 )
 environment = null
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
-
-[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton" index="1"]
 transform = Transform( -0.412385, 0.800817, -0.434315, 0.86693, 0.198466, -0.457212, -0.279947, -0.565068, -0.776097, 0.0265249, 0.048873, -0.158356 )
@@ -121,17 +117,14 @@ strafe = true
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
 hand_material_override = ExtResource( 28 )
 
-[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
-
-[node name="mesh_Hand_Nails_low_R" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature/Skeleton" index="0"]
+[node name="mesh_Hand_low_R" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="0"]
 material_override = ExtResource( 28 )
 
-[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature/Skeleton" index="1"]
+[node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="1"]
 transform = Transform( -0.412385, -0.800818, 0.434315, -0.866931, 0.198466, -0.457212, 0.279946, -0.565068, -0.776097, -0.0265249, 0.048873, -0.158356 )
 bone_name = "Index_Tip_R"
 
-[node name="Poke" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
+[node name="Poke" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
 transform = Transform( 1, -1.63913e-07, 2.98023e-08, 8.9407e-08, 1, 0, -2.98023e-08, -2.98023e-08, 1, 0, 0, 0 )
 
 [node name="AnimationTree" parent="ARVROrigin/RightHand/RightHand" index="1"]
@@ -206,4 +199,4 @@ camera = NodePath("../ARVROrigin/ARVRCamera")
 [editable path="ARVROrigin/LeftHand/LeftHand"]
 [editable path="ARVROrigin/LeftHand/LeftHand/Hand_low_L"]
 [editable path="ARVROrigin/RightHand/RightHand"]
-[editable path="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R"]
+[editable path="ARVROrigin/RightHand/RightHand/Hand_low_R"]
