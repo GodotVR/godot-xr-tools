@@ -13,10 +13,10 @@ extends XRToolsHand
 
 
 ## Collision layer for all bones in the hand
-export (int, LAYERS_3D_PHYSICS) var collision_layer : int = 1 << 17
+export (int, LAYERS_3D_PHYSICS) var bone_collision_layer : int = 1 << 17
 
 ## Bone collision margin
-export var margin : float = 0.004
+export var bone_margin : float = 0.004
 
 ## Bone group for all bones in the hand
 export var bone_group : String = ""

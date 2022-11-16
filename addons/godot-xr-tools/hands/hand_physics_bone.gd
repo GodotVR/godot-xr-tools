@@ -32,7 +32,7 @@ export var length : float = 0.03
 export var width_ratio : float = 0.3
 
 ## Additional collision layer for this one bone
-export (int, LAYERS_3D_PHYSICS) var collision_layer : int = 0
+export (int, LAYERS_3D_PHYSICS) var bone_collision_layer : int = 0
 
 ## Additional bone group for this one bone
 export var bone_group : String = ""
@@ -57,7 +57,7 @@ func _ready():
 
 	# Construct the bone shape
 	_bone_shape = CapsuleShape.new()
-	_bone_shape.margin = physics_hand.margin
+	_bone_shape.margin = physics_hand.bone_margin
 	_on_hand_scale_changed(ARVRServer.world_scale)
 
 	# Construct the bone collision shape
@@ -70,7 +70,7 @@ func _ready():
 	_physics_bone = KinematicBody.new()
 	_physics_bone.set_name("BoneBody")
 	_physics_bone.set_as_toplevel(true)
-	_physics_bone.collision_layer = physics_hand.collision_layer | collision_layer
+	_physics_bone.collision_layer = physics_hand.bone_collision_layer | bone_collision_layer
 	_physics_bone.collision_mask = 0
 	_physics_bone.add_child(bone_collision)
 

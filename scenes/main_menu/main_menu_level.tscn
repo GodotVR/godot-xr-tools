@@ -94,7 +94,6 @@ node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
-environment = null
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 

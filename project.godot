@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/arvr_helpers.gd"
 }, {
+"base": "ARVROrigin",
+"class": "FirstPersonControllerVR",
+"language": "GDScript",
+"path": "res://addons/godot-openxr/scenes/first_person_controller_vr.gd"
+}, {
 "base": "Spatial",
 "class": "Teleport",
 "language": "GDScript",
@@ -59,7 +64,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/overrides/ground_physics_settings.gd"
 }, {
-"base": "Spatial",
+"base": "Area",
 "class": "XRToolsHand",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/hands/hand.gd"
@@ -68,6 +73,11 @@ _global_script_classes=[ {
 "class": "XRToolsHandPhysicsBone",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/hands/hand_physics_bone.gd"
+}, {
+"base": "Area",
+"class": "XRToolsHandPoseArea",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/objects/hand_pose_area.gd"
 }, {
 "base": "Node",
 "class": "XRToolsHighlightMaterial",
@@ -251,6 +261,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ARVRHelpers": "",
+"FirstPersonControllerVR": "",
 "Teleport": "",
 "XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
@@ -262,6 +273,7 @@ _global_script_class_icons={
 "XRToolsGroundPhysicsSettings": "",
 "XRToolsHand": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsHandPhysicsBone": "",
+"XRToolsHandPoseArea": "",
 "XRToolsHighlightMaterial": "",
 "XRToolsHighlightRing": "",
 "XRToolsHighlightVisible": "",

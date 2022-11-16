@@ -29,6 +29,12 @@ export var displacement : Vector3 = Vector3(0.0, -0.02, 0.0)
 ## Displacement duration
 export var duration : float = 0.1
 
+## If true, bodies are detected
+export var detect_bodies : bool = true
+
+## If true, areas are detected
+export var detect_areas : bool = false
+
 
 # Button pressed state
 var pressed : bool = false
@@ -55,14 +61,16 @@ func _ready():
 	add_child(_tween)
 
 	# Connect area signals
-	if connect("area_entered", self, "_on_button_entered"):
-		push_error("Unable to connect button area signal")
-	if connect("area_exited", self, "_on_button_exited"):
-		push_error("Unable to connect button area signal")
-	if connect("body_entered", self, "_on_button_entered"):
-		push_error("Unable to connect button area signal")
-	if connect("body_exited", self, "_on_button_exited"):
-		push_error("Unable to connect button area signal")
+	if detect_areas:
+		if connect("area_entered", self, "_on_button_entered"):
+			push_error("Unable to connect button area signal")
+		if connect("area_exited", self, "_on_button_exited"):
+			push_error("Unable to connect button area signal")
+	if detect_bodies:
+		if connect("body_entered", self, "_on_button_entered"):
+			push_error("Unable to connect button area signal")
+		if connect("body_exited", self, "_on_button_exited"):
+			push_error("Unable to connect button area signal")
 
 
 # Called when an area or body enters the button area

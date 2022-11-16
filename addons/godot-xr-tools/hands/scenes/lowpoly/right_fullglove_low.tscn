@@ -1,20 +1,23 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/model/Hand_low_R.gltf" type="PackedScene" id=2]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" type="Material" id=3]
 [ext_resource path="res://addons/godot-xr-tools/hands/hand.gd" type="Script" id=4]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Grip 5.anim" type="Animation" id=5]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Grip.anim" type="Animation" id=6]
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=7]
 
-[node name="RightHand" type="Spatial"]
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.07
+height = 0.1
+
+[node name="RightHand" type="Area"]
+collision_layer = 131072
+collision_mask = 0
+monitoring = false
 script = ExtResource( 4 )
 __meta__ = {
 "_editor_description_": ""
 }
-open_hand = ExtResource( 5 )
-closed_hand = ExtResource( 6 )
 
 [node name="Hand_low_R" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
@@ -33,5 +36,9 @@ anim_player = NodePath("../Hand_low_R/AnimationPlayer")
 active = true
 parameters/Grip/blend_amount = 0.0
 parameters/Trigger/blend_amount = 0.0
+
+[node name="HandCollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0.08 )
+shape = SubResource( 1 )
 
 [editable path="Hand_low_R"]
