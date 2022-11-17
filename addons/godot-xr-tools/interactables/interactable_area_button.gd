@@ -80,7 +80,7 @@ func _on_button_entered(item: Spatial) -> void:
 		_tween.start()
 
 		# Emit the pressed signal
-		emit_signal("button_pressed")
+		emit_signal("button_pressed",self)
 
 
 # Called when an area or body exits the button area
@@ -98,7 +98,7 @@ func _on_button_exited(item: Spatial) -> void:
 		_tween.start()
 
 		# Emit the released signal
-		emit_signal("button_released")
+		emit_signal("button_released",self)
 
 
 # Check button configuration
