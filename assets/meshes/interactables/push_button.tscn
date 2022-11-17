@@ -1,11 +1,14 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=1]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign_Point.anim" type="Animation" id=4]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Sign_Point.anim" type="Animation" id=5]
 
 [sub_resource type="CylinderShape" id=1]
-radius = 0.05
 height = 0.05
+radius = 0.05
 
 [sub_resource type="CylinderMesh" id=2]
 top_radius = 0.05
@@ -15,8 +18,8 @@ radial_segments = 16
 rings = 0
 
 [sub_resource type="CylinderShape" id=3]
-radius = 0.04
 height = 0.04
+radius = 0.04
 
 [sub_resource type="CylinderMesh" id=4]
 top_radius = 0.04
@@ -29,8 +32,11 @@ rings = 0
 albedo_color = Color( 1, 0, 0, 1 )
 
 [sub_resource type="CylinderShape" id=6]
-radius = 0.04
 height = 0.05
+radius = 0.04
+
+[sub_resource type="SphereShape" id=7]
+radius = 0.05
 
 [node name="PushButton" type="Spatial"]
 
@@ -62,3 +68,13 @@ button = NodePath("../Button")
 [node name="CollisionShape" type="CollisionShape" parent="InteractableAreaButton"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0 )
 shape = SubResource( 6 )
+
+[node name="HandPoseArea" parent="." instance=ExtResource( 3 )]
+left_open_hand = ExtResource( 4 )
+left_closed_hand = ExtResource( 4 )
+right_open_hand = ExtResource( 5 )
+right_closed_hand = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HandPoseArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0246354, 0 )
+shape = SubResource( 7 )
