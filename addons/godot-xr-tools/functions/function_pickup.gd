@@ -26,6 +26,9 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 ## Pickup enabled property
 export var enabled : bool = true
 
+## Controller tied to this pickup function
+export (NodePath) var _pickup_controller_node_path
+
 ## Grip controller button
 export (XRTools.Axis) var pickup_axis_id = XRTools.Axis.VR_GRIP_AXIS
 
@@ -71,17 +74,25 @@ var _grab_area : Area
 var _grab_collision : CollisionShape
 var _ranged_area : Area
 var _ranged_collision : CollisionShape
-var _controller : ARVRController
+
 
 
 ## Grip threshold (from configuration)
 onready var grip_threshold = XRTools.get_grip_threshold()
 
+## Controller node from Node Path
+onready var _controller : ARVRController = get_node(_pickup_controller_node_path)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_controller = get_parent()
-
+	# If user did not select a controller for the pickup, assume default of child to controller
+	if _controller == null:
+		if get_parent() is ARVRController:
+			_controller = get_parent()
+		else:
+			print("Warning: XRTools FunctionPickup has no controller assigned and is not the child of a ARVRController node.")
+			enabled = false
+			
 	# Create the grab collision shape
 	_grab_collision = CollisionShape.new()
 	_grab_collision.set_name("GrabCollisionShape")
@@ -122,8 +133,9 @@ func _ready():
 	_update_colliders()
 
 	# Monitor Grab Button
-	_controller.connect("button_pressed", self, "_on_button_pressed")
-	_controller.connect("button_release", self, "_on_button_release")
+	if _controller:
+		_controller.connect("button_pressed", self, "_on_button_pressed")
+		_controller.connect("button_release", self, "_on_button_release")
 
 
 # Called on each frame to update the pickup
