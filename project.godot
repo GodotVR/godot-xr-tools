@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/arvr_helpers.gd"
 }, {
+"base": "ARVROrigin",
+"class": "FirstPersonControllerVR",
+"language": "GDScript",
+"path": "res://addons/godot-openxr/scenes/first_person_controller_vr.gd"
+}, {
 "base": "Spatial",
 "class": "Teleport",
 "language": "GDScript",
@@ -44,6 +49,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/functions/function_pointer.gd"
 }, {
+"base": "Spatial",
+"class": "XRToolsFunctionPoseArea",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/functions/function_pose_detector.gd"
+}, {
 "base": "KinematicBody",
 "class": "XRToolsFunctionTeleport",
 "language": "GDScript",
@@ -68,6 +78,16 @@ _global_script_classes=[ {
 "class": "XRToolsHandPhysicsBone",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/hands/hand_physics_bone.gd"
+}, {
+"base": "Area",
+"class": "XRToolsHandPoseArea",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/objects/hand_pose_area.gd"
+}, {
+"base": "Resource",
+"class": "XRToolsHandPoseSettings",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd"
 }, {
 "base": "Node",
 "class": "XRToolsHighlightMaterial",
@@ -251,17 +271,21 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ARVRHelpers": "",
+"FirstPersonControllerVR": "",
 "Teleport": "",
 "XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFallDamage": "",
 "XRToolsFunctionPickup": "res://addons/godot-xr-tools/editor/icons/function.svg",
 "XRToolsFunctionPointer": "res://addons/godot-xr-tools/editor/icons/function.svg",
+"XRToolsFunctionPoseArea": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFunctionTeleport": "res://addons/godot-xr-tools/editor/icons/function.svg",
 "XRToolsGroundPhysics": "",
 "XRToolsGroundPhysicsSettings": "",
 "XRToolsHand": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsHandPhysicsBone": "",
+"XRToolsHandPoseArea": "res://addons/godot-xr-tools/editor/icons/hand.svg",
+"XRToolsHandPoseSettings": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsHighlightMaterial": "",
 "XRToolsHighlightRing": "",
 "XRToolsHighlightVisible": "",
@@ -331,6 +355,7 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_18="player_hand"
 3d_physics/layer_20="player_body"
 3d_physics/layer_21="pointable"
+3d_physics/layer_22="pose_area"
 
 [physics]
 

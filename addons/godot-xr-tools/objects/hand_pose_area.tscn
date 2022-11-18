@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.gd" type="Script" id=1]
+
+[node name="HandPoseArea" type="Area"]
+collision_layer = 2097152
+collision_mask = 0
+monitoring = false
+script = ExtResource( 1 )
