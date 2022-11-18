@@ -17,7 +17,7 @@
 [ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=15]
 [ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" type="Resource" id=16]
 [ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" type="Resource" id=17]
-[ext_resource path="res://addons/godot-xr-tools/functions/function_pose_area.tscn" type="PackedScene" id=18]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" type="PackedScene" id=18]
 
 [sub_resource type="AnimationNodeAnimation" id=14]
 animation = "Grip"
@@ -49,7 +49,7 @@ nodes/OpenHand/position = Vector2( -400, 0 )
 nodes/Trigger/node = SubResource( 18 )
 nodes/Trigger/position = Vector2( -160, 0 )
 nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
+node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
 
 [sub_resource type="AnimationNodeAnimation" id=20]
 animation = "Grip"
@@ -81,7 +81,7 @@ nodes/OpenHand/position = Vector2( -400, 0 )
 nodes/Trigger/node = SubResource( 24 )
 nodes/Trigger/position = Vector2( -160, 0 )
 nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
+node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
 
 [sub_resource type="BoxShape" id=13]
 extents = Vector3( 0.5, 0.25, 0.05 )
@@ -103,7 +103,7 @@ transform = Transform( 1, -1.49012e-07, 9.31323e-09, 1.49012e-07, 1, -7.45058e-0
 [node name="AnimationTree" parent="ARVROrigin/LeftHand/LeftHand" index="1"]
 tree_root = SubResource( 19 )
 
-[node name="FunctionPoseArea" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 18 )]
+[node name="FunctionPoseDetector" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 18 )]
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 3 )]
 
@@ -120,7 +120,7 @@ transform = Transform( 1, -1.63913e-07, 2.98023e-08, 8.9407e-08, 1, 0, -2.98023e
 [node name="AnimationTree" parent="ARVROrigin/RightHand/RightHand" index="1"]
 tree_root = SubResource( 25 )
 
-[node name="FunctionPoseArea" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 18 )]
+[node name="FunctionPoseDetector" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 18 )]
 
 [node name="MovementDirect" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 11 )]
 enabled = true

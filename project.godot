@@ -52,7 +52,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "XRToolsFunctionPoseArea",
 "language": "GDScript",
-"path": "res://addons/godot-xr-tools/functions/function_pose_area.gd"
+"path": "res://addons/godot-xr-tools/functions/function_pose_detector.gd"
 }, {
 "base": "KinematicBody",
 "class": "XRToolsFunctionTeleport",
