@@ -8,14 +8,11 @@ extends Area
 ## of the VR hands.
 
 
-## Left open-hand animation pose
-export var left_open_hand : Animation
+## Priority level for this 
+export var pose_priority : int
 
-## Left closed-hand animation pose
-export var left_closed_hand : Animation
+## Left hand pose settings (XRToolsHandPoseSettings)
+export var left_pose : Resource
 
-## Right open-hand animation pose
-export var right_open_hand : Animation
-
-## Left closed-hand animation pose
-export var right_closed_hand : Animation
+## Right hand pose settings (XRToolsHandPoseSettings)
+export var right_pose : Resource

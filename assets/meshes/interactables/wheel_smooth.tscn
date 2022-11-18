@@ -4,8 +4,8 @@
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 2.anim" type="Animation" id=5]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Grip 2.anim" type="Animation" id=6]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_wheel_right.tres" type="Resource" id=5]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_wheel_left.tres" type="Resource" id=6]
 
 [sub_resource type="CylinderShape" id=1]
 height = 0.02
@@ -151,8 +151,8 @@ reset_transform_on_pickup = false
 shape = SubResource( 3 )
 
 [node name="HandPoseArea" parent="HingeOrigin" instance=ExtResource( 4 )]
-left_closed_hand = ExtResource( 5 )
-right_closed_hand = ExtResource( 6 )
+left_pose = ExtResource( 6 )
+right_pose = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HingeOrigin/HandPoseArea"]
 transform = Transform( -4.37114e-08, 1, 4.37114e-08, -1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 0, 0, 0 )

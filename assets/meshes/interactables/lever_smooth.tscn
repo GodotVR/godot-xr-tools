@@ -5,8 +5,8 @@
 [ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=3]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" type="Script" id=4]
 [ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Grip 3.anim" type="Animation" id=6]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Grip 3.anim" type="Animation" id=7]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_ball_left.tres" type="Resource" id=6]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_ball_right.tres" type="Resource" id=7]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 0.1, 0.3, 0.05 )
@@ -87,8 +87,8 @@ reset_transform_on_pickup = false
 shape = SubResource( 7 )
 
 [node name="HandPoseArea" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource( 5 )]
-left_closed_hand = ExtResource( 7 )
-right_closed_hand = ExtResource( 6 )
+left_pose = ExtResource( 6 )
+right_pose = ExtResource( 7 )
 
 [node name="CollisionShape" type="CollisionShape" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle/HandPoseArea"]
 shape = SubResource( 8 )

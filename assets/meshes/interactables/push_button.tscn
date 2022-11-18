@@ -3,8 +3,8 @@
 [ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=1]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign_Point.anim" type="Animation" id=4]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Sign_Point.anim" type="Animation" id=5]
+[ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" type="Resource" id=4]
+[ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" type="Resource" id=5]
 
 [sub_resource type="CylinderShape" id=1]
 height = 0.05
@@ -70,10 +70,8 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0 )
 shape = SubResource( 6 )
 
 [node name="HandPoseArea" parent="." instance=ExtResource( 3 )]
-left_open_hand = ExtResource( 4 )
-left_closed_hand = ExtResource( 4 )
-right_open_hand = ExtResource( 5 )
-right_closed_hand = ExtResource( 5 )
+left_pose = ExtResource( 4 )
+right_pose = ExtResource( 5 )
 
 [node name="CollisionShape" type="CollisionShape" parent="HandPoseArea"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0246354, 0 )

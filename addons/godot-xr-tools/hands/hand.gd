@@ -20,11 +20,26 @@ signal hand_scale_changed(scale)
 ## Override the hand material
 export var hand_material_override : Material setget set_hand_material_override
 
-## Default open-hand animation pose
-export var open_hand : Animation setget set_open_hand
+## Default hand pose
+export var default_pose : Resource setget set_default_pose
 
-## Default close-hand animation pose
-export var closed_hand : Animation setget set_closed_hand
+
+## Pose-override class
+class PoseOverride:
+	## Who requested the override
+	var who : Node
+	
+	## Pose priority 
+	var priority : int
+
+	## Pose settings
+	var settings : XRToolsHandPoseSettings
+
+	## Pose-override constructor
+	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
+		who = w
+		priority = p
+		settings = s
 
 
 ## Last world scale (for scaling hands)
@@ -45,17 +60,8 @@ var _animation_tree : AnimationTree
 ## Animation blend tree
 var _tree_root : AnimationNodeBlendTree
 
-## Open-hand pose stack - keys (Node requesting override)
-var _open_hand_stack_key := []
-
-## Open-hand pose stack - poses (Animation to use)
-var _open_hand_stack_pose := []
-
-## Closed-hand pose stack - keys (Node requesting override)
-var _closed_hand_stack_key := []
-
-## Closed-hand pose stack - poses (Animation to use)
-var _closed_hand_stack_pose := []
+## Sorted stack of PoseOverride
+var _pose_overrides := []
 
 
 ## Called when the node enters the scene tree for the first time.
@@ -76,8 +82,7 @@ func _ready() -> void:
 
 	# Apply all updates
 	_update_hand_material_override()
-	_update_open_hand()
-	_update_closed_hand()
+	_update_pose()
 
 
 ## This method is called on every frame. It checks for world-scale changes and
@@ -146,47 +151,24 @@ func set_hand_material_override(material : Material) -> void:
 
 
 ## Set the default open-hand pose
-func set_open_hand(p_new_hand : Animation) -> void:
-	open_hand = p_new_hand
+func set_default_pose(pose : Resource) -> void:
+	default_pose = pose
 	if is_inside_tree():
-		_update_open_hand()
+		_update_pose()
 
 
-## Set the default close-hand pose
-func set_closed_hand(p_new_hand : Animation):
-	closed_hand = p_new_hand
-	if is_inside_tree():
-		_update_closed_hand()
+## Add a pose override
+func add_pose_override(who : Node, priority : int, settings : XRToolsHandPoseSettings) -> void:
+	# Insert the pose override and update the pose
+	_insert_pose_override(who, priority, settings)
+	_update_pose()
 
 
-## Add a hand animation pose override
-func add_hand_override(who : Node, open_pose : Animation, closed_pose : Animation) -> void:
-	# Skip if invalid
-	if !who:
-		return
-
-	# Add the open-pose to the open-hand stack and update the hands
-	if open_pose:
-		_open_hand_stack_key.push_back(who)
-		_open_hand_stack_pose.push_back(open_pose)
-		_update_open_hand()
-
-	# Add the closed-pose to the closed-hand stack and update the hands
-	if closed_pose:
-		_closed_hand_stack_key.push_back(who)
-		_closed_hand_stack_pose.push_back(closed_pose)
-		_update_closed_hand()
-
-
-## Remove a hand animation pose override
-func remove_hand_override(who : Node) -> void:
-	# Remove from the open-hand pose stack
-	if _remove_hand_pose(who, _open_hand_stack_key, _open_hand_stack_pose):
-		_update_open_hand()
-
-	# Remove from the closed-hand pose stack
-	if _remove_hand_pose(who, _closed_hand_stack_key, _closed_hand_stack_pose):
-		_update_closed_hand()
+## Remove a pose override
+func remove_pose_override(who : Node) -> void:
+	# Remove the pose override and update the pose
+	_remove_pose_override(who)
+	_update_pose()
 
 
 func _update_hand_material_override() -> void:
@@ -194,17 +176,21 @@ func _update_hand_material_override() -> void:
 		_hand_mesh.material_override = hand_material_override
 
 
-func _update_open_hand() -> void:
+func _update_pose() -> void:
 	# Skip if no blend tree
 	if !_tree_root:
 		return
 
-	# Find the open pose to use
-	var open_pose := open_hand
-	if _open_hand_stack_pose.size():
-		open_pose = _open_hand_stack_pose.back()
+	# Select the pose settings
+	var pose_settings : XRToolsHandPoseSettings = default_pose
+	if _pose_overrides.size():
+		pose_settings = _pose_overrides[0].settings
 
-	# Apply the closed hand pose in the player and blend tree
+	# Get the open and closed pose animations
+	var open_pose : Animation = pose_settings.open_pose
+	var closed_pose : Animation = pose_settings.closed_pose
+
+	# Apply the open hand pose in the player and blend tree
 	if open_pose:
 		var open_name = _animation_player.find_animation(open_pose)
 		if open_name == "":
@@ -218,19 +204,8 @@ func _update_open_hand() -> void:
 		if open_hand_obj:
 			open_hand_obj.animation = open_name
 
-
-func _update_closed_hand() -> void:
-	# Skip if no blend tree
-	if !_tree_root:
-		return
-
-	# Find the close pose to use
-	var closed_pose := closed_hand
-	if _closed_hand_stack_pose.size():
-		closed_pose = _closed_hand_stack_pose.back()
-
 	# Apply the closed hand pose in the player and blend tree
-	if closed_hand:
+	if closed_pose:
 		var closed_name = _animation_player.find_animation(closed_pose)
 		if closed_name == "":
 			closed_name = "closed_hand"
@@ -248,6 +223,43 @@ func _update_closed_hand() -> void:
 			closed_hand_obj.animation = closed_name
 
 
+func _insert_pose_override(who : Node, priority : int, settings : XRToolsHandPoseSettings) -> void:
+	# Construct the pose override
+	var override := PoseOverride.new(who, priority, settings)
+
+	# Iterate over all pose overrides in the list
+	for pos in _pose_overrides.size():
+		# Get the pose override
+		var pose : PoseOverride = _pose_overrides[pos]
+
+		# Insert as early as possible to not invalidate sorting
+		if pose.priority <= priority:
+			_pose_overrides.insert(pos, override)
+			return
+
+	# Insert at the end
+	_pose_overrides.push_back(override)
+
+
+func _remove_pose_override(who : Node) -> void:
+	var pos := 0
+	var length := _pose_overrides.size()
+
+	# Iterate over all pose overrides in the list
+	while pos < length:
+		# Get the pose override
+		var pose : PoseOverride = _pose_overrides[pos]
+
+		# Check for a match
+		if pose.who == who:
+			# Remove the override
+			_pose_overrides.remove(pos)
+			length -= 1
+		else:
+			# Advance down the list
+			pos += 1
+
+
 static func _find_child(node : Node, type : String) -> Node:
 	# Iterate through all children
 	for child in node.get_children():
@@ -262,21 +274,3 @@ static func _find_child(node : Node, type : String) -> Node:
 
 	# No child found matching type
 	return null
-
-
-static func _remove_hand_pose(who : Node, keys : Array, poses : Array) -> bool:
-	# Look for keys to remove
-	var modified := false
-	while true:
-		# Break if no key found
-		var pos := keys.find_last(who)
-		if pos < 0:
-			break
-
-		# Remove pose override from the stack
-		keys.remove(pos)
-		poses.remove(pos)
-		modified = true
-
-	# Return modified flag
-	return modified

@@ -64,16 +64,16 @@ func _on_area_entered(area : Area) -> void:
 		return
 
 	# Set the appropriate poses
-	if _controller.controller_id == 1:
-		_hand.add_hand_override(
+	if _controller.controller_id == 1 and pose_area.left_pose:
+		_hand.add_pose_override(
 				pose_area,
-				pose_area.left_open_hand,
-				pose_area.left_closed_hand)
-	elif _controller.controller_id == 2:
-		_hand.add_hand_override(
+				pose_area.pose_priority,
+				pose_area.left_pose)
+	elif _controller.controller_id == 2 and pose_area.right_pose:
+		_hand.add_pose_override(
 				pose_area,
-				pose_area.right_open_hand,
-				pose_area.right_closed_hand)
+				pose_area.pose_priority,
+				pose_area.right_pose)
 
 
 ## Signal handler called when this XRToolsFunctionPoseArea leaves an area
@@ -84,7 +84,7 @@ func _on_area_exited(area : Area) -> void:
 		return
 
 	# Remove any overrides set from this hand-pose area
-	_hand.remove_hand_override(pose_area)
+	_hand.remove_pose_override(pose_area)
 
 
 func _find_hand() -> XRToolsHand:

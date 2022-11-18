@@ -15,8 +15,8 @@
 [ext_resource path="res://scenes/pickable_demo/objects/grab_cube.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=14]
 [ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=15]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/Sign_Point.anim" type="Animation" id=16]
-[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/Sign_Point.anim" type="Animation" id=17]
+[ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" type="Resource" id=16]
+[ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" type="Resource" id=17]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pose_area.tscn" type="PackedScene" id=18]
 
 [sub_resource type="AnimationNodeAnimation" id=14]
@@ -49,7 +49,7 @@ nodes/OpenHand/position = Vector2( -400, 0 )
 nodes/Trigger/node = SubResource( 18 )
 nodes/Trigger/position = Vector2( -160, 0 )
 nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
+node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
 
 [sub_resource type="AnimationNodeAnimation" id=20]
 animation = "Grip"
@@ -81,7 +81,7 @@ nodes/OpenHand/position = Vector2( -400, 0 )
 nodes/Trigger/node = SubResource( 24 )
 nodes/Trigger/position = Vector2( -160, 0 )
 nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
+node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
 
 [sub_resource type="BoxShape" id=13]
 extents = Vector3( 0.5, 0.25, 0.05 )
@@ -89,6 +89,9 @@ extents = Vector3( 0.5, 0.25, 0.05 )
 [node name="PokeDemo" instance=ExtResource( 1 )]
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 2 )]
+
+[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/Hand_Nails_low_L/Armature" index="0"]
+bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_Nails_low_L/Armature/Skeleton" index="1"]
 transform = Transform( -0.412385, 0.800817, -0.434315, 0.86693, 0.198466, -0.457212, -0.279947, -0.565068, -0.776097, 0.0265249, 0.048873, -0.158356 )
@@ -103,6 +106,9 @@ tree_root = SubResource( 19 )
 [node name="FunctionPoseArea" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 18 )]
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 3 )]
+
+[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature" index="0"]
+bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/Hand_Nails_low_R/Armature/Skeleton" index="1"]
 transform = Transform( -0.412385, -0.800818, 0.434315, -0.866931, 0.198466, -0.457212, 0.279946, -0.565068, -0.776097, -0.0265249, 0.048873, -0.158356 )
@@ -142,10 +148,8 @@ viewport_size = Vector2( 1000, 500 )
 scene = ExtResource( 9 )
 
 [node name="HandPoseArea" parent="PokeCanvas" index="1" instance=ExtResource( 15 )]
-left_open_hand = ExtResource( 16 )
-left_closed_hand = ExtResource( 16 )
-right_open_hand = ExtResource( 17 )
-right_closed_hand = ExtResource( 17 )
+left_pose = ExtResource( 16 )
+right_pose = ExtResource( 17 )
 
 [node name="CollisionShape" type="CollisionShape" parent="PokeCanvas/HandPoseArea" index="0"]
 shape = SubResource( 13 )
