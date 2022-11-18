@@ -10,6 +10,13 @@ extends Spatial
 ## Additionally this script can work in conjunction with the 
 ## [XRToolsMovementProvider] class support climbing. Most climbable objects are
 ## instances of the [XRToolsClimbable] class.
+##
+## This script typically assumes the function pickup is a direct child of a controller node.
+## However, optionally, the developer can choose a different parent of the function pickup.
+## In that instance, the developer should select a NodePath for the controller to tether
+## the FunctionPickup's functionality to.  This may be useful, for instance, if using
+## a full body IK system, a full "physics hand" system, or another type of 
+## setup in which the "hands" or intended pickup point may be divorced from the controller position.
 
 
 ## Signal emitted when the pickup picks something up
@@ -19,14 +26,14 @@ signal has_picked_up(what)
 signal has_dropped
 
 
-# Constant for worst-case grab distance
+## Constant for worst-case grab distance
 const MAX_GRAB_DISTANCE2: float = 1000000.0
 
 
 ## Pickup enabled property
 export var enabled : bool = true
 
-## Controller tied to this pickup function
+## NodePath to controller tied to this pickup function (Optional setting)
 export (NodePath) var _pickup_controller_node_path
 
 ## Grip controller button
@@ -76,12 +83,12 @@ var _ranged_area : Area
 var _ranged_collision : CollisionShape
 
 
-
 ## Grip threshold (from configuration)
 onready var grip_threshold = XRTools.get_grip_threshold()
 
-## Controller node from Node Path
+## Fetch controller node from optional Node Path export variable
 onready var _controller : ARVRController = get_node(_pickup_controller_node_path)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
