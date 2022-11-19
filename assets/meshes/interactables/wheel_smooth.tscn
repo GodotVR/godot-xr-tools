@@ -1,12 +1,15 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=1]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" type="Script" id=3]
+[ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_wheel_right.tres" type="Resource" id=5]
+[ext_resource path="res://assets/meshes/interactables/pose_grab_wheel_left.tres" type="Resource" id=6]
 
 [sub_resource type="CylinderShape" id=1]
-radius = 0.2
 height = 0.02
+radius = 0.2
 
 [sub_resource type="CylinderMesh" id=2]
 top_radius = 0.2
@@ -17,6 +20,10 @@ rings = 0
 
 [sub_resource type="BoxShape" id=3]
 extents = Vector3( 0.01, 0.04, 0.05 )
+
+[sub_resource type="CylinderShape" id=4]
+height = 0.04
+radius = 0.22
 
 [node name="WheelSmooth" type="Spatial"]
 
@@ -142,3 +149,11 @@ reset_transform_on_pickup = false
 
 [node name="CollisionShape" type="CollisionShape" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle"]
 shape = SubResource( 3 )
+
+[node name="HandPoseArea" parent="HingeOrigin" instance=ExtResource( 4 )]
+left_pose = ExtResource( 6 )
+right_pose = ExtResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="HingeOrigin/HandPoseArea"]
+transform = Transform( -4.37114e-08, 1, 4.37114e-08, -1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 0, 0, 0 )
+shape = SubResource( 4 )

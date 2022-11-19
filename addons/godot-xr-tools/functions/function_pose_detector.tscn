@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.gd" type="Script" id=1]
+
+[sub_resource type="CapsuleShape" id=1]
+radius = 0.08
+height = 0.08
+
+[node name="FunctionPoseDetector" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="SenseArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 2097152
+monitorable = false
+
+[node name="CollisionShape" type="CollisionShape" parent="SenseArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.04, 0.08 )
+shape = SubResource( 1 )

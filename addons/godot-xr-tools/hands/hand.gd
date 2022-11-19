@@ -3,90 +3,44 @@ class_name XRToolsHand, "res://addons/godot-xr-tools/editor/icons/hand.svg"
 extends Spatial
 
 
+## XR Tools Hand Script
 ##
-## XR Hand Script
+## This script manages a godot-xr-tools hand. It animates the hand blending
+## grip and trigger animations based on controller input.
 ##
-## @desc:
-##     This script manages a godot-xr-tools hand. It animates the hand blending
-##     grip and trigger animations based on controller input.
-##
-##     Additionally the hand script detects world-scale changes in the ARVRServer
-##     and re-scales the hand appropriately so the hand stays scaled to the
-##     physical hand of the user.
-##
+## Additionally the hand script detects world-scale changes in the ARVRServer
+## and re-scales the hand appropriately so the hand stays scaled to the
+## physical hand of the user.
+
 
 ## Signal emitted when the hand scale changes
 signal hand_scale_changed(scale)
 
+
 ## Override the hand material
-export (Material) var hand_material_override setget set_hand_material_override
+export var hand_material_override : Material setget set_hand_material_override
 
-## Hand extends
+## Default hand pose
+export var default_pose : Resource setget set_default_pose
 
-export (Animation) var open_hand setget set_open_hand
-export (Animation) var closed_hand setget set_closed_hand
 
-func set_open_hand(p_new_hand : Animation):
-	open_hand = p_new_hand
-	if is_inside_tree():
-		_update_hands()
+## Pose-override class
+class PoseOverride:
+	## Who requested the override
+	var who : Node
+	
+	## Pose priority 
+	var priority : int
 
-func set_closed_hand(p_new_hand : Animation):
-	closed_hand = p_new_hand
-	if is_inside_tree():
-		_update_hands()
+	## Pose settings
+	var settings : XRToolsHandPoseSettings
 
-func _update_hands():
-	# our first child node should be our hand
-	var hand_node : Spatial = get_child(0)
-	if !hand_node:
-		print("Couldn't find hand node")
-		return
+	## Pose-override constructor
+	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
+		who = w
+		priority = p
+		settings = s
 
-	var animation_player : AnimationPlayer = hand_node.get_node_or_null("AnimationPlayer")
-	if !animation_player:
-		print("Couldn't find animation player")
-		return
-
-	var animation_tree : AnimationTree = get_node_or_null("AnimationTree")
-	if !animation_tree:
-		print("Couldn't find animation tree")
-		return
-
-	var tree_root : AnimationNodeBlendTree = animation_tree.tree_root
-	if !tree_root:
-		print("Couldn't find tree root")
-		return
-
-	if open_hand:
-		var open_name = animation_player.find_animation(open_hand)
-		if open_name == "":
-			open_name = "open_hand"
-			if animation_player.has_animation(open_name):
-				animation_player.remove_animation(open_name)
-
-			animation_player.add_animation(open_name, open_hand)
-
-		var open_hand_obj : AnimationNodeAnimation = tree_root.get_node("OpenHand")
-		if open_hand_obj:
-			open_hand_obj.animation = open_name
-
-	if closed_hand:
-		var closed_name = animation_player.find_animation(closed_hand)
-		if closed_name == "":
-			closed_name = "closed_hand"
-			if animation_player.has_animation(closed_name):
-				animation_player.remove_animation(closed_name)
-
-			animation_player.add_animation(closed_name, closed_hand)
-
-		var closed_hand_obj : AnimationNodeAnimation = tree_root.get_node("ClosedHand1")
-		if closed_hand_obj:
-			closed_hand_obj.animation = closed_name
-
-		closed_hand_obj = tree_root.get_node("ClosedHand2")
-		if closed_hand_obj:
-			closed_hand_obj.animation = closed_name
 
 ## Last world scale (for scaling hands)
 var _last_world_scale : float = 1.0
@@ -97,22 +51,39 @@ var _transform : Transform
 ## Hand mesh
 var _hand_mesh : MeshInstance
 
+## Hand animation player
+var _animation_player : AnimationPlayer
+
+## Hand animation tree
+var _animation_tree : AnimationTree
+
+## Animation blend tree
+var _tree_root : AnimationNodeBlendTree
+
+## Sorted stack of PoseOverride
+var _pose_overrides := []
+
+
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Save the initial hand transform
 	_transform = transform
-	
-	# Find the hand mesh and update the hand material
-	_hand_mesh = _find_mesh_instance(self)
-	_update_hand_material_override()
+
+	# Find the relevant hand nodes
+	_hand_mesh = _find_child(self, "MeshInstance")
+	_animation_player = _find_child(self, "AnimationPlayer")
+	_animation_tree = _find_child(self, "AnimationTree")
 
 	# As we're going to make modifications to our animation tree, we need to do
 	# a deep copy, simply setting resource local to scene does not seem to be enough
-	var tree_root = $AnimationTree.tree_root.duplicate(true)
-	$AnimationTree.tree_root = tree_root
-	
-	# Make sure we're using the correct poses
-	_update_hands()
+	if _animation_tree:
+		_tree_root = _animation_tree.tree_root.duplicate(true)
+		_animation_tree.tree_root = _tree_root
+
+	# Apply all updates
+	_update_hand_material_override()
+	_update_pose()
+
 
 ## This method is called on every frame. It checks for world-scale changes and
 ## scales itself causing the hand mesh and skeleton to scale appropriately.
@@ -136,8 +107,9 @@ func _process(_delta: float) -> void:
 		var grip = controller.get_joystick_axis(JOY_VR_ANALOG_GRIP)
 		var trigger = controller.get_joystick_axis(JOY_VR_ANALOG_TRIGGER)
 
-		# Uncomment for workaround for bug in OpenXR plugin 1.1.1 and earlier giving values from -1.0 to 1.0
-		# note that when controller are not being tracking yet this will result in a value of 0.5
+		# Uncomment for workaround for bug in OpenXR plugin 1.1.1 and earlier
+		# giving values from -1.0 to 1.0. Note that when controllers are not
+		# being tracking yet this will result in a value of 0.5
 		# grip = (grip + 1.0) * 0.5
 		# trigger = (trigger + 1.0) * 0.5
 
@@ -147,6 +119,30 @@ func _process(_delta: float) -> void:
 		# var grip_state = controller.is_button_pressed(JOY_VR_GRIP)
 		# print("Pressed: " + str(grip_state))
 
+
+# This method verifies the hand has a valid configuration.
+func _get_configuration_warning():
+	# Check hand for mesh instance
+	if not _find_child(self, "MeshInstance"):
+		return "Hand does not have a MeshInstance"
+
+	# Check hand for animation player
+	if not _find_child(self, "AnimationPlayer"):
+		return "Hand does not have a AnimationPlayer"
+
+	# Check hand for animation tree
+	var tree : AnimationTree = _find_child(self, "AnimationTree")
+	if not tree:
+		return "Hand does not have a AnimationTree"
+
+	# Check hand animation tree has a root
+	if not tree.tree_root:
+		return "Hand AnimationTree has no root"
+
+	# Passed basic validation
+	return ""
+
+
 ## Set the hand material override
 func set_hand_material_override(material : Material) -> void:
 	hand_material_override = material
@@ -154,22 +150,127 @@ func set_hand_material_override(material : Material) -> void:
 		_update_hand_material_override()
 
 
+## Set the default open-hand pose
+func set_default_pose(pose : Resource) -> void:
+	default_pose = pose
+	if is_inside_tree():
+		_update_pose()
+
+
+## Add a pose override
+func add_pose_override(who : Node, priority : int, settings : XRToolsHandPoseSettings) -> void:
+	# Insert the pose override and update the pose
+	_insert_pose_override(who, priority, settings)
+	_update_pose()
+
+
+## Remove a pose override
+func remove_pose_override(who : Node) -> void:
+	# Remove the pose override and update the pose
+	_remove_pose_override(who)
+	_update_pose()
+
+
 func _update_hand_material_override() -> void:
 	if _hand_mesh:
 		_hand_mesh.material_override = hand_material_override
 
 
-func _find_mesh_instance(node : Node) -> MeshInstance:
-	# Test if the node is a mesh
-	var mesh := node as MeshInstance
-	if mesh:
-		return mesh
+func _update_pose() -> void:
+	# Skip if no blend tree
+	if !_tree_root:
+		return
 
-	# Check all children
-	for i in node.get_child_count():
-		mesh = _find_mesh_instance(node.get_child(i))
-		if mesh:
-			return mesh
+	# Select the pose settings
+	var pose_settings : XRToolsHandPoseSettings = default_pose
+	if _pose_overrides.size():
+		pose_settings = _pose_overrides[0].settings
 
-	# Could not find mesh
+	# Get the open and closed pose animations
+	var open_pose : Animation = pose_settings.open_pose
+	var closed_pose : Animation = pose_settings.closed_pose
+
+	# Apply the open hand pose in the player and blend tree
+	if open_pose:
+		var open_name = _animation_player.find_animation(open_pose)
+		if open_name == "":
+			open_name = "open_hand"
+			if _animation_player.has_animation(open_name):
+				_animation_player.remove_animation(open_name)
+
+			_animation_player.add_animation(open_name, open_pose)
+
+		var open_hand_obj : AnimationNodeAnimation = _tree_root.get_node("OpenHand")
+		if open_hand_obj:
+			open_hand_obj.animation = open_name
+
+	# Apply the closed hand pose in the player and blend tree
+	if closed_pose:
+		var closed_name = _animation_player.find_animation(closed_pose)
+		if closed_name == "":
+			closed_name = "closed_hand"
+			if _animation_player.has_animation(closed_name):
+				_animation_player.remove_animation(closed_name)
+
+			_animation_player.add_animation(closed_name, closed_pose)
+
+		var closed_hand_obj : AnimationNodeAnimation = _tree_root.get_node("ClosedHand1")
+		if closed_hand_obj:
+			closed_hand_obj.animation = closed_name
+
+		closed_hand_obj = _tree_root.get_node("ClosedHand2")
+		if closed_hand_obj:
+			closed_hand_obj.animation = closed_name
+
+
+func _insert_pose_override(who : Node, priority : int, settings : XRToolsHandPoseSettings) -> void:
+	# Construct the pose override
+	var override := PoseOverride.new(who, priority, settings)
+
+	# Iterate over all pose overrides in the list
+	for pos in _pose_overrides.size():
+		# Get the pose override
+		var pose : PoseOverride = _pose_overrides[pos]
+
+		# Insert as early as possible to not invalidate sorting
+		if pose.priority <= priority:
+			_pose_overrides.insert(pos, override)
+			return
+
+	# Insert at the end
+	_pose_overrides.push_back(override)
+
+
+func _remove_pose_override(who : Node) -> void:
+	var pos := 0
+	var length := _pose_overrides.size()
+
+	# Iterate over all pose overrides in the list
+	while pos < length:
+		# Get the pose override
+		var pose : PoseOverride = _pose_overrides[pos]
+
+		# Check for a match
+		if pose.who == who:
+			# Remove the override
+			_pose_overrides.remove(pos)
+			length -= 1
+		else:
+			# Advance down the list
+			pos += 1
+
+
+static func _find_child(node : Node, type : String) -> Node:
+	# Iterate through all children
+	for child in node.get_children():
+		# If the child is a match then return it
+		if child.is_class(type):
+			return child
+
+		# Recurse into child
+		var found := _find_child(child, type)
+		if found:
+			return found
+
+	# No child found matching type
 	return null

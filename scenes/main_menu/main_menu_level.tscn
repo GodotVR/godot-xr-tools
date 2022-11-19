@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
@@ -28,6 +28,7 @@
 [ext_resource path="res://scenes/main_menu/objects/settings_ui.tscn" type="PackedScene" id=26]
 [ext_resource path="res://addons/godot-xr-tools/player/poke/poke.tscn" type="PackedScene" id=27]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/labglove.material" type="Material" id=28]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" type="PackedScene" id=29]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -94,7 +95,6 @@ node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
-environment = null
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 
@@ -108,7 +108,9 @@ transform = Transform( 1, -1.63913e-07, 2.98023e-08, 8.9407e-08, 1, 0, -2.98023e
 [node name="AnimationTree" parent="ARVROrigin/LeftHand/LeftHand" index="1"]
 tree_root = SubResource( 6 )
 
-[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 6 )]
+[node name="FunctionPoseDetector" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 29 )]
+
+[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 6 )]
 enabled = true
 order = 10
 max_speed = 3.0
@@ -130,13 +132,15 @@ transform = Transform( 1, -1.63913e-07, 2.98023e-08, 8.9407e-08, 1, 0, -2.98023e
 [node name="AnimationTree" parent="ARVROrigin/RightHand/RightHand" index="1"]
 tree_root = SubResource( 12 )
 
-[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 6 )]
+[node name="FunctionPoseDetector" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 29 )]
+
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 6 )]
 enabled = true
 order = 10
 max_speed = 3.0
 strafe = false
 
-[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 5 )]
+[node name="MovementTurn" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 8 )]
 
