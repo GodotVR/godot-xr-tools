@@ -20,31 +20,41 @@ func _load():
 	# First reset our values
 	reset_to_defaults()
 
-	# Now attempt to load our settings file
-	var file = File.new()
+	# Skip if no settings file found
+	var file := File.new()
 	if !file.file_exists(settings_file_name):
 		return
 
-	if file.open(settings_file_name, File.READ):
-		var text = file.get_as_text()
-		file.close()
+	# Attempt to open the settings file for reading
+	if file.open(settings_file_name, File.READ) != OK:
+		# File open failed with an error
+		return
 
-		var data : Dictionary = parse_json(text)
+	# Read the settings text
+	var settings_text := file.get_as_text()
+	file.close()
 
-		# Parse our input settings
-		if data.has("input"):
-			var input : Dictionary = data["input"]
-			if input.has("default_snap_turning"):
-				snap_turning = input["default_snap_turning"]
+	# Parse the settings text and verify it's a dictionary
+	var settings_raw = parse_json(settings_text)
+	if typeof(settings_raw) != TYPE_DICTIONARY:
+		return
+	
+	# Parse our input settings
+	var settings : Dictionary = settings_raw
+	if settings.has("input"):
+		var input : Dictionary = settings["input"]
+		if input.has("default_snap_turning"):
+			snap_turning = input["default_snap_turning"]
 
-		# Parse our player settings
-		if data.has("player"):
-			var player : Dictionary = data["player"]
-			if player.has("height_adjust"):
-				player_height_adjust = player["height_adjust"]
+	# Parse our player settings
+	if settings.has("player"):
+		var player : Dictionary = settings["player"]
+		if player.has("height_adjust"):
+			player_height_adjust = player["height_adjust"]
 
 func save():
-	var data = {
+	# Convert the settings to a dictionary
+	var settings := {
 		"input" : {
 			"default_snap_turning" : snap_turning
 		},
@@ -53,10 +63,17 @@ func save():
 		}
 	}
 
-	var file = File.new()
-	if file.open(settings_file_name, File.WRITE):
-		file.store_line(to_json(data))
-		file.close()
+	# Convert the settings dictionary to text
+	var settings_text := to_json(settings)
+
+	# Attempt to open the settings file for writing
+	var file := File.new()
+	if file.open(settings_file_name, File.WRITE) != OK:
+		return
+
+	# Write the settings text to the file
+	file.store_line(settings_text)
+	file.close()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
