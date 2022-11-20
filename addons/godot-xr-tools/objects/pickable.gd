@@ -57,6 +57,7 @@ export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0
 ## Method used to hold an object
 export (HoldMethod) var hold_method = HoldMethod.REMOTE_TRANSFORM
 
+## Should change original physics mode
 export (int, "Default", "Rigid", "Static") var release_mode = 0
 
 ## Method used to perform a ranged grab
