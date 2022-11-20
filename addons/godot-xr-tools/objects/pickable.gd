@@ -57,6 +57,8 @@ export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0
 ## Method used to hold an object
 export (HoldMethod) var hold_method = HoldMethod.REMOTE_TRANSFORM
 
+export (int, "Default", "Rigid", "Static") var release_mode = 0
+
 ## Method used to perform a ranged grab
 export (RangedMethod) var ranged_grab_method = RangedMethod.SNAP setget _set_ranged_grab_method
 
@@ -169,7 +171,7 @@ func pick_up(by: Spatial, with_controller: ARVRController) -> void:
 	by_controller = with_controller
 
 	# Remember the mode before pickup
-	original_mode = mode
+	original_mode = mode if release_mode ==0 else release_mode - 1
 
 	# turn off physics on our pickable object
 	mode = RigidBody.MODE_STATIC
