@@ -42,15 +42,13 @@ var _turn_step : float = 0.0
 
 
 # Controller node
-onready var _controller : ARVRController = get_parent()
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
 
-func _snap_turning():
-	if turn_mode == TurnMode.SNAP:
-		return true
-	elif turn_mode == TurnMode.SMOOTH:
-		return false
-	else:
-		return XRToolsUserSettings.snap_turning
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementTurn" or .is_class(name)
+
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
@@ -99,9 +97,17 @@ func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is ARVRController:
+	if !ARVRHelpers.get_arvr_controller(self):
 		return "Unable to find ARVR Controller node"
 
 	# Call base class
 	return ._get_configuration_warning()
+
+
+func _snap_turning():
+	if turn_mode == TurnMode.SNAP:
+		return true
+	elif turn_mode == TurnMode.SMOOTH:
+		return false
+	else:
+		return XRToolsUserSettings.snap_turning

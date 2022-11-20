@@ -10,7 +10,13 @@ class_name ARVRHelpers
 ## somewhere under the players [ARVROrigin].
 
 
-## Find the ARVR Origin from a player node and an optional path
+## Find the [ARVROrigin] node.
+##
+## This function searches for the [ARVROrigin] from the provided node. 
+## The caller may provide an optional path (relative to the node) to the 
+## [ARVROrigin] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [ARVROrigin].
 static func get_arvr_origin(node: Node, path: NodePath = NodePath("")) -> ARVROrigin:
 	var origin: ARVROrigin
 
@@ -21,19 +27,25 @@ static func get_arvr_origin(node: Node, path: NodePath = NodePath("")) -> ARVROr
 			return origin
 
 	# Walk up the tree from the provided node looking for the origin
-	origin = find_ancestor(node, "*", "ARVROrigin")
+	origin = XRTools.find_ancestor(node, "*", "ARVROrigin")
 	if origin:
 		return origin
 
 	# We check our children but only one level
-	origin = find_child(node, "*", "ARVROrigin", false)
+	origin = XRTools.find_child(node, "*", "ARVROrigin", false)
 	if origin:
 		return origin
 
 	# Could not find origin
 	return null
 
-## Find the ARVR Camera from a player node and an optional path
+## Find the [ARVRCamera] node.
+##
+## This function searches for the [ARVRCamera] from the provided node. 
+## The caller may provide an optional path (relative to the node) to the 
+## [ARVRCamera] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [ARVROrigin].
 static func get_arvr_camera(node: Node, path: NodePath = NodePath("")) -> ARVRCamera:
 	var camera: ARVRCamera
 
@@ -54,12 +66,31 @@ static func get_arvr_camera(node: Node, path: NodePath = NodePath("")) -> ARVRCa
 		return camera
 
 	# Search all children of the origin for the camera
-	camera = find_child(origin, "*", "ARVRCamera", false)
+	camera = XRTools.find_child(origin, "*", "ARVRCamera", false)
 	if camera:
 		return camera
 
 	# Could not find camera
 	return null
+
+## Find the [ARVRController] node.
+##
+## This function searches for the [ARVRController] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
+## [ARVRController] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [ARVRController].
+static func get_arvr_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
+	var controller: ARVRController
+
+	# Try using the node path first
+	if path:
+		controller = node.get_node(path) as ARVRController
+		if controller:
+			return controller
+
+	# Search up from the node for the controller
+	return XRTools.find_ancestor(node, "*", "ARVRController") as ARVRController
 
 ## Find the Left Hand Controller from a player node and an optional path
 static func get_left_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
@@ -68,89 +99,6 @@ static func get_left_controller(node: Node, path: NodePath = NodePath("")) -> AR
 ## Find the Right Hand Controller from a player node and an optional path
 static func get_right_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
 	return _get_controller(node, "RightHandController", 2, path)
-
-## Find all children of the specified node matching the given criteria
-##
-## This function returns an array containing all children of the specified
-## node matching the given criteria. This function can be slow and find_child
-## is faster if only one child is needed.
-##
-## The pattern argument specifies the match pattern to check against the
-## node name. Use "*" to match anything.
-##
-## The type argument specifies the type of node to find. Use "" to match any
-## type.
-##
-## The recursive argument specifies whether the search deeply though all child
-## nodes, or whether to only check the immediate children.
-##
-## The owned argument specifies whether the node must be owned.
-static func find_children(
-		node : Node, 
-		pattern : String, 
-		type : String = "", 
-		recursive : bool = true, 
-		owned : bool = true) -> Array:
-	# Find the children
-	var found := []
-	if node:
-		_find_children(found, node, pattern, type, recursive, owned)
-	return found
-
-## Find a child of the specified node matching the given criteria
-##
-## This function finds the first child of the specified node matching the given
-## criteria.
-##
-## The pattern argument specifies the match pattern to check against the
-## node name. Use "*" to match anything.
-##
-## The type argument specifies the type of node to find. Use "" to match any
-## type.
-##
-## The recursive argument specifies whether the search deeply though all child
-## nodes, or whether to only check the immediate children.
-##
-## The owned argument specifies whether the node must be owned.
-static func find_child(
-		node : Node, 
-		pattern : String, 
-		type : String = "", 
-		recursive : bool = true, 
-		owned : bool = true) -> Node:
-	# Find the child
-	if node:
-		return _find_child(node, pattern, type, recursive, owned)
-
-	# Invalid node
-	return null
-
-## Find an ancestor of the specified node matching the given criteria
-##
-## This function finds the first ancestor of the specified node matching the 
-## given criteria.
-##
-## The pattern argument specifies the match pattern to check against the
-## node name. Use "*" to match anything.
-##
-## The type argument specifies the type of node to find. Use "" to match any
-## type.
-static func find_ancestor(
-		node : Node, 
-		pattern : String, 
-		type : String = "") -> Node:
-	# Loop finding ancestor
-	while node:
-		# If node matches filter then break
-		if (node.name.match(pattern) and (type == "" or node.is_class(type))):
-			break
-
-		# Advance to parent
-		node = node.get_parent()
-
-	# Return found node (or null)
-	return node
-
 
 # Find a controller given some search parameters
 static func _get_controller(var node: Node, var default_name: String, var id: int, var path: NodePath) -> ARVRController:
@@ -181,52 +129,3 @@ static func _get_controller(var node: Node, var default_name: String, var id: in
 	# Could not find the controller
 	return null
 
-# Recursive helper function for find_children.
-static func _find_children(
-		found : Array,
-		node : Node,
-		pattern : String,
-		type : String,
-		recursive : bool,
-		owned : bool) -> void:
-	# Iterate over all children
-	for i in node.get_child_count():
-		# Get the child
-		var child := node.get_child(i)
-
-		# If child matches filter then add it to the array
-		if (child.name.match(pattern) and
-			(type == "" or child.is_class(type)) and
-			(not owned or child.owner)):
-			found.push_back(child)
-
-		# If recursive is enabled then descend into children
-		if recursive:
-			_find_children(found, child, pattern, type, recursive, owned)
-
-# Recursive helper functiomn for find_child
-static func _find_child(
-		node : Node,
-		pattern : String,
-		type : String,
-		recursive : bool,
-		owned : bool) -> Node:
-	# Iterate over all children
-	for i in node.get_child_count():
-		# Get the child
-		var child := node.get_child(i)
-
-		# If child matches filter then return it
-		if (child.name.match(pattern) and
-			(type == "" or child.is_class(type)) and
-			(not owned or child.owner)):
-			return child
-
-		# If recursive is enabled then descend into children
-		if recursive:
-			var found := _find_child(node, pattern, type, recursive, owned)
-			if found:
-				return found
-	
-	# Not found
-	return null

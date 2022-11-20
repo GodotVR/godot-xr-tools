@@ -46,8 +46,6 @@ export (int, LAYERS_3D_PHYSICS) var valid_teleport_mask : int = ~0
 export (XRTools.Buttons) var teleport_button : int = XRTools.Buttons.VR_TRIGGER
 
 
-var origin_node : ARVROrigin
-var camera_node : ARVRCamera
 var is_on_floor : bool = true
 var is_teleporting : bool = false
 var can_teleport : bool = true
@@ -67,16 +65,26 @@ onready var ws : float = ARVRServer.world_scale
 # and add your own player character as child.
 onready var capsule : MeshInstance = get_node("Target/Player_figure/Capsule")
 
+## [ARVROrigin] node.
+onready var origin_node := ARVRHelpers.get_arvr_origin(self)
+
+## [ARVRCamera] node.
+onready var camera_node := ARVRHelpers.get_arvr_camera(self)
+
+## [ARVRController] node.
+onready var controller := ARVRHelpers.get_arvr_controller(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsFunctionTeleport" or .is_class(name)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Do not initialise if in the editor
 	if Engine.editor_hint:
 		return
-
-	# Get the origin and camera
-	origin_node = ARVRHelpers.get_arvr_origin(self)
-	camera_node = ARVRHelpers.get_arvr_camera(self)
 
 	# It's inactive when we start
 	$Teleport.visible = false
@@ -104,13 +112,8 @@ func _physics_process(delta):
 	if Engine.editor_hint:
 		return
 
-	# We should be the child or the controller on which the teleport is implemented
-	var controller = get_parent()
-
-	if !origin_node:
-		return
-
-	if !camera_node:
+	# Skip if required nodes are missing
+	if !origin_node or !camera_node or !controller:
 		return
 
 	# if we're not enabled no point in doing mode
@@ -301,10 +304,17 @@ func _physics_process(delta):
 
 # This method verifies the teleport has a valid configuration.
 func _get_configuration_warning():
-	# Verify we're within the tree of an ARVROrigin node
-	var arvr_origin = ARVRHelpers.get_arvr_origin(self)
-	if !arvr_origin:
-		return "This node must be within a branch on an ARVROrigin node"
+	# Verify we can find the ARVROrigin
+	if !ARVRHelpers.get_arvr_origin(self):
+		return "This node must be within a branch of an ARVROrigin node"
+
+	# Verify we can find the ARVRCamera
+	if !ARVRHelpers.get_arvr_camera(self):
+		return "Unable to find ARVRCamera node"
+
+	# Verify we can find the ARVRController
+	if !ARVRHelpers.get_arvr_controller(self):
+		return "This node must be within a branch of an ARVRController node"
 
 	# Pass basic validation
 	return ""

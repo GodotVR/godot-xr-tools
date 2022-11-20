@@ -30,7 +30,12 @@ export var strafe : bool = false
 
 
 # Controller node
-onready var _controller : ARVRController = get_parent()
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementDirect" or .is_class(name)
 
 
 # Perform jump movement
@@ -55,9 +60,30 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is ARVRController:
-		return "Unable to find ARVR Controller node"
+	if !ARVRHelpers.get_arvr_controller(self):
+		return "This node must be within a branch of an ARVRController node"
 
 	# Call base class
 	return ._get_configuration_warning()
+
+
+## Find the left [XRToolsMovementDirect] node.
+##
+## This function searches from the specified node for the left controller 
+## [XRToolsMovementDirect] assuming the node is a sibling of the [ARVROrigin].
+static func find_left(node : Node) -> XRToolsMovementDirect:
+	return XRTools.find_child(
+		ARVRHelpers.get_left_controller(node),
+		"*",
+		"XRToolsMovementDirect") as XRToolsMovementDirect
+
+
+## Find the right [XRToolsMovementDirect] node.
+##
+## This function searches from the specified node for the right controller 
+## [XRToolsMovementDirect] assuming the node is a sibling of the [ARVROrigin].
+static func find_right(node : Node) -> XRToolsMovementDirect:
+	return XRTools.find_child(
+		ARVRHelpers.get_right_controller(node),
+		"*",
+		"XRToolsMovementDirect") as XRToolsMovementDirect

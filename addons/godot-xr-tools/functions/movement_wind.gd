@@ -27,6 +27,11 @@ var _in_wind_areas := Array()
 var _active_wind_area : XRToolsWindArea
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementWind" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Skip if running in the editor

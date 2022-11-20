@@ -1,4 +1,5 @@
 tool
+class_name XRToolsVignette
 extends Spatial
 
 export var radius = 1.0 setget set_radius
@@ -95,19 +96,16 @@ func set_auto_rotation_limit(new_auto_rotation_limit):
 	auto_rotation_limit = new_auto_rotation_limit
 	auto_rotation_limit_rad = deg2rad(auto_rotation_limit)
 
-func _get_origin_node() -> ARVROrigin:
-	var parent = get_parent()
-	while parent:
-		if parent and parent is ARVROrigin:
-			return parent
-		parent = parent.get_parent()
 
-	return null
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsVignette" or .is_class(name)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if !Engine.editor_hint:
-		origin_node = _get_origin_node()
+		origin_node = ARVRHelpers.get_arvr_origin(self)
 		_update_mesh()
 		_update_radius()
 		_update_fade()
@@ -180,8 +178,7 @@ func _process(delta):
 # - ARVRCamera is our parent
 func _get_configuration_warning():
 	# Check the origin node
-	var node = _get_origin_node()
-	if !node:
+	if !ARVRHelpers.get_arvr_origin(self):
 		return "Parent node must be in a branch from ARVROrigin"
 
 	# check camera node

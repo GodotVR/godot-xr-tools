@@ -48,6 +48,11 @@ onready var _hinge_position_rad : float = deg2rad(hinge_position)
 onready var _default_position_rad : float = deg2rad(default_position)
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsInteractableHinge" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set the initial position to match the initial hinge position value

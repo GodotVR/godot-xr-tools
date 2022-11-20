@@ -50,7 +50,7 @@ _global_script_classes=[ {
 "path": "res://addons/godot-xr-tools/functions/function_pointer.gd"
 }, {
 "base": "Spatial",
-"class": "XRToolsFunctionPoseArea",
+"class": "XRToolsFunctionPoseDetector",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/functions/function_pose_detector.gd"
 }, {
@@ -259,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/velocity_averager_linear.gd"
 }, {
+"base": "Spatial",
+"class": "XRToolsVignette",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/effects/vignette.gd"
+}, {
 "base": "CanvasLayer",
 "class": "XRToolsVirtualKeyboard2D",
 "language": "GDScript",
@@ -278,7 +283,7 @@ _global_script_class_icons={
 "XRToolsFallDamage": "",
 "XRToolsFunctionPickup": "res://addons/godot-xr-tools/editor/icons/function.svg",
 "XRToolsFunctionPointer": "res://addons/godot-xr-tools/editor/icons/function.svg",
-"XRToolsFunctionPoseArea": "res://addons/godot-xr-tools/editor/icons/hand.svg",
+"XRToolsFunctionPoseDetector": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsFunctionTeleport": "res://addons/godot-xr-tools/editor/icons/function.svg",
 "XRToolsGroundPhysics": "",
 "XRToolsGroundPhysicsSettings": "",
@@ -320,6 +325,7 @@ _global_script_class_icons={
 "XRToolsStaging": "",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
+"XRToolsVignette": "",
 "XRToolsVirtualKeyboard2D": "",
 "XRToolsWindArea": ""
 }
