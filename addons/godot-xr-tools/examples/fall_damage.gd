@@ -51,6 +51,11 @@ export var damage_threshold : float = 8.0
 var _previous_velocity : Vector3 = Vector3.ZERO
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsFallDamage" or .is_class(name)
+
+
 func _ready():
 	# Set as always active
 	is_active = true

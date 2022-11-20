@@ -39,7 +39,12 @@ var _crouch_button_down : bool = false
 
 
 # Controller node
-onready var _controller : ARVRController = get_parent()
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementCrouch" or .is_class(name)
 
 
 # Perform jump movement
@@ -77,9 +82,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is ARVRController:
-		return "Unable to find ARVR Controller node"
+	if !ARVRHelpers.get_arvr_controller(self):
+		return "This node must be within a branch of an ARVRController node"
 
 	# Call base class
 	return ._get_configuration_warning()

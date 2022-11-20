@@ -44,6 +44,11 @@ var picked_up_ranged : bool = true
 var _object_in_grab_area = Array()
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsSnapZone" or .is_class(name)
+
+
 func _ready():
 	# Set collision shape radius
 	$CollisionShape.shape.radius = grab_distance

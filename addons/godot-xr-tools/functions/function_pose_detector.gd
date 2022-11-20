@@ -1,4 +1,4 @@
-class_name XRToolsFunctionPoseArea, "res://addons/godot-xr-tools/editor/icons/hand.svg"
+class_name XRToolsFunctionPoseDetector, "res://addons/godot-xr-tools/editor/icons/hand.svg"
 extends Spatial
 
 
@@ -13,18 +13,19 @@ export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 1 << 21 setget set_co
 
 
 ## Hand controller
-var _controller : ARVRController
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
 
 ## Hand to control
-var _hand : XRToolsHand
+onready var _hand := XRToolsHand.find_instance(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsFunctionPoseDetector" or .is_class(name)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Find controller and hand
-	_controller = get_parent() as ARVRController
-	_hand = _find_hand()
-
 	# Connect signals (if controller and hand are valid)
 	if _controller and _hand:
 		if $SenseArea.connect("area_entered", self, "_on_area_entered"):
@@ -38,9 +39,12 @@ func _ready():
 
 # This method verifies the pose area has a valid configuration.
 func _get_configuration_warning():
+	if !ARVRHelpers.get_arvr_controller(self):
+		return "Node must be within a branch of an ARVRController node"
+		
 	# Verify hand can be found
-	if !_find_hand():
-		return "Node must be a child of an ARVRController with a hand"
+	if !XRToolsHand.find_instance(self):
+		return "Node must be a within a branch of an ARVRController node with a hand"
 
 	# Pass basic validation
 	return ""
@@ -85,24 +89,3 @@ func _on_area_exited(area : Area) -> void:
 
 	# Remove any overrides set from this hand-pose area
 	_hand.remove_pose_override(pose_area)
-
-
-func _find_hand() -> XRToolsHand:
-	# Get the parent
-	var parent := get_parent()
-	if !parent:
-		return null
-
-	# Make sure it's a controller
-	var controller := parent as ARVRController
-	if !controller:
-		return null
-
-	# Look for hands under the controller
-	for child in controller.get_children():
-		var hand := child as XRToolsHand
-		if hand:
-			return hand
-	
-	# No hand found
-	return null

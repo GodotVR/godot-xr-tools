@@ -22,6 +22,12 @@ export (Environment) var environment
 
 ## Interface
 
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsSceneBase" or .is_class(name)
+
+
 func center_player_on(p_transform : Transform):
 	# In order to center our player so the players feet are at the location
 	# indicated by p_transform, and having our player looking in the required

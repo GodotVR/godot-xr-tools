@@ -52,10 +52,10 @@ var _controller_left_velocity : SlidingAverage = SlidingAverage.new(5)
 var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
 
 # Node references
-onready var _origin_node : ARVROrigin = ARVRHelpers.get_arvr_origin(self)
-onready var _camera_node : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
-onready var _controller_left_node : ARVRController = ARVRHelpers.get_left_controller(self)
-onready var _controller_right_node : ARVRController = ARVRHelpers.get_right_controller(self)
+onready var _origin_node := ARVRHelpers.get_arvr_origin(self)
+onready var _camera_node := ARVRHelpers.get_arvr_camera(self)
+onready var _controller_left_node := ARVRHelpers.get_left_controller(self)
+onready var _controller_right_node := ARVRHelpers.get_right_controller(self)
 
 
 # Sliding Average class
@@ -93,6 +93,11 @@ class SlidingAverage:
 		return _sum / _size
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementPhysicalJump" or .is_class(name)
+
+
 # Perform jump detection
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Handle detecting body jump
@@ -102,6 +107,28 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	# Handle detecting arms jump
 	if arms_jump_enable:
 		_detect_arms_jump(delta, player_body)
+
+
+# This method verifies the movement provider has a valid configuration.
+func _get_configuration_warning():
+	# Verify the camera
+	if !ARVRHelpers.get_arvr_origin(self):
+		return "This node must be within a branch of an ARVROrigin node"
+
+	# Verify the camera
+	if !ARVRHelpers.get_arvr_camera(self):
+		return "Unable to find ARVRCamera"
+
+	# Verify the left controller
+	if !ARVRHelpers.get_left_controller(self):
+		return "Unable to find left ARVRController node"
+
+	# Verify the right controller
+	if !ARVRHelpers.get_right_controller(self):
+		return "Unable to find left ARVRController node"
+
+	# Call base class
+	return ._get_configuration_warning()
 
 
 # Detect the player jumping with their body (using the headset camera)

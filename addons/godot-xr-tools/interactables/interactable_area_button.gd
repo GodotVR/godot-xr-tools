@@ -47,6 +47,11 @@ onready var _button_up := _button.transform.origin
 onready var _button_down := _button_up + displacement
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsInteractableAreaButton" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Construct the button animation tween

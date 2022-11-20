@@ -80,6 +80,11 @@ var last_collided_at : Vector3 = Vector3.ZERO
 var ws : float = 1.0
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsFunctionPointer" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Do not initialise if in the editor
@@ -91,9 +96,10 @@ func _ready():
 
 	# If pointer-trigger is a button then subscribe to button signals
 	if active_button != XRTools.Buttons.VR_ACTION:
-		# Get button press feedback from our parent (should be an ARVRController)
-		get_parent().connect("button_pressed", self, "_on_button_pressed")
-		get_parent().connect("button_release", self, "_on_button_release")
+		# Get button press feedback from controller
+		var controller := ARVRHelpers.get_arvr_controller(self)
+		controller.connect("button_pressed", self, "_on_button_pressed")
+		controller.connect("button_release", self, "_on_button_release")
 
 	# init our state
 	_update_y_offset()

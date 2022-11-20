@@ -17,6 +17,11 @@ var press_to_hold : bool = true
 var grab_locations := {}
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsClimbable" or .is_class(name)
+
+
 # Called by XRToolsFunctionPickup
 func is_picked_up() -> bool:
 	return false

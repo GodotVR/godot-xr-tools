@@ -138,6 +138,12 @@ class SortProviderByOrder:
 	static func sort_by_order(a, b) -> bool:
 		return true if a.order < b.order else false
 
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsPlayerBody" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Get the movement providers ordered by increasing order
@@ -483,31 +489,12 @@ func _get_configuration_warning():
 	# Passed basic validation
 	return ""
 
-## Find the Player Body from a player node and an optional path
-static func get_player_body(node: Node, path: NodePath = NodePath("")) -> XRToolsPlayerBody:
-	var player_body: XRToolsPlayerBody
-
-	# Try using the node path first
-	if path:
-		player_body = node.get_node(path) as XRToolsPlayerBody
-		if player_body:
-			return player_body
-
-	# Get the origin
-	var arvr_origin := ARVRHelpers.get_arvr_origin(node)
-	if !arvr_origin:
-		return null
-
-	# Attempt to get by the default name
-	player_body = arvr_origin.get_node_or_null("PlayerBody") as XRToolsPlayerBody
-	if player_body:
-		return player_body
-
-	# Search all children of the origin for the XRToolsPlayerBody
-	for child in arvr_origin.get_children():
-		player_body = child as XRToolsPlayerBody
-		if player_body:
-			return player_body
-
-	# Could not find XRToolsPlayerBody
-	return null
+## Find an [XRToolsPlayerBody] node.
+##
+## This function searches from the specified node for an [XRToolsPlayerBody]
+## assuming the node is a sibling of the body under an [ARVROrigin].
+static func find_instance(node: Node) -> XRToolsPlayerBody:
+	return XRTools.find_child(
+		ARVRHelpers.get_arvr_origin(node),
+		"*",
+		"XRToolsPlayerBody") as XRToolsPlayerBody

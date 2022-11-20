@@ -41,6 +41,11 @@ export var default_position : float = 0.0
 export var default_on_release : bool = false
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsInteractableSlider" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Set the initial position to match the initial slider position value

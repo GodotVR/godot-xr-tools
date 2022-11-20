@@ -55,9 +55,16 @@ export var horizontal_slew_rate : float = 1.0
 export var vertical_slew_rate : float = 2.0
 
 
-# Node references
+# Left controller
 onready var _left_controller := ARVRHelpers.get_left_controller(self)
+
+# Right controller
 onready var _right_controller := ARVRHelpers.get_right_controller(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementGlide" or .is_class(name)
 
 
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
@@ -120,14 +127,12 @@ func _set_gliding(active: bool) -> void:
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify the left controller
-	var test_left_controller_node := ARVRHelpers.get_left_controller(self)
-	if !test_left_controller_node:
-		return "Unable to find left ARVR Controller node"
+	if !ARVRHelpers.get_left_controller(self):
+		return "Unable to find left ARVRController node"
 
 	# Verify the right controller
-	var test_right_controller_node := ARVRHelpers.get_right_controller(self)
-	if !test_right_controller_node:
-		return "Unable to find right ARVR Controller node"
+	if !ARVRHelpers.get_right_controller(self):
+		return "Unable to find right ARVRController node"
 
 	# Check glide parameters
 	if glide_min_fall_speed > 0:

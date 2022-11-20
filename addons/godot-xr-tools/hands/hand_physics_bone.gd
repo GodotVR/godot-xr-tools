@@ -48,10 +48,15 @@ var _physics_bone : KinematicBody
 var _skeletal_bone : Spatial
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsHandPhysicsBone" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect the 'hand_scale_changed' signal
-	var physics_hand := _find_physics_hand()
+	var physics_hand := XRToolsHand.find_instance(self) as XRToolsPhysicsHand
 	if physics_hand:
 		physics_hand.connect("hand_scale_changed", self, "_on_hand_scale_changed")
 
@@ -134,17 +139,3 @@ func _on_hand_scale_changed(scale: float) -> void:
 	# Adjust the shape
 	_bone_shape.radius = width_scaled
 	_bone_shape.height = length_scaled
-
-
-# Find the physics hand for this bone
-func _find_physics_hand() -> XRToolsPhysicsHand:
-	# Search up for a node with the 'hand_scale_changed' signal
-	var current : Node = self
-	while current:
-		var hand := current as XRToolsPhysicsHand
-		if hand:
-			return hand
-		current = current.get_parent()
-
-	# Could not find hand
-	return null
