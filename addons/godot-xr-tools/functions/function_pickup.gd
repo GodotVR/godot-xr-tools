@@ -1,3 +1,4 @@
+tool
 class_name XRToolsFunctionPickup, "res://addons/godot-xr-tools/editor/icons/function.svg"
 extends Spatial
 
@@ -87,6 +88,10 @@ func is_class(name : String) -> bool:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	# Skip creating grab-helpers if in the editor
+	if Engine.editor_hint:
+		return
+
 	# Create the grab collision shape
 	_grab_collision = CollisionShape.new()
 	_grab_collision.set_name("GrabCollisionShape")

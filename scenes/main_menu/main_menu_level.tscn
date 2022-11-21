@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=44 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
@@ -29,6 +29,8 @@
 [ext_resource path="res://addons/godot-xr-tools/player/poke/poke.tscn" type="PackedScene" id=27]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/labglove.material" type="Material" id=28]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" type="PackedScene" id=29]
+[ext_resource path="res://scenes/sprinting_demo/sprinting_demo.tscn" type="PackedScene" id=30]
+[ext_resource path="res://scenes/sprinting_demo/sprinting_demo.png" type="Texture" id=31]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -60,7 +62,7 @@ nodes/OpenHand/position = Vector2( -400, 0 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -160, 0 )
 nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Grip"
@@ -91,7 +93,7 @@ nodes/OpenHand/node = SubResource( 10 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
@@ -99,7 +101,7 @@ script = ExtResource( 23 )
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton" index="1"]
-transform = Transform( -0.412385, 0.800817, -0.434315, 0.86693, 0.198466, -0.457212, -0.279947, -0.565068, -0.776097, 0.0265249, 0.048873, -0.158356 )
+transform = Transform( 0.54083, 0.840813, -0.0231736, -0.0826267, 0.0805243, 0.993322, 0.837064, -0.535303, 0.113023, 0.0399019, 0.0402828, -0.150096 )
 bone_name = "Index_Tip_L"
 
 [node name="Poke" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
@@ -123,7 +125,7 @@ hand_material_override = ExtResource( 28 )
 material_override = ExtResource( 28 )
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="1"]
-transform = Transform( -0.412385, -0.800818, 0.434315, -0.866931, 0.198466, -0.457212, 0.279946, -0.565068, -0.776097, -0.0265249, 0.048873, -0.158356 )
+transform = Transform( 0.540829, -0.840813, 0.0231736, 0.0826267, 0.0805242, 0.993322, -0.837064, -0.535303, 0.113023, -0.0399019, 0.0402828, -0.150096 )
 bone_name = "Index_Tip_R"
 
 [node name="Poke" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton/BoneAttachment" index="0" instance=ExtResource( 27 )]
@@ -195,6 +197,11 @@ transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4
 scene_base = NodePath("../..")
 scene = ExtResource( 24 )
 title = ExtResource( 25 )
+
+[node name="ToSprintingDemo" parent="Demos" index="8" instance=ExtResource( 9 )]
+scene_base = NodePath("../..")
+scene = ExtResource( 30 )
+title = ExtResource( 31 )
 
 [node name="SettingsUI" parent="." index="3" instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )
