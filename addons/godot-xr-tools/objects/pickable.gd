@@ -44,6 +44,11 @@ enum PickableState {
 	HELD,				# Object held
 }
 
+enum ReleaseMode {
+	ORIGINAL = -1,		## Preserve original mode when picked up
+	RIGID = 0,			## Release and make rigid (MODE_RIGID)
+	STATIC = 1			## Release and make static (MODE_STATIC)
+}
 
 ## Flag indicating if the grip control must be held
 export var press_to_hold : bool = true
@@ -57,8 +62,8 @@ export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0
 ## Method used to hold an object
 export (HoldMethod) var hold_method = HoldMethod.REMOTE_TRANSFORM
 
-## Should change original physics mode
-export (int, "Default", "Rigid", "Static") var release_mode = 0
+## Release mode to use when releasing the object
+export (ReleaseMode) var release_mode : int = ReleaseMode.ORIGINAL
 
 ## Method used to perform a ranged grab
 export (RangedMethod) var ranged_grab_method = RangedMethod.SNAP setget _set_ranged_grab_method
@@ -172,7 +177,7 @@ func pick_up(by: Spatial, with_controller: ARVRController) -> void:
 	by_controller = with_controller
 
 	# Remember the mode before pickup
-	original_mode = mode if release_mode ==0 else release_mode - 1
+	original_mode = mode if release_mode == ReleaseMode.ORIGINAL else release_mode
 
 	# turn off physics on our pickable object
 	mode = RigidBody.MODE_STATIC
