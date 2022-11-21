@@ -29,6 +29,11 @@ export var snap_distance : float = 0.3
 onready var handle_origin: Spatial = get_parent()
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandle" or .is_class(name)
+
+
 # Called when this handle is added to the scene
 func _ready() -> void:
 	# Ensure we start at our origin

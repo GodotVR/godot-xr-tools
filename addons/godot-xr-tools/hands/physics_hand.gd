@@ -20,3 +20,8 @@ export var margin : float = 0.004
 
 ## Bone group for all bones in the hand
 export var bone_group : String = ""
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsPhysicsHand" or .is_class(name)

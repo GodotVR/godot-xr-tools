@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=1]
+
+[node name="Ramp" type="Spatial"]
+
+[node name="CSGPolygon" type="CSGPolygon" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1 )
+use_collision = true
+polygon = PoolVector2Array( -1, 0, 0, 0.8, 1, 0 )
+depth = 2.0
+material = ExtResource( 1 )

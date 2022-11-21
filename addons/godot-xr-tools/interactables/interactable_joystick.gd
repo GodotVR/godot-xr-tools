@@ -76,6 +76,11 @@ onready var _default_x_position_rad : float = deg2rad(default_x_position)
 onready var _default_y_position_rad : float = deg2rad(default_y_position)
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsInteractableJoystick" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set the initial position to match the initial joystick position value

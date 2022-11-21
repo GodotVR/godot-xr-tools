@@ -112,6 +112,11 @@ onready var original_collision_mask : int = collision_mask
 onready var original_collision_layer : int = collision_layer
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsPickable" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Attempt to get the pickup center if provided

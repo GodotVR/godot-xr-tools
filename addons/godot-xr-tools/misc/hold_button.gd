@@ -26,6 +26,11 @@ var time_held = 0.0
 var material : ShaderMaterial
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsHoldButton" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	material = $Visualise.get_surface_material(0)

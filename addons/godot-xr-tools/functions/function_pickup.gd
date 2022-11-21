@@ -1,3 +1,4 @@
+tool
 class_name XRToolsFunctionPickup, "res://addons/godot-xr-tools/editor/icons/function.svg"
 extends Spatial
 
@@ -71,16 +72,25 @@ var _grab_area : Area
 var _grab_collision : CollisionShape
 var _ranged_area : Area
 var _ranged_collision : CollisionShape
-var _controller : ARVRController
 
+
+## Controller
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
 
 ## Grip threshold (from configuration)
 onready var grip_threshold = XRTools.get_grip_threshold()
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsFunctionPickup" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_controller = get_parent()
+	# Skip creating grab-helpers if in the editor
+	if Engine.editor_hint:
+		return
 
 	# Create the grab collision shape
 	_grab_collision = CollisionShape.new()
@@ -154,6 +164,39 @@ func _process(delta):
 		_velocity_averager.add_transform(delta, global_transform)
 
 	_update_closest_object()
+
+
+## Find an [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for an [XRToolsFunctionPickup]
+## assuming the node is a sibling of the pickup under an [ARVRController].
+static func find_instance(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_child(
+		ARVRHelpers.get_arvr_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
+
+
+## Find the left [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for the left controller 
+## [XRToolsFunctionPickup] assuming the node is a sibling of the [ARVROrigin].
+static func find_left(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_child(
+		ARVRHelpers.get_left_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
+
+
+## Find the right [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for the right controller 
+## [XRToolsFunctionPickup] assuming the node is a sibling of the [ARVROrigin].
+static func find_right(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_child(
+		ARVRHelpers.get_right_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
 
 
 # Called when the grab distance has been modified

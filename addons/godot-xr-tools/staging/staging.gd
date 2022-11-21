@@ -77,6 +77,12 @@ var arvr_camera : ARVRCamera
 var current_scene : XRToolsSceneBase
 var current_scene_path : String
 
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsStaging" or .is_class(name)
+
+
 func _on_exit_to_main_menu():
 	load_scene(main_scene)
 

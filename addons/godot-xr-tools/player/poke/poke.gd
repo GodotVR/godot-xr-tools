@@ -55,6 +55,12 @@ func _update_color() -> void:
 	if material:
 		material.albedo_color = color
 
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsPoke" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set as top level ensures we're placing this object in global space

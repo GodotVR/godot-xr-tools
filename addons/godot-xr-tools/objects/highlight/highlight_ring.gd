@@ -3,6 +3,11 @@ class_name XRToolsHighlightRing
 extends MeshInstance
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsHighlightRing" or .is_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Turn off until requested

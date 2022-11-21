@@ -64,6 +64,11 @@ var _tree_root : AnimationNodeBlendTree
 var _pose_overrides := []
 
 
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsHand" or .is_class(name)
+
+
 ## Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Save the initial hand transform
@@ -141,6 +146,17 @@ func _get_configuration_warning():
 
 	# Passed basic validation
 	return ""
+
+
+## Find an [XRToolsHand] node.
+##
+## This function searches from the specified node for an [XRToolsHand] assuming
+## the node is a sibling of the hand under an [ARVRController].
+static func find_instance(node : Node) -> XRToolsHand:
+	return XRTools.find_child(
+		ARVRHelpers.get_arvr_controller(node),
+		"*",
+		"XRToolsHand") as XRToolsHand
 
 
 ## Set the hand material override

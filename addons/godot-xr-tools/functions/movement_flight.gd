@@ -108,9 +108,14 @@ var _controller : ARVRController
 
 
 # Node references
-onready var _camera : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
-onready var _left_controller : ARVRController = ARVRHelpers.get_left_controller(self)
-onready var _right_controller : ARVRController = ARVRHelpers.get_right_controller(self)
+onready var _camera := ARVRHelpers.get_arvr_camera(self)
+onready var _left_controller := ARVRHelpers.get_left_controller(self)
+onready var _right_controller := ARVRHelpers.get_right_controller(self)
+
+
+# Add support for is_class on XRTools classes
+func is_class(name : String) -> bool:
+	return name == "XRToolsMovementFlight" or .is_class(name)
 
 
 func _ready():
@@ -209,5 +214,17 @@ func set_flying(active: bool) -> void:
 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
+	# Verify the camera
+	if !ARVRHelpers.get_arvr_camera(self):
+		return "Unable to find ARVRCamera"
+
+	# Verify the left controller
+	if !ARVRHelpers.get_left_controller(self):
+		return "Unable to find left ARVRController node"
+
+	# Verify the right controller
+	if !ARVRHelpers.get_right_controller(self):
+		return "Unable to find left ARVRController node"
+
 	# Call base class
 	return ._get_configuration_warning()
