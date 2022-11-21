@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/overrides/ground_physics_settings.gd" type="Script" id=1]
+
+[resource]
+script = ExtResource( 1 )
+flags = 0
+move_drag = 5.0
+move_traction = 30.0
+stop_on_slope = true
+move_max_slope = 45.0
+jump_max_slope = 45.0
+jump_velocity = 5.0
+bounciness = 0.0
+bounce_threshold = 1.0

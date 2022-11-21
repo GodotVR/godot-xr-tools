@@ -1,0 +1,126 @@
+[gd_scene load_steps=20 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_sprint.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=10]
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=11]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_dark_camo.material" type="Material" id=12]
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=13]
+[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=14]
+[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=15]
+[ext_resource path="res://scenes/sprinting_demo/player_physics.tres" type="Resource" id=16]
+[ext_resource path="res://scenes/sprinting_demo/objects/ramp.tscn" type="PackedScene" id=17]
+[ext_resource path="res://scenes/sprinting_demo/objects/climbing_wall.tscn" type="PackedScene" id=18]
+
+[sub_resource type="Curve3D" id=1]
+bake_interval = 2.0
+_data = {
+"points": PoolVector3Array( 10, 0, 0, -10, 0, 0, -20, 0, 20, 0, 0, 10, 0, 0, -10, -40, 0, 0, -10, 0, 0, 10, 0, 0, -20, 0, -20, -10, 0, 0, 10, 0, 0, 20, 0, -20, 0, 0, -10, 0, 0, 10, 40, 0, 0, 10, 0, 0, -10, 0, 0, 20, 0, 20, 0, 0, 0, 0, 0, 0, -20, 0, 20 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[node name="SprintingDemo" instance=ExtResource( 6 )]
+
+[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 7 )]
+hand_material_override = ExtResource( 12 )
+
+[node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 10 )]
+grab_distance = 0.1
+
+[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 11 )]
+enabled = true
+order = 10
+max_speed = 3.0
+strafe = true
+
+[node name="MovementJump" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 1 )]
+jump_button_id = 7
+
+[node name="MovementSprint" parent="ARVROrigin/LeftHand" index="4" instance=ExtResource( 8 )]
+sprint_type = 1
+sprint_button = 1
+
+[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 9 )]
+hand_material_override = ExtResource( 12 )
+
+[node name="FunctionPickup" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 10 )]
+grab_distance = 0.1
+
+[node name="MovementDirect" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 11 )]
+enabled = true
+order = 10
+max_speed = 3.0
+strafe = false
+
+[node name="MovementTurn" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 2 )]
+
+[node name="MovementJump" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 1 )]
+jump_button_id = 7
+
+[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 5 )]
+physics = ExtResource( 16 )
+
+[node name="MovementClimb" parent="ARVROrigin" index="4" instance=ExtResource( 3 )]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 4 )]
+
+[node name="Teleport" parent="." index="2" instance=ExtResource( 15 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0 )
+scene_base = NodePath("..")
+title = ExtResource( 14 )
+
+[node name="Track" type="Spatial" parent="." index="3"]
+
+[node name="Path" type="Path" parent="Track" index="0"]
+curve = SubResource( 1 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Track/Path" index="0"]
+material_override = ExtResource( 13 )
+use_collision = true
+collision_mask = 0
+polygon = PoolVector2Array( -3, 0, -2.5, 0.1, 2.5, 0.1, 3, 0 )
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 2.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = true
+
+[node name="Ramps" type="Spatial" parent="." index="4"]
+
+[node name="Ramp1" parent="Ramps" index="0" instance=ExtResource( 17 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 28 )
+
+[node name="Ramp2" parent="Ramps" index="1" instance=ExtResource( 17 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 0, 28 )
+
+[node name="Ramp3" parent="Ramps" index="2" instance=ExtResource( 17 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, -28 )
+
+[node name="Ramp4" parent="Ramps" index="3" instance=ExtResource( 17 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 0, -28 )
+
+[node name="Climbing" type="Spatial" parent="." index="5"]
+
+[node name="ClimbingWall1" parent="Climbing" index="0" instance=ExtResource( 18 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0, 0 )
+
+[node name="ClimbingWall2" parent="Climbing" index="1" instance=ExtResource( 18 )]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 48, 0, 0 )
+
+[node name="ClimbingWall3" parent="Climbing" index="2" instance=ExtResource( 18 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 48 )
+
+[node name="ClimbingWall4" parent="Climbing" index="3" instance=ExtResource( 18 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, -48 )
