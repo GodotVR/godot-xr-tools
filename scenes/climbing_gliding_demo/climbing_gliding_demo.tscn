@@ -17,6 +17,7 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/climbing_gliding_demo/objects/hill.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" type="Material" id=17]
+[ext_resource path="res://scenes/climbing_gliding_demo/objects/instructions.tscn" type="PackedScene" id=18]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CubeMesh" id=1]
@@ -24,9 +25,6 @@ size = Vector3( 200, 1, 200 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 100, 0.5, 100 )
-
-[sub_resource type="ViewportTexture" id=8]
-viewport_path = NodePath("Instructions/Viewport")
 
 [node name="ClimbingGlidingDemo" instance=ExtResource( 1 )]
 
@@ -215,57 +213,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 91, 6, 81 )
 scene_base = NodePath("..")
 title = ExtResource( 13 )
 
-[node name="Instructions" type="Spatial" parent="." index="5"]
-transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -84, 38, -62 )
-
-[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
-size = Vector2( 370, 270 )
-
-[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
-
-[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
-margin_right = 370.0
-margin_bottom = 270.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 360.0
-margin_bottom = 260.0
-bbcode_enabled = true
-bbcode_text = "[u]Climbing and Gliding Demo[/u]
-
-This scene demonstrates climbing, gliding, and wind:
- * Left Controller:
-   - Joystick U/D/L/R: Smooth Movement with strafing
-   - Grip: Grab or climb
-   - A/X Button: Jump
- * Right Controller:
-   - Joystick U/D: Smooth Movement
-   - Joystick L/R: Smooth Turning
-   - Grip: Grab or climb
-   - A/X Button: Jump
-
-The brown terrain is climbable, and the player can glide by extending their arms into a T-pose. Gliding into wind columns will push the player up."
-text = "Climbing and Gliding Demo
-
-This scene demonstrates climbing, gliding, and wind:
- * Left Controller:
-   - Joystick U/D/L/R: Smooth Movement with strafing
-   - Grip: Grab or climb
-   - A/X Button: Jump
- * Right Controller:
-   - Joystick U/D: Smooth Movement
-   - Joystick L/R: Smooth Turning
-   - Grip: Grab or climb
-   - A/X Button: Jump
-
-The brown terrain is climbable, and the player can glide by extending their arms into a T-pose. Gliding into wind columns will push the player up."
-
-[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
-flip_v = true
-opacity = 0.5
-pixel_size = 0.005
-double_sided = false
-texture = SubResource( 8 )
+[node name="Instructions" parent="." index="5" instance=ExtResource( 18 )]
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40, -60 )

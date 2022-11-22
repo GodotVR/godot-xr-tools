@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://scenes/pickable_demo/objects/teacup.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/pickable_demo/objects/saucer.tscn" type="PackedScene" id=20]
 [ext_resource path="res://scenes/pickable_demo/objects/teacup_stand.tscn" type="PackedScene" id=21]
+[ext_resource path="res://scenes/pickable_demo/objects/instructions.tscn" type="PackedScene" id=22]
 
 [node name="PickableDemo" instance=ExtResource( 1 )]
 
@@ -68,7 +69,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 scene_base = NodePath("..")
 title = ExtResource( 6 )
 
-[node name="Table1" parent="." index="3" instance=ExtResource( 15 )]
+[node name="Instructions" parent="." index="3" instance=ExtResource( 22 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -5 )
+
+[node name="Table1" parent="." index="4" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
 
 [node name="Saucer" parent="Table1" index="10" instance=ExtResource( 20 )]
@@ -86,7 +90,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.234713, 0.824552, 0.266177 )
 [node name="Table2" parent="." index="4" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )
 
-[node name="RemoteGrabBalls" type="Spatial" parent="." index="5"]
+[node name="RemoteGrabBalls" type="Spatial" parent="." index="6"]
 
 [node name="Ball1" parent="RemoteGrabBalls" index="0" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -2.6 )
@@ -97,7 +101,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -3.2 )
 [node name="Ball3" parent="RemoteGrabBalls" index="2" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -2.9 )
 
-[node name="Hammers" type="Spatial" parent="." index="6"]
+[node name="Hammers" type="Spatial" parent="." index="7"]
 
 [node name="Hammer" parent="Hammers" index="0" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.6 )
@@ -111,7 +115,7 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 [node name="Hammer3" parent="Hammers" index="3" instance=ExtResource( 17 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -2.2, 0.15, -3.3 )
 
-[node name="GrabCubes" type="Spatial" parent="." index="7"]
+[node name="GrabCubes" type="Spatial" parent="." index="8"]
 
 [node name="Cube1" parent="GrabCubes" index="0" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.875, -2.8 )
@@ -122,7 +126,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.875, -2.8 )
 [node name="Cube3" parent="GrabCubes" index="2" instance=ExtResource( 14 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.975, -2.8 )
 
-[node name="SnapToys" type="Spatial" parent="." index="8"]
+[node name="SnapToys" type="Spatial" parent="." index="9"]
 
 [node name="SnapTray1" parent="SnapToys" index="0" instance=ExtResource( 16 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.5, 1, -2.9 )

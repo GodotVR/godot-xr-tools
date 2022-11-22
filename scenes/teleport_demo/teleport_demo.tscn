@@ -11,9 +11,7 @@
 [ext_resource path="res://assets/meshes/mound/mound.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" type="PackedScene" id=11]
-
-[sub_resource type="ViewportTexture" id=3]
-viewport_path = NodePath("Instructions/Viewport")
+[ext_resource path="res://scenes/teleport_demo/objects/instructions.tscn" type="PackedScene" id=12]
 
 [node name="TeleportDemo" instance=ExtResource( 1 )]
 
@@ -29,60 +27,16 @@ viewport_path = NodePath("Instructions/Viewport")
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 7 )]
 
-[node name="Ramps" parent="." index="2" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
-
-[node name="Mound" parent="." index="3" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8 )
-
-[node name="MainMenuTeleport" parent="." index="4" instance=ExtResource( 6 )]
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7 )
 scene_base = NodePath("..")
 title = ExtResource( 3 )
 
-[node name="Instructions" type="Spatial" parent="." index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2 )
+[node name="Instructions" parent="." index="3" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4 )
 
-[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
-size = Vector2( 370, 270 )
+[node name="Ramps" parent="." index="4" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
 
-[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
-
-[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
-margin_right = 370.0
-margin_bottom = 270.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 360.0
-margin_bottom = 260.0
-bbcode_enabled = true
-bbcode_text = "[u]Teleport Demo[/u]
-
-This scene demonstrates teleport movement including:
- * Left Controller:
-   - Trigger: Teleportation
-   - Joystick L/R: Snap Turning
- * Right Controller:
-   - Joystick L/R: Snap Turning
-
-Test objects have been placed in the scene to allow testing of teleportation onto different terrain."
-text = "Teleport Demo
-
-This scene demonstrates teleport movement including:
- * Left Controller:
-   - Trigger: Teleportation
-   - Joystick L/R: Snap Turning
- * Right Controller:
-   - Joystick L/R: Snap Turning
-
-Test objects have been placed in the scene to allow testing of teleportation onto different terrain."
-
-[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
-flip_v = true
-opacity = 0.5
-pixel_size = 0.005
-double_sided = false
-texture = SubResource( 3 )
+[node name="Mound" parent="." index="5" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8 )

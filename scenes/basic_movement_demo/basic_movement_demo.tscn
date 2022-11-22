@@ -13,10 +13,7 @@
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=12]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" type="PackedScene" id=13]
-
-[sub_resource type="ViewportTexture" id=3]
-flags = 4
-viewport_path = NodePath("Instructions/Viewport")
+[ext_resource path="res://scenes/basic_movement_demo/objects/instructions.tscn" type="PackedScene" id=14]
 
 [node name="BasicMovementDemo" instance=ExtResource( 1 )]
 
@@ -57,51 +54,16 @@ crouch_type = 1
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 7 )]
 
-[node name="Ramps" parent="." index="2" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
-
-[node name="Mound" parent="." index="3" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8 )
-
-[node name="MainMenuTeleport" parent="." index="4" instance=ExtResource( 11 )]
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7 )
 scene_base = NodePath("..")
 title = ExtResource( 12 )
 
-[node name="Instructions" type="Spatial" parent="." index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2 )
+[node name="Instructions" parent="." index="3" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4 )
 
-[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
-size = Vector2( 370, 270 )
+[node name="Ramps" parent="." index="4" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8 )
 
-[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
-
-[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
-margin_right = 370.0
-margin_bottom = 270.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 360.0
-margin_bottom = 260.0
-text = "Basic Movement Demo
-
-This scene demonstrates basic movement including:
- * Left Controller:
-   - Joystick U/D/L/R: Movement
-   - A/X Button: Jump
-   - B/Y Button: Crouch (Hold)
- * Right Controller:
-   - Joystick U/D: Movement
-   - Joystick L/R: Turning
-   - A/X Button: Jump
-   - B/Y Button: Couch (Toggle)"
-
-[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
-flip_v = true
-opacity = 0.5
-pixel_size = 0.005
-double_sided = false
-texture = SubResource( 3 )
+[node name="Mound" parent="." index="5" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8 )

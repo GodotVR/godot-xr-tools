@@ -15,15 +15,13 @@
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=13]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=15]
+[ext_resource path="res://scenes/grappling_demo/objects/instructions.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scenes/grappling_demo/objects/tower.tscn" type="PackedScene" id=18]
-
-[sub_resource type="ViewportTexture" id=5]
-viewport_path = NodePath("Instructions/Viewport")
 
 [node name="GrapplingDemo" instance=ExtResource( 1 )]
 
 [node name="ARVROrigin" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 24 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 6 )]
 
@@ -63,14 +61,20 @@ ranged_enable = false
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 11 )]
 
 [node name="MovementClimb" parent="ARVROrigin" index="4" instance=ExtResource( 4 )]
-left_pickup = NodePath("../LeftHand/FunctionPickup")
-right_pickup = NodePath("../RightHand/FunctionPickup")
 
 [node name="MovementGlide" parent="ARVROrigin" index="5" instance=ExtResource( 9 )]
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 13 )]
 
-[node name="Towers" type="Spatial" parent="." index="2"]
+[node name="ToMainMenu" parent="." index="2" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32 )
+scene_base = NodePath("..")
+title = ExtResource( 15 )
+
+[node name="Instructions" parent="." index="3" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 24 )
+
+[node name="Towers" type="Spatial" parent="." index="4"]
 
 [node name="Tower1" parent="Towers" index="0" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -8 )
@@ -98,69 +102,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
 [node name="Tower9" parent="Towers" index="8" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, 8 )
 
-[node name="MovingPlatformsLow" parent="." index="3" instance=ExtResource( 12 )]
+[node name="MovingPlatformsLow" parent="." index="5" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
 
-[node name="MovingPlatformsHigh" parent="." index="4" instance=ExtResource( 12 )]
+[node name="MovingPlatformsHigh" parent="." index="6" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
 rate = -10.0
-
-[node name="ToMainMenu" parent="." index="5" instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, 24 )
-scene_base = NodePath("..")
-title = ExtResource( 15 )
-
-[node name="Instructions" type="Spatial" parent="." index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 20 )
-
-[node name="Viewport" type="Viewport" parent="Instructions" index="0"]
-size = Vector2( 370, 270 )
-
-[node name="Node2D" type="Node2D" parent="Instructions/Viewport" index="0"]
-
-[node name="ColorRect" type="ColorRect" parent="Instructions/Viewport/Node2D" index="0"]
-margin_right = 370.0
-margin_bottom = 270.0
-color = Color( 0, 0, 0, 1 )
-
-[node name="Description" type="RichTextLabel" parent="Instructions/Viewport/Node2D" index="1"]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 360.0
-margin_bottom = 260.0
-bbcode_enabled = true
-bbcode_text = "[u]Grappling Demo[/u]
-
-This scene demonstrates grappling movement including:
- * Left Controller:
-   - Joystick: Move/Strafe
-   - Button A/X: Jump
-   - Grip: Climb
- * Right Controller:
-   - Joystick: Move/Rotate
-   - Button A/X: Jump
-   - Grip: Climb
-   - Trigger: Grapple
-
-Test objects have been placed in the scene to allow testing of grappling and climbing. T-Pose to glide."
-text = "Grappling Demo
-
-This scene demonstrates grappling movement including:
- * Left Controller:
-   - Joystick: Move/Strafe
-   - Button A/X: Jump
-   - Grip: Climb
- * Right Controller:
-   - Joystick: Move/Rotate
-   - Button A/X: Jump
-   - Grip: Climb
-   - Trigger: Grapple
-
-Test objects have been placed in the scene to allow testing of grappling and climbing. T-Pose to glide."
-
-[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
-flip_v = true
-opacity = 0.5
-pixel_size = 0.005
-double_sided = false
-texture = SubResource( 5 )

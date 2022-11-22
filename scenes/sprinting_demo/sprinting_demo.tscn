@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://scenes/sprinting_demo/player_physics.tres" type="Resource" id=16]
 [ext_resource path="res://scenes/sprinting_demo/objects/ramp.tscn" type="PackedScene" id=17]
 [ext_resource path="res://scenes/sprinting_demo/objects/climbing_wall.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/sprinting_demo/objects/instructions.tscn" type="PackedScene" id=19]
 
 [sub_resource type="Curve3D" id=1]
 bake_interval = 2.0
@@ -44,8 +45,6 @@ strafe = true
 jump_button_id = 7
 
 [node name="MovementSprint" parent="ARVROrigin/LeftHand" index="4" instance=ExtResource( 8 )]
-sprint_type = 1
-sprint_button = 1
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 9 )]
 hand_material_override = ExtResource( 12 )
@@ -76,7 +75,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 0 )
 scene_base = NodePath("..")
 title = ExtResource( 14 )
 
-[node name="Track" type="Spatial" parent="." index="3"]
+[node name="Instructions" parent="." index="3" instance=ExtResource( 19 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4 )
+
+[node name="Track" type="Spatial" parent="." index="4"]
 
 [node name="Path" type="Path" parent="Track" index="0"]
 curve = SubResource( 1 )
@@ -97,7 +99,7 @@ path_continuous_u = true
 path_u_distance = 1.0
 path_joined = true
 
-[node name="Ramps" type="Spatial" parent="." index="4"]
+[node name="Ramps" type="Spatial" parent="." index="5"]
 
 [node name="Ramp1" parent="Ramps" index="0" instance=ExtResource( 17 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 28 )
@@ -111,7 +113,7 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -4, 0, 
 [node name="Ramp4" parent="Ramps" index="3" instance=ExtResource( 17 )]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 4, 0, -28 )
 
-[node name="Climbing" type="Spatial" parent="." index="5"]
+[node name="Climbing" type="Spatial" parent="." index="6"]
 
 [node name="ClimbingWall1" parent="Climbing" index="0" instance=ExtResource( 18 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -48, 0, 0 )
