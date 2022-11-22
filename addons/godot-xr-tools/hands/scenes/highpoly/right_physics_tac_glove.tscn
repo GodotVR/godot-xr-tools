@@ -1,0 +1,178 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/hands/model/Hand_Glove_R.gltf" type="PackedScene" id=2]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=3]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_dark_camo.material" type="Material" id=4]
+[ext_resource path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" type="Script" id=5]
+[ext_resource path="res://addons/godot-xr-tools/hands/physics_hand.gd" type="Script" id=6]
+[ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_default_right.tres" type="Resource" id=7]
+
+[node name="RightPhysicsHand" type="Spatial"]
+script = ExtResource( 6 )
+default_pose = ExtResource( 7 )
+
+[node name="Hand_Glove_R" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Skeleton" parent="Hand_Glove_R/Armature" index="0"]
+bones/0/bound_children = [ NodePath("BoneRoot") ]
+bones/1/bound_children = [ NodePath("BoneThumbMetacarpal") ]
+bones/2/bound_children = [ NodePath("BoneThumbProximal") ]
+bones/3/bound_children = [ NodePath("BoneThumbDistal") ]
+bones/5/bound_children = [ NodePath("BoneIndexMetacarpal") ]
+bones/6/bound_children = [ NodePath("BoneIndexProximal") ]
+bones/7/bound_children = [ NodePath("BoneIndexMiddle") ]
+bones/8/bound_children = [ NodePath("BoneIndexDistal") ]
+bones/10/bound_children = [ NodePath("BoneMiddleMetacarpal") ]
+bones/11/bound_children = [ NodePath("BoneMiddleProximal") ]
+bones/12/bound_children = [ NodePath("BoneMiddleMiddle") ]
+bones/13/bound_children = [ NodePath("BoneMiddleDistal") ]
+bones/15/bound_children = [ NodePath("BoneRingMetacarpal") ]
+bones/16/bound_children = [ NodePath("BoneRingProximal") ]
+bones/17/bound_children = [ NodePath("BoneRingMiddle") ]
+bones/18/bound_children = [ NodePath("BoneRingDistal") ]
+bones/20/bound_children = [ NodePath("BonePinkyMetacarpal") ]
+bones/21/bound_children = [ NodePath("BonePinkyProximal") ]
+bones/22/bound_children = [ NodePath("BonePinkyMiddle") ]
+bones/23/bound_children = [ NodePath("BonePinkyDistal") ]
+
+[node name="mesh_Glove_R" parent="Hand_Glove_R/Armature/Skeleton" index="0"]
+material/0 = ExtResource( 4 )
+
+[node name="BoneRoot" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="1"]
+transform = Transform( 1, 1.83077e-05, -1.52659e-08, -1.52668e-08, 0.00166774, 0.999999, 1.83077e-05, -0.999999, 0.00166774, -3.86425e-08, -1.86975e-05, 0.0271756 )
+bone_name = "Wrist_R"
+script = ExtResource( 5 )
+width_ratio = 0.8
+
+[node name="BoneThumbMetacarpal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="2"]
+transform = Transform( 0.998519, -0.0514604, 0.017651, 0.017651, 0.613335, 0.789626, -0.0514604, -0.788145, 0.613335, -0.00999954, 0.0200266, 3.5936e-05 )
+bone_name = "Thumb_Metacarpal_R"
+script = ExtResource( 5 )
+length = 0.05
+
+[node name="BoneThumbProximal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="3"]
+transform = Transform( 0.921479, -0.383958, 0.0587628, 0.124052, 0.434264, 0.892202, -0.368087, -0.814856, 0.447796, -0.012311, 0.0475754, -0.0353647 )
+bone_name = "Thumb_Proximal_R"
+script = ExtResource( 5 )
+
+[node name="BoneThumbDistal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="4"]
+transform = Transform( 0.930159, -0.366844, -0.0151708, 0.154037, 0.352396, 0.923087, -0.333283, -0.860954, 0.384292, -0.028494, 0.0658787, -0.0697092 )
+bone_name = "Thumb_Distal_R"
+script = ExtResource( 5 )
+length = 0.02
+
+[node name="BoneIndexMetacarpal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="5"]
+transform = Transform( 0.999165, -0.0336562, 0.0231681, -0.0231985, -0.000511129, 0.999731, -0.0336353, -0.999433, -0.00129147, 0.0100005, 0.0224317, 3.59286e-05 )
+bone_name = "Index_Metacarpal_R"
+script = ExtResource( 5 )
+length = 0.08
+width_ratio = 0.2
+
+[node name="BoneIndexProximal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="6"]
+transform = Transform( 0.997821, -0.0419384, 0.0509327, -0.041317, 0.204661, 0.97796, -0.0514382, -0.977934, 0.202483, 0.00729559, 0.0223907, -0.0802861 )
+bone_name = "Index_Proximal_R"
+script = ExtResource( 5 )
+
+[node name="BoneIndexMiddle" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="7"]
+transform = Transform( 0.759851, -0.644453, 0.0854741, 0.040588, 0.178251, 0.983147, -0.648829, -0.743577, 0.161601, 0.00569705, 0.0301916, -0.117561 )
+bone_name = "Index_Intermediate_R"
+script = ExtResource( 5 )
+length = 0.025
+bone_group = "index_finger"
+
+[node name="BoneIndexDistal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="8"]
+transform = Transform( 0.356468, -0.927111, 0.115741, 0.109286, 0.164404, 0.98032, -0.927894, -0.336803, 0.159925, -0.0145038, 0.035779, -0.140869 )
+bone_name = "Index_Distal_R"
+script = ExtResource( 5 )
+length = 0.02
+bone_group = "index_finger"
+
+[node name="BoneMiddleMetacarpal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="9"]
+transform = Transform( 0.999918, 0.0127165, 0.00125617, -0.000365489, -0.0698022, 0.997561, 0.0127732, -0.997479, -0.0697919, 0.0100005, 0.00355416, 3.59286e-05 )
+bone_name = "Middle_Metacarpal_R"
+script = ExtResource( 5 )
+length = 0.08
+width_ratio = 0.2
+
+[node name="BoneMiddleProximal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="10"]
+transform = Transform( 0.971345, -0.237654, 0.00293004, -0.0207339, -0.0724503, 0.997157, -0.236766, -0.968644, -0.0753018, 0.0110237, -0.00206236, -0.0802245 )
+bone_name = "Middle_Proximal_R"
+script = ExtResource( 5 )
+
+[node name="BoneMiddleMiddle" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="11"]
+transform = Transform( 0.764922, -0.643161, 0.0351718, -0.0290327, 0.0201225, 0.999376, -0.643468, -0.765465, -0.00328062, 0.000328453, -0.00532286, -0.123817 )
+bone_name = "Middle_Intermediate_R"
+script = ExtResource( 5 )
+length = 0.025
+
+[node name="BoneMiddleDistal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="12"]
+transform = Transform( 0.297115, -0.95453, 0.0243818, -0.0374454, 0.0138673, 0.999202, -0.954107, -0.297791, -0.0316226, -0.0205207, -0.00467056, -0.148631 )
+bone_name = "Middle_Distal_R"
+script = ExtResource( 5 )
+length = 0.02
+
+[node name="BoneRingMetacarpal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="13"]
+transform = Transform( 0.998609, -0.047074, -0.0237409, 0.0169882, -0.138981, 0.990149, -0.0499098, -0.989175, -0.137988, 0.0100005, -0.0130734, 3.59304e-05 )
+bone_name = "Ring_Metacarpal_R"
+script = ExtResource( 5 )
+length = 0.07
+width_ratio = 0.2
+
+[node name="BoneRingProximal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="14"]
+transform = Transform( 0.982964, -0.181854, -0.0266582, -0.0109494, -0.202722, 0.979175, -0.183471, -0.962202, -0.20126, 0.00651962, -0.0233502, -0.0731075 )
+bone_name = "Ring_Proximal_R"
+script = ExtResource( 5 )
+length = 0.028
+
+[node name="BoneRingMiddle" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="15"]
+transform = Transform( 0.772579, -0.634603, -0.0200164, -0.0794845, -0.127948, 0.988591, -0.629924, -0.762173, -0.149291, -0.000778398, -0.0314857, -0.111722 )
+bone_name = "Ring_Intermediate_R"
+script = ExtResource( 5 )
+length = 0.025
+
+[node name="BoneRingDistal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="16"]
+transform = Transform( 0.381388, -0.924068, -0.025339, -0.114105, -0.0742599, 0.99069, -0.917346, -0.374945, -0.133762, -0.0184188, -0.0350424, -0.132908 )
+bone_name = "Ring_Distal_R"
+script = ExtResource( 5 )
+length = 0.02
+
+[node name="BonePinkyMetacarpal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="17"]
+transform = Transform( 0.998969, -0.0165318, -0.0422887, 0.0385953, -0.181426, 0.982647, -0.0239172, -0.983265, -0.180601, 4.57587e-07, -0.0299734, 3.59416e-05 )
+bone_name = "Little_Metacarpal_R"
+script = ExtResource( 5 )
+length = 0.07
+width_ratio = 0.18
+
+[node name="BonePinkyProximal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="18"]
+transform = Transform( 0.969212, -0.239304, -0.0579745, -0.0185536, -0.305761, 0.951927, -0.245527, -0.921544, -0.300787, -0.00108587, -0.0418952, -0.0645756 )
+bone_name = "Little_Proximal_R"
+script = ExtResource( 5 )
+length = 0.02
+
+[node name="BonePinkyMiddle" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="19"]
+transform = Transform( 0.699331, -0.713816, -0.0374602, -0.103947, -0.153407, 0.982681, -0.7072, -0.683325, -0.181481, -0.00901248, -0.0520231, -0.0951004 )
+bone_name = "Little_Intermediate_R"
+script = ExtResource( 5 )
+length = 0.015
+
+[node name="BonePinkyDistal" type="BoneAttachment" parent="Hand_Glove_R/Armature/Skeleton" index="20"]
+transform = Transform( 0.340891, -0.939845, -0.0220291, -0.162162, -0.081867, 0.983362, -0.926011, -0.331647, -0.180315, -0.0218786, -0.0547881, -0.107417 )
+bone_name = "Little_Distal_R"
+script = ExtResource( 5 )
+length = 0.015
+
+[node name="AnimationPlayer" parent="Hand_Glove_R" instance=ExtResource( 1 )]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = ExtResource( 3 )
+anim_player = NodePath("../Hand_Glove_R/AnimationPlayer")
+active = true
+parameters/Grip/blend_amount = 0
+parameters/Trigger/blend_amount = 0
+
+[editable path="Hand_Glove_R"]
