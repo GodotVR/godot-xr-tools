@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
@@ -18,6 +18,9 @@
 [ext_resource path="res://scenes/pickable_demo/objects/snap_tray.tscn" type="PackedScene" id=16]
 [ext_resource path="res://scenes/pickable_demo/objects/hammer.tscn" type="PackedScene" id=17]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pointer.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/pickable_demo/objects/teacup.tscn" type="PackedScene" id=19]
+[ext_resource path="res://scenes/pickable_demo/objects/saucer.tscn" type="PackedScene" id=20]
+[ext_resource path="res://scenes/pickable_demo/objects/teacup_stand.tscn" type="PackedScene" id=21]
 
 [node name="PickableDemo" instance=ExtResource( 1 )]
 
@@ -67,6 +70,18 @@ title = ExtResource( 6 )
 
 [node name="Table1" parent="." index="3" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
+
+[node name="Saucer" parent="Table1" index="10" instance=ExtResource( 20 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.583645, 0.828995, 0.266177 )
+
+[node name="TeacupStand" parent="Table1" index="11" instance=ExtResource( 21 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.8, 0 )
+
+[node name="Teacup" parent="Table1/TeacupStand" index="8" instance=ExtResource( 19 )]
+transform = Transform( -4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37114e-08, -1, 1.91069e-15, 0.08, 0.204674, 0.0395086 )
+
+[node name="Teacup" parent="Table1" index="12" instance=ExtResource( 19 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.234713, 0.824552, 0.266177 )
 
 [node name="Table2" parent="." index="4" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )

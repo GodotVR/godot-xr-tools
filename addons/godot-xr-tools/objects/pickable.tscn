@@ -5,6 +5,4 @@
 [node name="Pickable" type="RigidBody"]
 script = ExtResource( 1 )
 
-[node name="PickupCenter" type="Spatial" parent="."]
-
 [node name="CollisionShape" type="CollisionShape" parent="."]

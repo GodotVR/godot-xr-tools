@@ -63,6 +63,11 @@ var _tree_root : AnimationNodeBlendTree
 ## Sorted stack of PoseOverride
 var _pose_overrides := []
 
+## Force grip value (< 0 for no force)
+var _force_grip := -1.0
+
+## Force trigger value (< 0 for no force)
+var _force_trigger := -1.0
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -109,8 +114,12 @@ func _process(_delta: float) -> void:
 	# Animate the hand mesh with the controller inputs
 	var controller : ARVRController = get_parent()
 	if controller:
-		var grip = controller.get_joystick_axis(JOY_VR_ANALOG_GRIP)
-		var trigger = controller.get_joystick_axis(JOY_VR_ANALOG_TRIGGER)
+		var grip : float = controller.get_joystick_axis(JOY_VR_ANALOG_GRIP)
+		var trigger : float = controller.get_joystick_axis(JOY_VR_ANALOG_TRIGGER)
+
+		# Allow overriding of grip and trigger
+		if _force_grip >= 0.0: grip = _force_grip
+		if _force_trigger >= 0.0: trigger = _force_trigger
 
 		# Uncomment for workaround for bug in OpenXR plugin 1.1.1 and earlier
 		# giving values from -1.0 to 1.0. Note that when controllers are not
@@ -175,16 +184,38 @@ func set_default_pose(pose : Resource) -> void:
 
 ## Add a pose override
 func add_pose_override(who : Node, priority : int, settings : XRToolsHandPoseSettings) -> void:
-	# Insert the pose override and update the pose
-	_insert_pose_override(who, priority, settings)
-	_update_pose()
+	# Remove any existing pose override from this source
+	var modified := _remove_pose_override(who)
+
+	# Insert the pose override
+	if settings:
+		_insert_pose_override(who, priority, settings)
+		modified = true
+
+	# Update the pose
+	if modified:
+		_update_pose()
 
 
 ## Remove a pose override
 func remove_pose_override(who : Node) -> void:
-	# Remove the pose override and update the pose
-	_remove_pose_override(who)
-	_update_pose()
+	# Remove the pose override
+	var modified := _remove_pose_override(who)
+
+	# Update the pose
+	if modified:
+		_update_pose()
+
+
+## Force the grip and trigger values (primarily for preview)
+func force_grip_trigger(grip : float = -1.0, trigger : float = -1.0) -> void:
+	# Save the forced values
+	_force_grip = grip
+	_force_trigger = trigger
+
+	# Update the animation if forcing to specific values
+	if grip >= 0.0: $AnimationTree.set("parameters/Grip/blend_amount", grip)
+	if trigger >= 0.0: $AnimationTree.set("parameters/Trigger/blend_amount", trigger)
 
 
 func _update_hand_material_override() -> void:
@@ -257,9 +288,10 @@ func _insert_pose_override(who : Node, priority : int, settings : XRToolsHandPos
 	_pose_overrides.push_back(override)
 
 
-func _remove_pose_override(who : Node) -> void:
+func _remove_pose_override(who : Node) -> bool:
 	var pos := 0
 	var length := _pose_overrides.size()
+	var modified := false
 
 	# Iterate over all pose overrides in the list
 	while pos < length:
@@ -270,10 +302,14 @@ func _remove_pose_override(who : Node) -> void:
 		if pose.who == who:
 			# Remove the override
 			_pose_overrides.remove(pos)
+			modified = true
 			length -= 1
 		else:
 			# Advance down the list
 			pos += 1
+
+	# Return the modified indicator
+	return modified
 
 
 static func _find_child(node : Node, type : String) -> Node:

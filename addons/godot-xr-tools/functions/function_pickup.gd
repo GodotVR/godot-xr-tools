@@ -199,6 +199,11 @@ static func find_right(node : Node) -> XRToolsFunctionPickup:
 		"XRToolsFunctionPickup") as XRToolsFunctionPickup
 
 
+## Get the [ARVRController] driving this pickup.
+func get_controller() -> ARVRController:
+	return _controller
+
+
 # Called when the grab distance has been modified
 func _set_grab_distance(new_value: float) -> void:
 	grab_distance = new_value
