@@ -16,7 +16,7 @@
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/climbing_gliding_demo/objects/hill.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scenes/climbing_gliding_demo/materials/ghost_hand.tres" type="Material" id=17]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" type="Material" id=17]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CubeMesh" id=1]

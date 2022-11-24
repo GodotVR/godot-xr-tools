@@ -11,7 +11,7 @@
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=10]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scenes/climbing_gliding_demo/materials/ghost_hand.tres" type="Material" id=12]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" type="Material" id=12]
 [ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=13]
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=14]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=15]
