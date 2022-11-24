@@ -1,13 +1,27 @@
 # 3.1.0 (Development)
-- Improvements to our 2D in 3D viewport
+- Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options
 - Fixed editor preview system for our 2D in 3D viewport
 - Use value based grip input with threshold
 - Improved pointer demo supporting left hand with switching
-- Enhanced pointer laser visibility options for colliding with targets.
+- Enhanced pointer laser visibility options for colliding with targets
 - Implement poke feature (finger interaction)
 - Improvements to snap turning
 - Moved staging solution into plugin so it can be re-used
 - Allow setting different animations for hands
+- Added enable/disable to snap-zones
+- Added XR settings as Godot editor plugin and the ability to load and save the settings
+- Added crouching movement provider
+- Modified climbing to use the hand which most recently grabbed the climbing object
+- Added enable/disable to pickup function
+- Added ability to override hand material
+- Added realistic hand models and textures
+- Added ability to override hand animations
+- Added additional search functions to find nodes
+- Added support for viewport 2D in 3D to support 2D scenes instanced in the tree
+- Added sprinting movement provider
+- Added support for setting hand-poses when the hand enters an area
+- Added support for setting grab-points on objects, and the grab-points supporting different hand-poses
+
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features
