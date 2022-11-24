@@ -16,6 +16,8 @@ extends Spatial
 ## Signal emitted when the hand scale changes
 signal hand_scale_changed(scale)
 
+## Blend tree to use
+export var hand_blend_tree : AnimationNodeBlendTree setget set_hand_blend_tree
 
 ## Override the hand material
 export var hand_material_override : Material setget set_hand_material_override
@@ -84,13 +86,8 @@ func _ready() -> void:
 	_animation_player = _find_child(self, "AnimationPlayer")
 	_animation_tree = _find_child(self, "AnimationTree")
 
-	# As we're going to make modifications to our animation tree, we need to do
-	# a deep copy, simply setting resource local to scene does not seem to be enough
-	if _animation_tree:
-		_tree_root = _animation_tree.tree_root.duplicate(true)
-		_animation_tree.tree_root = _tree_root
-
 	# Apply all updates
+	_update_hand_blend_tree()
 	_update_hand_material_override()
 	_update_pose()
 
@@ -167,6 +164,12 @@ static func find_instance(node : Node) -> XRToolsHand:
 		"*",
 		"XRToolsHand") as XRToolsHand
 
+## Set the blend tree
+func set_hand_blend_tree(blend_tree : AnimationNodeBlendTree) -> void:
+	hand_blend_tree = blend_tree
+	if is_inside_tree():
+		_update_hand_blend_tree()
+		_update_pose()
 
 ## Set the hand material override
 func set_hand_material_override(material : Material) -> void:
@@ -216,6 +219,14 @@ func force_grip_trigger(grip : float = -1.0, trigger : float = -1.0) -> void:
 	# Update the animation if forcing to specific values
 	if grip >= 0.0: $AnimationTree.set("parameters/Grip/blend_amount", grip)
 	if trigger >= 0.0: $AnimationTree.set("parameters/Trigger/blend_amount", trigger)
+
+
+func _update_hand_blend_tree() -> void:
+	# As we're going to make modifications to our animation tree, we need to do
+	# a deep copy, simply setting resource local to scene does not seem to be enough
+	if _animation_tree and hand_blend_tree:
+		_tree_root = hand_blend_tree.duplicate(true)
+		_animation_tree.tree_root = _tree_root
 
 
 func _update_hand_material_override() -> void:

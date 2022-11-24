@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/hands/model/Hand_Nails_L.gltf" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/left/AnimationPlayer.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/godot-xr-tools/hands/hand.gd" type="Script" id=3]
 [ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_default_left.tres" type="Resource" id=4]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=5]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" type="Material" id=6]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
@@ -35,20 +36,18 @@ nodes/OpenHand/node = SubResource( 4 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -360, 20 )
-node_connections = [ "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [node name="LeftHand" type="Spatial"]
 script = ExtResource( 3 )
 __meta__ = {
 "_editor_description_": ""
 }
+hand_blend_tree = ExtResource( 5 )
 default_pose = ExtResource( 4 )
 
 [node name="Hand_Nails_L" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="mesh_Hand_Nails_L" parent="Hand_Nails_L/Armature/Skeleton" index="0"]
 material/0 = ExtResource( 6 )

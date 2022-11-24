@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/model/Hand_Nails_R.gltf" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" type="Script" id=4]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" type="Material" id=5]
 [ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_default_right.tres" type="Resource" id=6]
+[ext_resource path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" type="AnimationNodeBlendTree" id=7]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -25,7 +26,7 @@ filter_enabled = true
 filters = [ "Armature/Skeleton:Index_Distal_R", "Armature/Skeleton:Index_Intermediate_R", "Armature/Skeleton:Index_Proximal_R" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=6]
-graph_offset = Vector2( -753.664, -85.6991 )
+graph_offset = Vector2( -587.059, 45.3009 )
 nodes/ClosedHand1/node = SubResource( 1 )
 nodes/ClosedHand1/position = Vector2( -600, 300 )
 nodes/ClosedHand2/node = SubResource( 2 )
@@ -36,20 +37,18 @@ nodes/OpenHand/node = SubResource( 4 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [node name="RightPhysicsHand" type="Spatial"]
 script = ExtResource( 3 )
 __meta__ = {
 "_editor_description_": ""
 }
+hand_blend_tree = ExtResource( 7 )
 default_pose = ExtResource( 6 )
 
 [node name="Hand_Nails_R" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.15 )
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="Skeleton" parent="Hand_Nails_R/Armature" index="0"]
 bones/0/bound_children = [ NodePath("BoneRoot") ]
@@ -77,124 +76,124 @@ bones/23/bound_children = [ NodePath("BonePinkyDistal") ]
 material/0 = ExtResource( 5 )
 
 [node name="BoneRoot" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="1"]
-transform = Transform( -0.99975, 1.83061e-05, 0.0223758, -0.0223757, 0.00166792, -0.999748, -5.56223e-05, -0.999998, -0.00166714, -3.86423e-08, -1.86975e-05, 0.0271756 )
+transform = Transform( 1, 1.83077e-05, -1.52659e-08, -1.52668e-08, 0.00166774, 0.999999, 1.83077e-05, -0.999999, 0.00166774, -3.86425e-08, -1.86975e-05, 0.0271756 )
 bone_name = "Wrist_R"
 script = ExtResource( 4 )
 width_ratio = 0.8
 
 [node name="BoneThumbMetacarpal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="2"]
-transform = Transform( -0.906864, -0.356638, -0.224514, -0.242773, 0.877583, -0.413412, 0.344468, -0.320403, -0.882431, 4.57955e-07, 2.65701e-05, 3.59304e-05 )
+transform = Transform( 0.998519, -0.0514604, 0.017651, 0.017651, 0.613335, 0.789626, -0.0514604, -0.788145, 0.613335, -0.00999954, 0.0200266, 3.5936e-05 )
 bone_name = "Thumb_Metacarpal_R"
 script = ExtResource( 4 )
 length = 0.05
 
 [node name="BoneThumbProximal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="3"]
-transform = Transform( -0.4289, -0.276056, 0.860138, -0.830798, 0.494418, -0.25559, -0.35471, -0.824223, -0.441403, -0.0182991, 0.0450564, -0.0164043 )
+transform = Transform( 0.921479, -0.383958, 0.0587628, 0.124052, 0.434264, 0.892202, -0.368087, -0.814856, 0.447796, -0.012311, 0.0475754, -0.0353647 )
 bone_name = "Thumb_Proximal_R"
 script = ExtResource( 4 )
 
 [node name="BoneThumbDistal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="4"]
-transform = Transform( -0.479131, -0.500445, 0.721102, -0.872923, 0.357657, -0.331793, -0.0918633, -0.788439, -0.608215, -0.0333144, 0.0719489, -0.0612357 )
+transform = Transform( 0.930159, -0.366844, -0.0151708, 0.154037, 0.352396, 0.923087, -0.333283, -0.860954, 0.384292, -0.028494, 0.0658787, -0.0697092 )
 bone_name = "Thumb_Distal_R"
 script = ExtResource( 4 )
 length = 0.02
 
 [node name="BoneIndexMetacarpal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="5"]
-transform = Transform( 0.577008, 0.147228, -0.803359, 0.759332, 0.26555, 0.594052, 0.300793, -0.952788, 0.0414299, 4.58389e-07, 2.65699e-05, 3.59342e-05 )
+transform = Transform( 0.999165, -0.0336562, 0.0231681, -0.0231985, -0.000511129, 0.999731, -0.0336353, -0.999433, -0.00129147, 0.0100005, 0.0224317, 3.59286e-05 )
 bone_name = "Index_Metacarpal_R"
 script = ExtResource( 4 )
 length = 0.08
 width_ratio = 0.2
 
 [node name="BoneIndexProximal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="6"]
-transform = Transform( -0.867164, -0.0107083, 0.497907, -0.473528, 0.327411, -0.817663, -0.154264, -0.944821, -0.288989, 0.0124443, 0.0224711, -0.0804946 )
+transform = Transform( 0.997821, -0.0419384, 0.0509327, -0.041317, 0.204661, 0.97796, -0.0514382, -0.977934, 0.202483, 0.00729559, 0.0223907, -0.0802861 )
 bone_name = "Index_Proximal_R"
 script = ExtResource( 4 )
 
 [node name="BoneIndexMiddle" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="7"]
-transform = Transform( -0.646961, -0.526247, 0.55182, -0.739518, 0.256607, -0.622306, 0.185885, -0.810689, -0.555184, 0.0120051, 0.0359004, -0.119248 )
+transform = Transform( 0.759851, -0.644453, 0.0854741, 0.040588, 0.178251, 0.983147, -0.648829, -0.743577, 0.161601, 0.00569705, 0.0301916, -0.117561 )
 bone_name = "Index_Intermediate_R"
 script = ExtResource( 4 )
 length = 0.025
 bone_group = "index_finger"
 
 [node name="BoneIndexDistal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="8"]
-transform = Transform( -0.412385, -0.800818, 0.434315, -0.86693, 0.198466, -0.457212, 0.279947, -0.565068, -0.776097, -0.00227305, 0.0428627, -0.141244 )
+transform = Transform( 0.356468, -0.927111, 0.115741, 0.109286, 0.164404, 0.98032, -0.927894, -0.336803, 0.159925, -0.0145038, 0.035779, -0.140869 )
 bone_name = "Index_Distal_R"
 script = ExtResource( 4 )
 length = 0.02
 bone_group = "index_finger"
 
 [node name="BoneMiddleMetacarpal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="9"]
-transform = Transform( 0.570172, 0.200566, -0.796666, 0.815964, -0.0256152, 0.577534, 0.0954267, -0.979345, -0.178259, 4.5662e-07, 2.65699e-05, 3.59342e-05 )
+transform = Transform( 0.999918, 0.0127165, 0.00125617, -0.000365489, -0.0698022, 0.997561, 0.0127732, -0.997479, -0.0697919, 0.0100005, 0.00355416, 3.59286e-05 )
 bone_name = "Middle_Metacarpal_R"
 script = ExtResource( 4 )
 length = 0.08
 width_ratio = 0.2
 
 [node name="BoneMiddleProximal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="10"]
-transform = Transform( -0.885129, -0.165006, 0.435108, -0.441238, 0.000548378, -0.89739, 0.147836, -0.986292, -0.0732924, 0.0164269, -0.00207133, -0.0801728 )
+transform = Transform( 0.971345, -0.237654, 0.00293004, -0.0207339, -0.0724503, 0.997157, -0.236766, -0.968644, -0.0753018, 0.0110237, -0.00206236, -0.0802245 )
 bone_name = "Middle_Proximal_R"
 script = ExtResource( 4 )
 
 [node name="BoneMiddleMiddle" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="11"]
-transform = Transform( -0.726292, -0.50196, 0.469612, -0.545733, 0.00568779, -0.837939, 0.417941, -0.864871, -0.278067, 0.00862099, -0.00204539, -0.126831 )
+transform = Transform( 0.764922, -0.643161, 0.0351718, -0.0290327, 0.0201225, 0.999376, -0.643468, -0.765465, -0.00328062, 0.000328453, -0.00532286, -0.123817 )
 bone_name = "Middle_Intermediate_R"
 script = ExtResource( 4 )
 length = 0.025
 
 [node name="BoneMiddleDistal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="12"]
-transform = Transform( -0.537656, -0.752194, 0.380958, -0.585854, 0.00833428, -0.810373, 0.606383, -0.658888, -0.445157, -0.00705857, -0.00186771, -0.153847 )
+transform = Transform( 0.297115, -0.95453, 0.0243818, -0.0374454, 0.0138673, 0.999202, -0.954107, -0.297791, -0.0316226, -0.0205207, -0.00467056, -0.148631 )
 bone_name = "Middle_Distal_R"
 script = ExtResource( 4 )
 length = 0.02
 
 [node name="BoneRingMetacarpal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="13"]
-transform = Transform( 0.585118, 0.143837, -0.79809, 0.794048, -0.301486, 0.527819, -0.164693, -0.942558, -0.290618, 4.5919e-07, 2.65691e-05, 3.59304e-05 )
+transform = Transform( 0.998609, -0.047074, -0.0237409, 0.0169882, -0.138981, 0.990149, -0.0499098, -0.989175, -0.137988, 0.0100005, -0.0130734, 3.59304e-05 )
 bone_name = "Ring_Metacarpal_R"
 script = ExtResource( 4 )
 length = 0.07
 width_ratio = 0.2
 
 [node name="BoneRingProximal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="14"]
-transform = Transform( -0.909721, -0.113524, 0.399399, -0.373477, -0.196619, -0.906563, 0.181446, -0.973885, 0.13647, 0.0112018, -0.0234518, -0.0733663 )
+transform = Transform( 0.982964, -0.181854, -0.0266582, -0.0109494, -0.202722, 0.979175, -0.183471, -0.962202, -0.20126, 0.00651962, -0.0233502, -0.0731075 )
 bone_name = "Ring_Proximal_R"
 script = ExtResource( 4 )
 length = 0.028
 
 [node name="BoneRingMiddle" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="15"]
-transform = Transform( -0.782115, -0.481326, 0.395753, -0.367314, -0.156921, -0.916764, 0.503365, -0.86238, -0.054067, 0.00632024, -0.0319065, -0.115244 )
+transform = Transform( 0.772579, -0.634603, -0.0200164, -0.0794845, -0.127948, 0.988591, -0.629924, -0.762173, -0.149291, -0.000778398, -0.0314857, -0.111722 )
 bone_name = "Ring_Intermediate_R"
 script = ExtResource( 4 )
 length = 0.025
 
 [node name="BoneRingDistal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="16"]
-transform = Transform( -0.567965, -0.772692, 0.283482, -0.307628, -0.120168, -0.943888, 0.7634, -0.623302, -0.169451, -0.00745048, -0.036396, -0.139916 )
+transform = Transform( 0.381388, -0.924068, -0.025339, -0.114105, -0.0742599, 0.99069, -0.917346, -0.374945, -0.133762, -0.0184188, -0.0350424, -0.132908 )
 bone_name = "Ring_Distal_R"
 script = ExtResource( 4 )
 length = 0.02
 
 [node name="BonePinkyMetacarpal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="17"]
-transform = Transform( 0.583362, 0.0315536, -0.811599, 0.691226, -0.54399, 0.475691, -0.426492, -0.838498, -0.339154, 4.5864e-07, 2.65709e-05, 3.59323e-05 )
+transform = Transform( 0.998969, -0.0165318, -0.0422887, 0.0385953, -0.181426, 0.982647, -0.0239172, -0.983265, -0.180601, 4.57587e-07, -0.0299734, 3.59416e-05 )
 bone_name = "Little_Metacarpal_R"
 script = ExtResource( 4 )
 length = 0.07
 width_ratio = 0.18
 
 [node name="BonePinkyProximal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="18"]
-transform = Transform( -0.907995, -0.117302, 0.402225, -0.31826, -0.431275, -0.844223, 0.272499, -0.894563, 0.354262, 0.00243066, -0.0418705, -0.0645436 )
+transform = Transform( 0.969212, -0.239304, -0.0579745, -0.0185536, -0.305761, 0.951927, -0.245527, -0.921544, -0.300787, -0.00108587, -0.0418952, -0.0645756 )
 bone_name = "Little_Proximal_R"
 script = ExtResource( 4 )
 length = 0.02
 
 [node name="BonePinkyMiddle" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="19"]
-transform = Transform( -0.721168, -0.586673, 0.368417, -0.181189, -0.353565, -0.917694, 0.668645, -0.728565, 0.148681, -0.0014548, -0.0561559, -0.0941747 )
+transform = Transform( 0.699331, -0.713816, -0.0374602, -0.103947, -0.153407, 0.982681, -0.7072, -0.683325, -0.181481, -0.00901248, -0.0520231, -0.0951004 )
 bone_name = "Little_Intermediate_R"
 script = ExtResource( 4 )
 length = 0.015
 
 [node name="BonePinkyDistal" type="BoneAttachment" parent="Hand_Nails_R/Armature/Skeleton" index="20"]
-transform = Transform( -0.587661, -0.765828, 0.261079, -0.0389109, -0.295552, -0.954534, 0.808171, -0.571101, 0.143885, -0.0120292, -0.0625286, -0.107307 )
+transform = Transform( 0.340891, -0.939845, -0.0220291, -0.162162, -0.081867, 0.983362, -0.926011, -0.331647, -0.180315, -0.0218786, -0.0547881, -0.107417 )
 bone_name = "Little_Distal_R"
 script = ExtResource( 4 )
 length = 0.015

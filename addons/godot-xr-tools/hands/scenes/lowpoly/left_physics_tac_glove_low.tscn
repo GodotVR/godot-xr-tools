@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/hands/animations/left/AnimationPlayer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/model/Hand_Glove_low_L.gltf" type="PackedScene" id=2]
@@ -8,15 +8,44 @@
 [ext_resource path="res://addons/godot-xr-tools/hands/physics_hand.gd" type="Script" id=6]
 [ext_resource path="res://addons/godot-xr-tools/hands/poses/pose_default_left.tres" type="Resource" id=7]
 
+[sub_resource type="AnimationNodeAnimation" id=1]
+animation = "Grip"
+
+[sub_resource type="AnimationNodeAnimation" id=2]
+animation = "Grip"
+
+[sub_resource type="AnimationNodeBlend2" id=3]
+filter_enabled = true
+filters = [ "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L" ]
+
+[sub_resource type="AnimationNodeAnimation" id=4]
+animation = "Grip 5"
+
+[sub_resource type="AnimationNodeBlend2" id=5]
+filter_enabled = true
+filters = [ "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L" ]
+
+[sub_resource type="AnimationNodeBlendTree" id=6]
+graph_offset = Vector2( -798.981, -60.58 )
+nodes/ClosedHand1/node = SubResource( 1 )
+nodes/ClosedHand1/position = Vector2( -600, 300 )
+nodes/ClosedHand2/node = SubResource( 2 )
+nodes/ClosedHand2/position = Vector2( -360, 300 )
+nodes/Grip/node = SubResource( 3 )
+nodes/Grip/position = Vector2( 0, 20 )
+nodes/OpenHand/node = SubResource( 4 )
+nodes/OpenHand/position = Vector2( -600, 100 )
+nodes/Trigger/node = SubResource( 5 )
+nodes/Trigger/position = Vector2( -360, 20 )
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
+
 [node name="LeftPhysicsHand" type="Spatial"]
 script = ExtResource( 6 )
+hand_blend_tree = ExtResource( 3 )
 default_pose = ExtResource( 7 )
 
 [node name="Hand_Glove_low_L" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, -0.05, 0.15 )
-__meta__ = {
-"_editor_description_": ""
-}
 
 [node name="Skeleton" parent="Hand_Glove_low_L/Armature" index="0"]
 bones/0/bound_children = [ NodePath("BoneRoot") ]
@@ -169,7 +198,7 @@ length = 0.015
 [node name="AnimationPlayer" parent="Hand_Glove_low_L" instance=ExtResource( 1 )]
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = ExtResource( 3 )
+tree_root = SubResource( 6 )
 anim_player = NodePath("../Hand_Glove_low_L/AnimationPlayer")
 active = true
 parameters/Grip/blend_amount = 0
