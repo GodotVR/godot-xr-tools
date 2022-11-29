@@ -58,6 +58,10 @@ func _process(delta):
 			if Input.is_joy_button_pressed(joy_id, activate_button):
 				button_pressed = true
 
+	if ARVRServer.get_tracker_count() == 0:
+		if Input.is_action_pressed("ui_accept"):
+			button_pressed = true
+
 	if button_pressed:
 		_set_time_held(time_held + delta)
 		if time_held > hold_time:
