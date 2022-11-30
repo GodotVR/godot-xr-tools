@@ -1,4 +1,4 @@
-# 3.1.0 (Development)
+# 3.1.0
 - Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options
 - Fixed editor preview system for our 2D in 3D viewport
 - Use value based grip input with threshold
