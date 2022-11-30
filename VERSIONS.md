@@ -1,3 +1,6 @@
+# 3.2.0 (development)
+- Minimum supported Godot version set to 3.5
+
 # 3.1.0
 - Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options
 - Fixed editor preview system for our 2D in 3D viewport
