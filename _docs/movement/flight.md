@@ -20,7 +20,7 @@ The functionality works out of the box but can be further configured:
 
 ## Configuration
 
-### XRToolsMovementDirect
+### XRToolsMovementFlight
 
 | Property           | Description                                                     |
 | ------------------ | --------------------------------------------------------------- |

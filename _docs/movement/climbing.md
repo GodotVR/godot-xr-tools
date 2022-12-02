@@ -38,14 +38,10 @@ ARVROrigin node if it doesn't already exist.
 Your setup should now look like this:
 ![ARVR Climb Movement]({{ site.url }}/assets/img/climbing/arvr_climb_movement.png)
 
-Next select the climb movement node and link the two pickup functions:
-![Climb Movement Link]({{ site.url }}/assets/img/climbing/climb_movement_link.png)
-*Note, we may make this automatic in a future version.*
-
 Now that our player is able to climb, we need to define the things they can climb
-on. This is accomplished by inheriting the objects/Object_climbable.tscn scene, 
+on. This is accomplished by inheriting the objects/climbable.tscn scene, 
 simply open the Scene menu, select New Inherited Scene... and select the 
-Obejct_climbable.tscn scene from the xr tools library. This scene sets up a static
+climbable.tscn scene from the xr tools library. This scene sets up a static
 body with a collision shape and a script that allows you to grab that static body. 
 When the player grabs the static body moving your hand will cause the player to 
 move instead of the hand.
@@ -73,8 +69,6 @@ Now save the scene and add it to your main scene and your player can climb the b
 | Forward Push  | When the player lets go they are pushed away from the object they were holding by this force  |
 | Fling Multiplier  | If the player lets go their current momentum is multiplied by this amount allowing the player to "fling" themselves off a wall.  |
 | Velocity Averages  | The number of velocity samples to take to determine the players velocity when they let go.  |
-| Left Pickup   | Identifies the left hand pickup function used to grab climbable objects with.  |
-| Right Pickup  | Identifies the right hand pickup function used to grab climbable objects with.  |
 
 ### XRToolsClimbable
 No additional properties on this object type.

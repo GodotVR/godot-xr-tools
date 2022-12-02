@@ -44,5 +44,4 @@ The functionality works out of the box but can be further configured:
 | Strength            | Determines how far we can cast our teleporter. |
 | Max Slope           | Maximum angle from flat our surface can be for us to teleport onto it. | 
 | Valid Teleport Mask | Physics mask for valid teleport targets. | 
-| Camera              | Assign our ARVRCamera node. | 
 | Teleport Button     | Hold this button to start the teleport function, release to teleport, by default this is our trigger. | 
