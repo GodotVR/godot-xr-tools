@@ -131,6 +131,7 @@ func load_scene(p_scene_path : String):
 
 		# Make our loading screen visible again and reset some stuff
 		xr_origin.set_process_internal(true)
+		xr_origin.current = true
 		xr_camera.current = true
 		$WorldEnvironment.environment = loading_screen_environment
 		$LoadingScreen.progress = 0.0
