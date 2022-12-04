@@ -54,6 +54,12 @@ export var horizontal_slew_rate : float = 1.0
 ## Slew rate to transition to gliding
 export var vertical_slew_rate : float = 2.0
 
+## glide rotate with roll angle
+export var turn_with_roll : bool = false
+
+## Smooth turn speed in radians per second
+export var roll_turn_speed : float = 1
+
 
 # Left controller
 onready var _left_controller := ARVRHelpers.get_left_controller(self)
@@ -81,7 +87,12 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	# Get the controller left and right global horizontal positions
 	var left_position := _left_controller.global_transform.origin
 	var right_position := _right_controller.global_transform.origin
-	var left_to_right := (right_position - left_position) * HORIZONTAL
+	var left_to_right_vector := right_position - left_position
+	var left_to_right := (left_to_right_vector) * HORIZONTAL
+	
+	if turn_with_roll:
+		var angle = -left_to_right_vector.y
+		_rotate_player(player_body, roll_turn_speed * delta * angle)
 
 	# Set gliding based on hand separation
 	var separation := left_to_right.length() / ARVRServer.world_scale
@@ -107,6 +118,17 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true
+
+# Rotate the origin node around the camera
+func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
+	var t1 := Transform()
+	var t2 := Transform()
+	var rot := Transform()
+
+	t1.origin = -player_body.camera_node.transform.origin
+	t2.origin = player_body.camera_node.transform.origin
+	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
+	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
 
 # Set the gliding state and fire any signals
 func _set_gliding(active: bool) -> void:
