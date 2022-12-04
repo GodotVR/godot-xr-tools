@@ -6,8 +6,14 @@
 
 - title: Features
   docs:
+  - player
   - movement
   - interaction
+
+- title: Player
+  docs:
+  - hand_models
+  - hand_poses
 
 - title: Movement
   docs:
