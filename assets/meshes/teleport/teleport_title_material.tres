@@ -1,4 +1,4 @@
-[gd_resource type="ShaderMaterial" load_steps=13 format=3 uid="uid://c26e12f2whdrj"]
+[gd_resource type="ShaderMaterial" load_steps=14 format=3 uid="uid://c26e12f2whdrj"]
 
 [sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_t4y4m"]
 size = Vector2(690.6, 253)
@@ -11,9 +11,14 @@ title = "2x Image UV Scale"
 description = "These nodes scale the UV by 2 in the X axis, which results in the texture to tile twice in the X axis."
 
 [sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_ptj6p"]
-size = Vector2(752.088, 525.832)
+size = Vector2(796, 551.032)
 title = "Scrolling Texture"
 description = "These nodes add the image and scrolling UVs to sample the title texture. The output is the color of the scrolling texture."
+
+[sub_resource type="VisualShaderNodeVectorFunc" id="VisualShaderNodeVectorFunc_0vmia"]
+default_input_values = [0, Vector2(0, 0)]
+op_type = 0
+function = 18
 
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="5"]
 parameter_name = "Title"
@@ -30,7 +35,6 @@ default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0.2, 0, 0)]
 operator = 2
 
 [sub_resource type="VisualShaderNodeVectorOp" id="10"]
-output_port_for_preview = 0
 
 [sub_resource type="VisualShaderNodeVectorOp" id="11"]
 default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(2, 1, 0)]
@@ -79,10 +83,14 @@ void fragment() {
 	vec3 n_out6p0 = n_out5p0 + n_out7p0;
 
 
+// VectorFunc:13
+	vec2 n_out13p0 = fract(vec2(n_out6p0.xy));
+
+
 
 	vec4 n_out8p0;
 // Texture2D:8
-	n_out8p0 = texture(Title, vec2(n_out6p0.xy));
+	n_out8p0 = texture(Title, n_out13p0);
 
 
 // Output:0
@@ -91,11 +99,11 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-255.986, 73.5056)
+graph_offset = Vector2(-894.403, -38.8334)
 flags/unshaded = true
 nodes/fragment/0/position = Vector2(798, 252)
 nodes/fragment/2/node = SubResource("5")
-nodes/fragment/2/position = Vector2(120, 500)
+nodes/fragment/2/position = Vector2(120, 520)
 nodes/fragment/3/node = SubResource("7")
 nodes/fragment/3/position = Vector2(-1080, 640)
 nodes/fragment/4/node = SubResource("8")
@@ -116,7 +124,9 @@ nodes/fragment/11/node = SubResource("VisualShaderNodeComment_f47k3")
 nodes/fragment/11/position = Vector2(-1120, 520)
 nodes/fragment/12/node = SubResource("VisualShaderNodeComment_ptj6p")
 nodes/fragment/12/position = Vector2(-140, 240)
-nodes/fragment/connections = PackedInt32Array(5, 0, 6, 0, 3, 0, 7, 0, 7, 0, 6, 1, 2, 0, 8, 2, 8, 0, 0, 0, 6, 0, 8, 0, 4, 0, 9, 0, 9, 0, 5, 0)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorFunc_0vmia")
+nodes/fragment/13/position = Vector2(200, 340)
+nodes/fragment/connections = PackedInt32Array(5, 0, 6, 0, 3, 0, 7, 0, 7, 0, 6, 1, 2, 0, 8, 2, 8, 0, 0, 0, 4, 0, 9, 0, 9, 0, 5, 0, 6, 0, 13, 0, 13, 0, 8, 0)
 
 [resource]
 resource_local_to_scene = true
