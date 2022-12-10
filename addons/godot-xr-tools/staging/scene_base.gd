@@ -48,6 +48,7 @@ func scene_loaded():
 	
 	# Make sure our camera becomes the current camera
 	$XROrigin3D/XRCamera3D.current = true
+	$XROrigin3D.current = true
 	
 	# Center our player on our origin point
 	# Note, this means you can place the XROrigin3D point in the start
