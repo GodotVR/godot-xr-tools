@@ -58,6 +58,9 @@ shape to the CollisionShape node giving it the same size as the block:
 
 Now save the scene and add it to your main scene and your player can climb the block.
 
+> See [Climbable]({{ site.url }}/docs/climbable/) objects for more details.
+
+
 ## Configuration
 
 ### XRToolsMovementClimb
@@ -69,6 +72,3 @@ Now save the scene and add it to your main scene and your player can climb the b
 | Forward Push  | When the player lets go they are pushed away from the object they were holding by this force  |
 | Fling Multiplier  | If the player lets go their current momentum is multiplied by this amount allowing the player to "fling" themselves off a wall.  |
 | Velocity Averages  | The number of velocity samples to take to determine the players velocity when they let go.  |
-
-### XRToolsClimbable
-No additional properties on this object type.

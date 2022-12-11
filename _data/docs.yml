@@ -9,6 +9,7 @@
   - player
   - movement
   - interaction
+  - objects
 
 - title: Player
   docs:
@@ -33,3 +34,9 @@
   docs:
   - pickup
   - pointer
+ 
+- title: Objects
+  docs:
+  - climbable
+  - pickable
+  - grab_point
