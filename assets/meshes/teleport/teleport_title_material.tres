@@ -18,6 +18,7 @@ description = "These nodes add the image and scrolling UVs to sample the title t
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="5"]
 parameter_name = "Title"
 texture_type = 1
+texture_repeat = 1
 
 [sub_resource type="VisualShaderNodeInput" id="7"]
 input_name = "uv"
@@ -47,7 +48,7 @@ operator = 4
 code = "shader_type spatial;
 render_mode unshaded;
 
-uniform sampler2D Title : source_color;
+uniform sampler2D Title : source_color, repeat_enable;
 
 
 
@@ -79,7 +80,6 @@ void fragment() {
 	vec3 n_out6p0 = n_out5p0 + n_out7p0;
 
 
-
 	vec4 n_out8p0;
 // Texture2D:8
 	n_out8p0 = texture(Title, vec2(n_out6p0.xy));
@@ -91,7 +91,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-255.986, 73.5056)
+graph_offset = Vector2(-508.681, 463.806)
 flags/unshaded = true
 nodes/fragment/0/position = Vector2(798, 252)
 nodes/fragment/2/node = SubResource("5")
