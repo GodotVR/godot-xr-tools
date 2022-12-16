@@ -22,11 +22,12 @@ signal load_scene
 
 ## Interface
 
+func _ready() -> void:
+	pass
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsSceneBase"
-
 
 func center_player_on(p_transform : Transform3D):
 	# In order to center our player so the players feet are at the location

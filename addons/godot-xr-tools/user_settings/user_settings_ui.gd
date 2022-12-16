@@ -11,8 +11,15 @@ func _update():
 	# Player
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
 
+	# WebXR
+	$WebXR/WebXR/WebXRPrimary.selected = XRToolsUserSettings.webxr_primary
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var webxr_interface = XRServer.find_interface("WebXR")
+	set_tab_hidden(2, webxr_interface == null)
+
 	if XRToolsUserSettings:
 		_update()
 	else:
@@ -51,3 +58,7 @@ func _on_PlayerHeightStandard_pressed():
 	var height_adjust = XRTools.get_player_standard_height() - base_height
 	XRToolsUserSettings.player_height_adjust = height_adjust
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
+
+
+func _on_web_xr_primary_item_selected(index: int) -> void:
+	XRToolsUserSettings.webxr_primary = index

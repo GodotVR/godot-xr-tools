@@ -1,13 +1,14 @@
-[gd_scene load_steps=24 format=3 uid="uid://j0i4dr123ne1"]
+[gd_scene load_steps=25 format=3 uid="uid://j0i4dr123ne1"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="2_a3nc2"]
+[ext_resource type="PackedScene" uid="uid://be4l23brv4cee" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://bft3xyxs31ci3" path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" id="3_s2g5l"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" id="3_s2g5l"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://dukyhft262nrv" path="res://assets/meshes/interactables/slider_snap.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_x135n"]
+[ext_resource type="PackedScene" uid="uid://2pylr1fuuxdx" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_x135n"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
@@ -25,6 +26,8 @@
 [ext_resource type="PackedScene" uid="uid://dbv1hvxufc1al" path="res://assets/meshes/interactables/push_button.tscn" id="21"]
 
 [node name="InteractablesDemo" instance=ExtResource("1")]
+script = ExtResource("2_a3nc2")
+environment = null
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_ho402")]
 

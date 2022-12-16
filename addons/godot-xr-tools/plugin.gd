@@ -31,6 +31,7 @@ func _enter_tree():
 	# register our autoload user settings object
 	add_autoload_singleton("XRToolsUserSettings", "res://addons/godot-xr-tools/user_settings/user_settings.gd")
 
+
 func _exit_tree():
 	# our plugin is turned off
 	pass
