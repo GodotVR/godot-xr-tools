@@ -45,12 +45,6 @@ const SNAP_DISTANCE : float = 1.0
 ## Averages for velocity measurement
 @export var velocity_averages : int = 5
 
-## Pickup function for the left hand
-@export_node_path(Node3D, XRToolsFunctionPickup) var left_pickup
-
-## Pickup function for the right hand
-@export_node_path(Node3D, XRToolsFunctionPickup) var right_pickup
-
 
 ## Left climbable
 var _left_climbable : XRToolsClimbable
@@ -65,9 +59,16 @@ var _dominant : XRToolsFunctionPickup
 # Velocity averager
 @onready var _averager := XRToolsVelocityAveragerLinear.new(velocity_averages)
 
-# Node references
-@onready var _left_pickup_node : XRToolsFunctionPickup = get_node(left_pickup)
-@onready var _right_pickup_node : XRToolsFunctionPickup = get_node(right_pickup)
+# Left pickup node
+@onready var _left_pickup_node := XRToolsFunctionPickup.find_left(self)
+
+# Right pickup node
+@onready var _right_pickup_node := XRToolsFunctionPickup.find_right(self)
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementClimb" or super.is_xr_class(name)
 
 
 ## Called when the node enters the scene tree for the first time.
@@ -208,15 +209,13 @@ func _on_right_dropped() -> void:
 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
-	# Verify the left controller
-	var test_left_pickup_node = get_node_or_null(left_pickup) if left_pickup else null
-	if !test_left_pickup_node or !test_left_pickup_node is XRToolsFunctionPickup:
-		return "Unable to find left XRToolsFunctionPickup"
+	# Verify the left controller pickup
+	if !XRToolsFunctionPickup.find_left(self):
+		return "Unable to find left XRToolsFunctionPickup node"
 
-	# Verify the right controller
-	var test_right_pickup_node = get_node_or_null(right_pickup) if right_pickup else null
-	if !test_right_pickup_node or !test_right_pickup_node is XRToolsFunctionPickup:
-		return "Unable to find right XRToolsFunctionPickup"
+	# Verify the right controller pickup
+	if !XRToolsFunctionPickup.find_right(self):
+		return "Unable to find right XRToolsFunctionPickup node"
 
 	# Verify velocity averages
 	if velocity_averages < 2:

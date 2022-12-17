@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://32dx3mgqbxkj"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Poke Demo
+
+This scene demonstrates poking interactions. Poke nodes are attached to the index fingers of both hands and can be used to control user interfaces and to physically interact with objects.
+
+The user can touch the screen to draw with the fingers, and push the blocks around on the table."

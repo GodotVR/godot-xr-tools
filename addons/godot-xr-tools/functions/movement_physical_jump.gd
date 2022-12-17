@@ -91,6 +91,11 @@ class SlidingAverage:
 		return _sum / _size
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementPhysicalJump" or super.is_xr_class(name)
+
+
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super._ready()
@@ -105,6 +110,28 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	# Handle detecting arms jump
 	if arms_jump_enable:
 		_detect_arms_jump(delta, player_body)
+
+
+# This method verifies the movement provider has a valid configuration.
+func _get_configuration_warning():
+	# Verify the camera
+	if !XRHelpers.get_xr_origin(self):
+		return "This node must be within a branch of an XROrigin3D node"
+
+	# Verify the camera
+	if !XRHelpers.get_xr_camera(self):
+		return "Unable to find XRCamera3D"
+
+	# Verify the left controller
+	if !XRHelpers.get_left_controller(self):
+		return "Unable to find left XRController3D node"
+
+	# Verify the right controller
+	if !XRHelpers.get_right_controller(self):
+		return "Unable to find left XRController3D node"
+
+	# Call base class
+	return super._get_configuration_warning()
 
 
 # Detect the player jumping with their body (using the headset camera)
@@ -165,8 +192,3 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	# Detect a jump
 	if controller_left_vel >= arms_jump_threshold and controller_right_vel >= arms_jump_threshold:
 		player_body.request_jump()
-
-# This method verifies the MovementProvider has a valid configuration.
-func _get_configuration_warning():
-	# Call base class
-	return super._get_configuration_warning()

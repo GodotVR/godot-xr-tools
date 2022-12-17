@@ -26,7 +26,12 @@ extends XRToolsMovementProvider
 
 
 # Controller node
-@onready var _controller : XRController3D = get_parent()
+@onready var _controller := XRHelpers.get_xr_controller(self)
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementDirect" or super.is_xr_class(name)
 
 
 func _ready():
@@ -56,9 +61,30 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is XRController3D:
-		return "Unable to find XR Controller node"
+	if !XRHelpers.get_xr_controller(self):
+		return "This node must be within a branch of an XRController3D node"
 
 	# Call base class
 	return super._get_configuration_warning()
+
+
+## Find the left [XRToolsMovementDirect] node.
+##
+## This function searches from the specified node for the left controller 
+## [XRToolsMovementDirect] assuming the node is a sibling of the [XROrigin3D].
+static func find_left(node : Node) -> XRToolsMovementDirect:
+	return XRTools.find_xr_child(
+		XRHelpers.get_left_controller(node),
+		"*",
+		"XRToolsMovementDirect") as XRToolsMovementDirect
+
+
+## Find the right [XRToolsMovementDirect] node.
+##
+## This function searches from the specified node for the right controller 
+## [XRToolsMovementDirect] assuming the node is a sibling of the [XROrigin3D].
+static func find_right(node : Node) -> XRToolsMovementDirect:
+	return XRTools.find_xr_child(
+		XRHelpers.get_right_controller(node),
+		"*",
+		"XRToolsMovementDirect") as XRToolsMovementDirect

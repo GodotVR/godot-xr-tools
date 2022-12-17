@@ -1,6 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://cpok8jpro15pw"]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand.gd" id="1_fmh4f"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="1_fmh4f"]
 [ext_resource type="PackedScene" uid="uid://b3dk633aepkn0" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_R.gltf" id="2_8y6so"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" id="3_3cjku"]
 [ext_resource type="AnimationLibrary" uid="uid://df5dhaf5tmtho" path="res://addons/godot-xr-tools/hands/animations/right/Handpose_Library.res" id="3_p17nd"]

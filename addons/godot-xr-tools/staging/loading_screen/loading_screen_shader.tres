@@ -77,7 +77,6 @@ void fragment() {
 	vec4 n_out15p0 = bar_color;
 
 
-
 	vec4 n_out19p0;
 // Texture2D:19
 	n_out19p0 = texture(bar_texture, UV);

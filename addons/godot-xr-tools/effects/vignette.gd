@@ -1,39 +1,17 @@
-#@tool
+@tool
+class_name XRToolsVignette
 extends Node3D
 
-@export var radius = 1.0:
-	set(new_value):
-		radius = new_value
-		if is_inside_tree():
-			_update_radius()
+@export var radius : float = 1.0: set = set_radius
+@export var fade : float = 0.05: set = set_fade
+@export var steps : int = 32: set = set_steps
 
-@export var fade = 0.05:
-	set(new_value):
-		fade = new_value
-		if is_inside_tree():
-			_update_fade()
-
-@export var steps = 32:
-	set(new_value):
-		steps = new_value
-		if is_inside_tree():
-			_update_mesh()
-
-@export var auto_adjust = true:
-	set(new_value):
-		auto_adjust = new_value
-		if is_inside_tree() and !Engine.is_editor_hint():
-			_update_auto_adjust()
-
-@export var auto_inner_radius = 0.35
-@export var auto_fade_out_factor = 1.5
-@export var auto_fade_delay = 1.0
-@export var auto_rotation_limit = 20.0:
-	set(new_value):
-		auto_rotation_limit = new_value
-		auto_rotation_limit_rad = deg_to_rad(auto_rotation_limit)
-
-@export var auto_velocity_limit = 10.0
+@export var auto_adjust : bool = true: set = set_auto_adjust
+@export var auto_inner_radius : float = 0.35
+@export var auto_fade_out_factor : float = 1.5
+@export var auto_fade_delay : float = 1.0
+@export var auto_rotation_limit : float = 20.0: set = set_auto_rotation_limit
+@export var auto_velocity_limit : float = 10.0
 
 var material : ShaderMaterial = preload("res://addons/godot-xr-tools/effects/vignette.material")
 
@@ -44,7 +22,12 @@ var last_origin_basis : Basis
 var last_location : Vector3
 @onready var auto_rotation_limit_rad = deg_to_rad(auto_rotation_limit)
 
-func _update_radius():
+func set_radius(new_radius : float) -> void:
+	radius = new_radius
+	if is_inside_tree():
+		_update_radius()
+
+func _update_radius() -> void:
 	if radius < 1.0:
 		if material:
 			material.set_shader_parameter("radius", radius * sqrt(2))
@@ -52,11 +35,22 @@ func _update_radius():
 	else:
 		$Mesh.visible = false
 
-func _update_fade():
+func set_fade(new_fade : float) -> void:
+	fade = new_fade
+	if is_inside_tree():
+		_update_fade()
+
+func _update_fade() -> void:
 	if material:
 		material.set_shader_parameter("fade", fade)
 
-func _update_mesh():
+
+func set_steps(new_steps : int) -> void:
+	steps = new_steps
+	if is_inside_tree():
+		_update_mesh()
+
+func _update_mesh() -> void:
 	var vertices : PackedVector3Array
 	var indices : PackedInt32Array
 
@@ -88,25 +82,31 @@ func _update_mesh():
 	$Mesh.mesh = arr_mesh
 	$Mesh.set_surface_override_material(0, material)
 
-func _update_auto_adjust():
+func set_auto_adjust(new_auto_adjust : bool) -> void:
+	auto_adjust = new_auto_adjust
+	if is_inside_tree() and !Engine.is_editor_hint():
+		_update_auto_adjust()
+
+func _update_auto_adjust() -> void:
 	# Turn process on if auto adjust is true.
 	# Note we don't turn it off here, we want to finish fading out the vignette if needed
 	if auto_adjust:
 		set_process(true)
 
-func _get_origin_node() -> XROrigin3D:
-	var parent = get_parent()
-	while parent:
-		if parent and parent is XROrigin3D:
-			return parent
-		parent = parent.get_parent()
+func set_auto_rotation_limit(new_auto_rotation_limit : float) -> void:
+	auto_rotation_limit = new_auto_rotation_limit
+	auto_rotation_limit_rad = deg_to_rad(auto_rotation_limit)
 
-	return null
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsVignette"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if !Engine.is_editor_hint():
-		origin_node = _get_origin_node()
+		origin_node = XRHelpers.get_xr_origin(self)
 		_update_mesh()
 		_update_radius()
 		_update_fade()
@@ -144,10 +144,10 @@ func _process(delta):
 
 	# Adjust radius based on rotation speed of our origin point (not of head movement).
 	# We convert our delta rotation to a quaterion.
-	# A quaternion represents a rotation around an angle. 
+	# A quaternion represents a rotation around an angle.
 	var q = delta_b.get_rotation_quaternion()
 
-	# We get our angle from our w component and then adjust to get a 
+	# We get our angle from our w component and then adjust to get a
 	# rotation speed per second by dividing by delta
 	var angle = (2 * acos(q.w)) / delta
 
@@ -163,12 +163,12 @@ func _process(delta):
 
 	# if our radius is small then our current we apply it
 	if target_radius < radius:
-		radius = target_radius
+		set_radius(target_radius)
 		fade_delay = auto_fade_delay
 	elif fade_delay > 0.0:
 		fade_delay -= delta
-	else: 
-		radius = clamp(radius + delta / auto_fade_out_factor, 0.0, 1.0)
+	else:
+		set_radius(clamp(radius + delta / auto_fade_out_factor, 0.0, 1.0))
 
 	last_origin_basis = origin_node.global_transform.basis
 	last_location = global_transform.origin
@@ -179,10 +179,9 @@ func _process(delta):
 # - XRCamera3D is our parent
 func _get_configuration_warning():
 	# Check the origin node
-	var node = _get_origin_node()
-	if !node: 
+	if !XRHelpers.get_xr_origin(self):
 		return "Parent node must be in a branch from XROrigin3D"
-	
+
 	# check camera node
 	var parent = get_parent()
 	if !parent or !parent is XRCamera3D:

@@ -72,6 +72,11 @@ var last_collided_at : Vector3 = Vector3.ZERO
 var ws : float = 1.0
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsFunctionPointer"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Do not initialise if in the editor

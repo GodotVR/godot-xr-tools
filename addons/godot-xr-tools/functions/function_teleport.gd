@@ -51,8 +51,6 @@ extends CharacterBody3D
 @export var rotation_action : String = "primary"
 
 
-var origin_node : XROrigin3D
-var camera_node : XRCamera3D
 var is_on_floor : bool = true
 var is_teleporting : bool = false
 var can_teleport : bool = true
@@ -72,16 +70,26 @@ var step_size : float = 0.5
 # and add your own player character as child.
 @onready var capsule : MeshInstance3D = get_node("Target/Player_figure/Capsule")
 
+## [XROrigin3D] node.
+@onready var origin_node := XRHelpers.get_xr_origin(self)
+
+## [XRCamera3D] node.
+@onready var camera_node := XRHelpers.get_xr_camera(self)
+
+## [XRController3D] node.
+@onready var controller := XRHelpers.get_xr_controller(self)
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsFunctionTeleport"
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
 		return
-
-	# Get the origin and camera
-	origin_node = XRHelpers.get_xr_origin(self)
-	camera_node = XRHelpers.get_xr_camera(self)
 
 	# It's inactive when we start
 	$Teleport.visible = false
@@ -109,13 +117,8 @@ func _physics_process(delta):
 	if Engine.is_editor_hint():
 		return
 
-	# We should be the child or the controller on which the teleport is implemented
-	var controller = get_parent()
-
-	if !origin_node:
-		return
-
-	if !camera_node:
+	# Skip if required nodes are missing
+	if !origin_node or !camera_node or !controller:
 		return
 
 	# if we're not enabled no point in doing mode
@@ -308,10 +311,17 @@ func _physics_process(delta):
 
 # This method verifies the teleport has a valid configuration.
 func _get_configuration_warning():
-	# Verify we're within the tree of an XROrigin3D node
-	var xr_origin = XRHelpers.get_xr_origin(self)
-	if !xr_origin:
-		return "This node must be within a branch on an XROrigin3D node"
+	# Verify we can find the XROrigin3D
+	if !XRHelpers.get_xr_origin(self):
+		return "This node must be within a branch of an XROrigin3D node"
+
+	# Verify we can find the XRCamera3D
+	if !XRHelpers.get_xr_camera(self):
+		return "Unable to find XRCamera3D node"
+
+	# Verify we can find the XRController3D
+	if !XRHelpers.get_xr_controller(self):
+		return "This node must be within a branch of an XRController3D node"
 
 	# Pass basic validation
 	return ""

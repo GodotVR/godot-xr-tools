@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://8q1lcws0xejc"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Interactables Demo
+
+
+This scene demonstrates interactable objects. The user may control the sliders, levers, joysticks, and wheel by grabbing them and dragging the interactable around. The push-button is activated when a part of the hand enters the button area.
+
+Some objects override the hand poses while the hands are near, such as the buttons which force the hand to point with the index finger.
+"

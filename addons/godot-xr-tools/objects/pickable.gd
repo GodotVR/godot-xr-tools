@@ -105,6 +105,11 @@ var _move_to: XRToolsMoveTo = null
 @onready var original_collision_layer : int = collision_layer
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsPickable"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Attempt to get the pickup center if provided

@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2cea5dniuvik"]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand.gd" id="2"]
-[ext_resource type="PackedScene" uid="uid://blx5m3pqm1m71" path="res://addons/godot-xr-tools/hands/model/Hand_R.gltf" id="2_srvj1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="2"]
+[ext_resource type="PackedScene" uid="uid://blx5m3pqm1m71" path="res://addons/godot-xr-tools/hands/model/hand_r.gltf" id="2_srvj1"]
 [ext_resource type="AnimationLibrary" uid="uid://df5dhaf5tmtho" path="res://addons/godot-xr-tools/hands/animations/right/Handpose_Library.res" id="2_yd8fm"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://bj7ovnbip75k0" path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" id="3"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" id="3_iywm6"]
+[ext_resource type="Material" uid="uid://brsyjg1mjspxh" path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" id="3_iywm6"]
 
 [node name="RightHand" type="Node3D"]
 script = ExtResource("2")

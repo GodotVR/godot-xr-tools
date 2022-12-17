@@ -10,7 +10,13 @@ class_name XRHelpers
 ## somewhere under the players [XROrigin3D].
 
 
-## Find the [XROrigin3D] from a player node and an optional path
+## Find the [XROrigin3D] node.
+##
+## This function searches for the [XROrigin3D] from the provided node. 
+## The caller may provide an optional path (relative to the node) to the 
+## [XROrigin3D] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [XROrigin3D].
 static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D:
 	var origin: XROrigin3D
 
@@ -21,24 +27,25 @@ static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D
 			return origin
 
 	# Walk up the tree from the provided node looking for the origin
-	var current = node
-	while current:
-		origin = current as XROrigin3D
-		if origin:
-			return origin
-		current = current.get_parent()
+	origin = XRTools.find_xr_ancestor(node, "*", "XROrigin3D")
+	if origin:
+		return origin
 
 	# We check our children but only one level
-	for child in node.get_children():
-		origin = child as XROrigin3D
-		if origin:
-			return origin
+	origin = XRTools.find_xr_child(node, "*", "XROrigin3D", false)
+	if origin:
+		return origin
 
 	# Could not find origin
 	return null
 
-
-## Find the [XRCamera3D] from a player node and an optional path
+## Find the [XRCamera3D] node.
+##
+## This function searches for the [XRCamera3D] from the provided node. 
+## The caller may provide an optional path (relative to the node) to the 
+## [XRCamera3D] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [XROrigin3D].
 static func get_xr_camera(node: Node, path: NodePath = NodePath()) -> XRCamera3D:
 	var camera: XRCamera3D
 
@@ -59,14 +66,31 @@ static func get_xr_camera(node: Node, path: NodePath = NodePath()) -> XRCamera3D
 		return camera
 
 	# Search all children of the origin for the camera
-	for child in origin.get_children():
-		camera = child as XRCamera3D
-		if camera:
-			return camera
+	camera = XRTools.find_xr_child(origin, "*", "XRCamera3D", false)
+	if camera:
+		return camera
 
 	# Could not find camera
 	return null
 
+## Find the [XRController3D] node.
+##
+## This function searches for the [XRController3D] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
+## [XRController3D] to support out-of-tree searches.
+##
+## The search is performed assuming the node is under the [XRController3D].
+static func get_xr_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
+	var controller: XRController3D
+
+	# Try using the node path first
+	if path:
+		controller = node.get_node(path) as XRController3D
+		if controller:
+			return controller
+
+	# Search up from the node for the controller
+	return XRTools.find_xr_ancestor(node, "*", "XRController3D") as XRController3D
 
 ## Find the Left Hand [XRController3D] from a player node and an optional path
 static func get_left_controller(node: Node, path: NodePath = NodePath()) -> XRController3D:
@@ -106,3 +130,4 @@ static func _get_controller(node: Node, default_name: String, tracker: String, p
 
 	# Could not find the controller
 	return null
+

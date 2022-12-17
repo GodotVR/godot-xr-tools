@@ -1,21 +1,19 @@
-[gd_scene load_steps=15 format=3]
+[gd_scene load_steps=15 format=3 uid="uid://cvmvgul85lrpe"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://caah5fxm8jb2l" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="5_2ekvc"]
-[ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://be74y72ikmkqt" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_0hbex"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_0hbex"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://bdc23valbh8gf" path="res://assets/meshes/ramps/ramps.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://dpjfart2qg8k7" path="res://assets/meshes/mound/mound.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="12"]
-
-[sub_resource type="ViewportTexture" id="3"]
-viewport_path = NodePath("Instructions/SubViewport")
+[ext_resource type="PackedScene" uid="uid://dipg8euybm3f1" path="res://scenes/basic_movement_demo/objects/instructions.tscn" id="12_qasi6"]
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
 
@@ -51,50 +49,16 @@ crouch_type = 1
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource("7")]
 
-[node name="Ramps" parent="." index="2" instance=ExtResource("8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
-
-[node name="Mound" parent="." index="3" instance=ExtResource("9")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8)
-
-[node name="MainMenuTeleport" parent="." index="4" instance=ExtResource("11")]
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
 scene_base = NodePath("..")
 title = ExtResource("12")
 
-[node name="Instructions" type="Node3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -2)
+[node name="Instructions" parent="." index="3" instance=ExtResource("12_qasi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4)
 
-[node name="SubViewport" type="SubViewport" parent="Instructions" index="0"]
-size = Vector2i(370, 270)
+[node name="Ramps" parent="." index="4" instance=ExtResource("8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
 
-[node name="Node2D" type="Node2D" parent="Instructions/SubViewport" index="0"]
-
-[node name="ColorRect" type="ColorRect" parent="Instructions/SubViewport/Node2D" index="0"]
-offset_right = 370.0
-offset_bottom = 270.0
-color = Color(0, 0, 0, 1)
-
-[node name="Description" type="RichTextLabel" parent="Instructions/SubViewport/Node2D" index="1"]
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 360.0
-offset_bottom = 260.0
-bbcode_enabled = true
-text = "Basic Movement Demo
-
-This scene demonstrates basic movement including:
- * Left Controller:
-   - Joystick U/D/L/R: Smooth Movement with strafing
-   - A/X Button: Jump
- * Right Controller:
-   - Joystick U/D: Smooth Movement
-   - Joystick L/R: Smooth Turning
-   - A/X Button: Jump
-
-Test objects have been placed in the scene to allow testing of the different movement mechanics. The ramps and slopes are useful for evaluating how movement settings affect how easily the player can navigate checked different terrain."
-
-[node name="Sprite3D" type="Sprite3D" parent="Instructions" index="1"]
-pixel_size = 0.005
-double_sided = false
-texture = SubResource("3")
+[node name="Mound" parent="." index="5" instance=ExtResource("9")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8)

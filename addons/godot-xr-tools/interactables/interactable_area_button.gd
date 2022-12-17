@@ -45,6 +45,11 @@ var _tween: Tween
 @onready var _button_down := _button_up + displacement
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableAreaButton"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect area signals

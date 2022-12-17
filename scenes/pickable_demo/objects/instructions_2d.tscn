@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d0a7u3r7mcoqb"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Pickable Demo
+
+This scene contains objects that the player can pick up including:
+
+ - Balls with remote-grab and grab-highlight meshes
+ - Hammers with hand-grab-points and hand-poses
+ - Cubes with hand-bone interactions
+ - Teacups with hand-grab-points and multiple snap-points
+ - Snap-toys that can be snapped into holders
+ - Snap-holders that can be enabled/disabled by pointer"

@@ -14,6 +14,11 @@ var _original_materials = Array()
 var _highlight_mesh_instance: MeshInstance3D
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsHighlightMaterial"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Get the mesh to highlight

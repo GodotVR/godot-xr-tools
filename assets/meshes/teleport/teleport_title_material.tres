@@ -79,7 +79,6 @@ void fragment() {
 	vec3 n_out6p0 = n_out5p0 + n_out7p0;
 
 
-
 	vec4 n_out8p0;
 // Texture2D:8
 	n_out8p0 = texture(Title, vec2(n_out6p0.xy));

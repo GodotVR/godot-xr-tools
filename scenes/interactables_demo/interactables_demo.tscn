@@ -1,16 +1,17 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=23 format=3 uid="uid://j0i4dr123ne1"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://be4l23brv4cee" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="3"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://dukyhft262nrv" path="res://assets/meshes/interactables/slider_snap.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://2pylr1fuuxdx" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_x135n"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_x135n"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="8"]
-[ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://scenes/interactables_demo/objects/instructions.tscn" id="11_txloh"]
 [ext_resource type="PackedScene" uid="uid://cpwdvy41fqdua" path="res://assets/meshes/interactables/slider_smooth.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://hv8nnbkuccxi" path="res://assets/meshes/interactables/slider_zero.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://cs6dxfu5owcgo" path="res://assets/meshes/interactables/lever_smooth.tscn" id="14"]
@@ -56,7 +57,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 scene_base = NodePath("..")
 title = ExtResource("4")
 
-[node name="Interactables" type="Node3D" parent="." index="3"]
+[node name="Instructions" parent="." index="3" instance=ExtResource("11_txloh")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
+
+[node name="Interactables" type="Node3D" parent="." index="4"]
 
 [node name="SliderSmooth" parent="Interactables" index="0" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 1, -2)

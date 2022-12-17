@@ -105,9 +105,14 @@ var _controller : XRController3D
 
 
 # Node references
-@onready var _camera : XRCamera3D = XRHelpers.get_xr_camera(self)
-@onready var _left_controller : XRController3D = XRHelpers.get_left_controller(self)
-@onready var _right_controller : XRController3D = XRHelpers.get_right_controller(self)
+@onready var _camera := XRHelpers.get_xr_camera(self)
+@onready var _left_controller := XRHelpers.get_left_controller(self)
+@onready var _right_controller := XRHelpers.get_right_controller(self)
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementFlight" or super.is_xr_class(name)
 
 
 func _ready():
@@ -209,5 +214,17 @@ func set_flying(active: bool) -> void:
 
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
+	# Verify the camera
+	if !XRHelpers.get_xr_camera(self):
+		return "Unable to find XRCamera3D"
+
+	# Verify the left controller
+	if !XRHelpers.get_left_controller(self):
+		return "Unable to find left XRController3D node"
+
+	# Verify the right controller
+	if !XRHelpers.get_right_controller(self):
+		return "Unable to find left XRController3D node"
+
 	# Call base class
 	return super._get_configuration_warning()

@@ -1,46 +1,22 @@
-[gd_scene load_steps=15 format=3 uid="uid://jjlrkbybhlrl"]
+[gd_scene load_steps=16 format=3 uid="uid://dgqo74qoehuk4"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://cus66d8b1gx5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://ce1ad2t853bw5" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="6"]
-[ext_resource type="PackedScene" uid="uid://yiqlidatijwp" path="res://addons/godot-xr-tools/assets/poke.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://bv46odvo22fuv" path="res://scenes/poke_demo/objects/canvas.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://dwc7cx5txw3ix" path="res://addons/godot-xr-tools/assets/player_body.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/poke_demo/objects/instructions.tscn" id="11_570m5"]
 [ext_resource type="PackedScene" uid="uid://cbcbffvk7xth4" path="res://assets/meshes/table/table.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://djkjuy7wct10q" path="res://scenes/pickable_demo/objects/grab_cube.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="14"]
 
 [node name="PokeDemo" instance=ExtResource("1")]
-
-[node name="BasicMap" parent="." index="0" instance=ExtResource("4")]
-
-[node name="Teleport" parent="." index="1" instance=ExtResource("5")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
-scene_base = NodePath("..")
-title = ExtResource("6")
-
-[node name="Viewport2Din3D" parent="." index="2" instance=ExtResource("8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.581)
-screen_size = Vector2(1, 0.5)
-viewport_size = Vector2(1000, 500)
-scene = ExtResource("9")
-
-[node name="Table" parent="." index="3" instance=ExtResource("12")]
-transform = Transform3D(0.515726, 0, -0.856754, 0, 1, 0, 0.856754, 0, 0.515726, 2.37791, 0, -0.681984)
-
-[node name="GrabCube01" parent="Table" index="10" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.890771, 0)
-
-[node name="GrabCube02" parent="Table" index="11" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.149316, 0.890771, 0.0898814)
-
-[node name="GrabCube03" parent="Table" index="12" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.138419, 0.890771, 0.13692)
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3")]
 
@@ -110,6 +86,36 @@ max_speed = 5.0
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("14")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("10")]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource("4")]
+
+[node name="Teleport" parent="." index="2" instance=ExtResource("5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+scene_base = NodePath("..")
+title = ExtResource("6")
+
+[node name="Instructions" parent="." index="3" instance=ExtResource("11_570m5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -4)
+
+[node name="PokeCanvas" type="Node3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, -1.581)
+
+[node name="Viewport2Din3D" parent="PokeCanvas" index="0" instance=ExtResource("8")]
+screen_size = Vector2(1, 0.5)
+viewport_size = Vector2(1000, 500)
+scene = ExtResource("9")
+
+[node name="Table" parent="." index="5" instance=ExtResource("12")]
+transform = Transform3D(0.515726, 0, -0.856754, 0, 1, 0, 0.856754, 0, 0.515726, 2.37791, 0, -0.681984)
+
+[node name="GrabCube01" parent="Table" index="10" instance=ExtResource("13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.890771, 0)
+
+[node name="GrabCube02" parent="Table" index="11" instance=ExtResource("13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.149316, 0.890771, 0.0898814)
+
+[node name="GrabCube03" parent="Table" index="12" instance=ExtResource("13")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.138419, 0.890771, 0.13692)
 
 [editable path="XROrigin3D/LeftHand/LeftHand"]
 [editable path="XROrigin3D/LeftHand/LeftHand/Hand_low_L"]

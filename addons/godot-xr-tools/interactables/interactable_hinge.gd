@@ -45,6 +45,11 @@ signal hinge_moved(angle)
 @onready var _default_position_rad : float = deg_to_rad(default_position)
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHinge" or super.is_xr_class(name)
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function

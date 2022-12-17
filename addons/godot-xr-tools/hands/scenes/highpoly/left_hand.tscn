@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://ba0ctd02n1u2l"]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="2"]
 [ext_resource type="AnimationLibrary" uid="uid://bbau4lo624ba0" path="res://addons/godot-xr-tools/hands/animations/left/Handpose_Library.res" id="2_5yfes"]
 [ext_resource type="PackedScene" uid="uid://drpo36hpkg42t" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_L.gltf" id="2_bp1i0"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" id="3_xhk17"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand.gd" id="4"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="4"]
 
 [node name="LeftHand" type="Node3D"]
 script = ExtResource("4")
