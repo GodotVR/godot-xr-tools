@@ -27,6 +27,11 @@ extends XRToolsPickable
 @onready var handle_origin: Node3D = get_parent()
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandle" or super.is_xr_class(name)
+
+
 # Called when this handle is added to the scene
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function

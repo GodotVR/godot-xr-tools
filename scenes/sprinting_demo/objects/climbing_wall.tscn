@@ -1,0 +1,47 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=1]
+[ext_resource path="res://scenes/sprinting_demo/objects/climbing_handle.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CubeMesh" id=1]
+material = ExtResource( 1 )
+size = Vector3( 0.5, 8, 4 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.25, 4, 2 )
+
+[node name="ClimbingWall" type="Spatial"]
+
+[node name="Wall" type="StaticBody" parent="."]
+
+[node name="MeshInstance" type="MeshInstance" parent="Wall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+mesh = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Wall"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )
+shape = SubResource( 2 )
+
+[node name="ClimbingHandle1" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 1.5, 1 )
+
+[node name="ClimbingHandle2" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0.3, 1.9, -0.9 )
+
+[node name="ClimbingHandle3" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0.3, 2.8, 0.3 )
+
+[node name="ClimbingHandle4" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.906308, -0.422618, 0, 0.422618, 0.906308, 0.3, 3.7, -0.9 )
+
+[node name="ClimbingHandle5" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.3, 4.3, 1.1 )
+
+[node name="ClimbingHandle6" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.3, 5.9, 0.6 )
+
+[node name="ClimbingHandle7" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0.3, 5.4, -1.1 )
+
+[node name="ClimbingHandle8" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 0.642788, -0.766044, 0, 0.766044, 0.642788, 0.3, 7.2, -0.3 )

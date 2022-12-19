@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://ciclw5gh85gbp"]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/physics_hand.gd" id="1_72oog"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/physics_hand.gd" id="1_72oog"]
 [ext_resource type="PackedScene" uid="uid://drpo36hpkg42t" path="res://addons/godot-xr-tools/hands/model/Hand_Nails_L.gltf" id="2_j17q7"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/caucasian_hand.material" id="3_18uuu"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand_physics_bone.gd" id="4_j6o6a"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" id="4_j6o6a"]
 [ext_resource type="AnimationLibrary" uid="uid://bbau4lo624ba0" path="res://addons/godot-xr-tools/hands/animations/left/Handpose_Library.res" id="5_xgevb"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="6_2icc2"]
 

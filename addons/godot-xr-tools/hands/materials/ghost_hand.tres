@@ -1,0 +1,15 @@
+[gd_resource type="StandardMaterial3D" load_steps=3 format=3 uid="uid://b7wasd2k6i7h8"]
+
+[ext_resource type="Texture2D" uid="uid://c35lrteey6mfy" path="res://addons/godot-xr-tools/hands/textures/glove_caucasian_green_camo.png" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="1"]
+transparency = 1
+albedo_texture = ExtResource("1")
+
+[resource]
+render_priority = -1
+next_pass = SubResource("1")
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(0, 1, 1, 0.25098)

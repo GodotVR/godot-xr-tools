@@ -6,3 +6,8 @@ extends Area3D
 
 ## Wind drag factor
 @export var drag : float = 1.0
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsWindArea"

@@ -23,6 +23,11 @@ signal released(interactable)
 var grabbed_handles := Array()
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandleDriven"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Hook picked_up and dropped signals from all child handles

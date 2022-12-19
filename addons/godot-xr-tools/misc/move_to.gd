@@ -31,6 +31,11 @@ var _duration: float
 var _time: float = 0.0
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMoveTo"
+
+
 ## Initialize the XRToolsMoveTo
 func _init():
 	# Disable processing until needed

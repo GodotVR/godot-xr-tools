@@ -48,6 +48,11 @@ signal player_fall_damage(damage)
 var _previous_velocity : Vector3 = Vector3.ZERO
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsFallDamage"
+
+
 func _ready():
 	# Set as always active
 	is_active = true

@@ -65,13 +65,18 @@ var _grapple_button := false
 
 # Get Controller node - consider way to universalize this if user wanted to attach this
 # to a gun instead of player's hand.  Could consider variable to select controller instead.
-@onready var _controller : XRController3D = get_parent()
+@onready var _controller := XRHelpers.get_xr_controller(self)
 
 # Get Raycast node
 @onready var _grapple_raycast : RayCast3D = $Grapple_RayCast
 
 # Get Grapple Target Node
 @onready var _grapple_target : Node3D = $Grapple_Target
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementGrapple" or super.is_xr_class(name)
 
 
 # Function run when node is added to scene
@@ -201,9 +206,8 @@ func _set_grappling(active: bool) -> void:
 # This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is XRController3D:
-		return "Unable to find ARVR Controller node"
+	if !XRHelpers.get_xr_controller(self):
+		return "This node must be within a branch of an XRController3D node"
 
 	# Call base class
 	return super._get_configuration_warning()

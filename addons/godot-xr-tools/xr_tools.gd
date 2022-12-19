@@ -75,3 +75,144 @@ static func set_player_standard_height(p_height : float) -> void:
 		return
 
 	ProjectSettings.set_setting("godot_xr_tools/player/standard_height", p_height)
+
+## Find all children of the specified node matching the given criteria
+##
+## This function returns an array containing all children of the specified
+## node matching the given criteria. This function can be slow and find_child
+## is faster if only one child is needed.
+##
+## The pattern argument specifies the match pattern to check against the
+## node name. Use "*" to match anything.
+##
+## The type argument specifies the type of node to find. Use "" to match any
+## type.
+##
+## The recursive argument specifies whether the search deeply though all child
+## nodes, or whether to only check the immediate children.
+##
+## The owned argument specifies whether the node must be owned.
+static func find_xr_children(
+		node : Node, 
+		pattern : String, 
+		type : String = "", 
+		recursive : bool = true, 
+		owned : bool = true) -> Array:
+	# Find the children
+	var found := []
+	if node:
+		_find_xr_children(found, node, pattern, type, recursive, owned)
+	return found
+
+## Find a child of the specified node matching the given criteria
+##
+## This function finds the first child of the specified node matching the given
+## criteria.
+##
+## The pattern argument specifies the match pattern to check against the
+## node name. Use "*" to match anything.
+##
+## The type argument specifies the type of node to find. Use "" to match any
+## type.
+##
+## The recursive argument specifies whether the search deeply though all child
+## nodes, or whether to only check the immediate children.
+##
+## The owned argument specifies whether the node must be owned.
+static func find_xr_child(
+		node : Node, 
+		pattern : String, 
+		type : String = "", 
+		recursive : bool = true, 
+		owned : bool = true) -> Node:
+	# Find the child
+	if node:
+		return _find_xr_child(node, pattern, type, recursive, owned)
+
+	# Invalid node
+	return null
+
+## Find an ancestor of the specified node matching the given criteria
+##
+## This function finds the first ancestor of the specified node matching the 
+## given criteria.
+##
+## The pattern argument specifies the match pattern to check against the
+## node name. Use "*" to match anything.
+##
+## The type argument specifies the type of node to find. Use "" to match any
+## type.
+static func find_xr_ancestor(
+		node : Node, 
+		pattern : String, 
+		type : String = "") -> Node:
+	# Loop finding ancestor
+	while node:
+		# If node matches filter then break
+		if (node.name.match(pattern) and 
+			(type == "" or is_xr_class(node, type))):
+			break
+
+		# Advance to parent
+		node = node.get_parent()
+
+	# Return found node (or null)
+	return node
+
+# Recursive helper function for find_children.
+static func _find_xr_children(
+		found : Array,
+		node : Node,
+		pattern : String,
+		type : String,
+		recursive : bool,
+		owned : bool) -> void:
+	# Iterate over all children
+	for i in node.get_child_count():
+		# Get the child
+		var child := node.get_child(i)
+
+		# If child matches filter then add it to the array
+		if (child.name.match(pattern) and
+			(type == "" or is_xr_class(child, type)) and
+			(not owned or child.owner)):
+			found.push_back(child)
+
+		# If recursive is enabled then descend into children
+		if recursive:
+			_find_xr_children(found, child, pattern, type, recursive, owned)
+
+# Recursive helper functiomn for find_child
+static func _find_xr_child(
+		node : Node,
+		pattern : String,
+		type : String,
+		recursive : bool,
+		owned : bool) -> Node:
+	# Iterate over all children
+	for i in node.get_child_count():
+		# Get the child
+		var child := node.get_child(i)
+
+		# If child matches filter then return it
+		if (child.name.match(pattern) and
+			(type == "" or is_xr_class(child, type)) and
+			(not owned or child.owner)):
+			return child
+
+		# If recursive is enabled then descend into children
+		if recursive:
+			var found := _find_xr_child(child, pattern, type, recursive, owned)
+			if found:
+				return found
+	
+	# Not found
+	return null
+
+# Test if a given node is of the specified class
+static func is_xr_class(node : Node, type : String) -> bool:
+	if node.has_method("is_xr_class"):
+		if node.is_xr_class(type):
+			return true
+
+	return node.is_class(type)

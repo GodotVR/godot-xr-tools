@@ -40,7 +40,12 @@ var _turn_step : float = 0.0
 
 
 # Controller node
-@onready var _controller : XRController3D = get_parent()
+@onready var _controller := XRHelpers.get_xr_controller(self)
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementTurn" or super.is_xr_class(name)
 
 
 func _ready():
@@ -92,6 +97,16 @@ func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
 	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
 
 
+# This method verifies the movement provider has a valid configuration.
+func _get_configuration_warning():
+	# Check the controller node
+	if !XRHelpers.get_xr_controller(self):
+		return "Unable to find XRController3D node"
+
+	# Call base class
+	return super._get_configuration_warning()
+
+
 # Test if snap turning should be used
 func _snap_turning():
 	if turn_mode == TurnMode.SNAP:
@@ -100,14 +115,3 @@ func _snap_turning():
 		return false
 	else:
 		return XRToolsUserSettings.snap_turning
-
-
-# This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
-	# Check the controller node
-	var test_controller = get_parent()
-	if !test_controller or !test_controller is XRController3D:
-		return "Unable to find ARVR Controller node"
-
-	# Call base class
-	return super._get_configuration_warning()

@@ -1,7 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://ce1ad2t853bw5"]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand.gd" id="2"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" id="2_krk5l"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="2"]
+[ext_resource type="Material" uid="uid://brsyjg1mjspxh" path="res://addons/godot-xr-tools/hands/materials/cleaning_glove.material" id="2_krk5l"]
 [ext_resource type="PackedScene" uid="uid://baskjsaqvld7r" path="res://addons/godot-xr-tools/hands/model/Hand_low_L.gltf" id="2_ukm88"]
 [ext_resource type="AnimationLibrary" uid="uid://bbau4lo624ba0" path="res://addons/godot-xr-tools/hands/animations/left/Handpose_Library.res" id="3_qo2hc"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="4_sva8l"]

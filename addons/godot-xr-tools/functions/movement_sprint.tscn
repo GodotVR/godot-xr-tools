@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://drs4eeq721ojn"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_sprint.gd" id="1"]
+
+[node name="MovementSprint" type="Node" groups=["movement_providers"]]
+script = ExtResource("1")

@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsPhysicsHand
 extends XRToolsHand
 
@@ -28,3 +29,9 @@ extends XRToolsHand
 ## This is used to set groups for every bone in the hand. Additionally
 ## [XRToolsHandPhysicsBone] nodes can specify additional bone-specific groups. 
 @export var bone_group : String = ""
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsPhysicsHand" or super.is_xr_class(name)
+

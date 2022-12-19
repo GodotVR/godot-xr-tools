@@ -1,11 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://bvhfbwxpl5phd"]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource type="PackedScene" uid="uid://dq6h8jndw7jss" path="res://addons/godot-xr-tools/hands/model/Hand_L.gltf" id="2_l21qp"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/hand_physics_bone.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://dq6h8jndw7jss" path="res://addons/godot-xr-tools/hands/model/hand_l.gltf" id="2_l21qp"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" id="3"]
 [ext_resource type="Material" uid="uid://c1bt71pgxtpc6" path="res://addons/godot-xr-tools/hands/materials/labglove.material" id="3_qpb2g"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="4"]
 [ext_resource type="AnimationLibrary" uid="uid://bbau4lo624ba0" path="res://addons/godot-xr-tools/hands/animations/left/Handpose_Library.res" id="4_v8i13"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/assets/physics_hand.gd" id="5"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/physics_hand.gd" id="5"]
 
 [node name="LeftPhysicsHand" type="Node3D"]
 script = ExtResource("5")

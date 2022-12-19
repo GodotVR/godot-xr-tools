@@ -77,6 +77,12 @@ var current_scene_path : String
 
 var _tween : Tween
 
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsStaging"
+
+
 func _on_exit_to_main_menu():
 	load_scene(main_scene)
 

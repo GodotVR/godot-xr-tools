@@ -23,6 +23,11 @@ var _alt_down := false
 var _mode: int = KeyboardMode.LOWER_CASE
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsVirtualKeyboard2D"
+
+
 # Handle key pressed from VirtualKey
 func on_key_pressed(scan_code_text: String, unicode: int, shift: bool):
 	# Find the scan code

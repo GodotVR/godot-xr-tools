@@ -17,6 +17,11 @@ extends Node
 @export var physics : XRToolsGroundPhysicsSettings
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsGroundPhysics"
+
+
 # This method verifies the ground physics has a valid configuration.
 func _get_configuration_warning():
 	# Verify physics specified

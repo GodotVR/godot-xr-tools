@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsFunctionPickup
 extends Node3D
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
@@ -72,16 +73,25 @@ var _grab_area : Area3D
 var _grab_collision : CollisionShape3D
 var _ranged_area : Area3D
 var _ranged_collision : CollisionShape3D
-var _controller : XRController3D
 
+
+## Controller
+@onready var _controller := XRHelpers.get_xr_controller(self)
 
 ## Grip threshold (from configuration)
 @onready var grip_threshold : float = XRTools.get_grip_threshold()
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsFunctionPickup"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_controller = get_parent()
+	# Skip creating grab-helpers if in the editor
+	if Engine.is_editor_hint():
+		return
 
 	# Create the grab collision shape
 	_grab_collision = CollisionShape3D.new()
@@ -121,7 +131,7 @@ func _ready():
 
 	# Update the colliders
 	_update_colliders()
-	
+
 	# Monitor Grab Button
 	get_parent().connect("button_pressed", _on_button_pressed)
 	get_parent().connect("button_released", _on_button_released)
@@ -155,6 +165,44 @@ func _process(delta):
 		_velocity_averager.add_transform(delta, global_transform)
 
 	_update_closest_object()
+
+
+## Find an [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for an [XRToolsFunctionPickup]
+## assuming the node is a sibling of the pickup under an [XRController3D].
+static func find_instance(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_xr_child(
+		XRHelpers.get_xr_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
+
+
+## Find the left [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for the left controller 
+## [XRToolsFunctionPickup] assuming the node is a sibling of the [XOrigin3D].
+static func find_left(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_xr_child(
+		XRHelpers.get_left_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
+
+
+## Find the right [XRToolsFunctionPickup] node.
+##
+## This function searches from the specified node for the right controller 
+## [XRToolsFunctionPickup] assuming the node is a sibling of the [XROrigin3D].
+static func find_right(node : Node) -> XRToolsFunctionPickup:
+	return XRTools.find_xr_child(
+		XRHelpers.get_right_controller(node),
+		"*",
+		"XRToolsFunctionPickup") as XRToolsFunctionPickup
+
+
+## Get the [XRController3D] driving this pickup.
+func get_controller() -> XRController3D:
+	return _controller
 
 
 # Called when the grab distance has been modified

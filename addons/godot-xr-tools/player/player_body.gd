@@ -136,6 +136,11 @@ func sort_by_order(a, b) -> bool:
 	return true if a.order < b.order else false
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsPlayerBody"
+
+
 ## Called when the node enters the scene tree for the first time.
 func _ready():
 	# Get the movement providers ordered by increasing order
@@ -278,12 +283,9 @@ func request_jump(skip_jump_velocity := false):
 ## providers may use this function if they are exclusively driving the player.
 func move_body(p_velocity: Vector3) -> Vector3:
 	kinematic_node.velocity = p_velocity
-	kinematic_node.up_direction = Vector3.UP
-	kinematic_node.floor_stop_on_slope = false
-	kinematic_node.floor_max_angle = 0.785398
 	kinematic_node.max_slides = 4
 	# push_rigid_bodies seems to no longer be supported...
-	var can_move = kinematic_node.move_and_slide()
+	kinematic_node.move_and_slide()
 	return kinematic_node.velocity
 
 ## Set or clear a named height override
@@ -489,31 +491,12 @@ func _get_configuration_warning():
 	# Passed basic validation
 	return ""
 
-## Find the Player Body from a player node and an optional path
-static func get_player_body(node: Node, path: NodePath = NodePath("")) -> XRToolsPlayerBody:
-	var player_body: XRToolsPlayerBody
-
-	# Try using the node path first
-	if path:
-		player_body = node.get_node(path) as XRToolsPlayerBody
-		if player_body:
-			return player_body
-
-	# Get the origin
-	var xr_origin := XRHelpers.get_xr_origin(node)
-	if !xr_origin:
-		return null
-
-	# Attempt to get by the default name
-	player_body = xr_origin.get_node_or_null("PlayerBody") as XRToolsPlayerBody
-	if player_body:
-		return player_body
-
-	# Search all children of the origin for the XRToolsPlayerBody
-	for child in xr_origin.get_children():
-		player_body = child as XRToolsPlayerBody
-		if player_body:
-			return player_body
-
-	# Could not find XRToolsPlayerBody
-	return null
+## Find an [XRToolsPlayerBody] node.
+##
+## This function searches from the specified node for an [XRToolsPlayerBody]
+## assuming the node is a sibling of the body under an [XROrigin3D].
+static func find_instance(node: Node) -> XRToolsPlayerBody:
+	return XRTools.find_xr_child(
+		XRHelpers.get_xr_origin(node),
+		"*",
+		"XRToolsPlayerBody") as XRToolsPlayerBody

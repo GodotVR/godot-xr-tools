@@ -10,11 +10,7 @@ extends Node3D
 @export var scene: PackedScene
 
 ## Title texture
-@export var title: Texture2D:
-	set(new_value):
-		title = new_value
-		if is_inside_tree():
-			_update_title()
+@export var title: Texture2D: set = _set_title
 
 
 # Scene base to trigger loading
@@ -41,6 +37,10 @@ func _on_TeleportArea_body_entered(body: Node3D):
 	else:
 		_scene_base.emit_signal("exit_to_main_menu")
 
+func _set_title(value):
+	title = value
+	if is_inside_tree():
+		_update_title()
 
 func _update_title():
 	if title:
