@@ -1,0 +1,81 @@
+[gd_scene load_steps=37 format=3 uid="uid://bxipj7hyjwy6f"]
+
+[ext_resource type="Animation" uid="uid://do01jton6rk42" path="res://addons/godot-xr-tools/hands/animations/right/Cup.res" id="1_mq7eu"]
+[ext_resource type="Animation" uid="uid://ky28birj4su6" path="res://addons/godot-xr-tools/hands/animations/right/Default pose.res" id="2_kxlaj"]
+[ext_resource type="Animation" uid="uid://daqddcrbpam0c" path="res://addons/godot-xr-tools/hands/animations/right/Grip 1.res" id="3_5xubn"]
+[ext_resource type="Animation" uid="uid://r8hleealhrqt" path="res://addons/godot-xr-tools/hands/animations/right/Grip 2.res" id="4_y3ovo"]
+[ext_resource type="Animation" uid="uid://rs7vpclot07o" path="res://addons/godot-xr-tools/hands/animations/right/Grip 3.res" id="5_0d4pg"]
+[ext_resource type="Animation" uid="uid://d1xnpyc08njjx" path="res://addons/godot-xr-tools/hands/animations/right/Grip 4.res" id="6_nabm2"]
+[ext_resource type="Animation" uid="uid://s1vqcxyqcvea" path="res://addons/godot-xr-tools/hands/animations/right/Grip 5.res" id="7_gy2yb"]
+[ext_resource type="Animation" uid="uid://c8dghcftg1thx" path="res://addons/godot-xr-tools/hands/animations/right/Grip Shaft.res" id="8_ffwxq"]
+[ext_resource type="Animation" uid="uid://ccds2u22gbxn7" path="res://addons/godot-xr-tools/hands/animations/right/Grip.res" id="9_y16mo"]
+[ext_resource type="Animation" uid="uid://bv5tuc1kjv0k5" path="res://addons/godot-xr-tools/hands/animations/right/Hold.res" id="10_g8e21"]
+[ext_resource type="Animation" uid="uid://cdjfhqnr4n2mr" path="res://addons/godot-xr-tools/hands/animations/right/Horns.res" id="11_b3lks"]
+[ext_resource type="Animation" uid="uid://b1kqsodcr1til" path="res://addons/godot-xr-tools/hands/animations/right/Metal.res" id="12_p14fk"]
+[ext_resource type="Animation" uid="uid://cg6fsqb2iuuih" path="res://addons/godot-xr-tools/hands/animations/right/Middle.res" id="13_4i278"]
+[ext_resource type="Animation" uid="uid://c3isimdlxg54a" path="res://addons/godot-xr-tools/hands/animations/right/OK.res" id="14_qk7tg"]
+[ext_resource type="Animation" uid="uid://bxmc3vlfih764" path="res://addons/godot-xr-tools/hands/animations/right/Peace.res" id="15_ejppt"]
+[ext_resource type="Animation" uid="uid://dg4v7rqiaje2h" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Flat.res" id="16_7cyln"]
+[ext_resource type="Animation" uid="uid://cuwwpxi44vwpm" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Large.res" id="17_amtgc"]
+[ext_resource type="Animation" uid="uid://c6vghurk7t5yb" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Middle.res" id="18_pnqcq"]
+[ext_resource type="Animation" uid="uid://mjotm5uukoo3" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Ring.res" id="19_aeaff"]
+[ext_resource type="Animation" uid="uid://ca21ej1p3g2yt" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Tight.res" id="20_mghnf"]
+[ext_resource type="Animation" uid="uid://cseojxi8rrqc" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Up.res" id="21_1v6tw"]
+[ext_resource type="Animation" uid="uid://c8hn123uon74u" path="res://addons/godot-xr-tools/hands/animations/right/PingPong.res" id="22_ueac0"]
+[ext_resource type="Animation" uid="uid://b6ra3rqia1gvb" path="res://addons/godot-xr-tools/hands/animations/right/Pinky.res" id="23_7vyi4"]
+[ext_resource type="Animation" uid="uid://csp3fdknowmi5" path="res://addons/godot-xr-tools/hands/animations/right/Pistol.res" id="24_nc600"]
+[ext_resource type="Animation" uid="uid://2ttepgvf634h" path="res://addons/godot-xr-tools/hands/animations/right/Ring.res" id="25_20nj0"]
+[ext_resource type="Animation" uid="uid://wcwa3p1qrhwr" path="res://addons/godot-xr-tools/hands/animations/right/Rounded.res" id="26_648rb"]
+[ext_resource type="Animation" uid="uid://bcwx6a6mhsoj2" path="res://addons/godot-xr-tools/hands/animations/right/Sign 1.res" id="27_liq3y"]
+[ext_resource type="Animation" uid="uid://btnsp36fjkldf" path="res://addons/godot-xr-tools/hands/animations/right/Sign 2.res" id="28_vdv8x"]
+[ext_resource type="Animation" uid="uid://c35i6glt1ov2m" path="res://addons/godot-xr-tools/hands/animations/right/Sign 3.res" id="29_uairn"]
+[ext_resource type="Animation" uid="uid://b8mmk2ufmlyf" path="res://addons/godot-xr-tools/hands/animations/right/Sign 4.res" id="30_351lm"]
+[ext_resource type="Animation" uid="uid://ddgl3lsnlfiny" path="res://addons/godot-xr-tools/hands/animations/right/Sign 5.res" id="31_o4yst"]
+[ext_resource type="Animation" uid="uid://ccy3e7a0hvxyl" path="res://addons/godot-xr-tools/hands/animations/right/Sign_Point.res" id="32_02kj7"]
+[ext_resource type="Animation" uid="uid://d3h36bkauutoq" path="res://addons/godot-xr-tools/hands/animations/right/Straight.res" id="33_gpxgh"]
+[ext_resource type="Animation" uid="uid://bq7cjxdn28jcv" path="res://addons/godot-xr-tools/hands/animations/right/Surfer.res" id="34_ldn4j"]
+[ext_resource type="Animation" uid="uid://d2ukhr3n2r1u8" path="res://addons/godot-xr-tools/hands/animations/right/Thumb.res" id="35_xnxq3"]
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_reqae"]
+_data = {
+"Cup": ExtResource("1_mq7eu"),
+"Default pose": ExtResource("2_kxlaj"),
+"Grip": ExtResource("9_y16mo"),
+"Grip 1": ExtResource("3_5xubn"),
+"Grip 2": ExtResource("4_y3ovo"),
+"Grip 3": ExtResource("5_0d4pg"),
+"Grip 4": ExtResource("6_nabm2"),
+"Grip 5": ExtResource("7_gy2yb"),
+"Grip Shaft": ExtResource("8_ffwxq"),
+"Hold": ExtResource("10_g8e21"),
+"Horns": ExtResource("11_b3lks"),
+"Metal": ExtResource("12_p14fk"),
+"Middle": ExtResource("13_4i278"),
+"OK": ExtResource("14_qk7tg"),
+"Peace": ExtResource("15_ejppt"),
+"Pinch Flat": ExtResource("16_7cyln"),
+"Pinch Large": ExtResource("17_amtgc"),
+"Pinch Middle": ExtResource("18_pnqcq"),
+"Pinch Ring": ExtResource("19_aeaff"),
+"Pinch Tight": ExtResource("20_mghnf"),
+"Pinch Up": ExtResource("21_1v6tw"),
+"PingPong": ExtResource("22_ueac0"),
+"Pinky": ExtResource("23_7vyi4"),
+"Pistol": ExtResource("24_nc600"),
+"Ring": ExtResource("25_20nj0"),
+"Rounded": ExtResource("26_648rb"),
+"Sign 1": ExtResource("27_liq3y"),
+"Sign 2": ExtResource("28_vdv8x"),
+"Sign 3": ExtResource("29_uairn"),
+"Sign 4": ExtResource("30_351lm"),
+"Sign 5": ExtResource("31_o4yst"),
+"Sign_Point": ExtResource("32_02kj7"),
+"Straight": ExtResource("33_gpxgh"),
+"Surfer": ExtResource("34_ldn4j"),
+"Thumb": ExtResource("35_xnxq3")
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer"]
+libraries = {
+"": SubResource("AnimationLibrary_reqae")
+}
