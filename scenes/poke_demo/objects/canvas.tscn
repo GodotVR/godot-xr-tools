@@ -42,22 +42,19 @@ offset_right = 999.0
 offset_bottom = 135.0
 
 [node name="WhiteButton" type="Button" parent="Tools"]
-custom_minimum_size = Vector2i(45, 45)
-layout_mode = 2
+custom_minimum_size = Vector2(45, 45)
 offset_right = 49.0
 offset_bottom = 45.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_156sa")
 
 [node name="BlackButton" type="Button" parent="Tools"]
-custom_minimum_size = Vector2i(45, 45)
-layout_mode = 2
+custom_minimum_size = Vector2(45, 45)
 offset_top = 49.0
 offset_right = 49.0
 offset_bottom = 94.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_sk70f")
 
 [node name="ClearButton" type="Button" parent="Tools"]
-layout_mode = 2
 offset_top = 98.0
 offset_right = 49.0
 offset_bottom = 129.0

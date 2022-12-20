@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://djkjuy7wct10q"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="3"]
 
@@ -14,15 +14,14 @@ size = Vector3(0.1, 0.1, 0.1)
 [node name="GrabCube" instance=ExtResource("1")]
 collision_layer = 4
 collision_mask = 196615
-reset_transform_on_pickup = false
 picked_up_layer = 65536
 ranged_grab_method = 0
 
-[node name="CollisionShape3D" parent="." index="1"]
+[node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("7")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
 mesh = SubResource("8")
 surface_material_override/0 = ExtResource("3")
 
-[node name="HighlightRing" parent="." index="3" instance=ExtResource("2")]
+[node name="HighlightRing" parent="." index="2" instance=ExtResource("2")]

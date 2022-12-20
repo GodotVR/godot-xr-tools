@@ -32,18 +32,17 @@ script = ExtResource("2_bnyxu")
 tray_active = true
 active_material = ExtResource("2")
 inactive_material = ExtResource("4_4l77u")
-reset_transform_on_pickup = false
 picked_up_layer = 1114112
 ranged_grab_method = 0
 
-[node name="CollisionShape3D" parent="." index="1"]
+[node name="CollisionShape3D" parent="." index="0"]
 shape = SubResource("9")
 
-[node name="Body" type="MeshInstance3D" parent="." index="2"]
+[node name="Body" type="MeshInstance3D" parent="." index="1"]
 mesh = SubResource("1")
 surface_material_override/0 = ExtResource("2")
 
-[node name="SnapArea1" type="MeshInstance3D" parent="." index="3"]
+[node name="SnapArea1" type="MeshInstance3D" parent="." index="2"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.06)
 mesh = SubResource("10")
 surface_material_override/0 = SubResource("StandardMaterial3D_2eorr")
@@ -57,7 +56,7 @@ snap_require = "SnapToyRed"
 
 [node name="HighlightRing" parent="SnapArea1/SnapZone1" index="1" instance=ExtResource("3")]
 
-[node name="SnapArea2" type="MeshInstance3D" parent="." index="4"]
+[node name="SnapArea2" type="MeshInstance3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.06)
 mesh = SubResource("10")
 surface_material_override/0 = SubResource("StandardMaterial3D_ti2r6")
@@ -71,7 +70,7 @@ snap_require = "SnapToyYellow"
 
 [node name="HighlightRing" parent="SnapArea2/SnapZone2" index="1" instance=ExtResource("3")]
 
-[node name="SnapArea3" type="MeshInstance3D" parent="." index="5"]
+[node name="SnapArea3" type="MeshInstance3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.06)
 mesh = SubResource("10")
 surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")
@@ -85,7 +84,7 @@ snap_require = "SnapToy"
 
 [node name="HighlightRing" parent="SnapArea3/SnapZone3" index="1" instance=ExtResource("3")]
 
-[node name="SnapArea4" type="MeshInstance3D" parent="." index="6"]
+[node name="SnapArea4" type="MeshInstance3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.06)
 mesh = SubResource("10")
 surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")

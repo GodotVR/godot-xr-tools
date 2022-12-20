@@ -5,6 +5,4 @@
 [node name="PickableObject" type="RigidBody3D"]
 script = ExtResource("1")
 
-[node name="PickupCenter" type="Node3D" parent="."]
-
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

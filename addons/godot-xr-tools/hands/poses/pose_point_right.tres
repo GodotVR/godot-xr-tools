@@ -1,0 +1,9 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://bhvrpfo4ecbub"]
+
+[ext_resource type="Animation" uid="uid://bcwx6a6mhsoj2" path="res://addons/godot-xr-tools/hands/animations/right/Sign 1.res" id="1_jc8b4"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="1_pkv6s"]
+
+[resource]
+script = ExtResource("1_pkv6s")
+open_pose = ExtResource("1_jc8b4")
+closed_pose = ExtResource("1_jc8b4")
