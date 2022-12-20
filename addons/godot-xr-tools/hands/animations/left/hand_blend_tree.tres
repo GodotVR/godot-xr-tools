@@ -1,33 +1,32 @@
 [gd_resource type="AnimationNodeBlendTree" load_steps=6 format=3 uid="uid://dl8yf7ipqotd1"]
 
 [sub_resource type="AnimationNodeAnimation" id="1"]
-animation = &"Handpose_Library/Grip 5"
+animation = &"Grip"
 
 [sub_resource type="AnimationNodeAnimation" id="2"]
-animation = &"Handpose_Library/Grip"
+animation = &"Grip"
 
-[sub_resource type="AnimationNodeAnimation" id="3"]
-animation = &"Handpose_Library/Grip"
-
-[sub_resource type="AnimationNodeBlend2" id="4"]
+[sub_resource type="AnimationNodeBlend2" id="3"]
 filter_enabled = true
-filters = ["Armature/Skeleton3D:Little_Distal_L", "Armature/Skeleton3D:Little_Intermediate_L", "Armature/Skeleton3D:Little_Proximal_L", "Armature/Skeleton3D:Middle_Distal_L", "Armature/Skeleton3D:Middle_Intermediate_L", "Armature/Skeleton3D:Middle_Proximal_L", "Armature/Skeleton3D:Ring_Distal_L", "Armature/Skeleton3D:Ring_Intermediate_L", "Armature/Skeleton3D:Ring_Proximal_L", "Armature/Skeleton3D:Thumb_Distal_L", "Armature/Skeleton3D:Thumb_Proximal_L", "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L"]
+filters = ["Armature/Skeleton3D:Little_Distal_L", "Armature/Skeleton3D:Little_Intermediate_L", "Armature/Skeleton3D:Little_Metacarpal_L", "Armature/Skeleton3D:Little_Proximal_L", "Armature/Skeleton3D:Middle_Distal_L", "Armature/Skeleton3D:Middle_Intermediate_L", "Armature/Skeleton3D:Middle_Metacarpal_L", "Armature/Skeleton3D:Middle_Proximal_L", "Armature/Skeleton3D:Ring_Distal_L", "Armature/Skeleton3D:Ring_Intermediate_L", "Armature/Skeleton3D:Ring_Metacarpal_L", "Armature/Skeleton3D:Ring_Proximal_L", "Armature/Skeleton3D:Thumb_Distal_L", "Armature/Skeleton3D:Thumb_Metacarpal_L", "Armature/Skeleton3D:Thumb_Proximal_L", "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L"]
+
+[sub_resource type="AnimationNodeAnimation" id="4"]
+animation = &"Grip 5"
 
 [sub_resource type="AnimationNodeBlend2" id="5"]
 filter_enabled = true
-filters = ["Armature/Skeleton3D:Index_Distal_L", "Armature/Skeleton3D:Index_Intermediate_L", "Armature/Skeleton3D:Index_Proximal_L", "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L"]
+filters = ["Armature/Skeleton3D:Index_Distal_L", "Armature/Skeleton3D:Index_Intermediate_L", "Armature/Skeleton3D:Index_Metacarpal_L", "Armature/Skeleton3D:Index_Proximal_L", "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L"]
 
 [resource]
-graph_offset = Vector2(-336.861, -42.9167)
-nodes/Default/node = SubResource("1")
-nodes/Default/position = Vector2(-200, 100)
-nodes/Fist/node = SubResource("2")
-nodes/Fist/position = Vector2(-200, 300)
-nodes/Fist2/node = SubResource("3")
-nodes/Fist2/position = Vector2(60, 300)
-nodes/Grip/node = SubResource("4")
-nodes/Grip/position = Vector2(240, 40)
+graph_offset = Vector2(-536, 11)
+nodes/ClosedHand1/node = SubResource("1")
+nodes/ClosedHand1/position = Vector2(-600, 300)
+nodes/ClosedHand2/node = SubResource("2")
+nodes/ClosedHand2/position = Vector2(-360, 300)
+nodes/Grip/node = SubResource("3")
+nodes/Grip/position = Vector2(0, 20)
+nodes/OpenHand/node = SubResource("4")
+nodes/OpenHand/position = Vector2(-600, 100)
 nodes/Trigger/node = SubResource("5")
-nodes/Trigger/position = Vector2(20, 40)
-nodes/output/position = Vector2(600, 140)
-node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"Fist2", &"Trigger", 0, &"Default", &"Trigger", 1, &"Fist"]
+nodes/Trigger/position = Vector2(-360, 20)
+node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1"]

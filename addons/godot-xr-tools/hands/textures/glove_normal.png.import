@@ -2,7 +2,7 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://5c8qfvj5e35h"
+uid="uid://dt6k4nuvpo38o"
 path.s3tc="res://.godot/imported/glove_normal.png-da82759e655cb7106cb0172b7076b948.s3tc.ctex"
 path.etc2="res://.godot/imported/glove_normal.png-da82759e655cb7106cb0172b7076b948.etc2.ctex"
 metadata={
@@ -25,8 +25,8 @@ compress/normal_map=1
 compress/channel_pack=0
 mipmaps/generate=true
 mipmaps/limit=-1
-roughness/mode=0
-roughness/src_normal=""
+roughness/mode=1
+roughness/src_normal="res://addons/godot-xr-tools/hands/textures/glove_normal.png"
 process/fix_alpha_border=true
 process/premult_alpha=false
 process/normal_map_invert_y=false

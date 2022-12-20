@@ -2,22 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://45now84k6s11"
-path.s3tc="res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.s3tc.ctex"
-path.etc2="res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.etc2.ctex"
+uid="uid://n1xq4cm67o07"
+path="res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/godot-xr-tools/hands/textures/caucasian_realistic_baseColor.png"
-dest_files=["res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.s3tc.ctex", "res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.etc2.ctex"]
+dest_files=["res://.godot/imported/caucasian_realistic_baseColor.png-6d28d56c1e76917b749358861074492c.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/bptc_ldr=0

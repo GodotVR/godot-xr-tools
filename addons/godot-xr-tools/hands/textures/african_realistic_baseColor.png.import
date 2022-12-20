@@ -2,22 +2,20 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b601khh4slvtj"
-path.s3tc="res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.s3tc.ctex"
-path.etc2="res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.etc2.ctex"
+uid="uid://dk8o82rjww802"
+path="res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://addons/godot-xr-tools/hands/textures/african_realistic_baseColor.png"
-dest_files=["res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.s3tc.ctex", "res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.etc2.ctex"]
+dest_files=["res://.godot/imported/african_realistic_baseColor.png-67cf0f3230115c16edbeaf7b76430f7c.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=0
 compress/lossy_quality=0.7
 compress/hdr_compression=1
 compress/bptc_ldr=0
