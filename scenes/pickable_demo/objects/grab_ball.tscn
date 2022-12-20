@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://clta811tt773x"]
+[gd_scene load_steps=10 format=3 uid="uid://clta811tt773x"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_qhto0"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="3"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="3_0q4lf"]
 
 [sub_resource type="SphereShape3D" id="2"]
 margin = 0.01
@@ -28,21 +30,24 @@ albedo_color = Color(1, 1, 0, 1)
 [node name="GrabBall" instance=ExtResource("1")]
 collision_layer = 4
 collision_mask = 720903
-reset_transform_on_pickup = false
 picked_up_layer = 65536
 ranged_grab_method = 2
 
-[node name="PickupCenter" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+[node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource("2_qhto0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.04, -0.065)
 
-[node name="CollisionShape3D" parent="." index="1"]
+[node name="GrabPointHandRight" parent="." index="1" instance=ExtResource("3_0q4lf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.04, -0.065)
+visible = true
+
+[node name="CollisionShape3D" parent="." index="2"]
 shape = SubResource("2")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="2"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="3"]
 mesh = SubResource("3")
 surface_material_override/0 = ExtResource("2")
 
-[node name="GrabHighlight" type="Node3D" parent="." index="3"]
+[node name="GrabHighlight" type="Node3D" parent="." index="4"]
 script = ExtResource("3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="GrabHighlight" index="0"]

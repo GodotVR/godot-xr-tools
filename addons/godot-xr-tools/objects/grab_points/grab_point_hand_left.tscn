@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://c25yxb0vt53vc"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand.gd" id="1"]
+
+[node name="GrabPointHandLeft" type="Marker3D"]
+visible = false
+script = ExtResource("1")
+hand = 0

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dh8grd7s3n8kg"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_snap.gd" id="1"]
+
+[node name="GrabPointSnap" type="Marker3D"]
+visible = false
+script = ExtResource("1")

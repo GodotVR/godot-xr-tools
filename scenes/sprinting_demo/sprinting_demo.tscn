@@ -1,14 +1,14 @@
-[gd_scene load_steps=22 format=3 uid="uid://bvbt5j7r3y7f4"]
+[gd_scene load_steps=21 format=3 uid="uid://bvbt5j7r3y7f4"]
 
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="6"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://drs4eeq721ojn" path="res://addons/godot-xr-tools/functions/movement_sprint.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="11"]
-[ext_resource type="Material" uid="uid://b7wasd2k6i7h8" path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" id="12"]
+[ext_resource type="Material" uid="uid://p0q2df2dmy62" path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" id="12"]
 [ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="12_gkoml"]
 [ext_resource type="Resource" path="res://scenes/sprinting_demo/player_physics.tres" id="12_ureyg"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="13"]
@@ -16,9 +16,8 @@
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="16_3bcyp"]
 [ext_resource type="PackedScene" path="res://scenes/sprinting_demo/objects/ramp.tscn" id="17"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body.tscn" id="17_k8kqb"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="17_k8kqb"]
 [ext_resource type="PackedScene" path="res://scenes/sprinting_demo/objects/climbing_wall.tscn" id="18"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="18_hkpoo"]
 [ext_resource type="PackedScene" path="res://scenes/sprinting_demo/objects/instructions.tscn" id="19"]
 
 [sub_resource type="Curve3D" id="1"]
@@ -60,8 +59,7 @@ max_speed = 3.0
 [node name="MovementJump" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("1")]
 jump_button_action = "ax_button"
 
-[node name="PlayerBody" type="Node" parent="XROrigin3D" index="3" instance=ExtResource("17_k8kqb")]
-script = ExtResource("18_hkpoo")
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("17_k8kqb")]
 physics = ExtResource("12_ureyg")
 
 [node name="MovementClimb" parent="XROrigin3D" index="4" instance=ExtResource("12_gkoml")]

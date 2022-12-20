@@ -1,9 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://cs6dxfu5owcgo"]
+[gd_scene load_steps=15 format=3 uid="uid://cs6dxfu5owcgo"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="3"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_tuhw3"]
+[ext_resource type="Resource" uid="uid://c5nxxsga5kesd" path="res://assets/meshes/interactables/pose_grab_ball_left.tres" id="6_rulf8"]
+[ext_resource type="Resource" uid="uid://dvvw0k7tqagx" path="res://assets/meshes/interactables/pose_grab_ball_right.tres" id="7_ue4vl"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.2, 0.6, 0.1)
@@ -74,7 +77,13 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("4")
-reset_transform_on_pickup = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle"]
+shape = SubResource("7")
+
+[node name="HandPoseArea" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource("5_tuhw3")]
+left_pose = ExtResource("6_rulf8")
+right_pose = ExtResource("7_ue4vl")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle/HandPoseArea"]
 shape = SubResource("7")

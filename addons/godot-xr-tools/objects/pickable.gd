@@ -10,6 +10,9 @@ extends RigidBody3D
 ##
 ## Additionally pickable objects may support being snapped into
 ## [XRToolsSnapZone] areas.
+##
+## Grab-points can be defined by adding different types of [XRToolsGrabPoint]
+## child nodes controlling hand and snap-zone grab locations.
 
 
 # Signal emitted when the user picks up this object
@@ -23,6 +26,10 @@ signal action_pressed(pickable)
 
 # Signal emitted when the highlight state changes
 signal highlight_updated(pickable, enable)
+
+
+# Priority for grip poses
+const GRIP_POSE_PRIORITY = 100
 
 
 ## Method used to hold object
@@ -45,18 +52,23 @@ enum PickableState {
 	HELD,				## Object held
 }
 
+enum ReleaseMode {
+	ORIGINAL = -1,		## Preserve original mode when picked up
+	UNFROZEN = 0,		## Release and unfreeze
+	FROZEN = 1			## Release and freeze
+}
 
 ## If true, the grip control must be held to keep the object picked up
 @export var press_to_hold : bool = true
-
-## If true, the object is picked up at the "PickupCenter" location
-@export var reset_transform_on_pickup : bool = true
 
 ## Layer for this object while picked up
 @export_flags_3d_physics var picked_up_layer = 0
 
 ## Method used to hold an object
 @export var hold_method : HoldMethod = HoldMethod.REMOTE_TRANSFORM
+
+## Release mode to use when releasing the object
+@export var release_mode : ReleaseMode = ReleaseMode.ORIGINAL
 
 ## Method used to perform a ranged grab
 @export var ranged_grab_method : RangedMethod = RangedMethod.SNAP: set = _set_ranged_grab_method
@@ -74,8 +86,8 @@ enum PickableState {
 ## If true, the object can be picked up at range
 var can_ranged_grab: bool = true
 
-## Original frozen state before pickup
-var was_frozen : bool = false
+## Frozen state to restore to when dropped
+var restore_freeze : bool = false
 
 ## Entity holding this item
 var picked_up_by: Node3D = null
@@ -83,8 +95,8 @@ var picked_up_by: Node3D = null
 ## Controller holding this item (may be null if held by snap-zone)
 var by_controller : XRController3D = null
 
-## Pickup center
-var center_pickup_on_node: Node3D = null
+## Hand holding this item (may be null if held by snap-zone)
+var by_hand : XRToolsHand = null
 
 ## Count of 'is_closest' grabbers
 var _closest_count: int = 0
@@ -97,6 +109,12 @@ var _remote_transform: RemoteTransform3D = null
 
 ## Move-to node for performing remote grab
 var _move_to: XRToolsMoveTo = null
+
+# Array of grab points
+var _grab_points : Array = []
+
+# Currently active grab-point
+var _active_grab_point : XRToolsGrabPoint
 
 
 # Remember some state so we can return to it when the user drops the object
@@ -112,8 +130,11 @@ func is_xr_class(name : String) -> bool:
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Attempt to get the pickup center if provided
-	center_pickup_on_node = get_node_or_null("PickupCenter")
+	# Get all grab points
+	for child in get_children():
+		var grab_point := child as XRToolsGrabPoint
+		if grab_point:
+			_grab_points.push_back(grab_point)
 
 
 # Test if this object can be picked up
@@ -173,11 +194,28 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 	# remember who picked us up
 	picked_up_by = by
 	by_controller = with_controller
+	by_hand = XRToolsHand.find_instance(by_controller)
+	_active_grab_point = _get_grab_point(by)
 
-	# Remember if our object was already frozen
-	was_frozen = freeze
+	# If we have been picked up by a hand then apply the hand-pose-override
+	# from the grab-point.
+	if by_hand and _active_grab_point:
+		var grab_point_hand := _active_grab_point as XRToolsGrabPointHand
+		if grab_point_hand and grab_point_hand.hand_pose:
+			by_hand.add_pose_override(self, GRIP_POSE_PRIORITY, grab_point_hand.hand_pose)
 
-	# turn off physics on our pickable object and freeze it, we need to look into the freeze modes
+	# Remember the mode before pickup
+	match release_mode:
+		ReleaseMode.UNFROZEN:
+			restore_freeze = false
+
+		ReleaseMode.FROZEN:
+			restore_freeze = true
+
+		_:
+			restore_freeze = freeze
+
+	# turn off physics on our pickable object
 	freeze = true
 	collision_layer = picked_up_layer
 	collision_mask = 0
@@ -187,7 +225,7 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 			_start_ranged_grab()
 		else:
 			_do_snap_grab()
-	elif reset_transform_on_pickup:
+	elif _active_grab_point:
 		_do_snap_grab()
 	else:
 		_do_precise_grab()
@@ -214,7 +252,7 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 				_remote_transform = null
 
 	# Restore RigidBody mode
-	freeze = was_frozen
+	freeze = restore_freeze
 	collision_mask = original_collision_mask
 	collision_layer = original_collision_layer
 
@@ -222,10 +260,16 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 	linear_velocity = p_linear_velocity
 	angular_velocity = p_angular_velocity
 
+	# If we are held by a hand then remove any hand-pose-override we may have
+	# given it.
+	if by_hand:
+		by_hand.remove_pose_override(self)
+
 	# we are no longer picked up
 	_state = PickableState.IDLE
 	picked_up_by = null
 	by_controller = null
+	by_hand = null
 
 	# Stop any XRToolsMoveTo being used for remote grabbing
 	if _move_to:
@@ -241,11 +285,18 @@ func _start_ranged_grab() -> void:
 	# Set state to grabbing at range and enable processing
 	_state = PickableState.GRABBING_RANGED
 
+	# Calculate the transform offset
+	var offset : Transform3D
+	if _active_grab_point:
+		offset = _active_grab_point.transform.inverse()
+	else:
+		offset = Transform3D.IDENTITY
+
 	# Create a XRToolsMoveTo to perform the remote-grab. The remote grab will move
 	# us to the pickup object at the ranged-grab speed, and also takes into account
 	# the center-pickup position
 	_move_to = XRToolsMoveTo.new()
-	_move_to.start(self, picked_up_by, center_pickup_on_node.transform.inverse(), ranged_grab_speed)
+	_move_to.start(self, picked_up_by, offset, ranged_grab_speed)
 	_move_to.move_complete.connect(_ranged_grab_complete)
 	self.add_child(_move_to)
 
@@ -268,10 +319,10 @@ func _do_snap_grab() -> void:
 		HoldMethod.REMOTE_TRANSFORM:
 			# Calculate the snap transform for remote-transforming
 			var snap_transform: Transform3D
-			if center_pickup_on_node:
-				snap_transform = center_pickup_on_node.transform
+			if _active_grab_point:
+				snap_transform = _active_grab_point.transform.inverse()
 			else:
-				snap_transform = Transform3D()
+				snap_transform = Transform3D.IDENTITY
 
 			# Construct the remote transform
 			_remote_transform = RemoteTransform3D.new()
@@ -283,10 +334,10 @@ func _do_snap_grab() -> void:
 		HoldMethod.REPARENT:
 			# Calculate the snap transform for reparenting
 			var snap_transform: Transform3D
-			if center_pickup_on_node:
-				snap_transform = center_pickup_on_node.global_transform.inverse() * global_transform
+			if _active_grab_point:
+				snap_transform = _active_grab_point.global_transform.inverse() * global_transform
 			else:
-				snap_transform = Transform3D()
+				snap_transform = Transform3D.IDENTITY
 
 			# Reparent to the holder with snap transform
 			original_parent.remove_child(self)
@@ -327,18 +378,18 @@ func _do_precise_grab() -> void:
 	emit_signal("picked_up", self)
 
 
+## Find the first grab-point for the grabber
+func _get_grab_point(_grabber : Node) -> XRToolsGrabPoint:
+	# Iterate over all grab points
+	for g in _grab_points:
+		var grab_point : XRToolsGrabPoint = g
+		if grab_point.can_grab(_grabber):
+			return grab_point
+	
+	# No suitable grab-point found
+	return null
+
+
 func _set_ranged_grab_method(new_value: int) -> void:
 	ranged_grab_method = new_value
 	can_ranged_grab = new_value != RangedMethod.NONE
-
-
-func _get_configuration_warning():
-	# Check for error cases when missing a PickupCenter
-	if not get_node_or_null("PickupCenter"):
-		if reset_transform_on_pickup:
-			return "Missing PickupCenter child node for 'reset transform on pickup'"
-		if ranged_grab_method != RangedMethod.NONE:
-			return "Missing PickupCenter child node for 'remote grabbing'"
-
-	# No issues found
-	return ""
