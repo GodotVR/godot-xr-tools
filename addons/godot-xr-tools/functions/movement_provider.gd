@@ -59,6 +59,11 @@ func _ready():
 			call_deferred("_create_player_body_node")
 
 
+# Override this function to perform pre-movement updates to the PlayerBody
+func physics_pre_movement(_delta: float, _player_body: XRToolsPlayerBody):
+	pass
+
+
 # Override this function to apply motion to the PlayerBody
 func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled: bool):
 	pass

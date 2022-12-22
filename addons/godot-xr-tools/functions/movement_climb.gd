@@ -26,9 +26,6 @@ signal player_climb_start
 signal player_climb_end
 
 
-## Horizontal vector used to calculate the horizontal component of vectors
-const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
-
 ## Distance at which grabs snap
 const SNAP_DISTANCE : float = 1.0
 
@@ -149,9 +146,15 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 		player_body.override_player_height(self, 0.0)
 		emit_signal("player_climb_start")
 	else:
+		# Calculate the forward direction (based on camera-forward)
+		var dir_forward = -player_body.up_player_plane.project(
+			player_body.camera_node.global_transform.basis.z).normalized()
+
+		# Set player velocity based on averaged velocity, fling multiplier,
+		# and a forward push
 		var velocity := _averager.velocity()
-		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
 		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
+
 		player_body.override_player_height(self)
 		emit_signal("player_climb_end")
 
