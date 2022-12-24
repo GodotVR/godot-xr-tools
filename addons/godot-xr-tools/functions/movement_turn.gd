@@ -69,7 +69,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Handle smooth rotation
 	if !_snap_turning():
-		_rotate_player(player_body, smooth_turn_speed * delta * left_right)
+		player_body.rotate_player(smooth_turn_speed * delta * left_right)
 		return
 
 	# Update the next turn-step delay
@@ -79,19 +79,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Turn one step in the requested direction
 	_turn_step = step_turn_delay
-	_rotate_player(player_body, deg2rad(step_turn_angle) * sign(left_right))
-
-
-# Rotate the origin node around the camera
-func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
-	var t1 := Transform()
-	var t2 := Transform()
-	var rot := Transform()
-
-	t1.origin = -player_body.camera_node.transform.origin
-	t2.origin = player_body.camera_node.transform.origin
-	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
-	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
+	player_body.rotate_player(deg2rad(step_turn_angle) * sign(left_right))
 
 
 # This method verifies the movement provider has a valid configuration.

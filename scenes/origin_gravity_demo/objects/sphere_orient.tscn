@@ -1,0 +1,34 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=2]
+
+[sub_resource type="SphereMesh" id=2]
+radius = 10.0
+height = 20.0
+
+[sub_resource type="SphereShape" id=3]
+radius = 10.0
+
+[sub_resource type="SphereShape" id=8]
+radius = 15.0
+
+[node name="SphereOrient" type="Spatial"]
+
+[node name="Body" type="StaticBody" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="Body"]
+mesh = SubResource( 2 )
+skeleton = NodePath("../../..")
+material/0 = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Body"]
+shape = SubResource( 3 )
+
+[node name="Gravity" type="Area" parent="."]
+space_override = 3
+gravity_point = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Gravity"]
+shape = SubResource( 8 )

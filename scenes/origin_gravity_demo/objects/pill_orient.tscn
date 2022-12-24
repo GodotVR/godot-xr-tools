@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=2]
+
+[sub_resource type="CapsuleMesh" id=4]
+radius = 7.0
+mid_height = 7.0
+radial_segments = 32
+
+[sub_resource type="CapsuleShape" id=5]
+radius = 7.0
+height = 7.0
+
+[sub_resource type="CapsuleShape" id=9]
+radius = 9.0
+height = 7.0
+
+[node name="PillOrient" type="Spatial"]
+
+[node name="Body" type="StaticBody" parent="."]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0 )
+collision_layer = 8
+collision_mask = 0
+
+[node name="MeshInstance" type="MeshInstance" parent="Body"]
+mesh = SubResource( 4 )
+material/0 = ExtResource( 2 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Body"]
+shape = SubResource( 5 )
+
+[node name="Gravity" type="Area" parent="."]
+space_override = 3
+gravity_point = true
+
+[node name="CollisionShape" type="CollisionShape" parent="Gravity"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0 )
+shape = SubResource( 9 )

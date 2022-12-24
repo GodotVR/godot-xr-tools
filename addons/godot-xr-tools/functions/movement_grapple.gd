@@ -165,7 +165,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var hook_direction := hook_vector / hook_length
 
 	# Apply gravity
-	player_body.velocity += Vector3.UP * player_body.gravity * delta
+	player_body.velocity += player_body.gravity * delta
 
 	# Select the grapple speed
 	var speed := impulse_speed if do_impulse else winch_speed
