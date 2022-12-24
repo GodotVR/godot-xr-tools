@@ -5,10 +5,10 @@ extends Spatial
 
 ## XR Tools Function Pickup Script
 ##
-## This script implements picking up of objects. Most pickable 
+## This script implements picking up of objects. Most pickable
 ## objects are instances of the [XRToolsPickable] class.
 ##
-## Additionally this script can work in conjunction with the 
+## Additionally this script can work in conjunction with the
 ## [XRToolsMovementProvider] class support climbing. Most climbable objects are
 ## instances of the [XRToolsClimbable] class.
 
@@ -27,7 +27,7 @@ const MAX_GRAB_DISTANCE2: float = 1000000.0
 ## Pickup enabled property
 export var enabled : bool = true
 
-## Grip controller button
+## Grip controller axis
 export (XRTools.Axis) var pickup_axis_id = XRTools.Axis.VR_GRIP_AXIS
 
 ## Action controller button
@@ -39,7 +39,7 @@ export var grab_distance : float = 0.3 setget _set_grab_distance
 ## Grab collision mask
 export (int, LAYERS_3D_PHYSICS) var grab_collision_mask : int = 1 setget _set_grab_collision_mask
 
-## Enable ranged-grab
+## If true, ranged-grabbing is enabled
 export var ranged_enable : bool = true
 
 ## Ranged-grab distance
@@ -78,7 +78,7 @@ var _ranged_collision : CollisionShape
 onready var _controller := ARVRHelpers.get_arvr_controller(self)
 
 ## Grip threshold (from configuration)
-onready var grip_threshold = XRTools.get_grip_threshold()
+onready var _grip_threshold : float = XRTools.get_grip_threshold()
 
 
 # Add support for is_class on XRTools classes
@@ -148,10 +148,10 @@ func _process(delta):
 
 	# Handle our grip
 	var grip_value = _controller.get_joystick_axis(pickup_axis_id)
-	if (grip_pressed and grip_value < (grip_threshold - 0.1)):
+	if (grip_pressed and grip_value < (_grip_threshold - 0.1)):
 		grip_pressed = false
 		_on_grip_release()
-	elif (!grip_pressed and grip_value > (grip_threshold + 0.1)):
+	elif (!grip_pressed and grip_value > (_grip_threshold + 0.1)):
 		grip_pressed = true
 		_on_grip_pressed()
 
@@ -179,7 +179,7 @@ static func find_instance(node : Node) -> XRToolsFunctionPickup:
 
 ## Find the left [XRToolsFunctionPickup] node.
 ##
-## This function searches from the specified node for the left controller 
+## This function searches from the specified node for the left controller
 ## [XRToolsFunctionPickup] assuming the node is a sibling of the [ARVROrigin].
 static func find_left(node : Node) -> XRToolsFunctionPickup:
 	return XRTools.find_child(
@@ -190,7 +190,7 @@ static func find_left(node : Node) -> XRToolsFunctionPickup:
 
 ## Find the right [XRToolsFunctionPickup] node.
 ##
-## This function searches from the specified node for the right controller 
+## This function searches from the specified node for the right controller
 ## [XRToolsFunctionPickup] assuming the node is a sibling of the [ARVROrigin].
 static func find_right(node : Node) -> XRToolsFunctionPickup:
 	return XRTools.find_child(
@@ -356,6 +356,7 @@ func _get_closest_ranged() -> Spatial:
 	return new_closest_obj
 
 
+## Drop the currently held object
 func drop_object() -> void:
 	if not is_instance_valid(picked_up_object):
 		return
@@ -403,7 +404,7 @@ func _on_button_pressed(p_button) -> void:
 			picked_up_object.action()
 
 
-func _on_button_release(p_button) -> void:
+func _on_button_release(_p_button) -> void:
 	pass
 
 

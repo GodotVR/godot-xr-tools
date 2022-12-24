@@ -3,20 +3,12 @@ class_name XRToolsMovementGrapple
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Grapple Movement
 ##
-## Movement Provider for Grapple Movement
-##
-## @desc:
-##     This script provide simple grapple based movement - "bat hook" style
-##     where the player moves directly to the grapple location. This script
-##     works with the PlayerBody attached to the  players ARVROrigin.
-##
-##     The player may have multiple movement nodes attached to different
-##     controllers to provide different types of movement.
-##
-##     The player can have a grapple node attached to each hand and the
-##     movement should not break.
-##
+## This script provide simple grapple based movement - "bat hook" style
+## where the player flings a rope to the target and swings on it.
+## This script works with the [XRToolsPlayerBody] attached to the players
+## [ARVROrigin].
 
 
 ## Signal emitted when grapple starts
@@ -26,11 +18,11 @@ signal grapple_started()
 signal grapple_finished()
 
 
-# Grapple state
+## Grapple state
 enum GrappleState {
-	IDLE,			# Idle
-	FIRED,			# Grapple is fired
-	WINCHING,		# Grapple is winching
+	IDLE,			## Grapple is idle
+	FIRED,			## Grapple is fired
+	WINCHING,		## Grapple is winching
 }
 
 
@@ -49,8 +41,8 @@ export var impulse_speed : float = 10.0
 ## Winch speed applied to the player while the grapple is held
 export var winch_speed : float = 2.0
 
-##Probably need to add export variables for line size, maybe line material at some point so dev does not need to make children editable to do this
-##For now, right click on grapple node and make children editable to edit these facets.
+## Probably need to add export variables for line size, maybe line material at some point so dev does not need to make children editable to do this
+## For now, right click on grapple node and make children editable to edit these facets.
 export var rope_width : float = 0.02
 
 ## Air friction while grappling

@@ -9,7 +9,7 @@ func _update_demo_positions() -> void:
 			var t = Transform()
 			t.origin = Vector3(0.0, 0.0, -10.0)
 			t = t.rotated(Vector3.UP, angle * i)
-			
+
 			$Demos.get_child(i).transform = t
 
 

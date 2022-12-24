@@ -46,7 +46,7 @@ signal scene_visible(scene)
 # scene and manage it here. Our world environment at the start
 # belongs to our loading screen and we need to keep a copy.
 
-onready var loading_screen_environment = $WorldEnvironment.environment 
+onready var loading_screen_environment = $WorldEnvironment.environment
 onready var resource_queue = preload("res://addons/godot-xr-tools/assets/resource_queue/resource_queue.gd").new()
 
 ## Fade
@@ -67,9 +67,8 @@ func set_fade(p_value : float):
 ## Scene swapping
 #
 # These functions control our scene swapping
-
-export (String, FILE, '*.tscn') var main_scene
-export (bool) var prompt_for_continue = true
+export (String, FILE, '*.tscn') var main_scene : String
+export var prompt_for_continue : bool = true
 
 var arvr_origin : ARVROrigin
 var arvr_camera : ARVRCamera
@@ -155,7 +154,7 @@ func load_scene(p_scene_path : String):
 	while !resource_queue.is_ready(p_scene_path):
 		# wait a bit
 		yield(get_tree().create_timer(0.3), "timeout")
-		
+
 		$LoadingScreen.progress = resource_queue.get_progress(p_scene_path)
 
 	var new_scene : PackedScene = resource_queue.get_resource(p_scene_path)

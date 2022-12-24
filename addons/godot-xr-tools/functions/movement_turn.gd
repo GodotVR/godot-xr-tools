@@ -2,29 +2,25 @@ tool
 class_name XRToolsMovementTurn
 extends XRToolsMovementProvider
 
+
+## XR Tools Movement Provider for Turning
 ##
-## Movement Provider for Turning
-##
-## @desc:
-##     This script provides turning support for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
-##
-##     The following types of turning are supported:
-##      - Snap turning
-##      - Smooth turning
-##
+## This script provides turning support for the player. This script works
+## with the PlayerBody attached to the players [ARVROrigin].
+
+
+## Movement mode
+enum TurnMode {
+	DEFAULT,	## Use turn mode from project/user settings
+	SNAP,		## Use snap-turning
+	SMOOTH		## Use smooth-turning
+}
 
 
 ## Movement provider order
 export var order : int = 5
 
-## Movement mode
-enum TurnMode {
-	DEFAULT,
-	SNAP,
-	SMOOTH
-}
-
+## Movement mode property
 export (TurnMode) var turn_mode = TurnMode.DEFAULT
 
 ## Smooth turn speed in radians per second
@@ -92,10 +88,14 @@ func _get_configuration_warning():
 	return ._get_configuration_warning()
 
 
+# Test if snap turning should be used
 func _snap_turning():
-	if turn_mode == TurnMode.SNAP:
-		return true
-	elif turn_mode == TurnMode.SMOOTH:
-		return false
-	else:
-		return XRToolsUserSettings.snap_turning
+	match turn_mode:
+		TurnMode.SNAP:
+			return true
+
+		TurnMode.SMOOTH:
+			return false
+
+		_:
+			return XRToolsUserSettings.snap_turning

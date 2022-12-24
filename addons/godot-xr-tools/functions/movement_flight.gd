@@ -86,7 +86,7 @@ export var drag : float = 0.1
 ## Guidance effect (virtual fins/wings)
 export var guidance : float = 0.0
 
-## Flight exclusive enable
+## If true, flight movement is exclusive preventing further movement functions
 export var exclusive : bool = true
 
 

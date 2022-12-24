@@ -17,7 +17,7 @@ export var stick_strength : float = 9.8
 
 
 
-func physics_pre_movement(delta: float, player_body: XRToolsPlayerBody):
+func physics_pre_movement(_delta: float, player_body: XRToolsPlayerBody):
 	# Test for collision with wall under feet
 	var wall_collision := player_body.kinematic_node.move_and_collide(
 		player_body.up_player_vector * -stick_distance, true, true, true)

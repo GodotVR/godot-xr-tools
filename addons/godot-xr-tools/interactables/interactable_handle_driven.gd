@@ -2,17 +2,14 @@ class_name XRToolsInteractableHandleDriven
 extends Spatial
 
 
+## XR Tools Interactable Handle Driven script
 ##
-## Interactable Handle Driven script
+## This is the base class for interactables driven by handles. It subscribes
+## to all child handle picked_up and dropped signals, and maintains a list
+## of all grabbed handles.
 ##
-## @desc:
-##     This is the base class for interactables driven by handles. It subscribes
-##     to all child handle picked_up and dropped signals, and maintains a list
-##     of all grabbed handles.
-##
-##     When one or more handles are grabbed, the _process function is enabled
-##     to process the handle-driven movement.
-##
+## When one or more handles are grabbed, the _process function is enabled
+## to process the handle-driven movement.
 
 
 ## Signal called when this interactable is grabbed

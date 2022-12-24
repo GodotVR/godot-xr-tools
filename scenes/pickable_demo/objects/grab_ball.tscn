@@ -35,23 +35,18 @@ ranged_grab_method = 2
 
 [node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.04, -0.065 )
-_show_in_editor = true
 
 [node name="GrabPointHandRight" parent="." index="1" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.04, -0.065 )
-_show_in_editor = true
 
-[node name="PickupCenter" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0 )
-
-[node name="CollisionShape" parent="." index="3"]
+[node name="CollisionShape" parent="." index="2"]
 shape = SubResource( 2 )
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="4"]
+[node name="MeshInstance" type="MeshInstance" parent="." index="3"]
 mesh = SubResource( 3 )
 material/0 = ExtResource( 2 )
 
-[node name="GrabHighlight" type="Spatial" parent="." index="5"]
+[node name="GrabHighlight" type="Spatial" parent="." index="4"]
 script = ExtResource( 3 )
 
 [node name="MeshInstance" type="MeshInstance" parent="GrabHighlight" index="0"]

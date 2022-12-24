@@ -5,8 +5,8 @@ extends Node
 
 ## XR Tools Player Physics Body Script
 ##
-## This node provides the player with a physics body. The body is a 
-## [CapsuleShape] which tracks the player location as measured by the 
+## This node provides the player with a physics body. The body is a
+## [CapsuleShape] which tracks the player location as measured by the
 ## [ARVRCamera] for the players head.
 ##
 ## The player body can detect when the player is in the air, on the ground,
@@ -15,7 +15,7 @@ extends Node
 ## Player movement is achieved by a number of movement providers attached to
 ## either the player or their controllers.
 ##
-## After the player body moves, the [ARVROrigin] is updated as necessary to 
+## After the player body moves, the [ARVROrigin] is updated as necessary to
 ## track the players movement.
 
 
@@ -26,10 +26,10 @@ signal player_jumped()
 signal player_bounced(collider, magnitude)
 
 
-## Player body enabled flag
+## If true, the player body performs physics processing and movement
 export var enabled : bool = true setget set_enabled
 
-## Player radius
+## Radius of the player body collider
 export var player_radius : float = 0.4 setget set_player_radius
 
 ## Player head height (distance between between camera and top of head)
@@ -47,29 +47,29 @@ export (float, 0.0, 1.0) var eye_forward_offset : float = 0.66
 ## Lets the player push rigid bodies
 export var push_rigid_bodies : bool = true
 
-## GroundPhysicsSettings to apply - can only be typed in Godot 4+
+## Default ground physics setting - can only be typed in Godot 4+
 export var physics : Resource setget set_physics
 
-# Set our collision layer
+## Collision layer for the player body
 export (int, LAYERS_3D_PHYSICS) var collision_layer : int = 1 << 19 setget set_collision_layer
 
-# Set our collision mask
+## Collision mask for the player body
 export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 1023 setget set_collision_mask
 
 
-## Player Velocity - modifiable by movement providers
+## Player 3D Velocity - modifiiable by [XRToolsMovementProvider] nodes
 var velocity : Vector3 = Vector3.ZERO
 
 ## Current player gravity
 var gravity : Vector3 = Vector3.ZERO
 
-## Player On Ground flag - used by movement providers
+## Set true when the player is on the ground
 var on_ground : bool = true
 
-## Ground 'up' vector - used by movement providers
+## Normal vector for the ground under the player
 var ground_vector : Vector3 = Vector3.UP
 
-## Ground slope angle - used by movement providers
+## Ground slope angle
 var ground_angle : float = 0.0
 
 ## Ground node the player is touching
@@ -78,10 +78,10 @@ var ground_node : Spatial = null
 ## Ground physics override (if present)
 var ground_physics : XRToolsGroundPhysicsSettings = null
 
-## Ground control velocity - modified by movement providers
+## Ground control velocity - modifiable by [XRToolsMovementProvider] nodes
 var ground_control_velocity : Vector2 = Vector2.ZERO
 
-## Player height offset (for height calibration)
+## Player height offset - used for height calibration
 var player_height_offset : float = 0.0
 
 ## Velocity of the ground under the players feet
@@ -99,7 +99,7 @@ var up_gravity_plane := Plane(Vector3.UP, 0.0)
 ## Player-based "up" plane
 var up_player_plane := Plane(Vector3.UP, 0.0)
 
-# Movement providers
+# Array of [XRToolsMovementProvider] nodes for the player
 var _movement_providers := Array()
 
 # Jump cool-down counter
@@ -108,7 +108,7 @@ var _jump_cooldown := 0
 # Player height overrides
 var _player_height_overrides := { }
 
-## Player height override (enabled when non-negative)
+# Player height override (enabled when non-negative)
 var _player_height_override : float = -1.0
 
 # Previous ground node
@@ -133,11 +133,11 @@ onready var kinematic_node : KinematicBody = $KinematicBody
 # Default physics (if not specified by the user or the current ground)
 onready var default_physics = _guaranteed_physics()
 
-# Collision node
+# Player body Collision node
 onready var _collision_node : CollisionShape = $KinematicBody/CollisionShape
 
 
-# Class to sort movement providers by order
+## Class to sort movement providers by order
 class SortProviderByOrder:
 	static func sort_by_order(a, b) -> bool:
 		return true if a.order < b.order else false
@@ -287,7 +287,7 @@ func _physics_process(delta: float):
 	slew_up(-gravity.normalized(), 5.0 * delta)
 
 
-# Request a jump
+## Request a jump
 func request_jump(skip_jump_velocity := false):
 	# Skip if cooling down from a previous jump
 	if _jump_cooldown:
@@ -315,12 +315,11 @@ func request_jump(skip_jump_velocity := false):
 	emit_signal("player_jumped")
 	_jump_cooldown = 4
 
-# Move the players body
+## This method moves the players body using the provided velocity. Movement
+## providers may use this function if they are exclusively driving the player.
 func move_body(p_velocity: Vector3) -> Vector3:
 	return kinematic_node.move_and_slide(p_velocity, up_gravity_vector, false, 4, 0.785398, push_rigid_bodies)
 
-## Rotate the player
-##
 ## This method rotates the player by rotating the [ARVROrigin] around the camera.
 func rotate_player(angle: float):
 	var t1 := Transform()
@@ -332,9 +331,7 @@ func rotate_player(angle: float):
 	rot = rot.rotated(Vector3.DOWN, angle)
 	origin_node.transform = (origin_node.transform * t2 * rot * t1).orthonormalized()
 
-## Slew the players up vector
-##
-## This method slews the players up vector by rotating the [ARVROrigin] around 
+## This method slews the players up vector by rotating the [ARVROrigin] around
 ## the players feet.
 func slew_up(up: Vector3, slew: float) -> void:
 	# Skip if the up vector is not valid
@@ -361,7 +358,7 @@ func slew_up(up: Vector3, slew: float) -> void:
 	# Update the origin
 	origin_node.global_transform = new_origin
 
-# Set or clear a named height override
+## This method sets or clears a named height override
 func override_player_height(key, value: float = -1.0):
 	# Clear or set the override
 	if value < 0.0:
@@ -373,7 +370,7 @@ func override_player_height(key, value: float = -1.0):
 	var override = _player_height_overrides.values().min()
 	_player_height_override = override if override != null else -1.0
 
-# This method updates the body to match the player position
+# This method updates the player body to match the player position
 func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(

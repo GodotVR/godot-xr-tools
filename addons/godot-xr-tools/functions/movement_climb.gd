@@ -5,15 +5,15 @@ extends XRToolsMovementProvider
 
 ## XR Tools Movement Provider for Climbing
 ##
-## This script provides climbing movement for the player. To add climbing 
-## support, the player must also have [XRToolsFunctionPickup] nodes attached 
+## This script provides climbing movement for the player. To add climbing
+## support, the player must also have [XRToolsFunctionPickup] nodes attached
 ## to the left and right controllers, and an [XRToolsPlayerBody] under the
 ## [ARVROrigin].
 ##
-## Climbable objects can inherit from the climbable scene, or be [StaticBody] 
+## Climbable objects can inherit from the climbable scene, or be [StaticBody]
 ## objects with the [XRToolsClimbable] script attached to them.
 ##
-## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged, 
+## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged,
 ## and upon release the velocity is applied to the [XRToolsPlayerBody] with an
 ## optional fling multiplier, so the player can fling themselves up walls if
 ## desired.

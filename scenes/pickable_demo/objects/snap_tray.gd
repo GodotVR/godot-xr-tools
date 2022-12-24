@@ -43,4 +43,3 @@ func _update_tray_active() -> void:
 	$SnapArea2/SnapZone2.enabled = tray_active
 	$SnapArea3/SnapZone3.enabled = tray_active
 	$SnapArea4/SnapZone4.enabled = tray_active
-	
