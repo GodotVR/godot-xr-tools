@@ -4,6 +4,10 @@
   - installation
   - setup
 
+- title: Concepts
+  docs:
+  - origin
+
 - title: Features
   docs:
   - player
