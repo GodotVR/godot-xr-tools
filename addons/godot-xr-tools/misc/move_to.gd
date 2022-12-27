@@ -2,13 +2,10 @@ class_name XRToolsMoveTo
 extends Node
 
 
+## XR Tools Move To Node
 ##
-## Move To node
-##
-## @desc:
-##     This node moves a control Spatial to the specified target Spatial
-##     at a requested speed.
-##
+## This node moves a control node to the specified target node at a
+## requested speed.
 
 
 ## Signal invoked when the move finishes

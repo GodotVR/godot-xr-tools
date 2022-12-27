@@ -82,7 +82,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var left_position := _left_controller.global_transform.origin
 	var right_position := _right_controller.global_transform.origin
 	var left_to_right := right_position - left_position
-	
+
 	if turn_with_roll:
 		var angle = -left_to_right.dot(player_body.up_player_vector)
 		player_body.rotate_player(roll_turn_speed * delta * angle)

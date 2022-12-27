@@ -2,15 +2,18 @@ tool
 class_name XRToolsPoke
 extends Spatial
 
-export var enabled = true setget set_enabled
-export var radius = 0.005 setget set_radius
+
+export var enabled : bool = true setget set_enabled
+export var radius : float = 0.005 setget set_radius
 export var teleport_distance : float = 0.1 setget set_teleport_distance
 export var color : Color = Color(0.8, 0.8, 1.0, 0.5) setget set_color
+
 
 var is_ready = false
 var material : SpatialMaterial
 var target : Node ## Node we last started touching
 var last_collided_at : Vector3
+
 
 func set_enabled(new_enabled : bool) -> void:
 	enabled = new_enabled

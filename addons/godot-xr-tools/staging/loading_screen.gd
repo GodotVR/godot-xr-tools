@@ -20,16 +20,16 @@ signal continue_pressed
 #
 # If enabled, rotate our screen to follow the camera
 
-export (bool) var follow_camera = true setget set_follow_camera
-export (Curve) var follow_speed
+export var follow_camera : bool = true setget set_follow_camera
+export var follow_speed : Curve
 
 var camera : ARVRCamera
 
-func set_follow_camera(p_enabled):
+func set_follow_camera(p_enabled : bool) -> void:
 	follow_camera = p_enabled
 	_update_follow_camera()
 
-func set_camera(p_camera : ARVRCamera):
+func set_camera(p_camera : ARVRCamera) -> void:
 	camera = p_camera
 	_update_follow_camera()
 
@@ -39,13 +39,13 @@ func _update_follow_camera():
 
 ## Splash screen
 #
-# Make it possible to change the splash screen we show 
+# Make it possible to change the splash screen we show
 
-export (Texture) var splash_screen setget set_splash_screen
+export var splash_screen : Texture setget set_splash_screen
 
 var splash_screen_material : SpatialMaterial
 
-func set_splash_screen(p_splash_screen):
+func set_splash_screen(p_splash_screen : Texture) -> void:
 	splash_screen = p_splash_screen
 	_update_splash_screen()
 
@@ -57,13 +57,13 @@ func _update_splash_screen():
 #
 # We show a progress bar on screen. Note that we show
 # this at a different distance to create a nice depth
-# effect. 
+# effect.
 
-export (float, 0.0, 1.0, 0.01) var progress = 0.5 setget set_progress_bar
+export (float, 0.0, 1.0, 0.01) var progress : float = 0.5 setget set_progress_bar
 
 var progress_material : ShaderMaterial
 
-func set_progress_bar(p_progress : float):
+func set_progress_bar(p_progress : float) -> void:
 	progress = p_progress
 	_update_progress_bar()
 
@@ -75,9 +75,9 @@ func _update_progress_bar():
 #
 # When toggled we show our press to continue message and enable our trigger
 
-export (bool) var enable_press_to_continue = false setget set_enable_press_to_continue
+export var enable_press_to_continue : bool = false setget set_enable_press_to_continue
 
-func set_enable_press_to_continue(p_enable):
+func set_enable_press_to_continue(p_enable : bool) -> void:
 	enable_press_to_continue = p_enable
 	_update_enable_press_to_continue()
 
@@ -89,7 +89,7 @@ func _update_enable_press_to_continue():
 
 func _on_HoldButton_pressed():
 	# our Hold button will already be marked as disabled, we'll leave the rest as is...
-	
+
 	# Call down the tree
 	emit_signal("continue_pressed")
 
@@ -100,12 +100,12 @@ func _ready():
 	# so now that we're ready, start applying them...
 	splash_screen_material = $SplashScreen.get_surface_material(0)
 	_update_splash_screen()
-	
+
 	progress_material = $ProgressBar.mesh.surface_get_material(0)
 	_update_progress_bar()
-	
+
 	_update_enable_press_to_continue()
-	
+
 	_update_follow_camera()
 
 func _process(delta):

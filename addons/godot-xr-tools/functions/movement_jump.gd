@@ -3,17 +3,14 @@ class_name XRToolsMovementJump
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Jumping
 ##
-## Movement Provider for Jumping
+## This script provides jumping mechanics for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [ARVROrigin].
 ##
-## @desc:
-##     This script provides jumping mechanics for the player. This script works
-##     with the XRToolsPlayerBody attached to the players ARVROrigin.
-##
-##     The player enables jumping by attaching an XRToolsMovementJump as a
-##     child of the appropriate ARVRController, then configuring the jump button
-##     and jump velocity.
-##
+## The player enables jumping by attaching an [XRToolsMovementJump] as a
+## child of the appropriate [ARVRController], then configuring the jump button
+## and jump velocity.
 
 
 ## Movement provider order

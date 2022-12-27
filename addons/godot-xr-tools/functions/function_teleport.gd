@@ -25,10 +25,10 @@ export var cant_teleport_color : Color = Color(1.0, 0.0, 0.0, 1.0)
 export var no_collision_color: Color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
 
 ## Player height property
-export var player_height = 1.8 setget set_player_height
+export var player_height : float = 1.8 setget set_player_height
 
 ## Player radius property
-export var player_radius = 0.4 setget set_player_radius
+export var player_radius : float = 0.4 setget set_player_radius
 
 ## Teleport-arc strength
 export var strength : float = 5.0

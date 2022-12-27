@@ -25,8 +25,8 @@ enum Hand {
 
 ## Hand preview option
 enum PreviewMode {
-	CLOSED	## Preview hand closed
-	OPEN,	## Preview hand open
+	CLOSED,	## Preview hand closed
+	OPEN	## Preview hand open
 }
 
 

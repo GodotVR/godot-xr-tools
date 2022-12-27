@@ -7,14 +7,14 @@ extends XRToolsStaging
 # to create an environment in which you can background load
 # scenes and switch between them.
 #
-# There is also some example code here on how to react to 
+# There is also some example code here on how to react to
 # the player taking their headset on/off.
 #
 # The primary function here is to trigger the
-# "Press to continue" dialog when switching scenes. 
+# "Press to continue" dialog when switching scenes.
 # We do not want to enter our just loaded scene when the
 # player is still thumbling around putting their headset on
-# so if we detect they hadn't put their headset on yet 
+# so if we detect they hadn't put their headset on yet
 # when we were scene switching, we prompt the user.
 #
 # Finally this shows an example of how to react to pause
@@ -24,14 +24,14 @@ extends XRToolsStaging
 
 var scene_is_loaded = false
 
-func _on_Staging_scene_loaded(scene):
+func _on_Staging_scene_loaded(_scene):
 	# We only show the press to continue the first time we load a scene
 	# to give the player time to put their headset on.
 	prompt_for_continue = false
 	scene_is_loaded = true
 
 
-func _on_Staging_scene_exiting(scene):
+func _on_Staging_scene_exiting(_scene):
 	# We no longer have an active scene
 	scene_is_loaded = false
 
@@ -53,8 +53,8 @@ func _on_FPController_session_synchronized():
 	# We get the synchronized state at startup and whenever the player
 	# removes their headset (or goes into the menu system).
 	#
-	# If the user doesn't put their headset on again before we load a 
-	# new scene, we'll want to show the prompt so we don't load the 
+	# If the user doesn't put their headset on again before we load a
+	# new scene, we'll want to show the prompt so we don't load the
 	# next scene in while the player is still adjusting their position
 	prompt_for_continue = true
 

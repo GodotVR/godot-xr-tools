@@ -41,7 +41,7 @@ func _ready():
 func _get_configuration_warning():
 	if !ARVRHelpers.get_arvr_controller(self):
 		return "Node must be within a branch of an ARVRController node"
-		
+
 	# Verify hand can be found
 	if !XRToolsHand.find_instance(self):
 		return "Node must be a within a branch of an ARVRController node with a hand"

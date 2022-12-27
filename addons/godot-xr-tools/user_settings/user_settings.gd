@@ -1,58 +1,36 @@
 extends Node
 
-# our settings
+
+## User setting for snap-turn
 export var snap_turning : bool = true
+
+## User setting for player height adjust
 export var player_height_adjust : float = 0.0 setget set_player_height_adjust
 
-var settings_file_name = "user://xtools_user_settings.json"
 
-func set_player_height_adjust(new_value : float) -> void:
-	player_height_adjust = clamp(new_value, -1.0, 1.0)
+## Settings file name to persist user settings
+var settings_file_name : String = "user://xtools_user_settings.json"
 
 
-func reset_to_defaults():
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	_load()
+
+
+## Reset to default values
+func reset_to_defaults() -> void:
 	# Reset to defaults
 	snap_turning = XRTools.get_default_snap_turning()
 	player_height_adjust = 0.0
 
 
-func _load():
-	# First reset our values
-	reset_to_defaults()
+## Set the player height adjust property
+func set_player_height_adjust(new_value : float) -> void:
+	player_height_adjust = clamp(new_value, -1.0, 1.0)
 
-	# Skip if no settings file found
-	var file := File.new()
-	if !file.file_exists(settings_file_name):
-		return
 
-	# Attempt to open the settings file for reading
-	if file.open(settings_file_name, File.READ) != OK:
-		# File open failed with an error
-		return
-
-	# Read the settings text
-	var settings_text := file.get_as_text()
-	file.close()
-
-	# Parse the settings text and verify it's a dictionary
-	var settings_raw = parse_json(settings_text)
-	if typeof(settings_raw) != TYPE_DICTIONARY:
-		return
-	
-	# Parse our input settings
-	var settings : Dictionary = settings_raw
-	if settings.has("input"):
-		var input : Dictionary = settings["input"]
-		if input.has("default_snap_turning"):
-			snap_turning = input["default_snap_turning"]
-
-	# Parse our player settings
-	if settings.has("player"):
-		var player : Dictionary = settings["player"]
-		if player.has("height_adjust"):
-			player_height_adjust = player["height_adjust"]
-
-func save():
+## Save the settings to file
+func save() -> void:
 	# Convert the settings to a dictionary
 	var settings := {
 		"input" : {
@@ -75,6 +53,40 @@ func save():
 	file.store_line(settings_text)
 	file.close()
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	_load()
+
+## Load the settings from file
+func _load() -> void:
+	# First reset our values
+	reset_to_defaults()
+
+	# Skip if no settings file found
+	var file := File.new()
+	if !file.file_exists(settings_file_name):
+		return
+
+	# Attempt to open the settings file for reading
+	if file.open(settings_file_name, File.READ) != OK:
+		# File open failed with an error
+		return
+
+	# Read the settings text
+	var settings_text := file.get_as_text()
+	file.close()
+
+	# Parse the settings text and verify it's a dictionary
+	var settings_raw = parse_json(settings_text)
+	if typeof(settings_raw) != TYPE_DICTIONARY:
+		return
+
+	# Parse our input settings
+	var settings : Dictionary = settings_raw
+	if settings.has("input"):
+		var input : Dictionary = settings["input"]
+		if input.has("default_snap_turning"):
+			snap_turning = input["default_snap_turning"]
+
+	# Parse our player settings
+	if settings.has("player"):
+		var player : Dictionary = settings["player"]
+		if player.has("height_adjust"):
+			player_height_adjust = player["height_adjust"]
