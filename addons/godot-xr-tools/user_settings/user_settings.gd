@@ -12,7 +12,7 @@ extends Node
 var settings_file_name : String = "user://xtools_user_settings.json"
 
 
-## Called when the node enters the scene tree for the first time.
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	_load()
 

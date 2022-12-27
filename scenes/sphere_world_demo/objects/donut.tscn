@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bu7s5v5ygr0aa"]
+
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
+
+[node name="Donut" type="Node3D"]
+
+[node name="CSGTorus" type="CSGTorus3D" parent="."]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 6, 0)
+use_collision = true
+collision_layer = 8
+collision_mask = 0
+inner_radius = 6.0
+outer_radius = 8.0
+sides = 30
+ring_sides = 12
+material = ExtResource("1")

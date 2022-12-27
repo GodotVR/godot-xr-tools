@@ -8,7 +8,7 @@ extends XRToolsInteractableHandleDriven
 ## player through [XRToolsInteractableHandle] instances.
 ##
 ## The joystick rotates itelf around its local X/Y axes, and so should be
-## placed as a child of a Node3D to translate and rotate as appropriate.
+## placed as a child of a node to translate and rotate as appropriate.
 ##
 ## The interactable joystick is not a [RigidBody3D], and as such will not react
 ## to any collisions.

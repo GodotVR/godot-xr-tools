@@ -18,7 +18,7 @@ extends XRToolsMovementProvider
 ## Movement speed
 @export var max_speed : float = 10.0
 
-## If true, the player can strafe 
+## If true, the player can strafe
 @export var strafe : bool = false
 
 ## Input action for movement direction
@@ -70,7 +70,7 @@ func _get_configuration_warning():
 
 ## Find the left [XRToolsMovementDirect] node.
 ##
-## This function searches from the specified node for the left controller 
+## This function searches from the specified node for the left controller
 ## [XRToolsMovementDirect] assuming the node is a sibling of the [XROrigin3D].
 static func find_left(node : Node) -> XRToolsMovementDirect:
 	return XRTools.find_xr_child(
@@ -81,7 +81,7 @@ static func find_left(node : Node) -> XRToolsMovementDirect:
 
 ## Find the right [XRToolsMovementDirect] node.
 ##
-## This function searches from the specified node for the right controller 
+## This function searches from the specified node for the right controller
 ## [XRToolsMovementDirect] assuming the node is a sibling of the [XROrigin3D].
 static func find_right(node : Node) -> XRToolsMovementDirect:
 	return XRTools.find_xr_child(

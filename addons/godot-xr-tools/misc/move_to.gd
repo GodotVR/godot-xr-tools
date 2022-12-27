@@ -4,7 +4,7 @@ extends Node
 
 ## XR Tools Move To Node
 ##
-## This node moves a control Node3D to the specified target Node3D at a 
+## This node moves a control node to the specified target node at a
 ## requested speed.
 
 

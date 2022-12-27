@@ -9,7 +9,7 @@ extends Area3D
 ## of the VR hands.
 
 
-## Priority level for this 
+## Priority level for this hand pose area
 @export var pose_priority : int
 
 ## Left hand pose settings (XRToolsHandPoseSettings)

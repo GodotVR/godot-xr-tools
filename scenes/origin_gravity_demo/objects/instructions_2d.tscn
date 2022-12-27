@@ -1,0 +1,37 @@
+[gd_scene format=3 uid="uid://n6t8uyds2dft"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Origin Gravity Demo
+
+This scene demonstrates walking on non-flat surfaces.
+
+ > Left Controller:
+   - Direct Movement: U/D/L/R Joystick
+   - Jumping: A/X Button
+   - Sprinting: Joystick Button (hold)
+   - Flying: B/Y (toggle)
+
+ > Right Controller:
+   - Direct Movement: U/D Joystick
+   - Turning: L/R Joystick
+   - Jumping: A/X Button
+"

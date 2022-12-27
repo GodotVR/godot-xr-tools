@@ -26,10 +26,6 @@ signal player_glide_start
 signal player_glide_end
 
 
-## Constant to extract the horizontal components of a Vector3
-const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
-
-
 ## Movement provider order
 @export var order : int = 35
 
@@ -82,19 +78,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		return
 
 	# If on the ground, or not falling, then not gliding
-	if player_body.on_ground || player_body.velocity.y >= glide_min_fall_speed:
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	if player_body.on_ground || vertical_velocity >= glide_min_fall_speed:
 		_set_gliding(false)
 		return
 
 	# Get the controller left and right global horizontal positions
 	var left_position := _left_controller.global_transform.origin
 	var right_position := _right_controller.global_transform.origin
-	var left_to_right_vector := right_position - left_position
-	var left_to_right := (left_to_right_vector) * HORIZONTAL
-	
+	var left_to_right := right_position - left_position
+
 	if turn_with_roll:
-		var angle = -left_to_right_vector.y
-		_rotate_player(player_body, roll_turn_speed * delta * angle)
+		var angle = -left_to_right.dot(player_body.up_player_vector)
+		player_body.rotate_player(roll_turn_speed * delta * angle)
 
 	# Set gliding based on hand separation
 	var separation := left_to_right.length() / XRServer.world_scale
@@ -105,33 +101,20 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		return
 
 	# Lerp the vertical velocity to glide_fall_speed
-	var vertical_velocity := player_body.velocity.y
 	vertical_velocity = lerp(vertical_velocity, glide_fall_speed, vertical_slew_rate * delta)
 
 	# Lerp the horizontal velocity towards forward_speed
-	var horizontal_velocity := player_body.velocity * HORIZONTAL
-	var dir_forward := left_to_right.rotated(Vector3.UP, PI/2).normalized()
+	var horizontal_velocity := player_body.up_gravity_plane.project(player_body.velocity)
+	var dir_forward := player_body.up_gravity_plane.project(left_to_right.rotated(player_body.up_gravity_vector, PI/2)).normalized()
 	var forward_velocity := dir_forward * glide_forward_speed
 	horizontal_velocity = horizontal_velocity.lerp(forward_velocity, horizontal_slew_rate * delta)
 
 	# Perform the glide
-	var glide_velocity := horizontal_velocity + vertical_velocity * Vector3.UP
+	var glide_velocity := horizontal_velocity + vertical_velocity * player_body.up_gravity_vector
 	player_body.velocity = player_body.move_body(glide_velocity)
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true
-
-
-# Rotate the origin node around the camera
-func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
-	var t1 := Transform3D()
-	var t2 := Transform3D()
-	var rot := Transform3D()
-
-	t1.origin = -player_body.camera_node.transform.origin
-	t2.origin = player_body.camera_node.transform.origin
-	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
-	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
 
 
 # Set the gliding state and fire any signals

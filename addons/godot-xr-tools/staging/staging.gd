@@ -46,7 +46,7 @@ signal scene_visible(scene)
 # scene and manage it here. Our world environment at the start
 # belongs to our loading screen and we need to keep a copy.
 
-@onready var loading_screen_environment = $WorldEnvironment.environment 
+@onready var loading_screen_environment = $WorldEnvironment.environment
 
 ## Fade
 #

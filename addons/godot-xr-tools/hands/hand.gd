@@ -38,8 +38,8 @@ signal hand_scale_changed(scale)
 class PoseOverride:
 	## Who requested the override
 	var who : Node
-	
-	## Pose priority 
+
+	## Pose priority
 	var priority : int
 
 	## Pose settings

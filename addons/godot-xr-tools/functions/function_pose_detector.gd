@@ -42,7 +42,7 @@ func _ready():
 func _get_configuration_warning():
 	if !XRHelpers.get_xr_controller(self):
 		return "Node must be within a branch of an XRController3D node"
-		
+
 	# Verify hand can be found
 	if !XRToolsHand.find_instance(self):
 		return "Node must be a within a branch of an XRController node with a hand"

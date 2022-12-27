@@ -1,0 +1,44 @@
+[gd_scene load_steps=5 format=3 uid="uid://dk3jcnbypkiml"]
+
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="2"]
+
+[sub_resource type="CapsuleMesh" id="4"]
+material = ExtResource("2")
+radius = 7.0
+height = 21.0
+radial_segments = 32
+
+[sub_resource type="CapsuleShape3D" id="5"]
+radius = 7.0
+height = 21.0
+
+[sub_resource type="CapsuleShape3D" id="9"]
+radius = 9.0
+height = 25.0
+
+[node name="PillOrient" type="Node3D"]
+
+[node name="Body" type="StaticBody3D" parent="."]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+collision_layer = 8
+collision_mask = 0
+
+[node name="MeshInstance" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("4")
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Body"]
+transform = Transform3D(1, -4.37114e-08, 4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 4.37114e-08, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("5")
+
+[node name="Gravity" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 524292
+gravity_space_override = 3
+gravity_point = true
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
+
+[node name="CollisionShape" type="CollisionShape3D" parent="Gravity"]
+transform = Transform3D(1.91069e-15, 1, 4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 1, 0, -4.37114e-08, 0, 0, 0)
+shape = SubResource("9")

@@ -58,7 +58,6 @@ enum UpdateMode {
 ## Update throttle property
 @export var throttle_fps : float = 30.0
 
-
 ## Collision layer
 @export_flags_3d_physics var collision_layer : int = 15: set = set_collision_layer
 
@@ -269,6 +268,10 @@ func _update_scene() -> void:
 	if scene:
 		scene_node = scene.instantiate()
 		$Viewport.add_child(scene_node)
+
+	# (or use the scene if there is one already under the Viewport)
+	elif $Viewport.get_child_count() == 1:
+		scene_node = $Viewport.get_child(0)
 
 	# make sure we update atleast once
 	$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE

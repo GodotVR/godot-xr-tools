@@ -11,9 +11,9 @@ extends XRToolsMovementProvider
 
 ## Movement mode
 enum TurnMode {
-	DEFAULT,	## 
-	SNAP,
-	SMOOTH
+	DEFAULT,	## Use turn mode from project/user settings
+	SNAP,		## Use snap-turning
+	SMOOTH		## Use smooth-turning
 }
 
 
@@ -72,7 +72,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Handle smooth rotation
 	if !_snap_turning():
-		_rotate_player(player_body, smooth_turn_speed * delta * left_right)
+		player_body.rotate_player(smooth_turn_speed * delta * left_right)
 		return
 
 	# Update the next turn-step delay
@@ -82,19 +82,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Turn one step in the requested direction
 	_turn_step = step_turn_delay
-	_rotate_player(player_body, deg_to_rad(step_turn_angle) * sign(left_right))
-
-
-# Rotate the origin node around the camera
-func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
-	var t1 := Transform3D()
-	var t2 := Transform3D()
-	var rot := Transform3D()
-
-	t1.origin = -player_body.camera_node.transform.origin
-	t2.origin = player_body.camera_node.transform.origin
-	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
-	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
+	player_body.rotate_player(deg_to_rad(step_turn_angle) * sign(left_right))
 
 
 # This method verifies the movement provider has a valid configuration.
@@ -109,9 +97,12 @@ func _get_configuration_warning():
 
 # Test if snap turning should be used
 func _snap_turning():
-	if turn_mode == TurnMode.SNAP:
-		return true
-	elif turn_mode == TurnMode.SMOOTH:
-		return false
-	else:
-		return XRToolsUserSettings.snap_turning
+	match turn_mode:
+		TurnMode.SNAP:
+			return true
+
+		TurnMode.SMOOTH:
+			return false
+
+		_:
+			return XRToolsUserSettings.snap_turning

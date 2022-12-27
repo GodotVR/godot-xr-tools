@@ -19,13 +19,13 @@ func _ready():
 	$MeshInstance3D.material_override = _material
 
 
-# Called when a user clicks checked the cube using the pointer
+# Called when a user clicks on the cube using the pointer
 func _on_pointer_pressed(_at: Vector3):
 	# Randomize the color
 	_set_random_color()
 
 
-# Sets a random color checked the material
+# Sets a random color on the material
 func _set_random_color():
 	# Set the albedo color to a random value
 	_material.albedo_color = Color(randf(), randf(), randf())

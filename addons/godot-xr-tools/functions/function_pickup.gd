@@ -6,10 +6,10 @@ extends Node3D
 
 ## XR Tools Function Pickup Script
 ##
-## This script implements picking up of objects. Most pickable 
+## This script implements picking up of objects. Most pickable
 ## objects are instances of the [XRToolsPickable] class.
 ##
-## Additionally this script can work in conjunction with the 
+## Additionally this script can work in conjunction with the
 ## [XRToolsMovementProvider] class support climbing. Most climbable objects are
 ## instances of the [XRToolsClimbable] class.
 
@@ -79,7 +79,7 @@ var _ranged_collision : CollisionShape3D
 @onready var _controller := XRHelpers.get_xr_controller(self)
 
 ## Grip threshold (from configuration)
-@onready var grip_threshold : float = XRTools.get_grip_threshold()
+@onready var _grip_threshold : float = XRTools.get_grip_threshold()
 
 
 # Add support for is_xr_class on XRTools classes
@@ -149,10 +149,10 @@ func _process(delta):
 
 	# Handle our grip
 	var grip_value = _controller.get_value(pickup_axis_action)
-	if (grip_pressed and grip_value < (grip_threshold - 0.1)):
+	if (grip_pressed and grip_value < (_grip_threshold - 0.1)):
 		grip_pressed = false
 		_on_grip_release()
-	elif (!grip_pressed and grip_value > (grip_threshold + 0.1)):
+	elif (!grip_pressed and grip_value > (_grip_threshold + 0.1)):
 		grip_pressed = true
 		_on_grip_pressed()
 
@@ -180,7 +180,7 @@ static func find_instance(node : Node) -> XRToolsFunctionPickup:
 
 ## Find the left [XRToolsFunctionPickup] node.
 ##
-## This function searches from the specified node for the left controller 
+## This function searches from the specified node for the left controller
 ## [XRToolsFunctionPickup] assuming the node is a sibling of the [XOrigin3D].
 static func find_left(node : Node) -> XRToolsFunctionPickup:
 	return XRTools.find_xr_child(
@@ -191,7 +191,7 @@ static func find_left(node : Node) -> XRToolsFunctionPickup:
 
 ## Find the right [XRToolsFunctionPickup] node.
 ##
-## This function searches from the specified node for the right controller 
+## This function searches from the specified node for the right controller
 ## [XRToolsFunctionPickup] assuming the node is a sibling of the [XROrigin3D].
 static func find_right(node : Node) -> XRToolsFunctionPickup:
 	return XRTools.find_xr_child(
@@ -405,7 +405,7 @@ func _on_button_pressed(p_button) -> void:
 			picked_up_object.action()
 
 
-func _on_button_released(p_button) -> void:
+func _on_button_released(_p_button) -> void:
 	pass
 
 
