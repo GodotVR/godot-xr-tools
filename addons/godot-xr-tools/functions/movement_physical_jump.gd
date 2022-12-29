@@ -177,8 +177,14 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	controller_right_vel /= ARVRServer.world_scale
 
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
-	controller_left_vel = clamp(controller_left_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
-	controller_right_vel = clamp(controller_right_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
+	controller_left_vel = clamp(
+			controller_left_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
+	controller_right_vel = clamp(
+			controller_right_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
 
 	# Get the averaged velocity
 	controller_left_vel = _controller_left_velocity.update(controller_left_vel)

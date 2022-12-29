@@ -37,7 +37,8 @@ export (XRTools.Buttons) var action_button_id = XRTools.Buttons.VR_TRIGGER
 export var grab_distance : float = 0.3 setget _set_grab_distance
 
 ## Grab collision mask
-export (int, LAYERS_3D_PHYSICS) var grab_collision_mask : int = 1 setget _set_grab_collision_mask
+export (int, LAYERS_3D_PHYSICS) \
+		var grab_collision_mask : int = 1 setget _set_grab_collision_mask
 
 ## If true, ranged-grabbing is enabled
 export var ranged_enable : bool = true
@@ -49,7 +50,8 @@ export var ranged_distance : float = 5.0 setget _set_ranged_distance
 export (float, 0.0, 45.0) var ranged_angle : float = 5.0 setget _set_ranged_angle
 
 ## Ranged-grab collision mask
-export (int, LAYERS_3D_PHYSICS) var ranged_collision_mask : int = 1 setget _set_ranged_collision_mask
+export (int, LAYERS_3D_PHYSICS) \
+		var ranged_collision_mask : int = 1 setget _set_ranged_collision_mask
 
 ## Throw impulse factor
 export var impulse_factor : float = 1.0
@@ -325,7 +327,8 @@ func _get_closest_grab() -> Spatial:
 			continue
 
 		# Save if this object is closer than the current best
-		var distance_squared := global_transform.origin.distance_squared_to(o.global_transform.origin)
+		var distance_squared := global_transform.origin.distance_squared_to(
+				o.global_transform.origin)
 		if distance_squared < new_closest_distance:
 			new_closest_obj = o
 			new_closest_distance = distance_squared

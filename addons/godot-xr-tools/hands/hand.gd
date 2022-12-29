@@ -27,23 +27,6 @@ export var hand_material_override : Material setget set_hand_material_override
 export var default_pose : Resource setget set_default_pose
 
 
-## Pose-override class
-class PoseOverride:
-	## Who requested the override
-	var who : Node
-
-	## Pose priority
-	var priority : int
-
-	## Pose settings
-	var settings : XRToolsHandPoseSettings
-
-	## Pose-override constructor
-	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
-		who = w
-		priority = p
-		settings = s
-
 
 ## Last world scale (for scaling hands)
 var _last_world_scale : float = 1.0
@@ -71,6 +54,25 @@ var _force_grip := -1.0
 
 ## Force trigger value (< 0 for no force)
 var _force_trigger := -1.0
+
+
+## Pose-override class
+class PoseOverride:
+	## Who requested the override
+	var who : Node
+
+	## Pose priority
+	var priority : int
+
+	## Pose settings
+	var settings : XRToolsHandPoseSettings
+
+	## Pose-override constructor
+	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
+		who = w
+		priority = p
+		settings = s
+
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:

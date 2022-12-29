@@ -15,16 +15,16 @@ signal pointer_exited
 
 ## Transparent property
 enum TransparancyMode {
-	OPAQUE,
-	TRANSPARENT,
-	SCISSOR
+	OPAQUE,				## Render opaque
+	TRANSPARENT,		## Render transparent
+	SCISSOR,			## Render using alpha-scissor
 }
 
 ## Viewport Update Mode
 enum UpdateMode {
-	UPDATE_ONCE, ## Note, even if already set to ONCE, if you assign the property again, it will trigger a single redraw
-	UPDATE_ALWAYS,
-	UPDATE_THROTTLED
+	UPDATE_ONCE, 		## Update once (redraw triggered if set again to UPDATE_ONCE)
+	UPDATE_ALWAYS,		## Update on every frame
+	UPDATE_THROTTLED,	## Update at throttled rate
 }
 
 
@@ -38,7 +38,8 @@ export var screen_size : Vector2 = Vector2(3.0, 2.0) setget set_screen_size
 export var viewport_size : Vector2 = Vector2(300.0, 200.0) setget set_viewport_size
 
 ## Transparent property
-export (TransparancyMode) var transparent : int = TransparancyMode.TRANSPARENT setget set_transparent
+export (TransparancyMode) \
+		var transparent : int = TransparancyMode.TRANSPARENT setget set_transparent
 
 ## Alpha Scissor Threshold property
 export var alpha_scissor_threshold : float = 0.25 setget set_alpha_scissor_threshold
@@ -216,7 +217,10 @@ func _update_enabled() -> void:
 func _update_screen_size() -> void:
 	$Screen.mesh.size = screen_size
 	$StaticBody.screen_size = screen_size
-	$StaticBody/CollisionShape.shape.extents = Vector3(screen_size.x * 0.5, screen_size.y * 0.5, 0.01)
+	$StaticBody/CollisionShape.shape.extents = Vector3(
+			screen_size.x * 0.5,
+			screen_size.y * 0.5,
+			0.01)
 
 
 # Viewport size update handler

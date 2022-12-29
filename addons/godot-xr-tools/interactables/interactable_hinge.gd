@@ -70,7 +70,8 @@ func _process(_delta: float) -> void:
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
 		var to_handle: Vector3 = global_transform.xform_inv(handle.global_transform.origin)
-		var to_handle_origin: Vector3 = global_transform.xform_inv(handle.handle_origin.global_transform.origin)
+		var to_handle_origin: Vector3 = global_transform.xform_inv(
+				handle.handle_origin.global_transform.origin)
 		to_handle.x = 0.0
 		to_handle_origin.x = 0.0
 		offset_sum += to_handle_origin.signed_angle_to(to_handle, Vector3.RIGHT)

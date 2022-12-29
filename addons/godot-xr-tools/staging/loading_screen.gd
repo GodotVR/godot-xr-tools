@@ -1,121 +1,74 @@
 tool
 extends Spatial
 
+
+## XR Tools Loading Screen
+##
+## The loading screen is shown while the player is waiting
+## while we load in a new scene.
+## As the player may start in any location and likely hasn't
+## put their HMD on yet when the game first starts, we place
+## our splash screen far away and make it over sized.
+##
+## Note that we made this a tool script so you can test the
+## progress bar. We show this at a different distance to create
+## a nice depth effect.
+##
+## Note also that our background is pitch black.
+
+
+## User pressed the continue
 signal continue_pressed
 
-## Introduction
-#
-# The loading screen is shown while the player is waiting
-# while we load in a new scene.
-# As the player may start in any location and likely hasn't
-# put their HMD on yet when the game first starts, we place
-# our splash screen far away and make it over sized.
-#
-# Note that we made this a tool script so you can test the
-# progress bar.
-#
-# Note also that our background is pitch black.
 
-## Follow camera
-#
-# If enabled, rotate our screen to follow the camera
-
+## If true, the screen follows the camera
 export var follow_camera : bool = true setget set_follow_camera
+
+## Curve for following the camera
 export var follow_speed : Curve
 
-var camera : ARVRCamera
-
-func set_follow_camera(p_enabled : bool) -> void:
-	follow_camera = p_enabled
-	_update_follow_camera()
-
-func set_camera(p_camera : ARVRCamera) -> void:
-	camera = p_camera
-	_update_follow_camera()
-
-func _update_follow_camera():
-	if camera and !Engine.is_editor_hint():
-		set_process(follow_camera)
-
-## Splash screen
-#
-# Make it possible to change the splash screen we show
-
+## Splash screen texture
 export var splash_screen : Texture setget set_splash_screen
 
-var splash_screen_material : SpatialMaterial
-
-func set_splash_screen(p_splash_screen : Texture) -> void:
-	splash_screen = p_splash_screen
-	_update_splash_screen()
-
-func _update_splash_screen():
-	if splash_screen_material:
-		splash_screen_material.albedo_texture = splash_screen
-
 ## Progress bar
-#
-# We show a progress bar on screen. Note that we show
-# this at a different distance to create a nice depth
-# effect.
-
 export (float, 0.0, 1.0, 0.01) var progress : float = 0.5 setget set_progress_bar
 
-var progress_material : ShaderMaterial
-
-func set_progress_bar(p_progress : float) -> void:
-	progress = p_progress
-	_update_progress_bar()
-
-func _update_progress_bar():
-	if progress_material:
-		progress_material.set_shader_param("progress", progress)
-
-## Press to continue
-#
-# When toggled we show our press to continue message and enable our trigger
-
+## If true, the contine message is shown, if false the progress bar is visible.
 export var enable_press_to_continue : bool = false setget set_enable_press_to_continue
 
-func set_enable_press_to_continue(p_enable : bool) -> void:
-	enable_press_to_continue = p_enable
-	_update_enable_press_to_continue()
 
-func _update_enable_press_to_continue():
-	if is_inside_tree():
-		$ProgressBar.visible = !enable_press_to_continue
-		$PressToContinue.visible = enable_press_to_continue
-		$PressToContinue/HoldButton.enabled = enable_press_to_continue
+# Camera to track
+var _camera : ARVRCamera
 
-func _on_HoldButton_pressed():
-	# our Hold button will already be marked as disabled, we'll leave the rest as is...
+# Splash screen material
+var _splash_screen_material : SpatialMaterial
 
-	# Call down the tree
-	emit_signal("continue_pressed")
+# Progress material
+var _progress_material : ShaderMaterial
 
-## Interface
 
 func _ready():
-	# Our initial property values get set before we're ready,
-	# so now that we're ready, start applying them...
-	splash_screen_material = $SplashScreen.get_surface_material(0)
+	# Get materials
+	_splash_screen_material = $SplashScreen.get_surface_material(0)
+	_progress_material = $ProgressBar.mesh.surface_get_material(0)
+
+	# Perform initial update
 	_update_splash_screen()
-
-	progress_material = $ProgressBar.mesh.surface_get_material(0)
 	_update_progress_bar()
-
 	_update_enable_press_to_continue()
-
 	_update_follow_camera()
 
+
 func _process(delta):
+	# Skip if in editor
 	if Engine.is_editor_hint():
 		return
 
-	if !camera:
+	# Skip if no camera to track
+	if !_camera:
 		return
 
-	var camera_dir = camera.global_transform.basis.z
+	var camera_dir = _camera.global_transform.basis.z
 	camera_dir.y = 0.0
 	camera_dir = camera_dir.normalized()
 
@@ -132,4 +85,63 @@ func _process(delta):
 	var angle = acos(dot)
 
 	# Do rotation based on the curve
-	global_transform.basis = global_transform.basis.rotated(cross, follow_speed.interpolate_baked(angle / PI) * delta).orthonormalized()
+	global_transform.basis = global_transform.basis.rotated(
+			cross,
+			follow_speed.interpolate_baked(angle / PI) * delta
+	).orthonormalized()
+
+
+## Set the camera to track
+func set_camera(p_camera : ARVRCamera) -> void:
+	_camera = p_camera
+	_update_follow_camera()
+
+
+## Set the follow_camera property
+func set_follow_camera(p_enabled : bool) -> void:
+	follow_camera = p_enabled
+	_update_follow_camera()
+
+
+## Set the splash_screen texture property
+func set_splash_screen(p_splash_screen : Texture) -> void:
+	splash_screen = p_splash_screen
+	_update_splash_screen()
+
+
+## Set the progress property
+func set_progress_bar(p_progress : float) -> void:
+	progress = p_progress
+	_update_progress_bar()
+
+
+## Set the enable_press_to_continue property
+func set_enable_press_to_continue(p_enable : bool) -> void:
+	enable_press_to_continue = p_enable
+	_update_enable_press_to_continue()
+
+
+func _update_follow_camera():
+	if _camera and !Engine.is_editor_hint():
+		set_process(follow_camera)
+
+
+func _update_splash_screen():
+	if _splash_screen_material:
+		_splash_screen_material.albedo_texture = splash_screen
+
+
+func _update_progress_bar():
+	if _progress_material:
+		_progress_material.set_shader_param("progress", progress)
+
+
+func _update_enable_press_to_continue():
+	if is_inside_tree():
+		$ProgressBar.visible = !enable_press_to_continue
+		$PressToContinue.visible = enable_press_to_continue
+		$PressToContinue/HoldButton.enabled = enable_press_to_continue
+
+
+func _on_HoldButton_pressed():
+	emit_signal("continue_pressed")

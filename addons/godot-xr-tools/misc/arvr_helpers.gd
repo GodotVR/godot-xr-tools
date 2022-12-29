@@ -101,7 +101,11 @@ static func get_right_controller(node: Node, path: NodePath = NodePath("")) -> A
 	return _get_controller(node, "RightHandController", 2, path)
 
 # Find a controller given some search parameters
-static func _get_controller(var node: Node, var default_name: String, var id: int, var path: NodePath) -> ARVRController:
+static func _get_controller(
+		var node: Node,
+		var default_name: String,
+		var id: int,
+		var path: NodePath) -> ARVRController:
 	var controller: ARVRController
 
 	# Try using the node path first
