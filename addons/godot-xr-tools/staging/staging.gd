@@ -153,16 +153,27 @@ func load_scene(p_scene_path : String):
 		_tween.tween_method(set_fade, 1.0, 0.0, 1.0)
 		await _tween.finished
 
-	# Attempt to load our scene
-	#ResourceQueue.queue_resource(p_scene_path)
-	#while !ResourceQueue.is_ready(p_scene_path):
-	#	# wait one second
-	#	await get_tree().create_timer(1.0).timeout
-	#	
-	#	$LoadingScreen.progress = ResourceQueue.get_progress(p_scene_path)
+	# Load the new scene
+	var new_scene : PackedScene
+	if ResourceLoader.has_cached(p_scene_path):
+		# Load cached scene
+		new_scene = ResourceLoader.load(p_scene_path)
+	else:
+		# Start the loading in a thread
+		ResourceLoader.load_threaded_request(p_scene_path)
 
-	#var new_scene : PackedScene = ResourceQueue.get_resource(p_scene_path)
-	var new_scene : PackedScene = ResourceLoader.load(p_scene_path)
+		# Loop waiting for the scene to load
+		while true:
+			var progress := []
+			var res := ResourceLoader.load_threaded_get_status(p_scene_path, progress)
+			if res != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+				break;
+
+			$LoadingScreen.progress = progress[0]
+			await get_tree().create_timer(0.1).timeout
+
+		# Get the loaded scene
+		new_scene = ResourceLoader.load_threaded_get(p_scene_path)
 
 	# Wait for user to be ready
 	if prompt_for_continue:
