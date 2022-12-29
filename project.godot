@@ -249,6 +249,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/player/poke/poke.gd"
 }, {
+"base": "Node",
+"class": "XRToolsResourceQueue",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/assets/resource_queue/resource_queue.gd"
+}, {
 "base": "Spatial",
 "class": "XRToolsSceneBase",
 "language": "GDScript",
@@ -338,6 +343,7 @@ _global_script_class_icons={
 "XRToolsPickable": "",
 "XRToolsPlayerBody": "res://addons/godot-xr-tools/editor/icons/body.svg",
 "XRToolsPoke": "",
+"XRToolsResourceQueue": "",
 "XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
 "XRToolsStaging": "",

@@ -28,10 +28,6 @@ signal action_pressed(pickable)
 signal highlight_updated(pickable, enable)
 
 
-# Priority for grip poses
-const GRIP_POSE_PRIORITY = 100
-
-
 ## Method used to hold object
 enum HoldMethod {
 	REMOTE_TRANSFORM,	## Object is held via a remote transform
@@ -55,8 +51,13 @@ enum PickableState {
 enum ReleaseMode {
 	ORIGINAL = -1,		## Preserve original mode when picked up
 	RIGID = 0,			## Release and make rigid (MODE_RIGID)
-	STATIC = 1			## Release and make static (MODE_STATIC)
+	STATIC = 1,			## Release and make static (MODE_STATIC)
 }
+
+
+## Priority for grip poses
+const GRIP_POSE_PRIORITY = 100
+
 
 ## If true, the grip control must be held to keep the object picked up
 export var press_to_hold : bool = true

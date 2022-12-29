@@ -10,24 +10,24 @@ extends XRToolsGrabPoint
 ## grab point position to be fine-tuned in the editor.
 
 
-## Left hand scene path (for editorpreview)
-const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn"
-
-## Right hand scene path (for editor preview)
-const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn"
-
-
 ## Hand for this grab point
 enum Hand {
 	LEFT,	## Left hand
-	RIGHT	## Right hand
+	RIGHT,	## Right hand
 }
 
 ## Hand preview option
 enum PreviewMode {
 	CLOSED,	## Preview hand closed
-	OPEN	## Preview hand open
+	OPEN,	## Preview hand open
 }
+
+
+## Left hand scene path (for editorpreview)
+const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn"
+
+## Right hand scene path (for editor preview)
+const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn"
 
 
 ## Which hand this grab point is for
@@ -37,7 +37,8 @@ export (Hand) var hand : int setget _set_hand
 export var hand_pose : Resource setget _set_hand_pose
 
 ## If true, the hand is shown in the editor
-export (PreviewMode) var editor_preview_mode : int = PreviewMode.CLOSED setget _set_editor_preview_mode
+export (PreviewMode) \
+		var editor_preview_mode : int = PreviewMode.CLOSED setget _set_editor_preview_mode
 
 
 ## Hand to use for editor preview

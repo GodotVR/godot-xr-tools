@@ -36,5 +36,7 @@ func _get_configuration_warning():
 	return ""
 
 # Get the physics from a ground physics node
-static func get_physics(node: XRToolsGroundPhysics, default: XRToolsGroundPhysicsSettings) -> XRToolsGroundPhysicsSettings:
+static func get_physics(
+		node: XRToolsGroundPhysics,
+		default: XRToolsGroundPhysicsSettings) -> XRToolsGroundPhysicsSettings:
 	return node.physics as XRToolsGroundPhysicsSettings if node else default

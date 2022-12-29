@@ -79,7 +79,14 @@ func _on_button_entered(item: Spatial) -> void:
 		pressed = true
 
 		# Start the tween to move the button transform to the down position
-		_tween.interpolate_property(_button, "transform:origin", null, _button_down, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		_tween.interpolate_property(
+				_button,
+				"transform:origin",
+				null,
+				_button_down,
+				duration,
+				Tween.TRANS_LINEAR,
+				Tween.EASE_IN_OUT)
 		_tween.start()
 
 		# Emit the pressed signal
@@ -97,7 +104,14 @@ func _on_button_exited(item: Spatial) -> void:
 		pressed = false
 
 		# Start the tween to move the button transform to the up position
-		_tween.interpolate_property(_button, "transform:origin", null, _button_up, duration, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+		_tween.interpolate_property(
+				_button,
+				"transform:origin",
+				null,
+				_button_up,
+				duration,
+				Tween.TRANS_LINEAR,
+				Tween.EASE_IN_OUT)
 		_tween.start()
 
 		# Emit the released signal

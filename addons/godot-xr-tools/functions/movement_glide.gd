@@ -68,7 +68,9 @@ func is_class(name : String) -> bool:
 
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if disabled or either controller is off
-	if disabled or !enabled or !_left_controller.get_is_active() or !_right_controller.get_is_active():
+	if disabled or !enabled or \
+		!_left_controller.get_is_active() or \
+		!_right_controller.get_is_active():
 		_set_gliding(false)
 		return
 
@@ -100,7 +102,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Lerp the horizontal velocity towards forward_speed
 	var horizontal_velocity := player_body.up_gravity_plane.project(player_body.velocity)
-	var dir_forward := player_body.up_gravity_plane.project(left_to_right.rotated(player_body.up_gravity_vector, PI/2)).normalized()
+	var dir_forward := player_body.up_gravity_plane.project(
+			left_to_right.rotated(player_body.up_gravity_vector, PI/2)).normalized()
 	var forward_velocity := dir_forward * glide_forward_speed
 	horizontal_velocity = lerp(horizontal_velocity, forward_velocity, horizontal_slew_rate * delta)
 

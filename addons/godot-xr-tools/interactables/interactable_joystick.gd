@@ -105,7 +105,8 @@ func _process(_delta: float) -> void:
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
 		var to_handle: Vector3 = global_transform.xform_inv(handle.global_transform.origin)
-		var to_handle_origin: Vector3 = global_transform.xform_inv(handle.handle_origin.global_transform.origin)
+		var to_handle_origin: Vector3 = global_transform.xform_inv(
+				handle.handle_origin.global_transform.origin)
 
 		var to_handle_x := to_handle * VECTOR_XZ
 		var to_handle_origin_x := to_handle_origin * VECTOR_XZ

@@ -137,9 +137,11 @@ func set_sprinting(active: bool) -> void:
 		# Set both controllers' direct movement functions, if appliable, to
 		# the sprinting speed
 		if _left_controller_direct_move:
-			_left_controller_direct_move.max_speed = _left_controller_original_max_speed * sprint_speed_multiplier
+			_left_controller_direct_move.max_speed = \
+					_left_controller_original_max_speed * sprint_speed_multiplier
 		if _right_controller_direct_move:
-			_right_controller_direct_move.max_speed = _right_controller_original_max_speed * sprint_speed_multiplier
+			_right_controller_direct_move.max_speed = \
+					_right_controller_original_max_speed * sprint_speed_multiplier
 	else:
 		# We are not sprinting
 		emit_signal("sprinting_finished")

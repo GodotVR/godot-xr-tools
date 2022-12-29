@@ -33,7 +33,8 @@ export var order : int = 20
 export var grapple_length : float = 15.0
 
 ## Grapple collision mask
-export (int, LAYERS_3D_PHYSICS) var grapple_collision_mask : int = 1 setget _set_grapple_collision_mask
+export (int, LAYERS_3D_PHYSICS) \
+		var grapple_collision_mask : int = 1 setget _set_grapple_collision_mask
 
 ## Impulse speed applied to the player on first grapple
 export var impulse_speed : float = 10.0
@@ -41,14 +42,17 @@ export var impulse_speed : float = 10.0
 ## Winch speed applied to the player while the grapple is held
 export var winch_speed : float = 2.0
 
-## Probably need to add export variables for line size, maybe line material at some point so dev does not need to make children editable to do this
-## For now, right click on grapple node and make children editable to edit these facets.
+## Probably need to add export variables for line size, maybe line material at
+## some point so dev does not need to make children editable to do this.
+## For now, right click on grapple node and make children editable to edit these
+## facets.
 export var rope_width : float = 0.02
 
 ## Air friction while grappling
 export var friction : float = 0.1
 
-## Grapple button (triggers grappling movement).  Be sure this button does not conflict with other functions.
+## Grapple button (triggers grappling movement).  Be sure this button does not
+## conflict with other functions.
 export (XRTools.Buttons) var grapple_button_id : int = XRTools.Buttons.VR_TRIGGER
 
 # Hook related variables
@@ -63,8 +67,9 @@ var _grapple_button := false
 onready var _line_helper : Spatial = $LineHelper
 onready var _line : CSGCylinder = $LineHelper/Line
 
-# Get Controller node - consider way to universalize this if user wanted to attach this
-# to a gun instead of player's hand.  Could consider variable to select controller instead.
+# Get Controller node - consider way to universalize this if user wanted to
+# attach this to a gun instead of player's hand.  Could consider variable to
+# select controller instead.
 onready var _controller := ARVRHelpers.get_arvr_controller(self)
 
 # Get Raycast node
@@ -91,7 +96,7 @@ func _ready():
 		grapple_length = min_hook_length
 
 	# Set ray-cast
-	_grapple_raycast.cast_to = Vector3(0, 0, -grapple_length) * ARVRServer.world_scale #Is WS necessary here?
+	_grapple_raycast.cast_to = Vector3(0, 0, -grapple_length) * ARVRServer.world_scale
 	_grapple_raycast.collision_mask = grapple_collision_mask
 
 	# Deal with line
