@@ -56,13 +56,6 @@ enum FlightBearing {
 }
 
 
-## Constant for extracting the vertical component of a Vector3
-const VERTICAL := Vector3(0.0, 1.0, 0.0)
-
-## Constant for extracting the horzontal components of a Vector3
-const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
-
-
 ## Movement provider order
 @export var order : int = 30
 
@@ -126,7 +119,7 @@ func _ready():
 		_controller = _right_controller
 
 
-# Process physics movement for
+# Process physics movement for flight
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Disable flying if requested, or if no controller
 	if disabled or !enabled or !_controller.get_is_active():
@@ -147,29 +140,29 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var pitch_vector: Vector3
 	if pitch == FlightPitch.HEAD:
 		# Use the vertical part of the 'head' forwards vector
-		pitch_vector = -_camera.global_transform.basis.z.y * VERTICAL
+		pitch_vector = -_camera.transform.basis.z.y * player_body.up_player_vector
 	else:
 		# Use the vertical part of the 'controller' forwards vector
-		pitch_vector = -_controller.global_transform.basis.z.y * VERTICAL
+		pitch_vector = -_controller.transform.basis.z.y * player_body.up_player_vector
 
 	# Select the bearing vector
 	var bearing_vector: Vector3
 	if bearing == FlightBearing.HEAD:
 		# Use the horizontal part of the 'head' forwards vector
-		bearing_vector = -_camera.global_transform.basis.z * HORIZONTAL
+		bearing_vector = -player_body.up_player_plane.project(_camera.global_transform.basis.z)
 	elif bearing == FlightBearing.CONTROLLER:
 		# Use the horizontal part of the 'controller' forwards vector
-		bearing_vector = -_controller.global_transform.basis.z * HORIZONTAL
+		bearing_vector = -player_body.up_player_plane.project(_controller.global_transform.basis.z)
 	else:
 		# Use the horizontal part of the 'body' forwards vector
 		var left := _left_controller.global_transform.origin
 		var right := _right_controller.global_transform.origin
-		var left_to_right := (right - left) * HORIZONTAL
-		bearing_vector = left_to_right.rotated(Vector3.UP, PI/2)
+		var left_to_right := right - left
+		bearing_vector = player_body.up_player_plane.project(left_to_right.rotated(player_body.up_player_vector, PI/2))
 
 	# Construct the flight bearing
 	var forwards := (bearing_vector.normalized() + pitch_vector).normalized()
-	var side := forwards.cross(Vector3.UP)
+	var side := forwards.cross(player_body.up_player_vector)
 
 	# Construct the target velocity
 	var joy_forwards := _controller.get_axis("primary").y

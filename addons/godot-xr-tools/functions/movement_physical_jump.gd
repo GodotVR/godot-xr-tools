@@ -50,10 +50,10 @@ var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
 
 
 # Node references
-@onready var _origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
-@onready var _camera_node : XRCamera3D = XRHelpers.get_xr_camera(self)
-@onready var _controller_left_node : XRController3D = XRHelpers.get_left_controller(self)
-@onready var _controller_right_node : XRController3D = XRHelpers.get_right_controller(self)
+@onready var _origin_node := XRHelpers.get_xr_origin(self)
+@onready var _camera_node := XRHelpers.get_xr_camera(self)
+@onready var _controller_left_node := XRHelpers.get_left_controller(self)
+@onready var _controller_right_node := XRHelpers.get_right_controller(self)
 
 
 # Sliding Average class
@@ -145,7 +145,7 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	if abs(camera_vel) < 0.001:
 		return;
 
-	# Correct for XR world-scale (convert to player units)
+	# Correct for world-scale (convert to player units)
 	camera_vel /= XRServer.world_scale
 
 	# Clamp the camera instantaneous velocity to +/- 2x the jump threshold
@@ -177,7 +177,7 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	if abs(controller_left_vel) <= 0.001 and abs(controller_right_vel) <= 0.001:
 		return
 
-	# Correct for XR world-scale (convert to player units)
+	# Correct for world-scale (convert to player units)
 	controller_left_vel /= XRServer.world_scale
 	controller_right_vel /= XRServer.world_scale
 

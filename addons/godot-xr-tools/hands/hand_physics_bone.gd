@@ -11,8 +11,8 @@ extends BoneAttachment3D
 ## physics-bone with a [CapsuleShape3D] collider.
 ##
 ## The physics-bone is manually driven with to the position and rotation of the
-## skeletal-bone. The physics-bone is set as top-level to prevent the 
-## physics-bone from inheriting any hand scaling as this would scale the 
+## skeletal-bone. The physics-bone is set as top-level to prevent the
+## physics-bone from inheriting any hand scaling as this would scale the
 ## collider which the physics engine cannot tolerate.
 ##
 ## To handle scaling, this script subscribes to the hand_scale_changed signal
@@ -36,13 +36,13 @@ extends BoneAttachment3D
 @export var bone_group : String = ""
 
 
-## Physics-bone collider shape
+# Physics-bone collider shape
 var _bone_shape : CapsuleShape3D
 
-## Physics-bone body node
+# Physics-bone body node
 var _physics_bone : CharacterBody3D
 
-## Node3D attached to the skeletal-bone, and the target of the physics-bone
+# Node attached to the skeletal-bone, and the target of the physics-bone
 var _skeletal_bone : Node3D
 
 
@@ -51,8 +51,8 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsHandPhysicsBone"
 
 
-## Called when the node enters the scene tree. This constructs the physics-bone
-## nodes and performs initial positioning.
+# Called when the node enters the scene tree. This constructs the physics-bone
+# nodes and performs initial positioning.
 func _ready():
 	# Connect the 'hand_scale_changed' signal
 	var physics_hand := XRToolsHand.find_instance(self) as XRToolsPhysicsHand
@@ -98,15 +98,15 @@ func _ready():
 	_teleport_bone()
 
 
-## Called during the physics process and moves the physics-bone to follow the
-## skeletal-bone.
+# Called during the physics process and moves the physics-bone to follow the
+# skeletal-bone.
 func _physics_process(delta: float) -> void:
 	_move_bone(delta)
 
 
-## This function moves the physics-boneto the skeletal-bone by first doing a
-## move_and_slide as this works well for collision-interactions. It then
-## rotates the physics-bone to match the skeletal-bone.
+# This method moves the physics-bone to the skeletal-bone by first doing a
+# move_and_slide as this works well for collision-interactions. It then
+# rotates the physics-bone to match the skeletal-bone.
 func _move_bone(delta: float) -> void:
 	# Get the skeletal-bone transform
 	var bone_xform := _skeletal_bone.global_transform
@@ -122,7 +122,7 @@ func _move_bone(delta: float) -> void:
 	_physics_bone.global_transform.basis = bone_xform.basis
 
 
-## This function teleports the physics-bone to the skeletal-bone.
+# This method teleports the physics-bone to the skeletal-bone.
 func _teleport_bone() -> void:
 	# Get the bone transform
 	var bone_xform := _skeletal_bone.global_transform
@@ -133,8 +133,8 @@ func _teleport_bone() -> void:
 		bone_xform.origin)
 
 
-## This function handles changes to the hand scale by adjusting the
-## physics-bone collider shape to match.
+# This method handles changes to the hand scale by adjusting the
+# physics-bone collider shape to match.
 func _on_hand_scale_changed(scale: float) -> void:
 	# Get the scaled length and width
 	var length_scaled := length * scale

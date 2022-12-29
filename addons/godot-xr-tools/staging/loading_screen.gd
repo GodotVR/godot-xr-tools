@@ -39,7 +39,7 @@ func _update_follow_camera():
 
 ## Splash screen
 #
-# Make it possible to change the splash screen we show 
+# Make it possible to change the splash screen we show
 
 @export var splash_screen : Texture2D: set = set_splash_screen
 
@@ -57,7 +57,7 @@ func _update_splash_screen():
 #
 # We show a progress bar on screen. Note that we show
 # this at a different distance to create a nice depth
-# effect. 
+# effect.
 
 @export_range(0.0, 1.0, 0.01) var progress : float = 0.5: set = set_progress_bar
 
@@ -89,7 +89,7 @@ func _update_enable_press_to_continue():
 
 func _on_HoldButton_pressed():
 	# our Hold button will already be marked as disabled, we'll leave the rest as is...
-	
+
 	# Call down the tree
 	emit_signal("continue_pressed")
 
@@ -100,12 +100,12 @@ func _ready():
 	# so now that we're ready, start applying them...
 	splash_screen_material = $SplashScreen.get_surface_override_material(0)
 	_update_splash_screen()
-	
+
 	progress_material = $ProgressBar.mesh.surface_get_material(0)
 	_update_progress_bar()
-	
+
 	_update_enable_press_to_continue()
-	
+
 	_update_follow_camera()
 
 func _process(delta):

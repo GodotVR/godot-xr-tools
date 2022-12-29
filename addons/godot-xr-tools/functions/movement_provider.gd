@@ -7,8 +7,8 @@ extends Node
 ## XR Tools Movement Provider base class
 ##
 ## This movement provider class is the base class of all movement providers.
-## Movement providers are invoked by the [XRToolsPlayerBody] object in order 
-## to apply motion to the player
+## Movement providers are invoked by the [XRToolsPlayerBody] object in order
+## to apply motion to the player.
 ##
 ## Movement provider implementations should:
 ##  - Export an 'order' integer to control order of processing
@@ -23,7 +23,7 @@ extends Node
 var is_active := false
 
 
-## If missing we need to add our [XRToolsPlayerBody]
+# If missing we need to add our [XRToolsPlayerBody]
 func _create_player_body_node():
 	# get our origin node
 	var xr_origin = XRHelpers.get_xr_origin(self)
@@ -57,12 +57,17 @@ func _ready():
 			call_deferred("_create_player_body_node")
 
 
-## Override this function to apply motion to the PlayerBody
+## Override this method to perform pre-movement updates to the PlayerBody
+func physics_pre_movement(_delta: float, _player_body: XRToolsPlayerBody):
+	pass
+
+
+## Override this method to apply motion to the PlayerBody
 func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled: bool):
 	pass
 
 
-## This method verifies the movement provider has a valid configuration.
+# This method verifies the movement provider has a valid configuration.
 func _get_configuration_warning():
 	# Verify we're within the tree of an XROrigin3D node
 	if !XRHelpers.get_xr_origin(self):

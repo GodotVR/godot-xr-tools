@@ -26,7 +26,7 @@ static func set_grip_threshold(p_threshold : float) -> void:
 static func get_snap_turning_deadzone() -> float:
 	# can return null which is not a float, so don't type this!
 	var deadzone = 0.25
-	
+
 	if ProjectSettings.has_setting("godot_xr_tools/input/snap_turning_deadzone"):
 		deadzone = ProjectSettings.get_setting("godot_xr_tools/input/snap_turning_deadzone")
 
@@ -46,7 +46,7 @@ static func set_snap_turning_deadzone(p_deadzone : float) -> void:
 
 static func get_default_snap_turning() -> bool:
 	var default = true
-	
+
 	if ProjectSettings.has_setting("godot_xr_tools/input/default_snap_turning"):
 		default = ProjectSettings.get_setting("godot_xr_tools/input/default_snap_turning")
 
@@ -59,7 +59,7 @@ static func set_default_snap_turning(p_default : bool) -> void:
 
 static func get_player_standard_height() -> float:
 	var standard_height = 1.85
-	
+
 	if ProjectSettings.has_setting("godot_xr_tools/player/standard_height"):
 		standard_height = ProjectSettings.get_setting("godot_xr_tools/player/standard_height")
 
@@ -93,10 +93,10 @@ static func set_player_standard_height(p_height : float) -> void:
 ##
 ## The owned argument specifies whether the node must be owned.
 static func find_xr_children(
-		node : Node, 
-		pattern : String, 
-		type : String = "", 
-		recursive : bool = true, 
+		node : Node,
+		pattern : String,
+		type : String = "",
+		recursive : bool = true,
 		owned : bool = true) -> Array:
 	# Find the children
 	var found := []
@@ -120,10 +120,10 @@ static func find_xr_children(
 ##
 ## The owned argument specifies whether the node must be owned.
 static func find_xr_child(
-		node : Node, 
-		pattern : String, 
-		type : String = "", 
-		recursive : bool = true, 
+		node : Node,
+		pattern : String,
+		type : String = "",
+		recursive : bool = true,
 		owned : bool = true) -> Node:
 	# Find the child
 	if node:
@@ -134,7 +134,7 @@ static func find_xr_child(
 
 ## Find an ancestor of the specified node matching the given criteria
 ##
-## This function finds the first ancestor of the specified node matching the 
+## This function finds the first ancestor of the specified node matching the
 ## given criteria.
 ##
 ## The pattern argument specifies the match pattern to check against the
@@ -143,13 +143,13 @@ static func find_xr_child(
 ## The type argument specifies the type of node to find. Use "" to match any
 ## type.
 static func find_xr_ancestor(
-		node : Node, 
-		pattern : String, 
+		node : Node,
+		pattern : String,
 		type : String = "") -> Node:
 	# Loop finding ancestor
 	while node:
 		# If node matches filter then break
-		if (node.name.match(pattern) and 
+		if (node.name.match(pattern) and
 			(type == "" or is_xr_class(node, type))):
 			break
 
@@ -205,7 +205,7 @@ static func _find_xr_child(
 			var found := _find_xr_child(child, pattern, type, recursive, owned)
 			if found:
 				return found
-	
+
 	# Not found
 	return null
 

@@ -42,14 +42,12 @@ func _on_PlayerHeightSlider_drag_ended(value_changed):
 func _on_PlayerHeightStandard_pressed():
 	if camera.is_empty():
 		return
-	
+
 	var camera_node = get_node_or_null(camera)
 	if !camera_node:
 		return
-	
+
 	var base_height = camera_node.transform.origin.y + player_head_height
 	var height_adjust = XRTools.get_player_standard_height() - base_height
 	XRToolsUserSettings.player_height_adjust = height_adjust
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
-
-

@@ -220,6 +220,11 @@ _global_script_classes=[{
 "path": "res://addons/godot-xr-tools/functions/movement_turn.gd"
 }, {
 "base": "XRToolsMovementProvider",
+"class": &"XRToolsMovementWallWalk",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/functions/movement_wall_walk.gd"
+}, {
+"base": "XRToolsMovementProvider",
 "class": &"XRToolsMovementWind",
 "language": &"GDScript",
 "path": "res://addons/godot-xr-tools/functions/movement_wind.gd"
@@ -327,6 +332,7 @@ _global_script_class_icons={
 "XRToolsMovementProvider": "res://addons/godot-xr-tools/editor/icons/movement_provider.svg",
 "XRToolsMovementSprint": "",
 "XRToolsMovementTurn": "",
+"XRToolsMovementWallWalk": "",
 "XRToolsMovementWind": "",
 "XRToolsPhysicsHand": "",
 "XRToolsPickable": "",

@@ -10,7 +10,7 @@ extends Node3D
 ## events (entered, exited, pressed, release, and movement) are delivered by
 ## invoking signals on the target node.
 ##
-## Pointer target nodes commonly extend from [XRToolsInteractableArea] or 
+## Pointer target nodes commonly extend from [XRToolsInteractableArea] or
 ## [XRToolsInteractableBody].
 
 
@@ -31,7 +31,7 @@ enum LaserLength {
 ## Pointer enabled property
 @export var enabled : bool = true: set = set_enabled
 
-## If true, the laser pointer is shown
+## Show laser property
 @export var show_laser : LaserShow = LaserShow.SHOW: set = set_show_laser
 
 ## Laser length property
@@ -68,8 +68,8 @@ var last_target : Node3D
 ## Last collision point
 var last_collided_at : Vector3 = Vector3.ZERO
 
-## World scale
-var ws : float = 1.0
+# World scale
+var _world_scale : float = 1.0
 
 
 # Add support for is_xr_class on XRTools classes
@@ -84,7 +84,7 @@ func _ready():
 		return
 
 	# Read the initial world-scale
-	ws = XRServer.world_scale
+	_world_scale = XRServer.world_scale
 
 	# Get button press feedback from our parent (should be an XRController3D)
 	get_parent().connect("button_pressed", _on_button_pressed)
@@ -108,9 +108,9 @@ func _process(_delta):
 
 
 	# Handle world-scale changes
-	var new_ws := XRServer.world_scale
-	if (ws != new_ws):
-		ws = new_ws
+	var new_world_scale := XRServer.world_scale
+	if (_world_scale != new_world_scale):
+		_world_scale = new_world_scale
 		_update_y_offset()
 
 	if enabled and $RayCast.is_colliding():
@@ -254,8 +254,8 @@ func _update_show_laser() -> void:
 
 # Pointer Y offset update handler
 func _update_y_offset() -> void:
-	$Laser.position.y = y_offset * ws
-	$RayCast.position.y = y_offset * ws
+	$Laser.position.y = y_offset * _world_scale
+	$RayCast.position.y = y_offset * _world_scale
 
 
 # Pointer distance update handler

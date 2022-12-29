@@ -5,7 +5,7 @@ extends Node3D
 
 ## XR Tools Climbable Object
 ##
-## This script adds climbing support to any [StaticBody3D]. 
+## This script adds climbing support to any [StaticBody3D].
 ##
 ## For climbing to work, the player must have an [XRToolsMovementClimb] node
 ## configured appropriately.

@@ -1,0 +1,15 @@
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://dd1kfsedti62a"]
+
+[ext_resource type="Texture2D" uid="uid://2tmlveuwlpbw" path="res://assets/nasa/starmap_and_constellation_figures_4k.jpg" id="1"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_f3n3e"]
+panorama = ExtResource("1")
+
+[sub_resource type="Sky" id="Sky_ef5og"]
+sky_material = SubResource("PanoramaSkyMaterial_f3n3e")
+
+[resource]
+background_mode = 2
+sky = SubResource("Sky_ef5og")
+ambient_light_color = Color(1, 1, 1, 1)
+ambient_light_energy = 0.7

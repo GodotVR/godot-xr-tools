@@ -26,13 +26,13 @@ signal wind_area_changed(active_wind_area)
 @export_flags_3d_physics var collision_mask : int = 524288: set = set_collision_mask
 
 
-## Wind detection area
+# Wind detection area
 var _sense_area : Area3D
 
-## Array of wind areas the player is in
+# Array of wind areas the player is in
 var _in_wind_areas := Array()
 
-## Currently active wind area
+# Currently active wind area
 var _active_wind_area : XRToolsWindArea
 
 
@@ -116,7 +116,7 @@ func _on_area_exited(area: Area3D):
 	emit_signal("wind_area_changed", _active_wind_area)
 
 
-# Perform jump movement
+# Perform wind movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if no active wind area
 	if !_active_wind_area:

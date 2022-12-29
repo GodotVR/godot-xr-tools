@@ -5,7 +5,7 @@ extends RigidBody3D
 
 ## XR Tools Pickable Object
 ##
-## This script allows a [RigidBody3D] to be picked up by an 
+## This script allows a [RigidBody3D] to be picked up by an
 ## [XRToolsFunctionPickup] attached to a players controller.
 ##
 ## Additionally pickable objects may support being snapped into
@@ -98,16 +98,16 @@ var by_controller : XRController3D = null
 ## Hand holding this item (may be null if held by snap-zone)
 var by_hand : XRToolsHand = null
 
-## Count of 'is_closest' grabbers
+# Count of 'is_closest' grabbers
 var _closest_count: int = 0
 
-## Current state
+# Current state
 var _state = PickableState.IDLE
 
-## Remote transform
+# Remote transform
 var _remote_transform: RemoteTransform3D = null
 
-## Move-to node for performing remote grab
+# Move-to node for performing remote grab
 var _move_to: XRToolsMoveTo = null
 
 # Array of grab points
@@ -385,7 +385,7 @@ func _get_grab_point(_grabber : Node) -> XRToolsGrabPoint:
 		var grab_point : XRToolsGrabPoint = g
 		if grab_point.can_grab(_grabber):
 			return grab_point
-	
+
 	# No suitable grab-point found
 	return null
 
