@@ -1,4 +1,4 @@
-extends XRToolsSceneBase
+extends "../scene_base.gd"
 
 
 enum Pointer {
@@ -16,6 +16,7 @@ func _set_pointer_enabled():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	super._ready()
 	_set_pointer_enabled()
 
 

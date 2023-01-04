@@ -1,5 +1,5 @@
 @tool
-extends XRToolsSceneBase
+extends "../scene_base.gd"
 
 func _update_demo_positions() -> void:
 	var count = $Demos.get_child_count()
@@ -14,6 +14,7 @@ func _update_demo_positions() -> void:
 
 
 func _ready():
+	super._ready()
 	_update_demo_positions()
 
 

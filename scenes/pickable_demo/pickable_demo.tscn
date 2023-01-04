@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://itn6phtgaj"]
+[gd_scene load_steps=24 format=3 uid="uid://itn6phtgaj"]
 
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
+[ext_resource type="PackedScene" uid="uid://be4l23brv4cee" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
+[ext_resource type="Script" path="res://scenes/scene_base.gd" id="2_kjksy"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_laayj"]
+[ext_resource type="PackedScene" uid="uid://2pylr1fuuxdx" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_laayj"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="6"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="7_kskan"]
@@ -16,14 +17,16 @@
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
 [ext_resource type="PackedScene" uid="uid://clta811tt773x" path="res://scenes/pickable_demo/objects/grab_ball.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://djkjuy7wct10q" path="res://scenes/pickable_demo/objects/grab_cube.tscn" id="14"]
-[ext_resource type="PackedScene" uid="uid://gi3cc6cxi81j" path="res://scenes/pickable_demo/objects/saucer.tscn" id="14_ani61"]
+[ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/saucer.tscn" id="14_ani61"]
 [ext_resource type="PackedScene" uid="uid://cbcbffvk7xth4" path="res://assets/meshes/table/table.tscn" id="15"]
-[ext_resource type="PackedScene" uid="uid://b3mykwawmnxpi" path="res://scenes/pickable_demo/objects/teacup_stand.tscn" id="15_bq355"]
+[ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/teacup_stand.tscn" id="15_bq355"]
 [ext_resource type="PackedScene" uid="uid://c6rmke57xw5lg" path="res://scenes/pickable_demo/objects/snap_tray.tscn" id="16"]
-[ext_resource type="PackedScene" uid="uid://chww0na0ryl1m" path="res://scenes/pickable_demo/objects/teacup.tscn" id="16_v5unt"]
+[ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/teacup.tscn" id="16_v5unt"]
 [ext_resource type="PackedScene" uid="uid://de0guxhrn5ouk" path="res://scenes/pickable_demo/objects/hammer.tscn" id="17"]
 
 [node name="PickableDemo" instance=ExtResource("1")]
+script = ExtResource("2_kjksy")
+environment = null
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_8wi6c")]
 
