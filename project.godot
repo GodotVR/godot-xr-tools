@@ -264,6 +264,11 @@ _global_script_classes=[{
 "language": &"GDScript",
 "path": "res://addons/godot-xr-tools/staging/staging.gd"
 }, {
+"base": "Node",
+"class": &"XRToolsStartXR",
+"language": &"GDScript",
+"path": "res://addons/godot-xr-tools/xr/start_xr.gd"
+}, {
 "base": "RefCounted",
 "class": &"XRToolsVelocityAverager",
 "language": &"GDScript",
@@ -341,6 +346,7 @@ _global_script_class_icons={
 "XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
 "XRToolsStaging": "",
+"XRToolsStartXR": "",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
 "XRToolsVignette": "",

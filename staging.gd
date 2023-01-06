@@ -24,10 +24,10 @@ extends XRToolsStaging
 
 var scene_is_loaded : bool = false
 
-# Called when this handle is added to the scene
+
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 
 func _on_Staging_scene_loaded(_scene):
@@ -42,8 +42,8 @@ func _on_Staging_scene_exiting(_scene):
 	scene_is_loaded = false
 
 
-func _on_XROrigin3D_focused_state():
-	# We get the focussed state when the user puts on their headset,
+func _on_Staging_xr_started():
+	# We get the 'xr_started' signal when the user puts on their headset,
 	# or returns from the system menus.
 	# If the user did so while we were already scene switching
 	# we leave our prompt for continue on,
@@ -55,9 +55,9 @@ func _on_XROrigin3D_focused_state():
 		# This would be a good moment to unpause your game
 
 
-func _on_XROrigin3D_session_synchronized():
-	# We get the synchronized state at startup and whenever the player
-	# removes their headset (or goes into the menu system).
+func _on_Staging_xr_ended():
+	# We get the 'xr_ended' whenever the player removes their headset (or goes
+	# into the menu system).
 	#
 	# If the user doesn't put their headset on again before we load a
 	# new scene, we'll want to show the prompt so we don't load the
@@ -67,4 +67,3 @@ func _on_XROrigin3D_session_synchronized():
 	if scene_is_loaded:
 		# This would be a good moment to pause your game
 		pass
-

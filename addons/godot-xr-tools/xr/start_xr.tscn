@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://clc5dre31iskm"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/xr/start_xr.gd" id="1_ljt1b"]
+
+[node name="StartXR" type="Node"]
+script = ExtResource("1_ljt1b")
+physics_rate_multiplier = 1.0
+
+[node name="EnterWebXR" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="EnterVRButton" type="Button" parent="EnterWebXR"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -132.0
+offset_top = -52.5
+offset_right = 132.0
+offset_bottom = 52.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Enter VR"
+
+[connection signal="pressed" from="EnterWebXR/EnterVRButton" to="." method="_on_enter_webxr_button_pressed"]
