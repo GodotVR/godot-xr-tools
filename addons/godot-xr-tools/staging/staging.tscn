@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/staging.gd" id="1"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/loading_screen.tscn" id="2"]
-[ext_resource type="Script" path="res://start_xr.gd" id="3"]
 [ext_resource type="Shader" path="res://addons/godot-xr-tools/staging/fade.gdshader" id="4"]
-[ext_resource type="PackedScene" uid="uid://bj0t0hwtuf25g" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="6_balvx"]
 
 [sub_resource type="QuadMesh" id="4"]
 custom_aabb = AABB(-5000, -5000, -5000, 10000, 10000, 10000)
@@ -23,7 +23,7 @@ sky = SubResource("1")
 
 [node name="Staging" type="Node3D"]
 script = ExtResource("1")
-main_scene2 = "inner"
+main_scene = ""
 
 [node name="Fade" type="MeshInstance3D" parent="."]
 mesh = SubResource("4")
@@ -33,7 +33,6 @@ surface_material_override/0 = SubResource("ShaderMaterial_snlak")
 environment = SubResource("2")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-script = ExtResource("3")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
@@ -51,3 +50,8 @@ pose = &"aim"
 progress = 0.0
 
 [node name="Scene" type="Node3D" parent="."]
+
+[node name="StartXR" parent="." instance=ExtResource("6_balvx")]
+
+[connection signal="xr_ended" from="StartXR" to="." method="_on_StartXR_xr_ended"]
+[connection signal="xr_started" from="StartXR" to="." method="_on_StartXR_xr_started"]

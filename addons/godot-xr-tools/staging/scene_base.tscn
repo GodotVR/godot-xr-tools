@@ -1,15 +1,13 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://qbmx03iibuuu"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/scene_base.gd" id="1"]
 [ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="2"]
-[ext_resource type="Script" path="res://start_xr.gd" id="3_ic0sb"]
 
 [node name="SceneBase" type="Node3D"]
 script = ExtResource("1")
 environment = ExtResource("2")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-script = ExtResource("3_ic0sb")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
