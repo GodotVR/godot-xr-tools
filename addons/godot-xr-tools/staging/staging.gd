@@ -40,6 +40,12 @@ signal scene_loaded(scene)
 ## New scene is now visible
 signal scene_visible(scene)
 
+## XR interaction started
+signal xr_started
+
+## XR interaction ended
+signal xr_ended
+
 
 ## Main scene file
 export (String, FILE, '*.tscn') var main_scene : String
@@ -259,3 +265,11 @@ func _on_exit_to_main_menu():
 
 func _on_load_scene(p_scene_path : String):
 	load_scene(p_scene_path)
+
+
+func _on_StartXR_xr_started():
+	emit_signal("xr_started")
+
+
+func _on_StartXR_xr_ended():
+	emit_signal("xr_ended")

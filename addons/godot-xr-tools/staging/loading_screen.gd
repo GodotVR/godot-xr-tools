@@ -68,26 +68,23 @@ func _process(delta):
 	if !_camera:
 		return
 
-	var camera_dir = _camera.global_transform.basis.z
+	# Get the camera direction (horizontal only)
+	var camera_dir := _camera.global_transform.basis.z
 	camera_dir.y = 0.0
 	camera_dir = camera_dir.normalized()
 
-	var loading_screen_dir = global_transform.basis.z
+	# Get the loading screen direction
+	var loading_screen_dir := global_transform.basis.z
 
-	# Calculate the rotation-axis to rotate the screen in front of the camera
-	var cross = loading_screen_dir.cross(camera_dir)
-	if cross.is_equal_approx(Vector3.ZERO):
+	# Get the angle
+	var angle := loading_screen_dir.signed_angle_to(camera_dir, Vector3.UP)
+	if angle == 0:
 		return
-
-	# Calculate the angle to rotate the screen in front of the camera
-	cross = cross.normalized()
-	var dot = loading_screen_dir.dot(camera_dir)
-	var angle = acos(dot)
 
 	# Do rotation based on the curve
 	global_transform.basis = global_transform.basis.rotated(
-			cross,
-			follow_speed.interpolate_baked(angle / PI) * delta
+			Vector3.UP * sign(angle),
+			follow_speed.interpolate_baked(abs(angle) / PI) * delta
 	).orthonormalized()
 
 
