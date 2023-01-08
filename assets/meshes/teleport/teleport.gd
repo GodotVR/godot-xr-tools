@@ -12,6 +12,9 @@ extends Node3D
 ## Title texture
 @export var title: Texture2D: set = _set_title
 
+## Can Teleporter be used
+@export var active := true
+
 
 # Scene base to trigger loading
 @onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
@@ -29,6 +32,10 @@ func _on_TeleportArea_body_entered(body: Node3D):
 
 	# Skip if not the player body
 	if not body.is_in_group("player_body"):
+		return
+
+	#Skip if not active
+	if not active:
 		return
 
 	# Teleport
