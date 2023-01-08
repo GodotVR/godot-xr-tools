@@ -20,14 +20,14 @@ albedo_color = Color( 1, 0, 0, 1 )
 [node name="SnapToyRed" groups=["SnapToy", "SnapToyRed"] instance=ExtResource( 1 )]
 collision_layer = 4
 collision_mask = 65543
-reset_transform_on_pickup = false
+picked_up_layer = 65536
 ranged_grab_method = 0
 
-[node name="CollisionShape" parent="." index="1"]
+[node name="CollisionShape" parent="." index="0"]
 shape = SubResource( 17 )
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="2"]
+[node name="MeshInstance" type="MeshInstance" parent="." index="1"]
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="HighlightRing" parent="." index="3" instance=ExtResource( 2 )]
+[node name="HighlightRing" parent="." index="2" instance=ExtResource( 2 )]
