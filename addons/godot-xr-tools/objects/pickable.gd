@@ -59,6 +59,9 @@ enum ReleaseMode {
 const GRIP_POSE_PRIORITY = 100
 
 
+## If true, the pickable supports being picked up
+export var enabled : bool = true
+
 ## If true, the grip control must be held to keep the object picked up
 export var press_to_hold : bool = true
 
@@ -140,7 +143,7 @@ func _ready():
 
 # Test if this object can be picked up
 func can_pick_up(_by: Spatial) -> bool:
-	return _state == PickableState.IDLE
+	return enabled and _state == PickableState.IDLE
 
 
 # Test if this object is picked up
@@ -185,8 +188,8 @@ func drop_and_free():
 
 # Called when this object is picked up
 func pick_up(by: Spatial, with_controller: ARVRController) -> void:
-	# Skip if not idle
-	if _state != PickableState.IDLE:
+	# Skip if disabled or already picked up
+	if not enabled or _state != PickableState.IDLE:
 		return
 
 	if picked_up_by:
