@@ -50,20 +50,20 @@ shape = SubResource( 3 )
 [node name="SnapZone1" parent="." groups=["TeacupStand"] instance=ExtResource( 1 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0796152, 0.28, 0 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.1
 snap_require = "Teacup"
 
 [node name="SnapZone2" parent="." groups=["TeacupStand"] instance=ExtResource( 1 )]
 transform = Transform( 0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -0.04, 0.28, 0.069 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.1
 snap_require = "Teacup"
 
 [node name="SnapZone3" parent="." groups=["TeacupStand"] instance=ExtResource( 1 )]
 transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, -0.04, 0.28, -0.069 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.1
 snap_require = "Teacup"

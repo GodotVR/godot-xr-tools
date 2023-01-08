@@ -33,6 +33,10 @@ func can_grab(_grabber : Node) -> bool:
 	if not is_instance_valid(_grabber):
 		return false
 
+	# Ensure the grabber is a snap-zone
+	if not _grabber is XRToolsSnapZone:
+		return false
+
 	# Refuse if the grabber is not in the required group
 	if not require_group.empty() and not _grabber.is_in_group(require_group):
 		return false
