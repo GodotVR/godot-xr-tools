@@ -4,10 +4,11 @@ extends "../scene_base.gd"
 func _update_demo_positions() -> void:
 	var count = 0#$Demos.get_child_count()
 	var vis_chd := []
-	for _c in $Demos.get_children():
-		if _c.visible:
+	for _tp in $Demos.get_children():
+		_tp.active=_tp.visible
+		if _tp.visible:
 			count+=1
-			vis_chd.append(_c)
+			vis_chd.append(_tp)
 	if count > 1:
 		var angle = 2.0 * PI / count
 		for i in count:
