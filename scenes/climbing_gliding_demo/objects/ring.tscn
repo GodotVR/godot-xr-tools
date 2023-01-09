@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 1, 0.172549, 0, 1 )
+
+[node name="ring" type="Spatial"]
+
+[node name="CSGTorus" type="CSGTorus" parent="."]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+use_collision = true
+inner_radius = 3.0
+outer_radius = 3.5
+sides = 16
+material = SubResource( 1 )
