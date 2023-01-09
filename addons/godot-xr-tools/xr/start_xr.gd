@@ -213,6 +213,10 @@ func _setup_for_webxr() -> bool:
 	# something sufficiently high
 	Engine.iterations_per_second = 144
 
+	# If the viewport is already in XR mode then we are done.
+	if get_viewport().arvr:
+		return true
+
 	# This returns immediately - our _webxr_session_supported() method
 	# (which we connected to the "session_supported" signal above) will
 	# be called sometime later to let us know if it's supported or not.
