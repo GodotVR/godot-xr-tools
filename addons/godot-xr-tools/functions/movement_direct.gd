@@ -21,6 +21,11 @@ export var max_speed : float = 10.0
 ## If true, the player can strafe
 export var strafe : bool = false
 
+## forward/backward dead zone
+export var y_axis_dead_zone : float = 0.1
+
+## left/right dead zone
+export var x_axis_dead_zone : float = 0.2
 
 # Controller node
 onready var _controller := ARVRHelpers.get_arvr_controller(self)
@@ -38,13 +43,15 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_joystick_axis(
-			XRTools.Axis.VR_PRIMARY_Y_AXIS) * max_speed
+	var forward_backward := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_Y_AXIS)
+	if abs(forward_backward) > y_axis_dead_zone:
+		player_body.ground_control_velocity.y += forward_backward * max_speed
 
 	# Apply left/right ground control
 	if strafe:
-		player_body.ground_control_velocity.x += _controller.get_joystick_axis(
-				XRTools.Axis.VR_PRIMARY_X_AXIS) * max_speed
+		var left_right := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS)
+		if abs(left_right) > x_axis_dead_zone:
+			player_body.ground_control_velocity.x += left_right * max_speed
 
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()
