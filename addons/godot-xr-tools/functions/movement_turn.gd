@@ -21,7 +21,7 @@ enum TurnMode {
 export var order : int = 5
 
 ## Movement mode property
-export (TurnMode) var turn_mode = TurnMode.SMOOTH
+export (TurnMode) var turn_mode = TurnMode.DEFAULT
 
 ## Smooth turn speed in radians per second
 export var smooth_turn_speed : float = 2.0
