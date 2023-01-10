@@ -13,11 +13,9 @@ extends XRToolsMovementProvider
 ##     with the PlayerBody attached to the players ARVROrigin.
 ##
 ##     The following types of direct movement are supported:
-##      - Slewing
-##      - Forwards and backwards motion
-##      - Turning
-##      - Camera pitch orientation
-##
+##      - Strafing and Forwards and backwards motion (cursor or WASD)
+##      - Turning (Use Shift left-right) 
+##      - Camera pitch orientation (mouse motion, ESC to uncapture)
 ##
 
 ## Movement provider order
@@ -50,7 +48,7 @@ func _ready():
 		print("*** Removing from group")
 		remove_from_group("movement_providers")
 		disable_nonvrkeyboardmovement = true
-	else:
+	elif not Engine.editor_hint:
 		uncapturedmousemode = Input.get_mouse_mode()
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
@@ -75,9 +73,13 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 
 	var kvec : Vector2 = Input.get_vector("ui_left", "ui_right", "ui_down", "ui_up")
 
-	if Input.is_pressed(KEY_SHIFT):
+	# these are added to save the need to enter them into the ProjectSettings Input Map, where it should be done
+	kvec.x += (1 if Input.is_key_pressed(KEY_D) else 0) + (-1 if Input.is_key_pressed(KEY_A) else 0)
+	kvec.y += (1 if Input.is_key_pressed(KEY_W) else 0) + (-1 if Input.is_key_pressed(KEY_S) else 0)
+
+	if Input.is_key_pressed(KEY_SHIFT):
 		if kvec.x != 0:
-			player_body.rotate_player(player_body, keyboard_smooth_turn_speed * _delta * kvec.x)
+			player_body.rotate_player(keyboard_smooth_turn_speed * _delta * kvec.x)
 		kvec = Vector2.ZERO
 
 	if kvec != Vector2.ZERO:
@@ -89,17 +91,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 			player_body.ground_control_velocity *= keyboard_walk_speed / length
 		player_body.ground_control_velocity += kvec * keyboard_walk_speed
 
-
-# Rotate the origin node around the camera
-func _rotate_player(player_body: XRToolsPlayerBody, angle: float):
-	var t1 := Transform()
-	var t2 := Transform()
-	var rot := Transform()
-
-	t1.origin = -player_body.camera_node.transform.origin
-	t2.origin = player_body.camera_node.transform.origin
-	rot = rot.rotated(Vector3(0.0, -1.0, 0.0), angle)
-	player_body.origin_node.transform = (player_body.origin_node.transform * t2 * rot * t1).orthonormalized()
+	if Input.is_key_pressed(KEY_SPACE):
+		player_body.request_jump()
 
 
 # This method verifies the movement provider has a valid configuration.
