@@ -21,7 +21,7 @@ enum TurnMode {
 export var order : int = 5
 
 ## Movement mode property
-export (TurnMode) var turn_mode = TurnMode.DEFAULT
+export (TurnMode) var turn_mode = TurnMode.SMOOTH
 
 ## Smooth turn speed in radians per second
 export var smooth_turn_speed : float = 2.0
@@ -65,13 +65,14 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Handle smooth rotation
 	if !_snap_turning():
+		left_right -= deadzone * sign(left_right)
 		player_body.rotate_player(smooth_turn_speed * delta * left_right)
 		return
-		
+
 	# disable repeat snap turning if delay is zero
 	if step_turn_delay == 0.0 and _turn_step < 0.0:
 		return
-	
+
 	# Update the next turn-step delay
 	_turn_step -= abs(left_right) * delta
 	if _turn_step >= 0.0:
