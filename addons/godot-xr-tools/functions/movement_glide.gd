@@ -28,7 +28,7 @@ signal player_glide_end
 ## Signal invoked when the player flaps
 signal player_flapped
 
-## flap activated (when both controllers are above the ARVRCamera)
+## flap activated (when both controllers are near the ARVRCamera height)
 var flap_armed : bool = false
 
 ## last controllers position to calculate flapping velocity
@@ -71,6 +71,10 @@ export var flap_min_speed : float = 0.3
 ## flapping force multiplier
 export var wings_force : float = 1.0
 
+## minimum distance from controllers to ARVRCamera to rearm flaps
+## if set to 0, you need to reach head level with hands to rearm flaps
+export var rearm_distance_offset : float = 0.2
+
 
 # Left controller
 onready var _left_controller := ARVRHelpers.get_left_controller(self)
@@ -112,8 +116,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		## get head position
 		var camera_position := _camera_node.global_transform.origin
 		# check controllers position relative to head
-		var left_hand_over_head = camera_position.y < left_position.y
-		var right_hand_over_head = camera_position.y < right_position.y
+		var left_hand_over_head = camera_position.y < left_position.y + rearm_distance_offset
+		var right_hand_over_head = camera_position.y < right_position.y + rearm_distance_offset
 		if left_hand_over_head && right_hand_over_head:
 			flap_armed = true
 
@@ -142,7 +146,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		# calculate wings impulse
 			if left_wing_velocity > flap_min_speed_delta && right_wing_velocity > flap_min_speed_delta:
 			wings_impulse_velocity = (left_wing_velocity + right_wing_velocity) / 2
-				wings_impulse_velocity = wings_impulse_velocity * wings_force * delta * 100
+				wings_impulse_velocity = wings_impulse_velocity * wings_force * delta * 50
 				emit_signal("player_flapped")
 
 		# store controller position for next frame
