@@ -3,38 +3,35 @@ class_name XRToolsMovementPhysicalJump
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Player Physical Jump Detection
 ##
-## Movement Provider for Player Physical Jump Detection
+## This script can detect jumping based on either the players body jumping,
+## or by the player swinging their arms up.
 ##
-## @desc:
-##     This script can detect jumping based on either the players body jumping,
-##     or by the player swinging their arms up.
+## The player body jumping is detected by putting the cameras instantaneous
+## Y velocity (in the tracking space) into a sliding-window averager. If the
+## average Y velocity exceeds a threshold parameter then the player has
+## jumped.
 ##
-##     The player body jumping is detected by putting the cameras instantaneous
-##     Y velocity (in the tracking space) into a sliding-window averager. If the
-##     average Y velocity exceeds a threshold parameter then the player has
-##     jumped.
-##
-##     The player arms jumping is detected by putting both controllers instantaneous
-##     Y velocity (in the tracking space) into a sliding-window averager. If both
-##     average Y velocities exceed a threshold parameter then the player has
-##     jumped.
-##
+## The player arms jumping is detected by putting both controllers instantaneous
+## Y velocity (in the tracking space) into a sliding-window averager. If both
+## average Y velocities exceed a threshold parameter then the player has
+## jumped.
 
 
 ## Movement provider order
 export var order : int = 20
 
-## Enable detecting of jump via body (through the camera)
+## If true, jumps are detected via the players body (through the camera)
 export var body_jump_enable : bool = true
 
-## Only jump as high as the player (no ground physics)
+## If true, the player jump is as high as the physical jump(no ground physics)
 export var body_jump_player_only : bool = false
 
 ## Body jump detection threshold (M/S^2)
 export var body_jump_threshold : float = 2.5
 
-## Enable detectionm of jump via arms (through the controllers)
+## If true, jumps are detected via the players arms (through the controllers)
 export var arms_jump_enable : bool = false
 
 ## Arms jump detection threshold (M/S^2)
@@ -50,6 +47,7 @@ var _controller_right_position : float = 0.0
 var _camera_velocity : SlidingAverage = SlidingAverage.new(5)
 var _controller_left_velocity : SlidingAverage = SlidingAverage.new(5)
 var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
+
 
 # Node references
 onready var _origin_node := ARVRHelpers.get_arvr_origin(self)
@@ -142,7 +140,7 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	if abs(camera_vel) < 0.001:
 		return;
 
-	# Correct for ARVR world-scale (convert to player units)
+	# Correct for world-scale (convert to player units)
 	camera_vel /= ARVRServer.world_scale
 
 	# Clamp the camera instantaneous velocity to +/- 2x the jump threshold
@@ -174,13 +172,19 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	if abs(controller_left_vel) <= 0.001 and abs(controller_right_vel) <= 0.001:
 		return
 
-	# Correct for ARVR world-scale (convert to player units)
+	# Correct for world-scale (convert to player units)
 	controller_left_vel /= ARVRServer.world_scale
 	controller_right_vel /= ARVRServer.world_scale
 
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
-	controller_left_vel = clamp(controller_left_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
-	controller_right_vel = clamp(controller_right_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
+	controller_left_vel = clamp(
+			controller_left_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
+	controller_right_vel = clamp(
+			controller_right_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
 
 	# Get the averaged velocity
 	controller_left_vel = _controller_left_velocity.update(controller_left_vel)

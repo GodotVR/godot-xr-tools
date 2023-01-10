@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=2]
+[gd_scene load_steps=48 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
@@ -31,6 +31,10 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" type="PackedScene" id=29]
 [ext_resource path="res://scenes/sprinting_demo/sprinting_demo.tscn" type="PackedScene" id=30]
 [ext_resource path="res://scenes/sprinting_demo/sprinting_demo.png" type="Texture" id=31]
+[ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.png" type="Texture" id=32]
+[ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.tscn" type="PackedScene" id=33]
+[ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.png" type="Texture" id=34]
+[ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.tscn" type="PackedScene" id=35]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -40,29 +44,28 @@ animation = "Grip"
 
 [sub_resource type="AnimationNodeBlend2" id=3]
 filter_enabled = true
-filters = [ "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L", "Armature_Left/Skeleton:Middle.Distal", "Armature_Left/Skeleton:Middle.Middle", "Armature_Left/Skeleton:Middle.Proximal", "Armature_Left/Skeleton:Pinky.Distal", "Armature_Left/Skeleton:Pinky.Middle", "Armature_Left/Skeleton:Pinky.Proximal", "Armature_Left/Skeleton:Ring.Distal", "Armature_Left/Skeleton:Ring.Middle", "Armature_Left/Skeleton:Ring.Proximal", "Armature_Left/Skeleton:Thumb.Distal", "Armature_Left/Skeleton:Thumb.Proximal" ]
+filters = [ "Armature/Skeleton:Little_Distal_L", "Armature/Skeleton:Little_Intermediate_L", "Armature/Skeleton:Little_Proximal_L", "Armature/Skeleton:Middle_Distal_L", "Armature/Skeleton:Middle_Intermediate_L", "Armature/Skeleton:Middle_Proximal_L", "Armature/Skeleton:Ring_Distal_L", "Armature/Skeleton:Ring_Intermediate_L", "Armature/Skeleton:Ring_Proximal_L", "Armature/Skeleton:Thumb_Distal_L", "Armature/Skeleton:Thumb_Proximal_L" ]
 
 [sub_resource type="AnimationNodeAnimation" id=4]
 animation = "Grip 5"
 
 [sub_resource type="AnimationNodeBlend2" id=5]
 filter_enabled = true
-filters = [ "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L", "Armature_Left/Skeleton:Index.Distal", "Armature_Left/Skeleton:Index.Middle", "Armature_Left/Skeleton:Index.Proximal" ]
+filters = [ "Armature/Skeleton:Index_Distal_L", "Armature/Skeleton:Index_Intermediate_L", "Armature/Skeleton:Index_Proximal_L" ]
 
 [sub_resource type="AnimationNodeBlendTree" id=6]
-graph_offset = Vector2( -156.488, -45.3264 )
+graph_offset = Vector2( -798.981, 58.67 )
 nodes/ClosedHand1/node = SubResource( 1 )
-nodes/ClosedHand1/position = Vector2( -400, 200 )
+nodes/ClosedHand1/position = Vector2( -600, 300 )
 nodes/ClosedHand2/node = SubResource( 2 )
-nodes/ClosedHand2/position = Vector2( -200, 300 )
+nodes/ClosedHand2/position = Vector2( -360, 300 )
 nodes/Grip/node = SubResource( 3 )
-nodes/Grip/position = Vector2( 200, 0 )
+nodes/Grip/position = Vector2( 0, 20 )
 nodes/OpenHand/node = SubResource( 4 )
-nodes/OpenHand/position = Vector2( -400, 0 )
+nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
-nodes/Trigger/position = Vector2( -160, 0 )
-nodes/output/position = Vector2( 400, 0 )
-node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
+nodes/Trigger/position = Vector2( -360, 20 )
+node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Grip"
@@ -93,7 +96,7 @@ nodes/OpenHand/node = SubResource( 10 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
+node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
@@ -151,57 +154,70 @@ strafe = false
 [node name="Demos" type="Spatial" parent="." index="2"]
 
 [node name="ToBasicMovementDemo" parent="Demos" index="0" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
 scene_base = NodePath("../..")
 scene = ExtResource( 7 )
 title = ExtResource( 10 )
 
 [node name="ToTeleportDemo" parent="Demos" index="1" instance=ExtResource( 9 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -4.94975 )
+transform = Transform( 0.841254, 0, 0.540641, 0, 1, 0, -0.540641, 0, 0.841254, -5.40641, 0, -8.41253 )
 scene_base = NodePath("../..")
 scene = ExtResource( 11 )
 title = ExtResource( 12 )
 
 [node name="ToClimbingGlidingDemo" parent="Demos" index="2" instance=ExtResource( 9 )]
-transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -7, 0, 3.0598e-07 )
+transform = Transform( 0.415415, 0, 0.909632, 0, 1, 0, -0.909632, 0, 0.415415, -9.09632, 0, -4.15415 )
 scene_base = NodePath("../..")
 scene = ExtResource( 14 )
 title = ExtResource( 13 )
 
 [node name="ToGrapplingDemo" parent="Demos" index="3" instance=ExtResource( 9 )]
-transform = Transform( -0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -4.94975, 0, 4.94975 )
+transform = Transform( -0.142315, 0, 0.989821, 0, 1, 0, -0.989821, 0, -0.142315, -9.89821, 0, 1.42315 )
 scene_base = NodePath("../..")
 scene = ExtResource( 15 )
 title = ExtResource( 16 )
 
 [node name="ToInteractablesDemo" parent="Demos" index="4" instance=ExtResource( 9 )]
-transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 6.11959e-07, 0, 7 )
+transform = Transform( -0.654861, 0, 0.75575, 0, 1, 0, -0.75575, 0, -0.654861, -7.5575, 0, 6.54861 )
 scene_base = NodePath("../..")
 scene = ExtResource( 18 )
 title = ExtResource( 17 )
 
 [node name="ToPointerDemo" parent="Demos" index="5" instance=ExtResource( 9 )]
-transform = Transform( -0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 4.94975, 0, 4.94975 )
+transform = Transform( -0.959493, 0, 0.281733, 0, 1, 0, -0.281733, 0, -0.959493, -2.81733, 0, 9.59493 )
 scene_base = NodePath("../..")
 scene = ExtResource( 19 )
 title = ExtResource( 20 )
 
 [node name="ToPickableDemo" parent="Demos" index="6" instance=ExtResource( 9 )]
-transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 7, 0, -8.34742e-08 )
+transform = Transform( -0.959493, 0, -0.281733, 0, 1, 0, 0.281733, 0, -0.959493, 2.81733, 0, 9.59493 )
 scene_base = NodePath("../..")
 scene = ExtResource( 21 )
 title = ExtResource( 22 )
 
 [node name="ToPokeDemo" parent="Demos" index="7" instance=ExtResource( 9 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 4.94975, 0, -4.94975 )
+transform = Transform( -0.654861, 0, -0.75575, 0, 1, 0, 0.75575, 0, -0.654861, 7.5575, 0, 6.54861 )
 scene_base = NodePath("../..")
 scene = ExtResource( 24 )
 title = ExtResource( 25 )
 
 [node name="ToSprintingDemo" parent="Demos" index="8" instance=ExtResource( 9 )]
+transform = Transform( -0.142315, 0, -0.989821, 0, 1, 0, 0.989821, 0, -0.142315, 9.89821, 0, 1.42315 )
 scene_base = NodePath("../..")
 scene = ExtResource( 30 )
 title = ExtResource( 31 )
+
+[node name="ToOriginGravityDemo" parent="Demos" index="9" instance=ExtResource( 9 )]
+transform = Transform( 0.415415, 0, -0.909632, 0, 1, 0, 0.909632, 0, 0.415415, 9.09632, 0, -4.15415 )
+scene_base = NodePath("../..")
+scene = ExtResource( 33 )
+title = ExtResource( 32 )
+
+[node name="ToSphereWorldDemo" parent="Demos" index="10" instance=ExtResource( 9 )]
+transform = Transform( 0.841253, 0, -0.540641, 0, 1, 0, 0.540641, 0, 0.841253, 5.40641, 0, -8.41253 )
+scene_base = NodePath("../..")
+scene = ExtResource( 35 )
+title = ExtResource( 34 )
 
 [node name="SettingsUI" parent="." index="3" instance=ExtResource( 26 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1.5 )

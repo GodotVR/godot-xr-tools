@@ -1,10 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/staging.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-openxr/scenes/first_person_controller_vr.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assets/godot/splash.png" type="Texture" id=3]
 [ext_resource path="res://staging.gd" type="Script" id=4]
-[ext_resource path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" type="PackedScene" id=9]
 
 [node name="Staging" instance=ExtResource( 1 )]
 script = ExtResource( 4 )
@@ -13,16 +11,7 @@ main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 [node name="LoadingScreen" parent="." index="2"]
 splash_screen = ExtResource( 3 )
 
-[node name="FPController" parent="." index="5" instance=ExtResource( 2 )]
-
-[node name="ARVRCamera" parent="FPController" index="1"]
-far = 1000.0
-
-[node name="VRCommonShaderCache" parent="FPController/ARVRCamera" index="0" instance=ExtResource( 9 )]
-
 [connection signal="scene_exiting" from="." to="." method="_on_Staging_scene_exiting"]
 [connection signal="scene_loaded" from="." to="." method="_on_Staging_scene_loaded"]
-[connection signal="focused_state" from="FPController" to="." method="_on_FPController_focused_state"]
-[connection signal="session_synchronized" from="FPController" to="." method="_on_FPController_session_synchronized"]
-
-[editable path="FPController"]
+[connection signal="xr_ended" from="." to="." method="_on_Staging_xr_ended"]
+[connection signal="xr_started" from="." to="." method="_on_Staging_xr_started"]

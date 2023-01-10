@@ -55,7 +55,7 @@ condition = 1
 
 [resource]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, unshaded;
+render_mode specular_schlick_ggx, async_visible, unshaded;
 
 uniform vec4 bar_color : hint_color;
 uniform sampler2D bar_texture : hint_albedo;

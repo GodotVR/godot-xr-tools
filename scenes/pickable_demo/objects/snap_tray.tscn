@@ -37,20 +37,19 @@ albedo_color = Color( 0.498039, 0.498039, 0.498039, 1 )
 collision_layer = 1048580
 collision_mask = 65543
 script = ExtResource( 5 )
-reset_transform_on_pickup = false
 ranged_grab_method = 0
 tray_active = false
 active_material = ExtResource( 2 )
 inactive_material = SubResource( 15 )
 
-[node name="CollisionShape" parent="." index="1"]
+[node name="CollisionShape" parent="." index="0"]
 shape = SubResource( 9 )
 
-[node name="Body" type="MeshInstance" parent="." index="2"]
+[node name="Body" type="MeshInstance" parent="." index="1"]
 mesh = SubResource( 1 )
 material/0 = ExtResource( 2 )
 
-[node name="SnapArea1" type="MeshInstance" parent="." index="3"]
+[node name="SnapArea1" type="MeshInstance" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, 0.06, 0.06 )
 mesh = SubResource( 10 )
 material/0 = SubResource( 11 )
@@ -58,13 +57,13 @@ material/0 = SubResource( 11 )
 [node name="SnapZone1" parent="SnapArea1" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToyRed"
 
 [node name="HighlightRing" parent="SnapArea1/SnapZone1" index="1" instance=ExtResource( 3 )]
 
-[node name="SnapArea2" type="MeshInstance" parent="." index="4"]
+[node name="SnapArea2" type="MeshInstance" parent="." index="3"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, 0.06, 0.06 )
 mesh = SubResource( 10 )
 material/0 = SubResource( 12 )
@@ -72,13 +71,13 @@ material/0 = SubResource( 12 )
 [node name="SnapZone2" parent="SnapArea2" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToyYellow"
 
 [node name="HighlightRing" parent="SnapArea2/SnapZone2" index="1" instance=ExtResource( 3 )]
 
-[node name="SnapArea3" type="MeshInstance" parent="." index="5"]
+[node name="SnapArea3" type="MeshInstance" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.06, -0.06, 0.06 )
 mesh = SubResource( 10 )
 material/0 = SubResource( 13 )
@@ -86,13 +85,13 @@ material/0 = SubResource( 13 )
 [node name="SnapZone3" parent="SnapArea3" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToy"
 
 [node name="HighlightRing" parent="SnapArea3/SnapZone3" index="1" instance=ExtResource( 3 )]
 
-[node name="SnapArea4" type="MeshInstance" parent="." index="6"]
+[node name="SnapArea4" type="MeshInstance" parent="." index="5"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.06, -0.06, 0.06 )
 mesh = SubResource( 10 )
 material/0 = SubResource( 14 )
@@ -100,7 +99,7 @@ material/0 = SubResource( 14 )
 [node name="SnapZone4" parent="SnapArea4" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06 )
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToy"
 

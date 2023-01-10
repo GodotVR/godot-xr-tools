@@ -14,11 +14,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/arvr_helpers.gd"
 }, {
-"base": "ARVROrigin",
-"class": "FirstPersonControllerVR",
-"language": "GDScript",
-"path": "res://addons/godot-openxr/scenes/first_person_controller_vr.gd"
-}, {
 "base": "Spatial",
 "class": "Teleport",
 "language": "GDScript",
@@ -225,6 +220,11 @@ _global_script_classes=[ {
 "path": "res://addons/godot-xr-tools/functions/movement_turn.gd"
 }, {
 "base": "XRToolsMovementProvider",
+"class": "XRToolsMovementWallWalk",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/functions/movement_wall_walk.gd"
+}, {
+"base": "XRToolsMovementProvider",
 "class": "XRToolsMovementWind",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/functions/movement_wind.gd"
@@ -249,6 +249,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/player/poke/poke.gd"
 }, {
+"base": "Node",
+"class": "XRToolsResourceQueue",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/assets/resource_queue/resource_queue.gd"
+}, {
 "base": "Spatial",
 "class": "XRToolsSceneBase",
 "language": "GDScript",
@@ -263,6 +268,11 @@ _global_script_classes=[ {
 "class": "XRToolsStaging",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/staging/staging.gd"
+}, {
+"base": "Node",
+"class": "XRToolsStartXR",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/xr/start_xr.gd"
 }, {
 "base": "Reference",
 "class": "XRToolsVelocityAverager",
@@ -291,7 +301,6 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ARVRHelpers": "",
-"FirstPersonControllerVR": "",
 "Teleport": "",
 "XRTools": "",
 "XRToolsClimbable": "res://addons/godot-xr-tools/editor/icons/hand.svg",
@@ -333,14 +342,17 @@ _global_script_class_icons={
 "XRToolsMovementProvider": "res://addons/godot-xr-tools/editor/icons/movement_provider.svg",
 "XRToolsMovementSprint": "",
 "XRToolsMovementTurn": "",
+"XRToolsMovementWallWalk": "",
 "XRToolsMovementWind": "",
 "XRToolsPhysicsHand": "",
 "XRToolsPickable": "",
 "XRToolsPlayerBody": "res://addons/godot-xr-tools/editor/icons/body.svg",
 "XRToolsPoke": "",
+"XRToolsResourceQueue": "",
 "XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
 "XRToolsStaging": "",
+"XRToolsStartXR": "",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
 "XRToolsVignette": "",
@@ -375,6 +387,7 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_1="static_world"
 3d_physics/layer_2="dynamic_world"
 3d_physics/layer_3="object"
+3d_physics/layer_4="orientable_ground"
 3d_physics/layer_17="held_object"
 3d_physics/layer_18="player_hand"
 3d_physics/layer_20="player_body"

@@ -3,20 +3,13 @@ class_name XRToolsMovementDirect
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Direct Movement
 ##
-## Movement Provider for Direct Movement
+## This script provides direct movement for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [ARVROrigin].
 ##
-## @desc:
-##     This script provides direct movement for the player. This script works
-##     with the PlayerBody attached to the players ARVROrigin.
-##
-##     The following types of direct movement are supported:
-##      - Slewing
-##      - Forwards and backwards motion
-##
-##     The player may have multiple direct movement nodes attached to different
-##     controllers to provide different types of direct movement.
-##
+## The player may have multiple [XRToolsMovementDirect] nodes attached to
+## different controllers to provide different types of direct movement.
 
 
 ## Movement provider order
@@ -25,7 +18,7 @@ export var order : int = 10
 ## Movement speed
 export var max_speed : float = 10.0
 
-## Enable player strafing
+## If true, the player can strafe
 export var strafe : bool = false
 
 
@@ -45,11 +38,13 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_Y_AXIS) * max_speed
+	player_body.ground_control_velocity.y += _controller.get_joystick_axis(
+			XRTools.Axis.VR_PRIMARY_Y_AXIS) * max_speed
 
 	# Apply left/right ground control
 	if strafe:
-		player_body.ground_control_velocity.x += _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS) * max_speed
+		player_body.ground_control_velocity.x += _controller.get_joystick_axis(
+				XRTools.Axis.VR_PRIMARY_X_AXIS) * max_speed
 
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()
@@ -69,7 +64,7 @@ func _get_configuration_warning():
 
 ## Find the left [XRToolsMovementDirect] node.
 ##
-## This function searches from the specified node for the left controller 
+## This function searches from the specified node for the left controller
 ## [XRToolsMovementDirect] assuming the node is a sibling of the [ARVROrigin].
 static func find_left(node : Node) -> XRToolsMovementDirect:
 	return XRTools.find_child(
@@ -80,7 +75,7 @@ static func find_left(node : Node) -> XRToolsMovementDirect:
 
 ## Find the right [XRToolsMovementDirect] node.
 ##
-## This function searches from the specified node for the right controller 
+## This function searches from the specified node for the right controller
 ## [XRToolsMovementDirect] assuming the node is a sibling of the [ARVROrigin].
 static func find_right(node : Node) -> XRToolsMovementDirect:
 	return XRTools.find_child(

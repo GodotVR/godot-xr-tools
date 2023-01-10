@@ -1,5 +1,6 @@
 extends Button
 
+
 ## Godot scan-code text
 export var scan_code_text := ""
 
@@ -8,6 +9,7 @@ export var unicode := 0
 
 ## Shift modifier
 export var shift_modifier := false
+
 
 func _ready():
 	# Find the VirtualKeyboard parent
