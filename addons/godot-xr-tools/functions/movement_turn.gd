@@ -57,7 +57,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 		deadzone = XRTools.get_snap_turning_deadzone()
 
 	# Read the left/right joystick axis
-	var left_right := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS)
+	var left_right = _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS)
 	if abs(left_right) <= deadzone:
 		# Not turning
 		_turn_step = 0.0
