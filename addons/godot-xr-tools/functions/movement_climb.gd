@@ -5,15 +5,15 @@ extends XRToolsMovementProvider
 
 ## XR Tools Movement Provider for Climbing
 ##
-## This script provides climbing movement for the player. To add climbing 
-## support, the player must also have [XRToolsFunctionPickup] nodes attached 
+## This script provides climbing movement for the player. To add climbing
+## support, the player must also have [XRToolsFunctionPickup] nodes attached
 ## to the left and right controllers, and an [XRToolsPlayerBody] under the
 ## [ARVROrigin].
 ##
-## Climbable objects can inherit from the climbable scene, or be [StaticBody] 
+## Climbable objects can inherit from the climbable scene, or be [StaticBody]
 ## objects with the [XRToolsClimbable] script attached to them.
 ##
-## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged, 
+## When climbing, the global velocity of the [XRToolsPlayerBody] is averaged,
 ## and upon release the velocity is applied to the [XRToolsPlayerBody] with an
 ## optional fling multiplier, so the player can fling themselves up walls if
 ## desired.
@@ -25,9 +25,6 @@ signal player_climb_start
 ## Signal invoked when the player ends climbing
 signal player_climb_end
 
-
-## Horizontal vector used to calculate the horizontal component of vectors
-const HORIZONTAL := Vector3(1.0, 0.0, 1.0)
 
 ## Distance at which grabs snap
 const SNAP_DISTANCE : float = 1.0
@@ -149,9 +146,15 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 		player_body.override_player_height(self, 0.0)
 		emit_signal("player_climb_start")
 	else:
+		# Calculate the forward direction (based on camera-forward)
+		var dir_forward = -player_body.up_player_plane.project(
+			player_body.camera_node.global_transform.basis.z).normalized()
+
+		# Set player velocity based on averaged velocity, fling multiplier,
+		# and a forward push
 		var velocity := _averager.velocity()
-		var dir_forward = -(player_body.camera_node.global_transform.basis.z * HORIZONTAL).normalized()
 		player_body.velocity = (velocity * fling_multiplier) + (dir_forward * forward_push)
+
 		player_body.override_player_height(self)
 		emit_signal("player_climb_end")
 

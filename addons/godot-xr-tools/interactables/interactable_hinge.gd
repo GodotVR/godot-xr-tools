@@ -2,20 +2,17 @@ class_name XRToolsInteractableHinge
 extends XRToolsInteractableHandleDriven
 
 
+## XR Tools Interactable Hinge script
 ##
-## Interactable Hinge script
+## The interactable hinge is a hinge transform node controlled by the
+## player through one or more [XRToolsInteractableHandle] instances.
 ##
-## @desc:
-##     The interactable hinge is a hinge transform node controlled by the
-##     player through interactable handles.
+## The hinge rotates itelf around its local X axis, and so should be
+## placed as a child of a node to translate and rotate as appropriate.
 ##
-##     The hinge rotates itelf around its local X axis, and so should be
-##     placed as a child of a spatial node to translate and rotate as
-##     appropriate.
-##
-##     The interactable hinge is not a rigid body, and as such will not react
-##     to any collisions.
-##
+## The interactable hinge is not a [RigidBody], and as such will not react
+## to any collisions.
+
 
 ## Signal for hinge moved
 signal hinge_moved(angle)
@@ -36,7 +33,7 @@ export var hinge_position : float = 0.0 setget _set_hinge_position
 ## Default position
 export var default_position : float = 0.0 setget _set_default_position
 
-## Move to default position on release
+## If true, the hinge moves to the default position when releases
 export var default_on_release : bool = false
 
 
@@ -73,7 +70,8 @@ func _process(_delta: float) -> void:
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
 		var to_handle: Vector3 = global_transform.xform_inv(handle.global_transform.origin)
-		var to_handle_origin: Vector3 = global_transform.xform_inv(handle.handle_origin.global_transform.origin)
+		var to_handle_origin: Vector3 = global_transform.xform_inv(
+				handle.handle_origin.global_transform.origin)
 		to_handle.x = 0.0
 		to_handle_origin.x = 0.0
 		offset_sum += to_handle_origin.signed_angle_to(to_handle, Vector3.RIGHT)

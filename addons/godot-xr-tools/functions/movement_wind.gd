@@ -3,6 +3,15 @@ class_name XRToolsMovementWind
 extends XRToolsMovementProvider
 
 
+## XR Tools Movement Provider for Wind
+##
+## This script provides wind mechanics for the player. This script works
+## with the [XRToolsPlayerBody] attached to the players [ARVROrigin].
+##
+## When the player enters an [XRToolsWindArea], the wind pushes the player
+## around, and can even lift the player into the air.
+
+
 ## Signal invoked when changing active wind areas
 signal wind_area_changed(active_wind_area)
 
@@ -17,7 +26,7 @@ export var drag_multiplier : float = 1.0
 export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 524288 setget set_collision_mask
 
 
-# Wind area
+# Wind detection area
 var _sense_area : Area
 
 # Array of wind areas the player is in
@@ -104,7 +113,7 @@ func _on_area_exited(area: Area):
 	emit_signal("wind_area_changed", _active_wind_area)
 
 
-# Perform jump movement
+# Perform wind movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if no active wind area
 	if !_active_wind_area:

@@ -16,6 +16,7 @@ extends Spatial
 ## Signal emitted when the hand scale changes
 signal hand_scale_changed(scale)
 
+
 ## Blend tree to use
 export var hand_blend_tree : AnimationNodeBlendTree setget set_hand_blend_tree
 
@@ -25,23 +26,6 @@ export var hand_material_override : Material setget set_hand_material_override
 ## Default hand pose
 export var default_pose : Resource setget set_default_pose
 
-
-## Pose-override class
-class PoseOverride:
-	## Who requested the override
-	var who : Node
-	
-	## Pose priority 
-	var priority : int
-
-	## Pose settings
-	var settings : XRToolsHandPoseSettings
-
-	## Pose-override constructor
-	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
-		who = w
-		priority = p
-		settings = s
 
 
 ## Last world scale (for scaling hands)
@@ -70,6 +54,25 @@ var _force_grip := -1.0
 
 ## Force trigger value (< 0 for no force)
 var _force_trigger := -1.0
+
+
+## Pose-override class
+class PoseOverride:
+	## Who requested the override
+	var who : Node
+
+	## Pose priority
+	var priority : int
+
+	## Pose settings
+	var settings : XRToolsHandPoseSettings
+
+	## Pose-override constructor
+	func _init(w : Node, p : int, s : XRToolsHandPoseSettings):
+		who = w
+		priority = p
+		settings = s
+
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -164,12 +167,14 @@ static func find_instance(node : Node) -> XRToolsHand:
 		"*",
 		"XRToolsHand") as XRToolsHand
 
+
 ## Set the blend tree
 func set_hand_blend_tree(blend_tree : AnimationNodeBlendTree) -> void:
 	hand_blend_tree = blend_tree
 	if is_inside_tree():
 		_update_hand_blend_tree()
 		_update_pose()
+
 
 ## Set the hand material override
 func set_hand_material_override(material : Material) -> void:

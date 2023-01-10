@@ -5,10 +5,12 @@ extends XRToolsMovementProvider
 
 ## XR Tools Movement Provider for Sprinting
 ##
-## This script provides sprinting movement for the player. It assumes there is a direct movement
-## node in the scene otherwise it will not be functional. There will not be an error, there just
-## will not be any reason for it to have any impact on the player.  This node should be a direct
-## child of the FPController node rather than to a specific ARVRController.
+## This script provides sprinting movement for the player. It assumes there is
+## a direct movement node in the scene otherwise it will not be functional.
+##
+## There will not be an error, there just will not be any reason for it to
+## have any impact on the player.  This node should be a direct child of
+## the [ARVROrigin] node rather than to a specific [ARVRController].
 
 
 ## Signal emitted when sprinting starts
@@ -21,8 +23,8 @@ signal sprinting_finished()
 ## Enumeration of controller to use for triggering sprinting.  This allows the
 ## developer to assign the sprint button to either controller.
 enum SprintController {
-	LEFT,		# Use left controller
-	RIGHT,		# Use right controler
+	LEFT,		## Use left controller
+	RIGHT,		## Use right controler
 }
 
 ## Enumeration of sprinting modes - toggle or hold button
@@ -51,20 +53,20 @@ export (XRTools.Buttons) var sprint_button : int = XRTools.Buttons.VR_PAD
 # Sprint controller
 var _controller : ARVRController
 
-## Sprint button down state
+# Sprint button down state
 var _sprint_button_down : bool = false
 
-## Variable to hold left controller direct movement node original max speed
+# Variable to hold left controller direct movement node original max speed
 var _left_controller_original_max_speed : float = 0.0
 
-## Variable to hold right controller direct movement node original max speed
+# Variable to hold right controller direct movement node original max speed
 var _right_controller_original_max_speed : float = 0.0
 
 
-## Variable used to cache left controller direct movement function, if any 
+# Variable used to cache left controller direct movement function, if any
 onready var _left_controller_direct_move := XRToolsMovementDirect.find_left(self)
 
-## Variable used to cache right controller direct movement function, if any
+# Variable used to cache right controller direct movement function, if any
 onready var _right_controller_direct_move := XRToolsMovementDirect.find_right(self)
 
 
@@ -83,12 +85,12 @@ func _ready():
 
 
 # Perform sprinting
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
-	# Skip if the controller isn't active or is not enabled 
+func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, disabled: bool):
+	# Skip if the controller isn't active or is not enabled
 	if !_controller.get_is_active() or disabled == true or !enabled:
 		set_sprinting(false)
 		return
-		
+
 	# Detect sprint button down and pressed states
 	var sprint_button_down := _controller.is_button_pressed(sprint_button) != 0
 	var sprint_button_pressed := sprint_button_down and !_sprint_button_down
@@ -125,22 +127,27 @@ func set_sprinting(active: bool) -> void:
 		# We are sprinting
 		emit_signal("sprinting_started")
 
-		# Since max speeds could be changed while game is running, check now for original max speeds of left and right nodes	
+		# Since max speeds could be changed while game is running, check
+		# now for original max speeds of left and right nodes
 		if _left_controller_direct_move:
 			_left_controller_original_max_speed = _left_controller_direct_move.max_speed
 		if _right_controller_direct_move:
 			_right_controller_original_max_speed = _right_controller_direct_move.max_speed
 
-		# Set both controllers' direct movement functions, if appliable, to the sprinting speed
+		# Set both controllers' direct movement functions, if appliable, to
+		# the sprinting speed
 		if _left_controller_direct_move:
-			_left_controller_direct_move.max_speed = _left_controller_original_max_speed * sprint_speed_multiplier
+			_left_controller_direct_move.max_speed = \
+					_left_controller_original_max_speed * sprint_speed_multiplier
 		if _right_controller_direct_move:
-			_right_controller_direct_move.max_speed = _right_controller_original_max_speed * sprint_speed_multiplier
+			_right_controller_direct_move.max_speed = \
+					_right_controller_original_max_speed * sprint_speed_multiplier
 	else:
 		# We are not sprinting
 		emit_signal("sprinting_finished")
 
-		# Set both controllers' direct movement functions, if applicable, to their original speeds
+		# Set both controllers' direct movement functions, if applicable, to
+		# their original speeds
 		if _left_controller_direct_move:
 			_left_controller_direct_move.max_speed = _left_controller_original_max_speed
 		if _right_controller_direct_move:
@@ -152,6 +159,6 @@ func _get_configuration_warning():
 	# Make sure player has at least one direct movement node
 	if !XRToolsMovementDirect.find_left(self) and !XRToolsMovementDirect.find_right(self):
 		return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
-	
+
 	# Call base class
 	return ._get_configuration_warning()

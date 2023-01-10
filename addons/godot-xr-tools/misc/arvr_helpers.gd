@@ -12,8 +12,8 @@ class_name ARVRHelpers
 
 ## Find the [ARVROrigin] node.
 ##
-## This function searches for the [ARVROrigin] from the provided node. 
-## The caller may provide an optional path (relative to the node) to the 
+## This function searches for the [ARVROrigin] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
 ## [ARVROrigin] to support out-of-tree searches.
 ##
 ## The search is performed assuming the node is under the [ARVROrigin].
@@ -41,8 +41,8 @@ static func get_arvr_origin(node: Node, path: NodePath = NodePath("")) -> ARVROr
 
 ## Find the [ARVRCamera] node.
 ##
-## This function searches for the [ARVRCamera] from the provided node. 
-## The caller may provide an optional path (relative to the node) to the 
+## This function searches for the [ARVRCamera] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
 ## [ARVRCamera] to support out-of-tree searches.
 ##
 ## The search is performed assuming the node is under the [ARVROrigin].
@@ -101,7 +101,11 @@ static func get_right_controller(node: Node, path: NodePath = NodePath("")) -> A
 	return _get_controller(node, "RightHandController", 2, path)
 
 # Find a controller given some search parameters
-static func _get_controller(var node: Node, var default_name: String, var id: int, var path: NodePath) -> ARVRController:
+static func _get_controller(
+		var node: Node,
+		var default_name: String,
+		var id: int,
+		var path: NodePath) -> ARVRController:
 	var controller: ARVRController
 
 	# Try using the node path first

@@ -2,9 +2,10 @@ tool
 class_name XRToolsMovementCrouch
 extends XRToolsMovementProvider
 
+
 ## XR Tools Movement Provider for Crouching
 ##
-## This script works with the [XRToolsPlayerBody] attached to the players 
+## This script works with the [XRToolsPlayerBody] attached to the players
 ## [ARVROrigin].
 ##
 ## While the player presses the crounch button, the height is overridden to

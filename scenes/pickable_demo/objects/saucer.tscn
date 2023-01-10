@@ -31,5 +31,6 @@ shape = SubResource( 2 )
 
 [node name="SnapZoneTeacup" parent="." instance=ExtResource( 1 )]
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
+snap_mode = 1
 snap_require = "Teacup"

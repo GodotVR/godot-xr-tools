@@ -38,9 +38,9 @@ func _set_tray_active(new_value : bool) -> void:
 
 ## Update state based on tray_active property
 func _update_tray_active() -> void:
+	enabled = tray_active
 	$Body.material_override = active_material if tray_active else inactive_material
 	$SnapArea1/SnapZone1.enabled = tray_active
 	$SnapArea2/SnapZone2.enabled = tray_active
 	$SnapArea3/SnapZone3.enabled = tray_active
 	$SnapArea4/SnapZone4.enabled = tray_active
-	

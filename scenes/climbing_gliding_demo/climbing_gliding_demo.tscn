@@ -69,6 +69,7 @@ jump_button_id = 7
 [node name="MovementClimb" parent="ARVROrigin" index="4" instance=ExtResource( 8 )]
 
 [node name="MovementGlide" parent="ARVROrigin" index="5" instance=ExtResource( 7 )]
+turn_with_roll = true
 
 [node name="MovementWind" parent="ARVROrigin" index="6" instance=ExtResource( 22 )]
 
