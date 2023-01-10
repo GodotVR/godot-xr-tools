@@ -25,6 +25,15 @@ signal player_glide_start
 ## Signal invoked when the player ends gliding
 signal player_glide_end
 
+## Signal invoked when the player flaps
+signal player_flapped
+
+## flap activated (when both controllers are above the ARVRCamera)
+var flap_armed : bool = false
+
+## last controllers position to calculate flapping velocity
+var last_local_left_position : Vector3
+var last_local_right_position : Vector3
 
 ## Movement provider order
 export var order : int = 35
@@ -56,6 +65,9 @@ export var roll_turn_speed : float = 1
 ## add vertical impulse by flapping controllers
 export var wings_impulse : bool = false
 
+## minimum velocity for flapping
+export var flap_min_speed : float = 0.3
+
 ## flapping force multiplier
 export var wings_force : float = 1.0
 
@@ -66,9 +78,8 @@ onready var _left_controller := ARVRHelpers.get_left_controller(self)
 # Right controller
 onready var _right_controller := ARVRHelpers.get_right_controller(self)
 
-# last controllers position to calculate flapping velocity
-var last_local_left_position : Vector3
-var last_local_right_position : Vector3
+# ARVRCamera
+onready var _camera_node := ARVRHelpers.get_arvr_camera(self)
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -88,10 +99,25 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		_set_gliding(false)
 		return
 	
+	# Get the controller left and right global horizontal positions
+	var left_position := _left_controller.global_transform.origin
+	var right_position := _right_controller.global_transform.origin
+	
+	
+	
 	#set default wings impulse to zero
 	var wings_impulse_velocity := 0.0
 	# if wings impulse is active, calculate flapping impulse
 	if wings_impulse:
+		## get head position
+		var camera_position := _camera_node.global_transform.origin
+		# check controllers position relative to head
+		var left_hand_over_head = camera_position.y < left_position.y
+		var right_hand_over_head = camera_position.y < right_position.y
+		if left_hand_over_head && right_hand_over_head:
+			flap_armed = true
+
+		if flap_armed:
 		# get controller local positions
 		var local_left_position := _left_controller.transform.origin
 		var local_right_position := _right_controller.transform.origin
@@ -106,14 +132,18 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		var left_wing_velocity = 0.0
 		var right_wing_velocity = 0.0
 		if local_left_position.y < last_local_left_position.y:
-			left_wing_velocity = local_left_position.distance_to(last_local_left_position)
+				left_wing_velocity = local_left_position.distance_to(last_local_left_position) / delta
 		if local_right_position.y < last_local_right_position.y:
-			right_wing_velocity = local_right_position.distance_to(last_local_right_position)
+				right_wing_velocity = local_right_position.distance_to(last_local_right_position) / delta
+			
+			var flap_min_speed_delta = flap_min_speed
+			
 
 		# calculate wings impulse
-		if left_wing_velocity > 0.01 && right_wing_velocity > 0.01:
+			if left_wing_velocity > flap_min_speed_delta && right_wing_velocity > flap_min_speed_delta:
 			wings_impulse_velocity = (left_wing_velocity + right_wing_velocity) / 2
-		wings_impulse_velocity = wings_impulse_velocity * wings_force * 10
+				wings_impulse_velocity = wings_impulse_velocity * wings_force * delta * 100
+				emit_signal("player_flapped")
 
 		# store controller position for next frame
 		last_local_left_position = local_left_position
@@ -125,9 +155,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		_set_gliding(false)
 		return
 
-	# Get the controller left and right global horizontal positions
-	var left_position := _left_controller.global_transform.origin
-	var right_position := _right_controller.global_transform.origin
+	# calculate global left to right controller vector
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:
