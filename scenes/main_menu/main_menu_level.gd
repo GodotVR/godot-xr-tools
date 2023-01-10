@@ -6,6 +6,9 @@ func _update_demo_positions() -> void:
 	var visible_children := []
 	for teleporter in $Demos.get_children():
 		teleporter.active=teleporter.visible
+		for child in teleporter.get_node("TeleportBody").get_children():
+			if child is CollisionShape3D:
+				child.disabled=!teleporter.visible
 		if teleporter.visible:
 			count+=1
 			visible_children.append(teleporter)
