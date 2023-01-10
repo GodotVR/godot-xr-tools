@@ -14,13 +14,12 @@ Official releases are tagged and can be found [here](https://github.com/GodotVR/
 The following branches are in active development:
 |  Branch   |  Description                |  Godot version  |
 |-----------|-----------------------------|-----------------|
-|  master   | Current development branch  |  Godot 3.4+     |
-|  2.x      | Current stable release      |  Godot 3.4+     |
+|  master   | Current development branch  |  Godot 3.5+     |
 |  4.0-dev  | Future development branch   |  Godot 4.0      |
 
 ## How to Use
 
-Information about how to use this plugin can be found [in our WIKI](https://github.com/GodotVR/godot-xr-tools/wiki).
+Information about how to use this plugin can be found [on the website](https://godotvr.github.io/godot-xr-tools/).
 
 ### Demo
 
@@ -28,8 +27,6 @@ This repository now contains a full demo for XR Tools with the XR Tools add on i
 
 After cloning this repository you will need to install the OpenXR plugin for it to work. The OpenXR plugin is not included within this repository.
 You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/releases) or download it from the asset library within Godot.
-
-Note that the demo was created using Godot 3.5.
 
 ### XR Tools library
 
@@ -39,7 +36,7 @@ To obtain just the XR Tools library for your own project, please check [releases
 
 As many of the functions in this module will hide objects that are later shown as the user performs actions, the user will experience a hickup as Godot compiles the shader used to draw the object on screen.
 
-To combat this you will find a scene in this module called `misc/VR_Common_Shader_Cache.tscn`.
+To combat this you will find a scene in this module called `misc/vr_common_shader_cache.tscn`.
 Add this scene as a child node to your ARVRCamera. This will trigger the required shaders being
 compiled the first time your main scene loads.
 
