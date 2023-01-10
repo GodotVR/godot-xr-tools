@@ -20,7 +20,6 @@ extends XRToolsMovementProvider
 ##
 ##
 
-
 ## Movement provider order
 export var order : int = 10
 
@@ -28,6 +27,8 @@ export var order : int = 10
 export var keyboard_walk_speed : float = 2.0
 
 export var keyboard_smooth_turn_speed : float = 2.0
+
+export var mouse_sensitivity : float = 0.1
 
 ## Disable if VR active
 export var disable_in_VR : bool = true
@@ -43,28 +44,43 @@ func is_class(name : String) -> bool:
 	return name == "XRToolsMovementNonVRKeyboard" or .is_class(name)
 
 var disable_nonvrkeyboardmovement : bool = false
+var uncapturedmousemode = Input.MOUSE_MODE_VISIBLE
 func _ready():
-	if disable_in_VR and ARVRServer.find_interface("OpenXR"):
+	if disable_in_VR and get_viewport().arvr:
 		print("*** Removing from group")
 		remove_from_group("movement_providers")
 		disable_nonvrkeyboardmovement = true
-	
+	else:
+		uncapturedmousemode = Input.get_mouse_mode()
+		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+var cumulativemousemotion_physicsframe = Vector2.ZERO
+func _input(event):
+	if event is InputEventMouseMotion:
+		if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
+			cumulativemousemotion_physicsframe += event.relative
+	if event is InputEventKey:
+		if event.pressed and event.scancode == KEY_ESCAPE:
+			Input.set_mouse_mode(uncapturedmousemode if Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED else Input.MOUSE_MODE_CAPTURED)
+			
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	if disable_nonvrkeyboardmovement:
 		return
 
-	var kvec : Vector2 = Input.get_vector("ui_left", "ui_right", "ui_down", "ui_up")
-	if kvec == Vector2.ZERO:
-		return
-		
-	if Input.is_action_pressed("ui_shift"):
-		if kvec.x != 0:
-			_rotate_player(player_body, keyboard_smooth_turn_speed * _delta * kvec.x)
-		else:
-			camera_node.rotation_degrees.x = clamp(camera_node.rotation_degrees.x + 90*_delta*kvec.y, -89, 89)
+	if cumulativemousemotion_physicsframe != Vector2.ZERO:
+		camera_node.rotation_degrees.x = clamp(camera_node.rotation_degrees.x - cumulativemousemotion_physicsframe.y*(90.0/200.0)*mouse_sensitivity, -89, 89)
+		camera_node.rotation_degrees.y = camera_node.rotation_degrees.y + cumulativemousemotion_physicsframe.x*(90.0/200.0)*mouse_sensitivity
+		cumulativemousemotion_physicsframe = Vector2.ZERO
 
-	else:
+	var kvec : Vector2 = Input.get_vector("ui_left", "ui_right", "ui_down", "ui_up")
+
+	if Input.is_pressed(KEY_SHIFT):
+		if kvec.x != 0:
+			player_body.rotate_player(player_body, keyboard_smooth_turn_speed * _delta * kvec.x)
+		kvec = Vector2.ZERO
+
+	if kvec != Vector2.ZERO:
 		player_body.ground_control_velocity += kvec * keyboard_walk_speed
 
 		# Clamp ground control
