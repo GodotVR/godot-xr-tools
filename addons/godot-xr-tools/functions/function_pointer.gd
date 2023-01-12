@@ -96,13 +96,13 @@ func _ready():
 	if _controller == null:
 		_controller_left_node = ARVRHelpers.get_left_controller(self)
 		_controller_right_node = ARVRHelpers.get_right_controller(self)
-		_controller_left_node.connect("button_pressed", self, "_on_button_pressed", 
+		_controller_left_node.connect("button_pressed", self, "_on_button_pressed",
 										[_controller_left_node])
-		_controller_left_node.connect("button_release", self, "_on_button_release", 
+		_controller_left_node.connect("button_release", self, "_on_button_release",
 										[_controller_left_node])
-		_controller_right_node.connect("button_pressed", self, "_on_button_pressed", 
+		_controller_right_node.connect("button_pressed", self, "_on_button_pressed",
 										[_controller_right_node])
-		_controller_right_node.connect("button_release", self, "_on_button_release", 
+		_controller_right_node.connect("button_release", self, "_on_button_release",
 										[_controller_right_node])
 
 	# If pointer-trigger is a button then subscribe to button signals
