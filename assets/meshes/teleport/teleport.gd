@@ -44,7 +44,7 @@ func _on_TeleportArea_body_entered(body: Node3D):
 	else:
 		_scene_base.emit_signal("exit_to_main_menu")
 
-func collision_disabled(value):
+func set_collision_disabled(value):
 	if !Engine.is_editor_hint():
 		for child in get_node("TeleportBody").get_children():
 			if child is CollisionShape3D:
