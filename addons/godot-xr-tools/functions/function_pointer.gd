@@ -73,10 +73,11 @@ var last_collided_at : Vector3 = Vector3.ZERO
 # World scale
 var _world_scale : float = 1.0
 
-onready var _controller := ARVRHelpers.get_arvr_controller(self)
-onready var _active_controller := _controller
 var _controller_left_node : ARVRController
 var _controller_right_node : ARVRController
+
+onready var _controller := ARVRHelpers.get_arvr_controller(self)
+onready var _active_controller := _controller
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -95,10 +96,14 @@ func _ready():
 	if _controller == null:
 		_controller_left_node = ARVRHelpers.get_left_controller(self)
 		_controller_right_node = ARVRHelpers.get_right_controller(self)
-		_controller_left_node.connect("button_pressed", self, "_on_button_pressed", [_controller_left_node])
-		_controller_left_node.connect("button_release", self, "_on_button_release", [_controller_left_node])
-		_controller_right_node.connect("button_pressed", self, "_on_button_pressed", [_controller_right_node])
-		_controller_right_node.connect("button_release", self, "_on_button_release", [_controller_right_node])
+		_controller_left_node.connect("button_pressed", self, "_on_button_pressed", 
+										[_controller_left_node])
+		_controller_left_node.connect("button_release", self, "_on_button_release", 
+										[_controller_left_node])
+		_controller_right_node.connect("button_pressed", self, "_on_button_pressed", 
+										[_controller_right_node])
+		_controller_right_node.connect("button_release", self, "_on_button_release", 
+										[_controller_right_node])
 
 	# If pointer-trigger is a button then subscribe to button signals
 	elif active_button != XRTools.Buttons.VR_ACTION:
@@ -339,7 +344,7 @@ func _on_button_pressed(p_button : int, controller : ARVRController) -> void:
 			_active_controller = controller
 
 # Button released handler
-func _on_button_release(p_button : int, controller : ARVRController) -> void:
+func _on_button_release(p_button : int, _controller : ARVRController) -> void:
 	if p_button == active_button and target:
 		_button_released()
 
