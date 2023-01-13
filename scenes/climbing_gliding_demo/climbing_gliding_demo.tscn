@@ -72,7 +72,6 @@ jump_button_id = 7
 [node name="MovementGlide" parent="ARVROrigin" index="5" instance=ExtResource( 7 )]
 turn_with_roll = true
 wings_impulse = true
-wings_force = 1.5
 
 [node name="MovementWind" parent="ARVROrigin" index="6" instance=ExtResource( 22 )]
 
@@ -239,4 +238,4 @@ scene_base = NodePath("..")
 title = ExtResource( 13 )
 
 [node name="Instructions" parent="." index="5" instance=ExtResource( 18 )]
-transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40, -60 )
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40.164, -60 )

@@ -4,19 +4,19 @@
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -624.0
-margin_bottom = -350.0
+margin_bottom = -320.0
 rect_pivot_offset = Vector2( -421, -85 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_right = 400.0
-margin_bottom = 250.0
+margin_bottom = 280.0
 color = Color( 0, 0, 0, 0.87451 )
 
 [node name="Description" type="RichTextLabel" parent="."]
 margin_left = 10.0
 margin_top = 10.0
 margin_right = 390.0
-margin_bottom = 240.0
+margin_bottom = 271.0
 text = "Climbing & Gliding Demo
 
 This scene demonstrates climbing, gliding, and wind using the following controls:
@@ -30,4 +30,6 @@ This scene demonstrates climbing, gliding, and wind using the following controls
    - Climbing: Grip
    - Jumping: A/X Button
 
-Holding the arms in a T-Pose triggers gliding."
+Holding the arms in a T-Pose triggers gliding.
+Rolling the arms triggers turning.
+Flapping the arms triggers vertical impulse."
