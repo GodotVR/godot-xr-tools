@@ -1,5 +1,13 @@
 # 3.2.0 (development)
 - Minimum supported Godot version set to 3.5
+- Added glide option for turning with arm-roll
+- Added physics gravity effects on the player so they can walk around a planet
+- Added wall-walking movement provider
+- Cleaned the code to pass gdlint code checks
+- Modified to work with both WebXR and OpenXR
+- Added enable property to pickable objects
+- Added support for snap-on-drop to snap-zones
+
 
 # 3.1.0
 - Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options
