@@ -29,13 +29,13 @@ extends XRToolsPickable
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandle" or super.is_xr_class(name)
+	return name == "XRToolsInteractableHandle" or super(name)
 
 
 # Called when this handle is added to the scene
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Ensure we start at our origin
 	transform = Transform3D.IDENTITY
@@ -60,7 +60,7 @@ func _process(_delta: float) -> void:
 # Called when the handle is picked up
 func pick_up(by, with_controller) -> void:
 	# Call the base-class to perform the pickup
-	super.pick_up(by, with_controller)
+	super(by, with_controller)
 
 	# Enable the process function while held
 	set_process(true)
@@ -69,7 +69,7 @@ func pick_up(by, with_controller) -> void:
 # Called when the handle is dropped
 func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	# Call the base-class to perform the drop, but with no velocity
-	super.let_go(Vector3.ZERO, Vector3.ZERO)
+	super(Vector3.ZERO, Vector3.ZERO)
 
 	# Disable the process function as no-longer held
 	set_process(false)

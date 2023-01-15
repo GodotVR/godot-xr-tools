@@ -45,12 +45,7 @@ var _crouch_button_down : bool = false
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementCrouch" or super.is_xr_class(name)
-
-
-func _ready():
-	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	return name == "XRToolsMovementCrouch" or super(name)
 
 
 # Perform jump movement
@@ -92,4 +87,4 @@ func _get_configuration_warning():
 		return "This node must be within a branch of an XRController3D node"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()

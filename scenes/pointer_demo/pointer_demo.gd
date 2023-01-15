@@ -1,4 +1,4 @@
-extends "../scene_base.gd"
+extends DemoSceneBase
 
 
 enum Pointer {
@@ -16,7 +16,7 @@ func _set_pointer_enabled():
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	super._ready()
+	super()
 	_set_pointer_enabled()
 
 

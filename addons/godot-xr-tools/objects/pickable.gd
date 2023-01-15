@@ -28,10 +28,6 @@ signal action_pressed(pickable)
 signal highlight_updated(pickable, enable)
 
 
-# Priority for grip poses
-const GRIP_POSE_PRIORITY = 100
-
-
 ## Method used to hold object
 enum HoldMethod {
 	REMOTE_TRANSFORM,	## Object is held via a remote transform
@@ -55,8 +51,16 @@ enum PickableState {
 enum ReleaseMode {
 	ORIGINAL = -1,		## Preserve original mode when picked up
 	UNFROZEN = 0,		## Release and unfreeze
-	FROZEN = 1			## Release and freeze
+	FROZEN = 1,			## Release and freeze
 }
+
+
+## Priority for grip poses
+const GRIP_POSE_PRIORITY = 100
+
+
+## If true, the pickable supports being picked up
+@export var enabled : bool = true
 
 ## If true, the grip control must be held to keep the object picked up
 @export var press_to_hold : bool = true
@@ -139,7 +143,7 @@ func _ready():
 
 # Test if this object can be picked up
 func can_pick_up(_by: Node3D) -> bool:
-	return _state == PickableState.IDLE
+	return enabled and _state == PickableState.IDLE
 
 
 # Test if this object is picked up
@@ -184,8 +188,8 @@ func drop_and_free():
 
 # Called when this object is picked up
 func pick_up(by: Node3D, with_controller: XRController3D) -> void:
-	# Skip if not idle
-	if _state != PickableState.IDLE:
+	# Skip if disabled or already picked up
+	if not enabled or _state != PickableState.IDLE:
 		return
 
 	if picked_up_by:

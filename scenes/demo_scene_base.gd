@@ -1,7 +1,8 @@
+class_name DemoSceneBase
 extends XRToolsSceneBase
 
 func _ready():
-	super._ready()
+	super()
 
 	var webxr_interface = XRServer.find_interface("WebXR")
 	if webxr_interface:

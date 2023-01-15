@@ -54,6 +54,9 @@ func is_xr_class(name : String) -> bool:
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Set as always active
 	is_active = true
 

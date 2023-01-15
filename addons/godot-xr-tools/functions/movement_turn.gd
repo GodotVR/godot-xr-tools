@@ -45,12 +45,7 @@ var _turn_step : float = 0.0
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementTurn" or super.is_xr_class(name)
-
-
-func _ready():
-	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	return name == "XRToolsMovementTurn" or super(name)
 
 
 # Perform jump movement
@@ -72,7 +67,12 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Handle smooth rotation
 	if !_snap_turning():
+		left_right -= deadzone * sign(left_right)
 		player_body.rotate_player(smooth_turn_speed * delta * left_right)
+		return
+
+	# Disable repeat snap turning if delay is zero
+	if step_turn_delay == 0.0 and _turn_step < 0.0:
 		return
 
 	# Update the next turn-step delay
@@ -81,7 +81,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 		return
 
 	# Turn one step in the requested direction
-	_turn_step = step_turn_delay
+	if step_turn_delay != 0.0:
+		_turn_step = step_turn_delay
 	player_body.rotate_player(deg_to_rad(step_turn_angle) * sign(left_right))
 
 
@@ -92,7 +93,7 @@ func _get_configuration_warning():
 		return "Unable to find XRController3D node"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()
 
 
 # Test if snap turning should be used

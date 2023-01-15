@@ -105,12 +105,12 @@ var _controller : XRController3D
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementFlight" or super.is_xr_class(name)
+	return name == "XRToolsMovementFlight" or super(name)
 
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Get the flight controller
 	if controller == FlightController.LEFT:
@@ -149,16 +149,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var bearing_vector: Vector3
 	if bearing == FlightBearing.HEAD:
 		# Use the horizontal part of the 'head' forwards vector
-		bearing_vector = -player_body.up_player_plane.project(_camera.global_transform.basis.z)
+		bearing_vector = -player_body.up_player_plane.project(
+				_camera.global_transform.basis.z)
 	elif bearing == FlightBearing.CONTROLLER:
 		# Use the horizontal part of the 'controller' forwards vector
-		bearing_vector = -player_body.up_player_plane.project(_controller.global_transform.basis.z)
+		bearing_vector = -player_body.up_player_plane.project(
+				_controller.global_transform.basis.z)
 	else:
 		# Use the horizontal part of the 'body' forwards vector
 		var left := _left_controller.global_transform.origin
 		var right := _right_controller.global_transform.origin
 		var left_to_right := right - left
-		bearing_vector = player_body.up_player_plane.project(left_to_right.rotated(player_body.up_player_vector, PI/2))
+		bearing_vector = player_body.up_player_plane.project(
+				left_to_right.rotated(player_body.up_player_vector, PI/2))
 
 	# Construct the flight bearing
 	var forwards := (bearing_vector.normalized() + pitch_vector).normalized()
@@ -220,4 +223,4 @@ func _get_configuration_warning():
 		return "Unable to find left XRController3D node"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()

@@ -15,16 +15,16 @@ signal pointer_exited
 
 ## Transparent property
 enum TransparancyMode {
-	OPAQUE,
-	TRANSPARENT,
-	SCISSOR
+	OPAQUE,				## Render opaque
+	TRANSPARENT,		## Render transparent
+	SCISSOR,			## Render using alpha-scissor
 }
 
 ## Viewport Update Mode
 enum UpdateMode {
-	UPDATE_ONCE, ## Note, even if already set to ONCE, if you assign the property again, it will trigger a single redraw
-	UPDATE_ALWAYS,
-	UPDATE_THROTTLED
+	UPDATE_ONCE, 		## Update once (redraw triggered if set again to UPDATE_ONCE)
+	UPDATE_ALWAYS,		## Update on every frame
+	UPDATE_THROTTLED,	## Update at throttled rate
 }
 
 
@@ -216,7 +216,10 @@ func _update_enabled() -> void:
 func _update_screen_size() -> void:
 	$Screen.mesh.size = screen_size
 	$StaticBody3D.screen_size = screen_size
-	$StaticBody3D/CollisionShape3D.shape.extents = Vector3(screen_size.x * 0.5, screen_size.y * 0.5, 0.01)
+	$StaticBody3D/CollisionShape3D.shape.extents = Vector3(
+			screen_size.x * 0.5,
+			screen_size.y * 0.5,
+			0.01)
 
 
 # Viewport size update handler

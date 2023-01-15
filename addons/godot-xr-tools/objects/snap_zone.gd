@@ -15,11 +15,21 @@ signal highlight_updated(pickable, enable)
 signal close_highlight_updated(pickable, enable)
 
 
+## Enumeration of snap mode
+enum SnapMode {
+	DROPPED,	## Snap only when the object is dropped
+	RANGE,		## Snap whenever an object is in range
+}
+
+
 ## Enable or disable snap-zone
 @export var enabled : bool = true
 
 ## Grab distance
 @export var grab_distance : float = 0.3: set = _set_grab_distance
+
+## Snap mode
+@export var snap_mode : SnapMode = SnapMode.DROPPED: set = _set_snap_mode
 
 ## Require snap items to be in specified group
 @export var snap_require : String = ""
@@ -32,6 +42,9 @@ signal close_highlight_updated(pickable, enable)
 
 ## Deny grab-by
 @export var grab_exclude : String= ""
+
+## Initial object in snap zone
+@export var initial_object : NodePath
 
 
 # Public fields
@@ -56,6 +69,9 @@ func _ready():
 	# Show highlight when empty
 	emit_signal("highlight_updated", self, true)
 
+	# Perform the initial object check when next idle
+	call_deferred("_initial_object_check")
+
 
 # Called on each frame to update the pickup
 func _process(_delta):
@@ -63,11 +79,15 @@ func _process(_delta):
 	if not enabled:
 		return
 
+	# Skip if we aren't doing range-checking
+	if snap_mode != SnapMode.RANGE:
+		return
+
 	# Skip if already holding a valid object
 	if is_instance_valid(picked_up_object):
 		return
 
-	# Check for an object to grab
+	# Check for any object in range that can be grabbed
 	for o in _object_in_grab_area:
 		# skip objects that can not be picked up
 		if not o.can_pick_up(self):
@@ -142,8 +162,20 @@ func drop_object() -> void:
 	emit_signal("highlight_updated", self, true)
 
 
+# Check for an initial object pickup
+func _initial_object_check() -> void:
+	# Check for an initial object
+	if initial_object:
+		# Force pick-up the initial object
+		_pick_up_object(get_node(initial_object))
+	else:
+		# Show highlight when empty
+		emit_signal("highlight_updated", self, true)
+
+
+# Called when a body enters the snap zone
 func _on_snap_zone_body_entered(target: Node3D) -> void:
-	# Ignore objects already in area
+	# Ignore objects already known about
 	if _object_in_grab_area.find(target) >= 0:
 		return
 
@@ -166,13 +198,23 @@ func _on_snap_zone_body_entered(target: Node3D) -> void:
 	# Add to the list of objects in grab area
 	_object_in_grab_area.push_back(target)
 
+	# If this snap zone is configured to snap objects that are dropped, then
+	# start listening for the objects dropped signal
+	if snap_mode == SnapMode.DROPPED:
+		target.connect("dropped", _on_target_dropped)
+
 	# Show highlight when something could be snapped
 	if not is_instance_valid(picked_up_object):
 		emit_signal("close_highlight_updated", self, true)
 
 
+# Called when a body leaves the snap zone
 func _on_snap_zone_body_exited(target: Node3D) -> void:
+	# Ensure the object is not in our list
 	_object_in_grab_area.erase(target)
+
+	# Stop listening for dropped signals
+	target.disconnect("dropped", _on_target_dropped)
 
 	# Hide highlight when nothing could be snapped
 	if _object_in_grab_area.is_empty():
@@ -208,3 +250,45 @@ func _set_grab_distance(new_value: float) -> void:
 	grab_distance = new_value
 	if is_inside_tree() and $CollisionShape3D:
 		$CollisionShape3D.shape.radius = grab_distance
+
+
+# Called when the snap mode property has been modified
+func _set_snap_mode(new_value: SnapMode) -> void:
+	snap_mode = new_value
+	if is_inside_tree():
+		_update_snap_mode()
+
+
+# Handle changes to the snap mode
+func _update_snap_mode() -> void:
+	match snap_mode:
+		SnapMode.DROPPED:
+			# Disable _process as we aren't using RANGE pickups
+			set_process(false)
+
+			# Start monitoring all objects in range for drop
+			for o in _object_in_grab_area:
+				o.connect("dropped", _on_target_dropped)
+
+		SnapMode.RANGE:
+			# Enable _process to scan for RANGE pickups
+			set_process(true)
+
+			# Clear any dropped signal hooks
+			for o in _object_in_grab_area:
+				o.disconnect("dropped", _on_target_dropped)
+
+
+# Called when a target in our grab area is dropped
+func _on_target_dropped(target: Node3D) -> void:
+	# Skip if not enabled
+	if not enabled:
+		return
+
+	# Skip if already holding a valid object
+	if is_instance_valid(picked_up_object):
+		return
+
+	# Pick up the target if we can
+	if target.can_pick_up(self):
+		_pick_up_object(target)

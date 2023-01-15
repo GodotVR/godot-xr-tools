@@ -154,12 +154,15 @@ func _process(delta):
 	# Calculate what our radius should be for our rotation speed
 	var target_radius = 1.0
 	if auto_rotation_limit > 0:
-		target_radius = 1.0 - (clamp(angle / auto_rotation_limit_rad, 0.0, 1.0) * (1.0 - auto_inner_radius))
+		target_radius = 1.0 - (
+			clamp(angle / auto_rotation_limit_rad, 0.0, 1.0) * (1.0 - auto_inner_radius))
 
-	# Now do the same for speed, this includes players physical speed but there isn't much we can do there.
+	# Now do the same for speed, this includes players physical speed but there
+	# isn't much we can do there.
 	if auto_velocity_limit > 0:
 		var velocity = delta_v.length() / delta
-		target_radius = min(target_radius, 1.0 - (clamp(velocity / auto_velocity_limit, 0.0, 1.0) * (1.0 - auto_inner_radius)))
+		target_radius = min(target_radius, 1.0 - (
+				clamp(velocity / auto_velocity_limit, 0.0, 1.0) * (1.0 - auto_inner_radius)))
 
 	# if our radius is small then our current we apply it
 	if target_radius < radius:

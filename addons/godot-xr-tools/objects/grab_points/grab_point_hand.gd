@@ -10,24 +10,24 @@ extends XRToolsGrabPoint
 ## grab point position to be fine-tuned in the editor.
 
 
-## Left hand scene path (for editorpreview)
-const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn"
-
-## Right hand scene path (for editor preview)
-const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn"
-
-
 ## Hand for this grab point
 enum Hand {
 	LEFT,	## Left hand
-	RIGHT	## Right hand
+	RIGHT,	## Right hand
 }
 
 ## Hand preview option
 enum PreviewMode {
 	CLOSED,	## Preview hand closed
-	OPEN	## Preview hand open
+	OPEN,	## Preview hand open
 }
+
+
+## Left hand scene path (for editor preview)
+const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn"
+
+## Right hand scene path (for editor preview)
+const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn"
 
 
 ## Which hand this grab point is for

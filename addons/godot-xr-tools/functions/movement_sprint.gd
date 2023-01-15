@@ -73,12 +73,12 @@ var _right_controller_original_max_speed : float = 0.0
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementSprint" or super.is_xr_class(name)
+	return name == "XRToolsMovementSprint" or super(name)
 
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Get the sprinting controller
 	if controller == SprintController.LEFT:
@@ -140,9 +140,11 @@ func set_sprinting(active: bool) -> void:
 		# Set both controllers' direct movement functions, if appliable, to
 		# the sprinting speed
 		if _left_controller_direct_move:
-			_left_controller_direct_move.max_speed = _left_controller_original_max_speed * sprint_speed_multiplier
+			_left_controller_direct_move.max_speed = \
+					_left_controller_original_max_speed * sprint_speed_multiplier
 		if _right_controller_direct_move:
-			_right_controller_direct_move.max_speed = _right_controller_original_max_speed * sprint_speed_multiplier
+			_right_controller_direct_move.max_speed = \
+					_right_controller_original_max_speed * sprint_speed_multiplier
 	else:
 		# We are not sprinting
 		emit_signal("sprinting_finished")
@@ -162,4 +164,4 @@ func _get_configuration_warning():
 		return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()

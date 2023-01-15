@@ -38,7 +38,6 @@ hand_pose = ExtResource("3_p8dbs")
 
 [node name="GrabPointHandRight" parent="." index="1" instance=ExtResource("3_3xwvb")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.58166e-08, -0.981627, 0.190809, 1.66811e-08, 0.190809, 0.981627, 0.007, 0.355, -0.071)
-visible = true
 hand_pose = ExtResource("5_tuke4")
 
 [node name="CollisionShape3D" parent="." index="2"]

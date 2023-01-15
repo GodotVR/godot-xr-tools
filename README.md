@@ -14,13 +14,12 @@ Official releases are tagged and can be found [here](https://github.com/GodotVR/
 The following branches are in active development:
 |  Branch   |  Description                |  Godot version  |
 |-----------|-----------------------------|-----------------|
-|  master   | Current development branch  |  Godot 3.4+     |
-|  2.x      | Current stable release      |  Godot 3.4+     |
+|  master   | Current development branch  |  Godot 3.5+     |
 |  4.0-dev  | Future development branch   |  Godot 4.0      |
 
 ## How to Use
 
-Information about how to use this plugin can be found [in our WIKI](https://github.com/GodotVR/godot-xr-tools/wiki).
+Information about how to use this plugin can be found [on the website](https://godotvr.github.io/godot-xr-tools/).
 
 ### Demo
 
@@ -29,7 +28,7 @@ This repository now contains a full demo for XR Tools with the XR Tools add on i
 After cloning this repository you will need to install the OpenXR plugin for it to work. The OpenXR plugin is not included within this repository.
 You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/releases) or download it from the asset library within Godot.
 
-Note that the demo was created using Godot 3.5.
+Note that the demo in the 4.0-dev branch has been upgraded to work with the most recent 4.0-beta releases.
 
 ### XR Tools library
 

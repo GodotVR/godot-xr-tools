@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=3 uid="uid://gccd8o3egmv7"]
+[gd_scene load_steps=3 format=3 uid="uid://dkr1jkk3jerux"]
 
 [ext_resource type="PackedScene" uid="uid://bnqnnnet4dw12" path="res://addons/godot-xr-tools/staging/staging.tscn" id="1"]
-[ext_resource type="Script" path="res://staging.gd" id="2"]
+[ext_resource type="Script" path="res://demo_staging.gd" id="2"]
 
-[node name="Staging" instance=ExtResource("1")]
+[node name="DemoStaging" instance=ExtResource("1")]
 script = ExtResource("2")
 main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 
 [node name="StartXR" parent="." index="5"]
-physics_rate_multiplier = 1.0
+physics_rate_multiplier = 1
 
 [connection signal="scene_exiting" from="." to="." method="_on_Staging_scene_exiting"]
 [connection signal="scene_loaded" from="." to="." method="_on_Staging_scene_loaded"]

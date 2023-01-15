@@ -15,6 +15,10 @@ extends Node
 ##  - Override the physics_movement method to impelment motion
 
 
+## Player body scene
+const PLAYER_BODY := preload("res://addons/godot-xr-tools/player/player_body.tscn")
+
+
 ## Enable movement provider
 @export var enabled : bool = true
 
@@ -34,8 +38,7 @@ func _create_player_body_node():
 	var player_body := XRToolsPlayerBody.find_instance(self)
 	if !player_body:
 		# create our XRToolsPlayerBody node and add it into our tree
-		var player_body_scene := preload("res://addons/godot-xr-tools/player/player_body.tscn")
-		player_body = player_body_scene.instantiate()
+		player_body = PLAYER_BODY.instantiate()
 		player_body.set_name("PlayerBody")
 		xr_origin.add_child(player_body)
 		player_body.set_owner(get_tree().get_edited_scene_root())

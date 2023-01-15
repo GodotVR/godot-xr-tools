@@ -39,13 +39,13 @@ signal slider_moved(position)
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableSlider" or super.is_xr_class(name)
+	return name == "XRToolsInteractableSlider" or super(name)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Set the initial position to match the initial slider position value
 	transform = Transform3D(

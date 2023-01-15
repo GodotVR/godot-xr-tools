@@ -326,7 +326,8 @@ func _get_closest_grab() -> Node3D:
 			continue
 
 		# Save if this object is closer than the current best
-		var distance_squared := global_transform.origin.distance_squared_to(o.global_transform.origin)
+		var distance_squared := global_transform.origin.distance_squared_to(
+				o.global_transform.origin)
 		if distance_squared < new_closest_distance:
 			new_closest_obj = o
 			new_closest_distance = distance_squared

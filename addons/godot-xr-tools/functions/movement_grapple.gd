@@ -41,14 +41,17 @@ enum GrappleState {
 ## Winch speed applied to the player while the grapple is held
 @export var winch_speed : float = 2.0
 
-## Probably need to add export variables for line size, maybe line material at some point so dev does not need to make children editable to do this
-## For now, right click on grapple node and make children editable to edit these facets.
+## Probably need to add export variables for line size, maybe line material at
+## some point so dev does not need to make children editable to do this.
+## For now, right click on grapple node and make children editable to edit these
+## facets.
 @export var rope_width : float = 0.02
 
 ## Air friction while grappling
 @export var friction : float = 0.1
 
-## Grapple button (triggers grappling movement).  Be sure this button does not conflict with other functions.
+## Grapple button (triggers grappling movement).  Be sure this button does not
+## conflict with other functions.
 @export var grapple_button_action : String = "trigger_click"
 
 # Hook related variables
@@ -63,8 +66,9 @@ var _grapple_button := false
 @onready var _line_helper : Node3D = $LineHelper
 @onready var _line : CSGCylinder3D = $LineHelper/Line
 
-# Get Controller node - consider way to universalize this if user wanted to attach this
-# to a gun instead of player's hand.  Could consider variable to select controller instead.
+# Get Controller node - consider way to universalize this if user wanted to
+# attach this to a gun instead of player's hand.  Could consider variable to
+# select controller instead.
 @onready var _controller := XRHelpers.get_xr_controller(self)
 
 # Get Raycast node
@@ -76,13 +80,13 @@ var _grapple_button := false
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementGrapple" or super.is_xr_class(name)
+	return name == "XRToolsMovementGrapple" or super(name)
 
 
 # Function run when node is added to scene
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Skip if running in the editor
 	if Engine.is_editor_hint():
@@ -210,4 +214,4 @@ func _get_configuration_warning():
 		return "This node must be within a branch of an XRController3D node"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()
