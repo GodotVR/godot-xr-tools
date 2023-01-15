@@ -23,7 +23,7 @@ enum PreviewMode {
 }
 
 
-## Left hand scene path (for editorpreview)
+## Left hand scene path (for editor preview)
 const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn"
 
 ## Right hand scene path (for editor preview)

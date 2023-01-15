@@ -1,15 +1,15 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/staging.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/godot/splash.png" type="Texture" id=3]
-[ext_resource path="res://staging.gd" type="Script" id=4]
+[ext_resource path="res://assets/godot/splash.png" type="Texture" id=2]
+[ext_resource path="res://demo_staging.gd" type="Script" id=3]
 
-[node name="Staging" instance=ExtResource( 1 )]
-script = ExtResource( 4 )
+[node name="DemoStaging" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
 main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 
 [node name="LoadingScreen" parent="." index="2"]
-splash_screen = ExtResource( 3 )
+splash_screen = ExtResource( 2 )
 
 [connection signal="scene_exiting" from="." to="." method="_on_Staging_scene_exiting"]
 [connection signal="scene_loaded" from="." to="." method="_on_Staging_scene_loaded"]

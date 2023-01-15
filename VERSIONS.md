@@ -7,7 +7,8 @@
 - Modified to work with both WebXR and OpenXR
 - Added enable property to pickable objects
 - Added support for snap-on-drop to snap-zones
-
+- Added glide options for gaining altitude when flapping arms
+- Added option to disable snap-turn repeating by setting the delay to 0
 
 # 3.1.0
 - Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options
@@ -32,7 +33,6 @@
 - Added sprinting movement provider
 - Added support for setting hand-poses when the hand enters an area
 - Added support for setting grab-points on objects, and the grab-points supporting different hand-poses
-
 
 # 3.0.0
 - Included demo project with test scenes to evaluate features
