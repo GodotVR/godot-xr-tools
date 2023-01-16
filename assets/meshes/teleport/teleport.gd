@@ -34,7 +34,7 @@ func _on_TeleportArea_body_entered(body: Node3D):
 	if not body.is_in_group("player_body"):
 		return
 
-	#Skip if not active
+	# Skip if not active
 	if not active:
 		return
 
@@ -48,7 +48,7 @@ func set_collision_disabled(value):
 	if !Engine.is_editor_hint():
 		for child in get_node("TeleportBody").get_children():
 			if child is CollisionShape3D:
-				child.disabled=value
+				child.disabled = value
 
 func _set_title(value):
 	title = value

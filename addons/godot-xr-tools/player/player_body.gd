@@ -131,10 +131,10 @@ var _previous_ground_global : Vector3 = Vector3.ZERO
 ## Player body node
 @onready var kinematic_node : CharacterBody3D = $CharacterBody3D
 
-## Default physics (if not specified by the player or the current ground)
+## Default physics (if not specified by the user or the current ground)
 @onready var default_physics = _guaranteed_physics()
 
-## Player body collision node
+## Player body Collision node
 @onready var _collision_node : CollisionShape3D = $CharacterBody3D/CollisionShape3D
 
 
@@ -298,12 +298,14 @@ func request_jump(skip_jump_velocity := false):
 		return
 
 	# Skip if jump disabled on this ground
-	var jump_velocity := XRToolsGroundPhysicsSettings.get_jump_velocity(ground_physics, default_physics)
+	var jump_velocity := XRToolsGroundPhysicsSettings.get_jump_velocity(
+			ground_physics, default_physics)
 	if jump_velocity == 0.0:
 		return
 
 	# Skip if the ground is too steep to jump
-	var max_slope := XRToolsGroundPhysicsSettings.get_jump_max_slope(ground_physics, default_physics)
+	var max_slope := XRToolsGroundPhysicsSettings.get_jump_max_slope(
+			ground_physics, default_physics)
 	if ground_angle > max_slope:
 		return
 
@@ -379,9 +381,10 @@ func override_player_height(key, value: float = -1.0):
 func _update_body_under_camera():
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
-		camera_node.transform.origin.y + player_head_height + player_height_offset + XRToolsUserSettings.player_height_adjust,
-		player_height_min * XRServer.world_scale,
-		player_height_max * XRServer.world_scale)
+			camera_node.transform.origin.y + player_head_height +
+					player_height_offset + XRToolsUserSettings.player_height_adjust,
+			player_height_min * XRServer.world_scale,
+			player_height_max * XRServer.world_scale)
 
 	# Allow forced overriding of height
 	if _player_height_override >= 0.0:
@@ -467,15 +470,20 @@ func _apply_velocity_and_control(delta: float):
 			var camera_transform := camera_node.global_transform
 			var dir_forward := up_gravity_plane.project(camera_transform.basis.z).normalized()
 			var dir_right := up_gravity_plane.project(camera_transform.basis.x).normalized()
-			control_velocity = (dir_forward * -ground_control_velocity.y + dir_right * ground_control_velocity.x) * XRServer.world_scale
+			control_velocity = (
+					dir_forward * -ground_control_velocity.y +
+					dir_right * ground_control_velocity.x
+			) * XRServer.world_scale
 
 			# Apply control velocity to horizontal velocity based on traction
-			var current_traction := XRToolsGroundPhysicsSettings.get_move_traction(ground_physics, default_physics)
+			var current_traction := XRToolsGroundPhysicsSettings.get_move_traction(
+					ground_physics, default_physics)
 			var traction_factor: float = clamp(current_traction * delta, 0.0, 1.0)
 			horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
 
 			# Prevent the player from moving up steep slopes
-			var current_max_slope := XRToolsGroundPhysicsSettings.get_move_max_slope(ground_physics, default_physics)
+			var current_max_slope := XRToolsGroundPhysicsSettings.get_move_max_slope(
+					ground_physics, default_physics)
 			if ground_angle > current_max_slope:
 				# Get a vector in the down-hill direction
 				var down_direction := up_gravity_plane.project(ground_vector).normalized()
@@ -484,7 +492,8 @@ func _apply_velocity_and_control(delta: float):
 					horizontal_velocity -= down_direction * vdot
 		else:
 			# User is not trying to move, so apply the ground drag
-			var current_drag := XRToolsGroundPhysicsSettings.get_move_drag(ground_physics, default_physics)
+			var current_drag := XRToolsGroundPhysicsSettings.get_move_drag(
+					ground_physics, default_physics)
 			var drag_factor: float = clamp(current_drag * delta, 0, 1)
 			horizontal_velocity = horizontal_velocity.lerp(control_velocity, drag_factor)
 
@@ -496,13 +505,23 @@ func _apply_velocity_and_control(delta: float):
 
 	# Perform bounce test if a collision occurred
 	if kinematic_node.get_slide_collision_count():
-		# Detect bounciness
+		# Get the collider the player collided with
 		var collision := kinematic_node.get_slide_collision(0)
 		var collision_node := collision.get_collider()
-		var collision_physics_node := collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
-		var collision_physics = XRToolsGroundPhysics.get_physics(collision_physics_node, default_physics)
-		var bounce_threshold := XRToolsGroundPhysicsSettings.get_bounce_threshold(collision_physics, default_physics)
-		var bounciness := XRToolsGroundPhysicsSettings.get_bounciness(collision_physics, default_physics)
+
+		# Check for a GroundPhysics node attached to the collider
+		var collision_physics_node := \
+				collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
+
+		# Get the collision physics associated with the collider
+		var collision_physics = XRToolsGroundPhysics.get_physics(
+				collision_physics_node, default_physics)
+
+		# Get the bounce parameters associated with the collider
+		var bounce_threshold := XRToolsGroundPhysicsSettings.get_bounce_threshold(
+				collision_physics, default_physics)
+		var bounciness := XRToolsGroundPhysicsSettings.get_bounciness(
+				collision_physics, default_physics)
 		var magnitude := -collision.get_normal().dot(local_velocity)
 
 		# Detect if bounce should be performed

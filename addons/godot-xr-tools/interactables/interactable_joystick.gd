@@ -74,13 +74,13 @@ const VECTOR_YZ := Vector3(0.0, 1.0, 1.0)
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableJoystick" or super.is_xr_class(name)
+	return name == "XRToolsInteractableJoystick" or super(name)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	super()
 
 	# Set the initial position to match the initial joystick position value
 	transform = Transform3D(

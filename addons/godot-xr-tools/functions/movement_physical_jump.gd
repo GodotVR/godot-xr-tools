@@ -93,12 +93,7 @@ class SlidingAverage:
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementPhysicalJump" or super.is_xr_class(name)
-
-
-func _ready():
-	# In Godot 4 we must now manually call our super class ready function
-	super._ready()
+	return name == "XRToolsMovementPhysicalJump" or super(name)
 
 
 # Perform jump detection
@@ -131,7 +126,7 @@ func _get_configuration_warning():
 		return "Unable to find left XRController3D node"
 
 	# Call base class
-	return super._get_configuration_warning()
+	return super()
 
 
 # Detect the player jumping with their body (using the headset camera)
@@ -182,8 +177,14 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 	controller_right_vel /= XRServer.world_scale
 
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
-	controller_left_vel = clamp(controller_left_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
-	controller_right_vel = clamp(controller_right_vel, -2.0 * arms_jump_threshold, 2.0 * arms_jump_threshold)
+	controller_left_vel = clamp(
+			controller_left_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
+	controller_right_vel = clamp(
+			controller_right_vel,
+			-2.0 * arms_jump_threshold,
+			2.0 * arms_jump_threshold)
 
 	# Get the averaged velocity
 	controller_left_vel = _controller_left_velocity.update(controller_left_vel)

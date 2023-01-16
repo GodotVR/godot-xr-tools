@@ -9,6 +9,11 @@
 config_version=5
 
 _global_script_classes=[{
+"base": "XRToolsSceneBase",
+"class": &"DemoSceneBase",
+"language": &"GDScript",
+"path": "res://scenes/demo_scene_base.gd"
+}, {
 "base": "Node3D",
 "class": &"Teleport",
 "language": &"GDScript",
@@ -295,6 +300,7 @@ _global_script_classes=[{
 "path": "res://addons/godot-xr-tools/objects/wind_area.gd"
 }]
 _global_script_class_icons={
+"DemoSceneBase": "",
 "Teleport": "",
 "XRHelpers": "",
 "XRTools": "",
@@ -357,7 +363,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Godot XR Tools Demo"
-run/main_scene="res://staging.tscn"
+run/main_scene="res://demo_staging.tscn"
 config/features=PackedStringArray("4.0")
 config/icon="res://icon.png"
 

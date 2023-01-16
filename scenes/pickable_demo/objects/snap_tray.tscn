@@ -50,7 +50,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_2eorr")
 [node name="SnapZone1" parent="SnapArea1" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToyRed"
 
@@ -64,7 +64,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ti2r6")
 [node name="SnapZone2" parent="SnapArea2" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToyYellow"
 
@@ -78,7 +78,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")
 [node name="SnapZone3" parent="SnapArea3" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToy"
 
@@ -92,7 +92,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_73h0y")
 [node name="SnapZone4" parent="SnapArea4" index="0" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.06)
 collision_layer = 4
-collision_mask = 65536
+collision_mask = 65540
 grab_distance = 0.05
 snap_require = "SnapToy"
 

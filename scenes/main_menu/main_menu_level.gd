@@ -1,15 +1,18 @@
 @tool
-extends "../scene_base.gd"
+extends DemoSceneBase
 
 func _update_demo_positions() -> void:
+	# Update and count the visible teleporters
 	var count = 0
 	var visible_children := []
 	for teleporter in $Demos.get_children():
-		teleporter.active=teleporter.visible
+		teleporter.active = teleporter.visible
 		teleporter.set_collision_disabled(!teleporter.visible)
 		if teleporter.visible:
-			count+=1
+			count += 1
 			visible_children.append(teleporter)
+
+	# Arrange the visible teleporters
 	if count > 1:
 		var angle = 2.0 * PI / count
 		for i in count:
@@ -21,9 +24,9 @@ func _update_demo_positions() -> void:
 
 
 func _ready():
-	super._ready()
+	super()
 	_update_demo_positions()
-	
+
 	for teleporter in $Demos.get_children():
 		teleporter.connect("visibility_changed",_update_demo_positions)
 

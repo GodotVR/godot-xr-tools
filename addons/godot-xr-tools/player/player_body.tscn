@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="1"]
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_7kchg"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_4wrlu"]
 radius = 0.4
 height = 1.4
 
@@ -17,4 +17,4 @@ floor_snap_length = 0.0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
-shape = SubResource("CapsuleShape3D_7kchg")
+shape = SubResource("CapsuleShape3D_4wrlu")

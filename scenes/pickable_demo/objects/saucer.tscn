@@ -52,5 +52,6 @@ shape = SubResource("ConvexPolygonShape3D_v45tx")
 
 [node name="SnapZoneTeacup" parent="." instance=ExtResource("1")]
 collision_layer = 4
-collision_mask = 4
+collision_mask = 65540
+snap_mode = 1
 snap_require = "Teacup"

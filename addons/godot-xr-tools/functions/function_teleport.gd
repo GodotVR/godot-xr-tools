@@ -157,8 +157,11 @@ func _physics_process(delta):
 		query.margin = get_safe_margin()
 		query.shape_rid = collision_shape.get_rid()
 
-		# make a transform for offsetting our shape, it's always lying on its side by default...
-		var shape_transform = Transform3D(Basis(), Vector3(0.0, player_height / 2.0, 0.0))
+		# make a transform for offsetting our shape, it's always
+		# lying on its side by default...
+		var shape_transform = Transform3D(
+				Basis(),
+				Vector3(0.0, player_height / 2.0, 0.0))
 
 		# update location
 		var teleport_global_transform = $Teleport.global_transform
@@ -168,7 +171,8 @@ func _physics_process(delta):
 		############################################################
 		# New teleport logic
 		# We're going to use test move in steps to find out where we hit something...
-		# This can be optimised loads by determining the lenght based on the angle between sections extending the length when we're in a flat part of the arch
+		# This can be optimised loads by determining the lenght based on the angle
+		# between sections extending the length when we're in a flat part of the arch
 		# Where we do get a collission we may want to fine tune the collision
 		var cast_length = 0.0
 		var fine_tune = 1.0
@@ -204,7 +208,8 @@ func _physics_process(delta):
 
 				# check for collision
 				if global_target.y > target_global_origin.y:
-					# if we're moving up, we hit the ceiling of something, we don't really care what
+					# if we're moving up, we hit the ceiling of something, we
+					# don't really care what
 					is_on_floor = false
 				else:
 					# now we cast a ray downwards to see if we're on a surface
@@ -226,7 +231,8 @@ func _physics_process(delta):
 						else:
 							is_on_floor = false
 
-						# Update our collision point if it's moved enough, this solves a little bit of jittering
+						# Update our collision point if it's moved enough, this
+						# solves a little bit of jittering
 						var diff = collided_at - intersects["position"]
 
 						if diff.length() > 0.1:
@@ -237,7 +243,8 @@ func _physics_process(delta):
 						if not valid_teleport_mask & collider_mask:
 							is_on_floor = false
 
-				# we are colliding, find our if we're colliding on a wall or floor, one we can do, the other nope...
+				# we are colliding, find our if we're colliding on a wall or
+				# floor, one we can do, the other nope...
 				cast_length += (collided_at - target_global_origin).length()
 				target_global_origin = collided_at
 				hit_something = true
@@ -263,7 +270,10 @@ func _physics_process(delta):
 
 			# update target and colour
 			var target_basis = Basis()
-			target_basis.z = Vector3(teleport_global_transform.basis.z.x, 0.0, teleport_global_transform.basis.z.z).normalized()
+			target_basis.z = Vector3(
+					teleport_global_transform.basis.z.x,
+					0.0,
+					teleport_global_transform.basis.z.z).normalized()
 			target_basis.y = normal
 			target_basis.x = target_basis.y.cross(target_basis.z)
 			target_basis.z = target_basis.x.cross(target_basis.y)
@@ -289,18 +299,22 @@ func _physics_process(delta):
 			new_transform.basis.x = new_transform.basis.y.cross(new_transform.basis.z).normalized()
 			new_transform.basis.z = new_transform.basis.x.cross(new_transform.basis.y).normalized()
 
-			# find out our user's feet's transformation
+			# Find out our user's feet's transformation.
+			# The feet are on the ground, but have the same X,Z as the camera
 			var cam_transform = camera_node.transform
 			var user_feet_transform = Transform3D()
 			user_feet_transform.origin = cam_transform.origin
-			user_feet_transform.origin.y = 0 # the feet are on the ground, but have the same X,Z as the camera
+			user_feet_transform.origin.y = 0
 
 			# ensure this transform is upright
 			user_feet_transform.basis.y = Vector3(0.0, 1.0, 0.0)
-			user_feet_transform.basis.x = user_feet_transform.basis.y.cross(cam_transform.basis.z).normalized()
-			user_feet_transform.basis.z = user_feet_transform.basis.x.cross(user_feet_transform.basis.y).normalized()
+			user_feet_transform.basis.x = user_feet_transform.basis.y.cross(
+					cam_transform.basis.z).normalized()
+			user_feet_transform.basis.z = user_feet_transform.basis.x.cross(
+					user_feet_transform.basis.y).normalized()
 
-			# now move the origin such that the new global user_feet_transform would be == new_transform
+			# now move the origin such that the new global user_feet_transform
+			# would be == new_transform
 			origin_node.global_transform = new_transform * user_feet_transform.inverse()
 
 		# and disable
