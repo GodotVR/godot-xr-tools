@@ -11,8 +11,12 @@ enum Axis {
 	VR_SECONDARY_Y_AXIS = 7,
 	VR_TRIGGER_AXIS = 2,
 	VR_GRIP_AXIS = 4
-}
 
+	HT_THUMB_INDEX_PINCH = 7,
+	HT_THUMB_MIDDLE_PINCH = 6,
+	HT_THUMB_RING_PINCH = 2,
+	HT_THUMB_LITTLE_PINCH = 4, 
+}
 
 # enum our buttons
 enum Buttons {
@@ -31,7 +35,12 @@ enum Buttons {
 	VR_BUTTON_13 = 13,
 	VR_PAD = 14,
 	VR_TRIGGER = 15,
-	VR_ACTION = 255 ## Only supported in function pointer, should solve that differently!!
+	VR_ACTION = 255, ## Only supported in function pointer, should solve that differently!!
+
+	HT_THUMB_INDEX_PINCH = 7,
+	HT_THUMB_MIDDLE_PINCH = 1,
+	HT_THUMB_RING_PINCH = 15,
+	HT_THUMB_LITTLE_PINCH = 2
 }
 
 

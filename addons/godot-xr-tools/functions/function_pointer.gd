@@ -60,6 +60,13 @@ export (XRTools.Buttons) var active_button : int = XRTools.Buttons.VR_TRIGGER
 ## Action to monitor (if button set to VR_ACTION)
 export var action = ""
 
+## Hand tracking controller enable
+export var enable_hand_pointers : bool = true
+
+## default is thumb-index finger pinch
+export (XRTools.Buttons) var active_pinch : int = XRTools.Buttons.HT_THUMB_INDEX_PINCH
+
+
 ## Current target node
 var target : Spatial
 
@@ -74,6 +81,8 @@ var _world_scale : float = 1.0
 
 var _controller_left_node : ARVRController
 var _controller_right_node : ARVRController
+var _handpointer_left_node : ARVRController
+var _handpointer_right_node : ARVRController
 
 var _controller  : ARVRController
 var _active_controller : ARVRController
@@ -119,6 +128,20 @@ func _ready():
 										[_controller_right_node])
 		_controller_right_node.connect("button_release", self, "_on_button_release",
 										[_controller_right_node])
+
+		if enable_hand_pointers:
+			_handpointer_left_node = ARVRHelpers._get_controller(self, 
+					"ARVRController3", 3, NodePath(""))
+			_handpointer_right_node = ARVRHelpers._get_controller(self, 
+					"ARVRController4", 4, NodePath(""))
+			_handpointer_left_node.connect("button_pressed", self, "_on_button_pressed",
+											[_handpointer_left_node])
+			_handpointer_left_node.connect("button_release", self, "_on_button_release",
+											[_handpointer_left_node])
+			_handpointer_right_node.connect("button_pressed", self, "_on_button_pressed",
+											[_handpointer_right_node])
+			_handpointer_right_node.connect("button_release", self, "_on_button_release",
+											[_handpointer_right_node])
 
 
 
@@ -348,15 +371,38 @@ func _button_released() -> void:
 
 # Button pressed handler
 func _on_button_pressed(p_button : int, controller : ARVRController) -> void:
-	if p_button == active_button and enabled:
+	if not enabled:
+		return
+	var cactive_button = active_button
+	if enable_hand_pointers:
+		if controller == _controller_left_node and _handpointer_left_node.get_is_active():
+			return
+		if controller == _controller_right_node and _handpointer_right_node.get_is_active():
+			return
+		if controller == _handpointer_left_node or controller == _handpointer_right_node:
+			cactive_button = active_pinch
+		
+	if p_button == cactive_button:
 		if controller == _active_controller:
 			_button_pressed()
 		else:
 			_active_controller = controller
 
 # Button released handler
-func _on_button_release(p_button : int, _controller : ARVRController) -> void:
-	if p_button == active_button and target:
+func _on_button_release(p_button : int, controller : ARVRController) -> void:
+	if not target:
+		return
+		
+	var cactive_button = active_button
+	if enable_hand_pointers:
+		if controller == _controller_left_node and _handpointer_left_node.get_is_active():
+			return
+		if controller == _controller_right_node and _handpointer_right_node.get_is_active():
+			return
+		if controller == _handpointer_left_node or controller == _handpointer_right_node:
+			cactive_button = active_pinch
+
+	if p_button == cactive_button:
 		_button_released()
 
 
