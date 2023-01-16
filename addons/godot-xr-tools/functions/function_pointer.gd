@@ -60,7 +60,6 @@ export (XRTools.Buttons) var active_button : int = XRTools.Buttons.VR_TRIGGER
 ## Action to monitor (if button set to VR_ACTION)
 export var action = ""
 
-
 ## Current target node
 var target : Spatial
 
@@ -76,8 +75,8 @@ var _world_scale : float = 1.0
 var _controller_left_node : ARVRController
 var _controller_right_node : ARVRController
 
-onready var _controller := ARVRHelpers.get_arvr_controller(self)
-onready var _active_controller := _controller
+var _controller  : ARVRController
+var _active_controller : ARVRController
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -93,9 +92,25 @@ func _ready():
 	# Read the initial world-scale
 	_world_scale = ARVRServer.world_scale
 
-	if _controller == null:
+	_controller = ARVRHelpers.get_arvr_controller(self)
+
+	if _controller:
+		_active_controller = _controller
+
+		# If pointer-trigger is a button then subscribe to button signals
+		if active_button != XRTools.Buttons.VR_ACTION:
+			# Get button press feedback from controller
+			_controller.connect("button_pressed", self, "_on_button_pressed", [_controller])
+			_controller.connect("button_release", self, "_on_button_release", [_controller])
+
+
+	else:
 		_controller_left_node = ARVRHelpers.get_left_controller(self)
 		_controller_right_node = ARVRHelpers.get_right_controller(self)
+
+		# Start out right hand controller
+		_active_controller = _controller_right_node
+
 		_controller_left_node.connect("button_pressed", self, "_on_button_pressed",
 										[_controller_left_node])
 		_controller_left_node.connect("button_release", self, "_on_button_release",
@@ -105,11 +120,7 @@ func _ready():
 		_controller_right_node.connect("button_release", self, "_on_button_release",
 										[_controller_right_node])
 
-	# If pointer-trigger is a button then subscribe to button signals
-	elif active_button != XRTools.Buttons.VR_ACTION:
-		# Get button press feedback from controller
-		_controller.connect("button_pressed", self, "_on_button_pressed", [_controller])
-		_controller.connect("button_release", self, "_on_button_release", [_controller])
+
 
 	# init our state
 	_update_y_offset()
