@@ -41,6 +41,13 @@ strafe = false
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5 )
 laser_length = 1
 show_target = true
+enable_hand_pointers = true
+
+[node name="ARVRController3" type="ARVRController" parent="ARVROrigin" index="5"]
+controller_id = 3
+
+[node name="ARVRController4" type="ARVRController" parent="ARVROrigin" index="6"]
+controller_id = 4
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 3 )]
 

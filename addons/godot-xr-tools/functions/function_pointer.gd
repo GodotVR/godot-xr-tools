@@ -61,7 +61,7 @@ export (XRTools.Buttons) var active_button : int = XRTools.Buttons.VR_TRIGGER
 export var action = ""
 
 ## Hand tracking controller enable
-export var enable_hand_pointers : bool = true
+export var enable_hand_pointers : bool = false
 
 ## default is thumb-index finger pinch
 export (XRTools.Buttons) var active_pinch : int = XRTools.Buttons.HT_THUMB_INDEX_PINCH
