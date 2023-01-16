@@ -69,7 +69,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 		player_body.rotate_player(smooth_turn_speed * delta * left_right)
 		return
 
-	# disable repeat snap turning if delay is zero
+	# Disable repeat snap turning if delay is zero
 	if step_turn_delay == 0.0 and _turn_step < 0.0:
 		return
 

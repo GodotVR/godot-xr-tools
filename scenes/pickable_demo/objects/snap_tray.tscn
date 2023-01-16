@@ -37,6 +37,7 @@ albedo_color = Color( 0.498039, 0.498039, 0.498039, 1 )
 collision_layer = 1048580
 collision_mask = 65543
 script = ExtResource( 5 )
+picked_up_layer = 1114112
 ranged_grab_method = 0
 tray_active = false
 active_material = ExtResource( 2 )

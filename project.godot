@@ -363,7 +363,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Godot XR Tools Demo"
-run/main_scene="res://staging.tscn"
+run/main_scene="res://demo_staging.tscn"
 config/icon="res://icon.png"
 
 [autoload]
