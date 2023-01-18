@@ -104,9 +104,6 @@ script = ExtResource( 23 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 
-[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
-
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton" index="1"]
 transform = Transform( 0.54083, 0.840813, -0.0231736, -0.0826267, 0.0805243, 0.993322, 0.837064, -0.535303, 0.113023, 0.0399019, 0.0402828, -0.150096 )
 bone_name = "Index_Tip_L"
@@ -127,9 +124,6 @@ strafe = true
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
 hand_material_override = ExtResource( 28 )
-
-[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="mesh_Hand_low_R" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="0"]
 material_override = ExtResource( 28 )

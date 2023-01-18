@@ -215,6 +215,13 @@ func handtrackingvisibility(LRHand, palm_joint_confidence, joint_transforms, con
 			LRHand.visible = false  # or fade out
 
 
+# see if we can update the skel pose in process to avoid lag
+func _process(delta):
+	if $LeftHandSkelPose.is_active():
+		LeftHand.transform = $LeftHandSkelPose.transform*Transform(Basis(Vector3(0,0,1), deg2rad(-90)))
+	if $RightHandSkelPose.is_active():
+		RightHand.transform = $RightHandSkelPose.transform*Transform(Basis(Vector3(0,0,1), deg2rad(90)))
+
 # The skeleton is only updated by the system in _physics_process
 # https://github.com/GodotVR/godot_openxr/blob/master/src/gdclasses/OpenXRSkeleton.cpp#L94
 func _physics_process(delta):
@@ -275,3 +282,4 @@ func _ready():
 		gxtrighthandrestdata = getGXThandrestdata(RightHand)
 
 	set_physics_process(specialist_openxr_gdns_script_loaded)
+	set_process(specialist_openxr_gdns_script_loaded)
