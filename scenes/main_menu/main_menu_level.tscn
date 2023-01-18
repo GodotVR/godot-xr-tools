@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=2]
+[gd_scene load_steps=49 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
@@ -35,6 +35,7 @@
 [ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.tscn" type="PackedScene" id=33]
 [ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.png" type="Texture" id=34]
 [ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.tscn" type="PackedScene" id=35]
+[ext_resource path="res://addons/godot-xr-tools/functions/function_handtracking.tscn" type="PackedScene" id=36]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -65,7 +66,7 @@ nodes/OpenHand/node = SubResource( 4 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -360, 20 )
-node_connections = [ "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Grip"
@@ -96,7 +97,7 @@ nodes/OpenHand/node = SubResource( 10 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
@@ -154,6 +155,15 @@ strafe = false
 [node name="MovementTurn" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 8 )]
+
+[node name="ARVRController3" type="ARVRController" parent="ARVROrigin" index="4"]
+controller_id = 3
+
+[node name="FunctionHandtracking" parent="ARVROrigin" index="5" instance=ExtResource( 36 )]
+
+[node name="LeftHand" parent="ARVROrigin/FunctionHandtracking" index="2" instance=ExtResource( 3 )]
+
+[node name="RightHand" parent="ARVROrigin/FunctionHandtracking" index="3" instance=ExtResource( 2 )]
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 4 )]
 
