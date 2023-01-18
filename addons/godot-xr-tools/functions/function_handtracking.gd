@@ -264,6 +264,11 @@ func _ready():
 		LeftHand._animation_tree.active = false
 		LeftHand.set_process(false)
 		gxtlefthandrestdata = getGXThandrestdata(LeftHand)
+		
+		# make a node hand from the openxr library so we can 
+		# see how well the hand tracking aligns with it
+		add_child(load("res://addons/godot-openxr/scenes/left_hand_nodes.tscn").instance())
+		
 	if RightHand:
 		RightHand._animation_tree.active = false
 		RightHand.set_process(false)
