@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3]
+[gd_scene load_steps=14 format=3 uid="uid://bqumugyvkct4r"]
 
 [ext_resource type="Texture2D" uid="uid://ftrrxm7sxndi" path="res://assets/godot/splash.png" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/loading_screen.gd" id="2"]
@@ -24,9 +24,9 @@ albedo_texture = ExtResource("1")
 render_priority = 0
 shader = ExtResource("3")
 shader_parameter/bar_color = Color(1, 1, 1, 1)
-shader_parameter/bar_texture = ExtResource("4")
 shader_parameter/cutout = Vector3(4.85, 0.33, 0)
 shader_parameter/progress = 0.5
+shader_parameter/bar_texture = ExtResource("4")
 
 [sub_resource type="PlaneMesh" id="3"]
 material = SubResource("18")
@@ -42,7 +42,6 @@ albedo_texture = ExtResource("5")
 
 [node name="LoadingScreen" type="Node3D"]
 script = ExtResource("2")
-camera = NodePath("")
 follow_speed = SubResource("21")
 splash_screen = ExtResource("1")
 

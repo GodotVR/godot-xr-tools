@@ -26,7 +26,6 @@
 
 [node name="PickableDemo" instance=ExtResource("1")]
 script = ExtResource("2_kjksy")
-environment = null
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_8wi6c")]
 

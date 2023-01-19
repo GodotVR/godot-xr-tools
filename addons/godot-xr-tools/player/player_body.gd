@@ -1,7 +1,7 @@
 @tool
+@icon("res://addons/godot-xr-tools/editor/icons/body.svg")
 class_name XRToolsPlayerBody
 extends Node
-@icon("res://addons/godot-xr-tools/editor/icons/body.svg")
 
 
 ## XR Tools Player Physics Body Script

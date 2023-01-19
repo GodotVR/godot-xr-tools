@@ -1,7 +1,7 @@
 @tool
+@icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 class_name XRToolsFunctionPointer
 extends Node3D
-@icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 
 
 ## XR Tools Function Pointer Script

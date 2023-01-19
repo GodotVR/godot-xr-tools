@@ -1,6 +1,6 @@
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsClimbable
 extends Node3D
-@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 
 
 ## XR Tools Climbable Object

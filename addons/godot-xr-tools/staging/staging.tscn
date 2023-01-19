@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bnqnnnet4dw12"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/staging.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/loading_screen.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://bqumugyvkct4r" path="res://addons/godot-xr-tools/staging/loading_screen.tscn" id="2"]
 [ext_resource type="Shader" path="res://addons/godot-xr-tools/staging/fade.gdshader" id="4"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="6_balvx"]
@@ -52,6 +52,7 @@ progress = 0.0
 [node name="Scene" type="Node3D" parent="."]
 
 [node name="StartXR" parent="." instance=ExtResource("6_balvx")]
+physics_rate_multiplier = 1
 
 [connection signal="xr_ended" from="StartXR" to="." method="_on_StartXR_xr_ended"]
 [connection signal="xr_started" from="StartXR" to="." method="_on_StartXR_xr_started"]
