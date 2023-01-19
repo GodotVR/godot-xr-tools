@@ -84,7 +84,7 @@ func _process(delta):
 	# Do rotation based on the curve
 	global_transform.basis = global_transform.basis.rotated(
 			Vector3.UP * sign(angle),
-			follow_speed.sample_baked(angle / PI) * delta
+			follow_speed.sample_baked(abs(angle) / PI) * delta
 	).orthonormalized()
 
 

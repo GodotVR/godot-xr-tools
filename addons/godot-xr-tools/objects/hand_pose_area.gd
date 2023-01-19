@@ -1,6 +1,6 @@
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsHandPoseArea
 extends Area3D
-@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 
 
 ## XR Tools Hand Pose Area

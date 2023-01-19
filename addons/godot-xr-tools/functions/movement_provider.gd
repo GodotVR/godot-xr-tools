@@ -1,7 +1,7 @@
 @tool
+@icon("res://addons/godot-xr-tools/editor/icons/movement_provider.svg")
 class_name XRToolsMovementProvider
 extends Node
-@icon("res://addons/godot-xr-tools/editor/icons/movement_provider.svg")
 
 
 ## XR Tools Movement Provider base class

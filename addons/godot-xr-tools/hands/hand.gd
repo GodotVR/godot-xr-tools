@@ -1,7 +1,7 @@
 @tool
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsHand
 extends Node3D
-@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 
 
 ## XR Tools Hand Script
