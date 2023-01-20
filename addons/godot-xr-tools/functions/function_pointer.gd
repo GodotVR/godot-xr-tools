@@ -71,6 +71,18 @@ var last_collided_at : Vector3 = Vector3.ZERO
 # World scale
 var _world_scale : float = 1.0
 
+# Left controller node
+var _controller_left_node : XRController3D
+
+# Right controller node
+var _controller_right_node : XRController3D
+
+# Parent controller (if this pointer is childed to a specific controller)
+var _controller  : XRController3D
+
+# The currently active controller
+var _active_controller : XRController3D
+
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
@@ -86,10 +98,33 @@ func _ready():
 	# Read the initial world-scale
 	_world_scale = XRServer.world_scale
 
-	# Get button press feedback from our parent (should be an XRController3D)
-	get_parent().connect("button_pressed", _on_button_pressed)
-	get_parent().connect("button_released", _on_button_released)
-	
+	# Check for a parent controller
+	_controller = XRHelpers.get_xr_controller(self)
+	if _controller:
+		# Set as active on the parent controller
+		_active_controller = _controller
+
+		# Get button press feedback from our parent controller
+		_controller.button_pressed.connect(_on_button_pressed.bind(_controller))
+		_controller.button_released.connect(_on_button_released.bind(_controller))
+	else:
+		# Get the left and right controllers
+		_controller_left_node = XRHelpers.get_left_controller(self)
+		_controller_right_node = XRHelpers.get_right_controller(self)
+
+		# Start out right hand controller
+		_active_controller = _controller_right_node
+
+		# Get button press feedback from both left and right controllers
+		_controller_left_node.button_pressed.connect(
+				_on_button_pressed.bind(_controller_left_node))
+		_controller_left_node.button_released.connect(
+				_on_button_released.bind(_controller_left_node))
+		_controller_right_node.button_pressed.connect(
+				_on_button_pressed.bind(_controller_right_node))
+		_controller_right_node.button_released.connect(
+				_on_button_released.bind(_controller_right_node))
+
 	# init our state
 	_update_y_offset()
 	_update_distance()
@@ -106,6 +141,9 @@ func _process(_delta):
 	if Engine.is_editor_hint() or !is_inside_tree():
 		return
 
+	# Track the active controller (if this pointer is not childed to a controller)
+	if _controller == null and _active_controller != null:
+		transform = _active_controller.transform
 
 	# Handle world-scale changes
 	var new_world_scale := XRServer.world_scale
@@ -306,12 +344,15 @@ func _button_released() -> void:
 
 
 # Button pressed handler
-func _on_button_pressed(p_button : String) -> void:
+func _on_button_pressed(p_button : String, controller : XRController3D) -> void:
 	if p_button == active_button_action and enabled:
-		_button_pressed()
+		if controller == _active_controller:
+			_button_pressed()
+		else:
+			_active_controller = controller
 
 
 # Button released handler
-func _on_button_released(p_button : String) -> void:
+func _on_button_released(p_button : String, controller : XRController3D) -> void:
 	if p_button == active_button_action and target:
 		_button_released()
