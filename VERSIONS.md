@@ -12,6 +12,7 @@
 - Added support for snap-on-drop to snap-zones
 - Added glide options for gaining altitude when flapping arms
 - Added option to disable snap-turn repeating by setting the delay to 0
+- Added capability for pointer function to auto-switch between controllers
 
 # 3.1.0
 - Improvements to our 2D in 3D viewport for filtering, unshaded, and transparency options

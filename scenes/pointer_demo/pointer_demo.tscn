@@ -1,13 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://deq6satll2p5x"]
+[gd_scene load_steps=14 format=3 uid="uid://deq6satll2p5x"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="2"]
-[ext_resource type="Script" path="res://scenes/pointer_demo/pointer_demo.gd" id="2_xbhp1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="3"]
-[ext_resource type="PackedScene" uid="uid://caah5fxm8jb2l" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_j5kt2"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_j5kt2"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="5"]
-[ext_resource type="PackedScene" uid="uid://be74y72ikmkqt" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_rnrhb"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_rnrhb"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="9"]
@@ -16,19 +15,12 @@
 [ext_resource type="PackedScene" uid="uid://bk34216s7eynw" path="res://scenes/pointer_demo/objects/color_change_cube.tscn" id="15"]
 
 [node name="PointerDemo" instance=ExtResource("1")]
-script = ExtResource("2_xbhp1")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_j5kt2")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("7")]
 max_speed = 3.0
 strafe = true
-
-[node name="FunctionPointer" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5")]
-enabled = false
-show_laser = 2
-laser_length = 1
-show_target = true
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_rnrhb")]
 
@@ -37,10 +29,11 @@ max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("9")]
 
-[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5")]
-laser_length = 1
-
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("8")]
+
+[node name="FunctionPointer" parent="XROrigin3D" index="4" instance=ExtResource("5")]
+laser_length = 1
+show_target = true
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource("3")]
 
