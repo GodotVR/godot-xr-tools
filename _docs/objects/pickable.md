@@ -45,6 +45,9 @@ A common pickup configuration is:
 * Collision Layer: A standard layer for dynamic objects in the scene.
 * Collision Mask: Layers for the world and other objects (so it doesn't fall through the floor), and also matching the [Pickup]({{ site.url }}/docs/pickup/) collision mask so it can be picked up.
 
+See [Physics Layers]({{ site.url }}/docs/physics_layers/) for recommendations on
+how to configure physics layers for Godot XR Tools.
+
 
 ## Configuration
 
