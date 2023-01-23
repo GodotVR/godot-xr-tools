@@ -23,6 +23,9 @@ The two common types of objects that XRToolsFunctionPickup can interact with are
 * [Pickable]({{ site.url }}/docs/pickable/) objects
 * [Climbable]({{ site.url }}/docs/climbable/) when combined with the [Climbing]({{ site.url }}/docs/climbing/) movement provider
 
+See [Physics Layers]({{ site.url }}/docs/physics_layers/) for recommendations on
+how to configure physics layers for Godot XR Tools.
+
 
 ## Configuration
 

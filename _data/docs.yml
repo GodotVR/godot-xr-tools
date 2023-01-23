@@ -7,6 +7,7 @@
 - title: Concepts
   docs:
   - origin
+  - physics_layers
 
 - title: Features
   docs:
@@ -17,6 +18,7 @@
 
 - title: Player
   docs:
+  - player_body
   - hand_models
   - hand_poses
 
@@ -32,6 +34,7 @@
   - physical_jump
   - teleport
   - turn
+  - wall_walk
   - wind
 
 - title: Interaction
@@ -44,3 +47,4 @@
   - climbable
   - pickable
   - grab_point
+  - snap_zone
