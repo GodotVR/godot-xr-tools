@@ -112,6 +112,8 @@ func _load() -> void:
 
 	# Read the file as text
 	var text = file.get_as_text()
+	if text.is_empty():
+		return
 
 	# Parse the settings dictionary
 	var data : Dictionary = JSON.parse_string(text)
