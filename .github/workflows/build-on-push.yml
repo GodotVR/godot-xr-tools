@@ -1,0 +1,59 @@
+# Workflow to automatically create deliverables
+name: Build on push
+
+on:
+  [push, pull_request]
+
+jobs:
+  build:
+    name: Assembling artifacts
+    runs-on: ubuntu-20.04
+
+    # Note, to satisfy the asset library we need to make sure our zip files have a root folder
+    # this is why we checkout into demo/godot-xr-tools
+    # and build plugin/godot-xr-tools
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: demo/godot-xr-tools
+      - name: Create XR tools plugin
+        run: |
+          mkdir plugin
+          mkdir plugin/godot-xr-tools
+          mkdir plugin/godot-xr-tools/addons
+          cp -r demo/godot-xr-tools/addons/godot-xr-tools plugin/godot-xr-tools/addons
+          cp demo/godot-xr-tools/LICENSE plugin/godot-xr-tools/addons/godot-xr-tools
+          cp demo/godot-xr-tools/CONTRIBUTORS.md plugin/godot-xr-tools/addons/godot-xr-tools
+          cp demo/godot-xr-tools/VERSIONS.md plugin/godot-xr-tools/addons/godot-xr-tools
+          rm -rf demo/godot-xr-tools/.git
+          rm -rf demo/godot-xr-tools/.github
+      - name: Create XR tools library artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: godot-xr-tools
+          path: |
+            plugin
+      - name: Create XR tools demo artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: godot-xr-tools-demo
+          path: |
+            demo
+      - name: Zip asset
+        run: |
+          cd plugin
+          zip -qq -r ../godot-xr-tools.zip godot-xr-tools
+          cd ../demo
+          zip -qq -r ../godot-xr-tools-demo.zip godot-xr-tools
+          cd ..
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+      - name: Create and upload asset
+        uses: ncipollo/release-action@v1
+        with:
+          allowUpdates: true
+          artifacts: "godot-xr-tools.zip,godot-xr-tools-demo.zip"
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
