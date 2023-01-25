@@ -118,8 +118,8 @@ func _process(_delta: float) -> void:
 	# Animate the hand mesh with the controller inputs
 	var controller : XRController3D = get_parent()
 	if controller:
-		var grip : float = controller.get_value(grip_action)
-		var trigger : float = controller.get_value(trigger_action)
+		var grip : float = controller.get_float(grip_action)
+		var trigger : float = controller.get_float(trigger_action)
 
 		# Allow overriding of grip and trigger
 		if _force_grip >= 0.0: grip = _force_grip
