@@ -40,9 +40,9 @@ func _on_TeleportArea_body_entered(body: Spatial):
 
 	# Teleport
 	if scene:
-		_scene_base.emit_signal("load_scene", scene.resource_path)
+		_scene_base.load_scene(scene.resource_path)
 	else:
-		_scene_base.emit_signal("exit_to_main_menu")
+		_scene_base.exit_to_main_menu()
 
 func set_collision_disabled(value):
 	if !Engine.is_editor_hint():
