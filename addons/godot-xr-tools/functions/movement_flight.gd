@@ -168,8 +168,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var side := forwards.cross(player_body.up_player_vector)
 
 	# Construct the target velocity
-	var joy_forwards := _controller.get_axis("primary").y
-	var joy_side := _controller.get_axis("primary").x
+	var joy_forwards := _controller.get_vector2("primary").y
+	var joy_side := _controller.get_vector2("primary").x
 	var heading := forwards * joy_forwards + side * joy_side
 
 	# Calculate the flight velocity

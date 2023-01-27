@@ -148,7 +148,7 @@ func _process(delta):
 		return
 
 	# Handle our grip
-	var grip_value = _controller.get_value(pickup_axis_action)
+	var grip_value = _controller.get_float(pickup_axis_action)
 	if (grip_pressed and grip_value < (_grip_threshold - 0.1)):
 		grip_pressed = false
 		_on_grip_release()
