@@ -1,6 +1,9 @@
 # 4.0.0 Beta 1
 - Conversion to Godot 4
 
+# 3.3.0
+- Added reset-scene and scene-control functions to scene-base
+
 # 3.2.0
 - Minimum supported Godot version set to 3.5
 - Added glide option for turning with arm-roll

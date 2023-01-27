@@ -2,7 +2,7 @@
 
 [sub_resource type="VisualShaderNodeCompare" id="5"]
 output_port_for_preview = 0
-default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0, 0, 0), 2, 1e-05]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 0), 2, 1e-05]
 type = 3
 function = 4
 condition = 1
@@ -56,7 +56,7 @@ function = 4
 
 [sub_resource type="VisualShaderNodeCompare" id="15"]
 output_port_for_preview = 0
-default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(4.85, 0.33, 0), 2, 1e-05]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(4.85, 0.33), 2, 1e-05]
 type = 3
 function = 2
 condition = 1
@@ -112,7 +112,7 @@ void fragment() {
 	bool n_out8p0;
 // Compare:8
 	{
-		bvec3 _bv = greaterThan(n_out6p0, n_out20p0);
+		bvec2 _bv = greaterThan(vec2(n_out6p0.xy), vec2(n_out20p0.xy));
 		n_out8p0 = any(_bv);
 	}
 
@@ -130,7 +130,7 @@ void fragment() {
 	bool n_out11p0;
 // Compare:11
 	{
-		bvec3 _bv = lessThan(vec3(n_out3p0, 0.0), n_out13p0);
+		bvec2 _bv = lessThan(n_out3p0, vec2(n_out13p0.xy));
 		n_out11p0 = any(_bv);
 	}
 
