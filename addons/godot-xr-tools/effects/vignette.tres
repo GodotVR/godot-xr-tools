@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cesiqdvdfojle"]
+
+[ext_resource type="Shader" path="res://addons/godot-xr-tools/effects/vignette.gdshader" id="1_x02h0"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_x02h0")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/radius = 0.2
+shader_parameter/fade = 0.05

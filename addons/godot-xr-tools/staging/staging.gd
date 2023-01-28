@@ -130,10 +130,6 @@ func load_scene(p_scene_path : String) -> void:
 	if Engine.is_editor_hint():
 		return
 
-	# Check if it's already loaded...
-	if p_scene_path == current_scene_path:
-		return
-
 	if !xr_origin:
 		return
 
@@ -263,13 +259,15 @@ func set_fade(p_value : float):
 
 
 func _add_signals(p_scene : XRToolsSceneBase):
-	p_scene.connect("exit_to_main_menu", _on_exit_to_main_menu)
-	p_scene.connect("load_scene", _on_load_scene)
+	p_scene.connect("request_exit_to_main_menu", _on_exit_to_main_menu)
+	p_scene.connect("request_load_scene", _on_load_scene)
+	p_scene.connect("request_reset_scene", _on_reset_scene)
 
 
 func _remove_signals(p_scene : XRToolsSceneBase):
-	p_scene.disconnect("exit_to_main_menu", _on_exit_to_main_menu)
-	p_scene.disconnect("load_scene", _on_load_scene)
+	p_scene.disconnect("request_exit_to_main_menu", _on_exit_to_main_menu)
+	p_scene.disconnect("request_load_scene", _on_load_scene)
+	p_scene.disconnect("request_reset_scene", _on_reset_scene)
 
 
 func _on_exit_to_main_menu():
@@ -278,6 +276,10 @@ func _on_exit_to_main_menu():
 
 func _on_load_scene(p_scene_path : String):
 	load_scene(p_scene_path)
+
+
+func _on_reset_scene():
+	load_scene(current_scene_path)
 
 
 func _on_StartXR_xr_started():

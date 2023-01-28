@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsSceneBase
 extends Node3D
 
@@ -7,11 +8,27 @@ extends Node3D
 # It ensures that we have all bits in place to load
 # our scene into our staging scene.
 
-# Emit this signal to let staging know we should return to our menu scene
-signal exit_to_main_menu
 
-# Emit this signal to let staging know we should load the specified scene
-signal load_scene
+## Request staging exit to main menu
+##
+## This signal is used to request the staging transition to the main-menu
+## scene. Developers should use [method exit_to_main_menu] rather than
+## emitting this signal directly.
+signal request_exit_to_main_menu
+
+## Request staging load a new scene
+##
+## This signal is used to request the staging transition to the specified
+## scene. Developers should use [method load_scene] rather than emitting
+## this signal directly.
+signal request_load_scene(p_scene_path)
+
+## Request staging reload the current scene
+##
+## This signal is used to request the staging reload this scene. Developers
+## should use [method reset_scene] rather than emitting this signal directly.
+signal request_reset_scene
+
 
 ## Environment
 #
@@ -75,3 +92,37 @@ func scene_exiting():
 	# called right before we remove this scene
 	pass
 
+
+## Transition to the main menu scene
+##
+## This function is used to transition to the main menu scene. The default
+## implementation sends the [signal request_exit_to_main_menu].
+##
+## Custom scene classes can override this function to add their logic, but
+## should usually call this super method.
+func exit_to_main_menu() -> void:
+	emit_signal("request_exit_to_main_menu")
+
+
+## Transition to specific scene
+##
+## This function is used to transition to the specified scene. The default
+## implementation sends the [signal request_load_scene].
+##
+## Custom scene classes can override this function to add their logic, but
+## should usually call this super method.
+func load_scene(p_scene_path : String) -> void:
+	emit_signal("request_load_scene", p_scene_path)
+
+
+## Reset current scene
+##
+## This function is used to reset the current scene. The default
+## implementation sends the [signal request_reset_scene] which triggers
+## a reload of the current scene.
+##
+## Custom scene classes can override this method to implement faster reset
+## logic than is performed by the brute-force scene-reload performed by
+## staging.
+func reset_scene() -> void:
+	emit_signal("request_reset_scene")

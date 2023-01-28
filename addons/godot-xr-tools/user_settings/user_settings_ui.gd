@@ -1,6 +1,6 @@
 extends TabContainer
 
-@export_node_path(XRCamera3D) var camera
+@export_node_path("XRCamera3D") var camera
 
 @export var player_head_height : float = 0.1
 
