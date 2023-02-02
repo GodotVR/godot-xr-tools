@@ -5,8 +5,6 @@ extends XRToolsMovementProvider
 ## Movement provider order
 export var order : int = 1001
 
-# Some value indicating the player wants to walk at a moderate speed
-const WALK_SOUND_THRESHOLD := 0.3
 # on ground
 var ground_only : bool = false
 # audio holder path
@@ -35,6 +33,8 @@ var _old_on_ground := true
 var _previous_velocity : Vector3 = Vector3.ZERO
 var control_velocity := Vector3.ZERO
 
+# Some value indicating the player wants to walk at a moderate speed
+const WALK_SOUND_THRESHOLD := 0.3
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
 	return name == "XRToolsMovementFootstep" or .is_class(name)
@@ -73,15 +73,12 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 			footstep_holder.water.play()
 		if on_wood:
 			footstep_holder.wood.play()
-			
 	# Update the old on_ground state
 	_old_on_ground = player_body.on_ground
-	
 	# Count down the step timer, and skip if silenced
 	step_time = max(0, step_time - _delta)
 	if step_time > 0:
 		return
-		
 	# Skip if the player wants footsteps on the ground, and the player isn't on the ground
 	if ground_only and not player_body.on_ground:
 		return
@@ -152,7 +149,6 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 				on_wood = true
 			else:
 				on_water = false
-				
 func _on_player_jumped():
 	var footstep_holder := XRToolsFootstepHolder.find_instance(self)
 	if on_default:
@@ -179,7 +175,6 @@ func _on_player_jumped():
 		footstep_holder.water.play()
 	if on_wood:
 		footstep_holder.wood.play()
-		
 ## Find an [XRToolsMovementFootstep] node.
 ##
 ## This function searches from the specified node for an [XRToolsMovementFootstep]
