@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/silk.ogg-4a4b6080ec777875898a1388acd1ce3d.oggstr"
+
+[deps]
+
+source_file="res://assets/footsteps/silk.ogg"
+dest_files=[ "res://.import/silk.ogg-4a4b6080ec777875898a1388acd1ce3d.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

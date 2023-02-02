@@ -2,13 +2,20 @@ tool
 class_name XRToolsFootstepHolder, "res://addons/godot-xr-tools/editor/icons/foot.svg"
 extends Spatial
 
+## Surface Holder Script - XRToolsFootstepHolder: used by the XRToolsMovementFootstep
+## to play the footstep sound corresponding to the current surface the player is standing on
 onready var default = $default
 onready var fabric = $fabric
+onready var glass = $glass
 onready var grass = $grass
+onready var leafes = $leafes
 onready var metal = $metal
 onready var mud = $mud
+onready var plastic = $plastic
 onready var puddle = $puddle
+onready var rubber = $rubber
 onready var sand = $sand
+onready var silk = $silk
 onready var snow = $snow
 onready var stone = $stone
 onready var tile = $tile

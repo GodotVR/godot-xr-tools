@@ -60,7 +60,6 @@ jump_button_id = 15
 [node name="FootstepHolder" parent="ARVROrigin/PlayerBody/KinematicBody" index="1" instance=ExtResource( 18 )]
 
 [node name="MovementFootstep" parent="ARVROrigin" index="4" instance=ExtResource( 17 )]
-MovementCrouch = NodePath("../LeftHand/MovementCrouch")
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 2 )]
 

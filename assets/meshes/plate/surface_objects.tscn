@@ -51,7 +51,7 @@ material/0 = ExtResource( 4 )
 shape = SubResource( 2 )
 
 [node name="SurfaceAudio" parent="plate_mud_s/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 4
+current_surface = 6
 
 [node name="plate_grass_s" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -5 )
@@ -65,7 +65,7 @@ material/0 = ExtResource( 5 )
 shape = SubResource( 3 )
 
 [node name="SurfaceAudio" parent="plate_grass_s/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 2
+current_surface = 3
 
 [node name="plate_snow_s" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -7 )
@@ -79,7 +79,7 @@ material/0 = SubResource( 4 )
 shape = SubResource( 5 )
 
 [node name="SurfaceAudio" parent="plate_snow_s/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 7
+current_surface = 12
 
 [node name="plate_puddle" parent="." instance=ExtResource( 3 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, -12 )
@@ -93,7 +93,7 @@ material/0 = ExtResource( 6 )
 shape = SubResource( 1 )
 
 [node name="SurfaceAudio" parent="plate_puddle/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 5
+current_surface = 8
 
 [node name="plate_mud" parent="." instance=ExtResource( 3 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, 0 )
@@ -107,7 +107,7 @@ material/0 = ExtResource( 4 )
 shape = SubResource( 2 )
 
 [node name="SurfaceAudio" parent="plate_mud/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 4
+current_surface = 6
 
 [node name="plate_grass" parent="." instance=ExtResource( 3 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, 1 )
@@ -121,7 +121,7 @@ material/0 = ExtResource( 5 )
 shape = SubResource( 3 )
 
 [node name="SurfaceAudio" parent="plate_grass/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 2
+current_surface = 3
 
 [node name="plate_snow" parent="." instance=ExtResource( 3 )]
 transform = Transform( 4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, -12 )
@@ -135,7 +135,7 @@ material/0 = SubResource( 4 )
 shape = SubResource( 5 )
 
 [node name="SurfaceAudio" parent="plate_snow/Plane/StaticBody" instance=ExtResource( 2 )]
-current_surface = 7
+current_surface = 12
 
 [editable path="plate_puddle_s"]
 [editable path="plate_mud_s"]

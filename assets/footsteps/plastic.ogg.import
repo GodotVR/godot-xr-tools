@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/plastic.ogg-db9c992cc81057828698179bb534a0ee.oggstr"
+
+[deps]
+
+source_file="res://assets/footsteps/plastic.ogg"
+dest_files=[ "res://.import/plastic.ogg-db9c992cc81057828698179bb534a0ee.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
