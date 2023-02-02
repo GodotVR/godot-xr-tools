@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/fabric.ogg-6ffe285f8d8bdb6c0416ed9c2c207666.oggstr"
+
+[deps]
+
+source_file="res://assets/footsteps/fabric.ogg"
+dest_files=[ "res://.import/fabric.ogg-6ffe285f8d8bdb6c0416ed9c2c207666.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

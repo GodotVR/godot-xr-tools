@@ -1,0 +1,201 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/audio/randomAudioStream.gd" type="Script" id=1]
+[ext_resource path="res://addons/godot-xr-tools/audio/randomAudio.gd" type="Script" id=2]
+[ext_resource path="res://assets/footsteps/metal.ogg" type="AudioStream" id=3]
+[ext_resource path="res://assets/footsteps/water.ogg" type="AudioStream" id=4]
+[ext_resource path="res://assets/footsteps/grass.ogg" type="AudioStream" id=5]
+[ext_resource path="res://assets/footsteps/puddle.ogg" type="AudioStream" id=6]
+[ext_resource path="res://assets/footsteps/stone.ogg" type="AudioStream" id=7]
+[ext_resource path="res://assets/footsteps/fabric.ogg" type="AudioStream" id=8]
+[ext_resource path="res://assets/footsteps/tile.ogg" type="AudioStream" id=9]
+[ext_resource path="res://assets/footsteps/default01.ogg" type="AudioStream" id=10]
+[ext_resource path="res://assets/footsteps/wood.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/footsteps/default02.ogg" type="AudioStream" id=12]
+[ext_resource path="res://assets/footsteps/mud.ogg" type="AudioStream" id=13]
+[ext_resource path="res://assets/footsteps/sand.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/footsteps/snow.ogg" type="AudioStream" id=20]
+[ext_resource path="res://addons/godot-xr-tools/audio/footstep_holder.gd" type="Script" id=23]
+
+[node name="FootstepHolder" type="Spatial"]
+script = ExtResource( 23 )
+
+[node name="default" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="default"]
+stream = ExtResource( 10 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="default"]
+stream = ExtResource( 12 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="fabric" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="fabric"]
+stream = ExtResource( 8 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="fabric"]
+stream = ExtResource( 8 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="grass" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="grass"]
+stream = ExtResource( 5 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="grass"]
+stream = ExtResource( 5 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="metal" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="metal"]
+stream = ExtResource( 3 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="metal"]
+stream = ExtResource( 3 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="mud" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="mud"]
+stream = ExtResource( 13 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="mud"]
+stream = ExtResource( 13 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="puddle" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="puddle"]
+stream = ExtResource( 6 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="puddle"]
+stream = ExtResource( 6 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="sand" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="sand"]
+stream = ExtResource( 15 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="sand"]
+stream = ExtResource( 15 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="snow" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="snow"]
+stream = ExtResource( 20 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="snow"]
+stream = ExtResource( 20 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="stone" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="stone"]
+stream = ExtResource( 7 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="stone"]
+stream = ExtResource( 7 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="tile" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="tile"]
+stream = ExtResource( 9 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="tile"]
+stream = ExtResource( 9 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="water" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="water"]
+stream = ExtResource( 4 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="water"]
+stream = ExtResource( 4 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="wood" type="Spatial" parent="."]
+script = ExtResource( 2 )
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer3D" parent="wood"]
+stream = ExtResource( 11 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer3D" parent="wood"]
+stream = ExtResource( 11 )
+attenuation_model = 1
+max_distance = 10.0
+script = ExtResource( 1 )
