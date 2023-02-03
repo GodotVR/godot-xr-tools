@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
@@ -12,9 +12,19 @@
 [ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=10]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/meshes/plate/surface_objects.tscn" type="PackedScene" id=12]
+[ext_resource path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" type="Script" id=13]
+[ext_resource path="res://assets/footsteps/default02.ogg" type="AudioStream" id=14]
+[ext_resource path="res://assets/footsteps/default01.ogg" type="AudioStream" id=15]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" type="PackedScene" id=17]
-[ext_resource path="res://addons/godot-xr-tools/audio/footstep_holder.tscn" type="PackedScene" id=18]
 [ext_resource path="res://addons/godot-xr-tools/audio/surface_audio.tscn" type="PackedScene" id=19]
+
+[sub_resource type="Resource" id=1]
+script = ExtResource( 13 )
+name = "Default"
+hit_sound = ExtResource( 15 )
+walk_sounds = [ ExtResource( 15 ), ExtResource( 14 ) ]
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
 
 [node name="FootstepMovementDemo" instance=ExtResource( 1 )]
 
@@ -57,13 +67,12 @@ jump_button_id = 15
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 4 )]
 
-[node name="FootstepHolder" parent="ARVROrigin/PlayerBody/KinematicBody" index="1" instance=ExtResource( 18 )]
-
 [node name="MovementFootstep" parent="ARVROrigin" index="4" instance=ExtResource( 17 )]
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource( 2 )]
 
 [node name="SurfaceAudio" parent="BasicMap/Ground" index="2" instance=ExtResource( 19 )]
+surface_audio_type = SubResource( 1 )
 
 [node name="MainMenuTeleport" parent="." index="2" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5 )
@@ -72,5 +81,4 @@ title = ExtResource( 10 )
 
 [node name="surface_objects" parent="." index="3" instance=ExtResource( 12 )]
 
-[editable path="ARVROrigin/PlayerBody"]
 [editable path="BasicMap"]

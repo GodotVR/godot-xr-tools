@@ -2,31 +2,36 @@ tool
 class_name XRToolsMovementFootstep
 extends XRToolsMovementProvider
 
+
+## XRTools Movement Foot Step Player
+##
+## This movement provider detects walking on different surfaces, and plays audio
+## sounds associated with walking on the surfaces.
+
+
+# Some value indicating the player wants to walk at a moderate speed
+const WALK_SOUND_THRESHOLD := 0.3
+
+# Number of audio players to pool
+const AUDIO_POOL_SIZE := 3
+
+
 ## Movement provider order
 export var order : int = 1001
 
-# on ground
-var ground_only : bool = false
-# audio holder path
-var audio : XRToolsSurfaceAudio
-# last surface: the last surface the player was standing on
-var on_default : bool = false
-var on_fabric : bool = false
-var on_glass : bool = false
-var on_grass : bool = false
-var on_leafes : bool = false
-var on_metal : bool = false
-var on_mud : bool = false
-var on_plastic : bool = false
-var on_puddle : bool = false
-var on_rubber : bool = false
-var on_sand : bool = false
-var on_silk : bool = false
-var on_snow : bool = false
-var on_stone : bool = false
-var on_tile : bool = false
-var on_water : bool = false
-var on_wood : bool = false
+## Audio dB
+export(float, -80.0, 80.0) var audio_db : float = 0.0
+
+## Audio dB
+export(float, -24.0, 6.0) var audio_max_db : float = 3.0
+
+## Audio size
+export(float, 0.1, 100.0) var audio_size : float = 3.0
+
+## Audio max distance
+export(float, 0.0, 4096.0) var audio_distance : float = 10.0
+
+
 # step time and rate
 var step_rate = 0.5
 var step_time = 0.0
@@ -34,196 +39,182 @@ var step_time = 0.0
 # Last on_ground state of the player
 var _old_on_ground := true
 
-# Previous velocity
-var _previous_velocity : Vector3 = Vector3.ZERO
-var control_velocity := Vector3.ZERO
-## FootstepHolder - contains footstep audio
-onready var footstep_holder := XRToolsFootstepHolder.find_instance(self)
+# Node representing the location of the players foot
+var _foot_spatial : Spatial
+
+# Pool of idle AudioStreamPlayer3D nodes
+var _audio_pool_idle : Array
+
+# Last ground node
+var _ground_node : Node
+
+# Surface audio type associated with last ground node
+var _ground_node_audio_type : XRToolsSurfaceAudioType
+
+
 ## PlayerBody - Player Physics Body Script
 onready var player_body := XRToolsPlayerBody.find_instance(self)
-# Some value indicating the player wants to walk at a moderate speed
-const WALK_SOUND_THRESHOLD := 0.3
+
+
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
 	return name == "XRToolsMovementFootstep" or .is_class(name)
 
+
 func _ready():
+	# Construct the foot spatial - we will move it around as the player moves.
+	_foot_spatial = Spatial.new()
+	_foot_spatial.name = "FootSpatial"
+	add_child(_foot_spatial)
+
+	# Construct the pool of audio players
+	for i in AUDIO_POOL_SIZE:
+		var player := AudioStreamPlayer3D.new()
+		player.name = "AudioPlayer%d" % (i + 1)
+		player.attenuation_model = AudioStreamPlayer3D.ATTENUATION_INVERSE_SQUARE_DISTANCE
+		player.unit_db = audio_db
+		player.unit_size = audio_size
+		player.max_db = audio_max_db
+		player.max_distance = audio_distance
+		player.connect("finished", self, "_on_player_finished", [ player ])
+		_foot_spatial.add_child(player)
+		_audio_pool_idle.append(player)
+
 	# Set as always active
 	is_active = true
+
+	# Listen for the player jumping
 	player_body.connect("player_jumped", self, "_on_player_jumped")
 
+
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+	# Update the spatial location of the foot
+	_update_foot_spatial()
+	
+	# Update the ground audio information
+	_update_ground_audio()
+	
 	# Detect landing on ground
 	if not _old_on_ground and player_body.on_ground:
-		if on_default:
-			footstep_holder.default.play()
-		if on_fabric:
-			footstep_holder.fabric.play()
-		if on_glass:
-			footstep_holder.glass.play()
-		if on_grass:
-			footstep_holder.grass.play()
-		if on_leafes:
-			footstep_holder.leafes.play()
-		if on_metal:
-			footstep_holder.metal.play()
-		if on_mud:
-			footstep_holder.mud.play()
-		if on_plastic:
-			footstep_holder.plastic.play()
-		if on_puddle:
-			footstep_holder.puddle.play()
-		if on_rubber:
-			footstep_holder.rubber.play()
-		if on_sand:
-			footstep_holder.sand.play()
-		if on_silk:
-			footstep_holder.silk.play()
-		if on_snow:
-			footstep_holder.snow.play()
-		if on_stone:
-			footstep_holder.stone.play()
-		if on_tile:
-			footstep_holder.tile.play()
-		if on_water:
-			footstep_holder.water.play()
-		if on_wood:
-			footstep_holder.wood.play()
+		# Play the ground hit sound
+		_play_ground_hit()
+
 	# Update the old on_ground state
 	_old_on_ground = player_body.on_ground
+	if not player_body.on_ground:
+		step_time = 0
+		return
+	
 	# Count down the step timer, and skip if silenced
 	step_time = max(0, step_time - _delta)
 	if step_time > 0:
 		return
-	# Skip if the player wants footsteps on the ground, and the player isn't on the ground
-	if ground_only and not player_body.on_ground:
-		return
+
 	# Play walking sounds if the player is trying to walk
 	if player_body.ground_control_velocity.length() > WALK_SOUND_THRESHOLD:
 		# Play the step sound and set the step delay timer
+		_play_step_sound()
 		step_time = step_rate
-		if player_body.ground_node.get_node_or_null("SurfaceAudio") != null:
-			audio = player_body.ground_node.get_node_or_null("SurfaceAudio")
-			if audio.current_surface == audio.STATE.DEFAULT:
-				footstep_holder.default.play()
-				on_default = true
-			else:
-				on_default = false
-			if audio.current_surface == audio.STATE.FABRIC:
-				footstep_holder.fabric.play()
-				on_fabric = true
-			else:
-				on_fabric = false
-			if audio.current_surface == audio.STATE.GLASS:
-				footstep_holder.glass.play()
-				on_glass = true
-			else:
-				on_glass = false
-			if audio.current_surface == audio.STATE.GRASS:
-				footstep_holder.grass.play()
-				on_grass = true
-			else:
-				on_grass = false
-			if audio.current_surface == audio.STATE.LEAFES:
-				footstep_holder.leafes.play()
-				on_leafes = true
-			else:
-				on_leafes = false
-			if audio.current_surface == audio.STATE.METAL:
-				footstep_holder.metal.play()
-				on_metal = true
-			else:
-				on_metal = false
-			if audio.current_surface == audio.STATE.MUD:
-				footstep_holder.mud.play()
-				on_mud = true
-			else:
-				on_mud = false
-			if audio.current_surface == audio.STATE.PLASTIC:
-				footstep_holder.plastic.play()
-				on_plastic = true
-			else:
-				on_plastic = false
-			if audio.current_surface == audio.STATE.PUDDLE:
-				footstep_holder.puddle.play()
-				on_puddle = true
-			else:
-				on_puddle = false
-			if audio.current_surface == audio.STATE.RUBBER:
-				footstep_holder.rubber.play()
-				on_rubber = true
-			else:
-				on_rubber = false
-			if audio.current_surface == audio.STATE.SAND:
-				footstep_holder.sand.play()
-				on_sand = true
-			else:
-				on_sand = false
-			if audio.current_surface == audio.STATE.SILK:
-				footstep_holder.silk.play()
-				on_silk = true
-			else:
-				on_silk = false
-			if audio.current_surface == audio.STATE.SNOW:
-				footstep_holder.snow.play()
-				on_snow = true
-			else:
-				on_snow = false
-			if audio.current_surface == audio.STATE.STONE:
-				footstep_holder.stone.play()
-				on_stone = true
-			else:
-				on_stone = false
-			if audio.current_surface == audio.STATE.TILE:
-				footstep_holder.tile.play()
-				on_tile = true
-			else:
-				on_tile = false
-			if audio.current_surface == audio.STATE.WATER:
-				footstep_holder.water.play()
-				on_water = true
-			else:
-				on_water = false
-			if audio.current_surface == audio.STATE.WOOD:
-				footstep_holder.wood.play()
-				on_wood = true
-			else:
-				on_water = false
-func _on_player_jumped():
-	if on_default:
-		footstep_holder.default.play()
-	if on_fabric:
-		footstep_holder.fabric.play()
-	if on_glass:
-		footstep_holder.glass.play()
-	if on_grass:
-		footstep_holder.grass.play()
-	if on_leafes:
-		footstep_holder.leafes.play()
-	if on_metal:
-		footstep_holder.metal.play()
-	if on_mud:
-		footstep_holder.mud.play()
-	if on_plastic:
-		footstep_holder.plastic.play()
-	if on_puddle:
-		footstep_holder.puddle.play()
-	if on_rubber:
-		footstep_holder.rubber.play()
-	if on_sand:
-		footstep_holder.sand.play()
-	if on_silk:
-		footstep_holder.silk.play()
-	if on_snow:
-		footstep_holder.snow.play()
-	if on_stone:
-		footstep_holder.stone.play()
-	if on_tile:
-		footstep_holder.tile.play()
-	if on_water:
-		footstep_holder.water.play()
-	if on_wood:
-		footstep_holder.wood.play()
+
+
+# Called when the player jumps
+func _on_player_jumped() -> void:
+	# Play the hit sound for whatever ground the player was standing on
+	_play_ground_hit()
+
+
+# Update ther foot spatial to be where the players foot is
+func _update_foot_spatial() -> void:
+	# Project the players camera down to the XZ plane (real-world space)
+	var local_foot := Plane.PLANE_XZ.project(player_body.camera_node.translation)
+
+	# Move the foot_spatial to the local foot in the global origin space
+	_foot_spatial.global_translation = player_body.origin_node.global_transform.xform(local_foot)
+
+
+# Update the ground audio information
+func _update_ground_audio() -> void:
+	# Skip if no change
+	if player_body.ground_node == _ground_node:
+		return
+
+	# Save the new ground node
+	_ground_node = player_body.ground_node
+
+	# Handle no ground
+	if not _ground_node:
+		_ground_node_audio_type = null
+		return
+
+	# Find the surface audio for the ground (if any)
+	var ground_audio : XRToolsSurfaceAudio = XRTools.find_child(
+			_ground_node,
+			"*", 
+			"XRToolsSurfaceAudio")
+	if ground_audio:
+		_ground_node_audio_type = ground_audio.surface_audio_type
+	else:
+		_ground_node_audio_type = null
+
+
+# Play the hit sound made when the player lands on the ground
+func _play_ground_hit() -> void:
+	# Skip if no ground audio
+	if not _ground_node_audio_type:
+		return
+
+	# Get an idle audio player
+	var player := _get_idle_audio_player()
+	if not player:
+		return
+
+	# Play the hit sound
+	player.stream = _ground_node_audio_type.hit_sound
+	player.pitch_scale = 1.0
+	player.play()
+
+
+# Play a step sound for the current ground
+func _play_step_sound() -> void:
+	# Skip if no ground audio
+	if not _ground_node_audio_type:
+		return
+
+	# Get an idle audio player
+	var player := _get_idle_audio_player()
+	if not player:
+		return
+
+	# Pick the sound index
+	var idx := randi() % _ground_node_audio_type.walk_sounds.size()
+
+	# Pick the playback pitck
+	var pitch := rand_range(
+			_ground_node_audio_type.walk_pitch_minimum,
+			_ground_node_audio_type.walk_pitch_maximum)
+
+	# Play the walk sound
+	player.stream = _ground_node_audio_type.walk_sounds[idx]
+	player.pitch_scale = pitch
+	player.play()
+
+
+# Called to get an idle AudioStreamPlayer3D to play a sound
+func _get_idle_audio_player() -> AudioStreamPlayer3D:
+	# Return the next idle player
+	if _audio_pool_idle.size() > 0:
+		return _audio_pool_idle.pop_front()
+
+	# No players available
+	push_warning("XRToolsMovementFootstep idle audio pool empty")
+	return null
+
+
+# Called when an AudioStreamPlayer3D in our pool finishes playing its sound
+func _on_player_finished(player : AudioStreamPlayer3D) -> void:
+	_audio_pool_idle.append(player)
+
+
 ## Find an [XRToolsMovementFootstep] node.
 ##
 ## This function searches from the specified node for an [XRToolsMovementFootstep]

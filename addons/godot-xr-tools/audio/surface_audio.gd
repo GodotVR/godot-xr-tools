@@ -2,29 +2,32 @@ tool
 class_name XRToolsSurfaceAudio, "res://addons/godot-xr-tools/editor/icons/foot.svg"
 extends Node
 
-## Surface STATES
-enum STATE {
-	DEFAULT = 0,
-	FABRIC = 1,
-	GLASS = 2,
-	GRASS = 3,
-	LEAFES = 4,
-	METAL = 5,
-	MUD = 6,
-	PLASTIC = 7,
-	PUDDLE = 8,
-	RUBBER = 9,
-	SAND = 10,
-	SILK = 11,
-	SNOW = 12,
-	STONE = 13,
-	TILE = 14,
-	WATER = 15,
-	WOOD = 16
-}
-## current_surface is the current surface the player is standing on
-export (STATE) var current_surface = STATE.DEFAULT
+
+## XRTools Surface Audio Node
+##
+## This node is attached as a child of a StaticObject to give it a surface 
+## audio type. This will cause the XRToolsMovementFootStep to play the correct
+## foot-step sounds when walking on the object.
+
+
+## XRToolsSurfaceAudioType to associate with this surface
+export var surface_audio_type : Resource
+
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
 	return name == "XRToolsSurfaceAudio" or .is_class(name)
+
+
+# This method checks for configuration issues.
+func _get_configuration_warning():
+	# Verify the camera
+	if !surface_audio_type:
+		return "Surface audio type not specified"
+
+	# Verify hit sound
+	if !surface_audio_type is XRToolsSurfaceAudioType:
+		return "Surface audio type is not an XRToolsSurfaceAudioType"
+
+	# No configuration issues detected
+	return ""
