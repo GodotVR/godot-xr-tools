@@ -1,0 +1,31 @@
+[gd_scene format=2]
+
+[node name="Controls" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -624.0
+margin_bottom = -350.0
+rect_pivot_offset = Vector2( -421, -85 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 400.0
+margin_bottom = 250.0
+color = Color( 0, 0, 0, 0.87451 )
+
+[node name="Description" type="RichTextLabel" parent="."]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 390.0
+margin_bottom = 240.0
+text = "Footstep Movement Demo Scene
+
+ > Left Controller:
+   - Direct Movement: U/D/L/R Joystick
+   - Crouching: B/Y Button (hold)
+
+ > Right Controller:
+   - Direct Movement: U/D Joystick
+   - Turning: L/R Joystick
+   - Jumping: A/X Button
+"
+scroll_active = false
