@@ -162,6 +162,8 @@ func _get_configuration_warning():
 
 	# Call base class
 	return ._get_configuration_warning()
+
+
 ## Find an [XRToolsMovementSprint] node.
 ##
 ## This function searches from the specified node for an [XRToolsMovementSprint]
