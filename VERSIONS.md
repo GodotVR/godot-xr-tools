@@ -1,5 +1,6 @@
 # 3.3.0 (Development)
 - Added reset-scene and scene-control functions to scene-base
+- Fixed snap-zones stealing objects picked out of other near-by snap-zones
 
 # 3.2.0
 - Minimum supported Godot version set to 3.5
