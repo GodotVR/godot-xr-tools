@@ -106,7 +106,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 		return
 	
 	# Count down the step timer, and skip if silenced
-	step_time = max(0, step_time - _delta)
+	step_time = max(0, step_time - _delta * player_body.ground_control_velocity.length())
 	if step_time > 0:
 		return
 
