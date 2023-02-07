@@ -162,3 +162,14 @@ func _get_configuration_warning():
 
 	# Call base class
 	return ._get_configuration_warning()
+
+
+## Find an [XRToolsMovementSprint] node.
+##
+## This function searches from the specified node for an [XRToolsMovementSprint]
+## assuming the node is a sibling of the body under an [ARVROrigin].
+static func find_instance(node: Node) -> XRToolsMovementSprint:
+	return XRTools.find_child(
+		ARVRHelpers.get_arvr_origin(node),
+		"*",
+		"XRToolsMovementSprint") as XRToolsMovementSprint
