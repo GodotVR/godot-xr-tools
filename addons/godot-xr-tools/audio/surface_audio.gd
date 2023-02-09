@@ -5,7 +5,7 @@ extends Node
 
 ## XRTools Surface Audio Node
 ##
-## This node is attached as a child of a StaticObject to give it a surface 
+## This node is attached as a child of a StaticObject to give it a surface
 ## audio type. This will cause the XRToolsMovementFootStep to play the correct
 ## foot-step sounds when walking on the object.
 

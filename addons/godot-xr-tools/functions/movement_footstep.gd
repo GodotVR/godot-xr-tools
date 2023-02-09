@@ -87,7 +87,7 @@ func _ready():
 	player_body.connect("player_jumped", self, "_on_player_jumped")
 
 
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Update the spatial location of the foot
 	_update_foot_spatial()
 
@@ -147,7 +147,8 @@ func _update_ground_audio() -> void:
 		return
 
 	# Find the surface audio for the ground (if any)
-	var ground_audio : XRToolsSurfaceAudio = XRTools.find_child(_ground_node, "*", "XRToolsSurfaceAudio")
+	var ground_audio : XRToolsSurfaceAudio = XRTools.find_child(
+		_ground_node, "*", "XRToolsSurfaceAudio")
 	if ground_audio:
 		_ground_node_audio_type = ground_audio.surface_audio_type
 	else:
