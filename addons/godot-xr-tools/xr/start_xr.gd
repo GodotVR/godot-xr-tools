@@ -35,12 +35,18 @@ signal xr_ended
 ## Physics rate multiplier compared to HMD frame rate
 @export var physics_rate_multiplier : int = 1
 
+## If non-zero, specifies the target refresh rate
+@export var target_refresh_rate : float = 0
+
 
 ## Current XR interface
 var xr_interface : XRInterface
 
 ## XR active flag
 var xr_active : bool = false
+
+# Current refresh rate
+var _current_refresh_rate : float = 0
 
 
 # Handle auto-initialization when ready
@@ -106,18 +112,31 @@ func _setup_for_openxr() -> bool:
 func _on_openxr_session_begun() -> void:
 	print("OpenXR: Session begun")
 
-	# increase our physics engine update speed
-	var refresh_rate : float = xr_interface.get_display_refresh_rate()
-	if refresh_rate > 0:
-		# Report provided frame rare
-		print("OpenXR: HMD refresh rate is set to ", str(refresh_rate))
+	# Get the reported refresh rate
+	_current_refresh_rate = xr_interface.get_display_refresh_rate()
+	if _current_refresh_rate > 0:
+		print("OpenXR: Refresh rate reported as ", str(_current_refresh_rate))
 	else:
-		# None provided, assume a standard rate
 		print("OpenXR: No refresh rate given by XR runtime")
-		refresh_rate = 144
+
+	# Pick a desired refresh rate
+	var desired_rate := target_refresh_rate if target_refresh_rate > 0 else _current_refresh_rate
+	var available_rates : Array = xr_interface.get_available_display_refresh_rates()
+	if available_rates.size() == 0:
+		print("OpenXR: Target does not support refresh rate extension")
+	elif available_rates.size() == 1:
+		print("OpenXR: Target supports only one refresh rate")
+	elif desired_rate > 0:
+		print("OpenXR: Available refresh rates are ", str(available_rates))
+		var rate = _find_closest(available_rates, desired_rate)
+		if rate > 0:
+			print("OpenXR: Setting refresh rate to ", str(rate))
+			xr_interface.set_display_refresh_rate(rate)
+			_current_refresh_rate = rate
 
 	# Pick a physics rate
-	var physics_rate := int(round(refresh_rate * physics_rate_multiplier))
+	var active_rate := _current_refresh_rate if _current_refresh_rate > 0 else 144.0
+	var physics_rate := int(round(active_rate * physics_rate_multiplier))
 	print("Setting physics rate to ", physics_rate)
 	Engine.physics_ticks_per_second = physics_rate
 
@@ -236,3 +255,19 @@ func _on_enter_webxr_button_pressed() -> void:
 	# or _on_webxr_session_failed
 	if not xr_interface.initialize():
 		OS.alert("Failed to initialize WebXR")
+
+
+# Find the closest value in the array to the target
+func _find_closest(values : Array, target : float) -> float:
+	# Return 0 if no values
+	if values.size() == 0:
+		return 0.0
+
+	# Find the closest value to the target
+	var best : float = values.front()
+	for v in values:
+		if abs(target - v) < abs(target - best):
+			best = v
+
+	# Return the best value
+	return best
