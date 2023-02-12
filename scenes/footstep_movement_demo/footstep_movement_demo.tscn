@@ -1,0 +1,80 @@
+[gd_scene load_steps=20 format=3 uid="uid://di3m8og7wdtw7"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
+[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://mnoirgubr2js" path="res://scenes/footstep_movement_demo/objects/instructions.tscn" id="3_8248t"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="9"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="10"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" id="10_e05iy"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
+[ext_resource type="PackedScene" uid="uid://54qovguk25i5" path="res://assets/meshes/plate/surface_objects.tscn" id="12"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="12_saqkw"]
+[ext_resource type="AudioStream" uid="uid://ds0rmkx4184ev" path="res://assets/footsteps/default01.ogg" id="13_sl77v"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="14_cqr4a"]
+
+[sub_resource type="Resource" id="Resource_1m02w"]
+script = ExtResource("14_cqr4a")
+name = "Default"
+hit_sound = ExtResource("13_sl77v")
+walk_sounds = Array[AudioStream]([null, null])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
+
+[node name="FootstepMovementDemo" instance=ExtResource("1")]
+script = ExtResource("1_yauh3")
+
+[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("6")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
+max_speed = 3.0
+strafe = true
+
+[node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("9")]
+jump_button_action = "ax_button"
+
+[node name="MovementCrouch" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("3")]
+crouch_height = 1.3
+crouch_button_action = "by_button"
+
+[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("8")]
+
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
+max_speed = 3.0
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("7")]
+
+[node name="MovementJump" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("9")]
+jump_button_action = "ax_button"
+
+[node name="MovementCrouch" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("3")]
+crouch_height = 1.3
+crouch_button_action = "by_button"
+crouch_type = 1
+
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("4")]
+
+[node name="MovementFootstep" parent="XROrigin3D" index="4" instance=ExtResource("10_e05iy")]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
+
+[node name="SurfaceAudio" parent="BasicMap/Ground" index="2" instance=ExtResource("12_saqkw")]
+surface_audio_type = SubResource("Resource_1m02w")
+
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+scene_base = NodePath("..")
+title = ExtResource("10")
+
+[node name="Instructions" parent="." index="3" instance=ExtResource("3_8248t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
+
+[node name="surface_objects" parent="." index="4" instance=ExtResource("12")]
+
+[editable path="BasicMap"]

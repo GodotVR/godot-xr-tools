@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/functions/movement_footstep.gd" type="Script" id=1]
+
+[node name="MovementFootstep" type="Node" groups=["movement_providers"]]
+script = ExtResource( 1 )
+audio_path = ""
+crouch_path = ""
+ground_only = true
