@@ -73,6 +73,18 @@ var last_collided_at : Vector3 = Vector3.ZERO
 # World scale
 var _world_scale : float = 1.0
 
+# Left controller node
+var _controller_left_node : ARVRController
+
+# Right controller node
+var _controller_right_node : ARVRController
+
+# Parent controller (if this pointer is childed to a specific controller)
+var _controller  : ARVRController
+
+# The currently active controller
+var _active_controller : ARVRController
+
 
 # Add support for is_class on XRTools classes
 func is_class(name : String) -> bool:
@@ -88,12 +100,34 @@ func _ready():
 	# Read the initial world-scale
 	_world_scale = ARVRServer.world_scale
 
-	# If pointer-trigger is a button then subscribe to button signals
-	if active_button != XRTools.Buttons.VR_ACTION:
-		# Get button press feedback from controller
-		var controller := ARVRHelpers.get_arvr_controller(self)
-		controller.connect("button_pressed", self, "_on_button_pressed")
-		controller.connect("button_release", self, "_on_button_release")
+	# Check for a parent controller
+	_controller = ARVRHelpers.get_arvr_controller(self)
+	if _controller:
+		# Set as active on the parent controller
+		_active_controller = _controller
+
+		# If pointer-trigger is a button then subscribe to button signals
+		if active_button != XRTools.Buttons.VR_ACTION:
+			# Get button press feedback from controller
+			_controller.connect("button_pressed", self, "_on_button_pressed", [_controller])
+			_controller.connect("button_release", self, "_on_button_release", [_controller])
+	else:
+		# Get the left and right controllers
+		_controller_left_node = ARVRHelpers.get_left_controller(self)
+		_controller_right_node = ARVRHelpers.get_right_controller(self)
+
+		# Start out right hand controller
+		_active_controller = _controller_right_node
+
+		# Get button press feedback from both left and right controllers
+		_controller_left_node.connect("button_pressed", self, "_on_button_pressed",
+										[_controller_left_node])
+		_controller_left_node.connect("button_release", self, "_on_button_release",
+										[_controller_left_node])
+		_controller_right_node.connect("button_pressed", self, "_on_button_pressed",
+										[_controller_right_node])
+		_controller_right_node.connect("button_release", self, "_on_button_release",
+										[_controller_right_node])
 
 	# init our state
 	_update_y_offset()
@@ -110,6 +144,10 @@ func _process(_delta):
 	# Do not process if in the editor
 	if Engine.editor_hint or !is_inside_tree():
 		return
+
+	# Track the active controller (if this pointer is not childed to a controller)
+	if _controller == null and _active_controller != null:
+		transform = _active_controller.transform
 
 	# If pointer-trigger is an action then check for action
 	if active_button == XRTools.Buttons.VR_ACTION and action != "":
@@ -317,12 +355,15 @@ func _button_released() -> void:
 
 
 # Button pressed handler
-func _on_button_pressed(p_button : int) -> void:
+func _on_button_pressed(p_button : int, controller : ARVRController) -> void:
 	if p_button == active_button and enabled:
-		_button_pressed()
+		if controller == _active_controller:
+			_button_pressed()
+		else:
+			_active_controller = controller
 
 
 # Button released handler
-func _on_button_release(p_button : int) -> void:
+func _on_button_release(p_button : int, _controller : ARVRController) -> void:
 	if p_button == active_button and target:
 		_button_released()

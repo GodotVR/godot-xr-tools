@@ -25,6 +25,8 @@ signal player_glide_start
 ## Signal invoked when the player ends gliding
 signal player_glide_end
 
+## Signal invoked when the player flaps
+signal player_flapped
 
 ## Movement provider order
 export var order : int = 35
@@ -53,12 +55,39 @@ export var turn_with_roll : bool = false
 ## Smooth turn speed in radians per second
 export var roll_turn_speed : float = 1
 
+## Add vertical impulse by flapping controllers
+export var wings_impulse : bool = false
+
+## Minimum velocity for flapping
+export var flap_min_speed : float = 0.3
+
+## Flapping force multiplier
+export var wings_force : float = 1.0
+
+## Minimum distance from controllers to ARVRCamera to rearm flaps.
+## if set to 0, you need to reach head level with hands to rearm flaps
+export var rearm_distance_offset : float = 0.2
+
+
+## Flap activated (when both controllers are near the ARVRCamera height)
+var flap_armed : bool = false
+
+## Last controllers position to calculate flapping velocity
+var last_local_left_position : Vector3
+var last_local_right_position : Vector3
+
+# True if the controller positions are valid
+var _has_controller_positions : bool = false
+
 
 # Left controller
 onready var _left_controller := ARVRHelpers.get_left_controller(self)
 
 # Right controller
 onready var _right_controller := ARVRHelpers.get_right_controller(self)
+
+# ARVRCamera
+onready var _camera_node := ARVRHelpers.get_arvr_camera(self)
 
 
 # Add support for is_class on XRTools classes
@@ -74,15 +103,67 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		_set_gliding(false)
 		return
 
-	# If on the ground, or not falling, then not gliding
-	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
-	if player_body.on_ground || vertical_velocity >= glide_min_fall_speed:
+	# If on the ground, then not gliding
+	if player_body.on_ground:
 		_set_gliding(false)
 		return
 
 	# Get the controller left and right global horizontal positions
 	var left_position := _left_controller.global_transform.origin
 	var right_position := _right_controller.global_transform.origin
+
+	# Set default wings impulse to zero
+	var wings_impulse_velocity := 0.0
+
+	# If wings impulse is active, calculate flapping impulse
+	if wings_impulse:
+		# Get head position
+		var camera_position := _camera_node.global_transform.origin
+
+		# Check controllers position relative to head
+		var left_hand_over_head = camera_position.y < left_position.y + rearm_distance_offset
+		var right_hand_over_head = camera_position.y < right_position.y + rearm_distance_offset
+		if left_hand_over_head && right_hand_over_head:
+			flap_armed = true
+
+		if flap_armed:
+			# Get controller local positions
+			var local_left_position := _left_controller.transform.origin
+			var local_right_position := _right_controller.transform.origin
+
+			# Store last frame controller positions for the first step
+			if not _has_controller_positions:
+				_has_controller_positions = true
+				last_local_left_position = local_left_position
+				last_local_right_position = local_right_position
+
+			# Calculate controllers velocity only when flapping downwards
+			var left_wing_velocity = 0.0
+			var right_wing_velocity = 0.0
+			if local_left_position.y < last_local_left_position.y:
+				left_wing_velocity = local_left_position.distance_to(last_local_left_position) / delta
+			if local_right_position.y < last_local_right_position.y:
+				right_wing_velocity = local_right_position.distance_to(last_local_right_position) / delta
+
+			# Calculate wings impulse
+			if left_wing_velocity > flap_min_speed && right_wing_velocity > flap_min_speed:
+				wings_impulse_velocity = (left_wing_velocity + right_wing_velocity) / 2
+				wings_impulse_velocity = wings_impulse_velocity * wings_force * delta * 50
+				emit_signal("player_flapped")
+				flap_armed = false
+
+			# Store controller position for next frame
+			last_local_left_position = local_left_position
+			last_local_right_position = local_right_position
+
+	# If not falling, then not gliding
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	vertical_velocity += wings_impulse_velocity
+	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
+		_set_gliding(false)
+		return
+
+	# Calculate global left to right controller vector
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:

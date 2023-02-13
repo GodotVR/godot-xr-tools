@@ -12,6 +12,9 @@ export var scene: PackedScene
 ## Title texture
 export var title: Texture setget _set_title
 
+## Can Teleporter be used
+export var active := true
+
 
 # Scene base to trigger loading
 onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
@@ -31,11 +34,21 @@ func _on_TeleportArea_body_entered(body: Spatial):
 	if not body.is_in_group("player_body"):
 		return
 
+	# Skip if not active
+	if not active:
+		return
+
 	# Teleport
 	if scene:
-		_scene_base.emit_signal("load_scene", scene.resource_path)
+		_scene_base.load_scene(scene.resource_path)
 	else:
-		_scene_base.emit_signal("exit_to_main_menu")
+		_scene_base.exit_to_main_menu()
+
+func set_collision_disabled(value):
+	if !Engine.is_editor_hint():
+		for child in get_node("TeleportBody").get_children():
+			if child is CollisionShape:
+				child.disabled = value
 
 func _set_title(value):
 	title = value

@@ -127,13 +127,13 @@ onready var origin_node : ARVROrigin = ARVRHelpers.get_arvr_origin(self)
 ## ARVRCamera node
 onready var camera_node : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
 
-## Player KinematicBody node
+## Player body node
 onready var kinematic_node : KinematicBody = $KinematicBody
 
-# Default physics (if not specified by the user or the current ground)
+## Default physics (if not specified by the user or the current ground)
 onready var default_physics = _guaranteed_physics()
 
-# Player body Collision node
+## Player body Collision node
 onready var _collision_node : CollisionShape = $KinematicBody/CollisionShape
 
 

@@ -56,7 +56,6 @@ hand_pose = SubResource( 3 )
 
 [node name="GrabPointHandRight" parent="." instance=ExtResource( 2 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0.069, 0.015 )
-visible = true
 hand_pose = SubResource( 4 )
 
 [node name="GrabPointSnapSaucer" parent="." instance=ExtResource( 4 )]

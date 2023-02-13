@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" type="PackedScene" id=2]
@@ -18,6 +18,7 @@
 [ext_resource path="res://scenes/climbing_gliding_demo/objects/hill.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" type="Material" id=17]
 [ext_resource path="res://scenes/climbing_gliding_demo/objects/instructions.tscn" type="PackedScene" id=18]
+[ext_resource path="res://scenes/climbing_gliding_demo/objects/ring.tscn" type="PackedScene" id=19]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=22]
 
 [sub_resource type="CubeMesh" id=1]
@@ -70,6 +71,7 @@ jump_button_id = 7
 
 [node name="MovementGlide" parent="ARVROrigin" index="5" instance=ExtResource( 7 )]
 turn_with_roll = true
+wings_impulse = true
 
 [node name="MovementWind" parent="ARVROrigin" index="6" instance=ExtResource( 22 )]
 
@@ -204,6 +206,27 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 25, -10 )
 [node name="WindArea8" parent="Terrain/Winds" index="7" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 35, -10 )
 
+[node name="Rings" type="Spatial" parent="Terrain" index="4"]
+transform = Transform( 0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, -6.839, 49.8018, 12.5189 )
+
+[node name="ring1" parent="Terrain/Rings" index="0" instance=ExtResource( 19 )]
+transform = Transform( 0.92394, -1.61434e-08, -0.382538, 1.28187e-08, 1, -1.12399e-08, 0.382538, 5.48136e-09, 0.92394, -51.9777, 0, -5.49984 )
+
+[node name="ring2" parent="Terrain/Rings" index="1" instance=ExtResource( 19 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.14596, 3.37725, 2.24743 )
+
+[node name="ring3" parent="Terrain/Rings" index="2" instance=ExtResource( 19 )]
+transform = Transform( 0.963626, -1.0912e-08, -0.267255, 9.32201e-09, 1, -7.218e-09, 0.267255, 4.4641e-09, 0.963626, 72.52, 12.0066, 15.9844 )
+
+[node name="ring4" parent="Terrain/Rings" index="3" instance=ExtResource( 19 )]
+transform = Transform( -0.910597, -2.61121e-08, 0.413295, -5.74028e-08, 1, -6.32931e-08, -0.413295, -8.13588e-08, -0.910597, 69.9441, 26.6401, -48.2277 )
+
+[node name="ring5" parent="Terrain/Rings" index="4" instance=ExtResource( 19 )]
+transform = Transform( -0.999975, -4.34426e-08, 0.00708592, -4.39791e-08, 1, -7.55545e-08, -0.00708592, -7.58643e-08, -0.999975, 6.63248, 23.3205, -63.4222 )
+
+[node name="ring6" parent="Terrain/Rings" index="5" instance=ExtResource( 19 )]
+transform = Transform( -0.880287, -5.90551e-08, -0.474442, -2.31349e-08, 1, -8.15478e-08, 0.474442, -6.08093e-08, -0.880287, -47.6503, 14.5468, -50.2337 )
+
 [node name="MainMenuTeleport1" parent="." index="3" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 36, -68 )
 scene_base = NodePath("..")
@@ -215,4 +238,4 @@ scene_base = NodePath("..")
 title = ExtResource( 13 )
 
 [node name="Instructions" parent="." index="5" instance=ExtResource( 18 )]
-transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40, -60 )
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40.164, -60 )

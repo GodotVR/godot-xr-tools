@@ -13,5 +13,7 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Sam Sarette](https://github.com/lunarcloud)
 - [Henodude](https://github.com/Henodude)
 - [Miodrag Sejic](https://github.com/DigitalN8m4r3)
+- [Carlos Padial](https://github.com/surreal6)
+- [Julian Todd](https://github.com/goatchurchprime)
 
 Want to be on this list? We would love your help.
