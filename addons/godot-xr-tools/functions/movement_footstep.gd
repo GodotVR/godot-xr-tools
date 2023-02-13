@@ -6,7 +6,7 @@ extends XRToolsMovementProvider
 ## XR Tools Movement Provider for Footsteps
 ##
 ## This movement provider detects walking on different surfaces.
-## It plays audio sounds associated with the surface the player is 
+## It plays audio sounds associated with the surface the player is
 ## currently walking on.
 
 

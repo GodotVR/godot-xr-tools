@@ -6,13 +6,13 @@
 
 [sub_resource type="CubeMesh" id=1]
 material = ExtResource( 3 )
-size = Vector3( 6, 3, 0.1 )
+size = Vector3( 4, 5, 0.1 )
 
 [node name="Instructions" type="Spatial"]
 
 [node name="Viewport2Din3D" parent="." instance=ExtResource( 2 )]
-screen_size = Vector2( 5.8, 2.8 )
-viewport_size = Vector2( 768, 296 )
+screen_size = Vector2( 4, 5 )
+viewport_size = Vector2( 400, 425 )
 unshaded = true
 scene = ExtResource( 1 )
 update_mode = 0
