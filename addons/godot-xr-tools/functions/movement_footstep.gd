@@ -6,7 +6,8 @@ extends XRToolsMovementProvider
 ## XR Tools Movement Provider for Footsteps
 ##
 ## This movement provider detects walking on different surfaces.
-## It plays audio sounds associated with the surface the player is currently walking on.
+## It plays audio sounds associated with the surface the player is
+## currently walking on.
 
 
 # Some value indicating the player wants to walk at a moderate speed
@@ -31,10 +32,13 @@ const AUDIO_POOL_SIZE := 3
 ## Audio max distance
 @export_range(0.0, 4096.0) var audio_distance : float = 10.0
 
+## Default XRToolsSurfaceAudioType when not overridden
+@export var default_surface_audio_type : Resource
 
 ## Step per meter by time
 @export var steps_per_meter = 1.0
 
+#step time
 var step_time = 0.0
 
 # Last on_ground state of the player
@@ -69,7 +73,7 @@ func _ready():
 	# Construct the foot spatial - we will move it around as the player moves.
 	_foot_spatial = Node3D.new()
 	_foot_spatial.name = "FootSpatial"
-	player_body.kinematic_node.add_child(_foot_spatial)
+	add_child(_foot_spatial)
 
 	# Construct the pool of audio players
 	for i in AUDIO_POOL_SIZE:
@@ -80,15 +84,25 @@ func _ready():
 		player.unit_size = audio_size
 		player.max_db = audio_max_db
 		player.max_distance = audio_distance
-		player.connect("finished", _on_player_finished)
-		player_body.kinematic_node.add_child(player)
+		player.finished.connect(_on_player_finished.bind(player))
+		_foot_spatial.add_child(player)
 		_audio_pool_idle.append(player)
 
 	# Set as always active
 	is_active = true
 
 	# Listen for the player jumping
-	player_body.connect("player_jumped", _on_player_jumped)
+	player_body.player_jumped.connect(_on_player_jumped)
+
+
+# This method checks for configuration issues.
+func _get_configuration_warning():
+	# Verify hit sound
+	if default_surface_audio_type and !default_surface_audio_type is XRToolsSurfaceAudioType:
+		return "Default surface audio type is not an XRToolsSurfaceAudioType"
+
+	# No configuration issues detected
+	return ""
 
 
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
@@ -156,7 +170,7 @@ func _update_ground_audio() -> void:
 	if ground_audio:
 		_ground_node_audio_type = ground_audio.surface_audio_type
 	else:
-		_ground_node_audio_type = null
+		_ground_node_audio_type = default_surface_audio_type
 
 
 # Play the hit sound made when the player lands on the ground
@@ -174,7 +188,6 @@ func _play_ground_hit() -> void:
 	player.stream = _ground_node_audio_type.hit_sound
 	player.pitch_scale = 1.0
 	player.play()
-
 
 # Play a step sound for the current ground
 func _play_step_sound() -> void:
