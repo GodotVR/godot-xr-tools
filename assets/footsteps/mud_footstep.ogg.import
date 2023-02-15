@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/mud_footstep.ogg-7037238fe005102e9ddd7e51a9099967.oggstr"
+
+[deps]
+
+source_file="res://assets/footsteps/mud_footstep.ogg"
+dest_files=[ "res://.import/mud_footstep.ogg-7037238fe005102e9ddd7e51a9099967.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
