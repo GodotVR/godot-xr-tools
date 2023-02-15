@@ -94,7 +94,6 @@ static func set_x_axis_dead_zone(p_deadzone : float) -> void:
 		return
 
 	ProjectSettings.set_setting("godot_xr_tools/input/x_axis_dead_zone", p_deadzone)
-	
 
 static func get_snap_turning_deadzone() -> float:
 	# can return null which is not a float, so don't type this!
