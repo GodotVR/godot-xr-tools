@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://di3m8og7wdtw7"]
+[gd_scene load_steps=19 format=3 uid="uid://di3m8og7wdtw7"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
@@ -12,18 +12,17 @@
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="10"]
-[ext_resource type="PackedScene" uid="uid://0ft7gpqoim2u" path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" id="10_e05iy"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" id="10_e05iy"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
+[ext_resource type="AudioStream" uid="uid://1pvhce6jale0" path="res://assets/footsteps/default_footstep.ogg" id="11_fn3gp"]
 [ext_resource type="PackedScene" uid="uid://54qovguk25i5" path="res://assets/meshes/plate/surface_objects.tscn" id="12"]
-[ext_resource type="AudioStream" uid="uid://k4ay0w80igqn" path="res://assets/footsteps/default02.ogg" id="13_ku2ig"]
-[ext_resource type="AudioStream" uid="uid://ds0rmkx4184ev" path="res://assets/footsteps/default01.ogg" id="13_sl77v"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="14_cqr4a"]
 
-[sub_resource type="Resource" id="Resource_4188k"]
+[sub_resource type="Resource" id="Resource_lclo7"]
 script = ExtResource("14_cqr4a")
 name = "Default"
-hit_sound = ExtResource("13_sl77v")
-walk_sounds = Array[AudioStream]([ExtResource("13_sl77v"), ExtResource("13_ku2ig")])
+hit_sound = ExtResource("11_fn3gp")
+walk_sounds = Array[AudioStream]([ExtResource("11_fn3gp"), ExtResource("11_fn3gp")])
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
@@ -61,7 +60,7 @@ crouch_type = 1
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("4")]
 
 [node name="MovementFootstep" parent="XROrigin3D" index="4" instance=ExtResource("10_e05iy")]
-default_surface_audio_type = SubResource("Resource_4188k")
+default_surface_audio_type = SubResource("Resource_lclo7")
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
 

@@ -33,7 +33,7 @@ const AUDIO_POOL_SIZE := 3
 @export_range(0.0, 4096.0) var audio_distance : float = 10.0
 
 ## Default XRToolsSurfaceAudioType when not overridden
-@export var default_surface_audio_type : Resource
+@export var default_surface_audio_type : XRToolsSurfaceAudioType
 
 ## Step per meter by time
 @export var steps_per_meter = 1.0
@@ -48,7 +48,7 @@ var _old_on_ground := true
 var _foot_spatial : Node3D
 
 # Pool of idle AudioStreamPlayer3D nodes
-var _audio_pool_idle : Array
+var _audio_pool_idle : Array[AudioStreamPlayer3D]
 
 # Last ground node
 var _ground_node : Node
@@ -93,16 +93,6 @@ func _ready():
 
 	# Listen for the player jumping
 	player_body.player_jumped.connect(_on_player_jumped)
-
-
-# This method checks for configuration issues.
-func _get_configuration_warning():
-	# Verify hit sound
-	if default_surface_audio_type and !default_surface_audio_type is XRToolsSurfaceAudioType:
-		return "Default surface audio type is not an XRToolsSurfaceAudioType"
-
-	# No configuration issues detected
-	return ""
 
 
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
