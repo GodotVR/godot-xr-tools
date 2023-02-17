@@ -26,6 +26,21 @@ signal player_jumped()
 signal player_bounced(collider, magnitude)
 
 
+## Enumeration indicating when ground control can be used
+enum GroundControl {
+	ON_GROUND,		## Apply ground control only when on ground
+	NEAR_GROUND,	## Apply ground control when near ground
+	ALWAYS			## Apply ground control always
+}
+
+
+## Ground distance considered "on" the ground
+const ON_GROUND_DISTANCE := 0.1
+
+## Ground distance considered "near" the ground
+const NEAR_GROUND_DISTANCE := 1.0
+
+
 ## If true, the player body performs physics processing and movement
 export var enabled : bool = true setget set_enabled
 
@@ -50,6 +65,9 @@ export var push_rigid_bodies : bool = true
 ## Default ground physics setting - can only be typed in Godot 4+
 export var physics : Resource setget set_physics
 
+## Option for specifying when ground control is allowed
+export (GroundControl) var ground_control : int = GroundControl.ON_GROUND
+
 ## Collision layer for the player body
 export (int, LAYERS_3D_PHYSICS) var collision_layer : int = 1 << 19 setget set_collision_layer
 
@@ -65,6 +83,9 @@ var gravity : Vector3 = Vector3.ZERO
 
 ## Set true when the player is on the ground
 var on_ground : bool = true
+
+## Set true when the player is near the ground
+var near_ground : bool = true
 
 ## Normal vector for the ground under the player
 var ground_vector : Vector3 = Vector3.UP
@@ -416,9 +437,13 @@ func _update_body_under_camera():
 
 # This method updates the information about the ground under the players feet
 func _update_ground_information(delta: float):
-	# Update the ground information
-	var ground_collision := kinematic_node.move_and_collide(up_gravity_vector * -0.1, true, true, true)
+	# Test how close we are to the ground
+	var ground_collision := kinematic_node.move_and_collide(
+			up_gravity_vector * -NEAR_GROUND_DISTANCE, true, true, true)
+
+	# Handle no collision (or too far away to care about)
 	if !ground_collision:
+		near_ground = false
 		on_ground = false
 		ground_vector = up_gravity_vector
 		ground_angle = 0.0
@@ -427,8 +452,11 @@ func _update_ground_information(delta: float):
 		_previous_ground_node = null
 		return
 
+	# Categorize the type of ground contact
+	near_ground = true
+	on_ground = ground_collision.travel.length() <= ON_GROUND_DISTANCE
+
 	# Save the ground information from the collision
-	on_ground = true
 	ground_vector = ground_collision.normal
 	ground_angle = rad2deg(ground_collision.get_angle(up_gravity_vector))
 	ground_node = ground_collision.collider
@@ -464,7 +492,7 @@ func _apply_velocity_and_control(delta: float):
 	var vertical_velocity := local_velocity - horizontal_velocity
 
 	# If the player is on the ground then give them control
-	if on_ground:
+	if _can_apply_ground_control():
 		# If ground control is being supplied then update the horizontal velocity
 		var control_velocity := Vector3.ZERO
 		if abs(ground_control_velocity.x) > 0.1 or abs(ground_control_velocity.y) > 0.1:
@@ -535,6 +563,21 @@ func _apply_velocity_and_control(delta: float):
 	# TODO: FIX
 	#if abs(velocity.y) < 0.001:
 	#	velocity.y = ground_velocity.y
+
+# Test if the player can apply ground control given the settings and the ground state.
+func _can_apply_ground_control() -> bool:
+	match ground_control:
+		GroundControl.ON_GROUND:
+			return on_ground
+
+		GroundControl.NEAR_GROUND:
+			return near_ground
+
+		GroundControl.ALWAYS:
+			return true
+
+		_:
+			return false
 
 # Get a guaranteed-valid physics
 func _guaranteed_physics():
