@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/puddle_footstep.ogg-5273758367d1d69b3ade5bc1c8e04ac5.oggstr"
+
+[deps]
+
+source_file="res://assets/footsteps/puddle_footstep.ogg"
+dest_files=[ "res://.import/puddle_footstep.ogg-5273758367d1d69b3ade5bc1c8e04ac5.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
