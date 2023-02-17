@@ -45,19 +45,19 @@ const NEAR_GROUND_DISTANCE := 1.0
 export var enabled : bool = true setget set_enabled
 
 ## Radius of the player body collider
-export var player_radius : float = 0.4 setget set_player_radius
+export var player_radius : float = 0.2 setget set_player_radius
 
 ## Player head height (distance between between camera and top of head)
 export var player_head_height : float = 0.1
 
 ## Minimum player height
-export var player_height_min : float = 1.0
+export var player_height_min : float = 0.6
 
 ## Maximum player height
 export var player_height_max : float = 2.2
 
 ## Eyes forward offset from center of body in player_radius units
-export (float, 0.0, 1.0) var eye_forward_offset : float = 0.66
+export (float, 0.0, 1.0) var eye_forward_offset : float = 0.5
 
 ## Lets the player push rigid bodies
 export var push_rigid_bodies : bool = true
