@@ -7,9 +7,6 @@
 script = ExtResource("2")
 main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 
-[node name="StartXR" parent="." index="5"]
-physics_rate_multiplier = 1
-
 [connection signal="scene_exiting" from="." to="." method="_on_Staging_scene_exiting"]
 [connection signal="scene_loaded" from="." to="." method="_on_Staging_scene_loaded"]
 [connection signal="xr_ended" from="." to="." method="_on_Staging_xr_ended"]

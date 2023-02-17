@@ -66,8 +66,8 @@ func _ready():
 	# Set collision shape radius
 	$CollisionShape3D.shape.radius = grab_distance
 
-	# Show highlight when empty
-	emit_signal("highlight_updated", self, true)
+	# Perform updates
+	_update_snap_mode()
 
 	# Perform the initial object check when next idle
 	call_deferred("_initial_object_check")
@@ -200,8 +200,8 @@ func _on_snap_zone_body_entered(target: Node3D) -> void:
 
 	# If this snap zone is configured to snap objects that are dropped, then
 	# start listening for the objects dropped signal
-	if snap_mode == SnapMode.DROPPED:
-		target.connect("dropped", _on_target_dropped)
+	if snap_mode == SnapMode.DROPPED and target.has_signal("dropped"):
+		target.connect("dropped", _on_target_dropped, CONNECT_DEFERRED)
 
 	# Show highlight when something could be snapped
 	if not is_instance_valid(picked_up_object):
@@ -214,7 +214,8 @@ func _on_snap_zone_body_exited(target: Node3D) -> void:
 	_object_in_grab_area.erase(target)
 
 	# Stop listening for dropped signals
-	target.disconnect("dropped", _on_target_dropped)
+	if target.has_signal("dropped") and target.is_connected("dropped", _on_target_dropped):
+		target.disconnect("dropped", _on_target_dropped)
 
 	# Hide highlight when nothing could be snapped
 	if _object_in_grab_area.is_empty():
@@ -268,7 +269,7 @@ func _update_snap_mode() -> void:
 
 			# Start monitoring all objects in range for drop
 			for o in _object_in_grab_area:
-				o.connect("dropped", _on_target_dropped)
+				o.connect("dropped", _on_target_dropped, CONNECT_DEFERRED)
 
 		SnapMode.RANGE:
 			# Enable _process to scan for RANGE pickups
@@ -287,6 +288,10 @@ func _on_target_dropped(target: Node3D) -> void:
 
 	# Skip if already holding a valid object
 	if is_instance_valid(picked_up_object):
+		return
+
+	# Skip if the target is not valid
+	if not is_instance_valid(target):
 		return
 
 	# Pick up the target if we can

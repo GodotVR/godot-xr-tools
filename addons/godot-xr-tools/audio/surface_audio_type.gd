@@ -17,13 +17,14 @@ extends Resource
 @export var hit_sound : AudioStream
 
 ## Audio streams to play when the player walks on this surface
-#@export(AudioStream) var walk_sounds : Array = [] //
 @export var walk_sounds :Array[AudioStream] = []
+
 ## Walking sound minimum pitch (to randomize steps)
 @export_range(0.5, 1.0) var walk_pitch_minimum : float = 0.8
 
 ## Walking sound maximum pitch (to randomize steps)
 @export_range(1.0, 2.0) var walk_pitch_maximum : float = 1.2
+
 
 # This method checks for configuration issues.
 func _get_configuration_warning():

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://1mb16xioom74"]
+
+[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="1_uw6wt"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2_ckbje"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kcuek"]
+transparency = 1
+cull_mode = 1
+albedo_color = Color(0.0627451, 0.905882, 0.886275, 0.545098)
+
+[sub_resource type="SphereMesh" id="SphereMesh_vvg7m"]
+material = SubResource("StandardMaterial3D_kcuek")
+radius = 0.05
+height = 0.1
+radial_segments = 32
+rings = 16
+
+[node name="BeltSnapZone" instance=ExtResource("1_uw6wt")]
+grab_distance = 0.1
+
+[node name="Sphere" type="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("SphereMesh_vvg7m")
+
+[node name="HighlightRing" parent="." index="2" instance=ExtResource("2_ckbje")]

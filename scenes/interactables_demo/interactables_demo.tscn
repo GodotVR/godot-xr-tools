@@ -37,9 +37,7 @@ max_speed = 3.0
 strafe = true
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("7")]
-grab_collision_mask = 262144
 ranged_enable = false
-ranged_collision_mask = 0
 
 [node name="RightPhysicsHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("5_x135n")]
 
@@ -51,9 +49,7 @@ max_speed = 3.0
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("10")]
 
 [node name="FunctionPickup" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("7")]
-grab_collision_mask = 262144
 ranged_enable = false
-ranged_collision_mask = 0
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9")]
 

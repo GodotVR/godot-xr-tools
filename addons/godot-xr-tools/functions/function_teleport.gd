@@ -14,6 +14,10 @@ extends CharacterBody3D
 ## a teleport function on that controller.
 
 
+# Default teleport collision mask of all
+const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
+
+
 ## If true, teleporting is enabled
 @export var enabled : bool = true: set = set_enabled
 
@@ -39,7 +43,7 @@ extends CharacterBody3D
 @export var max_slope : float = 20.0
 
 ## Valid teleport layer mask
-@export_flags_3d_physics var valid_teleport_mask : int = ~0
+@export_flags_3d_physics var valid_teleport_mask : int = DEFAULT_MASK
 
 # once this is no longer a kinematic body, we'll need this..
 # export (int, LAYERS_3D_PHYSICS) var collision_mask = 1

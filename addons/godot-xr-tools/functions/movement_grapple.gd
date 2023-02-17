@@ -26,6 +26,10 @@ enum GrappleState {
 }
 
 
+# Default grapple collision mask of 1:static-world
+const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_0001
+
+
 ## Movement provider order
 @export var order : int = 20
 
@@ -33,7 +37,8 @@ enum GrappleState {
 @export var grapple_length : float = 15.0
 
 ## Grapple collision mask
-@export_flags_3d_physics var grapple_collision_mask : int = 1: set = _set_grapple_collision_mask
+@export_flags_3d_physics \
+		var grapple_collision_mask : int = DEFAULT_MASK: set = _set_grapple_collision_mask
 
 ## Impulse speed applied to the player on first grapple
 @export var impulse_speed : float = 10.0

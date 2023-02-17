@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://bk6ban0hctyym"]
 
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_wall_walk.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_wall_walk.gd" id="1"]
 
 [node name="MovementWallWalk" type="Node" groups=["movement_providers"]]
-script = ExtResource( 1 )
+script = ExtResource("1")

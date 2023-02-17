@@ -38,7 +38,7 @@ const AUDIO_POOL_SIZE := 3
 ## Step per meter by time
 @export var steps_per_meter = 1.0
 
-#step time
+# step time
 var step_time = 0.0
 
 # Last on_ground state of the player
@@ -178,6 +178,7 @@ func _play_ground_hit() -> void:
 	player.stream = _ground_node_audio_type.hit_sound
 	player.pitch_scale = 1.0
 	player.play()
+
 
 # Play a step sound for the current ground
 func _play_step_sound() -> void:

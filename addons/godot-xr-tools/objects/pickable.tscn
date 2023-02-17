@@ -3,6 +3,8 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1"]
 
 [node name="PickableObject" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 196615
 freeze_mode = 1
 script = ExtResource("1")
 

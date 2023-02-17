@@ -55,6 +55,9 @@ enum ReleaseMode {
 }
 
 
+# Default layer for held objects is 17:held-object
+const DEFAULT_LAYER := 0b0000_0000_0000_0001_0000_0000_0000_0000
+
 ## Priority for grip poses
 const GRIP_POSE_PRIORITY = 100
 
@@ -66,7 +69,7 @@ const GRIP_POSE_PRIORITY = 100
 @export var press_to_hold : bool = true
 
 ## Layer for this object while picked up
-@export_flags_3d_physics var picked_up_layer = 0
+@export_flags_3d_physics var picked_up_layer = DEFAULT_LAYER
 
 ## Method used to hold an object
 @export var hold_method : HoldMethod = HoldMethod.REMOTE_TRANSFORM
@@ -283,6 +286,10 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 
 	# let interested parties know
 	emit_signal("dropped", self)
+
+
+func get_picked_up_by_controller() -> XRController3D:
+	return by_controller
 
 
 func _start_ranged_grab() -> void:

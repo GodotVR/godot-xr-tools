@@ -27,9 +27,7 @@ rings = 0
 size = Vector3(0.1, 0.1, 0.2)
 
 [node name="Hammer" instance=ExtResource("1")]
-collision_layer = 4
 collision_mask = 7
-picked_up_layer = 65536
 ranged_grab_method = 0
 
 [node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource("2_2myoy")]
