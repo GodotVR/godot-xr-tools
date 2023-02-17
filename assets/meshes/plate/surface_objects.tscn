@@ -1,0 +1,187 @@
+[gd_scene load_steps=22 format=3 uid="uid://54qovguk25i5"]
+
+[ext_resource type="Texture2D" uid="uid://cqgdloakbawp" path="res://assets/wahooney.itch.io/white_grid.png" id="1"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://cegpwqy2053ct" path="res://assets/meshes/plate/plate.glb" id="3"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="4"]
+[ext_resource type="AudioStream" uid="uid://cvxjtvoif1jyy" path="res://assets/footsteps/puddle_footstep.ogg" id="4_0fhs2"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="5"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="6"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="7"]
+[ext_resource type="AudioStream" uid="uid://cq7ijgteqs2xd" path="res://assets/footsteps/mud_footstep.ogg" id="7_safuy"]
+[ext_resource type="AudioStream" uid="uid://di2mvj64s1ykq" path="res://assets/footsteps/grass_footstep.ogg" id="9_qtblc"]
+[ext_resource type="AudioStream" uid="uid://c3ao6lhc7um4b" path="res://assets/footsteps/snow_footstep.ogg" id="11_thcdd"]
+
+[sub_resource type="ConcavePolygonShape3D" id="1"]
+data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1)
+
+[sub_resource type="Resource" id="Resource_rpp4f"]
+script = ExtResource("7")
+name = "Puddle"
+hit_sound = ExtResource("4_0fhs2")
+walk_sounds = Array[AudioStream]([ExtResource("4_0fhs2"), ExtResource("4_0fhs2")])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
+
+[sub_resource type="ConcavePolygonShape3D" id="2"]
+data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1)
+
+[sub_resource type="Resource" id="Resource_rwibv"]
+script = ExtResource("7")
+name = "Mud"
+hit_sound = ExtResource("7_safuy")
+walk_sounds = Array[AudioStream]([ExtResource("7_safuy"), ExtResource("7_safuy")])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
+
+[sub_resource type="ConcavePolygonShape3D" id="3"]
+data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1)
+
+[sub_resource type="Resource" id="Resource_53y85"]
+script = ExtResource("7")
+name = "Grass"
+hit_sound = ExtResource("9_qtblc")
+walk_sounds = Array[AudioStream]([ExtResource("9_qtblc"), ExtResource("9_qtblc")])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_t8uhq"]
+albedo_texture = ExtResource("1")
+
+[sub_resource type="ConcavePolygonShape3D" id="5"]
+data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1)
+
+[sub_resource type="Resource" id="Resource_58enk"]
+script = ExtResource("7")
+name = "Snow"
+hit_sound = ExtResource("11_thcdd")
+walk_sounds = Array[AudioStream]([ExtResource("11_thcdd"), ExtResource("11_thcdd")])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qcyph"]
+albedo_texture = ExtResource("1")
+
+[node name="surface_objects" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
+
+[node name="plate_puddle_s" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -7)
+
+[node name="Plane" parent="plate_puddle_s" index="0"]
+material_override = ExtResource("6")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_puddle_s/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_puddle_s/Plane/StaticBody"]
+shape = SubResource("1")
+
+[node name="SurfaceAudio" parent="plate_puddle_s/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_rpp4f")
+
+[node name="plate_mud_s" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
+
+[node name="Plane" parent="plate_mud_s" index="0"]
+material_override = ExtResource("4")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_mud_s/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_mud_s/Plane/StaticBody"]
+shape = SubResource("2")
+
+[node name="SurfaceAudio" parent="plate_mud_s/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_rwibv")
+
+[node name="plate_grass_s" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -5)
+
+[node name="Plane" parent="plate_grass_s" index="0"]
+material_override = ExtResource("5")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_grass_s/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_grass_s/Plane/StaticBody"]
+shape = SubResource("3")
+
+[node name="SurfaceAudio" parent="plate_grass_s/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_53y85")
+
+[node name="plate_snow_s" parent="." instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -7)
+
+[node name="Plane" parent="plate_snow_s" index="0"]
+material_override = SubResource("StandardMaterial3D_t8uhq")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_snow_s/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_snow_s/Plane/StaticBody"]
+shape = SubResource("5")
+
+[node name="SurfaceAudio" parent="plate_snow_s/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_58enk")
+
+[node name="plate_puddle" parent="." instance=ExtResource("3")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, -12)
+
+[node name="Plane" parent="plate_puddle" index="0"]
+material_override = ExtResource("6")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_puddle/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_puddle/Plane/StaticBody"]
+shape = SubResource("1")
+
+[node name="SurfaceAudio" parent="plate_puddle/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_rpp4f")
+
+[node name="plate_mud" parent="." instance=ExtResource("3")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, 0)
+
+[node name="Plane" parent="plate_mud" index="0"]
+material_override = ExtResource("4")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_mud/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_mud/Plane/StaticBody"]
+shape = SubResource("2")
+
+[node name="SurfaceAudio" parent="plate_mud/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_rwibv")
+
+[node name="plate_grass" parent="." instance=ExtResource("3")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, 1)
+
+[node name="Plane" parent="plate_grass" index="0"]
+material_override = ExtResource("5")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_grass/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_grass/Plane/StaticBody"]
+shape = SubResource("3")
+
+[node name="SurfaceAudio" parent="plate_grass/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_53y85")
+
+[node name="plate_snow" parent="." instance=ExtResource("3")]
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, -12)
+
+[node name="Plane" parent="plate_snow" index="0"]
+material_override = SubResource("StandardMaterial3D_qcyph")
+
+[node name="StaticBody" type="StaticBody3D" parent="plate_snow/Plane" index="0"]
+
+[node name="CollisionShape" type="CollisionShape3D" parent="plate_snow/Plane/StaticBody"]
+shape = SubResource("5")
+
+[node name="SurfaceAudio" parent="plate_snow/Plane/StaticBody" instance=ExtResource("2")]
+surface_audio_type = SubResource("Resource_58enk")
+
+[editable path="plate_puddle_s"]
+[editable path="plate_mud_s"]
+[editable path="plate_grass_s"]
+[editable path="plate_snow_s"]
+[editable path="plate_puddle"]
+[editable path="plate_mud"]
+[editable path="plate_grass"]
+[editable path="plate_snow"]
