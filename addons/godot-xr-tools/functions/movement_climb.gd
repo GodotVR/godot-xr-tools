@@ -119,12 +119,12 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		offset = right_pickup_pos - right_grab_pos
 
 	# Move the player by the offset
-	var old_position := player_body.kinematic_node.global_transform.origin
-	player_body.kinematic_node.move_and_collide(-offset)
+	var old_position := player_body.global_transform.origin
+	player_body.move_and_collide(-offset)
 	player_body.velocity = Vector3.ZERO
 
 	# Update the players average-velocity data
-	var distance := player_body.kinematic_node.global_transform.origin - old_position
+	var distance := player_body.global_transform.origin - old_position
 	_averager.add_distance(delta, distance)
 
 	# Report exclusive motion performed (to bypass gravity)

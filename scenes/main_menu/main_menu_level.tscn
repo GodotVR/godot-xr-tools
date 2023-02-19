@@ -67,7 +67,7 @@ nodes/OpenHand/node = SubResource( 4 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -360, 20 )
-node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Grip"
@@ -98,15 +98,12 @@ nodes/OpenHand/node = SubResource( 10 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "output", 0, "Grip" ]
+node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
-
-[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton" index="1"]
 transform = Transform( 0.54083, 0.840813, -0.0231736, -0.0826267, 0.0805243, 0.993322, 0.837064, -0.535303, 0.113023, 0.0399019, 0.0402828, -0.150096 )
@@ -128,9 +125,6 @@ strafe = true
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
 hand_material_override = ExtResource( 28 )
-
-[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature" index="0"]
-bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="mesh_Hand_low_R" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="0"]
 material_override = ExtResource( 28 )
@@ -162,73 +156,73 @@ strafe = false
 [node name="Demos" type="Spatial" parent="." index="2"]
 
 [node name="ToBasicMovementDemo" parent="Demos" index="0" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, -11 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
 scene_base = NodePath("../..")
 scene = ExtResource( 7 )
 title = ExtResource( 10 )
 
 [node name="ToFootstepMovementDemo" parent="Demos" index="1" instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -11 )
+transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -5, 0, -8.66025 )
 scene_base = NodePath("../..")
 scene = ExtResource( 37 )
 title = ExtResource( 36 )
 
 [node name="ToTeleportDemo" parent="Demos" index="2" instance=ExtResource( 9 )]
-transform = Transform( 0.841254, 0, 0.540641, 0, 1, 0, -0.540641, 0, 0.841254, -5.40641, 0, -8.41253 )
+transform = Transform( 0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -8.66025, 0, -5 )
 scene_base = NodePath("../..")
 scene = ExtResource( 11 )
 title = ExtResource( 12 )
 
 [node name="ToClimbingGlidingDemo" parent="Demos" index="3" instance=ExtResource( 9 )]
-transform = Transform( 0.415415, 0, 0.909632, 0, 1, 0, -0.909632, 0, 0.415415, -9.09632, 0, -4.15415 )
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 0, 4.37114e-07 )
 scene_base = NodePath("../..")
 scene = ExtResource( 14 )
 title = ExtResource( 13 )
 
 [node name="ToGrapplingDemo" parent="Demos" index="4" instance=ExtResource( 9 )]
-transform = Transform( -0.142315, 0, 0.989821, 0, 1, 0, -0.989821, 0, -0.142315, -9.89821, 0, 1.42315 )
+transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -8.66025, 0, 5 )
 scene_base = NodePath("../..")
 scene = ExtResource( 15 )
 title = ExtResource( 16 )
 
 [node name="ToInteractablesDemo" parent="Demos" index="5" instance=ExtResource( 9 )]
-transform = Transform( -0.654861, 0, 0.75575, 0, 1, 0, -0.75575, 0, -0.654861, -7.5575, 0, 6.54861 )
+transform = Transform( -0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -5, 0, 8.66025 )
 scene_base = NodePath("../..")
 scene = ExtResource( 18 )
 title = ExtResource( 17 )
 
 [node name="ToPointerDemo" parent="Demos" index="6" instance=ExtResource( 9 )]
-transform = Transform( -0.959493, 0, 0.281733, 0, 1, 0, -0.281733, 0, -0.959493, -2.81733, 0, 9.59493 )
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8.74228e-07, 0, 10 )
 scene_base = NodePath("../..")
 scene = ExtResource( 19 )
 title = ExtResource( 20 )
 
 [node name="ToPickableDemo" parent="Demos" index="7" instance=ExtResource( 9 )]
-transform = Transform( -0.959493, 0, -0.281733, 0, 1, 0, 0.281733, 0, -0.959493, 2.81733, 0, 9.59493 )
+transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 5, 0, 8.66025 )
 scene_base = NodePath("../..")
 scene = ExtResource( 21 )
 title = ExtResource( 22 )
 
 [node name="ToPokeDemo" parent="Demos" index="8" instance=ExtResource( 9 )]
-transform = Transform( -0.654861, 0, -0.75575, 0, 1, 0, 0.75575, 0, -0.654861, 7.5575, 0, 6.54861 )
+transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 8.66025, 0, 5 )
 scene_base = NodePath("../..")
 scene = ExtResource( 24 )
 title = ExtResource( 25 )
 
 [node name="ToSprintingDemo" parent="Demos" index="9" instance=ExtResource( 9 )]
-transform = Transform( -0.142315, 0, -0.989821, 0, 1, 0, 0.989821, 0, -0.142315, 9.89821, 0, 1.42315 )
+transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 10, 0, -1.19249e-07 )
 scene_base = NodePath("../..")
 scene = ExtResource( 30 )
 title = ExtResource( 31 )
 
 [node name="ToOriginGravityDemo" parent="Demos" index="10" instance=ExtResource( 9 )]
-transform = Transform( 0.415415, 0, -0.909632, 0, 1, 0, 0.909632, 0, 0.415415, 9.09632, 0, -4.15415 )
+transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 8.66025, 0, -5 )
 scene_base = NodePath("../..")
 scene = ExtResource( 33 )
 title = ExtResource( 32 )
 
 [node name="ToSphereWorldDemo" parent="Demos" index="11" instance=ExtResource( 9 )]
-transform = Transform( 0.841253, 0, -0.540641, 0, 1, 0, 0.540641, 0, 0.841253, 5.40641, 0, -8.41253 )
+transform = Transform( 0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 5, 0, -8.66025 )
 scene_base = NodePath("../..")
 scene = ExtResource( 35 )
 title = ExtResource( 34 )

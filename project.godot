@@ -185,6 +185,11 @@ _global_script_classes=[ {
 "path": "res://addons/godot-xr-tools/functions/movement_flight.gd"
 }, {
 "base": "XRToolsMovementProvider",
+"class": "XRToolsMovementFootstep",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/functions/movement_footstep.gd"
+}, {
+"base": "XRToolsMovementProvider",
 "class": "XRToolsMovementGlide",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/functions/movement_glide.gd"
@@ -239,7 +244,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/objects/pickable.gd"
 }, {
-"base": "Node",
+"base": "KinematicBody",
 "class": "XRToolsPlayerBody",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/player/player_body.gd"
@@ -273,6 +278,16 @@ _global_script_classes=[ {
 "class": "XRToolsStartXR",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/xr/start_xr.gd"
+}, {
+"base": "Node",
+"class": "XRToolsSurfaceAudio",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/audio/surface_audio.gd"
+}, {
+"base": "Resource",
+"class": "XRToolsSurfaceAudioType",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/audio/surface_audio_type.gd"
 }, {
 "base": "Reference",
 "class": "XRToolsVelocityAverager",
@@ -335,6 +350,7 @@ _global_script_class_icons={
 "XRToolsMovementCrouch": "",
 "XRToolsMovementDirect": "",
 "XRToolsMovementFlight": "",
+"XRToolsMovementFootstep": "",
 "XRToolsMovementGlide": "",
 "XRToolsMovementGrapple": "",
 "XRToolsMovementJump": "",
@@ -353,6 +369,8 @@ _global_script_class_icons={
 "XRToolsSnapZone": "",
 "XRToolsStaging": "",
 "XRToolsStartXR": "",
+"XRToolsSurfaceAudio": "res://addons/godot-xr-tools/editor/icons/foot.svg",
+"XRToolsSurfaceAudioType": "res://addons/godot-xr-tools/editor/icons/body.svg",
 "XRToolsVelocityAverager": "",
 "XRToolsVelocityAveragerLinear": "",
 "XRToolsVignette": "",
