@@ -12,9 +12,6 @@ extents = Vector3( 0.05, 0.05, 0.05 )
 size = Vector3( 0.1, 0.1, 0.1 )
 
 [node name="GrabCube" instance=ExtResource( 1 )]
-collision_layer = 4
-collision_mask = 196615
-picked_up_layer = 65536
 ranged_grab_method = 0
 
 [node name="CollisionShape" parent="." index="0"]

@@ -16,13 +16,12 @@ rings = 8
 
 [node name="FunctionPointer" type="Spatial"]
 script = ExtResource( 2 )
-collision_mask = 524287
 
 [node name="RayCast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0 )
 enabled = true
 cast_to = Vector3( 0, 0, -10 )
-collision_mask = 524287
+collision_mask = 1048576
 
 [node name="Laser" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -5 )

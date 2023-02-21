@@ -27,6 +27,10 @@ enum LaserLength {
 }
 
 
+# Default pointer collision mask of 21:pointable
+const DEFAULT_MASK := 0b0000_0000_0001_0000_0000_0000_0000_0000
+
+
 ## Pointer enabled property
 export var enabled : bool = true setget set_enabled
 
@@ -46,7 +50,7 @@ export var y_offset : float = -0.05 setget set_y_offset
 export var distance : float = 10 setget set_distance
 
 ## Pointer collision mask
-export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 15 setget set_collision_mask
+export (int, LAYERS_3D_PHYSICS) var collision_mask : int = DEFAULT_MASK setget set_collision_mask
 
 ## Enable pointer collision with bodies
 export var collide_with_bodies : bool = true setget set_collide_with_bodies

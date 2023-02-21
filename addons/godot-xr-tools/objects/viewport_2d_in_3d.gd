@@ -28,6 +28,10 @@ enum UpdateMode {
 }
 
 
+# Default layer of 1:static-world and 21:pointable
+const DEFAULT_LAYER := 0b0000_0000_0001_0000_0000_0000_0000_0001
+
+
 ## Viewport enabled property
 export var enabled : bool = true setget set_enabled
 
@@ -60,7 +64,8 @@ export (UpdateMode) var update_mode = UpdateMode.UPDATE_ALWAYS setget set_update
 export var throttle_fps : float = 30.0
 
 ## Collision layer
-export (int, LAYERS_3D_PHYSICS) var collision_layer : int = 15 setget set_collision_layer
+export (int, LAYERS_3D_PHYSICS) \
+		var collision_layer : int = DEFAULT_LAYER setget set_collision_layer
 
 
 var is_ready : bool = false

@@ -55,6 +55,9 @@ enum ReleaseMode {
 }
 
 
+# Default layer for held objects is 17:held-object
+const DEFAULT_LAYER := 0b0000_0000_0000_0001_0000_0000_0000_0000
+
 ## Priority for grip poses
 const GRIP_POSE_PRIORITY = 100
 
@@ -66,7 +69,7 @@ export var enabled : bool = true
 export var press_to_hold : bool = true
 
 ## Layer for this object while picked up
-export (int, LAYERS_3D_PHYSICS) var picked_up_layer = 0
+export (int, LAYERS_3D_PHYSICS) var picked_up_layer = DEFAULT_LAYER
 
 ## Method used to hold an object
 export (HoldMethod) var hold_method = HoldMethod.REMOTE_TRANSFORM

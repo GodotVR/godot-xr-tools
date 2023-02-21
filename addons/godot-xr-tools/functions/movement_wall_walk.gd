@@ -3,11 +3,15 @@ class_name XRToolsMovementWallWalk
 extends XRToolsMovementProvider
 
 
+# Default wall-walk mask of 4:wall-walk
+const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_1000
+
+
 ## Wall walking provider order
 export var order : int = 25
 
 ## Set our follow layer mask
-export (int, LAYERS_3D_PHYSICS) var follow_mask : int = 8
+export (int, LAYERS_3D_PHYSICS) var follow_mask : int = DEFAULT_MASK
 
 ## Wall stick distance
 export var stick_distance : float = 1.0

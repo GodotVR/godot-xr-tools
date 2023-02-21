@@ -16,8 +16,6 @@ radial_segments = 32
 rings = 16
 
 [node name="BeltSnapZone" instance=ExtResource( 2 )]
-collision_layer = 4
-collision_mask = 65540
 grab_distance = 0.1
 
 [node name="Sphere" type="MeshInstance" parent="." index="1"]

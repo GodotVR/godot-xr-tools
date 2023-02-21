@@ -16,6 +16,10 @@ extends XRToolsMovementProvider
 signal wind_area_changed(active_wind_area)
 
 
+# Default wind area collision mask of 20:player-body
+const DEFAULT_MASK := 0b0000_0000_0000_1000_0000_0000_0000_0000
+
+
 ## Movement provider order
 export var order : int = 25
 
@@ -23,7 +27,7 @@ export var order : int = 25
 export var drag_multiplier : float = 1.0
 
 # Set our collision mask
-export (int, LAYERS_3D_PHYSICS) var collision_mask : int = 524288 setget set_collision_mask
+export (int, LAYERS_3D_PHYSICS) var collision_mask : int = DEFAULT_MASK setget set_collision_mask
 
 
 # Wind detection area
