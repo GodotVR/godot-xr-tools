@@ -2,6 +2,7 @@
 - Added reset-scene and scene-control functions to scene-base
 - Fixed snap-zones stealing objects picked out of other near-by snap-zones
 - Improved player body so it can be used to child objects to
+- Updated scene/script default physics layers to match recommendations on website
 
 # 3.2.0
 - Minimum supported Godot version set to 3.5

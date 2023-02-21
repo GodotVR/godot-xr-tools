@@ -20,6 +20,12 @@ signal has_picked_up(what)
 signal has_dropped
 
 
+# Default pickup collision mask of 3:pickable and 19:handle
+const DEFAULT_GRAB_MASK := 0b0000_0000_0000_0100_0000_0000_0000_0100
+
+# Default pickup collision mask of 3:pickable
+const DEFAULT_RANGE_MASK := 0b0000_0000_0000_0000_0000_0000_0000_0100
+
 # Constant for worst-case grab distance
 const MAX_GRAB_DISTANCE2: float = 1000000.0
 
@@ -38,7 +44,7 @@ export var grab_distance : float = 0.3 setget _set_grab_distance
 
 ## Grab collision mask
 export (int, LAYERS_3D_PHYSICS) \
-		var grab_collision_mask : int = 1 setget _set_grab_collision_mask
+		var grab_collision_mask : int = DEFAULT_GRAB_MASK setget _set_grab_collision_mask
 
 ## If true, ranged-grabbing is enabled
 export var ranged_enable : bool = true
@@ -51,7 +57,7 @@ export (float, 0.0, 45.0) var ranged_angle : float = 5.0 setget _set_ranged_angl
 
 ## Ranged-grab collision mask
 export (int, LAYERS_3D_PHYSICS) \
-		var ranged_collision_mask : int = 1 setget _set_ranged_collision_mask
+		var ranged_collision_mask : int = DEFAULT_RANGE_MASK setget _set_ranged_collision_mask
 
 ## Throw impulse factor
 export var impulse_factor : float = 1.0

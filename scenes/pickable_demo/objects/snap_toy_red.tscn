@@ -18,9 +18,7 @@ rings = 0
 albedo_color = Color( 1, 0, 0, 1 )
 
 [node name="SnapToyRed" groups=["SnapToy", "SnapToyRed"] instance=ExtResource( 1 )]
-collision_layer = 4
 collision_mask = 65543
-picked_up_layer = 65536
 ranged_grab_method = 0
 
 [node name="CollisionShape" parent="." index="0"]

@@ -8,4 +8,4 @@ collision_mask = 0
 mode = 1
 gravity_scale = 0.0
 script = ExtResource( 1 )
-reset_transform_on_pickup = false
+picked_up_layer = 0

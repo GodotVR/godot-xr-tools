@@ -35,7 +35,6 @@ strafe = true
 jump_button_id = 7
 
 [node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 8 )]
-grab_collision_mask = 3
 ranged_enable = false
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
@@ -52,10 +51,8 @@ strafe = false
 jump_button_id = 7
 
 [node name="MovementGrapple" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 2 )]
-grapple_collision_mask = 2
 
 [node name="FunctionPickup" parent="ARVROrigin/RightHand" index="5" instance=ExtResource( 8 )]
-grab_collision_mask = 3
 ranged_enable = false
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 11 )]

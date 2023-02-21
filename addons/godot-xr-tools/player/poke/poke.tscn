@@ -30,6 +30,7 @@ custom_integrator = true
 contacts_reported = 1
 contact_monitor = true
 script = ExtResource( 2 )
+teleport_distance = 0.1
 
 [node name="CollisionShape" type="CollisionShape" parent="PokeBody"]
 shape = SubResource( 1 )
