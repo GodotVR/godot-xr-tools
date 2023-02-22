@@ -280,6 +280,10 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 	emit_signal("dropped", self)
 
 
+func get_picked_up_by_controller() -> ARVRController:
+	return by_controller
+
+
 func _start_ranged_grab() -> void:
 	# Set state to grabbing at range and enable processing
 	_state = PickableState.GRABBING_RANGED
