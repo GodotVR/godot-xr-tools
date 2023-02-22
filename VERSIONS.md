@@ -1,4 +1,4 @@
-# 3.3.0 (Development)
+# 3.3.0
 - Added reset-scene and scene-control functions to scene-base
 - Fixed snap-zones stealing objects picked out of other near-by snap-zones
 - Improved player body so it can be used to child objects to
