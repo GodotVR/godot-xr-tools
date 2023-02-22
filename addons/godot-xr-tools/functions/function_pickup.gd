@@ -408,13 +408,17 @@ func _pick_up_object(target: Spatial) -> void:
 
 
 func _on_button_pressed(p_button) -> void:
-	if p_button == action_button_id:
-		if is_instance_valid(picked_up_object) and picked_up_object.has_method("action"):
+	if p_button == action_button_id and is_instance_valid(picked_up_object):
+		if picked_up_object.has_method("action"):
 			picked_up_object.action()
+		if picked_up_object.has_method("action_button"):
+			picked_up_object.action_button(true)
 
 
-func _on_button_release(_p_button) -> void:
-	pass
+func _on_button_release(p_button) -> void:
+	if p_button == action_button_id and is_instance_valid(picked_up_object):
+		if picked_up_object.has_method("action_button"):
+			picked_up_object.action_button(false)
 
 
 func _on_grip_pressed() -> void:

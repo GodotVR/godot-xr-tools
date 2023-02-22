@@ -3,6 +3,7 @@
 - Fixed snap-zones stealing objects picked out of other near-by snap-zones
 - Improved player body so it can be used to child objects to
 - Updated scene/script default physics layers to match recommendations on website
+- Added action_released signal to held objects
 
 # 3.2.0
 - Minimum supported Godot version set to 3.5

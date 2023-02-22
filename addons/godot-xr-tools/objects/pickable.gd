@@ -24,6 +24,9 @@ signal dropped(pickable)
 # Signal emitted when the user presses the action button while holding this object
 signal action_pressed(pickable)
 
+# Signal emitted when the user releases the action button while holding this object
+signal action_released(pickable)
+
 # Signal emitted when the highlight state changes
 signal highlight_updated(pickable, enable)
 
@@ -155,9 +158,12 @@ func is_picked_up():
 
 
 # action is called when user presses the action button while holding this object
-func action():
+func action_button(p_pressed : bool) -> void:
 	# let interested parties know
-	emit_signal("action_pressed", self)
+	if p_pressed:
+		emit_signal("action_pressed", self)
+	else:
+		emit_signal("action_released", self)
 
 
 # This method is invoked when it becomes the closest pickable object to one of
