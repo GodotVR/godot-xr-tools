@@ -9,6 +9,8 @@ size = Vector3(0.5, 0.5, 0.5)
 size = Vector3(0.5, 0.5, 0.5)
 
 [node name="ColorChangeCube" type="RigidBody3D"]
+collision_layer = 1048577
+collision_mask = 0
 freeze = true
 script = ExtResource("1")
 

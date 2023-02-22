@@ -28,9 +28,7 @@ shading_mode = 0
 albedo_color = Color(1, 1, 0, 1)
 
 [node name="GrabBall" instance=ExtResource("1")]
-collision_layer = 4
 collision_mask = 720903
-picked_up_layer = 65536
 ranged_grab_method = 2
 
 [node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource("2_qhto0")]

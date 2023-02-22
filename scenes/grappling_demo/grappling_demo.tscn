@@ -35,7 +35,6 @@ strafe = true
 jump_button_action = "ax_button"
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("8")]
-grab_collision_mask = 3
 ranged_enable = false
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_n2v2n")]
@@ -49,10 +48,8 @@ max_speed = 3.0
 jump_button_action = "ax_button"
 
 [node name="MovementGrapple" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("2")]
-grapple_collision_mask = 2
 
 [node name="FunctionPickup" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("8")]
-grab_collision_mask = 3
 ranged_enable = false
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("11")]

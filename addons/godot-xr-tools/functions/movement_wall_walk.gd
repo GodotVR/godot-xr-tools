@@ -3,11 +3,15 @@ class_name XRToolsMovementWallWalk
 extends XRToolsMovementProvider
 
 
+# Default wall-walk mask of 4:wall-walk
+const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_1000
+
+
 ## Wall walking provider order
 @export var order : int = 25
 
 ## Set our follow layer mask
-@export_flags_3d_physics var follow_mask : int = 8
+@export_flags_3d_physics var follow_mask : int = DEFAULT_MASK
 
 ## Wall stick distance
 @export var stick_distance : float = 1.0
@@ -18,7 +22,7 @@ extends XRToolsMovementProvider
 
 func physics_pre_movement(_delta: float, player_body: XRToolsPlayerBody):
 	# Test for collision with wall under feet
-	var wall_collision := player_body.kinematic_node.move_and_collide(
+	var wall_collision := player_body.move_and_collide(
 		player_body.up_player_vector * -stick_distance, true, true, true)
 	if !wall_collision:
 		return

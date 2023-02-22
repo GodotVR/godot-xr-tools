@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://j53121pbwpsw"]
+[gd_scene load_steps=25 format=3 uid="uid://j53121pbwpsw"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
@@ -35,9 +36,7 @@ strafe = true
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("8")]
 grab_distance = 0.1
-grab_collision_mask = 4
 ranged_angle = 10.0
-ranged_collision_mask = 4
 
 [node name="RightPhysicsHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("5_laayj")]
 
@@ -48,16 +47,30 @@ max_speed = 3.0
 
 [node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("8")]
 grab_distance = 0.1
-grab_collision_mask = 4
 ranged_angle = 10.0
-ranged_collision_mask = 4
 
 [node name="FunctionPointer" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("7_kskan")]
 show_laser = 2
 laser_length = 1
-collision_mask = 1048576
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9")]
+top_level = true
+body_forward_mix = 0.75
+
+[node name="BeltSnapZone01" parent="XROrigin3D/PlayerBody" index="1" instance=ExtResource("10_5odnk")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.177, 1, -0.177)
+
+[node name="BeltSnapZone02" parent="XROrigin3D/PlayerBody" index="2" instance=ExtResource("10_5odnk")]
+transform = Transform3D(0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, -0.096, 1, -0.231)
+
+[node name="BeltSnapZone03" parent="XROrigin3D/PlayerBody" index="3" instance=ExtResource("10_5odnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.25)
+
+[node name="BeltSnapZone04" parent="XROrigin3D/PlayerBody" index="4" instance=ExtResource("10_5odnk")]
+transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0.096, 1, -0.231)
+
+[node name="BeltSnapZone05" parent="XROrigin3D/PlayerBody" index="5" instance=ExtResource("10_5odnk")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.177, 1, -0.177)
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
 

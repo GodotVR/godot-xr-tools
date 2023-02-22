@@ -9,8 +9,12 @@ extends Node3D
 ## of the VR hands.
 
 
+# Default pose detector collision mask of 22:pose-area
+const DEFAULT_MASK := 0b0000_0000_0010_0000_0000_0000_0000_0000
+
+
 ## Collision mask to detect hand pose areas
-@export_flags_3d_physics var collision_mask : int = 1 << 21: set = set_collision_mask
+@export_flags_3d_physics var collision_mask : int = DEFAULT_MASK: set = set_collision_mask
 
 
 ## Hand controller

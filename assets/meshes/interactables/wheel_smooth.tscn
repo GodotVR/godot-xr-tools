@@ -54,6 +54,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle1/InteractableHandle"]
 shape = SubResource("3")
@@ -78,6 +79,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle3/InteractableHandle"]
 shape = SubResource("3")
@@ -90,6 +92,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle4/InteractableHandle"]
 shape = SubResource("3")
@@ -102,6 +105,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle5/InteractableHandle"]
 shape = SubResource("3")
@@ -114,6 +118,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle6/InteractableHandle"]
 shape = SubResource("3")
@@ -126,6 +131,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle7/InteractableHandle"]
 shape = SubResource("3")
@@ -138,6 +144,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("3")
+picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle"]
 shape = SubResource("3")

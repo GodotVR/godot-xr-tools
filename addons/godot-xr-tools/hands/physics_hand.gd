@@ -10,13 +10,17 @@ extends XRToolsHand
 ## attached to the hand.
 
 
+# Default hand bone layer of 18:player-hand
+const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
+
+
 ## Collision layer applied to all [XRToolsHandPhysicsBone] children.
 ##
 ## This is used to set physics collision layers for every bone in a hand.
 ## Additionally [XRToolsHandPhysicsBone] nodes can specify additional
 ## bone-specific collision layers - for example to give the fore-finger bone
 ## additional collision capabilities.
-@export_flags_3d_physics var collision_layer : int = 1 << 17
+@export_flags_3d_physics var collision_layer : int = DEFAULT_LAYER
 
 ## Bone collision margin applied to all [XRToolsHandPhysicsBone] children.
 ##

@@ -19,10 +19,6 @@ config/icon="res://icon.png"
 
 XRToolsUserSettings="*res://addons/godot-xr-tools/user_settings/user_settings.gd"
 
-[editor]
-
-export/convert_text_resources_to_binary=true
-
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-xr-tools/plugin.cfg")
@@ -40,10 +36,13 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_1="static_world"
 3d_physics/layer_2="dynamic_world"
 3d_physics/layer_3="object"
+3d_physics/layer_4="wall_walk"
 3d_physics/layer_17="held_object"
 3d_physics/layer_18="player_hand"
+3d_physics/layer_19="handle"
 3d_physics/layer_20="player_body"
 3d_physics/layer_21="pointable"
+3d_physics/layer_22="pose_area"
 
 [physics]
 

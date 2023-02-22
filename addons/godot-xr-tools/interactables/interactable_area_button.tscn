@@ -3,4 +3,6 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="1"]
 
 [node name="InteractableAreaButton" type="Area3D"]
+collision_layer = 0
+collision_mask = 131072
 script = ExtResource("1")

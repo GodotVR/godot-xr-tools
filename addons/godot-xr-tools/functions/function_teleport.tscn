@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=9 format=3 uid="uid://fiul51tsyoop"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_teleport.gd" id="1"]
-[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2"]
+[ext_resource type="Material" uid="uid://bk72wfw25ff0v" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/target.tres" id="3"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capsule.tres" id="4"]
 
@@ -26,7 +26,6 @@ collision_mask = 1023
 input_ray_pickable = false
 script = ExtResource("1")
 no_collision_color = Color(0.176471, 0.313726, 0.862745, 1)
-camera = NodePath("")
 
 [node name="Teleport" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")
