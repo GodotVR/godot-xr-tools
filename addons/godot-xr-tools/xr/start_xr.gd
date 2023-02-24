@@ -128,6 +128,9 @@ func _setup_for_openxr() -> bool:
 	if enable_passthrough and _openxr_is_passthrough_supported():
 		enable_passthrough = _openxr_start_passthrough()
 
+	# Disable vsync
+	OS.vsync_enabled = false
+
 	# Switch the viewport to XR
 	get_viewport().arvr = true
 
