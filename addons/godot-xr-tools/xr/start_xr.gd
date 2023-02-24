@@ -101,6 +101,9 @@ func _setup_for_openxr() -> bool:
 	if enable_passthrough and xr_interface.is_passthrough_supported():
 		enable_passthrough = xr_interface.start_passthrough()
 
+	# Disable vsync
+	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
+
 	# Switch the viewport to XR
 	get_viewport().use_xr = true
 
