@@ -84,7 +84,7 @@ func _on_button_entered(item: Node3D) -> void:
 		_tween.tween_property(_button, "position", _button_down, duration)
 
 		# Emit the pressed signal
-		emit_signal("button_pressed")
+		button_pressed.emit(self)
 
 
 # Called when an area or body exits the button area
@@ -108,7 +108,7 @@ func _on_button_exited(item: Node3D) -> void:
 		_tween.tween_property(_button, "position", _button_up, duration)
 
 		# Emit the released signal
-		emit_signal("button_released")
+		button_released.emit(self)
 
 
 # Check button configuration
