@@ -13,15 +13,15 @@
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=11]
 [ext_resource path="res://assets/meshes/plate/surface_objects.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" type="Script" id=13]
-[ext_resource path="res://assets/footsteps/default_footstep.ogg" type="AudioStream" id=15]
+[ext_resource path="res://assets/footsteps/default_footstep.wav" type="AudioStream" id=14]
 [ext_resource path="res://scenes/footstep_movement_demo/objects/instructions.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" type="PackedScene" id=17]
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 13 )
 name = ""
-hit_sound = ExtResource( 15 )
-walk_sounds = [ ExtResource( 15 ), ExtResource( 15 ) ]
+hit_sound = ExtResource( 14 )
+walk_sounds = [ ExtResource( 14 ), ExtResource( 14 ) ]
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
@@ -80,3 +80,5 @@ title = ExtResource( 10 )
 
 [node name="Instructions" parent="." index="4" instance=ExtResource( 16 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.167241, 3.76897, -15.3981 )
+
+[editable path="ARVROrigin/MovementFootstep"]

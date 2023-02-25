@@ -4,6 +4,5 @@
 
 [node name="MovementFootstep" type="Node" groups=["movement_providers"]]
 script = ExtResource( 1 )
-audio_path = ""
-crouch_path = ""
-ground_only = true
+
+[node name="PlayerSettings" type="AudioStreamPlayer3D" parent="."]
