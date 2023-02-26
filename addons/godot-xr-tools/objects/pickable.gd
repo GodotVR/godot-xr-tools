@@ -280,8 +280,47 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 	emit_signal("dropped", self)
 
 
+## Get the controller currently holding this object
 func get_picked_up_by_controller() -> ARVRController:
 	return by_controller
+
+
+## Get the hand currently holding this object
+func get_picked_up_by_hand() -> XRToolsHand:
+	return by_hand
+
+
+## Get the active grab-point this object is held by
+func get_active_grab_point() -> XRToolsGrabPoint:
+	return _active_grab_point
+
+
+## Switch the active grab-point for this object
+func switch_active_grab_point(grab_point : XRToolsGrabPoint):
+	# Verify switching from one grab point to another
+	if not _active_grab_point or not grab_point or _state != PickableState.HELD:
+		return
+
+	# Set the new active grab-point
+	_active_grab_point = grab_point
+
+	# Update the hold transform
+	match hold_method:
+		HoldMethod.REMOTE_TRANSFORM:
+			# Update the remote transform
+			_remote_transform.transform = _active_grab_point.transform.inverse()
+
+		HoldMethod.REPARENT:
+			# Update our transform
+			transform = _active_grab_point.global_transform.inverse() * global_transform
+
+	# Update the pose
+	if by_hand and _active_grab_point:
+		var grab_point_hand := _active_grab_point as XRToolsGrabPointHand
+		if grab_point_hand and grab_point_hand.hand_pose:
+			by_hand.add_pose_override(self, GRIP_POSE_PRIORITY, grab_point_hand.hand_pose)
+		else:
+			by_hand.remove_pose_override(self)
 
 
 func _start_ranged_grab() -> void:

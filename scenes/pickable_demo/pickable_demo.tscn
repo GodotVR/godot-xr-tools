@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
@@ -23,6 +23,7 @@
 [ext_resource path="res://scenes/pickable_demo/objects/teacup_stand.tscn" type="PackedScene" id=21]
 [ext_resource path="res://scenes/pickable_demo/objects/instructions.tscn" type="PackedScene" id=22]
 [ext_resource path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/pickable_demo/objects/knife.tscn" type="PackedScene" id=24]
 
 [node name="PickableDemo" instance=ExtResource( 1 )]
 
@@ -38,7 +39,6 @@ strafe = true
 grab_distance = 0.1
 grab_collision_mask = 4
 ranged_angle = 10.0
-ranged_collision_mask = 4
 
 [node name="RightPhysicsHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 4 )]
 
@@ -54,12 +54,10 @@ strafe = false
 grab_distance = 0.1
 grab_collision_mask = 4
 ranged_angle = 10.0
-ranged_collision_mask = 4
 
 [node name="FunctionPointer" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 18 )]
 show_laser = 2
 laser_length = 1
-collision_mask = 1048576
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 9 )]
 
@@ -108,6 +106,15 @@ transform = Transform( -4.37114e-08, 0, -1, 1, -4.37114e-08, -4.37114e-08, -4.37
 
 [node name="Teacup" parent="Table1" index="12" instance=ExtResource( 19 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.234713, 0.824552, 0.266177 )
+
+[node name="Knife1" parent="Table1" index="13" instance=ExtResource( 24 )]
+transform = Transform( 1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, -0.693906, 0.834034, 2.38419e-07 )
+
+[node name="Knife2" parent="Table1" index="14" instance=ExtResource( 24 )]
+transform = Transform( 1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, -0.593906, 0.834034, 2.38419e-07 )
+
+[node name="Knife3" parent="Table1" index="15" instance=ExtResource( 24 )]
+transform = Transform( 1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, -0.493906, 0.834034, 2.38419e-07 )
 
 [node name="RemoteGrabBalls" type="Spatial" parent="." index="6"]
 
