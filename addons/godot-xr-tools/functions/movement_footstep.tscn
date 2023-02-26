@@ -1,9 +1,8 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://0xlsitpu17r1"]
 
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_footstep.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_footstep.gd" id="1"]
 
 [node name="MovementFootstep" type="Node" groups=["movement_providers"]]
-script = ExtResource( 1 )
-audio_path = ""
-crouch_path = ""
-ground_only = true
+script = ExtResource("1")
+
+[node name="PlayerSettings" type="AudioStreamPlayer3D" parent="."]

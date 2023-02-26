@@ -1,5 +1,7 @@
 # 4.0.0 Beta 1
 - Conversion to Godot 4
+- Fixed footstep resource leak and added jump sounds and footstep signal
+- Added grab-point switching to pickable objects
 
 # 3.3.0
 - Added reset-scene and scene-control functions to scene-base

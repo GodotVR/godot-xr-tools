@@ -4,13 +4,13 @@
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cegpwqy2053ct" path="res://assets/meshes/plate/plate.glb" id="3"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="4"]
-[ext_resource type="AudioStream" uid="uid://cvxjtvoif1jyy" path="res://assets/footsteps/puddle_footstep.ogg" id="4_0fhs2"]
+[ext_resource type="AudioStream" uid="uid://dkladw5jiqfnb" path="res://assets/footsteps/puddle_footstep.wav" id="4_ql6qg"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="5"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="6"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="7"]
-[ext_resource type="AudioStream" uid="uid://cq7ijgteqs2xd" path="res://assets/footsteps/mud_footstep.ogg" id="7_safuy"]
-[ext_resource type="AudioStream" uid="uid://di2mvj64s1ykq" path="res://assets/footsteps/grass_footstep.ogg" id="9_qtblc"]
-[ext_resource type="AudioStream" uid="uid://c3ao6lhc7um4b" path="res://assets/footsteps/snow_footstep.ogg" id="11_thcdd"]
+[ext_resource type="AudioStream" uid="uid://bu3r7384vd488" path="res://assets/footsteps/mud_footstep.wav" id="7_f6aya"]
+[ext_resource type="AudioStream" uid="uid://dl3u65cveimdq" path="res://assets/footsteps/grass_footstep.wav" id="9_4132b"]
+[ext_resource type="AudioStream" uid="uid://c7670m64eawbp" path="res://assets/footsteps/snow_footstep.wav" id="11_u808p"]
 
 [sub_resource type="ConcavePolygonShape3D" id="1"]
 data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1)
@@ -18,8 +18,9 @@ data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121
 [sub_resource type="Resource" id="Resource_rpp4f"]
 script = ExtResource("7")
 name = "Puddle"
-hit_sound = ExtResource("4_0fhs2")
-walk_sounds = Array[AudioStream]([ExtResource("4_0fhs2"), ExtResource("4_0fhs2")])
+jump_sound = ExtResource("4_ql6qg")
+hit_sound = ExtResource("4_ql6qg")
+walk_sounds = Array[AudioStream]([ExtResource("4_ql6qg"), ExtResource("4_ql6qg")])
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
@@ -29,8 +30,9 @@ data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121
 [sub_resource type="Resource" id="Resource_rwibv"]
 script = ExtResource("7")
 name = "Mud"
-hit_sound = ExtResource("7_safuy")
-walk_sounds = Array[AudioStream]([ExtResource("7_safuy"), ExtResource("7_safuy")])
+jump_sound = ExtResource("7_f6aya")
+hit_sound = ExtResource("7_f6aya")
+walk_sounds = Array[AudioStream]([ExtResource("7_f6aya"), ExtResource("7_f6aya")])
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
@@ -40,8 +42,8 @@ data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121
 [sub_resource type="Resource" id="Resource_53y85"]
 script = ExtResource("7")
 name = "Grass"
-hit_sound = ExtResource("9_qtblc")
-walk_sounds = Array[AudioStream]([ExtResource("9_qtblc"), ExtResource("9_qtblc")])
+hit_sound = ExtResource("9_4132b")
+walk_sounds = Array[AudioStream]([ExtResource("9_4132b"), ExtResource("9_4132b")])
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
@@ -54,8 +56,8 @@ data = PackedVector3Array(-1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121
 [sub_resource type="Resource" id="Resource_58enk"]
 script = ExtResource("7")
 name = "Snow"
-hit_sound = ExtResource("11_thcdd")
-walk_sounds = Array[AudioStream]([ExtResource("11_thcdd"), ExtResource("11_thcdd")])
+hit_sound = ExtResource("11_u808p")
+walk_sounds = Array[AudioStream]([ExtResource("11_u808p"), ExtResource("11_u808p")])
 walk_pitch_minimum = 0.8
 walk_pitch_maximum = 1.2
 
