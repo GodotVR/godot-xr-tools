@@ -7,10 +7,10 @@
 [ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=5]
 [ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=6]
 [ext_resource path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" type="Script" id=7]
-[ext_resource path="res://assets/footsteps/grass_footstep.ogg" type="AudioStream" id=8]
-[ext_resource path="res://assets/footsteps/puddle_footstep.ogg" type="AudioStream" id=9]
-[ext_resource path="res://assets/footsteps/mud_footstep.ogg" type="AudioStream" id=10]
-[ext_resource path="res://assets/footsteps/snow_footstep.ogg" type="AudioStream" id=11]
+[ext_resource path="res://assets/footsteps/grass_footstep.wav" type="AudioStream" id=8]
+[ext_resource path="res://assets/footsteps/puddle_footstep.wav" type="AudioStream" id=9]
+[ext_resource path="res://assets/footsteps/mud_footstep.wav" type="AudioStream" id=10]
+[ext_resource path="res://assets/footsteps/snow_footstep.wav" type="AudioStream" id=11]
 
 [sub_resource type="ConcavePolygonShape" id=1]
 data = PoolVector3Array( -1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121, 1, -1, 0.0121, -1, 1, 0.0121, -1, 1, 0, 1, 1, 0.0121, -1, 1, 0, -1, 1, 0, 1, 1, 0.0121, 1, 1, 0.0121, -1, -1, 0, -1, -1, 0.0121, 1, -1, 0, 1, -1, 0, -1, -1, 0.0121, -1, -1, 0.0121, 1, 1, 0, -1, -1, 0.0121, -1, -1, 0, -1, 1, 0, -1, 1, 0.0121, -1, -1, 0.0121, -1, -1, 0, 1, 1, 0.0121, 1, 1, 0, 1, -1, 0, 1, -1, 0.0121, 1, 1, 0.0121, 1 )
@@ -18,6 +18,7 @@ data = PoolVector3Array( -1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121,
 [sub_resource type="Resource" id=6]
 script = ExtResource( 7 )
 name = "Puddle"
+jump_sound = ExtResource( 9 )
 hit_sound = ExtResource( 9 )
 walk_sounds = [ ExtResource( 9 ), ExtResource( 9 ) ]
 walk_pitch_minimum = 0.8
@@ -29,6 +30,7 @@ data = PoolVector3Array( -1, 0.0121, 1, 1, 0.0121, -1, 1, 0.0121, 1, -1, 0.0121,
 [sub_resource type="Resource" id=8]
 script = ExtResource( 7 )
 name = "Mud"
+jump_sound = ExtResource( 10 )
 hit_sound = ExtResource( 10 )
 walk_sounds = [ ExtResource( 10 ), ExtResource( 10 ) ]
 walk_pitch_minimum = 0.8
