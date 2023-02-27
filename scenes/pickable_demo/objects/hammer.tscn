@@ -26,7 +26,7 @@ rings = 0
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 0.1, 0.1, 0.2 )
 
-[node name="Hammer" groups=["Heavy"] instance=ExtResource( 1 )]
+[node name="Hammer" groups=["Heavy", "Weapons"] instance=ExtResource( 1 )]
 collision_mask = 7
 ranged_grab_method = 0
 

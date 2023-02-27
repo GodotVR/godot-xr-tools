@@ -66,13 +66,15 @@ laser_length = 1
 
 [node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 9 )]
 
-[node name="BeltSnapZone01" parent="ARVROrigin/PlayerBody" index="1" instance=ExtResource( 23 )]
+[node name="BeltSnapZone01" parent="ARVROrigin/PlayerBody" index="0" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -0.15 )
 
-[node name="BeltSnapZone02" parent="ARVROrigin/PlayerBody" index="2" instance=ExtResource( 23 )]
+[node name="BeltSnapZone02" parent="ARVROrigin/PlayerBody" index="1" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1, -0.15 )
 
 [node name="InventoryBackpack" parent="ARVROrigin" index="4" instance=ExtResource( 25 )]
+backpack_scene = ExtResource( 27 )
+backpack_path = NodePath("SnapBackpack")
 
 [node name="SnapBackpack" parent="ARVROrigin/InventoryBackpack" index="0" instance=ExtResource( 27 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.502358, 1.18107, -3 )

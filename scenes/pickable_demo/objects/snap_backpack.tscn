@@ -45,7 +45,7 @@ __meta__ = {
 [node name="SnapZone1" parent="In" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.120223, 0.126457, 0.135 )
 grab_distance = 0.05
-snap_exclude = "Heavy"
+snap_exclude = "Weapons"
 
 [node name="Sprite3D" type="Sprite3D" parent="In/SnapZone1"]
 transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
@@ -54,7 +54,7 @@ texture = ExtResource( 12 )
 [node name="SnapZone2" parent="In" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.12, 0.126, 0.135 )
 grab_distance = 0.05
-snap_exclude = "Heavy"
+snap_exclude = "Weapons"
 
 [node name="Sprite3D" type="Sprite3D" parent="In/SnapZone2"]
 transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
@@ -66,7 +66,7 @@ __meta__ = {
 [node name="SnapZone3" parent="In" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.120223, -0.126, 0.135 )
 grab_distance = 0.05
-snap_exclude = "Heavy"
+snap_exclude = "Weapons"
 
 [node name="Sprite3D" type="Sprite3D" parent="In/SnapZone3"]
 transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
@@ -78,7 +78,7 @@ __meta__ = {
 [node name="SnapZone4" parent="In" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.12, -0.126, 0.135 )
 grab_distance = 0.05
-snap_exclude = "Heavy"
+snap_exclude = "Weapons"
 
 [node name="Sprite3D" type="Sprite3D" parent="In/SnapZone4"]
 transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
@@ -88,7 +88,7 @@ __meta__ = {
 }
 
 [node name="SnapZoneKnife" parent="In" instance=ExtResource( 5 )]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.0185113, 0.135 )
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.019, 0.15 )
 grab_distance = 0.05
 snap_require = "Knife"
 snap_exclude = "Heavy"
