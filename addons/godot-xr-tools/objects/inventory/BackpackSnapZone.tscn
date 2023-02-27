@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" type="PackedScene" id=1]
+[ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_transparent = true
+params_cull_mode = 1
+albedo_color = Color( 0.0627451, 0.905882, 0.886275, 0.545098 )
+
+[sub_resource type="SphereMesh" id=2]
+material = SubResource( 1 )
+radius = 0.05
+height = 0.1
+radial_segments = 32
+rings = 16
+
+[node name="BackpackSnapZone" groups=["ShoulderHolster"] instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.3 )
+grab_distance = 0.1
+snap_require = "Backpack"
+
+[node name="Sphere" type="MeshInstance" parent="." index="1"]
+cast_shadow = 0
+mesh = SubResource( 2 )
+
+[node name="HighlightRing" parent="." index="2" instance=ExtResource( 1 )]
