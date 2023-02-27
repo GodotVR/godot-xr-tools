@@ -58,6 +58,9 @@ export var roll_turn_speed : float = 1
 ## Add vertical impulse by flapping controllers
 export var wings_impulse : bool = false
 
+## Altitude limit when flapping
+export var max_flapping_altitude : float = 250
+
 ## Minimum velocity for flapping
 export var flap_min_speed : float = 0.3
 
@@ -116,7 +119,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var wings_impulse_velocity := 0.0
 
 	# If wings impulse is active, calculate flapping impulse
-	if wings_impulse:
+	if wings_impulse && player_body.translation.y < max_flapping_altitude:
 		# Get head position
 		var camera_position := _camera_node.global_transform.origin
 
@@ -156,19 +159,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 			last_local_left_position = local_left_position
 			last_local_right_position = local_right_position
 
-	# If not falling, then not gliding
-	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
-	vertical_velocity += wings_impulse_velocity
-	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
-		_set_gliding(false)
-		return
-
 	# Calculate global left to right controller vector
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:
 		var angle = -left_to_right.dot(player_body.up_player_vector)
 		player_body.rotate_player(roll_turn_speed * delta * angle)
+
+	# If not falling, then not gliding
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	vertical_velocity += wings_impulse_velocity
+	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
+		_set_gliding(false)
+		return
 
 	# Set gliding based on hand separation
 	var separation := left_to_right.length() / ARVRServer.world_scale
