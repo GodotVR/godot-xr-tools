@@ -6,7 +6,7 @@ uid="uid://bidphehpipwhg"
 path.s3tc="res://.godot/imported/glove_african_green_camo.png-b4a9e045aac0313108230034e03317fd.s3tc.ctex"
 path.etc2="res://.godot/imported/glove_african_green_camo.png-b4a9e045aac0313108230034e03317fd.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
@@ -18,9 +18,9 @@ dest_files=["res://.godot/imported/glove_african_green_camo.png-b4a9e045aac03131
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

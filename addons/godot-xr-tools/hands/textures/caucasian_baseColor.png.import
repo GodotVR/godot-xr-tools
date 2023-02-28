@@ -6,7 +6,7 @@ uid="uid://c506svon268ms"
 path.s3tc="res://.godot/imported/caucasian_baseColor.png-2ffa4b91e9a1b3bcc11c22eccd941be7.s3tc.ctex"
 path.etc2="res://.godot/imported/caucasian_baseColor.png-2ffa4b91e9a1b3bcc11c22eccd941be7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
@@ -18,9 +18,9 @@ dest_files=["res://.godot/imported/caucasian_baseColor.png-2ffa4b91e9a1b3bcc11c2
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true
