@@ -4,13 +4,20 @@ extends Node
 
 
 export var return_to_player : bool = false
+
 export var wait_time = 3
+
 export (PackedScene) var backpack_scene
+
 export var backpack_path: NodePath
-onready var backpack: XRToolsPickable = get_node(backpack_path)
+
 # Array of all snap-zones in the backpack
 var _backpack_snap_zones := []
+
 var timer
+
+onready var backpack: XRToolsPickable = get_node(backpack_path)
+
 
 func _ready():
 	timer = get_node("Timer")
@@ -58,9 +65,10 @@ func _on_backpack_dropped(_pickable):
 				#put on empty shoulder slot if one is available
 					if holster.picked_up_object == null:
 						holster._pick_up_object(backpack)
+
 	if return_to_player:
 		# example code to automatically return backpack
-		# to player holster when dropped
+		# to player holster when dropped after wait time passed
 		if _pickable.picked_up_by == null and _pickable.is_picked_up() == false:
 			timer.start(wait_time)
 
