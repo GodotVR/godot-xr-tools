@@ -13,11 +13,11 @@ export (PackedScene) var backpack_scene
 
 export var backpack_path: NodePath
 
-# Array of all snap-zones in the backpack
-var _backpack_snap_zones := []
-
 # timer node to control the return to player time
 var timer
+
+# Array of all snap-zones in the backpack
+var _backpack_snap_zones := []
 
 onready var backpack: XRToolsPickable = get_node(backpack_path)
 
