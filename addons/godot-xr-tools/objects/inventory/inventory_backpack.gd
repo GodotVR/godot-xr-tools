@@ -2,9 +2,11 @@ tool
 class_name XRToolsInventoryBackpack, "res://addons/godot-xr-tools/editor/icons/backpack.svg"
 extends Node
 
-
+# if set to true, backpack will return on drop after
+# wait time passed
 export var return_to_player : bool = false
 
+# wait time for return to player bool
 export var wait_time = 3
 
 export (PackedScene) var backpack_scene
@@ -14,6 +16,7 @@ export var backpack_path: NodePath
 # Array of all snap-zones in the backpack
 var _backpack_snap_zones := []
 
+# timer node to control the return to player time
 var timer
 
 onready var backpack: XRToolsPickable = get_node(backpack_path)

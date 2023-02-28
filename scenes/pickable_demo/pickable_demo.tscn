@@ -73,7 +73,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -0.15 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1, -0.15 )
 
 [node name="InventoryBackpack" parent="ARVROrigin" index="4" instance=ExtResource( 25 )]
-return_to_player = true
 backpack_scene = ExtResource( 27 )
 backpack_path = NodePath("SnapBackpack")
 
