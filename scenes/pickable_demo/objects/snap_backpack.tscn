@@ -15,6 +15,7 @@ points = PoolVector3Array( -0.236476, 0.207861, 0.0580328, -0.21679, 0.200159, -
 [node name="SnapBackpack" type="RigidBody" groups=["Backpack"]]
 collision_layer = 1048580
 collision_mask = 65543
+mass = 2.04082
 script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": ""

@@ -73,6 +73,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 1, -0.15 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1, -0.15 )
 
 [node name="InventoryBackpack" parent="ARVROrigin" index="4" instance=ExtResource( 25 )]
+return_to_player = true
 backpack_scene = ExtResource( 27 )
 backpack_path = NodePath("SnapBackpack")
 
@@ -169,7 +170,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.891369, 0.9, -2.65446 )
 
 [node name="SnapToyYellow" parent="SnapToys" index="3" instance=ExtResource( 12 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0274, 0.9, -2.64271 )
-
-[connection signal="dropped" from="ARVROrigin/InventoryBackpack/SnapBackpack" to="ARVROrigin/InventoryBackpack" method="_on_SnapBackpack_dropped"]
 
 [editable path="Table1/TeacupStand"]
