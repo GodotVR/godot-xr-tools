@@ -51,6 +51,7 @@ common/enable_pause_aware_picking=true
 [rendering]
 
 renderer/rendering_method="mobile"
+textures/vram_compression/import_etc2_astc=true
 limits/time/time_rollover_secs=30.0
 quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true

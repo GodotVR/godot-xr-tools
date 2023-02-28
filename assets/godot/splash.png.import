@@ -6,7 +6,7 @@ uid="uid://ftrrxm7sxndi"
 path.s3tc="res://.godot/imported/splash.png-34eca73d45cf0604f835226d6332bc2e.s3tc.ctex"
 path.etc2="res://.godot/imported/splash.png-34eca73d45cf0604f835226d6332bc2e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
@@ -18,9 +18,9 @@ dest_files=["res://.godot/imported/splash.png-34eca73d45cf0604f835226d6332bc2e.s
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
 mipmaps/generate=true

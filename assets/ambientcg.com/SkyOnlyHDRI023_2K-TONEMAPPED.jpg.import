@@ -3,27 +3,27 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dqoe1c5yn5dnv"
-path.s3tc="res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.s3tc.ctex"
-path.etc2="res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.etc2.ctex"
+path.bptc="res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.bptc.ctex"
+path.astc="res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.astc.ctex"
 metadata={
-"imported_formats": ["s3tc", "etc2"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://assets/ambientcg.com/SkyOnlyHDRI023_2K-TONEMAPPED.jpg"
-dest_files=["res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.s3tc.ctex", "res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.etc2.ctex"]
+dest_files=["res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.bptc.ctex", "res://.godot/imported/SkyOnlyHDRI023_2K-TONEMAPPED.jpg-bcb5464e5ed42ee2463b71652f907f38.astc.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=true
 compress/lossy_quality=0.7
 compress/hdr_compression=1
-compress/bptc_ldr=0
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=true
+mipmaps/generate=false
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
