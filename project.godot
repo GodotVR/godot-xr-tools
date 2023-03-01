@@ -160,6 +160,11 @@ _global_script_classes=[ {
 "path": "res://addons/godot-xr-tools/interactables/interactable_slider.gd"
 }, {
 "base": "Node",
+"class": "XRToolsInventoryBackpack",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/objects/inventory/inventory_backpack.gd"
+}, {
+"base": "Node",
 "class": "XRToolsMoveTo",
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/misc/move_to.gd"
@@ -350,6 +355,7 @@ _global_script_class_icons={
 "XRToolsInteractableHinge": "",
 "XRToolsInteractableJoystick": "",
 "XRToolsInteractableSlider": "",
+"XRToolsInventoryBackpack": "res://addons/godot-xr-tools/editor/icons/backpack.svg",
 "XRToolsMoveTo": "",
 "XRToolsMovementClimb": "",
 "XRToolsMovementCrouch": "",

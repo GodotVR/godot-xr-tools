@@ -1,0 +1,227 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/pickable.gd" type="Script" id=2]
+[ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=5]
+[ext_resource path="res://assets/quaternius/Backpack/model/backpack.glb" type="PackedScene" id=7]
+[ext_resource path="res://addons/godot-xr-tools/objects/inventory/textures/ring_long.png" type="Texture" id=8]
+[ext_resource path="res://addons/godot-xr-tools/objects/inventory/textures/ring_small.png" type="Texture" id=12]
+[ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" type="PackedScene" id=14]
+
+[sub_resource type="ConvexPolygonShape" id=2]
+points = PoolVector3Array( -0.236476, 0.207861, 0.0580328, -0.21679, 0.200159, -0.0260027, -0.217717, 0.180905, -0.025635, -0.236198, 0.18835, 0.0543919, -0.229435, -0.327268, 0.066749, -0.20748, -0.327268, 0.137177, -0.20748, 0.0396463, 0.137177, -0.202478, 0.180777, 0.124305, -0.204377, 0.263248, 0.0919045, -0.182561, 0.245149, -0.0268854, -0.129249, 0.256958, -0.0948862, -0.129249, 0.211326, -0.112355, -0.179597, -0.0515528, -0.13946, -0.18006, -0.0670842, -0.140416, -0.207619, -0.327268, -0.0165143, -0.181681, -0.345046, -0.0165143, -0.200764, -0.345046, 0.066749, -0.182607, -0.340425, 0.118936, -0.118735, -0.345046, 0.137177, -0.169036, -0.324957, 0.152292, -0.192056, -0.312763, 0.152292, -0.192056, 0.0320731, 0.152292, -0.187378, 0.162742, 0.152292, -0.140875, 0.256637, 0.137177, -0.136104, 0.295658, 0.105512, -0.135641, 0.298675, 0.0859466, -0.132445, 0.280383, -0.0271428, -0.164404, 0.199196, 0.152292, -0.0947417, 0.283336, -0.0265912, -0.0924258, 0.260873, -0.0909878, 0.000118062, 0.264274, -0.0890018, 0.12666, 0.256958, -0.0948862, -0.0924258, 0.215177, -0.123204, -0.122347, 0.0645479, -0.160717, -0.158568, -0.0686245, -0.161673, -0.159217, -0.0838351, -0.162409, -0.176864, -0.238315, -0.135414, -0.143144, -0.345046, -0.0785939, -0.158383, -0.309875, -0.134532, -0.0818189, -0.35095, -0.0785939, -0.10382, -0.35095, -0.0165143, -0.114705, -0.35095, 0.066749, 0.118739, -0.345046, 0.137177, 2.54214e-05, -0.329193, 0.152329, -0.109888, -0.329193, 0.152292, 0.000118062, 0.244764, 0.152329, 0.000118062, 0.269473, 0.137177, -0.130407, 0.232891, 0.152292, 0.000118062, 0.304707, 0.105512, 0.000118062, 0.284812, -0.026959, 0.0898365, 0.260873, -0.0909878, 0.0921524, 0.283336, -0.0265912, 0.129855, 0.280383, -0.0271428, 0.182751, 0.245149, -0.0268854, 0.21698, 0.200159, -0.0260027, 0.12666, 0.211326, -0.112355, 0.0898365, 0.215177, -0.123204, -0.00530118, -0.0417333, -0.194883, -0.100346, 0.06673, -0.163806, -0.00905296, -0.162519, -0.223385, -0.119244, -0.0443005, -0.182489, -0.139995, -0.0423751, -0.170831, -0.129712, -0.0761977, -0.181349, -0.130638, -0.0913441, -0.181901, -0.061161, -0.345046, -0.117173, -0.101273, -0.309875, -0.162629, 0.0818235, -0.35095, -0.0785939, 0.114756, -0.35095, 0.066749, 0.200769, -0.345046, 0.066749, 0.182658, -0.340425, 0.118936, 0.207485, -0.327268, 0.137177, 0.169041, -0.324957, 0.152329, 0.109939, -0.329193, 0.152329, 0.130597, 0.232891, 0.152329, 0.141065, 0.256637, 0.137177, 0.136294, 0.295658, 0.105512, 0.133051, 0.298675, 0.0859466, 0.204567, 0.263248, 0.0919045, 0.236712, 0.207861, 0.0580328, 0.217906, 0.180905, -0.025635, 0.18025, -0.0670842, -0.140416, 0.179787, -0.0515528, -0.13946, 0.119712, 0.0645479, -0.160717, 0.0977106, 0.06673, -0.163806, 0.00317506, -0.041605, -0.194442, 0.0130409, -0.16085, -0.220774, 0.0167926, -0.312635, -0.183188, -0.0203083, -0.312635, -0.183188, 0.0611655, -0.345046, -0.117173, 0.103825, -0.35095, -0.0165143, 0.143195, -0.345046, -0.0785939, 0.181686, -0.345046, -0.0165143, 0.22944, -0.327268, 0.066749, 0.192061, -0.312763, 0.152329, 0.207485, 0.0396463, 0.137177, 0.164594, 0.199196, 0.152329, 0.187568, 0.162742, 0.152329, 0.202668, 0.180777, 0.124305, 0.236387, 0.18835, 0.0543919, 0.207624, -0.327268, -0.0165143, 0.177054, -0.238315, -0.135414, 0.159407, -0.0838351, -0.162409, 0.158758, -0.0686245, -0.161673, 0.140184, -0.0423751, -0.170831, 0.119434, -0.0443005, -0.182489, 0.129902, -0.0761977, -0.181349, 0.130828, -0.0913441, -0.181901, 0.101462, -0.309875, -0.162629, 0.158573, -0.309875, -0.134532, 0.192061, 0.0320731, 0.152329 )
+
+[node name="SnapBackpack" type="RigidBody" groups=["Backpack"]]
+collision_layer = 1048580
+collision_mask = 65543
+mass = 2.04082
+script = ExtResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+picked_up_layer = 1114112
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource( 13 )]
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 0.999999, 0.050919, 0.296961, 0.0741629 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource( 14 )]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 0.999999, -0.051, 0.297, 0.074 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 2 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="backpack" parent="." instance=ExtResource( 7 )]
+
+[node name="In" type="Spatial" parent="."]
+
+[node name="SnapArea1" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.12, 0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea1" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea1/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea2" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, 0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea2" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea2/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea3" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.12, 0, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea3" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea3/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea4" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, 0, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea4" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea4/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea5" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.120223, -0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea5" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea5/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea6" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, -0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea6" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea6/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="KnifeArea" type="MeshInstance" parent="In"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.019, 0.15 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/KnifeArea" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_require = "Knife"
+snap_exclude = "Heavy"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/KnifeArea/SnapZone1"]
+transform = Transform( -3.27835e-09, 0.075, 0, -0.075, -3.27835e-09, 0, 0, 0, 0.1, 0, 0, 0 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="Out" type="Spatial" parent="."]
+
+[node name="HeavyArea1" type="MeshInstance" parent="Out"]
+transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0.256, 0.213, 0.021 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="Out/HeavyArea1" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.15
+snap_require = "Heavy"
+
+[node name="HighlightRing" type="Sprite3D" parent="Out/HeavyArea1/SnapZone1"]
+transform = Transform( -4.37114e-09, 1.95399e-14, 0.1, 8.47033e-22, 0.1, -1.95399e-14, -0.1, -7.08435e-24, -4.37114e-09, 0.022, 0.285, 0 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="HeavyArea2" type="MeshInstance" parent="Out"]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.256, 0.213, 0.021 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="Out/HeavyArea2" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.15
+snap_require = "Heavy"
+
+[node name="HighlightRing" type="Sprite3D" parent="Out/HeavyArea2/SnapZone1"]
+transform = Transform( -4.37114e-09, 1.95399e-14, 0.1, 8.47033e-22, 0.1, -1.95399e-14, -0.1, -7.08435e-24, -4.37114e-09, -0.022, 0.285, 0 )
+texture = ExtResource( 8 )
+__meta__ = {
+"_editor_description_": ""
+}

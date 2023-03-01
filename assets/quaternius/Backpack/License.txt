@@ -1,0 +1,23 @@
+	
+	Backpack 3D Model from the Quaternius - Survival Pack
+
+	Created/distributed by Quaternius https://quaternius.com/packs/survival.html
+	Release Date: September 2020
+
+			------------------------------
+
+	License: (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	This content is free to use in personal, educational and commercial projects.
+
+			------------------------------
+
+	Support and Patreon:  https://www.patreon.com/quaternius
+
+	Follow on Twitter for updates:
+	https://twitter.com/quaternius
+
+	Note:
+	The Backpack model was slightly modified for the purpose of this demo scene
+	by DigitalN8m4r3 aka Miodrag Sejic
