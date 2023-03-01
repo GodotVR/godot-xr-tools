@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=2]
@@ -25,13 +25,8 @@
 [ext_resource path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" type="PackedScene" id=23]
 [ext_resource path="res://scenes/pickable_demo/objects/knife.tscn" type="PackedScene" id=24]
 [ext_resource path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" type="Script" id=25]
-[ext_resource path="res://addons/godot-xr-tools/objects/inventory/inventory_backpack.tscn" type="PackedScene" id=26]
-[ext_resource path="res://scenes/pickable_demo/objects/snap_backpack.tscn" type="PackedScene" id=27]
-[ext_resource path="res://addons/godot-xr-tools/objects/inventory/BackpackSnapZone.tscn" type="PackedScene" id=28]
 
 [node name="PickableDemo" instance=ExtResource( 1 )]
-
-[node name="BackpackSnapZone" parent="ARVROrigin/ARVRCamera" index="0" instance=ExtResource( 28 )]
 
 [node name="LeftPhysicsHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
 
@@ -69,41 +64,33 @@ laser_length = 1
 
 [node name="BeltSnapZone01" parent="ARVROrigin/PlayerBody" index="0" instance=ExtResource( 23 )]
 transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.176713, 1, -0.176713 )
-visible = false
 
 [node name="BeltSnapZone02" parent="ARVROrigin/PlayerBody" index="1" instance=ExtResource( 23 )]
 transform = Transform( 0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, -0.0956363, 1, -0.230887 )
-visible = false
 
 [node name="BeltSnapZone03" parent="ARVROrigin/PlayerBody" index="2" instance=ExtResource( 23 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.45058e-09, 1, -0.24991 )
-visible = false
 
 [node name="BeltSnapZone04" parent="ARVROrigin/PlayerBody" index="3" instance=ExtResource( 23 )]
 transform = Transform( 0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0.0956363, 1, -0.230887 )
-visible = false
 
 [node name="BeltSnapZone05" parent="ARVROrigin/PlayerBody" index="4" instance=ExtResource( 23 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.176713, 1, -0.176713 )
-visible = false
 
-[node name="InventoryBackpack" parent="." index="1" instance=ExtResource( 26 )]
-backpack_path = NodePath("../SnapToys/SnapBackpack")
+[node name="BasicMap" parent="." index="1" instance=ExtResource( 2 )]
 
-[node name="BasicMap" parent="." index="2" instance=ExtResource( 2 )]
-
-[node name="Teleport" parent="." index="3" instance=ExtResource( 5 )]
+[node name="Teleport" parent="." index="2" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4 )
 scene_base = NodePath("..")
 title = ExtResource( 6 )
 
-[node name="Instructions" parent="." index="4" instance=ExtResource( 22 )]
+[node name="Instructions" parent="." index="3" instance=ExtResource( 22 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -5 )
 
-[node name="Table2" parent="." index="5" instance=ExtResource( 15 )]
+[node name="Table2" parent="." index="4" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3 )
 
-[node name="Table1" parent="." index="6" instance=ExtResource( 15 )]
+[node name="Table1" parent="." index="5" instance=ExtResource( 15 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3 )
 
 [node name="Saucer" parent="Table1" index="10" instance=ExtResource( 20 )]
@@ -134,7 +121,7 @@ transform = Transform( 1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08
 [node name="Knife3" parent="Table1" index="15" instance=ExtResource( 24 )]
 transform = Transform( 1.91069e-15, -1, -4.37114e-08, -4.37114e-08, -4.37114e-08, 1, -1, 0, -4.37114e-08, -0.493906, 0.834034, 2.38419e-07 )
 
-[node name="RemoteGrabBalls" type="Spatial" parent="." index="7"]
+[node name="RemoteGrabBalls" type="Spatial" parent="." index="6"]
 
 [node name="Ball1" parent="RemoteGrabBalls" index="0" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -2.6 )
@@ -145,7 +132,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -3.2 )
 [node name="Ball3" parent="RemoteGrabBalls" index="2" instance=ExtResource( 13 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -2.9 )
 
-[node name="Hammers" type="Spatial" parent="." index="8"]
+[node name="Hammers" type="Spatial" parent="." index="7"]
 
 [node name="Hammer" parent="Hammers" index="0" instance=ExtResource( 17 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.6 )
@@ -159,7 +146,7 @@ transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -
 [node name="Hammer3" parent="Hammers" index="3" instance=ExtResource( 17 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -2.2, 0.15, -3.3 )
 
-[node name="GrabCubes" type="Spatial" parent="." index="9"]
+[node name="GrabCubes" type="Spatial" parent="." index="8"]
 
 [node name="Cube1" parent="GrabCubes" index="0" instance=ExtResource( 14 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.875, -2.8 )
@@ -170,7 +157,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.875, -2.8 )
 [node name="Cube3" parent="GrabCubes" index="2" instance=ExtResource( 14 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.975, -2.8 )
 
-[node name="SnapToys" type="Spatial" parent="." index="10"]
+[node name="SnapToys" type="Spatial" parent="." index="9"]
 
 [node name="SnapTray1" parent="SnapToys" index="0" instance=ExtResource( 16 )]
 transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.5, 1, -2.9 )
@@ -180,12 +167,9 @@ tray_active = true
 transform = Transform( 0.996195, 0, -0.0871558, 0, 1, 0, 0.0871558, 0, 0.996195, 1.1, 1, -3 )
 
 [node name="SnapToyRed" parent="SnapToys" index="2" instance=ExtResource( 11 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.827095, 0.9, -2.6569 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.9, -3 )
 
 [node name="SnapToyYellow" parent="SnapToys" index="3" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02709, 0.9, -2.6569 )
-
-[node name="SnapBackpack" parent="SnapToys" index="4" instance=ExtResource( 27 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.501471, 1.19525, -3 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.9, -3 )
 
 [editable path="Table1/TeacupStand"]
