@@ -94,7 +94,7 @@ func _process(_delta):
 			continue
 
 		# pick up our target
-		_pick_up_object(o)
+		pick_up_object(o)
 		return
 
 
@@ -167,7 +167,7 @@ func _initial_object_check() -> void:
 	# Check for an initial object
 	if initial_object:
 		# Force pick-up the initial object
-		_pick_up_object(get_node(initial_object))
+		pick_up_object(get_node(initial_object))
 	else:
 		# Show highlight when empty
 		emit_signal("highlight_updated", self, true)
@@ -222,8 +222,13 @@ func _on_snap_zone_body_exited(target: Spatial) -> void:
 		emit_signal("close_highlight_updated", self, false)
 
 
+# Test if this snap zone has a picked up object
+func has_snapped_object() -> bool:
+	return is_instance_valid(picked_up_object)
+
+
 # Pick up the specified object
-func _pick_up_object(target: Spatial) -> void:
+func pick_up_object(target: Spatial) -> void:
 	# check if already holding an object
 	if is_instance_valid(picked_up_object):
 		# skip if holding the target object
@@ -296,4 +301,4 @@ func _on_target_dropped(target: Spatial) -> void:
 
 	# Pick up the target if we can
 	if target.can_pick_up(self):
-		_pick_up_object(target)
+		pick_up_object(target)
