@@ -9,8 +9,6 @@ export var return_to_player : bool = false
 # wait time for return to player bool
 export var wait_time = 3
 
-export (PackedScene) var backpack_scene
-
 export var backpack_path: NodePath
 
 # timer node to control the return to player time
@@ -38,12 +36,6 @@ func _ready():
 		snap.enabled = false
 
 
-# compare object to weapon .tscns used in game to determine which it is
-func check_inventory_scene(object):
-	if object.name.begins_with("SnapBackpack"):
-		return backpack_scene
-	return null
-
 func _on_backpack_picked_up(_pickable):
 	# Enable all snap-zones when picked up by a hand/controller
 	if backpack.get_picked_up_by_controller():
@@ -67,7 +59,7 @@ func _on_backpack_dropped(_pickable):
 				for holster in shoulder_holster:
 				#put on empty shoulder slot if one is available
 					if holster.picked_up_object == null:
-						holster._pick_up_object(backpack)
+						holster.pick_up_object(backpack)
 
 	if return_to_player:
 		# example code to automatically return backpack
@@ -85,5 +77,5 @@ func _on_Timer_timeout():
 	for holster in shoulder_holster:
 	#put on empty shoulder slot if one is available
 		if holster.picked_up_object == null:
-			holster._pick_up_object(backpack)
+			holster.pick_up_object(backpack)
 			break

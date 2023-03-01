@@ -1,6 +1,5 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/objects/Snap_Zone.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/objects/pickable.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/quaternius/Backpack/model/backpack.glb" type="PackedScene" id=7]
@@ -20,6 +19,7 @@ script = ExtResource( 2 )
 __meta__ = {
 "_editor_description_": ""
 }
+picked_up_layer = 1114112
 
 [node name="GrabPointHandLeft" parent="." instance=ExtResource( 13 )]
 transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 0.999999, 0.050919, 0.296961, 0.0741629 )
@@ -43,58 +43,141 @@ __meta__ = {
 
 [node name="In" type="Spatial" parent="."]
 
-[node name="SnapZone1" parent="In" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.120223, 0.126457, 0.135 )
+[node name="SnapArea1" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.12, 0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea1" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
 grab_distance = 0.05
 snap_exclude = "Weapons"
 
-[node name="Sprite3D" type="Sprite3D" parent="In/SnapZone1"]
-transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
-texture = ExtResource( 12 )
-
-[node name="SnapZone2" parent="In" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.12, 0.126, 0.135 )
-grab_distance = 0.05
-snap_exclude = "Weapons"
-
-[node name="Sprite3D" type="Sprite3D" parent="In/SnapZone2"]
-transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea1/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
 texture = ExtResource( 12 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SnapZone3" parent="In" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.120223, -0.126, 0.135 )
+[node name="SnapArea2" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, 0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea2" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
 grab_distance = 0.05
 snap_exclude = "Weapons"
 
-[node name="Sprite3D" type="Sprite3D" parent="In/SnapZone3"]
-transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea2/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
 texture = ExtResource( 12 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SnapZone4" parent="In" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.12, -0.126, 0.135 )
+[node name="SnapArea3" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.12, 0, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea3" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
 grab_distance = 0.05
 snap_exclude = "Weapons"
 
-[node name="Sprite3D" type="Sprite3D" parent="In/SnapZone4"]
-transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, 1, 0, -0.075, -4.37114e-08, 0, 0, 0 )
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea3/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
 texture = ExtResource( 12 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SnapZoneKnife" parent="In" instance=ExtResource( 5 )]
+[node name="SnapArea4" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, 0, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea4" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea4/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea5" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, -0.120223, -0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea5" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea5/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapArea6" type="MeshInstance" parent="In"]
+transform = Transform( 0.75, 0, 0, 0, -3.27835e-08, -0.75, 0, 0.75, -3.27835e-08, 0.12, -0.126, 0.145 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/SnapArea6" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
+grab_distance = 0.05
+snap_exclude = "Weapons"
+
+[node name="HighlightRing" type="Sprite3D" parent="In/SnapArea6/SnapZone1"]
+transform = Transform( 0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0 )
+texture = ExtResource( 12 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="KnifeArea" type="MeshInstance" parent="In"]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.019, 0.15 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="In/KnifeArea" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
 grab_distance = 0.05
 snap_require = "Knife"
 snap_exclude = "Heavy"
 
-[node name="Sprite3D" type="Sprite3D" parent="In/SnapZoneKnife"]
+[node name="HighlightRing" type="Sprite3D" parent="In/KnifeArea/SnapZone1"]
 transform = Transform( -3.27835e-09, 0.075, 0, -0.075, -3.27835e-09, 0, 0, 0, 0.1, 0, 0, 0 )
 texture = ExtResource( 8 )
 __meta__ = {
@@ -103,28 +186,41 @@ __meta__ = {
 
 [node name="Out" type="Spatial" parent="."]
 
-[node name="SnapZone1" parent="Out" groups=["User"] instance=ExtResource( 1 )]
-transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0.256364, 0.212929, 0.021 )
+[node name="HeavyArea1" type="MeshInstance" parent="Out"]
+transform = Transform( -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 0, 1, 0.256, 0.213, 0.021 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="Out/HeavyArea1" instance=ExtResource( 5 )]
+__meta__ = {
+"_editor_description_": ""
+}
 grab_distance = 0.15
 snap_require = "Heavy"
 
-[node name="Sprite3D" type="Sprite3D" parent="Out/SnapZone1"]
-transform = Transform( -4.37114e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.37114e-09, 0.0218272, 0.284689, 0 )
+[node name="HighlightRing" type="Sprite3D" parent="Out/HeavyArea1/SnapZone1"]
+transform = Transform( -4.37114e-09, 1.95399e-14, 0.1, 8.47033e-22, 0.1, -1.95399e-14, -0.1, -7.08435e-24, -4.37114e-09, 0.022, 0.285, 0 )
 texture = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
 }
 
-[node name="SnapZone2" parent="Out" groups=["User"] instance=ExtResource( 1 )]
-transform = Transform( -1, -1.50996e-07, 0, 1.50996e-07, -1, 0, 0, 0, 1, -0.256, 0.213, 0.021 )
+[node name="HeavyArea2" type="MeshInstance" parent="Out"]
+transform = Transform( -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0, 1, -0.256, 0.213, 0.021 )
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="SnapZone1" parent="Out/HeavyArea2" instance=ExtResource( 5 )]
 __meta__ = {
 "_editor_description_": ""
 }
 grab_distance = 0.15
 snap_require = "Heavy"
 
-[node name="Sprite3D" type="Sprite3D" parent="Out/SnapZone2"]
-transform = Transform( -4.37114e-09, 0, 0.1, 0, 0.1, 0, -0.1, 0, -4.37114e-09, -0.022, 0.285, 0 )
+[node name="HighlightRing" type="Sprite3D" parent="Out/HeavyArea2/SnapZone1"]
+transform = Transform( -4.37114e-09, 1.95399e-14, 0.1, 8.47033e-22, 0.1, -1.95399e-14, -0.1, -7.08435e-24, -4.37114e-09, -0.022, 0.285, 0 )
 texture = ExtResource( 8 )
 __meta__ = {
 "_editor_description_": ""
