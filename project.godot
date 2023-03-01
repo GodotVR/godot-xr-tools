@@ -259,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/godot-xr-tools/assets/resource_queue/resource_queue.gd"
 }, {
+"base": "Node",
+"class": "XRToolsReturnToSnapZone",
+"language": "GDScript",
+"path": "res://addons/godot-xr-tools/objects/return_to_snap_zone.gd"
+}, {
 "base": "Spatial",
 "class": "XRToolsSceneBase",
 "language": "GDScript",
@@ -365,6 +370,7 @@ _global_script_class_icons={
 "XRToolsPlayerBody": "res://addons/godot-xr-tools/editor/icons/body.svg",
 "XRToolsPoke": "",
 "XRToolsResourceQueue": "",
+"XRToolsReturnToSnapZone": "res://addons/godot-xr-tools/editor/icons/hand.svg",
 "XRToolsSceneBase": "",
 "XRToolsSnapZone": "",
 "XRToolsStaging": "",
