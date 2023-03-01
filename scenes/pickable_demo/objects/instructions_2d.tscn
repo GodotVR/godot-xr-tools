@@ -26,4 +26,8 @@ This scene contains objects that the player can pick up including:
  - Cubes with hand-bone interactions
  - Teacups with hand-grab-points and multiple snap-points
  - Snap-toys that can be snapped into holders
- - Snap-holders that can be enabled/disabled by pointer"
+ - Snap-holders that can be enabled/disabled by pointer
+ - Snap-backpack to store items/weapons:
+	a) circle shaped zones are scaling the items
+	b) oval shaped zones got no scaling applied
+	c) inventory can be set to drop and return to snapzone"
