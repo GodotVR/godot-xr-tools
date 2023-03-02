@@ -5,6 +5,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -29,4 +31,8 @@ This scene contains objects that the player can pick up including:
  - Cubes with hand-bone interactions
  - Teacups with hand-grab-points and multiple snap-points
  - Snap-toys that can be snapped into holders
- - Snap-holders that can be enabled/disabled by pointer"
+ - Snap-holders that can be enabled/disabled by pointer
+ - Return to snapzone, tea cup on the stand contains example
+ - Snap-backpack inventory to store and retrieve items
+	* circle zones are applying scaling thru the parent
+	* backpack can be set to autoreturn after wait time"

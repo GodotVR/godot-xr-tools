@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq6gl8w1kw4o"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/inventory/inventory_backpack.gd" id="1"]
+
+[node name="InventoryBackpack" type="Node"]
+script = ExtResource("1")
+
+[node name="Timer" type="Timer" parent="."]

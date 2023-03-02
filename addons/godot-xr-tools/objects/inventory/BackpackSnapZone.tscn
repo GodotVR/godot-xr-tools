@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dot8bj7o61ldh"]
+
+[ext_resource type="Texture2D" uid="uid://ccv1ustrtkpul" path="res://addons/godot-xr-tools/objects/inventory/textures/ring_small.png" id="1"]
+[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="2"]
+
+[node name="BackpackSnapZone" groups=["ShoulderHolster"] instance=ExtResource("2")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0.3)
+grab_distance = 0.1
+snap_require = "Backpack"
+
+[node name="Sphere" type="MeshInstance3D" parent="." index="1"]
+cast_shadow = 0
+
+[node name="HighlightRing" type="Sprite3D" parent="." index="2"]
+transform = Transform3D(0.075, 0, 0, 0, -3.27835e-09, -1, 0, 0.075, -4.37114e-08, 0, 0, 0)
+texture = ExtResource("1")

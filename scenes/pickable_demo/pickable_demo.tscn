@@ -1,9 +1,10 @@
-[gd_scene load_steps=26 format=3 uid="uid://j53121pbwpsw"]
+[gd_scene load_steps=30 format=3 uid="uid://j53121pbwpsw"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_kjksy"]
+[ext_resource type="PackedScene" uid="uid://dot8bj7o61ldh" path="res://addons/godot-xr-tools/objects/inventory/BackpackSnapZone.tscn" id="3_j4vb6"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_laayj"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="6"]
@@ -15,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://cq6gl8w1kw4o" path="res://addons/godot-xr-tools/objects/inventory/inventory_backpack.tscn" id="12_8k8kb"]
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
 [ext_resource type="PackedScene" uid="uid://clta811tt773x" path="res://scenes/pickable_demo/objects/grab_ball.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://djkjuy7wct10q" path="res://scenes/pickable_demo/objects/grab_cube.tscn" id="14"]
@@ -25,9 +27,13 @@
 [ext_resource type="PackedScene" uid="uid://chww0na0ryl1m" path="res://scenes/pickable_demo/objects/teacup.tscn" id="16_v5unt"]
 [ext_resource type="PackedScene" uid="uid://de0guxhrn5ouk" path="res://scenes/pickable_demo/objects/hammer.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://bxk2dud5pq1uf" path="res://scenes/pickable_demo/objects/knife.tscn" id="19_6grml"]
+[ext_resource type="PackedScene" uid="uid://bcm4f3jpa4kse" path="res://addons/godot-xr-tools/objects/return_to_snap_zone.tscn" id="20_khmiy"]
+[ext_resource type="PackedScene" uid="uid://cl21ricva43te" path="res://scenes/pickable_demo/objects/snap_backpack.tscn" id="27_eum8y"]
 
 [node name="PickableDemo" instance=ExtResource("1")]
 script = ExtResource("2_kjksy")
+
+[node name="BackpackSnapZone" parent="XROrigin3D/XRCamera3D" index="0" instance=ExtResource("3_j4vb6")]
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_8wi6c")]
 
@@ -60,18 +66,27 @@ body_forward_mix = 0.75
 
 [node name="BeltSnapZone01" parent="XROrigin3D/PlayerBody" index="0" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.177, 1, -0.177)
+visible = false
 
 [node name="BeltSnapZone02" parent="XROrigin3D/PlayerBody" index="1" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, -0.096, 1, -0.231)
+visible = false
 
 [node name="BeltSnapZone03" parent="XROrigin3D/PlayerBody" index="2" instance=ExtResource("10_5odnk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.25)
+visible = false
 
 [node name="BeltSnapZone04" parent="XROrigin3D/PlayerBody" index="3" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0.096, 1, -0.231)
+visible = false
 
 [node name="BeltSnapZone05" parent="XROrigin3D/PlayerBody" index="4" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.177, 1, -0.177)
+visible = false
+
+[node name="InventoryBackpack" parent="XROrigin3D" index="4" instance=ExtResource("12_8k8kb")]
+return_to_player = true
+backpack_path = NodePath("../../SnapToys/SnapBackpack")
 
 [node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
 
@@ -99,7 +114,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.8, 0)
 initial_object = NodePath("../Teacup")
 
 [node name="Teacup" parent="Table1/TeacupStand" index="8" instance=ExtResource("16_v5unt")]
-transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, 0.08, 0.205, 0.04)
+transform = Transform3D(4.81713e-09, 4.34452e-08, 1, 0.993909, -0.110203, 0, 0.110203, 0.993909, -4.37114e-08, 0.0796152, 0.205038, -0.0390518)
+collision_layer = 65536
+collision_mask = 0
+
+[node name="ReturnToSnapZone" parent="Table1/TeacupStand/Teacup" index="6" instance=ExtResource("20_khmiy")]
+snap_zone_path = NodePath("../../SnapZone1")
 
 [node name="Teacup" parent="Table1" index="12" instance=ExtResource("16_v5unt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.235, 0.825, 0.266)
@@ -159,9 +179,12 @@ transform = Transform3D(0.996195, 0, -0.0871558, 0, 1, 0, 0.0871558, 0, 0.996195
 tray_active = false
 
 [node name="SnapToyRed" parent="SnapToys" index="2" instance=ExtResource("11")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.9, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.905716, 0.9, -2.6888)
 
 [node name="SnapToyYellow" parent="SnapToys" index="3" instance=ExtResource("12")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.9, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.10572, 0.9, -2.6888)
+
+[node name="SnapBackpack" parent="SnapToys" index="4" instance=ExtResource("27_eum8y")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.458355, 1.18731, -3)
 
 [editable path="Table1/TeacupStand"]
