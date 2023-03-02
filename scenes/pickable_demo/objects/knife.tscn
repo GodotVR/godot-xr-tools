@@ -49,6 +49,7 @@ points = PoolVector3Array( -0.0142231, 0.0175055, 0.00419341, -0.0142231, -0.018
 
 [node name="Knife" groups=["Knife", "Weapons"] instance=ExtResource( 1 )]
 script = ExtResource( 7 )
+hold_method = 1
 
 [node name="Knife" type="MeshInstance" parent="." index="0"]
 mesh = SubResource( 3 )
