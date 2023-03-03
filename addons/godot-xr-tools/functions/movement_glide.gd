@@ -128,7 +128,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var allowed_flapping_altitude = false
 	if wings_impulse:
 		if is_sphere_planet:
-			allowed_flapping_altitude = sphere_planet_center.distance_to(player_body.translation) < max_flapping_altitude
+			var altitude = sphere_planet_center.distance_to(player_body.translation)
+			allowed_flapping_altitude = altitude < max_flapping_altitude
 		else:
 			allowed_flapping_altitude = player_body.translation.y < max_flapping_altitude
 
