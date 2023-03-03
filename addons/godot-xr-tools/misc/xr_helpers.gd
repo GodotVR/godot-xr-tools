@@ -12,8 +12,8 @@ class_name XRHelpers
 
 ## Find the [XROrigin3D] node.
 ##
-## This function searches for the [XROrigin3D] from the provided node. 
-## The caller may provide an optional path (relative to the node) to the 
+## This function searches for the [XROrigin3D] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
 ## [XROrigin3D] to support out-of-tree searches.
 ##
 ## The search is performed assuming the node is under the [XROrigin3D].
@@ -41,8 +41,8 @@ static func get_xr_origin(node: Node, path: NodePath = NodePath()) -> XROrigin3D
 
 ## Find the [XRCamera3D] node.
 ##
-## This function searches for the [XRCamera3D] from the provided node. 
-## The caller may provide an optional path (relative to the node) to the 
+## This function searches for the [XRCamera3D] from the provided node.
+## The caller may provide an optional path (relative to the node) to the
 ## [XRCamera3D] to support out-of-tree searches.
 ##
 ## The search is performed assuming the node is under the [XROrigin3D].
@@ -103,9 +103,13 @@ static func get_right_controller(node: Node, path: NodePath = NodePath()) -> XRC
 
 
 ## Find an [XRController3D] given some search parameters
-static func _get_controller(node: Node, default_name: String, tracker: String, path: NodePath) -> XRController3D:
+static func _get_controller(
+		node: Node,
+		default_name: String,
+		tracker: String,
+		path: NodePath) -> XRController3D:
 	var controller: XRController3D
-	
+
 	# Try using the node path first
 	if path:
 		controller = node.get_node(path) as XRController3D

@@ -74,11 +74,13 @@ func initialize() -> bool:
 
 
 # Check for configuration issues
-func _get_configuration_warning():
-	if physics_rate_multiplier < 1:
-		return "Physics rate multiplier should be at least 1x the HMD rate"
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 
-	return ""
+	if physics_rate_multiplier < 1:
+		warnings.append("Physics rate multiplier should be at least 1x the HMD rate")
+
+	return warnings
 
 
 # Perform OpenXR setup

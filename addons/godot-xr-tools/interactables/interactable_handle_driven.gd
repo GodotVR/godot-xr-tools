@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsInteractableHandleDriven
 extends Node3D
 

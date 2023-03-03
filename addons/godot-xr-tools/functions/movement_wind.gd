@@ -133,9 +133,3 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	var drag_factor := _active_wind_area.drag * drag_multiplier * delta
 	drag_factor = clamp(drag_factor, 0.0, 1.0)
 	player_body.velocity = player_body.velocity.lerp(wind_velocity, drag_factor)
-
-
-# This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
-	# Call base class
-	return super()

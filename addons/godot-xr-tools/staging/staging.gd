@@ -96,27 +96,29 @@ func _ready():
 
 
 # Verifies our staging has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Report missing XR Origin
 	var test_origin : XROrigin3D = XRHelpers.get_xr_origin(self)
 	if !test_origin:
-		return "No XROrigin3D node found, please add one"
+		warnings.append("No XROrigin3D node found, please add one")
 
 	# Report missing XR Camera
 	var test_camera : XRCamera3D = XRHelpers.get_xr_camera(self)
 	if !test_camera:
-		return "No XRCamera3D node found, please add one to your XROrigin3D node"
+		warnings.append("No XRCamera3D node found, please add one to your XROrigin3D node")
 
 	# Report main scene not specified
 	if main_scene == "":
-		return "No main scene selected"
+		warnings.append("No main scene selected")
 
 	# Report main scene invalid
 	if !FileAccess.file_exists(main_scene):
-		return "Main scene doesn't exist"
+		warnings.append("Main scene doesn't exist")
 
-	# Passed validation
-	return ""
+	# Return warnings
+	return warnings
 
 
 # Add support for is_xr_class on XRTools classes
@@ -209,7 +211,7 @@ func load_scene(p_scene_path : String) -> void:
 		_tween.kill()
 	_tween = get_tree().create_tween()
 	_tween.tween_method(set_fade, 0.0, 1.0, 1.0)
-	await _tween.finished	
+	await _tween.finished
 
 	# Hide our loading screen
 	$LoadingScreen.follow_camera = false
@@ -237,7 +239,7 @@ func load_scene(p_scene_path : String) -> void:
 		_tween.kill()
 	_tween = get_tree().create_tween()
 	_tween.tween_method(set_fade, 1.0, 0.0, 1.0)
-	await _tween.finished	
+	await _tween.finished
 
 	current_scene.scene_visible()
 	emit_signal("scene_visible", current_scene)

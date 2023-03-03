@@ -213,22 +213,24 @@ func _set_gliding(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify the left controller
 	if !XRHelpers.get_left_controller(self):
-		return "Unable to find left XRController3D node"
+		warnings.append("Unable to find left XRController3D node")
 
 	# Verify the right controller
 	if !XRHelpers.get_right_controller(self):
-		return "Unable to find right XRController3D node"
+		warnings.append("Unable to find right XRController3D node")
 
 	# Check glide parameters
 	if glide_min_fall_speed > 0:
-		return "Glide minimum fall speed must be zero or less"
+		warnings.append("Glide minimum fall speed must be zero or less")
 	if glide_fall_speed > 0:
-		return "Glide fall speed must be zero or less"
+		warnings.append("Glide fall speed must be zero or less")
 	if glide_min_fall_speed < glide_fall_speed:
-		return "Glide fall speed must be faster than minimum fall speed"
+		warnings.append("Glide fall speed must be faster than minimum fall speed")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings

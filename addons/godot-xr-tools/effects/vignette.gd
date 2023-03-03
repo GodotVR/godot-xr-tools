@@ -13,7 +13,7 @@ extends Node3D
 @export var auto_rotation_limit : float = 20.0: set = set_auto_rotation_limit
 @export var auto_velocity_limit : float = 10.0
 
-var material : ShaderMaterial = preload("res://addons/godot-xr-tools/effects/vignette.material")
+var material : ShaderMaterial = preload("res://addons/godot-xr-tools/effects/vignette.tres")
 
 var auto_first = true
 var fade_delay = 0.0
@@ -180,14 +180,16 @@ func _process(delta):
 # Specifically it checks the following:
 # - XROrigin3D is a parent
 # - XRCamera3D is our parent
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Check the origin node
 	if !XRHelpers.get_xr_origin(self):
-		return "Parent node must be in a branch from XROrigin3D"
+		warnings.append("Parent node must be in a branch from XROrigin3D")
 
 	# check camera node
 	var parent = get_parent()
 	if !parent or !parent is XRCamera3D:
-		return "Parent node must be an XRCamera3D"
+		warnings.append("Parent node must be an XRCamera3D")
 
-	return ""
+	return warnings

@@ -21,10 +21,12 @@ func is_xr_class(name : String) -> bool:
 
 
 # This method checks for configuration issues.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify the camera
 	if !surface_audio_type:
-		return "Surface audio type not specified"
+		warnings.append("Surface audio type not specified")
 
-	# No configuration issues detected
-	return ""
+	# Return warnings
+	return warnings

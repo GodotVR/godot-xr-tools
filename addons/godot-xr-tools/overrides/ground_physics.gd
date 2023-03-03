@@ -23,17 +23,16 @@ func is_xr_class(name : String) -> bool:
 
 
 # This method verifies the ground physics has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify physics specified
 	if !physics:
-		return "Physics must be specified"
+		warnings.append("Physics must be specified")
+	elif !physics is XRToolsGroundPhysicsSettings:
+		warnings.append("Physics must be an XRToolsGroundPhysicsSettings")
 
-	# Verify physics is of the correct type
-	if !physics is XRToolsGroundPhysicsSettings:
-		return "Physics must be an XRToolsGroundPhysicsSettings"
-
-	# Report valid
-	return ""
+	return warnings
 
 # Get the physics from a ground physics node
 static func get_physics(

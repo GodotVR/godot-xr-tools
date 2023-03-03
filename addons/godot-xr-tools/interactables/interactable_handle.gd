@@ -78,9 +78,11 @@ func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	transform = Transform3D.IDENTITY
 
 
-# Check handle configuration
-func _get_configuration_warning() -> String:
-	if !transform.is_equal_approx(Transform3D.IDENTITY):
-		return "Interactable handle must have no transform from its parent handle origin"
+# Check handle configurationv
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 
-	return ""
+	if !transform.is_equal_approx(Transform3D.IDENTITY):
+		warnings.append("Interactable handle must have no transform from its parent handle origin")
+
+	return warnings

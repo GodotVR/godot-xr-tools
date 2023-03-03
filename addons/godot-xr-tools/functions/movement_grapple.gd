@@ -103,7 +103,7 @@ func _ready():
 		grapple_length = min_hook_length
 
 	# Set ray-cast
-	_grapple_raycast.target_position = Vector3(0, 0, -grapple_length) * XRServer.world_scale #Is WS necessary here?
+	_grapple_raycast.target_position = Vector3(0, 0, -grapple_length) * XRServer.world_scale
 	_grapple_raycast.collision_mask = grapple_collision_mask
 
 	# Deal with line
@@ -213,10 +213,12 @@ func _set_grappling(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Check the controller node
 	if !XRHelpers.get_xr_controller(self):
-		return "This node must be within a branch of an XRController3D node"
+		warnings.append("This node must be within a branch of an XRController3D node")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings

@@ -623,40 +623,43 @@ func _guaranteed_physics():
 # - XRCamera3D can be identified
 # - Player radius is valid
 # - Maximum slope is valid
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Check the origin node
-	var test_origin_node = XRHelpers.get_xr_origin(self)
+	var test_origin_node := XRHelpers.get_xr_origin(self)
 	if !test_origin_node:
-		return "Unable to find XR Origin node"
+		warnings.append("Unable to find XR Origin node")
 
 	# Check the camera node
-	var test_camera_node = XRHelpers.get_xr_camera(self)
+	var test_camera_node := XRHelpers.get_xr_camera(self)
 	if !test_camera_node:
-		return "Unable to find XR Camera node"
+		warnings.append("Unable to find XR Camera node")
 
 	# Verify the player radius is valid
 	if player_radius <= 0:
-		return "Player radius must be configured"
+		warnings.append("Player radius must be configured")
 
 	# Verify the player height minimum is valid
 	if player_height_min < player_radius * 2.0:
-		return "Player height minimum smaller than 2x radius"
+		warnings.append("Player height minimum smaller than 2x radius")
 
 	# Verify the player height maximum is valid
 	if player_height_max < player_height_min:
-		return "Player height maximum cannot be smaller than minimum"
+		warnings.append("Player height maximum cannot be smaller than minimum")
 
 	# Verify eye-forward does not allow near-clip-plane look through
 	var eyes_to_collider = (1.0 - eye_forward_offset) * player_radius
-	if eyes_to_collider < test_camera_node.near:
-		return "Eyes too far forwards. Move eyes back or decrease camera near clipping plane"
+	if test_camera_node and eyes_to_collider < test_camera_node.near:
+		warnings.append(
+				"Eyes too far forwards. Move eyes back or decrease camera near clipping plane")
 
 	# If specified, verify the ground physics is a valid type
 	if physics and !physics is XRToolsGroundPhysicsSettings:
-		return "Physics resource must be a GroundPhysicsSettings"
+		warnings.append("Physics resource must be a GroundPhysicsSettings")
 
-	# Passed basic validation
-	return ""
+	# Return warnings
+	return warnings
 
 ## Find an [XRToolsPlayerBody] node.
 ##

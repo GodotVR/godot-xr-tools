@@ -1,3 +1,4 @@
+@tool
 @icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsFunctionPoseDetector
 extends Node3D
@@ -43,16 +44,18 @@ func _ready():
 
 
 # This method verifies the pose area has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	if !XRHelpers.get_xr_controller(self):
-		return "Node must be within a branch of an XRController3D node"
+		warnings.append("Node must be within a branch of an XRController3D node")
 
 	# Verify hand can be found
 	if !XRToolsHand.find_instance(self):
-		return "Node must be a within a branch of an XRController node with a hand"
+		warnings.append("Node must be a within a branch of an XRController node with a hand")
 
 	# Pass basic validation
-	return ""
+	return warnings
 
 
 func set_collision_mask(mask : int) -> void:

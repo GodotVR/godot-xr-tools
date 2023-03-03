@@ -108,25 +108,27 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify the camera
 	if !XRHelpers.get_xr_origin(self):
-		return "This node must be within a branch of an XROrigin3D node"
+		warnings.append("This node must be within a branch of an XROrigin3D node")
 
 	# Verify the camera
 	if !XRHelpers.get_xr_camera(self):
-		return "Unable to find XRCamera3D"
+		warnings.append("Unable to find XRCamera3D")
 
 	# Verify the left controller
 	if !XRHelpers.get_left_controller(self):
-		return "Unable to find left XRController3D node"
+		warnings.append("Unable to find left XRController3D node")
 
 	# Verify the right controller
 	if !XRHelpers.get_right_controller(self):
-		return "Unable to find left XRController3D node"
+		warnings.append("Unable to find left XRController3D node")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings
 
 
 # Detect the player jumping with their body (using the headset camera)
