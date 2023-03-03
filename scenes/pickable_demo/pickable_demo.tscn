@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://j53121pbwpsw"]
+[gd_scene load_steps=29 format=3 uid="uid://j53121pbwpsw"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
-[ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://cq6gl8w1kw4o" path="res://addons/godot-xr-tools/objects/inventory/inventory_backpack.tscn" id="12_8k8kb"]
@@ -64,26 +63,6 @@ laser_length = 1
 top_level = true
 body_forward_mix = 0.75
 
-[node name="BeltSnapZone01" parent="XROrigin3D/PlayerBody" index="0" instance=ExtResource("10_5odnk")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.177, 1, -0.177)
-visible = false
-
-[node name="BeltSnapZone02" parent="XROrigin3D/PlayerBody" index="1" instance=ExtResource("10_5odnk")]
-transform = Transform3D(0.92388, 0, 0.382683, 0, 1, 0, -0.382683, 0, 0.92388, -0.096, 1, -0.231)
-visible = false
-
-[node name="BeltSnapZone03" parent="XROrigin3D/PlayerBody" index="2" instance=ExtResource("10_5odnk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.25)
-visible = false
-
-[node name="BeltSnapZone04" parent="XROrigin3D/PlayerBody" index="3" instance=ExtResource("10_5odnk")]
-transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0.096, 1, -0.231)
-visible = false
-
-[node name="BeltSnapZone05" parent="XROrigin3D/PlayerBody" index="4" instance=ExtResource("10_5odnk")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.177, 1, -0.177)
-visible = false
-
 [node name="InventoryBackpack" parent="XROrigin3D" index="4" instance=ExtResource("12_8k8kb")]
 return_to_player = true
 backpack_path = NodePath("../../SnapToys/SnapBackpack")
@@ -117,6 +96,7 @@ initial_object = NodePath("../Teacup")
 transform = Transform3D(4.81713e-09, 4.34452e-08, 1, 0.993909, -0.110203, 0, 0.110203, 0.993909, -4.37114e-08, 0.0796152, 0.205038, -0.0390518)
 collision_layer = 65536
 collision_mask = 0
+freeze = true
 
 [node name="ReturnToSnapZone" parent="Table1/TeacupStand/Teacup" index="6" instance=ExtResource("20_khmiy")]
 snap_zone_path = NodePath("../../SnapZone1")
