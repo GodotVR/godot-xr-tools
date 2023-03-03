@@ -30,10 +30,12 @@ extends Resource
 
 
 # This method checks for configuration issues.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify the camera
 	if name == "":
-		return "Surface audio type must have a name"
+		warnings.append("Surface audio type must have a name")
 
-	# No configuration issues detected
-	return ""
+	# Return warnings
+	return warnings

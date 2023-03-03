@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsVirtualKeyboard2D
 extends CanvasLayer
 

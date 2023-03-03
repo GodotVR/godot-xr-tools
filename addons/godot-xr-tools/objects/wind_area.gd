@@ -1,3 +1,4 @@
+@tool
 class_name XRToolsWindArea
 extends Area3D
 

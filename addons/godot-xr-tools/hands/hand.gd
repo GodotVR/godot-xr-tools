@@ -131,26 +131,26 @@ func _process(_delta: float) -> void:
 
 
 # This method verifies the hand has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Check hand for mesh instance
 	if not _find_child(self, "MeshInstance3D"):
-		return "Hand does not have a MeshInstance3D"
+		warnings.append("Hand does not have a MeshInstance3D")
 
 	# Check hand for animation player
 	if not _find_child(self, "AnimationPlayer"):
-		return "Hand does not have a AnimationPlayer"
+		warnings.append("Hand does not have a AnimationPlayer")
 
 	# Check hand for animation tree
 	var tree : AnimationTree = _find_child(self, "AnimationTree")
 	if not tree:
-		return "Hand does not have a AnimationTree"
+		warnings.append("Hand does not have a AnimationTree")
+	elif not tree.tree_root:
+		warnings.append("Hand AnimationTree has no root")
 
-	# Check hand animation tree has a root
-	if not tree.tree_root:
-		return "Hand AnimationTree has no root"
-
-	# Passed basic validation
-	return ""
+	# Return warnings
+	return warnings
 
 
 ## Find an [XRToolsHand] node.

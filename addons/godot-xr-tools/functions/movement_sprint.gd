@@ -158,10 +158,12 @@ func set_sprinting(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Make sure player has at least one direct movement node
 	if !XRToolsMovementDirect.find_left(self) and !XRToolsMovementDirect.find_right(self):
-		return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
+		warnings.append("Player missing XRToolsMovementDirect nodes")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings

@@ -46,11 +46,12 @@ func _on_highlight_updated(_pickable, enable: bool) -> void:
 
 
 # This method verifies the node
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify parent supports highlighting
 	var parent := get_parent()
 	if not parent or not parent.has_signal("highlight_updated"):
-		return "Parent does not support highlighting"
+		warnings.append("Parent does not support highlighting")
 
-	# No issues
-	return ""
+	return warnings

@@ -42,7 +42,7 @@ func _on_SnapTurningCB_pressed():
 	XRToolsUserSettings.snap_turning = $Input/SnapTurning/SnapTurningCB.button_pressed
 
 # Player settings changed
-func _on_PlayerHeightSlider_drag_ended(value_changed):
+func _on_PlayerHeightSlider_drag_ended(_value_changed):
 	XRToolsUserSettings.player_height_adjust = $Player/PlayerHeight/PlayerHeightSlider.value
 
 

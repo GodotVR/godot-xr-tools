@@ -84,13 +84,15 @@ func _ready():
 
 
 # This method checks for configuration issues.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify player settings node exists
 	if not $PlayerSettings:
-		return "Missing player settings node"
+		warnings.append("Missing player settings node")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings
 
 
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):

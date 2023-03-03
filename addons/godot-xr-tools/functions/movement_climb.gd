@@ -211,18 +211,20 @@ func _on_right_dropped() -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify the left controller pickup
 	if !XRToolsFunctionPickup.find_left(self):
-		return "Unable to find left XRToolsFunctionPickup node"
+		warnings.append("Unable to find left XRToolsFunctionPickup node")
 
 	# Verify the right controller pickup
 	if !XRToolsFunctionPickup.find_right(self):
-		return "Unable to find right XRToolsFunctionPickup node"
+		warnings.append("Unable to find right XRToolsFunctionPickup node")
 
 	# Verify velocity averages
 	if velocity_averages < 2:
-		return "Minimum of 2 velocity averages needed"
+		warnings.append("Minimum of 2 velocity averages needed")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings

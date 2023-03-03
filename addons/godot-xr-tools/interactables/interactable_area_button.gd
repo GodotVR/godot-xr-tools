@@ -112,13 +112,15 @@ func _on_button_exited(item: Node3D) -> void:
 
 
 # Check button configuration
-func _get_configuration_warning() -> String:
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Ensure a button has been specified
 	if not get_node_or_null(button):
-		return "Button node to animate must be specified"
+		warnings.append("Button node to animate must be specified")
 
 	# Ensure a valid duration
 	if duration <= 0.0:
-		return "Duration must be a positive number"
+		warnings.append("Duration must be a positive number")
 
-	return ""
+	return warnings

@@ -87,13 +87,15 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Check the controller node
 	if !XRHelpers.get_xr_controller(self):
-		return "Unable to find XRController3D node"
+		warnings.append("Unable to find XRController3D node")
 
-	# Call base class
-	return super()
+	# Return warnings
+	return warnings
 
 
 # Test if snap turning should be used

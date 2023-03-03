@@ -55,8 +55,6 @@ show_laser = 2
 laser_length = 1
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9")]
-top_level = true
-body_forward_mix = 0.75
 
 [node name="BeltSnapZone01" parent="XROrigin3D/PlayerBody" index="0" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -0.177, 1, -0.177)

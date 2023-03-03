@@ -71,21 +71,23 @@ func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify we're within the tree of an XROrigin3D node
 	if !XRHelpers.get_xr_origin(self):
-		return "This node must be within a branch on an XROrigin3D node"
+		warnings.append("This node must be within a branch on an XROrigin3D node")
 
 	if !XRToolsPlayerBody.find_instance(self):
-		return "Missing PlayerBody node on the XROrigin3D"
+		warnings.append("Missing PlayerBody node on the XROrigin3D")
 
 	# Verify movement provider is in the correct group
 	if !is_in_group("movement_providers"):
-		return "Movement provider not in 'movement_providers' group"
+		warnings.append("Movement provider not in 'movement_providers' group")
 
 	# Verify order property exists
 	if !"order" in self:
-		return "Movement provider does not expose an order property"
+		warnings.append("Movement provider does not expose an order property")
 
-	# Passed basic validation
-	return ""
+	# Return warnings
+	return warnings

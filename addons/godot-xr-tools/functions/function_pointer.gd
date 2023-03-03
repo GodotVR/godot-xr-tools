@@ -358,6 +358,6 @@ func _on_button_pressed(p_button : String, controller : XRController3D) -> void:
 
 
 # Button released handler
-func _on_button_released(p_button : String, controller : XRController3D) -> void:
+func _on_button_released(p_button : String, _controller : XRController3D) -> void:
 	if p_button == active_button_action and target:
 		_button_released()

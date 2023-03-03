@@ -1,16 +1,16 @@
 extends Node
 
+
+## Emitted when the WebXR primary is changed (either by the user or auto detected).
+signal webxr_primary_changed (value)
+
+
 enum WebXRPrimary {
 	AUTO,
 	THUMBSTICK,
 	TRACKPAD,
 }
 
-const WebXRPrimaryName := {
-	WebXRPrimary.AUTO: "auto",
-	WebXRPrimary.THUMBSTICK: "thumbstick",
-	WebXRPrimary.TRACKPAD: "trackpad",
-}
 
 ## User setting for snap-turn
 @export var snap_turning : bool = true
@@ -21,15 +21,12 @@ const WebXRPrimaryName := {
 ## User setting for WebXR primary
 @export var webxr_primary : WebXRPrimary = WebXRPrimary.AUTO: set = set_webxr_primary
 
+
 ## Settings file name to persist user settings
 var settings_file_name : String = "user://xtools_user_settings.json"
 
 ## Records the first input to generate input (thumbstick or trackpad).
 var webxr_auto_primary := 0
-
-
-## Emitted when the WebXR primary is changed (either by the user or auto detected).
-signal webxr_primary_changed (value)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -96,6 +93,19 @@ func save() -> void:
 		file.store_line(JSON.stringify(data))
 
 
+## Get the action associated with a WebXR primary choice
+static func get_webxr_primary_action(primary : WebXRPrimary) -> String:
+	match primary:
+		WebXRPrimary.THUMBSTICK:
+			return "thumbstick"
+
+		WebXRPrimary.TRACKPAD:
+			return "trackpad"
+
+		_:
+			return "auto"
+
+
 ## Load the settings from file
 func _load() -> void:
 	# First reset our values
@@ -138,14 +148,14 @@ func _load() -> void:
 
 
 ## Used to connect to tracker events when using WebXR.
-func _on_webxr_tracker_added(tracker_name: StringName, type: int) -> void:
+func _on_webxr_tracker_added(tracker_name: StringName, _type: int) -> void:
 	if tracker_name == &"left_hand" or tracker_name == &"right_hand":
 		var tracker := XRServer.get_tracker(tracker_name)
-		tracker.input_axis_changed.connect(self._on_webxr_axis_changed)
+		tracker.input_vector2_changed.connect(self._on_webxr_vector2_changed)
 
 
 ## Used to auto detect which "primary" input gets used first.
-func _on_webxr_axis_changed(name: String, vector: Vector2) -> void:
+func _on_webxr_vector2_changed(name: String, _vector: Vector2) -> void:
 	if webxr_auto_primary == 0:
 		if name == "thumbstick":
 			webxr_auto_primary = WebXRPrimary.THUMBSTICK

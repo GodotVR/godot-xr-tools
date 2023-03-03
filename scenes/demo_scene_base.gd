@@ -16,7 +16,7 @@ func _on_webxr_primary_changed(webxr_primary: int) -> void:
 		webxr_primary = XRToolsUserSettings.WebXRPrimary.THUMBSTICK
 
 	# Re-assign the action name on all the applicable functions.
-	var action_name = XRToolsUserSettings.WebXRPrimaryName[webxr_primary]
+	var action_name = XRToolsUserSettings.get_webxr_primary_action(webxr_primary)
 	for controller in [$XROrigin3D/LeftHand, $XROrigin3D/RightHand]:
 		for n in ["MovementDirect", "MovementTurn", "FunctionTeleport"]:
 			var f = controller.get_node_or_null(n)
