@@ -58,9 +58,6 @@ export var roll_turn_speed : float = 1
 ## Add vertical impulse by flapping controllers
 export var wings_impulse : bool = false
 
-## Altitude limit when flapping
-export var max_flapping_altitude : float = 250
-
 ## Minimum velocity for flapping
 export var flap_min_speed : float = 0.3
 
@@ -71,6 +68,16 @@ export var wings_force : float = 1.0
 ## if set to 0, you need to reach head level with hands to rearm flaps
 export var rearm_distance_offset : float = 0.2
 
+## Altitude limit to allow flapping
+## please note this doesn´t prevent the player to go beyond this limit
+## if enought force is applied
+export var max_flapping_altitude : float = 100
+
+## set to true to calculate altitude limit on spherical world
+export var is_sphere_planet : bool = false
+
+## Set the origin of the spherical world gravity
+export var sphere_planet_center : Vector3 = Vector3.ZERO
 
 ## Flap activated (when both controllers are near the ARVRCamera height)
 var flap_armed : bool = false
@@ -118,14 +125,22 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	# Set default wings impulse to zero
 	var wings_impulse_velocity := 0.0
 
+	var allowed_flapping_altitude = false
+	if wings_impulse:
+		if is_sphere_planet:
+			allowed_flapping_altitude = sphere_planet_center.distance_to(player_body.translation) < max_flapping_altitude
+		else:
+			allowed_flapping_altitude = player_body.translation.y < max_flapping_altitude
+
 	# If wings impulse is active, calculate flapping impulse
-	if wings_impulse && player_body.translation.y < max_flapping_altitude:
+	if wings_impulse && allowed_flapping_altitude:
 		# Get head position
 		var camera_position := _camera_node.global_transform.origin
 
 		# Check controllers position relative to head
-		var left_hand_over_head = camera_position.y < left_position.y + rearm_distance_offset
-		var right_hand_over_head = camera_position.y < right_position.y + rearm_distance_offset
+		var cam_local_y = _camera_node.translation.y
+		var left_hand_over_head = cam_local_y < _left_controller.translation.y + rearm_distance_offset
+		var right_hand_over_head = cam_local_y < _right_controller.translation.y + rearm_distance_offset
 		if left_hand_over_head && right_hand_over_head:
 			flap_armed = true
 
