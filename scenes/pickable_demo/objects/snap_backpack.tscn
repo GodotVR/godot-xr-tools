@@ -3,8 +3,8 @@
 [ext_resource path="res://addons/godot-xr-tools/objects/pickable.gd" type="Script" id=2]
 [ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=5]
 [ext_resource path="res://assets/quaternius/Backpack/model/backpack.glb" type="PackedScene" id=7]
-[ext_resource path="res://addons/godot-xr-tools/objects/inventory/textures/ring_long.png" type="Texture" id=8]
-[ext_resource path="res://addons/godot-xr-tools/objects/inventory/textures/ring_small.png" type="Texture" id=12]
+[ext_resource path="res://scenes/pickable_demo/objects/inventory/textures/ring_long.png" type="Texture" id=8]
+[ext_resource path="res://scenes/pickable_demo/objects/inventory/textures/ring_small.png" type="Texture" id=12]
 [ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" type="PackedScene" id=13]
 [ext_resource path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" type="PackedScene" id=14]
 

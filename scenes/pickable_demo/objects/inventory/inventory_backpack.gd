@@ -1,5 +1,5 @@
 tool
-class_name XRToolsInventoryBackpack, "res://addons/godot-xr-tools/editor/icons/backpack.svg"
+class_name XRToolsInventoryBackpack, "res://scenes/pickable_demo/editor/icons/backpack.svg"
 extends Node
 
 # if set to true, backpack will return on drop after

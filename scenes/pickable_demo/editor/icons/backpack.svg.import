@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/backpack.svg-1beca3384653fe64c5c49ada75da8ff8.stex"
+path="res://.import/backpack.svg-e6798d5c44655c8b1a426f6aaad33762.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/godot-xr-tools/editor/icons/backpack.svg"
-dest_files=[ "res://.import/backpack.svg-1beca3384653fe64c5c49ada75da8ff8.stex" ]
+source_file="res://scenes/pickable_demo/editor/icons/backpack.svg"
+dest_files=[ "res://.import/backpack.svg-e6798d5c44655c8b1a426f6aaad33762.stex" ]
 
 [params]
 

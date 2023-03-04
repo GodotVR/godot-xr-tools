@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/ring_long.png-3508d552a8a037921324a0036cfbf0f5.s3tc.stex"
-path.etc="res://.import/ring_long.png-3508d552a8a037921324a0036cfbf0f5.etc.stex"
+path.s3tc="res://.import/ring_small.png-8a63fe0eaac62c072239997e2ef2b7ad.s3tc.stex"
+path.etc="res://.import/ring_small.png-8a63fe0eaac62c072239997e2ef2b7ad.etc.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/godot-xr-tools/objects/inventory/textures/ring_long.png"
-dest_files=[ "res://.import/ring_long.png-3508d552a8a037921324a0036cfbf0f5.s3tc.stex", "res://.import/ring_long.png-3508d552a8a037921324a0036cfbf0f5.etc.stex" ]
+source_file="res://scenes/pickable_demo/objects/inventory/textures/ring_small.png"
+dest_files=[ "res://.import/ring_small.png-8a63fe0eaac62c072239997e2ef2b7ad.s3tc.stex", "res://.import/ring_small.png-8a63fe0eaac62c072239997e2ef2b7ad.etc.stex" ]
 
 [params]
 

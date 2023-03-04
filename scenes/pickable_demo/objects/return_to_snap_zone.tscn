@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" type="Script" id=1]
+
+[node name="ReturnToSnapZone" type="Node"]
+script = ExtResource( 1 )

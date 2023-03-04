@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://addons/godot-xr-tools/objects/inventory/textures/ring_small.png" type="Texture" id=1]
+[ext_resource path="res://scenes/pickable_demo/objects/inventory/textures/ring_small.png" type="Texture" id=1]
 [ext_resource path="res://addons/godot-xr-tools/objects/snap_zone.tscn" type="PackedScene" id=2]
 
 [node name="BackpackSnapZone" groups=["ShoulderHolster"] instance=ExtResource( 2 )]

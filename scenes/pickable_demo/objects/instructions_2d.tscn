@@ -21,12 +21,11 @@ text = "Pickable Demo
 
 This scene contains objects that the player can pick up including:
 
- - Balls with remote-grab and grab-highlight meshes
- - Hammers with hand-grab-points and hand-poses
  - Cubes with hand-bone interactions
  - Teacups with hand-grab-points and multiple snap-points
  - Snap-toys that can be snapped into holders
  - Snap-holders that can be enabled/disabled by pointer
+ - Return to snapzone, tea cup on stand contains example
  - Snap-backpack inventory to store and retrieve items
 	* circle zones are applying scaling thru the parent
 	* backpack can be set to autoreturn after wait time"
