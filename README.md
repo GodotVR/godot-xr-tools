@@ -12,10 +12,10 @@ This repository contains a number of support files and support scenes that can b
 Official releases are tagged and can be found [here](https://github.com/GodotVR/godot-xr-tools/releases).
 
 The following branches are in active development:
-|  Branch   |  Description                |  Godot version  |
-|-----------|-----------------------------|-----------------|
-|  master   | Current development branch  |  Godot 3.5+     |
-|  4.0-dev  | Future development branch   |  Godot 4.0      |
+|  Branch   |  Description                  |  Godot version  |
+|-----------|-------------------------------|-----------------|
+|  master   | Current development branch    |  Godot 4.0+     |
+|   3.x     | Godot 3.x development branch  |  Godot 3.5+     |
 
 ## How to Use
 

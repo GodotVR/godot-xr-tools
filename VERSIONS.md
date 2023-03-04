@@ -1,4 +1,4 @@
-# 3.4.0 (Development)
+# 3.4.0
 - Fixed footstep resource leak and added jump sounds and footstep signal
 - Added grab-point switching to pickable objects
 - Added return-to-snap-zone feature
