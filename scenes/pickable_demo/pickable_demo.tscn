@@ -22,7 +22,7 @@
 [ext_resource path="res://scenes/pickable_demo/objects/saucer.tscn" type="PackedScene" id=20]
 [ext_resource path="res://scenes/pickable_demo/objects/teacup_stand.tscn" type="PackedScene" id=21]
 [ext_resource path="res://scenes/pickable_demo/objects/instructions.tscn" type="PackedScene" id=22]
-[ext_resource path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" type="PackedScene" id=23]
+[ext_resource path="res://scenes/pickable_demo/objects/belt_snap_zone.tscn" type="PackedScene" id=23]
 [ext_resource path="res://scenes/pickable_demo/objects/knife.tscn" type="PackedScene" id=24]
 [ext_resource path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" type="Script" id=25]
 

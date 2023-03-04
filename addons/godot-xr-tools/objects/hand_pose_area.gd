@@ -1,3 +1,4 @@
+tool
 class_name XRToolsHandPoseArea, "res://addons/godot-xr-tools/editor/icons/hand.svg"
 extends Area
 

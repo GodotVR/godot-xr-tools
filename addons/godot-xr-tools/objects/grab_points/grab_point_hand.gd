@@ -58,17 +58,8 @@ func can_grab(_grabber : Node) -> bool:
 	if not enabled:
 		return false
 
-	# Ensure the pickup is valid
-	if not is_instance_valid(_grabber):
-		return false
-
-	# Ensure the pickup is a function pickup for a controller
-	var pickup := _grabber as XRToolsFunctionPickup
-	if not pickup:
-		return false
-
-	# Get the parent controller
-	var controller := pickup.get_controller()
+	# Get the grabber controller
+	var controller := _get_grabber_controller(_grabber)
 	if not controller:
 		return false
 
@@ -130,3 +121,18 @@ func _update_editor_preview() -> void:
 
 	# Add the editor-preview hand as a child
 	add_child(_editor_preview_hand)
+
+
+# Get the controller associated with a grabber
+static func _get_grabber_controller(_grabber : Node) -> ARVRController:
+	# Ensure the grabber is valid
+	if not is_instance_valid(_grabber):
+		return null
+
+	# Ensure the pickup is a function pickup for a controller
+	var pickup := _grabber as XRToolsFunctionPickup
+	if not pickup:
+		return null
+
+	# Get the controller associated with the pickup
+	return pickup.get_controller()
