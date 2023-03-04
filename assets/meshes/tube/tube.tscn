@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://dv5fw4334rjng"]
+
+[ext_resource type="PackedScene" uid="uid://b6ooxhmtqv5hs" path="res://assets/meshes/tube/tube.glb" id="1_2ic3o"]
+
+[node name="Tube" instance=ExtResource("1_2ic3o")]

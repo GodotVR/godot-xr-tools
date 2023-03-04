@@ -23,7 +23,7 @@ var _time_deltas := Array()
 var _linear_distances := Array()
 
 # Last transform
-var _last_transform := Transform()
+var _last_transform := Transform3D()
 
 # Has last transform flag
 var _has_last_transform := false
@@ -55,7 +55,7 @@ func add_velocity(delta: float, linear_velocity: Vector3):
 	add_distance(delta, linear_velocity * delta)
 
 ## Add a transform to the averager
-func add_transform(delta: float, transform: Transform):
+func add_transform(delta: float, transform: Transform3D):
 	# Handle saving the first transform
 	if !_has_last_transform:
 		_last_transform = transform

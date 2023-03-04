@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementFlight
 extends XRToolsMovementProvider
 
@@ -57,58 +57,61 @@ enum FlightBearing {
 
 
 ## Movement provider order
-export var order : int = 30
+@export var order : int = 30
 
 ## Flight controller
-export (FlightController) var controller : int = FlightController.LEFT
+@export var controller : FlightController = FlightController.LEFT
 
 ## Flight toggle button
-export (XRTools.Buttons) var flight_button : int = XRTools.Buttons.VR_BUTTON_BY
+@export var flight_button : String = "by_button"
 
 ## Flight pitch control
-export (FlightPitch) var pitch : int = FlightPitch.CONTROLLER
+@export var pitch : FlightPitch = FlightPitch.CONTROLLER
 
 ## Flight bearing control
-export (FlightBearing) var bearing : int = FlightBearing.CONTROLLER
+@export var bearing : FlightBearing = FlightBearing.CONTROLLER
 
 ## Flight speed from control
-export var speed_scale : float = 5.0
+@export var speed_scale : float = 5.0
 
 ## Flight traction pulling flight velocity towards the controlled speed
-export var speed_traction : float = 3.0
+@export var speed_traction : float = 3.0
 
 ## Flight acceleration from control
-export var acceleration_scale : float = 0.0
+@export var acceleration_scale : float = 0.0
 
 ## Flight drag
-export var drag : float = 0.1
+@export var drag : float = 0.1
 
 ## Guidance effect (virtual fins/wings)
-export var guidance : float = 0.0
+@export var guidance : float = 0.0
 
 ## If true, flight movement is exclusive preventing further movement functions
-export var exclusive : bool = true
+@export var exclusive : bool = true
 
 
 ## Flight button state
 var _flight_button : bool = false
 
 ## Flight controller
-var _controller : ARVRController
+var _controller : XRController3D
 
 
 # Node references
-onready var _camera := ARVRHelpers.get_arvr_camera(self)
-onready var _left_controller := ARVRHelpers.get_left_controller(self)
-onready var _right_controller := ARVRHelpers.get_right_controller(self)
+@onready var _camera := XRHelpers.get_xr_camera(self)
+@onready var _left_controller := XRHelpers.get_left_controller(self)
+@onready var _right_controller := XRHelpers.get_right_controller(self)
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementFlight" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementFlight" or super(name)
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Get the flight controller
 	if controller == FlightController.LEFT:
 		_controller = _left_controller
@@ -165,20 +168,20 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var side := forwards.cross(player_body.up_player_vector)
 
 	# Construct the target velocity
-	var joy_forwards := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_Y_AXIS)
-	var joy_side := _controller.get_joystick_axis(XRTools.Axis.VR_PRIMARY_X_AXIS)
+	var joy_forwards := _controller.get_vector2("primary").y
+	var joy_side := _controller.get_vector2("primary").x
 	var heading := forwards * joy_forwards + side * joy_side
 
 	# Calculate the flight velocity
 	var flight_velocity := player_body.velocity
 	flight_velocity *= 1.0 - drag * delta
-	flight_velocity = lerp(flight_velocity, heading * speed_scale, speed_traction * delta)
+	flight_velocity = flight_velocity.lerp(heading * speed_scale, speed_traction * delta)
 	flight_velocity += heading * acceleration_scale * delta
 
 	# Apply virtual guidance effect
 	if guidance > 0.0:
 		var velocity_forwards := forwards * flight_velocity.length()
-		flight_velocity = lerp(flight_velocity, velocity_forwards, guidance * delta)
+		flight_velocity = flight_velocity.lerp(velocity_forwards, guidance * delta)
 
 	# If exclusive then perform the exclusive move-and-slide
 	if exclusive:
@@ -206,18 +209,20 @@ func set_flying(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify the camera
-	if !ARVRHelpers.get_arvr_camera(self):
-		return "Unable to find ARVRCamera"
+	if !XRHelpers.get_xr_camera(self):
+		warnings.append("Unable to find XRCamera3D")
 
 	# Verify the left controller
-	if !ARVRHelpers.get_left_controller(self):
-		return "Unable to find left ARVRController node"
+	if !XRHelpers.get_left_controller(self):
+		warnings.append("Unable to find left XRController3D node")
 
 	# Verify the right controller
-	if !ARVRHelpers.get_right_controller(self):
-		return "Unable to find left ARVRController node"
+	if !XRHelpers.get_right_controller(self):
+		warnings.append("Unable to find left XRController3D node")
 
-	# Call base class
-	return ._get_configuration_warning()
+	# Return warnings
+	return warnings

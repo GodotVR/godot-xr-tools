@@ -1,67 +1,63 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=4 format=3 uid="uid://bv46odvo22fuv"]
 
-[ext_resource path="res://scenes/poke_demo/objects/canvas.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://scenes/poke_demo/objects/canvas.gd" id="1"]
 
-[sub_resource type="StyleBoxFlat" id=1]
-bg_color = Color( 1, 1, 1, 1 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_156sa"]
+bg_color = Color(1, 1, 1, 1)
 
-[sub_resource type="StyleBoxFlat" id=2]
-bg_color = Color( 0, 0, 0, 1 )
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sk70f"]
+bg_color = Color(0, 0, 0, 1)
 
 [node name="Canvas" type="Node2D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="."]
-margin_right = 1000.0
-margin_bottom = 500.0
-color = Color( 0.203922, 0.337255, 0.137255, 0.686275 )
+offset_right = 1000.0
+offset_bottom = 500.0
+color = Color(0.203922, 0.337255, 0.137255, 0.686275)
 
-[node name="ViewportContainer" type="ViewportContainer" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+[node name="ViewportContainer" type="SubViewportContainer" parent="."]
 
-[node name="Viewport" type="Viewport" parent="ViewportContainer"]
-size = Vector2( 940, 495 )
+[node name="Viewport" type="SubViewport" parent="ViewportContainer"]
 transparent_bg = true
 handle_input_locally = false
+size = Vector2i(940, 495)
 render_target_clear_mode = 2
-render_target_update_mode = 3
+render_target_update_mode = 4
 
 [node name="Brushes" type="Node2D" parent="ViewportContainer/Viewport"]
-position = Vector2( 50, 50 )
+position = Vector2(50, 50)
 
 [node name="Brush1" type="ColorRect" parent="ViewportContainer/Viewport/Brushes"]
 visible = false
-margin_left = -5.0
-margin_top = -5.0
-margin_right = 5.0
-margin_bottom = 5.0
+offset_left = -5.0
+offset_top = -5.0
+offset_right = 5.0
+offset_bottom = 5.0
 
 [node name="Tools" type="VBoxContainer" parent="."]
-margin_left = 950.0
-margin_top = 5.0
-margin_right = 995.0
-margin_bottom = 105.0
-rect_min_size = Vector2( 45, 0 )
-custom_constants/separation = 10
+offset_left = 950.0
+offset_top = 5.0
+offset_right = 999.0
+offset_bottom = 135.0
 
 [node name="WhiteButton" type="Button" parent="Tools"]
-margin_right = 45.0
-margin_bottom = 45.0
-rect_min_size = Vector2( 45, 45 )
-custom_styles/normal = SubResource( 1 )
+custom_minimum_size = Vector2(45, 45)
+offset_right = 49.0
+offset_bottom = 45.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_156sa")
 
 [node name="BlackButton" type="Button" parent="Tools"]
-margin_top = 55.0
-margin_right = 45.0
-margin_bottom = 100.0
-rect_min_size = Vector2( 45, 45 )
-custom_styles/normal = SubResource( 2 )
+custom_minimum_size = Vector2(45, 45)
+offset_top = 49.0
+offset_right = 49.0
+offset_bottom = 94.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_sk70f")
 
 [node name="ClearButton" type="Button" parent="Tools"]
-margin_top = 110.0
-margin_right = 45.0
-margin_bottom = 130.0
+offset_top = 98.0
+offset_right = 49.0
+offset_bottom = 129.0
 text = "Clear"
 
 [connection signal="gui_input" from="ViewportContainer" to="." method="_on_ViewportContainer_gui_input"]

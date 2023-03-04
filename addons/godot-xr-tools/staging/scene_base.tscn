@@ -1,21 +1,24 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://qbmx03iibuuu"]
 
-[ext_resource path="res://addons/godot-xr-tools/staging/scene_base.gd" type="Script" id=1]
-[ext_resource path="res://default_env.tres" type="Environment" id=2]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/staging/scene_base.gd" id="1"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="2"]
 
-[node name="SceneBase" type="Spatial"]
-script = ExtResource( 1 )
-environment = ExtResource( 2 )
+[node name="SceneBase" type="Node3D"]
+script = ExtResource("1")
+environment = ExtResource("2")
 
-[node name="ARVROrigin" type="ARVROrigin" parent="."]
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
 
-[node name="ARVRCamera" type="ARVRCamera" parent="ARVROrigin"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0 )
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
 far = 300.0
 
-[node name="LeftHand" type="ARVRController" parent="ARVROrigin"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5 )
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+pose = &"aim"
 
-[node name="RightHand" type="ARVRController" parent="ARVROrigin"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5 )
-controller_id = 2
+[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+pose = &"aim"

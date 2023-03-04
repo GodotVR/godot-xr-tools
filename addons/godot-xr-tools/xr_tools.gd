@@ -1,39 +1,6 @@
 class_name XRTools
 extends Node
 
-# This class contains global definitions for our XRTools library
-
-# enum our axis
-enum Axis {
-	VR_PRIMARY_X_AXIS = 0,
-	VR_PRIMARY_Y_AXIS = 1,
-	VR_SECONDARY_X_AXIS = 6,
-	VR_SECONDARY_Y_AXIS = 7,
-	VR_TRIGGER_AXIS = 2,
-	VR_GRIP_AXIS = 4
-}
-
-
-# enum our buttons
-enum Buttons {
-	VR_BUTTON_BY = 1,
-	VR_GRIP = 2,
-	VR_BUTTON_3 = 3,
-	VR_BUTTON_4 = 4,
-	VR_BUTTON_5 = 5,
-	VR_BUTTON_6 = 6,
-	VR_BUTTON_AX = 7,
-	VR_BUTTON_8 = 8,
-	VR_BUTTON_9 = 9,
-	VR_BUTTON_10 = 10,
-	VR_BUTTON_11 = 11,
-	VR_BUTTON_12 = 12,
-	VR_BUTTON_13 = 13,
-	VR_PAD = 14,
-	VR_TRIGGER = 15,
-	VR_ACTION = 255 ## Only supported in function pointer, should solve that differently!!
-}
-
 
 static func get_grip_threshold() -> float:
 	# can return null which is not a float, so don't type this!
@@ -125,7 +92,7 @@ static func set_player_standard_height(p_height : float) -> void:
 ## nodes, or whether to only check the immediate children.
 ##
 ## The owned argument specifies whether the node must be owned.
-static func find_children(
+static func find_xr_children(
 		node : Node,
 		pattern : String,
 		type : String = "",
@@ -134,7 +101,7 @@ static func find_children(
 	# Find the children
 	var found := []
 	if node:
-		_find_children(found, node, pattern, type, recursive, owned)
+		_find_xr_children(found, node, pattern, type, recursive, owned)
 	return found
 
 ## Find a child of the specified node matching the given criteria
@@ -152,7 +119,7 @@ static func find_children(
 ## nodes, or whether to only check the immediate children.
 ##
 ## The owned argument specifies whether the node must be owned.
-static func find_child(
+static func find_xr_child(
 		node : Node,
 		pattern : String,
 		type : String = "",
@@ -160,7 +127,7 @@ static func find_child(
 		owned : bool = true) -> Node:
 	# Find the child
 	if node:
-		return _find_child(node, pattern, type, recursive, owned)
+		return _find_xr_child(node, pattern, type, recursive, owned)
 
 	# Invalid node
 	return null
@@ -175,7 +142,7 @@ static func find_child(
 ##
 ## The type argument specifies the type of node to find. Use "" to match any
 ## type.
-static func find_ancestor(
+static func find_xr_ancestor(
 		node : Node,
 		pattern : String,
 		type : String = "") -> Node:
@@ -183,7 +150,7 @@ static func find_ancestor(
 	while node:
 		# If node matches filter then break
 		if (node.name.match(pattern) and
-			(type == "" or node.is_class(type))):
+			(type == "" or is_xr_class(node, type))):
 			break
 
 		# Advance to parent
@@ -193,7 +160,7 @@ static func find_ancestor(
 	return node
 
 # Recursive helper function for find_children.
-static func _find_children(
+static func _find_xr_children(
 		found : Array,
 		node : Node,
 		pattern : String,
@@ -207,16 +174,16 @@ static func _find_children(
 
 		# If child matches filter then add it to the array
 		if (child.name.match(pattern) and
-			(type == "" or child.is_class(type)) and
+			(type == "" or is_xr_class(child, type)) and
 			(not owned or child.owner)):
 			found.push_back(child)
 
 		# If recursive is enabled then descend into children
 		if recursive:
-			_find_children(found, child, pattern, type, recursive, owned)
+			_find_xr_children(found, child, pattern, type, recursive, owned)
 
 # Recursive helper functiomn for find_child
-static func _find_child(
+static func _find_xr_child(
 		node : Node,
 		pattern : String,
 		type : String,
@@ -229,15 +196,23 @@ static func _find_child(
 
 		# If child matches filter then return it
 		if (child.name.match(pattern) and
-			(type == "" or child.is_class(type)) and
+			(type == "" or is_xr_class(child, type)) and
 			(not owned or child.owner)):
 			return child
 
 		# If recursive is enabled then descend into children
 		if recursive:
-			var found := _find_child(child, pattern, type, recursive, owned)
+			var found := _find_xr_child(child, pattern, type, recursive, owned)
 			if found:
 				return found
 
 	# Not found
 	return null
+
+# Test if a given node is of the specified class
+static func is_xr_class(node : Node, type : String) -> bool:
+	if node.has_method("is_xr_class"):
+		if node.is_xr_class(type):
+			return true
+
+	return node.is_class(type)

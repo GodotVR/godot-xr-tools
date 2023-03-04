@@ -1,103 +1,124 @@
-[gd_resource type="ShaderMaterial" load_steps=9 format=2]
+[gd_resource type="ShaderMaterial" load_steps=13 format=3 uid="uid://c26e12f2whdrj"]
 
-[sub_resource type="VisualShaderNodeTextureUniform" id=5]
-uniform_name = "Title"
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_t4y4m"]
+size = Vector2(690.6, 253)
+title = "Scroll UV Generator"
+description = "These nodes generate a UV offset which scrolls to the left over 5 seconds then repeats"
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_f47k3"]
+size = Vector2(579, 259.6)
+title = "2x Image UV Scale"
+description = "These nodes scale the UV by 2 in the X axis, which results in the texture to tile twice in the X axis."
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_ptj6p"]
+size = Vector2(752.088, 525.832)
+title = "Scrolling Texture"
+description = "These nodes add the image and scrolling UVs to sample the title texture. The output is the color of the scrolling texture."
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="5"]
+parameter_name = "Title"
 texture_type = 1
+texture_repeat = 1
 
-[sub_resource type="VisualShaderNodeInput" id=7]
+[sub_resource type="VisualShaderNodeInput" id="7"]
 input_name = "uv"
 
-[sub_resource type="VisualShaderNodeInput" id=8]
+[sub_resource type="VisualShaderNodeInput" id="8"]
 input_name = "time"
 
-[sub_resource type="VisualShaderNodeVectorOp" id=9]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 0.2, 0, 0 ) ]
+[sub_resource type="VisualShaderNodeVectorOp" id="9"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(0.2, 0, 0)]
 operator = 2
 
-[sub_resource type="VisualShaderNodeVectorOp" id=10]
+[sub_resource type="VisualShaderNodeVectorOp" id="10"]
 output_port_for_preview = 0
 
-[sub_resource type="VisualShaderNodeVectorOp" id=11]
-default_input_values = [ 0, Vector3( 0, 0, 0 ), 1, Vector3( 2, 1, 0 ) ]
+[sub_resource type="VisualShaderNodeVectorOp" id="11"]
+default_input_values = [0, Vector3(0, 0, 0), 1, Vector3(2, 1, 0)]
 operator = 2
 
-[sub_resource type="VisualShaderNodeScalarOp" id=12]
-default_input_values = [ 0, 0.0, 1, 5.0 ]
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_3qe54"]
+source = 5
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_spdkt"]
+default_input_values = [0, 0.0, 1, 5.0]
 operator = 4
 
-[sub_resource type="VisualShader" id=6]
+[sub_resource type="VisualShader" id="6"]
 code = "shader_type spatial;
-render_mode specular_schlick_ggx, unshaded;
+render_mode unshaded;
 
-uniform sampler2D Title : hint_albedo;
+uniform sampler2D Title : source_color, repeat_enable;
 
 
-
-void vertex() {
-// Output:0
-
-}
 
 void fragment() {
 // Input:4
 	float n_out4p0 = TIME;
 
-// ScalarOp:8
-	float n_in8p1 = 5.00000;
-	float n_out8p0 = mod(n_out4p0, n_in8p1);
+
+// FloatOp:9
+	float n_in9p1 = 5.00000;
+	float n_out9p0 = mod(n_out4p0, n_in9p1);
+
 
 // VectorOp:5
 	vec3 n_in5p1 = vec3(0.20000, 0.00000, 0.00000);
-	vec3 n_out5p0 = vec3(n_out8p0) * n_in5p1;
+	vec3 n_out5p0 = vec3(n_out9p0) * n_in5p1;
+
 
 // Input:3
-	vec3 n_out3p0 = vec3(UV, 0.0);
+	vec2 n_out3p0 = UV;
+
 
 // VectorOp:7
 	vec3 n_in7p1 = vec3(2.00000, 1.00000, 0.00000);
-	vec3 n_out7p0 = n_out3p0 * n_in7p1;
+	vec3 n_out7p0 = vec3(n_out3p0, 0.0) * n_in7p1;
+
 
 // VectorOp:6
 	vec3 n_out6p0 = n_out5p0 + n_out7p0;
 
-// TextureUniform:2
-	vec3 n_out2p0;
-	float n_out2p1;
-	{
-		vec4 n_tex_read = texture(Title, n_out6p0.xy);
-		n_out2p0 = n_tex_read.rgb;
-		n_out2p1 = n_tex_read.a;
-	}
+
+	vec4 n_out8p0;
+// Texture2D:8
+	n_out8p0 = texture(Title, vec2(n_out6p0.xy));
+
 
 // Output:0
-	ALBEDO = n_out2p0;
+	ALBEDO = vec3(n_out8p0.xyz);
 
-}
-
-void light() {
-// Output:0
 
 }
 "
-graph_offset = Vector2( -921.082, 269.413 )
+graph_offset = Vector2(-508.681, 463.806)
 flags/unshaded = true
-nodes/fragment/0/position = Vector2( 798, 252 )
-nodes/fragment/2/node = SubResource( 5 )
-nodes/fragment/2/position = Vector2( 378, 315 )
-nodes/fragment/3/node = SubResource( 7 )
-nodes/fragment/3/position = Vector2( -378, 567 )
-nodes/fragment/4/node = SubResource( 8 )
-nodes/fragment/4/position = Vector2( -640, 320 )
-nodes/fragment/5/node = SubResource( 9 )
-nodes/fragment/5/position = Vector2( -189, 294 )
-nodes/fragment/6/node = SubResource( 10 )
-nodes/fragment/6/position = Vector2( 84, 378 )
-nodes/fragment/7/node = SubResource( 11 )
-nodes/fragment/7/position = Vector2( -189, 546 )
-nodes/fragment/8/node = SubResource( 12 )
-nodes/fragment/8/position = Vector2( -400, 300 )
-nodes/fragment/connections = PoolIntArray( 5, 0, 6, 0, 6, 0, 2, 0, 3, 0, 7, 0, 7, 0, 6, 1, 2, 0, 0, 0, 8, 0, 5, 0, 4, 0, 8, 0 )
+nodes/fragment/0/position = Vector2(798, 252)
+nodes/fragment/2/node = SubResource("5")
+nodes/fragment/2/position = Vector2(120, 500)
+nodes/fragment/3/node = SubResource("7")
+nodes/fragment/3/position = Vector2(-1080, 640)
+nodes/fragment/4/node = SubResource("8")
+nodes/fragment/4/position = Vector2(-1120, 260)
+nodes/fragment/5/node = SubResource("9")
+nodes/fragment/5/position = Vector2(-600, 220)
+nodes/fragment/6/node = SubResource("10")
+nodes/fragment/6/position = Vector2(-120, 340)
+nodes/fragment/7/node = SubResource("11")
+nodes/fragment/7/position = Vector2(-620, 600)
+nodes/fragment/8/node = SubResource("VisualShaderNodeTexture_3qe54")
+nodes/fragment/8/position = Vector2(500, 360)
+nodes/fragment/9/node = SubResource("VisualShaderNodeFloatOp_spdkt")
+nodes/fragment/9/position = Vector2(-780, 240)
+nodes/fragment/10/node = SubResource("VisualShaderNodeComment_t4y4m")
+nodes/fragment/10/position = Vector2(-1140, 140)
+nodes/fragment/11/node = SubResource("VisualShaderNodeComment_f47k3")
+nodes/fragment/11/position = Vector2(-1120, 520)
+nodes/fragment/12/node = SubResource("VisualShaderNodeComment_ptj6p")
+nodes/fragment/12/position = Vector2(-140, 240)
+nodes/fragment/connections = PackedInt32Array(5, 0, 6, 0, 3, 0, 7, 0, 7, 0, 6, 1, 2, 0, 8, 2, 8, 0, 0, 0, 6, 0, 8, 0, 4, 0, 9, 0, 9, 0, 5, 0)
 
 [resource]
 resource_local_to_scene = true
-shader = SubResource( 6 )
+render_priority = 0
+shader = SubResource("6")

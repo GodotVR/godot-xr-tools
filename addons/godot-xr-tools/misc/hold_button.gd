@@ -1,24 +1,24 @@
-tool
+@tool
 class_name XRToolsHoldButton
-extends Spatial
+extends Node3D
 
 
 signal pressed
 
 
 # Enable our button
-export var enabled : bool = false setget set_enabled
+@export var enabled : bool = false: set = set_enabled
 
-export (XRTools.Buttons) var activate_button : int = XRTools.Buttons.VR_TRIGGER
+@export var activate_action : String = "trigger_click"
 
 # Countdown
-export var hold_time : float = 2.0
+@export var hold_time : float = 2.0
 
 # Color our our visualisation
-export var color : Color = Color(1.0, 1.0, 1.0, 1.0) setget set_color
+@export var color : Color = Color(1.0, 1.0, 1.0, 1.0): set = set_color
 
 # Size
-export var size : Vector2 = Vector2(1.0, 1.0) setget set_size
+@export var size : Vector2 = Vector2(1.0, 1.0): set = set_size
 
 
 var time_held = 0.0
@@ -26,14 +26,14 @@ var time_held = 0.0
 var material : ShaderMaterial
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsHoldButton" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsHoldButton"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	material = $Visualise.get_surface_material(0)
+	material = $Visualise.get_surface_override_material(0)
 
 	if !Engine.is_editor_hint():
 		_set_time_held(0.0)
@@ -50,13 +50,11 @@ func _process(delta):
 	var button_pressed = false
 
 	# we check all trackers
-	for i in ARVRServer.get_tracker_count():
-		var tracker : ARVRPositionalTracker = ARVRServer.get_tracker(i)
-		if tracker.get_hand() != 0:
-			var joy_id = tracker.get_joy_id()
-
-			if Input.is_joy_button_pressed(joy_id, activate_button):
-				button_pressed = true
+	var controllers = XRServer.get_trackers(XRServer.TRACKER_CONTROLLER)
+	for name in controllers:
+		var tracker : XRPositionalTracker = controllers[name]
+		if tracker.get_input(activate_action):
+			button_pressed = true
 
 	if button_pressed:
 		_set_time_held(time_held + delta)
@@ -83,7 +81,7 @@ func _set_time_held(p_time_held):
 	time_held = p_time_held
 	if material:
 		$Visualise.visible = time_held > 0.0
-		material.set_shader_param("value", time_held/hold_time)
+		material.set_shader_parameter("value", time_held/hold_time)
 
 
 func set_size(p_size: Vector2):
@@ -98,7 +96,7 @@ func _update_size():
 			mesh.size = size
 
 			# updating the size will unset our material, so reset it
-			$Visualise.set_surface_material(0, material)
+			$Visualise.set_surface_override_material(0, material)
 
 
 func set_color(p_color: Color):
@@ -108,4 +106,4 @@ func set_color(p_color: Color):
 
 func _update_color():
 	if material:
-		material.set_shader_param("albedo", color)
+		material.set_shader_parameter("albedo", color)

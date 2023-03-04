@@ -5,19 +5,19 @@ signal pointer_pressed(at)
 
 
 ## Snap-tray active state
-export var tray_active : bool = true setget _set_tray_active
+@export var tray_active : bool = true: set = _set_tray_active
 
 ## Active material
-export (Material) var active_material : Material
+@export var active_material : Material
 
 ## Inactive material
-export (Material) var inactive_material : Material
+@export var inactive_material : Material
 
 
 ## Called when the node enters the scene tree for the first time.
 func _ready():
 	# Connect to the pointer pressed signal
-	connect("pointer_pressed", self, "_on_pointer_pressed")
+	pointer_pressed.connect(_on_pointer_pressed)
 
 	# Update the tray_active state
 	_update_tray_active()
@@ -38,7 +38,6 @@ func _set_tray_active(new_value : bool) -> void:
 
 ## Update state based on tray_active property
 func _update_tray_active() -> void:
-	enabled = tray_active
 	$Body.material_override = active_material if tray_active else inactive_material
 	$SnapArea1/SnapZone1.enabled = tray_active
 	$SnapArea2/SnapZone2.enabled = tray_active

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/puddle_footstep.wav-9cd3f487c53d96b75250ff56889df57f.sample"
+type="AudioStreamWAV"
+uid="uid://dkladw5jiqfnb"
+path="res://.godot/imported/puddle_footstep.wav-9cd3f487c53d96b75250ff56889df57f.sample"
 
 [deps]
 
 source_file="res://assets/footsteps/puddle_footstep.wav"
-dest_files=[ "res://.import/puddle_footstep.wav-9cd3f487c53d96b75250ff56889df57f.sample" ]
+dest_files=["res://.godot/imported/puddle_footstep.wav-9cd3f487c53d96b75250ff56889df57f.sample"]
 
 [params]
 

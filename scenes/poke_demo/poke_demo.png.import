@@ -1,37 +1,36 @@
 [remap]
 
 importer="texture"
-type="StreamTexture"
-path.s3tc="res://.import/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.s3tc.stex"
-path.etc="res://.import/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.etc.stex"
+type="CompressedTexture2D"
+uid="uid://bbe7o7pdq38m2"
+path.s3tc="res://.godot/imported/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.s3tc.ctex"
+path.etc2="res://.godot/imported/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.etc2.ctex"
 metadata={
-"imported_formats": [ "s3tc", "etc" ],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://scenes/poke_demo/poke_demo.png"
-dest_files=[ "res://.import/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.s3tc.stex", "res://.import/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.etc.stex" ]
+dest_files=["res://.godot/imported/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.s3tc.ctex", "res://.godot/imported/poke_demo.png-4c24cc2c312bc410943cc9c6d63635e9.etc2.ctex"]
 
 [params]
 
 compress/mode=2
+compress/high_quality=false
 compress/lossy_quality=0.7
-compress/hdr_mode=0
-compress/bptc_ldr=0
+compress/hdr_compression=1
 compress/normal_map=0
-flags/repeat=true
-flags/filter=true
-flags/mipmaps=true
-flags/anisotropic=false
-flags/srgb=2
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
 process/fix_alpha_border=true
 process/premult_alpha=false
-process/HDR_as_SRGB=false
-process/invert_color=false
 process/normal_map_invert_y=false
-stream=false
-size_limit=0
-detect_3d=false
-svg/scale=1.0
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

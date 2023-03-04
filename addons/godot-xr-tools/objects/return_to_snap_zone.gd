@@ -1,5 +1,6 @@
-tool
-class_name XRToolsReturnToSnapZone, "res://addons/godot-xr-tools/editor/icons/hand.svg"
+@tool
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
+class_name XRToolsReturnToSnapZone
 extends Node
 
 
@@ -10,10 +11,10 @@ extends Node
 
 
 ## Snap zone path
-export var snap_zone_path : NodePath
+@export var snap_zone_path : NodePath
 
 ## Return delay
-export var return_delay : float = 1.0
+@export var return_delay : float = 1.0
 
 
 # Pickable object to control
@@ -29,9 +30,9 @@ var _return_counter : float = 0.0
 var _held := false
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsReturnToSnapZone" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsReturnToSnapZone"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -39,8 +40,8 @@ func _ready() -> void:
 	# Get the pickable (parent of this node)
 	_pickable = get_parent() as XRToolsPickable
 	if _pickable:
-		_pickable.connect("picked_up", self, "_on_picked_up")
-		_pickable.connect("dropped", self, "_on_dropped")
+		_pickable.picked_up.connect(_on_picked_up)
+		_pickable.dropped.connect(_on_dropped)
 
 	# Get the optional snap-zone
 	_snap_zone = get_node_or_null(snap_zone_path)
@@ -95,10 +96,12 @@ func _on_dropped(_pickable) -> void:
 
 
 # This method verifies the pose area has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Verify this node is a child of a pickable
 	if not get_parent() is XRToolsPickable:
-		return "Must be a child of a pickable"
+		warnings.append("Must be a child of a pickable")
 
-	# Pass basic validation
-	return ""
+	# Return warnings
+	return warnings

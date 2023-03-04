@@ -28,11 +28,6 @@ jobs:
           cp demo/godot-xr-tools/VERSIONS.md plugin/godot-xr-tools/addons/godot-xr-tools
           rm -rf demo/godot-xr-tools/.git
           rm -rf demo/godot-xr-tools/.github
-      - name: Add OpenXR Plugin
-        run: |
-          wget --header "Authorization: token ${{ secrets.GITHUB_TOKEN }}" "https://github.com/GodotVR/godot_openxr/releases/download/1.3.0/godot-openxr.zip"
-          unzip -qq godot-openxr.zip
-          cp -r godot_openxr_1.3.0/addons/godot-openxr demo/godot-xr-tools/addons
       - name: Create XR tools library artifact
         uses: actions/upload-artifact@v2
         with:

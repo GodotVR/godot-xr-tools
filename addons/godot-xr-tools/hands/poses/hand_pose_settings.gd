@@ -1,4 +1,5 @@
-class_name XRToolsHandPoseSettings, "res://addons/godot-xr-tools/editor/icons/hand.svg"
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
+class_name XRToolsHandPoseSettings
 extends Resource
 
 
@@ -9,7 +10,7 @@ extends Resource
 
 
 ## Hand-open pose
-export var open_pose : Animation
+@export var open_pose : Animation
 
 ## Hand-closed pose
-export var closed_pose : Animation
+@export var closed_pose : Animation

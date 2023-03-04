@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 
@@ -30,7 +30,7 @@ func _enter_tree():
 	# Add input grip threshold to the project settings
 	_define_project_setting(
 			"godot_xr_tools/input/grip_threshold",
-			TYPE_REAL,
+			TYPE_FLOAT,
 			PROPERTY_HINT_RANGE,
 			"0.2,0.8,0.05",
 			0.7)
@@ -38,7 +38,7 @@ func _enter_tree():
 	# Add input snap turning dead-zone to the project settings
 	_define_project_setting(
 			"godot_xr_tools/input/snap_turning_deadzone",
-			TYPE_REAL,
+			TYPE_FLOAT,
 			PROPERTY_HINT_RANGE,
 			"0.0,0.5,0.05",
 			0.25)
@@ -54,7 +54,7 @@ func _enter_tree():
 	# Add player standard height to the project settings
 	_define_project_setting(
 			"godot_xr_tools/player/standard_height",
-			TYPE_REAL,
+			TYPE_FLOAT,
 			PROPERTY_HINT_RANGE,
 			"1.0,2.5,0.05",
 			1.85)

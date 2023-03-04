@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/snow_footstep.wav-29f78401fa6c1bbd519099873252fb56.sample"
+type="AudioStreamWAV"
+uid="uid://c7670m64eawbp"
+path="res://.godot/imported/snow_footstep.wav-29f78401fa6c1bbd519099873252fb56.sample"
 
 [deps]
 
 source_file="res://assets/footsteps/snow_footstep.wav"
-dest_files=[ "res://.import/snow_footstep.wav-29f78401fa6c1bbd519099873252fb56.sample" ]
+dest_files=["res://.godot/imported/snow_footstep.wav-29f78401fa6c1bbd519099873252fb56.sample"]
 
 [params]
 

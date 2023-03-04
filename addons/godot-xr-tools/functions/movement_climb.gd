@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementClimb
 extends XRToolsMovementProvider
 
@@ -8,7 +8,7 @@ extends XRToolsMovementProvider
 ## This script provides climbing movement for the player. To add climbing
 ## support, the player must also have [XRToolsFunctionPickup] nodes attached
 ## to the left and right controllers, and an [XRToolsPlayerBody] under the
-## [ARVROrigin].
+## [XROrigin3D].
 ##
 ## Climbable objects can inherit from the climbable scene, or be [StaticBody]
 ## objects with the [XRToolsClimbable] script attached to them.
@@ -31,16 +31,16 @@ const SNAP_DISTANCE : float = 1.0
 
 
 ## Movement provider order
-export var order : int = 15
+@export var order : int = 15
 
 ## Push forward when flinging
-export var forward_push : float = 1.0
+@export var forward_push : float = 1.0
 
 ## Velocity multiplier when flinging up walls
-export var fling_multiplier : float = 1.0
+@export var fling_multiplier : float = 1.0
 
 ## Averages for velocity measurement
-export var velocity_averages : int = 5
+@export var velocity_averages : int = 5
 
 
 ## Left climbable
@@ -54,30 +54,33 @@ var _dominant : XRToolsFunctionPickup
 
 
 # Velocity averager
-onready var _averager := XRToolsVelocityAveragerLinear.new(velocity_averages)
+@onready var _averager := XRToolsVelocityAveragerLinear.new(velocity_averages)
 
 # Left pickup node
-onready var _left_pickup_node := XRToolsFunctionPickup.find_left(self)
+@onready var _left_pickup_node := XRToolsFunctionPickup.find_left(self)
 
 # Right pickup node
-onready var _right_pickup_node := XRToolsFunctionPickup.find_right(self)
+@onready var _right_pickup_node := XRToolsFunctionPickup.find_right(self)
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementClimb" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementClimb" or super(name)
 
 
 ## Called when the node enters the scene tree for the first time.
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Connect pickup funcitons
-	if _left_pickup_node.connect("has_picked_up", self, "_on_left_picked_up"):
+	if _left_pickup_node.connect("has_picked_up", _on_left_picked_up):
 		push_error("Unable to connect left picked up signal")
-	if _right_pickup_node.connect("has_picked_up", self, "_on_right_picked_up"):
+	if _right_pickup_node.connect("has_picked_up", _on_right_picked_up):
 		push_error("Unable to connect right picked up signal")
-	if _left_pickup_node.connect("has_dropped", self, "_on_left_dropped"):
+	if _left_pickup_node.connect("has_dropped", _on_left_dropped):
 		push_error("Unable to connect left dropped signal")
-	if _right_pickup_node.connect("has_dropped", self, "_on_right_dropped"):
+	if _right_pickup_node.connect("has_dropped", _on_right_dropped):
 		push_error("Unable to connect right dropped signal")
 
 
@@ -160,7 +163,7 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 
 
 ## Handler for left controller picked up
-func _on_left_picked_up(what : Spatial) -> void:
+func _on_left_picked_up(what : Node3D) -> void:
 	# Get the climbable
 	_left_climbable = what as XRToolsClimbable
 
@@ -172,7 +175,7 @@ func _on_left_picked_up(what : Spatial) -> void:
 
 
 ## Handler for right controller picked up
-func _on_right_picked_up(what : Spatial) -> void:
+func _on_right_picked_up(what : Node3D) -> void:
 	# Get the climbable
 	_right_climbable = what as XRToolsClimbable
 
@@ -208,18 +211,20 @@ func _on_right_dropped() -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Verify the left controller pickup
 	if !XRToolsFunctionPickup.find_left(self):
-		return "Unable to find left XRToolsFunctionPickup node"
+		warnings.append("Unable to find left XRToolsFunctionPickup node")
 
 	# Verify the right controller pickup
 	if !XRToolsFunctionPickup.find_right(self):
-		return "Unable to find right XRToolsFunctionPickup node"
+		warnings.append("Unable to find right XRToolsFunctionPickup node")
 
 	# Verify velocity averages
 	if velocity_averages < 2:
-		return "Minimum of 2 velocity averages needed"
+		warnings.append("Minimum of 2 velocity averages needed")
 
-	# Call base class
-	return ._get_configuration_warning()
+	# Return warnings
+	return warnings

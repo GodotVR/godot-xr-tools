@@ -1,92 +1,121 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://cge2ou48mud7b"]
 
-[ext_resource path="res://scenes/pointer_demo/objects/keyboard_test_screen.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://scenes/pointer_demo/objects/keyboard_test_screen.gd" id="1"]
 
 [node name="KeyboardTestScreen" type="Node2D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
 [node name="Container" type="VBoxContainer" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 257.0
-margin_bottom = 50.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 260.0
+offset_bottom = 157.0
 
 [node name="Header" type="HBoxContainer" parent="Container"]
-margin_right = 250.0
-margin_bottom = 48.0
+layout_mode = 2
+offset_right = 250.0
+offset_bottom = 54.0
 
 [node name="Label" type="Label" parent="Container/Header"]
-margin_right = 250.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 250, 0 )
+layout_mode = 2
+offset_right = 250.0
+offset_bottom = 54.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 13
 text = "Press trigger on controller to switch active pointer to that controller, or interact with the UI."
-align = 1
-autowrap = true
+horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Line1" type="HBoxContainer" parent="Container"]
-margin_top = 52.0
-margin_right = 250.0
-margin_bottom = 73.0
+layout_mode = 2
+offset_top = 58.0
+offset_right = 250.0
+offset_bottom = 83.0
 
 [node name="Label" type="Label" parent="Container/Line1"]
-margin_top = 3.0
-margin_right = 43.0
-margin_bottom = 17.0
+layout_mode = 2
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
 text = "Line 1:"
-align = 2
+vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line1"]
-margin_left = 47.0
-margin_right = 247.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 200, 21 )
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 2
+offset_left = 42.0
+offset_right = 250.0
+offset_bottom = 25.0
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
 
 [node name="Line2" type="HBoxContainer" parent="Container"]
-margin_top = 77.0
-margin_right = 250.0
-margin_bottom = 98.0
+layout_mode = 2
+offset_top = 87.0
+offset_right = 250.0
+offset_bottom = 112.0
 
 [node name="Label" type="Label" parent="Container/Line2"]
-margin_top = 3.0
-margin_right = 43.0
-margin_bottom = 17.0
+layout_mode = 2
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
 text = "Line 2:"
-align = 2
+vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line2"]
-margin_left = 47.0
-margin_right = 247.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 200, 21 )
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 2
+offset_left = 42.0
+offset_right = 250.0
+offset_bottom = 25.0
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
 
 [node name="Line3" type="HBoxContainer" parent="Container"]
-margin_top = 102.0
-margin_right = 250.0
-margin_bottom = 123.0
+layout_mode = 2
+offset_top = 116.0
+offset_right = 250.0
+offset_bottom = 141.0
 
 [node name="Label" type="Label" parent="Container/Line3"]
-margin_top = 3.0
-margin_right = 43.0
-margin_bottom = 17.0
+layout_mode = 2
+offset_top = 2.0
+offset_right = 38.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 12
 text = "Line 3:"
-align = 2
+vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line3"]
-margin_left = 47.0
-margin_right = 247.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 200, 21 )
+custom_minimum_size = Vector2i(0, 25)
+layout_mode = 2
+offset_left = 42.0
+offset_right = 250.0
+offset_bottom = 25.0
+size_flags_horizontal = 3
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 12
 
 [node name="Footer" type="HBoxContainer" parent="Container"]
-margin_top = 127.0
-margin_right = 250.0
-margin_bottom = 147.0
+layout_mode = 2
+offset_top = 145.0
+offset_right = 250.0
+offset_bottom = 170.0
 alignment = 2
 
 [node name="ClearButton" type="Button" parent="Container/Footer"]
-margin_left = 206.0
-margin_right = 250.0
-margin_bottom = 20.0
+layout_mode = 2
+offset_left = 211.0
+offset_right = 250.0
+offset_bottom = 25.0
+theme_override_font_sizes/font_size = 12
 text = "Clear"
 
 [connection signal="pressed" from="Container/Footer/ClearButton" to="." method="_on_ClearButton_pressed"]

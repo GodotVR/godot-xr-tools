@@ -25,7 +25,7 @@ var _linear_distances := Array()
 var _angular_distances := Array()
 
 # Last transform
-var _last_transform := Transform()
+var _last_transform := Transform3D()
 
 # Has last transform flag
 var _has_last_transform := false
@@ -59,7 +59,7 @@ func add_distance(delta: float, linear_distance: Vector3, angular_distance: Vect
 		_angular_distances.pop_front()
 
 ## Add a transform to the averager
-func add_transform(delta: float, transform: Transform):
+func add_transform(delta: float, transform: Transform3D):
 	# Handle saving the first transform
 	if !_has_last_transform:
 		_last_transform = transform

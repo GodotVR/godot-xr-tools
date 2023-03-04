@@ -9,8 +9,8 @@ func _clear():
 		$ViewportContainer/Viewport/Brushes.get_child(i).visible = false
 
 	# Make sure our viewport only updates once
-	$ViewportContainer/Viewport.render_target_clear_mode = Viewport.CLEAR_MODE_ONLY_NEXT_FRAME
-	$ViewportContainer/Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+	$ViewportContainer/Viewport.render_target_clear_mode = SubViewport.CLEAR_MODE_ONCE
+	$ViewportContainer/Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -25,13 +25,13 @@ func _on_ViewportContainer_gui_input(event):
 		if event.pressed:
 			_update_active_brush()
 			$ViewportContainer/Viewport/Brushes.position = event.position
-			$ViewportContainer/Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+			$ViewportContainer/Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	elif event is InputEventMouseMotion:
 		# We're currently only getting these from our poke if we're touching,
 		# but once viewport supports pressure we should implement this...
 		_update_active_brush()
 		$ViewportContainer/Viewport/Brushes.position = event.position
-		$ViewportContainer/Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$ViewportContainer/Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 func _set_draw_color(p_color : Color) -> void:

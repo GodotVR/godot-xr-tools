@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementSprint
 extends XRToolsMovementProvider
 
@@ -10,7 +10,7 @@ extends XRToolsMovementProvider
 ##
 ## There will not be an error, there just will not be any reason for it to
 ## have any impact on the player.  This node should be a direct child of
-## the [ARVROrigin] node rather than to a specific [ARVRController].
+## the [XROrigin3D] node rather than to a specific [XRController3D].
 
 
 ## Signal emitted when sprinting starts
@@ -35,23 +35,23 @@ enum SprintType {
 
 
 ## Type of sprinting
-export (SprintType) var sprint_type : int = SprintType.HOLD_TO_SPRINT
+@export var sprint_type : SprintType = SprintType.HOLD_TO_SPRINT
 
 ## Sprint speed multiplier (multiplier from speed set by direct movement node(s))
-export (float, 1.0, 4.0) var sprint_speed_multiplier : float = 2.0
+@export_range(1.0, 4.0) var sprint_speed_multiplier : float = 2.0
 
 ## Movement provider order
-export var order : int = 11
+@export var order : int = 11
 
 ## Sprint controller
-export (SprintController) var controller : int = SprintController.LEFT
+@export var controller : SprintController = SprintController.LEFT
 
 ## Sprint button
-export (XRTools.Buttons) var sprint_button : int = XRTools.Buttons.VR_PAD
+@export var sprint_button : String = "primary_click"
 
 
 # Sprint controller
-var _controller : ARVRController
+var _controller : XRController3D
 
 # Sprint button down state
 var _sprint_button_down : bool = false
@@ -64,24 +64,27 @@ var _right_controller_original_max_speed : float = 0.0
 
 
 # Variable used to cache left controller direct movement function, if any
-onready var _left_controller_direct_move := XRToolsMovementDirect.find_left(self)
+@onready var _left_controller_direct_move := XRToolsMovementDirect.find_left(self)
 
 # Variable used to cache right controller direct movement function, if any
-onready var _right_controller_direct_move := XRToolsMovementDirect.find_right(self)
+@onready var _right_controller_direct_move := XRToolsMovementDirect.find_right(self)
 
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementSprint" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementSprint" or super(name)
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Get the sprinting controller
 	if controller == SprintController.LEFT:
-		_controller = ARVRHelpers.get_left_controller(self)
+		_controller = XRHelpers.get_left_controller(self)
 	else:
-		_controller = ARVRHelpers.get_right_controller(self)
+		_controller = XRHelpers.get_right_controller(self)
 
 
 # Perform sprinting
@@ -92,7 +95,7 @@ func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, disabled: 
 		return
 
 	# Detect sprint button down and pressed states
-	var sprint_button_down := _controller.is_button_pressed(sprint_button) != 0
+	var sprint_button_down := _controller.is_button_pressed(sprint_button)
 	var sprint_button_pressed := sprint_button_down and !_sprint_button_down
 	_sprint_button_down = sprint_button_down
 
@@ -155,21 +158,12 @@ func set_sprinting(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
 	# Make sure player has at least one direct movement node
 	if !XRToolsMovementDirect.find_left(self) and !XRToolsMovementDirect.find_right(self):
-		return "Unable to find XRToolsMovementDirect instance for player to support sprinting"
+		warnings.append("Player missing XRToolsMovementDirect nodes")
 
-	# Call base class
-	return ._get_configuration_warning()
-
-
-## Find an [XRToolsMovementSprint] node.
-##
-## This function searches from the specified node for an [XRToolsMovementSprint]
-## assuming the node is a sibling of the body under an [ARVROrigin].
-static func find_instance(node: Node) -> XRToolsMovementSprint:
-	return XRTools.find_child(
-		ARVRHelpers.get_arvr_origin(node),
-		"*",
-		"XRToolsMovementSprint") as XRToolsMovementSprint
+	# Return warnings
+	return warnings

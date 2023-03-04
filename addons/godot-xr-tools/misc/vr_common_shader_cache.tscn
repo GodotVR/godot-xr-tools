@@ -1,39 +1,39 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3]
 
-[ext_resource path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.gd" type="Script" id=1]
-[ext_resource path="res://addons/godot-xr-tools/materials/teleport.tres" type="Material" id=2]
-[ext_resource path="res://addons/godot-xr-tools/materials/target.tres" type="Material" id=3]
-[ext_resource path="res://addons/godot-xr-tools/materials/capsule.tres" type="Material" id=4]
-[ext_resource path="res://addons/godot-xr-tools/materials/pointer.tres" type="Material" id=5]
-[ext_resource path="res://addons/godot-xr-tools/materials/highlight.tres" type="Material" id=6]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.gd" id="1"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2_6822k"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/target.tres" id="3_agvdv"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capsule.tres" id="4_gxjsg"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="5_12251"]
+[ext_resource type="Material" uid="uid://dyuaw57o8y3i" path="res://addons/godot-xr-tools/materials/highlight.tres" id="6_ld6la"]
 
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 0.001, 0.001 )
+[sub_resource type="PlaneMesh" id="1"]
+size = Vector2(0.001, 0.001)
 
-[node name="VRCommonShaderCache" type="Spatial"]
-script = ExtResource( 1 )
+[node name="VRCommonShaderCache" type="Node3D"]
+script = ExtResource("1")
 
-[node name="teleport" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 2 )
+[node name="teleport" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("2_6822k")
 
-[node name="target" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 3 )
+[node name="target" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("3_agvdv")
 
-[node name="capsule" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 4 )
+[node name="capsule" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("4_gxjsg")
 
-[node name="pointer" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 5 )
+[node name="pointer" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("5_12251")
 
-[node name="highlight" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2 )
-mesh = SubResource( 1 )
-material/0 = ExtResource( 6 )
+[node name="highlight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+mesh = SubResource("1")
+surface_material_override/0 = ExtResource("6_ld6la")

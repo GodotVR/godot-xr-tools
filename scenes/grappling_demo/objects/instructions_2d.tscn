@@ -1,22 +1,25 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://c83u3yf6se26f"]
 
 [node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -624.0
-margin_bottom = -350.0
-rect_pivot_offset = Vector2( -421, -85 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 400.0
-margin_bottom = 250.0
-color = Color( 0, 0, 0, 0.87451 )
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
 
 [node name="Description" type="RichTextLabel" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 390.0
-margin_bottom = 240.0
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
 text = "Grappling Demo
 
 This scene demonstrates grappling movement with the following controls:

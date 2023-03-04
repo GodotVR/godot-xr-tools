@@ -1,5 +1,5 @@
 class_name XRToolsGrabPoint
-extends Position3D
+extends Marker3D
 
 
 ## XR Tools Grab Point Base Script
@@ -10,7 +10,7 @@ extends Position3D
 
 
 ## If true, the grab point is enabled for grabbing
-export var enabled : bool = true
+@export var enabled : bool = true
 
 
 ## Test if a grabber can grab by this grab-point

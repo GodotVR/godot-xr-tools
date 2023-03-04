@@ -1,6 +1,6 @@
-tool
+@tool
 class_name XRToolsInteractableHandleDriven
-extends Spatial
+extends Node3D
 
 
 ## XR Tools Interactable Handle Driven script
@@ -24,9 +24,9 @@ signal released(interactable)
 var grabbed_handles := Array()
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandleDriven" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandleDriven"
 
 
 # Called when the node enters the scene tree for the first time.
@@ -58,7 +58,7 @@ func _on_handle_dropped(handle: XRToolsInteractableHandle) -> void:
 	grabbed_handles.erase(handle)
 
 	# Disable processing when we drop the last handle
-	if grabbed_handles.empty():
+	if grabbed_handles.is_empty():
 		# Disable physics processing
 		set_process(false)
 
@@ -71,9 +71,9 @@ func _hook_child_handles(node: Node) -> void:
 	# If this node is a handle then hook its handle signals
 	var handle := node as XRToolsInteractableHandle
 	if handle:
-		if handle.connect("picked_up", self, "_on_handle_picked_up"):
+		if handle.picked_up.connect(_on_handle_picked_up):
 			push_error("Unable to connect handle signal")
-		if handle.connect("dropped", self, "_on_handle_dropped"):
+		if handle.dropped.connect(_on_handle_dropped):
 			push_error("Unable to connect handle signal")
 
 	# Recurse into all children

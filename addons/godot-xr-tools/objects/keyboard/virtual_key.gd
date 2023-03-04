@@ -2,20 +2,20 @@ extends Button
 
 
 ## Godot scan-code text
-export var scan_code_text := ""
+@export var scan_code_text := ""
 
 ## Unicode character
-export var unicode := 0
+@export var unicode := 0
 
 ## Shift modifier
-export var shift_modifier := false
+@export var shift_modifier := false
 
 
 func _ready():
 	# Find the VirtualKeyboard parent
 	var keyboard = _get_virtual_keyboard()
 	if keyboard:
-		connect("button_down", keyboard, "on_key_pressed", [scan_code_text, unicode, shift_modifier])
+		button_down.connect(keyboard.on_key_pressed.bind(scan_code_text, unicode, shift_modifier))
 
 # Get our virtual keyboard parent
 func _get_virtual_keyboard() -> XRToolsVirtualKeyboard2D:

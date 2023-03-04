@@ -1,23 +1,23 @@
-tool
+@tool
 class_name Teleport
-extends Spatial
+extends Node3D
 
 
 ## Scene base for the current scene
-export var scene_base: NodePath
+@export var scene_base: NodePath
 
 ## Scene to teleport to, or none for main menu
-export var scene: PackedScene
+@export var scene: PackedScene
 
 ## Title texture
-export var title: Texture setget _set_title
+@export var title: Texture2D: set = _set_title
 
 ## Can Teleporter be used
-export var active := true
+@export var active := true
 
 
 # Scene base to trigger loading
-onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
+@onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
 
 
 func _ready():
@@ -25,7 +25,7 @@ func _ready():
 
 
 # Called when the player enters the teleport area
-func _on_TeleportArea_body_entered(body: Spatial):
+func _on_TeleportArea_body_entered(body: Node3D):
 	# Skip if scene base is not known
 	if not _scene_base:
 		return
@@ -47,7 +47,7 @@ func _on_TeleportArea_body_entered(body: Spatial):
 func set_collision_disabled(value):
 	if !Engine.is_editor_hint():
 		for child in get_node("TeleportBody").get_children():
-			if child is CollisionShape:
+			if child is CollisionShape3D:
 				child.disabled = value
 
 func _set_title(value):
@@ -58,4 +58,4 @@ func _set_title(value):
 func _update_title():
 	if title:
 		var material: ShaderMaterial = $TeleportBody/Top.get_active_material(1)
-		material.set_shader_param("Title", title)
+		material.set_shader_parameter("Title", title)

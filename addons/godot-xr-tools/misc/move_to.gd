@@ -13,16 +13,16 @@ signal move_complete
 
 
 # Spatial to control
-var _control: Spatial
+var _control: Node3D
 
 # Spatial representing the target
-var _target: Spatial
+var _target: Node3D
 
 # Starting transform
-var _start: Transform
+var _start: Transform3D
 
 # Target offset
-var _offset: Transform
+var _offset: Transform3D
 
 # Move duration
 var _duration: float
@@ -31,9 +31,9 @@ var _duration: float
 var _time: float = 0.0
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMoveTo" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMoveTo"
 
 
 ## Initialize the XRToolsMoveTo
@@ -69,7 +69,7 @@ func _process(delta: float) -> void:
 
 
 ## Start the move
-func start(control: Spatial, target: Spatial, offset: Transform, speed: float) -> void:
+func start(control: Node3D, target: Node3D, offset: Transform3D, speed: float) -> void:
 	# Save the control and target
 	_control = control
 	_target = target

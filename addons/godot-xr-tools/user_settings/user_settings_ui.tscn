@@ -1,136 +1,133 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=2 format=3 uid="uid://ytsxet2k47lj"]
 
-[ext_resource path="res://addons/godot-xr-tools/user_settings/user_settings_ui.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/user_settings/user_settings_ui.gd" id="1"]
 
 [node name="UserSettingsUI" type="TabContainer"]
-rect_min_size = Vector2( 250, 200 )
-tab_align = 0
-script = ExtResource( 1 )
+offset_right = 214.0
+offset_bottom = 126.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+script = ExtResource("1")
 
 [node name="Input" type="VBoxContainer" parent="."]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+layout_mode = 2
 
 [node name="SnapTurning" type="HBoxContainer" parent="Input"]
-margin_right = 242.0
-margin_bottom = 24.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Input/SnapTurning"]
-margin_top = 1.0
-margin_right = 100.0
-margin_bottom = 22.0
-rect_min_size = Vector2( 100, 21 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Snap turning:"
-align = 2
-valign = 1
 
 [node name="SnapTurningCB" type="CheckBox" parent="Input/SnapTurning"]
-margin_left = 104.0
-margin_right = 128.0
-margin_bottom = 24.0
+layout_mode = 2
 
 [node name="HSeparator" type="HSeparator" parent="Input"]
-margin_top = 28.0
-margin_right = 242.0
-margin_bottom = 32.0
+layout_mode = 2
 
 [node name="Buttons" type="HBoxContainer" parent="Input"]
-margin_top = 36.0
-margin_right = 242.0
-margin_bottom = 61.0
-custom_constants/separation = 10
+layout_mode = 2
 alignment = 1
 
 [node name="Save" type="Button" parent="Input/Buttons"]
-margin_left = 41.0
-margin_right = 116.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Apply"
 
 [node name="Reset" type="Button" parent="Input/Buttons"]
-margin_left = 126.0
-margin_right = 201.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Reset"
 
 [node name="Player" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+visible = false
+layout_mode = 2
 
 [node name="PlayerHeight" type="HBoxContainer" parent="Player"]
-margin_right = 242.0
-margin_bottom = 21.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Player/PlayerHeight"]
-margin_right = 100.0
-margin_bottom = 21.0
-rect_min_size = Vector2( 100, 21 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Height adjust:"
-align = 2
-valign = 1
 
 [node name="PlayerHeightSlider" type="HSlider" parent="Player/PlayerHeight"]
-margin_left = 104.0
-margin_right = 229.0
-margin_bottom = 16.0
-rect_min_size = Vector2( 125, 0 )
+layout_mode = 2
+size_flags_horizontal = 3
 min_value = -1.0
 max_value = 1.0
 step = 0.1
 
 [node name="PlayerHeightCalc" type="HBoxContainer" parent="Player"]
-margin_top = 25.0
-margin_right = 242.0
-margin_bottom = 50.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Player/PlayerHeightCalc"]
-margin_top = 5.0
-margin_right = 100.0
-margin_bottom = 19.0
-rect_min_size = Vector2( 100, 0 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 
 [node name="PlayerHeightStandard" type="Button" parent="Player/PlayerHeightCalc"]
-margin_left = 104.0
-margin_right = 229.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 125, 25 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Set to standard"
 
 [node name="HSeparator" type="HSeparator" parent="Player"]
-margin_top = 54.0
-margin_right = 242.0
-margin_bottom = 58.0
+layout_mode = 2
 
 [node name="Buttons" type="HBoxContainer" parent="Player"]
-margin_top = 62.0
-margin_right = 242.0
-margin_bottom = 87.0
-custom_constants/separation = 10
+layout_mode = 2
 alignment = 1
 
 [node name="Save" type="Button" parent="Player/Buttons"]
-margin_left = 41.0
-margin_right = 116.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Apply"
 
 [node name="Reset" type="Button" parent="Player/Buttons"]
-margin_left = 126.0
-margin_right = 201.0
-margin_bottom = 25.0
-rect_min_size = Vector2( 75, 25 )
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Reset"
+
+[node name="WebXR" type="VBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="WebXR" type="HBoxContainer" parent="WebXR"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="WebXR/WebXR"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "WebXR primary:"
+
+[node name="WebXRPrimary" type="OptionButton" parent="WebXR/WebXR"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+item_count = 3
+selected = 0
+popup/item_0/text = "Auto"
+popup/item_0/id = 0
+popup/item_1/text = "Thumbstick"
+popup/item_1/id = 1
+popup/item_2/text = "Trackpad"
+popup/item_2/id = 2
+
+[node name="HSeparator" type="HSeparator" parent="WebXR"]
+layout_mode = 2
+
+[node name="Buttons" type="HBoxContainer" parent="WebXR"]
+layout_mode = 2
+alignment = 1
+
+[node name="Save" type="Button" parent="WebXR/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Apply"
+
+[node name="Reset" type="Button" parent="WebXR/Buttons"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
 text = "Reset"
 
 [connection signal="pressed" from="Input/SnapTurning/SnapTurningCB" to="." method="_on_SnapTurningCB_pressed"]
@@ -140,3 +137,6 @@ text = "Reset"
 [connection signal="pressed" from="Player/PlayerHeightCalc/PlayerHeightStandard" to="." method="_on_PlayerHeightStandard_pressed"]
 [connection signal="pressed" from="Player/Buttons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Player/Buttons/Reset" to="." method="_on_Reset_pressed"]
+[connection signal="item_selected" from="WebXR/WebXR/WebXRPrimary" to="." method="_on_web_xr_primary_item_selected"]
+[connection signal="pressed" from="WebXR/Buttons/Save" to="." method="_on_Save_pressed"]
+[connection signal="pressed" from="WebXR/Buttons/Reset" to="." method="_on_Reset_pressed"]
