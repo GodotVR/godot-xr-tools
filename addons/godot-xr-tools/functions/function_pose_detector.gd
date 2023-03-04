@@ -1,3 +1,4 @@
+tool
 class_name XRToolsFunctionPoseDetector, "res://addons/godot-xr-tools/editor/icons/hand.svg"
 extends Spatial
 

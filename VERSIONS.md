@@ -1,6 +1,7 @@
 # 3.4.0 (Development)
 - Fixed footstep resource leak and added jump sounds and footstep signal
 - Added grab-point switching to pickable objects
+- Added return-to-snap-zone feature
 
 # 3.3.0
 - Added reset-scene and scene-control functions to scene-base
