@@ -1,167 +1,164 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=27 format=3 uid="uid://b5o25nkvyv8ho"]
 
-[ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=2]
-[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_sprint.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" type="PackedScene" id=10]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" type="PackedScene" id=11]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_wall_walk.tscn" type="PackedScene" id=12]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=13]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=16]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=17]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/sphere_world_demo/environments/constellations.tres" type="Environment" id=19]
-[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=20]
-[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=21]
-[ext_resource path="res://assets/meshes/mound/mound.tscn" type="PackedScene" id=22]
-[ext_resource path="res://assets/meshes/ramps/ramps.tscn" type="PackedScene" id=23]
-[ext_resource path="res://scenes/sphere_world_demo/objects/tower.tscn" type="PackedScene" id=24]
-[ext_resource path="res://scenes/sphere_world_demo/objects/donut.tscn" type="PackedScene" id=25]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bx1xdisoqo1f6" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://drs4eeq721ojn" path="res://addons/godot-xr-tools/functions/movement_sprint.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://chumpejwiub7f" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" id="10"]
+[ext_resource type="PackedScene" uid="uid://c78tjrtiyqna8" path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/movement_wall_walk.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://bgts3vpmjn6bb" path="res://addons/godot-xr-tools/functions/movement_wind.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="16"]
+[ext_resource type="PackedScene" uid="uid://cvokcudrffkgc" path="res://addons/godot-xr-tools/functions/movement_glide.tscn" id="17"]
+[ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="18"]
+[ext_resource type="Environment" uid="uid://dd1kfsedti62a" path="res://scenes/sphere_world_demo/environments/constellations.tres" id="19"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="20"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="21"]
+[ext_resource type="PackedScene" uid="uid://dpjfart2qg8k7" path="res://assets/meshes/mound/mound.tscn" id="22"]
+[ext_resource type="PackedScene" uid="uid://bdc23valbh8gf" path="res://assets/meshes/ramps/ramps.tscn" id="23"]
+[ext_resource type="PackedScene" uid="uid://bu7s5v5ygr0aa" path="res://scenes/sphere_world_demo/objects/donut.tscn" id="23_nox6a"]
+[ext_resource type="PackedScene" uid="uid://cutuj4o2r75tg" path="res://scenes/sphere_world_demo/objects/tower.tscn" id="24"]
 
-[sub_resource type="SphereMesh" id=1]
-material = ExtResource( 2 )
+[sub_resource type="SphereMesh" id="1"]
+material = ExtResource("2")
 radius = 50.0
 height = 100.0
 
-[sub_resource type="SphereShape" id=2]
+[sub_resource type="SphereShape3D" id="2"]
 radius = 50.0
 
-[sub_resource type="SphereShape" id=3]
+[sub_resource type="SphereShape3D" id="3"]
 radius = 80.0
 
-[node name="SphereWorldDemo" instance=ExtResource( 1 )]
-environment = ExtResource( 19 )
+[node name="SphereWorldDemo" instance=ExtResource("1")]
+environment = ExtResource("19")
 
-[node name="ARVROrigin" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
+[node name="XROrigin3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
 
-[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 4 )]
+[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("4")]
 
-[node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 8 )]
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("8")]
 grab_collision_mask = 6
 ranged_enable = false
 
-[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 5 )]
-enabled = true
-order = 10
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5")]
 max_speed = 3.0
 strafe = true
 
-[node name="MovementSprint" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 6 )]
+[node name="MovementSprint" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6")]
 
-[node name="MovementJump" parent="ARVROrigin/LeftHand" index="4" instance=ExtResource( 7 )]
-jump_button_id = 7
+[node name="MovementJump" parent="XROrigin3D/LeftHand" index="4" instance=ExtResource("7")]
+jump_button_action = "ax_button"
 
-[node name="MovementCrouch" parent="ARVROrigin/LeftHand" index="5" instance=ExtResource( 9 )]
-crouch_button = 1
+[node name="MovementCrouch" parent="XROrigin3D/LeftHand" index="5" instance=ExtResource("9")]
+crouch_button_action = "by_button"
 
-[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
+[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("10")]
 
-[node name="FunctionPickup" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 8 )]
+[node name="FunctionPickup" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("8")]
 grab_collision_mask = 6
 ranged_enable = false
-ranged_collision_mask = 0
 
-[node name="MovementDirect" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 5 )]
-enabled = true
-order = 10
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("5")]
 max_speed = 3.0
-strafe = false
 
-[node name="MovementTurn" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 16 )]
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("16")]
 
-[node name="MovementJump" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 7 )]
-jump_button_id = 7
+[node name="MovementJump" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("7")]
+jump_button_action = "ax_button"
 
-[node name="MovementGrapple" parent="ARVROrigin/RightHand" index="5" instance=ExtResource( 11 )]
+[node name="MovementGrapple" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("11")]
 grapple_collision_mask = 3
 
-[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 3 )]
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("3")]
 
-[node name="MovementClimb" parent="ARVROrigin" index="4" instance=ExtResource( 18 )]
+[node name="MovementClimb" parent="XROrigin3D" index="4" instance=ExtResource("18")]
 
-[node name="MovementWind" parent="ARVROrigin" index="5" instance=ExtResource( 13 )]
+[node name="MovementWind" parent="XROrigin3D" index="5" instance=ExtResource("13")]
 
-[node name="MovementGlide" parent="ARVROrigin" index="6" instance=ExtResource( 17 )]
+[node name="MovementGlide" parent="XROrigin3D" index="6" instance=ExtResource("17")]
 
-[node name="MovementWallWalk" parent="ARVROrigin" index="7" instance=ExtResource( 12 )]
+[node name="MovementWallWalk" parent="XROrigin3D" index="7" instance=ExtResource("12")]
 
-[node name="Teleport1" parent="." index="1" instance=ExtResource( 20 )]
-transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 49.9, 0, 0 )
+[node name="Teleport1" parent="." index="1" instance=ExtResource("20")]
+transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 49.9, 0, 0)
 scene_base = NodePath("..")
-title = ExtResource( 21 )
+title = ExtResource("21")
 
-[node name="Teleport2" parent="." index="2" instance=ExtResource( 20 )]
-transform = Transform( 1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, -49.9 )
+[node name="Teleport2" parent="." index="2" instance=ExtResource("20")]
+transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, -49.9)
 scene_base = NodePath("..")
-title = ExtResource( 21 )
+title = ExtResource("21")
 
-[node name="Teleport3" parent="." index="3" instance=ExtResource( 20 )]
-transform = Transform( 4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, -49.9, 0, 0 )
+[node name="Teleport3" parent="." index="3" instance=ExtResource("20")]
+transform = Transform3D(4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, -49.9, 0, 0)
 scene_base = NodePath("..")
-title = ExtResource( 21 )
+title = ExtResource("21")
 
-[node name="Teleport4" parent="." index="4" instance=ExtResource( 20 )]
-transform = Transform( -5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 0, 0, 49.9 )
+[node name="Teleport4" parent="." index="4" instance=ExtResource("20")]
+transform = Transform3D(-5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 0, 0, 49.9)
 scene_base = NodePath("..")
-title = ExtResource( 21 )
+title = ExtResource("21")
 
-[node name="World" type="Spatial" parent="." index="5"]
+[node name="World" type="Node3D" parent="." index="5"]
 
-[node name="Body" type="StaticBody" parent="World" index="0"]
+[node name="Body" type="StaticBody3D" parent="World" index="0"]
 collision_layer = 8
 collision_mask = 0
 
-[node name="MeshInstance" type="MeshInstance" parent="World/Body" index="0"]
-mesh = SubResource( 1 )
+[node name="MeshInstance" type="MeshInstance3D" parent="World/Body" index="0"]
+mesh = SubResource("1")
 
-[node name="CollisionShape" type="CollisionShape" parent="World/Body" index="1"]
-shape = SubResource( 2 )
+[node name="CollisionShape" type="CollisionShape3D" parent="World/Body" index="1"]
+shape = SubResource("2")
 
-[node name="Gravity" type="Area" parent="World" index="1"]
-space_override = 3
+[node name="Gravity" type="Area3D" parent="World" index="1"]
+collision_layer = 0
+collision_mask = 524292
+gravity_space_override = 3
 gravity_point = true
-gravity_vec = Vector3( 0, 0, 0 )
+gravity_point_center = Vector3(0, 0, 0)
+gravity_direction = Vector3(0, 0, 0)
 
-[node name="CollisionShape" type="CollisionShape" parent="World/Gravity" index="0"]
-shape = SubResource( 3 )
+[node name="CollisionShape" type="CollisionShape3D" parent="World/Gravity" index="0"]
+shape = SubResource("3")
 
-[node name="Mound1" parent="World" index="2" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 47, 14 )
+[node name="Mound1" parent="World" index="2" instance=ExtResource("22")]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 0, 47, 14)
 
-[node name="Mound2" parent="World" index="3" instance=ExtResource( 22 )]
-transform = Transform( 1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 47, -14 )
+[node name="Mound2" parent="World" index="3" instance=ExtResource("22")]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 47, -14)
 
-[node name="Ramps1" parent="World" index="4" instance=ExtResource( 23 )]
-transform = Transform( -4.2222e-08, -0.258819, 0.965926, -1.13133e-08, 0.965926, 0.258819, -1, 0, -4.37114e-08, -12, 48, 0 )
+[node name="Ramps1" parent="World" index="4" instance=ExtResource("23")]
+transform = Transform3D(-4.2222e-08, -0.258819, 0.965926, -1.13133e-08, 0.965926, 0.258819, -1, 0, -4.37114e-08, -12, 48, 0)
 
-[node name="Ramps2" parent="World" index="5" instance=ExtResource( 23 )]
-transform = Transform( -4.2222e-08, 0.258819, 0.965926, 1.13133e-08, 0.965926, -0.258819, -1, 0, -4.37114e-08, 12, 48, 0 )
+[node name="Ramps2" parent="World" index="5" instance=ExtResource("23")]
+transform = Transform3D(-4.2222e-08, 0.258819, 0.965926, 1.13133e-08, 0.965926, -0.258819, -1, 0, -4.37114e-08, 12, 48, 0)
 
-[node name="Tower1" parent="World" index="6" instance=ExtResource( 24 )]
-transform = Transform( 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -35, 35, 0 )
+[node name="Tower1" parent="World" index="6" instance=ExtResource("24")]
+transform = Transform3D(0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0, 1, -35, 35, 0)
 
-[node name="Tower2" parent="World" index="7" instance=ExtResource( 24 )]
-transform = Transform( 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 35, 35, 0 )
+[node name="Tower2" parent="World" index="7" instance=ExtResource("24")]
+transform = Transform3D(0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0, 1, 35, 35, 0)
 
-[node name="Tower3" parent="World" index="8" instance=ExtResource( 24 )]
-transform = Transform( 1, 5.96046e-08, 0, -4.21468e-08, 0.707107, -0.707107, -4.21468e-08, 0.707107, 0.707107, 0, 35, 35 )
+[node name="Tower3" parent="World" index="8" instance=ExtResource("24")]
+transform = Transform3D(1, 5.96046e-08, 0, -4.21468e-08, 0.707107, -0.707107, -4.21468e-08, 0.707107, 0.707107, 0, 35, 35)
 
-[node name="Tower4" parent="World" index="9" instance=ExtResource( 24 )]
-transform = Transform( 1, 5.96046e-08, 0, -4.21468e-08, 0.707107, 0.707107, 4.21469e-08, -0.707107, 0.707107, 0, 35, -35 )
+[node name="Tower4" parent="World" index="9" instance=ExtResource("24")]
+transform = Transform3D(1, 5.96046e-08, 0, -4.21468e-08, 0.707107, 0.707107, 4.21469e-08, -0.707107, 0.707107, 0, 35, -35)
 
-[node name="Donut1" parent="World" index="10" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 49.5, 0 )
+[node name="Donut1" parent="World" index="10" instance=ExtResource("23_nox6a")]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0, 49.5, 0)
 
-[node name="Donut2" parent="World" index="11" instance=ExtResource( 25 )]
-transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 49.5, 0 )
+[node name="Donut2" parent="World" index="11" instance=ExtResource("23_nox6a")]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 49.5, 0)
 
-[node name="DirectionalLight" type="DirectionalLight" parent="." index="6"]
-transform = Transform( 1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 60, 0 )
+[node name="DirectionalLight" type="DirectionalLight3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 60, 0)
 light_energy = 0.8

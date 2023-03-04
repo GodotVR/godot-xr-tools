@@ -1,6 +1,7 @@
-tool
-class_name XRToolsHandPoseArea, "res://addons/godot-xr-tools/editor/icons/hand.svg"
-extends Area
+@tool
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
+class_name XRToolsHandPoseArea
+extends Area3D
 
 
 ## XR Tools Hand Pose Area
@@ -10,15 +11,15 @@ extends Area
 
 
 ## Priority level for this hand pose area
-export var pose_priority : int
+@export var pose_priority : int
 
 ## Left hand pose settings (XRToolsHandPoseSettings)
-export var left_pose : Resource
+@export var left_pose : XRToolsHandPoseSettings
 
 ## Right hand pose settings (XRToolsHandPoseSettings)
-export var right_pose : Resource
+@export var right_pose : XRToolsHandPoseSettings
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsHandPoseArea" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsHandPoseArea"

@@ -1,6 +1,6 @@
-tool
+@tool
 class_name XRToolsStaging
-extends Spatial
+extends Node3D
 
 
 ## XR Tools Staging
@@ -48,10 +48,10 @@ signal xr_ended
 
 
 ## Main scene file
-export (String, FILE, '*.tscn') var main_scene : String
+@export_file('*.tscn') var main_scene : String
 
 ## If true, the player is prompted to continue
-export var prompt_for_continue : bool = true
+@export var prompt_for_continue : bool = true
 
 
 # Current scene
@@ -59,6 +59,9 @@ var current_scene : XRToolsSceneBase
 
 # Current scene path
 var current_scene_path : String
+
+# Tween for fading
+var _tween : Tween
 
 
 ## WorldEnvironment
@@ -70,74 +73,69 @@ var current_scene_path : String
 ## scenes. Instead we will obtain the environment from our demo
 ## scene and manage it here. Our world environment at the start
 ## belongs to our loading screen and we need to keep a copy.
-onready var loading_screen_environment = $WorldEnvironment.environment
-
-## Resource queue for loading resources
-onready var resource_queue = XRToolsResourceQueue.new()
+@onready var loading_screen_environment = $WorldEnvironment.environment
 
 ## XR Origin
-onready var arvr_origin : ARVROrigin = ARVRHelpers.get_arvr_origin(self)
+@onready var xr_origin : XROrigin3D = XRHelpers.get_xr_origin(self)
 
 ## XR Camera
-onready var arvr_camera : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
+@onready var xr_camera : XRCamera3D = XRHelpers.get_xr_camera(self)
 
 
 func _ready():
 	# Do not initialise if in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
 	# Specify the camera to track
-	if arvr_camera:
-		$LoadingScreen.set_camera(arvr_camera)
-
-	# Start our resource loader
-	resource_queue.start()
+	if xr_camera:
+		$LoadingScreen.set_camera(xr_camera)
 
 	# We start by loading our main level scene
 	load_scene(main_scene)
 
 
 # Verifies our staging has a valid configuration.
-func _get_configuration_warning():
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
 	# Report missing XR Origin
-	var test_origin : ARVROrigin = ARVRHelpers.get_arvr_origin(self)
+	var test_origin : XROrigin3D = XRHelpers.get_xr_origin(self)
 	if !test_origin:
-		return "No ARVROrigin node found, please add one"
+		warnings.append("No XROrigin3D node found, please add one")
 
 	# Report missing XR Camera
-	var test_camera : ARVRCamera = ARVRHelpers.get_arvr_camera(self)
+	var test_camera : XRCamera3D = XRHelpers.get_xr_camera(self)
 	if !test_camera:
-		return "No ARVRCamera node found, please add one to your ARVROrigin node"
+		warnings.append("No XRCamera3D node found, please add one to your XROrigin3D node")
 
 	# Report main scene not specified
 	if main_scene == "":
-		return "No main scene selected"
+		warnings.append("No main scene selected")
 
 	# Report main scene invalid
-	var file = File.new()
-	if !file.file_exists(main_scene):
-		return "Main scene doesn't exist"
+	if !FileAccess.file_exists(main_scene):
+		warnings.append("Main scene doesn't exist")
 
-	# Passed validation
-	return ""
+	# Return warnings
+	return warnings
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsStaging" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsStaging"
 
 
 ## Load the specified scene
 func load_scene(p_scene_path : String) -> void:
 	# Do not load if in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
-	if !arvr_origin:
+	if !xr_origin:
 		return
 
-	if !arvr_camera:
+	if !xr_camera:
 		return
 
 	if current_scene:
@@ -150,10 +148,11 @@ func load_scene(p_scene_path : String) -> void:
 		_remove_signals(current_scene)
 
 		# Fade to black
-		$Tween.remove_all()
-		$Tween.interpolate_method(self, "set_fade", 0.0, 1.0, 1.0)
-		$Tween.start()
-		yield($Tween, "tween_all_completed")
+		if _tween:
+			_tween.kill()
+		_tween = get_tree().create_tween()
+		_tween.tween_method(set_fade, 0.0, 1.0, 1.0)
+		await _tween.finished
 
 		# Now we remove our scene
 		emit_signal("scene_exiting", current_scene)
@@ -163,8 +162,9 @@ func load_scene(p_scene_path : String) -> void:
 		current_scene = null
 
 		# Make our loading screen visible again and reset some stuff
-		arvr_origin.set_process_internal(true)
-		arvr_camera.current = true
+		xr_origin.set_process_internal(true)
+		xr_origin.current = true
+		xr_camera.current = true
 		$WorldEnvironment.environment = loading_screen_environment
 		$LoadingScreen.progress = 0.0
 		$LoadingScreen.enable_press_to_continue = false
@@ -173,58 +173,73 @@ func load_scene(p_scene_path : String) -> void:
 		emit_signal("switching_to_loading_scene")
 
 		# Fade to visible
-		$Tween.remove_all()
-		$Tween.interpolate_method(self, "set_fade", 1.0, 0.0, 1.0)
-		$Tween.start()
-		yield($Tween, "tween_all_completed")
+		if _tween:
+			_tween.kill()
+		_tween = get_tree().create_tween()
+		_tween.tween_method(set_fade, 1.0, 0.0, 1.0)
+		await _tween.finished
 
-	# Attempt to load our scene
-	resource_queue.queue_resource(p_scene_path)
-	while !resource_queue.is_ready(p_scene_path):
-		# wait a bit
-		yield(get_tree().create_timer(0.3), "timeout")
+	# Load the new scene
+	var new_scene : PackedScene
+	if ResourceLoader.has_cached(p_scene_path):
+		# Load cached scene
+		new_scene = ResourceLoader.load(p_scene_path)
+	else:
+		# Start the loading in a thread
+		ResourceLoader.load_threaded_request(p_scene_path)
 
-		$LoadingScreen.progress = resource_queue.get_progress(p_scene_path)
+		# Loop waiting for the scene to load
+		while true:
+			var progress := []
+			var res := ResourceLoader.load_threaded_get_status(p_scene_path, progress)
+			if res != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
+				break;
 
-	var new_scene : PackedScene = resource_queue.get_resource(p_scene_path)
+			$LoadingScreen.progress = progress[0]
+			await get_tree().create_timer(0.1).timeout
+
+		# Get the loaded scene
+		new_scene = ResourceLoader.load_threaded_get(p_scene_path)
 
 	# Wait for user to be ready
 	if prompt_for_continue:
 		$LoadingScreen.enable_press_to_continue = true
-		yield($LoadingScreen, "continue_pressed")
+		await $LoadingScreen.continue_pressed
 
 	# Fade to black
-	$Tween.remove_all()
-	$Tween.interpolate_method(self, "set_fade", 0.0, 1.0, 1.0)
-	$Tween.start()
-	yield($Tween, "tween_all_completed")
+	if _tween:
+		_tween.kill()
+	_tween = get_tree().create_tween()
+	_tween.tween_method(set_fade, 0.0, 1.0, 1.0)
+	await _tween.finished
 
 	# Hide our loading screen
 	$LoadingScreen.follow_camera = false
 	$LoadingScreen.visible = false
 
-	# Turn off internal process on our ARVROrigin node, the internal process
-	# of our ARVROrigin will submit its positioning data to the ARVRServer.
-	# With two ARVROrigin nodes we'll get competing data.
-	arvr_origin.set_process_internal(false)
+	# Turn off internal process on our FPController, the internal process
+	# of our XROrigin3D will submit its positioning data to the XRServer.
+	# With two XROrigin3D nodes we'll get competing data.
+	xr_origin.set_process_internal(false)
 
 	# Setup our new scene
-	current_scene = new_scene.instance()
+	current_scene = new_scene.instantiate()
 	current_scene_path = p_scene_path
 	$Scene.add_child(current_scene)
 	$WorldEnvironment.environment = current_scene.environment
 	_add_signals(current_scene)
 
 	# We create a small delay here to give tracking some time to update our nodes...
-	yield(get_tree().create_timer(0.1), "timeout")
+	await get_tree().create_timer(0.1).timeout
 	current_scene.scene_loaded()
 	emit_signal("scene_loaded", current_scene)
 
 	# Fade to visible
-	$Tween.remove_all()
-	$Tween.interpolate_method(self, "set_fade", 1.0, 0.0, 1.0)
-	$Tween.start()
-	yield($Tween, "tween_all_completed")
+	if _tween:
+		_tween.kill()
+	_tween = get_tree().create_tween()
+	_tween.tween_method(set_fade, 1.0, 0.0, 1.0)
+	await _tween.finished
 
 	current_scene.scene_visible()
 	emit_signal("scene_visible", current_scene)
@@ -239,22 +254,22 @@ func set_fade(p_value : float):
 	if p_value == 0.0:
 		$Fade.visible = false
 	else:
-		var material : ShaderMaterial = $Fade.get_surface_material(0)
+		var material : ShaderMaterial = $Fade.get_surface_override_material(0)
 		if material:
-			material.set_shader_param("alpha", p_value)
+			material.set_shader_parameter("alpha", p_value)
 		$Fade.visible = true
 
 
 func _add_signals(p_scene : XRToolsSceneBase):
-	p_scene.connect("request_exit_to_main_menu", self, "_on_exit_to_main_menu")
-	p_scene.connect("request_load_scene", self, "_on_load_scene")
-	p_scene.connect("request_reset_scene", self, "_on_reset_scene")
+	p_scene.connect("request_exit_to_main_menu", _on_exit_to_main_menu)
+	p_scene.connect("request_load_scene", _on_load_scene)
+	p_scene.connect("request_reset_scene", _on_reset_scene)
 
 
 func _remove_signals(p_scene : XRToolsSceneBase):
-	p_scene.disconnect("request_exit_to_main_menu", self, "_on_exit_to_main_menu")
-	p_scene.disconnect("request_load_scene", self, "_on_load_scene")
-	p_scene.disconnect("request_reset_scene", self, "_on_reset_scene")
+	p_scene.disconnect("request_exit_to_main_menu", _on_exit_to_main_menu)
+	p_scene.disconnect("request_load_scene", _on_load_scene)
+	p_scene.disconnect("request_reset_scene", _on_reset_scene)
 
 
 func _on_exit_to_main_menu():

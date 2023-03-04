@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-export (NodePath) var camera
+@export_node_path("XRCamera3D") var camera : NodePath
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

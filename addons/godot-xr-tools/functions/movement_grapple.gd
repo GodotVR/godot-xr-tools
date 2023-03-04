@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementGrapple
 extends XRToolsMovementProvider
 
@@ -8,7 +8,7 @@ extends XRToolsMovementProvider
 ## This script provide simple grapple based movement - "bat hook" style
 ## where the player flings a rope to the target and swings on it.
 ## This script works with the [XRToolsPlayerBody] attached to the players
-## [ARVROrigin].
+## [XROrigin3D].
 
 
 ## Signal emitted when grapple starts
@@ -31,36 +31,36 @@ const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_0001
 
 
 ## Movement provider order
-export var order : int = 20
+@export var order : int = 20
 
 ## Grapple length - use to adjust maximum distance for possible grapple hooking.
-export var grapple_length : float = 15.0
+@export var grapple_length : float = 15.0
 
 ## Grapple collision mask
-export (int, LAYERS_3D_PHYSICS) \
-		var grapple_collision_mask : int = DEFAULT_MASK setget _set_grapple_collision_mask
+@export_flags_3d_physics \
+		var grapple_collision_mask : int = DEFAULT_MASK: set = _set_grapple_collision_mask
 
 ## Impulse speed applied to the player on first grapple
-export var impulse_speed : float = 10.0
+@export var impulse_speed : float = 10.0
 
 ## Winch speed applied to the player while the grapple is held
-export var winch_speed : float = 2.0
+@export var winch_speed : float = 2.0
 
 ## Probably need to add export variables for line size, maybe line material at
 ## some point so dev does not need to make children editable to do this.
 ## For now, right click on grapple node and make children editable to edit these
 ## facets.
-export var rope_width : float = 0.02
+@export var rope_width : float = 0.02
 
 ## Air friction while grappling
-export var friction : float = 0.1
+@export var friction : float = 0.1
 
 ## Grapple button (triggers grappling movement).  Be sure this button does not
 ## conflict with other functions.
-export (XRTools.Buttons) var grapple_button_id : int = XRTools.Buttons.VR_TRIGGER
+@export var grapple_button_action : String = "trigger_click"
 
 # Hook related variables
-var hook_object : Spatial = null
+var hook_object : Node3D = null
 var hook_local := Vector3(0,0,0)
 var hook_point := Vector3(0,0,0)
 
@@ -68,39 +68,42 @@ var hook_point := Vector3(0,0,0)
 var _grapple_button := false
 
 # Get line creation nodes
-onready var _line_helper : Spatial = $LineHelper
-onready var _line : CSGCylinder = $LineHelper/Line
+@onready var _line_helper : Node3D = $LineHelper
+@onready var _line : CSGCylinder3D = $LineHelper/Line
 
 # Get Controller node - consider way to universalize this if user wanted to
 # attach this to a gun instead of player's hand.  Could consider variable to
 # select controller instead.
-onready var _controller := ARVRHelpers.get_arvr_controller(self)
+@onready var _controller := XRHelpers.get_xr_controller(self)
 
 # Get Raycast node
-onready var _grapple_raycast : RayCast = $Grapple_RayCast
+@onready var _grapple_raycast : RayCast3D = $Grapple_RayCast
 
 # Get Grapple Target Node
-onready var _grapple_target : Spatial = $Grapple_Target
+@onready var _grapple_target : Node3D = $Grapple_Target
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementGrapple" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementGrapple" or super(name)
 
 
 # Function run when node is added to scene
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Skip if running in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
 	# Ensure grapple length is valid
-	var min_hook_length := 1.5 * ARVRServer.world_scale
+	var min_hook_length := 1.5 * XRServer.world_scale
 	if grapple_length < min_hook_length:
 		grapple_length = min_hook_length
 
 	# Set ray-cast
-	_grapple_raycast.cast_to = Vector3(0, 0, -grapple_length) * ARVRServer.world_scale
+	_grapple_raycast.target_position = Vector3(0, 0, -grapple_length) * XRServer.world_scale
 	_grapple_raycast.collision_mask = grapple_collision_mask
 
 	# Deal with line
@@ -111,7 +114,7 @@ func _ready():
 # Update grapple display objects
 func _process(_delta: float):
 	# Skip if running in the editor
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
 	# Update grapple line
@@ -119,7 +122,7 @@ func _process(_delta: float):
 		var line_length := (hook_point - _controller.global_transform.origin).length()
 		_line_helper.look_at(hook_point, Vector3.UP)
 		_line.height = line_length
-		_line.translation.z = line_length / -2
+		_line.position.z = line_length / -2
 		_line.visible = true
 	else:
 		_line.visible = false
@@ -142,7 +145,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Update grapple button
 	var old_grapple_button := _grapple_button
-	_grapple_button = _controller.is_button_pressed(grapple_button_id)
+	_grapple_button = _controller.is_button_pressed(grapple_button_action)
 
 	# Enable/disable grappling
 	var do_impulse := false
@@ -151,7 +154,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	elif _grapple_button and !old_grapple_button and _grapple_raycast.is_colliding():
 		hook_object = _grapple_raycast.get_collider()
 		hook_point = _grapple_raycast.get_collision_point()
-		hook_local = hook_object.global_transform.xform_inv(hook_point)
+		hook_local = hook_point * hook_object.global_transform
 		do_impulse = true
 		_set_grappling(true)
 
@@ -160,7 +163,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		return
 
 	# Get hook direction
-	hook_point = hook_object.global_transform.xform(hook_local)
+	hook_point = hook_object.global_transform * hook_local
 	var hook_vector := hook_point - _controller.global_transform.origin
 	var hook_length := hook_vector.length()
 	var hook_direction := hook_vector / hook_length
@@ -210,10 +213,12 @@ func _set_grappling(active: bool) -> void:
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
-	# Check the controller node
-	if !ARVRHelpers.get_arvr_controller(self):
-		return "This node must be within a branch of an ARVRController node"
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
 
-	# Call base class
-	return ._get_configuration_warning()
+	# Check the controller node
+	if !XRHelpers.get_xr_controller(self):
+		warnings.append("This node must be within a branch of an XRController3D node")
+
+	# Return warnings
+	return warnings

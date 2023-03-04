@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsPhysicsHand
 extends XRToolsHand
 
@@ -20,21 +20,21 @@ const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
 ## Additionally [XRToolsHandPhysicsBone] nodes can specify additional
 ## bone-specific collision layers - for example to give the fore-finger bone
 ## additional collision capabilities.
-export (int, LAYERS_3D_PHYSICS) var collision_layer : int = DEFAULT_LAYER
+@export_flags_3d_physics var collision_layer : int = DEFAULT_LAYER
 
 ## Bone collision margin applied to all [XRToolsHandPhysicsBone] children.
 ##
 ## This is used for fine-tuning the collision margins for all
 ## [XRToolsHandPhysicsBone] children in the hand.
-export var margin : float = 0.004
+@export var margin : float = 0.004
 
 ## Group applied to all [XRToolsHandPhysicsBone] children.
 ##
 ## This is used to set groups for every bone in the hand. Additionally
 ## [XRToolsHandPhysicsBone] nodes can specify additional bone-specific groups.
-export var bone_group : String = ""
+@export var bone_group : String = ""
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsPhysicsHand" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsPhysicsHand" or super(name)

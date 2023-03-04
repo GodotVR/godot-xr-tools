@@ -1,22 +1,27 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://6of4yjha4f0t"]
 
 [node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -624.0
-margin_bottom = -320.0
-rect_pivot_offset = Vector2( -421, -85 )
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 400.0
-margin_bottom = 280.0
-color = Color( 0, 0, 0, 0.87451 )
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 280.0
+color = Color(0, 0, 0, 0.87451)
 
 [node name="Description" type="RichTextLabel" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 390.0
-margin_bottom = 271.0
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 270.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
 text = "Climbing & Gliding Demo
 
 This scene demonstrates climbing, gliding, and wind using the following controls:

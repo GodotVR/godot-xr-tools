@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementPhysicalJump
 extends XRToolsMovementProvider
 
@@ -20,22 +20,22 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-export var order : int = 20
+@export var order : int = 20
 
 ## If true, jumps are detected via the players body (through the camera)
-export var body_jump_enable : bool = true
+@export var body_jump_enable : bool = true
 
 ## If true, the player jump is as high as the physical jump(no ground physics)
-export var body_jump_player_only : bool = false
+@export var body_jump_player_only : bool = false
 
 ## Body jump detection threshold (M/S^2)
-export var body_jump_threshold : float = 2.5
+@export var body_jump_threshold : float = 2.5
 
 ## If true, jumps are detected via the players arms (through the controllers)
-export var arms_jump_enable : bool = false
+@export var arms_jump_enable : bool = false
 
 ## Arms jump detection threshold (M/S^2)
-export var arms_jump_threshold : float = 5.0
+@export var arms_jump_threshold : float = 5.0
 
 
 # Node Positions
@@ -50,10 +50,10 @@ var _controller_right_velocity : SlidingAverage = SlidingAverage.new(5)
 
 
 # Node references
-onready var _origin_node := ARVRHelpers.get_arvr_origin(self)
-onready var _camera_node := ARVRHelpers.get_arvr_camera(self)
-onready var _controller_left_node := ARVRHelpers.get_left_controller(self)
-onready var _controller_right_node := ARVRHelpers.get_right_controller(self)
+@onready var _origin_node := XRHelpers.get_xr_origin(self)
+@onready var _camera_node := XRHelpers.get_xr_camera(self)
+@onready var _controller_left_node := XRHelpers.get_left_controller(self)
+@onready var _controller_right_node := XRHelpers.get_right_controller(self)
 
 
 # Sliding Average class
@@ -91,9 +91,9 @@ class SlidingAverage:
 		return _sum / _size
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementPhysicalJump" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementPhysicalJump" or super(name)
 
 
 # Perform jump detection
@@ -108,25 +108,27 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
-	# Verify the camera
-	if !ARVRHelpers.get_arvr_origin(self):
-		return "This node must be within a branch of an ARVROrigin node"
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
 
 	# Verify the camera
-	if !ARVRHelpers.get_arvr_camera(self):
-		return "Unable to find ARVRCamera"
+	if !XRHelpers.get_xr_origin(self):
+		warnings.append("This node must be within a branch of an XROrigin3D node")
+
+	# Verify the camera
+	if !XRHelpers.get_xr_camera(self):
+		warnings.append("Unable to find XRCamera3D")
 
 	# Verify the left controller
-	if !ARVRHelpers.get_left_controller(self):
-		return "Unable to find left ARVRController node"
+	if !XRHelpers.get_left_controller(self):
+		warnings.append("Unable to find left XRController3D node")
 
 	# Verify the right controller
-	if !ARVRHelpers.get_right_controller(self):
-		return "Unable to find left ARVRController node"
+	if !XRHelpers.get_right_controller(self):
+		warnings.append("Unable to find left XRController3D node")
 
-	# Call base class
-	return ._get_configuration_warning()
+	# Return warnings
+	return warnings
 
 
 # Detect the player jumping with their body (using the headset camera)
@@ -141,7 +143,7 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 		return;
 
 	# Correct for world-scale (convert to player units)
-	camera_vel /= ARVRServer.world_scale
+	camera_vel /= XRServer.world_scale
 
 	# Clamp the camera instantaneous velocity to +/- 2x the jump threshold
 	camera_vel = clamp(camera_vel, -2.0 * body_jump_threshold, 2.0 * body_jump_threshold)
@@ -173,8 +175,8 @@ func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 		return
 
 	# Correct for world-scale (convert to player units)
-	controller_left_vel /= ARVRServer.world_scale
-	controller_right_vel /= ARVRServer.world_scale
+	controller_left_vel /= XRServer.world_scale
+	controller_right_vel /= XRServer.world_scale
 
 	# Clamp the controller instantaneous velocity to +/- 2x the jump threshold
 	controller_left_vel = clamp(

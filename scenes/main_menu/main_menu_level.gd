@@ -1,5 +1,5 @@
-tool
-extends XRToolsSceneBase
+@tool
+extends DemoSceneBase
 
 func _update_demo_positions() -> void:
 	# Update and count the visible teleporters
@@ -16,7 +16,7 @@ func _update_demo_positions() -> void:
 	if count > 1:
 		var angle = 2.0 * PI / count
 		for i in count:
-			var t = Transform()
+			var t = Transform3D()
 			t.origin = Vector3(0.0, 0.0, -10.0)
 			t = t.rotated(Vector3.UP, angle * i)
 
@@ -24,10 +24,11 @@ func _update_demo_positions() -> void:
 
 
 func _ready():
+	super()
 	_update_demo_positions()
 
 	for teleporter in $Demos.get_children():
-		teleporter.connect("visibility_changed", self, "_update_demo_positions")
+		teleporter.connect("visibility_changed",_update_demo_positions)
 
 
 func _on_Demos_child_entered_tree(_node):

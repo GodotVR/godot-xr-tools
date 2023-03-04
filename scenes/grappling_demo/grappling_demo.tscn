@@ -1,107 +1,104 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=3 uid="uid://cvnl210i6nydl"]
 
-[ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" type="PackedScene" id=2]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_jump.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" type="PackedScene" id=6]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/godot-xr-tools/functions/function_pickup.tscn" type="PackedScene" id=8]
-[ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=9]
-[ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" type="PackedScene" id=10]
-[ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=11]
-[ext_resource path="res://scenes/grappling_demo/objects/moving_platforms.tscn" type="PackedScene" id=12]
-[ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=13]
-[ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scenes/main_menu/return to main menu.png" type="Texture" id=15]
-[ext_resource path="res://scenes/grappling_demo/objects/instructions.tscn" type="PackedScene" id=16]
-[ext_resource path="res://scenes/grappling_demo/objects/tower.tscn" type="PackedScene" id=18]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://c78tjrtiyqna8" path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_7xgbg"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_lm0po"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_n2v2n"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
+[ext_resource type="PackedScene" uid="uid://cvokcudrffkgc" path="res://addons/godot-xr-tools/functions/movement_glide.tscn" id="9"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://scenes/grappling_demo/objects/moving_platforms.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="13"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="14"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="15"]
+[ext_resource type="PackedScene" path="res://scenes/grappling_demo/objects/instructions.tscn" id="15_vd3ki"]
+[ext_resource type="PackedScene" uid="uid://lelocs2v705t" path="res://scenes/grappling_demo/objects/tower.tscn" id="18"]
 
-[node name="GrapplingDemo" instance=ExtResource( 1 )]
+[node name="GrapplingDemo" instance=ExtResource("1")]
+script = ExtResource("2_lm0po")
 
-[node name="ARVROrigin" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28 )
+[node name="XROrigin3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 28)
 
-[node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 6 )]
+[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_7xgbg")]
 
-[node name="MovementDirect" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 3 )]
-enabled = true
-order = 10
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("3")]
 max_speed = 3.0
 strafe = true
 
-[node name="MovementJump" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 5 )]
-jump_button_id = 7
+[node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5")]
+jump_button_action = "ax_button"
 
-[node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="3" instance=ExtResource( 8 )]
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("8")]
 ranged_enable = false
 
-[node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
+[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_n2v2n")]
 
-[node name="MovementDirect" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 3 )]
-enabled = true
-order = 10
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("3")]
 max_speed = 3.0
-strafe = false
 
-[node name="MovementTurn" parent="ARVROrigin/RightHand" index="2" instance=ExtResource( 7 )]
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("7")]
 
-[node name="MovementJump" parent="ARVROrigin/RightHand" index="3" instance=ExtResource( 5 )]
-jump_button_id = 7
+[node name="MovementJump" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5")]
+jump_button_action = "ax_button"
 
-[node name="MovementGrapple" parent="ARVROrigin/RightHand" index="4" instance=ExtResource( 2 )]
+[node name="MovementGrapple" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("2")]
 
-[node name="FunctionPickup" parent="ARVROrigin/RightHand" index="5" instance=ExtResource( 8 )]
+[node name="FunctionPickup" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("8")]
 ranged_enable = false
 
-[node name="PlayerBody" parent="ARVROrigin" index="3" instance=ExtResource( 11 )]
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("11")]
 
-[node name="MovementClimb" parent="ARVROrigin" index="4" instance=ExtResource( 4 )]
+[node name="MovementClimb" parent="XROrigin3D" index="4" instance=ExtResource("4")]
 
-[node name="MovementGlide" parent="ARVROrigin" index="5" instance=ExtResource( 9 )]
+[node name="MovementGlide" parent="XROrigin3D" index="5" instance=ExtResource("9")]
 
-[node name="BasicMap" parent="." index="1" instance=ExtResource( 13 )]
+[node name="BasicMap" parent="." index="1" instance=ExtResource("13")]
 
-[node name="ToMainMenu" parent="." index="2" instance=ExtResource( 14 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32 )
+[node name="ToMainMenu" parent="." index="2" instance=ExtResource("14")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 32)
 scene_base = NodePath("..")
-title = ExtResource( 15 )
+title = ExtResource("15")
 
-[node name="Instructions" parent="." index="3" instance=ExtResource( 16 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 24 )
+[node name="Instructions" parent="." index="3" instance=ExtResource("15_vd3ki")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 24)
 
-[node name="Towers" type="Spatial" parent="." index="4"]
+[node name="Towers" type="Node3D" parent="." index="4"]
 
-[node name="Tower1" parent="Towers" index="0" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -8 )
+[node name="Tower1" parent="Towers" index="0" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, -8)
 
-[node name="Tower2" parent="Towers" index="1" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8 )
+[node name="Tower2" parent="Towers" index="1" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -8)
 
-[node name="Tower3" parent="Towers" index="2" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, -8 )
+[node name="Tower3" parent="Towers" index="2" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, -8)
 
-[node name="Tower4" parent="Towers" index="3" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0 )
+[node name="Tower4" parent="Towers" index="3" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 0, 0)
 
-[node name="Tower5" parent="Towers" index="4" instance=ExtResource( 18 )]
+[node name="Tower5" parent="Towers" index="4" instance=ExtResource("18")]
 
-[node name="Tower6" parent="Towers" index="5" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0 )
+[node name="Tower6" parent="Towers" index="5" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 0, 0)
 
-[node name="Tower7" parent="Towers" index="6" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, 8 )
+[node name="Tower7" parent="Towers" index="6" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8, -2, 8)
 
-[node name="Tower8" parent="Towers" index="7" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8 )
+[node name="Tower8" parent="Towers" index="7" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8)
 
-[node name="Tower9" parent="Towers" index="8" instance=ExtResource( 18 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, 8 )
+[node name="Tower9" parent="Towers" index="8" instance=ExtResource("18")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8, -2, 8)
 
-[node name="MovingPlatformsLow" parent="." index="5" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0 )
+[node name="MovingPlatformsLow" parent="." index="5" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
 
-[node name="MovingPlatformsHigh" parent="." index="6" instance=ExtResource( 12 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0 )
+[node name="MovingPlatformsHigh" parent="." index="6" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
 rate = -10.0

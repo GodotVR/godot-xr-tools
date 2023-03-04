@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsGroundPhysicsSettings
 extends Resource
 
@@ -27,8 +27,7 @@ enum GroundPhysicsFlags {
 }
 
 ## Flags defining which ground velocities are enabled
-export (int, FLAGS,
-	"Move Drag",
+@export_flags("Move Drag",
 	"Move Traction",
 	"Move Max Slope",
 	"Jump Max Slope",
@@ -37,28 +36,28 @@ export (int, FLAGS,
 	"Bounce Threshold") var flags : int = 0
 
 ## Movement drag factor
-export var move_drag : float = 5.0
+@export var move_drag : float = 5.0
 
 ## Movement traction factor
-export var move_traction : float = 30.0
+@export var move_traction : float = 30.0
 
 ## Stop sliding on slope
-export var stop_on_slope : bool = true
+@export var stop_on_slope : bool = true
 
 ## Movement maximum slope
-export (float, 0.0, 85.0) var move_max_slope : float = 45.0
+@export_range(0.0, 85.0) var move_max_slope : float = 45.0
 
 ## Jump maximum slope
-export (float, 0.0, 85.0) var jump_max_slope : float = 45.0
+@export_range(0.0, 85.0) var jump_max_slope : float = 45.0
 
 ## Jump velocity
-export var jump_velocity : float = 3.0
+@export var jump_velocity : float = 3.0
 
 ## Ground bounciness (0 = no bounce, 1 = full bounciness)
-export var bounciness : float = 0.0
+@export var bounciness : float = 0.0
 
 ## Bounce threshold (skip bounce if velocity less than threshold)
-export var bounce_threshold : float = 1.0
+@export var bounce_threshold : float = 1.0
 
 
 # Handle class initialization with default parameters

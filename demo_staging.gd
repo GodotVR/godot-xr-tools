@@ -1,4 +1,4 @@
-tool
+@tool
 extends XRToolsStaging
 
 ## Introduction
@@ -23,6 +23,12 @@ extends XRToolsStaging
 # tracking data at this point.
 
 var scene_is_loaded : bool = false
+
+
+func _ready() -> void:
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 
 func _on_Staging_scene_loaded(_scene):
 	# We only show the press to continue the first time we load a scene

@@ -1,16 +1,16 @@
-tool
+@tool
 class_name XRToolsPoke
-extends Spatial
+extends Node3D
 
 
-export var enabled : bool = true setget set_enabled
-export var radius : float = 0.005 setget set_radius
-export var teleport_distance : float = 0.1 setget set_teleport_distance
-export var color : Color = Color(0.8, 0.8, 1.0, 0.5) setget set_color
+@export var enabled : bool = true: set = set_enabled
+@export var radius : float = 0.005: set = set_radius
+@export var teleport_distance : float = 0.1: set = set_teleport_distance
+@export var color : Color = Color(0.8, 0.8, 1.0, 0.5): set = set_color
 
 
 var is_ready = false
-var material : SpatialMaterial
+var material : StandardMaterial3D
 var target : Node ## Node we last started touching
 var last_collided_at : Vector3
 
@@ -29,7 +29,7 @@ func set_radius(new_radius : float) -> void:
 		_update_radius()
 
 func _update_radius() -> void:
-	var shape : SphereShape = $PokeBody/CollisionShape.shape
+	var shape : SphereShape3D = $PokeBody/CollisionShape.shape
 	if shape:
 		shape.radius = radius
 
@@ -39,7 +39,7 @@ func _update_radius() -> void:
 		mesh.height = radius * 2.0
 
 	if material:
-		$PokeBody/MeshInstance.set_surface_material(0, material)
+		$PokeBody/MeshInstance.set_surface_override_material(0, material)
 
 func set_teleport_distance(new_distance : float) -> void:
 	teleport_distance = new_distance
@@ -59,18 +59,18 @@ func _update_color() -> void:
 		material.albedo_color = color
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsPoke" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsPoke"
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Set as top level ensures we're placing this object in global space
-	$PokeBody.set_as_toplevel(true)
+	$PokeBody.set_as_top_level(true)
 
 	is_ready = true
-	material = SpatialMaterial.new()
+	material = StandardMaterial3D.new()
 	material.flags_unshaded = true
 	material.flags_transparent = true
 

@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/default_footstep.wav-dd12f9efdea3173225647961887739e0.sample"
+type="AudioStreamWAV"
+uid="uid://cddgfn5xkknr4"
+path="res://.godot/imported/default_footstep.wav-dd12f9efdea3173225647961887739e0.sample"
 
 [deps]
 
 source_file="res://assets/footsteps/default_footstep.wav"
-dest_files=[ "res://.import/default_footstep.wav-dd12f9efdea3173225647961887739e0.sample" ]
+dest_files=["res://.godot/imported/default_footstep.wav-dd12f9efdea3173225647961887739e0.sample"]
 
 [params]
 

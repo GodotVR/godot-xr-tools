@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsMovementCrouch
 extends XRToolsMovementProvider
 
@@ -6,7 +6,7 @@ extends XRToolsMovementProvider
 ## XR Tools Movement Provider for Crouching
 ##
 ## This script works with the [XRToolsPlayerBody] attached to the players
-## [ARVROrigin].
+## [XROrigin3D].
 ##
 ## While the player presses the crounch button, the height is overridden to
 ## the specified crouch height.
@@ -20,16 +20,16 @@ enum CrouchType {
 
 
 ## Movement provider order
-export var order : int = 10
+@export var order : int = 10
 
 ## Crouch height
-export var crouch_height : float = 1.0
+@export var crouch_height : float = 1.0
 
 ## Crouch button
-export (XRTools.Buttons) var crouch_button : int = XRTools.Buttons.VR_PAD
+@export var crouch_button_action : String = "primary_click"
 
 ## Type of crouching
-export (CrouchType) var crouch_type : int = CrouchType.HOLD_TO_CROUCH
+@export var crouch_type : CrouchType = CrouchType.HOLD_TO_CROUCH
 
 
 ## Crouching flag
@@ -40,12 +40,12 @@ var _crouch_button_down : bool = false
 
 
 # Controller node
-onready var _controller := ARVRHelpers.get_arvr_controller(self)
+@onready var _controller := XRHelpers.get_xr_controller(self)
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsMovementCrouch" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsMovementCrouch" or super(name)
 
 
 # Perform jump movement
@@ -55,7 +55,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 	# Detect crouch button down and pressed states
-	var crouch_button_down := _controller.is_button_pressed(crouch_button) != 0
+	var crouch_button_down := _controller.is_button_pressed(crouch_button_action)
 	var crouch_button_pressed := crouch_button_down and !_crouch_button_down
 	_crouch_button_down = crouch_button_down
 
@@ -81,10 +81,12 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 
 
 # This method verifies the movement provider has a valid configuration.
-func _get_configuration_warning():
-	# Check the controller node
-	if !ARVRHelpers.get_arvr_controller(self):
-		return "This node must be within a branch of an ARVRController node"
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
 
-	# Call base class
-	return ._get_configuration_warning()
+	# Check the controller node
+	if !XRHelpers.get_xr_controller(self):
+		warnings.append("This node must be within a branch of an XRController3D node")
+
+	# Return warnings
+	return warnings

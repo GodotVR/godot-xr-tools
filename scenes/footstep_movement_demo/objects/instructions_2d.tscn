@@ -1,23 +1,27 @@
-[gd_scene format=2]
+[gd_scene format=3 uid="uid://yev5htm4v2go"]
 
 [node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -624.0
-margin_bottom = -100.0
-rect_pivot_offset = Vector2( -421, -85 )
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 400.0
-margin_bottom = 500.0
-color = Color( 0, 0, 0, 0.87451 )
+layout_mode = 1
+offset_right = 400.0
+offset_bottom = 500.0
+color = Color(0, 0, 0, 0.87451)
 
 [node name="Description" type="RichTextLabel" parent="."]
-margin_left = 10.0
-margin_top = 10.0
-margin_right = 400.0
-margin_bottom = 480.0
-custom_constants/line_separation = -1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 470.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
 text = "Footstep Demo
 
 This scene demonstrates the footstep system.
@@ -30,25 +34,19 @@ Usage:
 	currently standing on.
 	
 - surface_audio.tscn
-	this is the node you can attach to a StaticBody
-	which lets you define the surface audio resource
-	
-	1) select a StaticBody and attach
-	a surface_audio.tscn to it
-	
-	2) select Resource, create a
-	new XRToolsSurfaceAudioType
-	
-	3) Name - fill in the the surface name to be used
-	for the footstep
-	
-	4) Walk Sounds and HitSound - fill with the desired
-	audio files
+	this is the node you can attach to a StaticBody which lets you
+	define the surface audio resource
+	1) select a StaticBody and attach a surface_audio.tscn to it
+	2) select Resource, create a new XRToolsSurfaceAudioType
+	3) Name - fill in the the surface name to be used for
+		the footstep
+
+	3) Walk Sounds and HitSound - fill with the desired audio files
+		3)a: Walk Sounds can be multiple ones
+		3)b: HitSound is the sound that is being played when
+				the player jumps
 		
-		4)a: Walk Sounds can be multiple ones
-		4)b: HitSound is the sound that is
-		being played when the player jumps
-		
-	5) WalkPitch Min/Max 
-		can be adjusted to create a randomized pitch scale
-		of the footstep audio"
+	4) WalkPitch Min/Max 
+		can be adjusted to create a randomized pitch scale of the
+		footstep audio
+	"

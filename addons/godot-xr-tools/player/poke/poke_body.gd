@@ -1,9 +1,9 @@
-extends RigidBody
+extends RigidBody3D
 
 # distance at which we teleport our poke body
-export var teleport_distance : float = 0.2
+@export var teleport_distance : float = 0.2
 
-func _integrate_forces(state: PhysicsDirectBodyState):
+func _integrate_forces(state: PhysicsDirectBodyState3D):
 	# get the position of our parent that we are following
 	var following_transform = get_parent().global_transform
 

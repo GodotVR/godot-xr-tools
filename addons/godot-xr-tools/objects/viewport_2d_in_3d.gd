@@ -1,5 +1,5 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 
 ## XR ToolsViewport 2D in 3D
@@ -33,45 +33,43 @@ const DEFAULT_LAYER := 0b0000_0000_0001_0000_0000_0000_0000_0001
 
 
 ## Viewport enabled property
-export var enabled : bool = true setget set_enabled
+@export var enabled : bool = true: set = set_enabled
 
 ## Screen size property
-export var screen_size : Vector2 = Vector2(3.0, 2.0) setget set_screen_size
+@export var screen_size : Vector2 = Vector2(3.0, 2.0): set = set_screen_size
 
 ## Viewport size property
-export var viewport_size : Vector2 = Vector2(300.0, 200.0) setget set_viewport_size
+@export var viewport_size : Vector2 = Vector2(300.0, 200.0): set = set_viewport_size
 
 ## Transparent property
-export (TransparancyMode) \
-		var transparent : int = TransparancyMode.TRANSPARENT setget set_transparent
+@export var transparent : TransparancyMode = TransparancyMode.TRANSPARENT: set = set_transparent
 
 ## Alpha Scissor Threshold property
-export var alpha_scissor_threshold : float = 0.25 setget set_alpha_scissor_threshold
+@export var alpha_scissor_threshold : float = 0.25: set = set_alpha_scissor_threshold
 
 ## Unshaded
-export var unshaded : bool = false setget set_unshaded
+@export var unshaded : bool = false: set = set_unshaded
 
 ## Scene property
-export var scene : PackedScene setget set_scene
+@export var scene : PackedScene: set = set_scene
 
 ## Display properties
-export var filter : bool = true setget set_filter
+@export var filter : bool = true: set = set_filter
 
 ## Update Mode property
-export (UpdateMode) var update_mode = UpdateMode.UPDATE_ALWAYS setget set_update_mode
+@export var update_mode : UpdateMode = UpdateMode.UPDATE_ALWAYS: set = set_update_mode
 
 ## Update throttle property
-export var throttle_fps : float = 30.0
+@export var throttle_fps : float = 30.0
 
 ## Collision layer
-export (int, LAYERS_3D_PHYSICS) \
-		var collision_layer : int = DEFAULT_LAYER setget set_collision_layer
+@export_flags_3d_physics var collision_layer : int = DEFAULT_LAYER: set = set_collision_layer
 
 
 var is_ready : bool = false
 var scene_node : Node
 var viewport_texture : ViewportTexture
-var material : SpatialMaterial
+var material : StandardMaterial3D
 var time_since_last_update : float = 0.0
 
 
@@ -80,10 +78,10 @@ func _ready():
 	is_ready = true
 
 	# Setup our viewport texture and material
-	material = SpatialMaterial.new()
+	material = StandardMaterial3D.new()
 	material.flags_unshaded = true
-	material.params_cull_mode = SpatialMaterial.CULL_DISABLED
-	$Screen.set_surface_material(0, material)
+	material.params_cull_mode = StandardMaterial3D.CULL_DISABLED
+	$Screen.set_surface_override_material(0, material)
 
 	# apply properties
 	_update_enabled()
@@ -121,11 +119,11 @@ func _on_pointer_exited():
 
 # Handler for input eventsd
 func _input(event):
-	$Viewport.input(event)
+	$Viewport.push_input(event)
 
 # Process event
 func _process(delta):
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		# Don't run in editor (will auto run on load)
 		set_process(false)
 		return
@@ -135,7 +133,7 @@ func _process(delta):
 		time_since_last_update += delta
 		if time_since_last_update > frame_time:
 			# Trigger update
-			$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+			$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 			time_since_last_update = 0.0
 	else:
 		# This is no longer needed
@@ -163,7 +161,7 @@ func set_viewport_size(new_size: Vector2) -> void:
 
 
 # Set transparent property
-func set_transparent(new_transparent: int) -> void:
+func set_transparent(new_transparent: TransparancyMode) -> void:
 	transparent = new_transparent
 	if is_ready:
 		_update_transparent()
@@ -197,7 +195,7 @@ func set_filter(new_filter: bool) -> void:
 		_update_filter()
 
 # Set update mode property
-func set_update_mode(new_update_mode: int) -> void:
+func set_update_mode(new_update_mode: UpdateMode) -> void:
 	update_mode = new_update_mode
 	if is_ready:
 		_update_update_mode()
@@ -212,17 +210,17 @@ func set_collision_layer(new_layer: int) -> void:
 
 # Enabled update handler
 func _update_enabled() -> void:
-	if Engine.editor_hint:
+	if Engine.is_editor_hint():
 		return
 
-	$StaticBody/CollisionShape.disabled = !enabled
+	$StaticBody3D/CollisionShape3D.disabled = !enabled
 
 
 # Screen size update handler
 func _update_screen_size() -> void:
 	$Screen.mesh.size = screen_size
-	$StaticBody.screen_size = screen_size
-	$StaticBody/CollisionShape.shape.extents = Vector3(
+	$StaticBody3D.screen_size = screen_size
+	$StaticBody3D/CollisionShape3D.shape.extents = Vector3(
 			screen_size.x * 0.5,
 			screen_size.y * 0.5,
 			0.01)
@@ -231,7 +229,7 @@ func _update_screen_size() -> void:
 # Viewport size update handler
 func _update_viewport_size() -> void:
 	$Viewport.size = viewport_size
-	$StaticBody.viewport_size = viewport_size
+	$StaticBody3D.viewport_size = viewport_size
 
 	# Update our viewport texture, it will have changed
 	viewport_texture = $Viewport.get_texture()
@@ -250,9 +248,9 @@ func _update_transparent() -> void:
 	$Viewport.transparent_bg = transparent != TransparancyMode.OPAQUE
 
 	# make sure we redraw the screen atleast once
-	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+	if Engine.is_editor_hint() or update_mode == UpdateMode.UPDATE_ONCE:
 		# this will trigger redrawing our screen
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 # Unshaded update handler
@@ -261,9 +259,9 @@ func _update_unshaded() -> void:
 		material.flags_unshaded = unshaded
 
 	# make sure we redraw the screen atleast once
-	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+	if Engine.is_editor_hint() or update_mode == UpdateMode.UPDATE_ONCE:
 		# this will trigger redrawing our screen
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 # Scene update handler
@@ -275,7 +273,7 @@ func _update_scene() -> void:
 
 	# in with the new
 	if scene:
-		scene_node = scene.instance()
+		scene_node = scene.instantiate()
 		$Viewport.add_child(scene_node)
 
 	# (or use the scene if there is one already under the Viewport)
@@ -283,40 +281,40 @@ func _update_scene() -> void:
 		scene_node = $Viewport.get_child(0)
 
 	# make sure we update atleast once
-	$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+	$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 # Filter update handler
 func _update_filter() -> void:
-	if viewport_texture:
-		viewport_texture.flags = Texture.FLAG_FILTER if filter else 0
+	if material:
+		material.texture_filter = BaseMaterial3D.TEXTURE_FILTER_LINEAR if filter else 0
 
 	# make sure we redraw the screen atleast once
-	if Engine.editor_hint or update_mode == UpdateMode.UPDATE_ONCE:
+	if Engine.is_editor_hint() or update_mode == UpdateMode.UPDATE_ONCE:
 		# this will trigger redrawing our screen
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 # Update mode handler
 func _update_update_mode() -> void:
-	if Engine.editor_hint:
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+	if Engine.is_editor_hint():
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		return
 
 	if update_mode == UpdateMode.UPDATE_ONCE:
 		# this will trigger redrawing our screen
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		set_process(false)
 	elif update_mode == UpdateMode.UPDATE_ALWAYS:
 		# redraw screen every frame
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ALWAYS
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ALWAYS
 		set_process(false)
 	elif update_mode == UpdateMode.UPDATE_THROTTLED:
 		# we will attempt to update the screen at the given framerate
-		$Viewport.render_target_update_mode = Viewport.UPDATE_ONCE
+		$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		set_process(true)
 
 
 # Collision layer update handler
 func _update_collision_layer() -> void:
-	$StaticBody.collision_layer = collision_layer
+	$StaticBody3D.collision_layer = collision_layer

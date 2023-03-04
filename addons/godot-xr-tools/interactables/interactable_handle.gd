@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsInteractableHandle
 extends XRToolsPickable
 
@@ -20,22 +20,25 @@ extends XRToolsPickable
 
 
 ## Distance from the handle origin to auto-snap the grab
-export var snap_distance : float = 0.3
+@export var snap_distance : float = 0.3
 
 
 # Handle origin spatial node
-onready var handle_origin: Spatial = get_parent()
+@onready var handle_origin: Node3D = get_parent()
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandle" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandle" or super(name)
 
 
 # Called when this handle is added to the scene
 func _ready() -> void:
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Ensure we start at our origin
-	transform = Transform.IDENTITY
+	transform = Transform3D.IDENTITY
 
 	# Turn off processing - it will be turned on only when held
 	set_process(false)
@@ -57,7 +60,7 @@ func _process(_delta: float) -> void:
 # Called when the handle is picked up
 func pick_up(by, with_controller) -> void:
 	# Call the base-class to perform the pickup
-	.pick_up(by, with_controller)
+	super(by, with_controller)
 
 	# Enable the process function while held
 	set_process(true)
@@ -66,18 +69,20 @@ func pick_up(by, with_controller) -> void:
 # Called when the handle is dropped
 func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	# Call the base-class to perform the drop, but with no velocity
-	.let_go(Vector3.ZERO, Vector3.ZERO)
+	super(Vector3.ZERO, Vector3.ZERO)
 
 	# Disable the process function as no-longer held
 	set_process(false)
 
 	# Snap the handle back to the origin
-	transform = Transform.IDENTITY
+	transform = Transform3D.IDENTITY
 
 
-# Check handle configuration
-func _get_configuration_warning() -> String:
-	if !transform.is_equal_approx(Transform.IDENTITY):
-		return "Interactable handle must have no transform from its parent handle origin"
+# Check handle configurationv
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
 
-	return ""
+	if !transform.is_equal_approx(Transform3D.IDENTITY):
+		warnings.append("Interactable handle must have no transform from its parent handle origin")
+
+	return warnings

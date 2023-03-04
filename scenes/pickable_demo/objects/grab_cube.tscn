@@ -1,27 +1,28 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://djkjuy7wct10q"]
 
-[ext_resource path="res://addons/godot-xr-tools/objects/pickable.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=3]
-[ext_resource path="res://scenes/pickable_demo/objects/grab_cube.gd" type="Script" id=4]
-[ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=5]
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="2"]
+[ext_resource type="Script" path="res://scenes/pickable_demo/objects/grab_cube.gd" id="2_xxt38"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="3"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="3_g1dne"]
 
-[sub_resource type="BoxShape" id=7]
+[sub_resource type="BoxShape3D" id="7"]
 margin = 0.01
-extents = Vector3( 0.05, 0.05, 0.05 )
+size = Vector3(0.1, 0.1, 0.1)
 
-[sub_resource type="CubeMesh" id=8]
-size = Vector3( 0.1, 0.1, 0.1 )
+[sub_resource type="BoxMesh" id="8"]
+size = Vector3(0.1, 0.1, 0.1)
 
-[node name="GrabCube" instance=ExtResource( 1 )]
-script = ExtResource( 4 )
-alternate_material = ExtResource( 5 )
+[node name="GrabCube" instance=ExtResource("1")]
+script = ExtResource("2_xxt38")
+alternate_material = ExtResource("3_g1dne")
+ranged_grab_method = 0
 
-[node name="CollisionShape" parent="." index="0"]
-shape = SubResource( 7 )
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("7")
 
-[node name="MeshInstance" type="MeshInstance" parent="." index="1"]
-mesh = SubResource( 8 )
-material/0 = ExtResource( 3 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="1"]
+mesh = SubResource("8")
+surface_material_override/0 = ExtResource("3")
 
-[node name="HighlightRing" parent="." index="2" instance=ExtResource( 2 )]
+[node name="HighlightRing" parent="." index="2" instance=ExtResource("2")]

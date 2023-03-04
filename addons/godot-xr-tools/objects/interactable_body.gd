@@ -1,5 +1,6 @@
 class_name XRToolsInteractableBody
-extends PhysicsBody
+extends Node3D
+# This should extend from PhysicsBody3D but https://github.com/godotengine/godot/issues/46073
 
 
 signal pointer_pressed(at)

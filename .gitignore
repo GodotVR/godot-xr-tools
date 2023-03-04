@@ -1,13 +1,12 @@
-# Godot files to ignore
+*.o
+*.os
 .import/
-
-# Filesystem files to ignore
+.godot/
+*.dblite
+*.exp
+*.lib
+*.obj
+*.TMP
 logs
 Thumbs.db
-.DS_Store
-
-# Addons sourced externally
-addons/godot-openxr/
-
-# Blender backup files
-*.blend1
+android/

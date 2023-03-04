@@ -1,5 +1,7 @@
-class_name XRToolsClimbable, "res://addons/godot-xr-tools/editor/icons/hand.svg"
-extends Spatial
+@tool
+@icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
+class_name XRToolsClimbable
+extends Node3D
 
 
 ## XR Tools Climbable Object
@@ -17,16 +19,16 @@ var press_to_hold : bool = true
 var grab_locations := {}
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsClimbable" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsClimbable"
 
 
 # Called by XRToolsFunctionPickup
 func is_picked_up() -> bool:
 	return false
 
-func can_pick_up(_by: Spatial) -> bool:
+func can_pick_up(_by: Node3D) -> bool:
 	return true
 
 # Called by XRToolsFunctionPickup when user presses the action button while holding this object
@@ -42,7 +44,7 @@ func decrease_is_closest():
 	pass
 
 # Called by XRToolsFunctionPickup when this is picked up by a controller
-func pick_up(by: Spatial, _with_controller: ARVRController) -> void:
+func pick_up(by: Node3D, _with_controller: XRController3D) -> void:
 	save_grab_location(by)
 
 # Called by XRToolsFunctionPickup when this is let go by a controller
@@ -50,9 +52,9 @@ func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	pass
 
 # Save the grab location
-func save_grab_location(p: Spatial):
+func save_grab_location(p: Node3D):
 	grab_locations[p.get_instance_id()] = to_local(p.global_transform.origin)
 
 # Get the grab location in world-space
-func get_grab_location(p: Spatial) -> Vector3:
+func get_grab_location(p: Node3D) -> Vector3:
 	return to_global(grab_locations[p.get_instance_id()])

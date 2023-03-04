@@ -1,13 +1,16 @@
-[gd_resource type="Environment" load_steps=3 format=2]
+[gd_resource type="Environment" load_steps=4 format=3 uid="uid://c75hc5t2ml5re"]
 
-[ext_resource path="res://assets/ambientcg.com/SkyOnlyHDRI023_2K-TONEMAPPED.jpg" type="Texture" id=1]
+[ext_resource type="Texture2D" uid="uid://dqoe1c5yn5dnv" path="res://assets/ambientcg.com/SkyOnlyHDRI023_2K-TONEMAPPED.jpg" id="1_hmp2i"]
 
-[sub_resource type="PanoramaSky" id=1]
-panorama = ExtResource( 1 )
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_5ed67"]
+panorama = ExtResource("1_hmp2i")
+
+[sub_resource type="Sky" id="1"]
+sky_material = SubResource("PanoramaSkyMaterial_5ed67")
 
 [resource]
 background_mode = 2
-background_sky = SubResource( 1 )
-background_sky_orientation = Basis( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025 )
-ambient_light_color = Color( 0.247059, 0.247059, 0.247059, 1 )
-ambient_light_sky_contribution = 0.5
+sky = SubResource("1")
+sky_rotation = Vector3(0, 0.523599, 0)
+ambient_light_color = Color(0.247059, 0.247059, 0.247059, 1)
+ambient_light_sky_contribution = 0.0

@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsFallDamage
 extends XRToolsMovementProvider
 
@@ -32,28 +32,31 @@ signal player_fall_damage(damage)
 
 
 ## Movement provider order
-export var order : int = 1000
+@export var order : int = 1000
 
 ## Ignore damage if player is launched up
-export var ignore_launch : bool = true
+@export var ignore_launch : bool = true
 
 ## Only take damage on ground
-export var ground_only : bool = false
+@export var ground_only : bool = false
 
 ## Acceleration limit
-export var damage_threshold : float = 8.0
+@export var damage_threshold : float = 8.0
 
 
-# Previous velocity
+## Previous velocity
 var _previous_velocity : Vector3 = Vector3.ZERO
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsFallDamage" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsFallDamage"
 
 
 func _ready():
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Set as always active
 	is_active = true
 

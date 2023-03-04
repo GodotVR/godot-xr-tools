@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsInteractableSlider
 extends XRToolsInteractableHandleDriven
 
@@ -11,7 +11,7 @@ extends XRToolsInteractableHandleDriven
 ## The slider translates itelf along its local X axis, and so should be
 ## placed as a child of a node to translate and rotate as appropriate.
 ##
-## The interactable slider is not a [RigidBody], and as such will not react
+## The interactable slider is not a [RigidBody3D], and as such will not react
 ## to any collisions.
 
 
@@ -20,39 +20,42 @@ signal slider_moved(position)
 
 
 ## Slider minimum limit
-export var slider_limit_min : float = 0.0
+@export var slider_limit_min : float = 0.0
 
 ## Slider maximum limit
-export var slider_limit_max : float = 1.0
+@export var slider_limit_max : float = 1.0
 
 ## Slider step size (zero for no steps)
-export var slider_steps : float = 0.0
+@export var slider_steps : float = 0.0
 
 ## Slider position
-export var slider_position : float = 0.0 setget _set_slider_position
+@export var slider_position : float = 0.0: set = _set_slider_position
 
 ## Default position
-export var default_position : float = 0.0
+@export var default_position : float = 0.0
 
 ## If true, the slider moves to the default position when released
-export var default_on_release : bool = false
+@export var default_on_release : bool = false
 
 
-# Add support for is_class on XRTools classes
-func is_class(name : String) -> bool:
-	return name == "XRToolsInteractableSlider" or .is_class(name)
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableSlider" or super(name)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	# In Godot 4 we must now manually call our super class ready function
+	super()
+
 	# Set the initial position to match the initial slider position value
-	transform = Transform(
+	transform = Transform3D(
 		Basis.IDENTITY,
 		Vector3(slider_position, 0.0, 0.0)
 	)
 
 	# Connect signals
-	if connect("released", self, "_on_slider_released"):
+	if released.connect(_on_slider_released):
 		push_error("Cannot connect slider released signal")
 
 
@@ -65,7 +68,7 @@ func _process(_delta: float) -> void:
 		offset_sum += handle.global_transform.origin - handle.handle_origin.global_transform.origin
 
 	# Rotate the offset sum vector from global into local coordinate space
-	offset_sum = global_transform.basis.xform_inv(offset_sum)
+	offset_sum = offset_sum * global_transform.basis
 
 	# Get the average displacement in the X axis
 	var offset := offset_sum.x / grabbed_handles.size()

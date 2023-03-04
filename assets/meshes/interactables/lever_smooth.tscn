@@ -1,94 +1,90 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=15 format=3 uid="uid://cs6dxfu5owcgo"]
 
-[ext_resource path="res://assets/wahooney.itch.io/blue_grid.tres" type="Material" id=1]
-[ext_resource path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" type="Script" id=2]
-[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=3]
-[ext_resource path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" type="Script" id=4]
-[ext_resource path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" type="PackedScene" id=5]
-[ext_resource path="res://assets/meshes/interactables/pose_grab_ball_left.tres" type="Resource" id=6]
-[ext_resource path="res://assets/meshes/interactables/pose_grab_ball_right.tres" type="Resource" id=7]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="3"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="4"]
+[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_tuhw3"]
+[ext_resource type="Resource" uid="uid://c5nxxsga5kesd" path="res://assets/meshes/interactables/pose_grab_ball_left.tres" id="6_rulf8"]
+[ext_resource type="Resource" uid="uid://dvvw0k7tqagx" path="res://assets/meshes/interactables/pose_grab_ball_right.tres" id="7_ue4vl"]
 
-[sub_resource type="BoxShape" id=1]
-extents = Vector3( 0.1, 0.3, 0.05 )
+[sub_resource type="BoxShape3D" id="1"]
+size = Vector3(0.2, 0.6, 0.1)
 
-[sub_resource type="CubeMesh" id=2]
-size = Vector3( 0.2, 0.6, 0.1 )
+[sub_resource type="BoxMesh" id="2"]
+size = Vector3(0.2, 0.6, 0.1)
 
-[sub_resource type="BoxShape" id=3]
-extents = Vector3( 0.02, 0.02, 0.1 )
+[sub_resource type="BoxShape3D" id="3"]
+size = Vector3(0.04, 0.04, 0.2)
 
-[sub_resource type="SphereShape" id=4]
+[sub_resource type="SphereShape3D" id="4"]
 radius = 0.06
 
-[sub_resource type="CubeMesh" id=5]
-size = Vector3( 0.04, 0.04, 0.2 )
+[sub_resource type="BoxMesh" id="5"]
+size = Vector3(0.04, 0.04, 0.2)
 
-[sub_resource type="SphereMesh" id=6]
+[sub_resource type="SphereMesh" id="6"]
 radius = 0.06
 height = 0.12
 radial_segments = 16
 rings = 8
 
-[sub_resource type="SphereShape" id=7]
+[sub_resource type="SphereShape3D" id="7"]
 margin = 0.12
 radius = 0.06
 
-[sub_resource type="SphereShape" id=8]
-margin = 0.12
-radius = 0.06
+[node name="LeverSmooth" type="Node3D"]
 
-[node name="LeverSmooth" type="Spatial"]
+[node name="Frame" type="StaticBody3D" parent="."]
 
-[node name="Frame" type="StaticBody" parent="."]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Frame"]
+shape = SubResource("1")
 
-[node name="CollisionShape" type="CollisionShape" parent="Frame"]
-shape = SubResource( 1 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Frame"]
+mesh = SubResource("2")
+surface_material_override/0 = ExtResource("1")
 
-[node name="MeshInstance" type="MeshInstance" parent="Frame"]
-mesh = SubResource( 2 )
-material/0 = ExtResource( 1 )
+[node name="LeverOrigin" type="Node3D" parent="."]
+transform = Transform3D(1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0, 0)
 
-[node name="LeverOrigin" type="Spatial" parent="."]
-transform = Transform( 1, -1.06581e-14, 0, 1.06581e-14, 1, 0, 0, 0, 1, 0, 0, 0 )
+[node name="InteractableLever" type="Node3D" parent="LeverOrigin"]
+script = ExtResource("2")
 
-[node name="InteractableLever" type="Spatial" parent="LeverOrigin"]
-script = ExtResource( 2 )
+[node name="HingeBody" type="StaticBody3D" parent="LeverOrigin/InteractableLever"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
 
-[node name="HingeBody" type="StaticBody" parent="LeverOrigin/InteractableLever"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
+[node name="BarCollision" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HingeBody"]
+shape = SubResource("3")
 
-[node name="BarCollision" type="CollisionShape" parent="LeverOrigin/InteractableLever/HingeBody"]
-shape = SubResource( 3 )
+[node name="HandleCollision" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HingeBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+shape = SubResource("4")
 
-[node name="HandleCollision" type="CollisionShape" parent="LeverOrigin/InteractableLever/HingeBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
-shape = SubResource( 4 )
+[node name="BarMesh" type="MeshInstance3D" parent="LeverOrigin/InteractableLever/HingeBody"]
+mesh = SubResource("5")
+surface_material_override/0 = ExtResource("3")
 
-[node name="BarMesh" type="MeshInstance" parent="LeverOrigin/InteractableLever/HingeBody"]
-mesh = SubResource( 5 )
-material/0 = ExtResource( 3 )
+[node name="HandleMesh" type="MeshInstance3D" parent="LeverOrigin/InteractableLever/HingeBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+mesh = SubResource("6")
+surface_material_override/0 = ExtResource("3")
 
-[node name="HandleMesh" type="MeshInstance" parent="LeverOrigin/InteractableLever/HingeBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1 )
-mesh = SubResource( 6 )
-material/0 = ExtResource( 3 )
+[node name="HandleOrigin" type="Node3D" parent="LeverOrigin/InteractableLever"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
-[node name="HandleOrigin" type="Spatial" parent="LeverOrigin/InteractableLever"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2 )
-
-[node name="InteractableHandle" type="RigidBody" parent="LeverOrigin/InteractableLever/HandleOrigin"]
+[node name="InteractableHandle" type="RigidBody3D" parent="LeverOrigin/InteractableLever/HandleOrigin"]
 collision_layer = 262144
 collision_mask = 0
-mode = 1
-script = ExtResource( 4 )
+freeze = true
+script = ExtResource("4")
 picked_up_layer = 0
 
-[node name="CollisionShape" type="CollisionShape" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle"]
-shape = SubResource( 7 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle"]
+shape = SubResource("7")
 
-[node name="HandPoseArea" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource( 5 )]
-left_pose = ExtResource( 6 )
-right_pose = ExtResource( 7 )
+[node name="HandPoseArea" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource("5_tuhw3")]
+left_pose = ExtResource("6_rulf8")
+right_pose = ExtResource("7_ue4vl")
 
-[node name="CollisionShape" type="CollisionShape" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle/HandPoseArea"]
-shape = SubResource( 8 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle/HandPoseArea"]
+shape = SubResource("7")

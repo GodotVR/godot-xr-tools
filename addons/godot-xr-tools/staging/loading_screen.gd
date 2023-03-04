@@ -1,5 +1,5 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 
 ## XR Tools Loading Screen
@@ -22,26 +22,26 @@ signal continue_pressed
 
 
 ## If true, the screen follows the camera
-export var follow_camera : bool = true setget set_follow_camera
+@export var follow_camera : bool = true: set = set_follow_camera
 
 ## Curve for following the camera
-export var follow_speed : Curve
+@export var follow_speed : Curve
 
 ## Splash screen texture
-export var splash_screen : Texture setget set_splash_screen
+@export var splash_screen : Texture2D: set = set_splash_screen
 
 ## Progress bar
-export (float, 0.0, 1.0, 0.01) var progress : float = 0.5 setget set_progress_bar
+@export_range(0.0, 1.0, 0.01) var progress : float = 0.5: set = set_progress_bar
 
 ## If true, the contine message is shown, if false the progress bar is visible.
-export var enable_press_to_continue : bool = false setget set_enable_press_to_continue
+@export var enable_press_to_continue : bool = false: set = set_enable_press_to_continue
 
 
 # Camera to track
-var _camera : ARVRCamera
+var _camera : XRCamera3D
 
 # Splash screen material
-var _splash_screen_material : SpatialMaterial
+var _splash_screen_material : StandardMaterial3D
 
 # Progress material
 var _progress_material : ShaderMaterial
@@ -49,7 +49,7 @@ var _progress_material : ShaderMaterial
 
 func _ready():
 	# Get materials
-	_splash_screen_material = $SplashScreen.get_surface_material(0)
+	_splash_screen_material = $SplashScreen.get_surface_override_material(0)
 	_progress_material = $ProgressBar.mesh.surface_get_material(0)
 
 	# Perform initial update
@@ -84,12 +84,12 @@ func _process(delta):
 	# Do rotation based on the curve
 	global_transform.basis = global_transform.basis.rotated(
 			Vector3.UP * sign(angle),
-			follow_speed.interpolate_baked(abs(angle) / PI) * delta
+			follow_speed.sample_baked(abs(angle) / PI) * delta
 	).orthonormalized()
 
 
 ## Set the camera to track
-func set_camera(p_camera : ARVRCamera) -> void:
+func set_camera(p_camera : XRCamera3D) -> void:
 	_camera = p_camera
 	_update_follow_camera()
 
@@ -101,7 +101,7 @@ func set_follow_camera(p_enabled : bool) -> void:
 
 
 ## Set the splash_screen texture property
-func set_splash_screen(p_splash_screen : Texture) -> void:
+func set_splash_screen(p_splash_screen : Texture2D) -> void:
 	splash_screen = p_splash_screen
 	_update_splash_screen()
 
@@ -130,7 +130,7 @@ func _update_splash_screen():
 
 func _update_progress_bar():
 	if _progress_material:
-		_progress_material.set_shader_param("progress", progress)
+		_progress_material.set_shader_parameter("progress", progress)
 
 
 func _update_enable_press_to_continue():

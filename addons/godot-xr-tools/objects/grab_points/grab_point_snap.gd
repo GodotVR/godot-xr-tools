@@ -1,4 +1,4 @@
-tool
+@tool
 class_name XRToolsGrabPointSnap
 extends XRToolsGrabPoint
 
@@ -10,17 +10,17 @@ extends XRToolsGrabPoint
 
 
 ## Require grab-by to be in the specified group
-export var require_group : String = ""
+@export var require_group : String = ""
 
 ## Deny grab-by if in the specified group
-export var exclude_group : String = ""
+@export var exclude_group : String = ""
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	# Add a Position3D child to help editor visibility
-	if Engine.editor_hint:
-		add_child(Position3D.new())
+	if Engine.is_editor_hint():
+		add_child(Marker3D.new())
 
 
 ## Test if a grabber can grab by this grab-point
@@ -38,11 +38,11 @@ func can_grab(_grabber : Node) -> bool:
 		return false
 
 	# Refuse if the grabber is not in the required group
-	if not require_group.empty() and not _grabber.is_in_group(require_group):
+	if not require_group.is_empty() and not _grabber.is_in_group(require_group):
 		return false
 
 	# Refuse if the grabber is in the excluded group
-	if not exclude_group.empty() and _grabber.is_in_group(exclude_group):
+	if not exclude_group.is_empty() and _grabber.is_in_group(exclude_group):
 		return false
 
 	# Allow the grab
