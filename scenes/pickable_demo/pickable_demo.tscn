@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://j53121pbwpsw"]
+[gd_scene load_steps=27 format=3 uid="uid://cp1qvegshx1lf"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
-[ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/BeltSnapZone.tscn" id="10_5odnk"]
+[ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/belt_snap_zone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
 [ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://chww0na0ryl1m" path="res://scenes/pickable_demo/objects/teacup.tscn" id="16_v5unt"]
 [ext_resource type="PackedScene" uid="uid://de0guxhrn5ouk" path="res://scenes/pickable_demo/objects/hammer.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://bxk2dud5pq1uf" path="res://scenes/pickable_demo/objects/knife.tscn" id="19_6grml"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" id="19_iqmkd"]
 
 [node name="PickableDemo" instance=ExtResource("1")]
 script = ExtResource("2_kjksy")
@@ -97,7 +98,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.8, 0)
 initial_object = NodePath("../Teacup")
 
 [node name="Teacup" parent="Table1/TeacupStand" index="8" instance=ExtResource("16_v5unt")]
-transform = Transform3D(1.91069e-15, 4.37114e-08, -1, 1, -4.37114e-08, 0, -4.37114e-08, -1, -4.37114e-08, 0.08, 0.205, 0.04)
+transform = Transform3D(4.81713e-09, 4.34452e-08, 1, 0.993909, -0.110203, 0, 0.110203, 0.993909, -4.37114e-08, 0.0796152, 0.205038, -0.0390518)
+collision_layer = 65536
+collision_mask = 0
+freeze = true
+
+[node name="XRToolsReturnToSnapZone" type="Node" parent="Table1/TeacupStand/Teacup" index="6"]
+script = ExtResource("19_iqmkd")
+snap_zone_path = NodePath("../../SnapZone1")
 
 [node name="Teacup" parent="Table1" index="12" instance=ExtResource("16_v5unt")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.235, 0.825, 0.266)
