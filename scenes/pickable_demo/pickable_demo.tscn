@@ -1,6 +1,6 @@
-[gd_scene load_steps=27 format=3 uid="uid://cp1qvegshx1lf"]
+[gd_scene load_steps=27 format=3]
 
-[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuw" path="res://addons/godot-xr-tools/staging/scene_base_minimum.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_kjksy"]
@@ -10,7 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="7_kskan"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
-[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/belt_snap_zone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]

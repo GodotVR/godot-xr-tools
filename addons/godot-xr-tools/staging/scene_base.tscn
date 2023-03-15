@@ -6,19 +6,3 @@
 [node name="SceneBase" type="Node3D"]
 script = ExtResource("1")
 environment = ExtResource("2")
-
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
-
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
-far = 300.0
-
-[node name="LeftHand" type="XRController3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
-tracker = &"left_hand"
-pose = &"aim"
-
-[node name="RightHand" type="XRController3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
-tracker = &"right_hand"
-pose = &"aim"

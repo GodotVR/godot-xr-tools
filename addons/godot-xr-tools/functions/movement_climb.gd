@@ -85,7 +85,7 @@ func _ready():
 
 
 ## Perform player physics movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, disabled: bool):
 	# Disable climbing if requested
 	if disabled or !enabled:
 		_set_climbing(false, player_body)
@@ -135,7 +135,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 
 ## Start or stop climbing
-func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
+func _set_climbing(active: bool, player_body: XRToolsBodyBase) -> void:
 	# Skip if no change
 	if active == is_active:
 		return

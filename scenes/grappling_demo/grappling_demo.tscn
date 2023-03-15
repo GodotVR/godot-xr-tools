@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://cvnl210i6nydl"]
+[gd_scene load_steps=19 format=3]
 
-[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuw" path="res://addons/godot-xr-tools/staging/scene_base_minimum.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://c78tjrtiyqna8" path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_7xgbg"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_lm0po"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://cvokcudrffkgc" path="res://addons/godot-xr-tools/functions/movement_glide.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="11"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body/player_body.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://scenes/grappling_demo/objects/moving_platforms.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="14"]

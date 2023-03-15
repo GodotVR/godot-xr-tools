@@ -95,7 +95,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsBodyBase, _disabled: bool):
 	# Update the spatial location of the foot
 	_update_foot_spatial()
 

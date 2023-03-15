@@ -49,7 +49,7 @@ func is_xr_class(name : String) -> bool:
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, _disabled: bool):
 	# Skip if the controller isn't active
 	if !_controller.get_is_active():
 		return

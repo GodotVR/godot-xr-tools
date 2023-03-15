@@ -35,10 +35,12 @@ func is_xr_class(name : String) -> bool:
 
 
 # Perform jump movement
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsBodyBase, _disabled: bool):
 	# Skip if the controller isn't active
 	if !_controller.get_is_active():
 		return
+
+	## TODO create method on player body for applying ground movement
 
 	# Apply forwards/backwards ground control
 	player_body.ground_control_velocity.y += _controller.get_vector2(input_action).y * max_speed

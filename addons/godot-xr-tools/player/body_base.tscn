@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt388y4ha5pdt"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/body_base.gd" id="1_c6hd1"]
+
+[node name="BodyBase" type="CharacterBody3D" groups=["player_body"]]
+script = ExtResource("1_c6hd1")

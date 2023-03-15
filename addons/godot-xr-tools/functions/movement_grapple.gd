@@ -137,7 +137,7 @@ func _process(_delta: float):
 
 
 # Perform grapple movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(delta: float, XRToolsBodyBase, disabled: bool):
 	# Disable if requested
 	if disabled or !enabled or !_controller.get_is_active():
 		_set_grappling(false)

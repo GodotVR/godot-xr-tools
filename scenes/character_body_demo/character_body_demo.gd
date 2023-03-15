@@ -1,14 +1,12 @@
-class_name DemoSceneBase
-extends XRToolsSceneBaseMinimum
+extends XRToolsSceneBaseCharacterBody
 
 func _ready():
 	super()
-
+	
 	var webxr_interface = XRServer.find_interface("WebXR")
 	if webxr_interface:
 		XRToolsUserSettings.webxr_primary_changed.connect(self._on_webxr_primary_changed)
 		_on_webxr_primary_changed(XRToolsUserSettings.get_real_webxr_primary())
-
 
 func _on_webxr_primary_changed(webxr_primary: int) -> void:
 	# Default to thumbstick.

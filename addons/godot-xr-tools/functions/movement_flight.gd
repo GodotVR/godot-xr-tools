@@ -120,7 +120,7 @@ func _ready():
 
 
 # Process physics movement for flight
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, disabled: bool):
 	# Disable flying if requested, or if no controller
 	if disabled or !enabled or !_controller.get_is_active():
 		set_flying(false)

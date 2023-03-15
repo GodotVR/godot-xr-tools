@@ -20,7 +20,7 @@ const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_1000
 @export var stick_strength : float = 9.8
 
 
-func physics_pre_movement(_delta: float, player_body: XRToolsPlayerBody):
+func physics_pre_movement(_delta: float, player_body: XRToolsBodyBase):
 	# Test for collision with wall under feet
 	var wall_collision := player_body.move_and_collide(
 		player_body.up_player_vector * -stick_distance, true, true, true)

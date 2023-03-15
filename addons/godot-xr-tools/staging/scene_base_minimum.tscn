@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://qbmx03iibuuw"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_xefqq"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/staging/scene_base_minimum.gd" id="2_kbidw"]
+
+[node name="SceneBaseMinimum" instance=ExtResource("1_xefqq")]
+script = ExtResource("2_kbidw")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." index="0"]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, 0.5)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+pose = &"aim"
