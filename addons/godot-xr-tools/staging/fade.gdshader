@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode depth_test_disabled, skip_vertex_transform, unshaded;
+render_mode depth_test_disabled, skip_vertex_transform, unshaded, cull_disabled;
 
 uniform float alpha = 0.0;
 
