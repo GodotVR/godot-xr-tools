@@ -10,7 +10,7 @@ size = Vector3(5, 1, 5)
 size = Vector3(5, 1, 5)
 
 [node name="Platform" type="StaticBody3D"]
-collision_layer = 262145
+collision_layer = 262161
 collision_mask = 0
 script = ExtResource("1")
 
