@@ -37,6 +37,7 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_2="dynamic_world"
 3d_physics/layer_3="object"
 3d_physics/layer_4="wall_walk"
+3d_physics/layer_5="grapple_target"
 3d_physics/layer_17="held_object"
 3d_physics/layer_18="player_hand"
 3d_physics/layer_19="handle"
