@@ -45,6 +45,7 @@ func _set_physics_layers() -> void:
 	ProjectSettings.set("layer_names/3d_physics/layer_2", "Dynamic World")
 	ProjectSettings.set("layer_names/3d_physics/layer_3", "Pickable Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_4", "Wall Walking")
+	ProjectSettings.set("layer_names/3d_physics/layer_5", "Grappling Target")
 	ProjectSettings.set("layer_names/3d_physics/layer_17", "Held Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_18", "Player Hands")
 	ProjectSettings.set("layer_names/3d_physics/layer_20", "Player Body")

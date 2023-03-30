@@ -1,5 +1,6 @@
 # 4.1.0 (development)
 - Enhanced grappling to support collision and target layers
+- Added Godot Editor XR Tools menu for layers and openxr configuration
 
 # 4.0.0
 - Conversion to Godot 4
