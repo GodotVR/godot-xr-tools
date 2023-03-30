@@ -1,0 +1,15 @@
+[gd_scene load_steps=5 format=3 uid="uid://gat40pixm75o"]
+
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/character_body/scene_base_character_body.tscn" id="1_5dvd6"]
+[ext_resource type="Script" path="res://scenes/character_body_demo/character_body_demo.gd" id="1_sw5fe"]
+[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="3_gkfvr"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="3_ww5ln"]
+
+[node name="PlayerBody2Demo" instance=ExtResource("1_5dvd6")]
+script = ExtResource("1_sw5fe")
+
+[node name="MovementDirect" parent="XRToolsCharacterBody/XROrigin3D/RightHand" index="0" instance=ExtResource("3_ww5ln")]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource("3_gkfvr")]
+
+[editable path="XRToolsCharacterBody"]

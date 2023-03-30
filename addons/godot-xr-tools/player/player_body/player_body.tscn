@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" uid="uid://bt388y4ha5pdt" path="res://addons/godot-xr-tools/player/body_base.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body/player_body.gd" id="2"]
+
+[node name="PlayerBody" instance=ExtResource("1") groups=["player_body"]]
+top_level = true
+collision_layer = 524288
+collision_mask = 1023
+script = ExtResource("2")

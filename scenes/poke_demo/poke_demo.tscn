@@ -1,6 +1,6 @@
-[gd_scene load_steps=34 format=3 uid="uid://b4fy6i3e7s08u"]
+[gd_scene load_steps=34 format=3]
 
-[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuw" path="res://addons/godot-xr-tools/staging/scene_base_minimum.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://xqimcf20s2jp" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="2"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_sgf8o"]
 [ext_resource type="PackedScene" uid="uid://bq86r4yll8po" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_fullglove_low.tscn" id="3"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://bv46odvo22fuv" path="res://scenes/poke_demo/objects/canvas.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="10"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/player_body/player_body.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="11"]
 [ext_resource type="PackedScene" path="res://scenes/poke_demo/objects/instructions.tscn" id="11_570m5"]
 [ext_resource type="PackedScene" uid="uid://cbcbffvk7xth4" path="res://assets/meshes/table/table.tscn" id="12"]

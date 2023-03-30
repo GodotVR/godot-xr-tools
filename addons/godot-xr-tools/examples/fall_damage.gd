@@ -61,7 +61,7 @@ func _ready():
 	is_active = true
 
 
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsBodyBase, disabled: bool):
 	# Skip if not enabled
 	if disabled or !enabled:
 		_previous_velocity = player_body.velocity

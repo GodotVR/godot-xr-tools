@@ -95,7 +95,7 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsMovementGlide" or super(name)
 
 
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, disabled: bool):
 	# Skip if disabled or either controller is off
 	if disabled or !enabled or \
 		!_left_controller.get_is_active() or \

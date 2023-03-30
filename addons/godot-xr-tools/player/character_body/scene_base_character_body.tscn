@@ -1,0 +1,10 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/character_body/scene_base_character_body.gd" id="1_sw5fe"]
+[ext_resource type="PackedScene" uid="uid://dxg3wp5j85yns" path="res://addons/godot-xr-tools/player/character_body/character_body.tscn" id="2_5d1jp"]
+
+[node name="CharacterBodyBase" instance=ExtResource("1")]
+script = ExtResource("1_sw5fe")
+
+[node name="XRToolsCharacterBody" parent="." index="0" instance=ExtResource("2_5d1jp")]

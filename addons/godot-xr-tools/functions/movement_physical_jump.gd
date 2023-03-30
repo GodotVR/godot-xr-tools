@@ -97,7 +97,7 @@ func is_xr_class(name : String) -> bool:
 
 
 # Perform jump detection
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, _disabled: bool):
 	# Handle detecting body jump
 	if body_jump_enable:
 		_detect_body_jump(delta, player_body)
@@ -132,7 +132,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 # Detect the player jumping with their body (using the headset camera)
-func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
+func _detect_body_jump(delta: float, player_body: XRToolsBodyBase) -> void:
 	# Get the camera instantaneous velocity
 	var new_camera_pos := _camera_node.transform.origin.y
 	var camera_vel := (new_camera_pos - _camera_position) / delta
@@ -157,7 +157,7 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 
 
 # Detect the player jumping with their arms (using the controllers)
-func _detect_arms_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
+func _detect_arms_jump(delta: float, player_body: XRToolsBodyBase) -> void:
 	# Skip if either of the controllers is disabled
 	if !_controller_left_node.get_is_active() or !_controller_right_node.get_is_active():
 		return

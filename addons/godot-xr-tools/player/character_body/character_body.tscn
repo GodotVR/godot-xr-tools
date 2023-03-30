@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxg3wp5j85yns"]
+
+[ext_resource type="PackedScene" uid="uid://bt388y4ha5pdt" path="res://addons/godot-xr-tools/player/body_base.tscn" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/character_body/character_body.gd" id="1_es10e"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hm5kk"]
+height = 1.6
+
+[node name="XRToolsCharacterBody" instance=ExtResource("1")]
+collision_layer = 524288
+collision_mask = 1023
+script = ExtResource("1_es10e")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+shape = SubResource("CapsuleShape3D_hm5kk")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." index="1"]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, -0.1)
+
+[node name="NeckJoint" type="Node3D" parent="XROrigin3D/XRCamera3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0.1)
+
+[node name="LeftHand" type="XRController3D" parent="XROrigin3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 1, -0.5)
+tracker = &"left_hand"
+pose = &"aim"
+
+[node name="RightHand" type="XRController3D" parent="XROrigin3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1, -0.5)
+tracker = &"right_hand"
+pose = &"aim"

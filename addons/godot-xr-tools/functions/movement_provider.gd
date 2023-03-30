@@ -16,7 +16,7 @@ extends Node
 
 
 ## Player body scene
-const PLAYER_BODY := preload("res://addons/godot-xr-tools/player/player_body.tscn")
+const PLAYER_BODY := preload("res://addons/godot-xr-tools/player/player_body/player_body.tscn")
 
 
 ## Enable movement provider
@@ -26,6 +26,17 @@ const PLAYER_BODY := preload("res://addons/godot-xr-tools/player/player_body.tsc
 ## If true, the movement provider is actively performing a move
 var is_active := false
 
+# Get our body object
+func _get_body_node() -> XRToolsBodyBase:
+	var character_body := XRToolsCharacterBody.find_instance(self)
+	if character_body:
+		return character_body
+
+	var player_body := XRToolsPlayerBody.find_instance(self)
+	if player_body:
+		return player_body
+
+	return null
 
 # If missing we need to add our [XRToolsPlayerBody]
 func _create_player_body_node():
@@ -35,10 +46,10 @@ func _create_player_body_node():
 		return
 
 	# Double check if it hasn't already been created by another movement function
-	var player_body := XRToolsPlayerBody.find_instance(self)
-	if !player_body:
+	var _body := _get_body_node()
+	if !_body:
 		# create our XRToolsPlayerBody node and add it into our tree
-		player_body = PLAYER_BODY.instantiate()
+		var player_body = PLAYER_BODY.instantiate()
 		player_body.set_name("PlayerBody")
 		xr_origin.add_child(player_body)
 		player_body.set_owner(get_tree().get_edited_scene_root())
@@ -54,19 +65,19 @@ func _ready():
 	# If we're in the editor, help the user out by creating our XRToolsPlayerBody node
 	# automatically when needed.
 	if Engine.is_editor_hint():
-		var player_body = XRToolsPlayerBody.find_instance(self)
-		if !player_body:
+		var _body = _get_body_node()
+		if !_body:
 			# This call needs to be deferred, we can't add nodes during scene construction
 			call_deferred("_create_player_body_node")
 
 
 ## Override this method to perform pre-movement updates to the PlayerBody
-func physics_pre_movement(_delta: float, _player_body: XRToolsPlayerBody):
+func physics_pre_movement(_delta: float, _player_body: XRToolsBodyBase):
 	pass
 
 
 ## Override this method to apply motion to the PlayerBody
-func physics_movement(_delta: float, _player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, _player_body: XRToolsBodyBase, _disabled: bool):
 	pass
 
 
@@ -78,8 +89,8 @@ func _get_configuration_warnings() -> PackedStringArray:
 	if !XRHelpers.get_xr_origin(self):
 		warnings.append("This node must be within a branch on an XROrigin3D node")
 
-	if !XRToolsPlayerBody.find_instance(self):
-		warnings.append("Missing PlayerBody node on the XROrigin3D")
+	if !_get_body_node():
+		warnings.append("Missing CharacterBody/PlayerBody node on the XROrigin3D")
 
 	# Verify movement provider is in the correct group
 	if !is_in_group("movement_providers"):

@@ -121,7 +121,7 @@ func _on_area_exited(area: Area3D):
 
 
 # Perform wind movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsBodyBase, _disabled: bool):
 	# Skip if no active wind area
 	if !_active_wind_area:
 		return
