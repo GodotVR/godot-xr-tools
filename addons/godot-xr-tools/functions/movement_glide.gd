@@ -68,7 +68,6 @@ export var wings_force : float = 1.0
 ## if set to 0, you need to reach head level with hands to rearm flaps
 export var rearm_distance_offset : float = 0.2
 
-
 ## Flap activated (when both controllers are near the ARVRCamera height)
 var flap_armed : bool = false
 
@@ -121,8 +120,9 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		var camera_position := _camera_node.global_transform.origin
 
 		# Check controllers position relative to head
-		var left_hand_over_head = camera_position.y < left_position.y + rearm_distance_offset
-		var right_hand_over_head = camera_position.y < right_position.y + rearm_distance_offset
+		var cam_local_y = _camera_node.translation.y
+		var left_hand_over_head = cam_local_y < _left_controller.translation.y + rearm_distance_offset
+		var right_hand_over_head = cam_local_y < _right_controller.translation.y + rearm_distance_offset
 		if left_hand_over_head && right_hand_over_head:
 			flap_armed = true
 
@@ -156,19 +156,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 			last_local_left_position = local_left_position
 			last_local_right_position = local_right_position
 
-	# If not falling, then not gliding
-	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
-	vertical_velocity += wings_impulse_velocity
-	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
-		_set_gliding(false)
-		return
-
 	# Calculate global left to right controller vector
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:
 		var angle = -left_to_right.dot(player_body.up_player_vector)
 		player_body.rotate_player(roll_turn_speed * delta * angle)
+
+	# If not falling, then not gliding
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	vertical_velocity += wings_impulse_velocity
+	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
+		_set_gliding(false)
+		return
 
 	# Set gliding based on hand separation
 	var separation := left_to_right.length() / ARVRServer.world_scale
