@@ -74,10 +74,10 @@ func get_real_webxr_primary() -> WebXRPrimary:
 
 ## Save the settings to file
 func save() -> void:
-	# Construct the settings dictionary
-	var data = {
+	# Convert the settings to a dictionary
+	var settings := {
 		"input" : {
-			"default_snap_turning" : snap_turning,
+			"default_snap_turning" : snap_turning
 		},
 		"player" : {
 			"height_adjust" : player_height_adjust
@@ -87,10 +87,18 @@ func save() -> void:
 		}
 	}
 
-	# Save to file
+	# Convert the settings dictionary to text
+	var settings_text := JSON.stringify(settings)
+
+	# Attempt to open the settings file for writing
 	var file := FileAccess.open(settings_file_name, FileAccess.WRITE)
-	if file:
-		file.store_line(JSON.stringify(data))
+	if not file:
+		push_warning("Unable to write to %s" % settings_file_name)
+		return
+
+	# Write the settings text to the file
+	file.store_line(settings_text)
+	file.close()
 
 
 ## Get the action associated with a WebXR primary choice
@@ -111,38 +119,42 @@ func _load() -> void:
 	# First reset our values
 	reset_to_defaults()
 
-	# Now attempt to load our settings file
+	# Skip if no settings file found
 	if !FileAccess.file_exists(settings_file_name):
 		return
 
-	# Attempt to open the file
+	# Attempt to open the settings file for reading
 	var file := FileAccess.open(settings_file_name, FileAccess.READ)
 	if not file:
+		push_warning("Unable to read from %s" % settings_file_name)
 		return
 
-	# Read the file as text
-	var text = file.get_as_text()
-	if text.is_empty():
-		return
+	# Read the settings text
+	var settings_text := file.get_as_text()
+	file.close()
 
-	# Parse the settings dictionary
-	var data : Dictionary = JSON.parse_string(text)
+	# Parse the settings text and verify it's a dictionary
+	var settings_raw = JSON.parse_string(settings_text)
+	if typeof(settings_raw) != TYPE_DICTIONARY:
+		push_warning("Settings file %s is corrupt" % settings_file_name)
+		return
 
 	# Parse our input settings
-	if data.has("input"):
-		var input : Dictionary = data["input"]
+	var settings : Dictionary = settings_raw
+	if settings.has("input"):
+		var input : Dictionary = settings["input"]
 		if input.has("default_snap_turning"):
 			snap_turning = input["default_snap_turning"]
 
 	# Parse our player settings
-	if data.has("player"):
-		var player : Dictionary = data["player"]
+	if settings.has("player"):
+		var player : Dictionary = settings["player"]
 		if player.has("height_adjust"):
 			player_height_adjust = player["height_adjust"]
 
 	# Parse our WebXR settings
-	if data.has("webxr"):
-		var webxr : Dictionary = data["webxr"]
+	if settings.has("webxr"):
+		var webxr : Dictionary = settings["webxr"]
 		if webxr.has("webxr_primary"):
 			webxr_primary = webxr["webxr_primary"]
 
