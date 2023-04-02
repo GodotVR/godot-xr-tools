@@ -10,6 +10,7 @@ extents = Vector3( 1.5, 4, 1.5 )
 size = Vector3( 3, 8, 3 )
 
 [node name="Tower" instance=ExtResource( 1 )]
+collision_layer = 262161
 
 [node name="CollisionShape" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, 0 )

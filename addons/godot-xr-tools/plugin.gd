@@ -2,6 +2,14 @@ tool
 extends EditorPlugin
 
 
+## Menu ID for setting the physics layers
+const MENU_ID_SET_PHYSICS_LAYERS := 1002
+
+
+# XR Tools popup menu
+var _xr_tools_menu : PopupMenu
+
+
 func _define_project_setting(
 		p_name : String,
 		p_type : int,
@@ -24,8 +32,36 @@ func _define_project_setting(
 	ProjectSettings.set_initial_value(p_name, p_default_val)
 
 
+func _set_physics_layers() -> void:
+	ProjectSettings.set("layer_names/3d_physics/layer_1", "Static World")
+	ProjectSettings.set("layer_names/3d_physics/layer_2", "Dynamic World")
+	ProjectSettings.set("layer_names/3d_physics/layer_3", "Pickable Objects")
+	ProjectSettings.set("layer_names/3d_physics/layer_4", "Wall Walking")
+	ProjectSettings.set("layer_names/3d_physics/layer_5", "Grappling Target")
+	ProjectSettings.set("layer_names/3d_physics/layer_17", "Held Objects")
+	ProjectSettings.set("layer_names/3d_physics/layer_18", "Player Hands")
+	ProjectSettings.set("layer_names/3d_physics/layer_19", "Grab Handles")
+	ProjectSettings.set("layer_names/3d_physics/layer_20", "Player Body")
+	ProjectSettings.set("layer_names/3d_physics/layer_21", "Pointable Objects")
+	ProjectSettings.set("layer_names/3d_physics/layer_22", "Hand Pose Areas")
+
+
+func _on_xr_tools_menu_pressed(id : int) -> void:
+	match id:
+		MENU_ID_SET_PHYSICS_LAYERS:
+			_set_physics_layers()
+			return
+
+
 func _enter_tree():
-	# our plugin is loaded
+	# Construct the popup menu
+	_xr_tools_menu = PopupMenu.new()
+	_xr_tools_menu.name = "XR Tools"
+	_xr_tools_menu.connect("id_pressed", self, "_on_xr_tools_menu_pressed")
+	add_tool_submenu_item("XR Tools", _xr_tools_menu)
+
+	# Add tool menu items
+	_xr_tools_menu.add_item("Set Physics Layers", MENU_ID_SET_PHYSICS_LAYERS)
 
 	# Add input grip threshold to the project settings
 	_define_project_setting(

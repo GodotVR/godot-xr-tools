@@ -68,6 +68,7 @@ export var wings_force : float = 1.0
 ## if set to 0, you need to reach head level with hands to rearm flaps
 export var rearm_distance_offset : float = 0.2
 
+
 ## Flap activated (when both controllers are near the ARVRCamera height)
 var flap_armed : bool = false
 
@@ -116,9 +117,6 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# If wings impulse is active, calculate flapping impulse
 	if wings_impulse:
-		# Get head position
-		var camera_position := _camera_node.global_transform.origin
-
 		# Check controllers position relative to head
 		var cam_local_y = _camera_node.translation.y
 		var left_hand_over_head = cam_local_y < _left_controller.translation.y + rearm_distance_offset

@@ -15,7 +15,6 @@
 [ext_resource path="res://scenes/pointer_demo/objects/color_change_cube.tscn" type="PackedScene" id=15]
 
 [node name="PointerDemo" instance=ExtResource( 1 )]
-environment = null
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 10 )]
 

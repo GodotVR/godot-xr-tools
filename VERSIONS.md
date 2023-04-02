@@ -1,3 +1,8 @@
+# 3.5.0 (maintenance)
+- Enhanced grappling to support collision and target layers
+- Added Godot Editor XR Tools menu for layers
+- Improved gliding to support roll-turning while flapping
+
 # 3.4.0
 - Fixed footstep resource leak and added jump sounds and footstep signal
 - Added grab-point switching to pickable objects

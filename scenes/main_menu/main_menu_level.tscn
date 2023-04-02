@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" type="PackedScene" id=2]
@@ -6,37 +6,25 @@
 [ext_resource path="res://assets/maps/basic_map.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_direct.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/basic_movement_demo/basic_movement_demo.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/godot-xr-tools/player/player_body.tscn" type="PackedScene" id=8]
 [ext_resource path="res://assets/meshes/teleport/teleport.tscn" type="PackedScene" id=9]
 [ext_resource path="res://scenes/basic_movement_demo/basic movement demo.png" type="Texture" id=10]
-[ext_resource path="res://scenes/teleport_demo/teleport_demo.tscn" type="PackedScene" id=11]
 [ext_resource path="res://scenes/teleport_demo/teleport movement demo.png" type="Texture" id=12]
 [ext_resource path="res://scenes/climbing_gliding_demo/climbing_gliding_demo.png" type="Texture" id=13]
-[ext_resource path="res://scenes/climbing_gliding_demo/climbing_gliding_demo.tscn" type="PackedScene" id=14]
-[ext_resource path="res://scenes/grappling_demo/grappling_demo.tscn" type="PackedScene" id=15]
 [ext_resource path="res://scenes/grappling_demo/grappling_demo.png" type="Texture" id=16]
 [ext_resource path="res://scenes/interactables_demo/interactables_demo.png" type="Texture" id=17]
-[ext_resource path="res://scenes/interactables_demo/interactables_demo.tscn" type="PackedScene" id=18]
-[ext_resource path="res://scenes/pointer_demo/pointer_demo.tscn" type="PackedScene" id=19]
 [ext_resource path="res://scenes/pointer_demo/pointer_demo.png" type="Texture" id=20]
-[ext_resource path="res://scenes/pickable_demo/pickable_demo.tscn" type="PackedScene" id=21]
 [ext_resource path="res://scenes/pickable_demo/pickable_demo.png" type="Texture" id=22]
 [ext_resource path="res://scenes/main_menu/main_menu_level.gd" type="Script" id=23]
-[ext_resource path="res://scenes/poke_demo/poke_demo.tscn" type="PackedScene" id=24]
 [ext_resource path="res://scenes/poke_demo/poke_demo.png" type="Texture" id=25]
 [ext_resource path="res://scenes/main_menu/objects/settings_ui.tscn" type="PackedScene" id=26]
 [ext_resource path="res://addons/godot-xr-tools/player/poke/poke.tscn" type="PackedScene" id=27]
 [ext_resource path="res://addons/godot-xr-tools/hands/materials/labglove.material" type="Material" id=28]
 [ext_resource path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" type="PackedScene" id=29]
-[ext_resource path="res://scenes/sprinting_demo/sprinting_demo.tscn" type="PackedScene" id=30]
 [ext_resource path="res://scenes/sprinting_demo/sprinting_demo.png" type="Texture" id=31]
 [ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.png" type="Texture" id=32]
-[ext_resource path="res://scenes/origin_gravity_demo/origin_gravity_demo.tscn" type="PackedScene" id=33]
 [ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.png" type="Texture" id=34]
-[ext_resource path="res://scenes/sphere_world_demo/sphere_world_demo.tscn" type="PackedScene" id=35]
 [ext_resource path="res://scenes/footstep_movement_demo/footstep movement demo.png" type="Texture" id=36]
-[ext_resource path="res://scenes/footstep_movement_demo/footstep_movement_demo.tscn" type="PackedScene" id=37]
 
 [sub_resource type="AnimationNodeAnimation" id=1]
 animation = "Grip"
@@ -67,7 +55,7 @@ nodes/OpenHand/node = SubResource( 4 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 5 )
 nodes/Trigger/position = Vector2( -360, 20 )
-node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [sub_resource type="AnimationNodeAnimation" id=7]
 animation = "Grip"
@@ -98,12 +86,15 @@ nodes/OpenHand/node = SubResource( 10 )
 nodes/OpenHand/position = Vector2( -600, 100 )
 nodes/Trigger/node = SubResource( 11 )
 nodes/Trigger/position = Vector2( -360, 40 )
-node_connections = [ "output", 0, "Grip", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2" ]
+node_connections = [ "output", 0, "Grip", "Grip", 0, "Trigger", "Grip", 1, "ClosedHand2", "Trigger", 0, "OpenHand", "Trigger", 1, "ClosedHand1" ]
 
 [node name="MainMenuLevel" instance=ExtResource( 1 )]
 script = ExtResource( 23 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 3 )]
+
+[node name="Skeleton" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature" index="0"]
+bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="BoneAttachment" type="BoneAttachment" parent="ARVROrigin/LeftHand/LeftHand/Hand_low_L/Armature/Skeleton" index="1"]
 transform = Transform( 0.54083, 0.840813, -0.0231736, -0.0826267, 0.0805243, 0.993322, 0.837064, -0.535303, 0.113023, 0.0399019, 0.0402828, -0.150096 )
@@ -125,6 +116,9 @@ strafe = true
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 2 )]
 hand_material_override = ExtResource( 28 )
+
+[node name="Skeleton" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature" index="0"]
+bones/9/bound_children = [ NodePath("BoneAttachment") ]
 
 [node name="mesh_Hand_low_R" parent="ARVROrigin/RightHand/RightHand/Hand_low_R/Armature/Skeleton" index="0"]
 material_override = ExtResource( 28 )
@@ -158,73 +152,73 @@ strafe = false
 [node name="ToBasicMovementDemo" parent="Demos" index="0" instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -10 )
 scene_base = NodePath("../..")
-scene = ExtResource( 7 )
+scene = "res://scenes/basic_movement_demo/basic_movement_demo.tscn"
 title = ExtResource( 10 )
 
 [node name="ToFootstepMovementDemo" parent="Demos" index="1" instance=ExtResource( 9 )]
 transform = Transform( 0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, 0.866025, -5, 0, -8.66025 )
 scene_base = NodePath("../..")
-scene = ExtResource( 37 )
+scene = "res://scenes/footstep_movement_demo/footstep_movement_demo.tscn"
 title = ExtResource( 36 )
 
 [node name="ToTeleportDemo" parent="Demos" index="2" instance=ExtResource( 9 )]
 transform = Transform( 0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, 0.5, -8.66025, 0, -5 )
 scene_base = NodePath("../..")
-scene = ExtResource( 11 )
+scene = "res://scenes/teleport_demo/teleport_demo.tscn"
 title = ExtResource( 12 )
 
 [node name="ToClimbingGlidingDemo" parent="Demos" index="3" instance=ExtResource( 9 )]
 transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10, 0, 4.37114e-07 )
 scene_base = NodePath("../..")
-scene = ExtResource( 14 )
+scene = "res://scenes/climbing_gliding_demo/climbing_gliding_demo.tscn"
 title = ExtResource( 13 )
 
 [node name="ToGrapplingDemo" parent="Demos" index="4" instance=ExtResource( 9 )]
 transform = Transform( -0.5, 0, 0.866025, 0, 1, 0, -0.866025, 0, -0.5, -8.66025, 0, 5 )
 scene_base = NodePath("../..")
-scene = ExtResource( 15 )
+scene = "res://scenes/grappling_demo/grappling_demo.tscn"
 title = ExtResource( 16 )
 
 [node name="ToInteractablesDemo" parent="Demos" index="5" instance=ExtResource( 9 )]
 transform = Transform( -0.866025, 0, 0.5, 0, 1, 0, -0.5, 0, -0.866025, -5, 0, 8.66025 )
 scene_base = NodePath("../..")
-scene = ExtResource( 18 )
+scene = "res://scenes/interactables_demo/interactables_demo.tscn"
 title = ExtResource( 17 )
 
 [node name="ToPointerDemo" parent="Demos" index="6" instance=ExtResource( 9 )]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8.74228e-07, 0, 10 )
 scene_base = NodePath("../..")
-scene = ExtResource( 19 )
+scene = "res://scenes/pointer_demo/pointer_demo.tscn"
 title = ExtResource( 20 )
 
 [node name="ToPickableDemo" parent="Demos" index="7" instance=ExtResource( 9 )]
 transform = Transform( -0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, -0.866025, 5, 0, 8.66025 )
 scene_base = NodePath("../..")
-scene = ExtResource( 21 )
+scene = "res://scenes/pickable_demo/pickable_demo.tscn"
 title = ExtResource( 22 )
 
 [node name="ToPokeDemo" parent="Demos" index="8" instance=ExtResource( 9 )]
 transform = Transform( -0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 8.66025, 0, 5 )
 scene_base = NodePath("../..")
-scene = ExtResource( 24 )
+scene = "res://scenes/poke_demo/poke_demo.tscn"
 title = ExtResource( 25 )
 
 [node name="ToSprintingDemo" parent="Demos" index="9" instance=ExtResource( 9 )]
 transform = Transform( 1.19249e-08, 0, -1, 0, 1, 0, 1, 0, 1.19249e-08, 10, 0, -1.19249e-07 )
 scene_base = NodePath("../..")
-scene = ExtResource( 30 )
+scene = "res://scenes/sprinting_demo/sprinting_demo.tscn"
 title = ExtResource( 31 )
 
 [node name="ToOriginGravityDemo" parent="Demos" index="10" instance=ExtResource( 9 )]
 transform = Transform( 0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, 0.5, 8.66025, 0, -5 )
 scene_base = NodePath("../..")
-scene = ExtResource( 33 )
+scene = "res://scenes/origin_gravity_demo/origin_gravity_demo.tscn"
 title = ExtResource( 32 )
 
 [node name="ToSphereWorldDemo" parent="Demos" index="11" instance=ExtResource( 9 )]
 transform = Transform( 0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 5, 0, -8.66025 )
 scene_base = NodePath("../..")
-scene = ExtResource( 35 )
+scene = "res://scenes/sphere_world_demo/sphere_world_demo.tscn"
 title = ExtResource( 34 )
 
 [node name="SettingsUI" parent="." index="3" instance=ExtResource( 26 )]
