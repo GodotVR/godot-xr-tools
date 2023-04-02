@@ -16,7 +16,7 @@ extends XRToolsMovementProvider
 @export var order : int = 10
 
 ## Movement speed
-@export var max_speed : float = 10.0
+@export var max_speed : float = 3.0
 
 ## If true, the player can strafe
 @export var strafe : bool = false

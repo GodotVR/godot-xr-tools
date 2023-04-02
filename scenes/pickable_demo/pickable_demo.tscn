@@ -33,7 +33,6 @@ script = ExtResource("2_kjksy")
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_8wi6c")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("7")]
-max_speed = 3.0
 strafe = true
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("8")]
@@ -43,7 +42,6 @@ ranged_angle = 10.0
 [node name="RightPhysicsHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("5_laayj")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("7")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("10")]
 

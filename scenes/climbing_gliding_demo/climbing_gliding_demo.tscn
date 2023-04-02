@@ -41,7 +41,6 @@ far = 400.0
 hand_material_override = ExtResource("8_cr7b0")
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 strafe = true
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("9")]
@@ -53,7 +52,6 @@ jump_button_action = "ax_button"
 hand_material_override = ExtResource("8_cr7b0")
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("4")]
 

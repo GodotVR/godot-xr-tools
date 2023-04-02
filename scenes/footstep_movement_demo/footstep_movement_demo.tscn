@@ -32,7 +32,6 @@ script = ExtResource("1_yauh3")
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("6")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 strafe = true
 
 [node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("9")]
@@ -45,7 +44,6 @@ crouch_button_action = "by_button"
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("8")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("7")]
 
@@ -58,8 +56,6 @@ crouch_button_action = "by_button"
 crouch_type = 1
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("4")]
-top_level = true
-body_forward_mix = 0.75
 
 [node name="MovementFootstep" parent="XROrigin3D" index="4" instance=ExtResource("10_e05iy")]
 default_surface_audio_type = SubResource("Resource_lclo7")
