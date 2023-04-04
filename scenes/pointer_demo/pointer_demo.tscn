@@ -19,13 +19,11 @@
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_j5kt2")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("7")]
-max_speed = 3.0
 strafe = true
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_rnrhb")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("7")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("9")]
 

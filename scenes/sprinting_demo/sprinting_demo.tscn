@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3]
+[gd_scene load_steps=22 format=3 uid="uid://puhb2afbwjvb"]
 
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5a8oj"]
@@ -39,7 +39,6 @@ hand_material_override = ExtResource("12")
 grab_distance = 0.1
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("11")]
-max_speed = 3.0
 strafe = true
 
 [node name="MovementJump" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("1")]
@@ -54,7 +53,6 @@ hand_material_override = ExtResource("12")
 grab_distance = 0.1
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("11")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("16_3bcyp")]
 

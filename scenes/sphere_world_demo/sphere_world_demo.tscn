@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://b5o25nkvyv8ho"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bx1xdisoqo1f6" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" id="4"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://chumpejwiub7f" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_tac_glove_low.tscn" id="10"]
 [ext_resource type="PackedScene" uid="uid://c78tjrtiyqna8" path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" id="11"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/movement_wall_walk.tscn" id="12"]
+[ext_resource type="PackedScene" uid="uid://bk6ban0hctyym" path="res://addons/godot-xr-tools/functions/movement_wall_walk.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://bgts3vpmjn6bb" path="res://addons/godot-xr-tools/functions/movement_wind.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="16"]
 [ext_resource type="PackedScene" uid="uid://cvokcudrffkgc" path="res://addons/godot-xr-tools/functions/movement_glide.tscn" id="17"]
@@ -48,7 +48,6 @@ grab_collision_mask = 6
 ranged_enable = false
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5")]
-max_speed = 3.0
 strafe = true
 
 [node name="MovementSprint" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6")]
@@ -66,7 +65,6 @@ grab_collision_mask = 6
 ranged_enable = false
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("5")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("16")]
 

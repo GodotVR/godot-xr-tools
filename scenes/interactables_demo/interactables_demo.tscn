@@ -33,7 +33,6 @@ script = ExtResource("2_a3nc2")
 [node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("3_s2g5l")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("8")]
-max_speed = 3.0
 strafe = true
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("7")]
@@ -44,7 +43,6 @@ ranged_enable = false
 [node name="FunctionPoseDetector" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("3_s2g5l")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("8")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("10")]
 
