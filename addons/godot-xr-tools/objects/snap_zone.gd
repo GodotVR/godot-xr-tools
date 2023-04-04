@@ -71,13 +71,14 @@ func _ready():
 	_update_snap_mode()
 
 	# Perform the initial object check when next idle
-	call_deferred("_initial_object_check")
+	if not Engine.is_editor_hint():
+		call_deferred("_initial_object_check")
 
 
 # Called on each frame to update the pickup
 func _process(_delta):
-	# Skip if not enabled
-	if not enabled:
+	# Skip if in editor or not enabled
+	if Engine.is_editor_hint() or not enabled:
 		return
 
 	# Skip if we aren't doing range-checking
