@@ -6,8 +6,8 @@ extends Spatial
 ## Scene base for the current scene
 export var scene_base: NodePath
 
-## Scene to teleport to, or none for main menu
-export var scene: PackedScene
+## Main scene file
+export (String, FILE, '*.tscn') var scene : String
 
 ## Title texture
 export var title: Texture setget _set_title
@@ -39,8 +39,8 @@ func _on_TeleportArea_body_entered(body: Spatial):
 		return
 
 	# Teleport
-	if scene:
-		_scene_base.load_scene(scene.resource_path)
+	if scene != "":
+		_scene_base.load_scene(scene)
 	else:
 		_scene_base.exit_to_main_menu()
 

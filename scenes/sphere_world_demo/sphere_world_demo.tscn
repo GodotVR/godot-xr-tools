@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=28 format=2]
 
 [ext_resource path="res://addons/godot-xr-tools/staging/scene_base.tscn" type="PackedScene" id=1]
 [ext_resource path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" type="Material" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_grapple.tscn" type="PackedScene" id=11]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wall_walk.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_wind.tscn" type="PackedScene" id=13]
+[ext_resource path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" type="Material" id=14]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_turn.tscn" type="PackedScene" id=16]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_glide.tscn" type="PackedScene" id=17]
 [ext_resource path="res://addons/godot-xr-tools/functions/movement_climb.tscn" type="PackedScene" id=18]
@@ -42,9 +43,9 @@ environment = ExtResource( 19 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0 )
 
 [node name="LeftHand" parent="ARVROrigin/LeftHand" index="0" instance=ExtResource( 4 )]
+hand_material_override = ExtResource( 14 )
 
 [node name="FunctionPickup" parent="ARVROrigin/LeftHand" index="1" instance=ExtResource( 8 )]
-grab_collision_mask = 6
 ranged_enable = false
 
 [node name="MovementDirect" parent="ARVROrigin/LeftHand" index="2" instance=ExtResource( 5 )]
@@ -62,9 +63,9 @@ jump_button_id = 7
 crouch_button = 1
 
 [node name="RightHand" parent="ARVROrigin/RightHand" index="0" instance=ExtResource( 10 )]
+hand_material_override = ExtResource( 14 )
 
 [node name="FunctionPickup" parent="ARVROrigin/RightHand" index="1" instance=ExtResource( 8 )]
-grab_collision_mask = 6
 ranged_enable = false
 ranged_collision_mask = 0
 
@@ -90,8 +91,6 @@ grapple_collision_mask = 3
 
 [node name="MovementGlide" parent="ARVROrigin" index="6" instance=ExtResource( 17 )]
 turn_with_roll = true
-wings_impulse = true
-is_sphere_planet = true
 
 [node name="MovementWallWalk" parent="ARVROrigin" index="7" instance=ExtResource( 12 )]
 

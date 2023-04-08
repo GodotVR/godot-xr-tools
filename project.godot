@@ -408,16 +408,17 @@ common/drop_mouse_on_gui_input_disabled=true
 
 [layer_names]
 
-3d_physics/layer_1="static_world"
-3d_physics/layer_2="dynamic_world"
-3d_physics/layer_3="object"
-3d_physics/layer_4="orientable_ground"
-3d_physics/layer_17="held_object"
-3d_physics/layer_18="player_hand"
-3d_physics/layer_19="handle"
-3d_physics/layer_20="player_body"
-3d_physics/layer_21="pointable"
-3d_physics/layer_22="pose_area"
+3d_physics/layer_1="Static World"
+3d_physics/layer_2="Dynamic World"
+3d_physics/layer_3="Pickable Objects"
+3d_physics/layer_4="Wall Walking"
+3d_physics/layer_5="Grappling Target"
+3d_physics/layer_17="Held Objects"
+3d_physics/layer_18="Player Hands"
+3d_physics/layer_19="Grab Handles"
+3d_physics/layer_20="Player Body"
+3d_physics/layer_21="Pointable Objects"
+3d_physics/layer_22="Hand Pose Areas"
 
 [physics]
 
@@ -429,4 +430,3 @@ quality/driver/driver_name="GLES2"
 vram_compression/import_etc=true
 vram_compression/import_etc2=false
 limits/time/time_rollover_secs=30.0
-environment/default_environment="res://default_env.tres"
