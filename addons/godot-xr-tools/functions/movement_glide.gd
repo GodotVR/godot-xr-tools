@@ -117,19 +117,17 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# If wings impulse is active, calculate flapping impulse
 	if wings_impulse:
-		# Get head position
-		var camera_position := _camera_node.global_transform.origin
-
 		# Check controllers position relative to head
-		var left_hand_over_head = camera_position.y < left_position.y + rearm_distance_offset
-		var right_hand_over_head = camera_position.y < right_position.y + rearm_distance_offset
+		var cam_local_y := _camera_node.position.y
+		var left_hand_over_head = cam_local_y < _left_controller.position.y + rearm_distance_offset
+		var right_hand_over_head = cam_local_y < _right_controller.position.y + rearm_distance_offset
 		if left_hand_over_head && right_hand_over_head:
 			flap_armed = true
 
 		if flap_armed:
 			# Get controller local positions
-			var local_left_position := _left_controller.transform.origin
-			var local_right_position := _right_controller.transform.origin
+			var local_left_position := _left_controller.position
+			var local_right_position := _right_controller.position
 
 			# Store last frame controller positions for the first step
 			if not _has_controller_positions:
@@ -156,19 +154,19 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 			last_local_left_position = local_left_position
 			last_local_right_position = local_right_position
 
-	# If not falling, then not gliding
-	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
-	vertical_velocity += wings_impulse_velocity
-	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
-		_set_gliding(false)
-		return
-
 	# Calculate global left to right controller vector
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:
 		var angle = -left_to_right.dot(player_body.up_player_vector)
 		player_body.rotate_player(roll_turn_speed * delta * angle)
+
+	# If not falling, then not gliding
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	vertical_velocity += wings_impulse_velocity
+	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
+		_set_gliding(false)
+		return
 
 	# Set gliding based on hand separation
 	var separation := left_to_right.length() / XRServer.world_scale

@@ -48,6 +48,7 @@ func _set_physics_layers() -> void:
 	ProjectSettings.set("layer_names/3d_physics/layer_5", "Grappling Target")
 	ProjectSettings.set("layer_names/3d_physics/layer_17", "Held Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_18", "Player Hands")
+	ProjectSettings.set("layer_names/3d_physics/layer_19", "Grab Handles")
 	ProjectSettings.set("layer_names/3d_physics/layer_20", "Player Body")
 	ProjectSettings.set("layer_names/3d_physics/layer_21", "Pointable Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_22", "Hand Pose Areas")
