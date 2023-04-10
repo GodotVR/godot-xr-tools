@@ -102,9 +102,9 @@ func get_scene_instance():
 
 
 # Connect a 2D scene signal
-func connect_scene_signal(which, on, callback):
+func connect_scene_signal(which : String, callback : Callable, flags : int = 0):
 	if scene_node:
-		scene_node.connect(which, on, callback)
+		scene_node.connect(which, callback, flags)
 
 
 # Handler for pointer entered
