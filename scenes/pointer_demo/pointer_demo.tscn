@@ -57,6 +57,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 2.5, -3)
 
 [node name="ColorChangeCube4" parent="." index="8" instance=ExtResource("15")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 1.7, -3)
-
-[connection signal="button_pressed" from="XROrigin3D/LeftHand" to="." method="_on_LeftHand_button_pressed"]
-[connection signal="button_pressed" from="XROrigin3D/RightHand" to="." method="_on_RightHand_button_pressed"]
