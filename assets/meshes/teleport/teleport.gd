@@ -13,16 +13,15 @@ extends Node3D
 @export var title: Texture2D: set = _set_title
 
 ## Can Teleporter be used
-@export var active := true
-
+@export var active: bool: set = _set_active
 
 # Scene base to trigger loading
 @onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
 
-
 func _ready():
 	_update_title()
-
+	_update_teleport()
+	
 
 # Called when the player enters the teleport area
 func _on_TeleportArea_body_entered(body: Node3D):
@@ -59,3 +58,12 @@ func _update_title():
 	if title:
 		var material: ShaderMaterial = $TeleportBody/Top.get_active_material(1)
 		material.set_shader_parameter("Title", title)
+
+func _set_active(value):
+	active = value
+	if is_inside_tree():
+		_update_teleport()
+		
+func _update_teleport():
+	$TeleportArea/Cylinder.visible = active
+
