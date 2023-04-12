@@ -2,6 +2,7 @@
 - Enhanced grappling to support collision and target layers
 - Added Godot Editor XR Tools menu for layers and openxr configuration
 - Improved gliding to support roll-turning while flapping
+- Added render_target_size_multiplier to StartXR (requires Godot 4.1+)
 
 # 4.0.0
 - Conversion to Godot 4
