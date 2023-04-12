@@ -4,9 +4,6 @@
 output_port_for_preview = 0
 function = 17
 
-[sub_resource type="VisualShaderNodeColorConstant" id="13"]
-constant = Color(0.169944, 0.249712, 0.97294, 1)
-
 [sub_resource type="VisualShaderNodeInput" id="14"]
 input_name = "time"
 
@@ -45,16 +42,23 @@ output_port_for_preview = 0
 expanded_output_ports = [0]
 input_name = "uv"
 
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_sreim"]
+expanded_output_ports = [0]
+parameter_name = "beam_color"
+default_value_enabled = true
+default_value = Color(0.168627, 0.25098, 0.972549, 1)
+
 [sub_resource type="VisualShader" id="22"]
 code = "shader_type spatial;
 render_mode blend_add, cull_disabled, unshaded;
 
+uniform vec4 beam_color : source_color = vec4(0.168627, 0.250980, 0.972549, 1.000000);
 
 
 
 void fragment() {
-// ColorConstant:19
-	vec4 n_out19p0 = vec4(0.169944, 0.249712, 0.972940, 1.000000);
+// ColorParameter:50
+	vec4 n_out50p0 = beam_color;
 
 
 // Input:2
@@ -106,7 +110,7 @@ void fragment() {
 
 
 // VectorOp:40
-	vec3 n_out40p0 = vec3(n_out19p0.xyz) * vec3(n_out49p0);
+	vec3 n_out40p0 = vec3(n_out50p0.xyz) * vec3(n_out49p0);
 
 
 // Output:0
@@ -116,7 +120,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-491.978, 45.2689)
+graph_offset = Vector2(118.2, -413.764)
 modes/blend = 1
 modes/cull = 2
 flags/unshaded = true
@@ -127,8 +131,6 @@ nodes/fragment/5/node = SubResource("21")
 nodes/fragment/5/position = Vector2(-580, 280)
 nodes/fragment/12/node = SubResource("8")
 nodes/fragment/12/position = Vector2(360, 160)
-nodes/fragment/19/node = SubResource("13")
-nodes/fragment/19/position = Vector2(1365, -84)
 nodes/fragment/25/node = SubResource("19")
 nodes/fragment/25/position = Vector2(-80, 20)
 nodes/fragment/26/node = SubResource("23")
@@ -145,8 +147,11 @@ nodes/fragment/48/node = SubResource("30")
 nodes/fragment/48/position = Vector2(1071, 42)
 nodes/fragment/49/node = SubResource("31")
 nodes/fragment/49/position = Vector2(1302, 84)
-nodes/fragment/connections = PackedInt32Array(2, 0, 25, 0, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 12, 0, 12, 0, 47, 2, 46, 0, 48, 0, 47, 0, 48, 1, 48, 0, 49, 0, 49, 0, 0, 1, 40, 0, 0, 0, 49, 0, 40, 1, 19, 0, 40, 0, 5, 2, 26, 0, 12, 0, 46, 2)
+nodes/fragment/50/node = SubResource("VisualShaderNodeColorParameter_sreim")
+nodes/fragment/50/position = Vector2(1160, -460)
+nodes/fragment/connections = PackedInt32Array(2, 0, 25, 0, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 12, 0, 12, 0, 47, 2, 46, 0, 48, 0, 47, 0, 48, 1, 48, 0, 49, 0, 49, 0, 0, 1, 40, 0, 0, 0, 49, 0, 40, 1, 5, 2, 26, 0, 12, 0, 46, 2, 50, 0, 40, 0)
 
 [resource]
 render_priority = 0
 shader = SubResource("22")
+shader_parameter/beam_color = Color(0.168627, 0.25098, 0.972549, 1)

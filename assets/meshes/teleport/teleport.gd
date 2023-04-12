@@ -13,7 +13,16 @@ extends Node3D
 @export var title: Texture2D: set = _set_title
 
 ## Can Teleporter be used
-@export var active: bool: set = _set_active
+@export var active: bool = true: set = _set_active
+
+## Is teleport beam visible if inactive
+@export var inactive_beam_visible: bool = false: set = _set_inactive_beam_visible
+
+## The beam color in active state
+@export var active_beam_color: Color = Color("#2b40f8"): set = _set_active_beam_color
+
+## The beam color in inactive state
+@export var inactive_beam_color: Color = Color("#ad0400"): set = _set_inactive_beam_color
 
 # Scene base to trigger loading
 @onready var _scene_base: XRToolsSceneBase = get_node(scene_base)
@@ -64,6 +73,25 @@ func _set_active(value):
 	if is_inside_tree():
 		_update_teleport()
 		
-func _update_teleport():
-	$TeleportArea/Cylinder.visible = active
+func _set_active_beam_color(value):
+	active_beam_color = value
+	if is_inside_tree():
+		_update_teleport()
 
+func _set_inactive_beam_color(value):
+	inactive_beam_color = value
+	if is_inside_tree():
+		_update_teleport()
+
+func _set_inactive_beam_visible(value):
+	inactive_beam_visible = value
+	if is_inside_tree():
+		_update_teleport()
+
+func _update_teleport():
+	if active:
+		$TeleportArea/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", active_beam_color)
+		$TeleportArea/Cylinder.visible = true
+	else:
+		$TeleportArea/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", inactive_beam_color)
+		$TeleportArea/Cylinder.visible = inactive_beam_visible
