@@ -6,7 +6,6 @@ func _update_demo_positions() -> void:
 	var count = 0
 	var visible_children := []
 	for teleporter in $Demos.get_children():
-		teleporter.active = teleporter.visible
 		teleporter.set_collision_disabled(!teleporter.visible)
 		if teleporter.visible:
 			count += 1

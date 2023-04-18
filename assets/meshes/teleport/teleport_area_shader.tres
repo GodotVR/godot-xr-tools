@@ -4,9 +4,6 @@
 output_port_for_preview = 0
 function = 17
 
-[sub_resource type="VisualShaderNodeColorConstant" id=13]
-constant = Color( 0.169944, 0.249712, 0.97294, 1 )
-
 [sub_resource type="VisualShaderNodeInput" id=14]
 input_name = "time"
 
@@ -43,10 +40,16 @@ default_input_values = [ 0, 1.0, 1, 0.4, 2, 0.0 ]
 output_port_for_preview = 0
 operator = 7
 
+[sub_resource type="VisualShaderNodeColorUniform" id=35]
+uniform_name = "beam_color"
+default_value_enabled = true
+default_value = Color( 0.168627, 0.25098, 0.972549, 1 )
+
 [sub_resource type="VisualShader" id=22]
 code = "shader_type spatial;
-render_mode blend_add, cull_disabled, specular_schlick_ggx, unshaded;
+render_mode blend_add, cull_disabled, specular_schlick_ggx, async_visible, unshaded;
 
+uniform vec4 beam_color : hint_color = vec4(0.168627, 0.250980, 0.972549, 1.000000);
 
 
 
@@ -56,9 +59,9 @@ void vertex() {
 }
 
 void fragment() {
-// Color:19
-	vec3 n_out19p0 = vec3(0.169944, 0.249712, 0.972940);
-	float n_out19p1 = 1.000000;
+// ColorUniform:53
+	vec3 n_out53p0 = beam_color.rgb;
+	float n_out53p1 = beam_color.a;
 
 // Input:2
 	float n_out2p0 = TIME;
@@ -98,7 +101,7 @@ void fragment() {
 	float n_out49p0 = n_out52p0 * n_in49p1;
 
 // VectorOp:40
-	vec3 n_out40p0 = n_out19p0 * vec3(n_out49p0);
+	vec3 n_out40p0 = n_out53p0 * vec3(n_out49p0);
 
 // Output:0
 	ALBEDO = n_out40p0;
@@ -111,7 +114,7 @@ void light() {
 
 }
 "
-graph_offset = Vector2( 736.672, -32.0883 )
+graph_offset = Vector2( -194.801, -246.485 )
 modes/blend = 1
 modes/cull = 2
 flags/unshaded = true
@@ -122,8 +125,6 @@ nodes/fragment/5/node = SubResource( 21 )
 nodes/fragment/5/position = Vector2( -360, 160 )
 nodes/fragment/12/node = SubResource( 8 )
 nodes/fragment/12/position = Vector2( 340, 60 )
-nodes/fragment/19/node = SubResource( 13 )
-nodes/fragment/19/position = Vector2( 1365, -84 )
 nodes/fragment/25/node = SubResource( 19 )
 nodes/fragment/25/position = Vector2( -140, -20 )
 nodes/fragment/26/node = SubResource( 23 )
@@ -140,7 +141,11 @@ nodes/fragment/51/node = SubResource( 33 )
 nodes/fragment/51/position = Vector2( 640, 140 )
 nodes/fragment/52/node = SubResource( 34 )
 nodes/fragment/52/position = Vector2( 980, 40 )
-nodes/fragment/connections = PoolIntArray( 2, 0, 25, 0, 5, 0, 26, 0, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 12, 0, 49, 0, 0, 1, 40, 0, 0, 0, 49, 0, 40, 1, 19, 0, 40, 0, 12, 0, 50, 2, 12, 0, 51, 2, 50, 0, 52, 0, 51, 0, 52, 1, 52, 0, 49, 0 )
+nodes/fragment/53/node = SubResource( 35 )
+nodes/fragment/53/position = Vector2( 1200, -220 )
+nodes/fragment/connections = PoolIntArray( 2, 0, 25, 0, 5, 0, 26, 0, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 12, 0, 49, 0, 0, 1, 40, 0, 0, 0, 49, 0, 40, 1, 12, 0, 50, 2, 12, 0, 51, 2, 50, 0, 52, 0, 51, 0, 52, 1, 52, 0, 49, 0, 53, 0, 40, 0 )
 
 [resource]
+resource_local_to_scene = true
 shader = SubResource( 22 )
+shader_param/beam_color = Color( 0.168627, 0.25098, 0.972549, 1 )
