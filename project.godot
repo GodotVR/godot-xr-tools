@@ -45,18 +45,11 @@ common/drop_mouse_on_gui_input_disabled=true
 3d_physics/layer_21="pointable"
 3d_physics/layer_22="pose_area"
 
-[physics]
-
-common/enable_pause_aware_picking=true
-
 [rendering]
 
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 limits/time/time_rollover_secs=30.0
-quality/driver/driver_name="GLES2"
-vram_compression/import_etc=true
-vram_compression/import_etc2=false
 
 [xr]
 
