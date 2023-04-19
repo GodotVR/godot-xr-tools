@@ -1,11 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://qbmx03iibuuu"]
+[gd_scene load_steps=2 format=3 uid="uid://qbmx03iibuuu"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/scene_base.gd" id="1"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="2"]
 
 [node name="SceneBase" type="Node3D"]
 script = ExtResource("1")
-environment = ExtResource("2")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 

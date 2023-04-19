@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://c3pffsm74as2t"]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5ptmo"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_r3l36"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="5_2ekvc"]
@@ -18,11 +19,11 @@
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
 script = ExtResource("2_5ptmo")
+environment = ExtResource("3_r3l36")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_54yy3")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 strafe = true
 
 [node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("10")]
@@ -35,7 +36,6 @@ crouch_button_action = "by_button"
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_0hbex")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("4")]
 
