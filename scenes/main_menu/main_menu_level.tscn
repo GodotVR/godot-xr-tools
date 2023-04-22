@@ -1,7 +1,8 @@
-[gd_scene load_steps=38 format=3 uid="uid://utga61rlgb3t"]
+[gd_scene load_steps=39 format=3]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/main_menu/main_menu_level.gd" id="2_taoax"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_155kd"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="4_eoo0b"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="5"]
@@ -90,6 +91,7 @@ node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &
 
 [node name="MainMenuLevel" instance=ExtResource("1")]
 script = ExtResource("2_taoax")
+environment = ExtResource("3_155kd")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("23_pr05t")]
 

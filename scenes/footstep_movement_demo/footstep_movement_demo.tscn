@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://di3m8og7wdtw7"]
+[gd_scene load_steps=20 format=3]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="3"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_1ck1y"]
 [ext_resource type="PackedScene" uid="uid://mnoirgubr2js" path="res://scenes/footstep_movement_demo/objects/instructions.tscn" id="3_8248t"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
@@ -28,6 +29,7 @@ walk_pitch_maximum = 1.2
 
 [node name="FootstepMovementDemo" instance=ExtResource("1")]
 script = ExtResource("1_yauh3")
+environment = ExtResource("3_1ck1y")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("6")]
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=22 format=3 uid="uid://puhb2afbwjvb"]
+[gd_scene load_steps=23 format=3]
 
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5a8oj"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_27am1"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="6"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="7"]
@@ -31,6 +32,7 @@ point_count = 7
 
 [node name="SprintingDemo" instance=ExtResource("6")]
 script = ExtResource("2_5a8oj")
+environment = ExtResource("3_27am1")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("7")]
 hand_material_override = ExtResource("12")
