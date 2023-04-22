@@ -1,4 +1,4 @@
-# 4.1.0 (development)
+# 4.1.0
 - Enhanced grappling to support collision and target layers
 - Added Godot Editor XR Tools menu for layers and openxr configuration
 - Improved gliding to support roll-turning while flapping
