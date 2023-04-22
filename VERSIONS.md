@@ -1,4 +1,4 @@
-# 3.5.0 (maintenance)
+# 3.5.0
 - Enhanced grappling to support collision and target layers
 - Added Godot Editor XR Tools menu for layers
 - Improved gliding to support roll-turning while flapping
