@@ -208,7 +208,7 @@ static func find_right(node : Node) -> XRToolsFunctionPickup:
 
 
 ## Get the [ARVRController] driving this pickup.
-func get_controller() -> ARVRController:
+func get_controller() -> Node:
 	return _controller
 
 

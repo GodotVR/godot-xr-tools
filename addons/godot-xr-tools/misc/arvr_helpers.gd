@@ -79,18 +79,24 @@ static func get_arvr_camera(node: Node, path: NodePath = NodePath("")) -> ARVRCa
 ## The caller may provide an optional path (relative to the node) to the
 ## [ARVRController] to support out-of-tree searches.
 ##
+
 ## The search is performed assuming the node is under the [ARVRController].
-static func get_arvr_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
-	var controller: ARVRController
+static func get_arvr_controller(node: Node, path: NodePath = NodePath("")) -> Node:
+	var controller: Node
 
 	# Try using the node path first
 	if path:
-		controller = node.get_node(path) as ARVRController
-		if controller:
+		controller = node.get_node(path)
+		if controller and controller.has_signal("button_pressed"):
 			return controller
 
 	# Search up from the node for the controller
-	return XRTools.find_ancestor(node, "*", "ARVRController") as ARVRController
+	# XRTools.find_ancestor(node, "*", "ARVRController") as ARVRController
+	while node:
+		if node.has_signal("button_pressed"):
+			break
+		node = node.get_parent()
+	return node
 
 ## Find the Left Hand Controller from a player node and an optional path
 static func get_left_controller(node: Node, path: NodePath = NodePath("")) -> ARVRController:
