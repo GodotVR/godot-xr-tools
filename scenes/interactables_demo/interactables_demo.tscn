@@ -1,7 +1,6 @@
-[gd_scene load_steps=26 format=3]
+[gd_scene load_steps=26 format=3 uid="uid://bqx54elivcbcj"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_a3nc2"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="3"]
@@ -25,6 +24,7 @@
 [ext_resource type="PackedScene" uid="uid://dtrftty6i383g" path="res://assets/meshes/interactables/joystick_zero.tscn" id="19"]
 [ext_resource type="PackedScene" uid="uid://d2td5hwh2oluy" path="res://assets/meshes/interactables/wheel_smooth.tscn" id="20"]
 [ext_resource type="PackedScene" uid="uid://dbv1hvxufc1al" path="res://assets/meshes/interactables/push_button.tscn" id="21"]
+[ext_resource type="PackedScene" uid="uid://b1e34ivxmaoi7" path="res://assets/maps/holodeck_map.tscn" id="25_f2g0r"]
 
 [node name="InteractablesDemo" instance=ExtResource("1")]
 script = ExtResource("2_a3nc2")
@@ -53,7 +53,7 @@ ranged_enable = false
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9")]
 
-[node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("25_f2g0r")]
 
 [node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)

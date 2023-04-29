@@ -124,7 +124,7 @@ shape = SubResource("5")
 surface_audio_type = SubResource("Resource_58enk")
 
 [node name="plate_puddle" parent="." instance=ExtResource("3")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, -12)
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -8, 0, -14)
 
 [node name="Plane" parent="plate_puddle" index="0"]
 material_override = ExtResource("6")
@@ -138,7 +138,7 @@ shape = SubResource("1")
 surface_audio_type = SubResource("Resource_rpp4f")
 
 [node name="plate_mud" parent="." instance=ExtResource("3")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, 0)
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 8, 0, 2)
 
 [node name="Plane" parent="plate_mud" index="0"]
 material_override = ExtResource("4")
@@ -152,7 +152,7 @@ shape = SubResource("2")
 surface_audio_type = SubResource("Resource_rwibv")
 
 [node name="plate_grass" parent="." instance=ExtResource("3")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -7, 0, 1)
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, -8, 0, 2)
 
 [node name="Plane" parent="plate_grass" index="0"]
 material_override = ExtResource("5")
@@ -166,7 +166,7 @@ shape = SubResource("3")
 surface_audio_type = SubResource("Resource_53y85")
 
 [node name="plate_snow" parent="." instance=ExtResource("3")]
-transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 7, 0, -12)
+transform = Transform3D(4, 0, 0, 0, 1, 0, 0, 0, 4, 8, 0, -14)
 
 [node name="Plane" parent="plate_snow" index="0"]
 material_override = SubResource("StandardMaterial3D_qcyph")
