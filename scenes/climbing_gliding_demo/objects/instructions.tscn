@@ -2,10 +2,10 @@
 
 [ext_resource type="PackedScene" uid="uid://6of4yjha4f0t" path="res://scenes/climbing_gliding_demo/objects/instructions_2d.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="2"]
-[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="3"]
+[ext_resource type="Material" path="res://assets/maps/holodeck/materials/base.material" id="3_scpyq"]
 
 [sub_resource type="BoxMesh" id="1"]
-material = ExtResource("3")
+material = ExtResource("3_scpyq")
 size = Vector3(4.2, 3, 0.1)
 
 [node name="Instructions" type="Node3D"]

@@ -68,7 +68,7 @@ scene_base = NodePath("..")
 title = ExtResource("10")
 
 [node name="Instructions" parent="." index="2" instance=ExtResource("3_8248t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12)
 
 [node name="surface_objects" parent="." index="3" instance=ExtResource("12")]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 6)
