@@ -98,7 +98,7 @@ void fragment() {
 
 }
 "
-graph_offset = Vector2(-334.805, -183.955)
+graph_offset = Vector2(-643.693, -65.0522)
 flags/unshaded = true
 nodes/vertex/0/position = Vector2(600, 0)
 nodes/vertex/2/node = SubResource("VisualShaderNodeInput_kkkmo")
