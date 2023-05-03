@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5ptmo"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_r3l36"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_xhf7c"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="5_2ekvc"]
@@ -15,11 +15,11 @@
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="12"]
 [ext_resource type="PackedScene" uid="uid://dipg8euybm3f1" path="res://scenes/basic_movement_demo/objects/instructions.tscn" id="12_qasi6"]
-[ext_resource type="PackedScene" uid="uid://b1e34ivxmaoi7" path="res://assets/maps/holodeck_map.tscn" id="16_v54dt"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="16_v54dt"]
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
 script = ExtResource("2_5ptmo")
-environment = ExtResource("3_r3l36")
+environment = ExtResource("3_xhf7c")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_54yy3")]
 

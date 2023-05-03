@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_a3nc2"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_ho402"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="3"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_ikpct"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_4y0ws"]
 [ext_resource type="PackedScene" uid="uid://bft3xyxs31ci3" path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" id="3_s2g5l"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://dukyhft262nrv" path="res://assets/meshes/interactables/slider_snap.tscn" id="5"]
@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="10"]
-[ext_resource type="PackedScene" path="res://scenes/interactables_demo/objects/instructions.tscn" id="11_txloh"]
+[ext_resource type="PackedScene" uid="uid://d0g2s2yli7iqp" path="res://scenes/interactables_demo/objects/instructions.tscn" id="11_txloh"]
 [ext_resource type="PackedScene" uid="uid://cpwdvy41fqdua" path="res://assets/meshes/interactables/slider_smooth.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://hv8nnbkuccxi" path="res://assets/meshes/interactables/slider_zero.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://cs6dxfu5owcgo" path="res://assets/meshes/interactables/lever_smooth.tscn" id="14"]
@@ -24,11 +24,11 @@
 [ext_resource type="PackedScene" uid="uid://dtrftty6i383g" path="res://assets/meshes/interactables/joystick_zero.tscn" id="19"]
 [ext_resource type="PackedScene" uid="uid://d2td5hwh2oluy" path="res://assets/meshes/interactables/wheel_smooth.tscn" id="20"]
 [ext_resource type="PackedScene" uid="uid://dbv1hvxufc1al" path="res://assets/meshes/interactables/push_button.tscn" id="21"]
-[ext_resource type="PackedScene" uid="uid://b1e34ivxmaoi7" path="res://assets/maps/holodeck_map.tscn" id="25_f2g0r"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="25_f2g0r"]
 
 [node name="InteractablesDemo" instance=ExtResource("1")]
 script = ExtResource("2_a3nc2")
-environment = ExtResource("3_ikpct")
+environment = ExtResource("3_4y0ws")
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_ho402")]
 

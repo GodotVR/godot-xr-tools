@@ -3,22 +3,22 @@
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="2"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_pbiwr"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_4fh2w"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_j5kt2"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_suaq2"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="6_rnrhb"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="7"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="8"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="9"]
-[ext_resource type="PackedScene" uid="uid://b1e34ivxmaoi7" path="res://assets/maps/holodeck_map.tscn" id="10_qlbta"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="10_qlbta"]
 [ext_resource type="PackedScene" uid="uid://dgdb1texynduw" path="res://addons/godot-xr-tools/objects/virtual_keyboard.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://nnse6wsxsjeo" path="res://scenes/pointer_demo/objects/display.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://bk34216s7eynw" path="res://scenes/pointer_demo/objects/color_change_cube.tscn" id="15"]
 
 [node name="PointerDemo" instance=ExtResource("1")]
 script = ExtResource("2_pbiwr")
-environment = ExtResource("3_suaq2")
+environment = ExtResource("3_4fh2w")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_j5kt2")]
 
