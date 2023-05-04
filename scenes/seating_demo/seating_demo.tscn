@@ -1,0 +1,68 @@
+[gd_scene load_steps=16 format=3 uid="uid://mn5ioyp8cafm"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5ptmo"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_r3l36"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
+[ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="4_mkimu"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="6"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="6_qr75q"]
+[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="7_4tsu3"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="12"]
+[ext_resource type="PackedScene" uid="uid://dipg8euybm3f1" path="res://scenes/basic_movement_demo/objects/instructions.tscn" id="12_qasi6"]
+[ext_resource type="PackedScene" uid="uid://svmpofy8s8r" path="res://scenes/seating_demo/objects/seat.tscn" id="13_eimg5"]
+[ext_resource type="PackedScene" uid="uid://dbv1hvxufc1al" path="res://assets/meshes/interactables/push_button.tscn" id="14_gu85s"]
+
+[node name="BasicMovementDemo" instance=ExtResource("1")]
+script = ExtResource("2_5ptmo")
+environment = ExtResource("3_r3l36")
+
+[node name="XROrigin3D" parent="." index="0"]
+unique_name_in_owner = true
+
+[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("4_mkimu")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("5")]
+strafe = true
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("6_qr75q")]
+ranged_enable = false
+
+[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("7_4tsu3")]
+
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("5")]
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("4")]
+
+[node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("6_qr75q")]
+ranged_enable = false
+
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("6")]
+
+[node name="BasicMap" parent="." index="1" instance=ExtResource("7")]
+
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
+scene_base = NodePath("..")
+title = ExtResource("12")
+
+[node name="Instructions" parent="." index="3" instance=ExtResource("12_qasi6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4)
+
+[node name="Seat" parent="." index="4" instance=ExtResource("13_eimg5")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -7)
+
+[node name="Seat" parent="Seat" index="5" instance=ExtResource("14_gu85s")]
+transform = Transform3D(-4.37114e-08, -1, -8.74228e-08, 1, -4.37114e-08, 8.74228e-08, -8.74228e-08, -8.74228e-08, 1, -0.3, 1.5, 0.4)
+
+[node name="UnSeat" parent="Seat" index="6" instance=ExtResource("14_gu85s")]
+transform = Transform3D(1, 0, 0, 0, 0.819152, -0.573576, 0, 0.573576, 0.819152, 3.49689e-08, 0.9, -0.4)
+
+[connection signal="button_released" from="Seat/Seat/InteractableAreaButton" to="." method="_seat_button_released"]
+[connection signal="button_released" from="Seat/UnSeat/InteractableAreaButton" to="." method="_unseat_button_released"]
+
+[editable path="Seat/Seat"]
+[editable path="Seat/UnSeat"]
