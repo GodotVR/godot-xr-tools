@@ -29,7 +29,10 @@ extends XRToolsMovementProvider
 
 
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
+@onready var XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 
 # Add support for is_xr_class on XRTools classes

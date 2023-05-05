@@ -19,7 +19,10 @@ extends XRToolsMovementProvider
 
 
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
+@onready var XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 
 # Add support for is_xr_class on XRTools classes
@@ -28,7 +31,7 @@ func is_xr_class(name : String) -> bool:
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
 	if !player_body.enabled or (XRStartNode.xr_active and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED):
 		return

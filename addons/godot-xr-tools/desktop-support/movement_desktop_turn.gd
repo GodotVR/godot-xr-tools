@@ -46,7 +46,10 @@ var _turn_step : float = 0.0
 
 
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
+@onready var XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 
 # Add support for is_xr_class on XRTools classes
@@ -86,7 +89,10 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	#if !_snap_turning():
 	left_right -= deadzone * sign(left_right)
 	player_body.rotate_player(smooth_turn_speed * delta * left_right)
-	player_body.camera_node.rotation_degrees.x=clamp(player_body.camera_node.rotation_degrees.x+move.y,-89.999,89.999)
+	player_body.camera_node.rotation_degrees.x=clamp(
+		player_body.camera_node.rotation_degrees.x+move.y,
+		-89.999,
+		89.999)
 	move=Vector2.ZERO
 	return
 
