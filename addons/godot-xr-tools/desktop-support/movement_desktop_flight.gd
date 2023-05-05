@@ -36,40 +36,16 @@ signal flight_started()
 signal flight_finished()
 
 
-## Enumeration of controller to use for flight
-enum FlightController {
-	LEFT,		## Use left controller
-	RIGHT,		## Use right controler
-}
-
-## Enumeration of pitch control input
-enum FlightPitch {
-	HEAD,		## Head controls pitch
-	CONTROLLER,	## Controller controls pitch
-}
-
-## Enumeration of bearing control input
-enum FlightBearing {
-	HEAD,		## Head controls bearing
-	CONTROLLER,	## Controller controls bearing
-	BODY,		## Body controls bearing
-}
-
-
 ## Movement provider order
 @export var order : int = 30
 
-## Flight controller
-@export var controller : FlightController = FlightController.LEFT
 
 ## Flight toggle button
-@export var flight_button : String = "by_button"
-
-## Flight pitch control
-@export var pitch : FlightPitch = FlightPitch.CONTROLLER
-
-## Flight bearing control
-@export var bearing : FlightBearing = FlightBearing.CONTROLLER
+@export var flight_button : String = "ui_focus_next"
+@export var input_forward : String = "ui_up"
+@export var input_backward : String = "ui_down"
+@export var input_left : String = "ui_left"
+@export var input_right : String = "ui_right"
 
 ## Flight speed from control
 @export var speed_scale : float = 5.0
@@ -93,42 +69,35 @@ enum FlightBearing {
 ## Flight button state
 var _flight_button : bool = false
 
-## Flight controller
-var _controller : XRController3D
-
 
 # Node references
 @onready var _camera := XRHelpers.get_xr_camera(self)
-@onready var _left_controller := XRHelpers.get_left_controller(self)
-@onready var _right_controller := XRHelpers.get_right_controller(self)
+@onready var XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementFlight" or super(name)
+	return name == "XRToolsDesktopMovementFlight" or super(name)
 
 
 func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
-	# Get the flight controller
-	if controller == FlightController.LEFT:
-		_controller = _left_controller
-	else:
-		_controller = _right_controller
-
 
 # Process physics movement for flight
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Disable flying if requested, or if no controller
-	if disabled or !enabled or !_controller.get_is_active():
+	if disabled or !enabled or !player_body.enabled or XRStartNode.xr_active:
 		set_flying(false)
 		return
 
 	# Detect press of flight button
 	var old_flight_button = _flight_button
-	_flight_button = _controller.is_button_pressed(flight_button)
+	_flight_button = Input.is_action_pressed(flight_button)
 	if _flight_button and !old_flight_button:
 		set_flying(!is_active)
 
@@ -138,38 +107,23 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Select the pitch vector
 	var pitch_vector: Vector3
-	if pitch == FlightPitch.HEAD:
-		# Use the vertical part of the 'head' forwards vector
-		pitch_vector = -_camera.transform.basis.z.y * player_body.up_player_vector
-	else:
-		# Use the vertical part of the 'controller' forwards vector
-		pitch_vector = -_controller.transform.basis.z.y * player_body.up_player_vector
+	# Use the vertical part of the 'head' forwards vector
+	pitch_vector = -_camera.transform.basis.z.y * player_body.up_player_vector
 
 	# Select the bearing vector
 	var bearing_vector: Vector3
-	if bearing == FlightBearing.HEAD:
-		# Use the horizontal part of the 'head' forwards vector
-		bearing_vector = -player_body.up_player_plane.project(
-				_camera.global_transform.basis.z)
-	elif bearing == FlightBearing.CONTROLLER:
-		# Use the horizontal part of the 'controller' forwards vector
-		bearing_vector = -player_body.up_player_plane.project(
-				_controller.global_transform.basis.z)
-	else:
-		# Use the horizontal part of the 'body' forwards vector
-		var left := _left_controller.global_transform.origin
-		var right := _right_controller.global_transform.origin
-		var left_to_right := right - left
-		bearing_vector = player_body.up_player_plane.project(
-				left_to_right.rotated(player_body.up_player_vector, PI/2))
+	# Use the horizontal part of the 'head' forwards vector
+	bearing_vector = -player_body.up_player_plane.project(
+			_camera.global_transform.basis.z)
 
 	# Construct the flight bearing
 	var forwards := (bearing_vector.normalized() + pitch_vector).normalized()
 	var side := forwards.cross(player_body.up_player_vector)
 
 	# Construct the target velocity
-	var joy_forwards := _controller.get_vector2("primary").y
-	var joy_side := _controller.get_vector2("primary").x
+	var input_dir = Input.get_vector(input_left, input_right, input_backward, input_forward)
+	var joy_forwards :float= input_dir.y
+	var joy_side :float= input_dir.x
 	var heading := forwards * joy_forwards + side * joy_side
 
 	# Calculate the flight velocity
