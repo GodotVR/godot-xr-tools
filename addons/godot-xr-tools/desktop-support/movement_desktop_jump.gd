@@ -17,11 +17,11 @@ extends XRToolsMovementProvider
 @export var order : int = 20
 
 ## Button to trigger jump
-@export var jump_button_action : String = "trigger_click"
+@export var jump_button_action : String = "ui_accept"
 
 
 # Node references
-@onready var _controller := XRHelpers.get_xr_controller(self)
+@onready var XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
 
 
 # Add support for is_xr_class on XRTools classes
@@ -32,21 +32,10 @@ func is_xr_class(name : String) -> bool:
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the jump controller isn't active
-	if !_controller.get_is_active():
+	if !player_body.enabled or XRStartNode.xr_active:
 		return
 
 	# Request jump if the button is pressed
-	if _controller.is_button_pressed(jump_button_action):
+	if Input.is_action_pressed(jump_button_action):
 		player_body.request_jump()
 
-
-# This method verifies the movement provider has a valid configuration.
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := super()
-
-	# Check the controller node
-	if !XRHelpers.get_xr_controller(self):
-		warnings.append("This node must be within a branch of an XRController3D node")
-
-	# Return warnings
-	return warnings

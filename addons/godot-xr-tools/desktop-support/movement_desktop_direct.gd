@@ -58,3 +58,12 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	if length > max_speed:
 		player_body.ground_control_velocity *= max_speed / length
 
+## Find the right [XRToolsDesktopMovementDirect] node.
+##
+## This function searches from the specified node for the right controller
+## [XRToolsDesktopMovementDirect] assuming the node is a sibling of the [XROrigin3D].
+static func find(node : Node) -> XRToolsDesktopMovementDirect:
+	return XRTools.find_xr_child(
+		XRHelpers.get_xr_origin(node),
+		"*",
+		"XRToolsDesktopMovementDirect") as XRToolsDesktopMovementDirect
