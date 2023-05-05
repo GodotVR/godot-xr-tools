@@ -6,8 +6,8 @@ var PlayerBody : CharacterBody3D
 var Exit_Node : Node3D
 func _ready() -> void:
 	#Store current chair possition
-	last_chair_pos=XROrigin.global_transform.origin
-	last_chair_rot=XROrigin.global_rotation
+	last_chair_pos=self.global_transform.origin
+	last_chair_rot=self.global_rotation
 	
 	#Assume XROrigin is named XROrigin3D and is accessible via unical name
 	XROrigin = get_node("%XROrigin3D")
