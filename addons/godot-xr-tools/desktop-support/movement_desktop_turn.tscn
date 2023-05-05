@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c4d13r420hnx2"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_turn.gd" id="1_qv43c"]
+
+[node name="MovementDesktopTurn" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_qv43c")
