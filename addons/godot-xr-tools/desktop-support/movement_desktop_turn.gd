@@ -39,7 +39,7 @@ enum TurnMode {
 @export var clear_mouse_move_when_body_not_active : bool = true
 
 
-@export var invert : bool = true
+@export var invert_y : bool = true
 
 # Turn step accumulator
 var _turn_step : float = 0.0
@@ -58,10 +58,10 @@ func _unhandled_input(event):
 	if !enabled:
 		return
 	if event is InputEventMouseMotion:
-		if invert:
-			move += event.relative*-.1
-		else:
-			move += event.relative*.1
+		event.relative*=.1
+		if invert_y:
+			event.relative.y *= -1
+		move += event.relative
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
@@ -86,7 +86,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	#if !_snap_turning():
 	left_right -= deadzone * sign(left_right)
 	player_body.rotate_player(smooth_turn_speed * delta * left_right)
-	player_body.camera_node.rotation_degrees.x=clamp(player_body.camera_node.rotation_degrees.x+move.y,-90,90)
+	player_body.camera_node.rotation_degrees.x=clamp(player_body.camera_node.rotation_degrees.x+move.y,-89.999,89.999)
 	move=Vector2.ZERO
 	return
 

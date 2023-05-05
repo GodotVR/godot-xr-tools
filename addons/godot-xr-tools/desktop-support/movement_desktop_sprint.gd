@@ -58,7 +58,7 @@ var _direct_original_max_speed : float = 0.0
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementSprint" or super(name)
+	return name == "XRToolsDesktopMovementSprint" or super(name)
 
 
 func _ready():

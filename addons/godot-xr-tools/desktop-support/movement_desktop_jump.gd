@@ -26,7 +26,7 @@ extends XRToolsMovementProvider
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementJump" or super(name)
+	return name == "XRToolsDesktopMovementJump" or super(name)
 
 
 # Perform jump movement

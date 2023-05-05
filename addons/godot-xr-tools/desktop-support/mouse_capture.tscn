@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bkse5rxsx5tb3"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/mouse_capture.gd" id="1_po4v8"]
+
+[node name="MouseCapture" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_po4v8")
