@@ -41,7 +41,10 @@ enum SprintType {
 
 
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
+@onready var XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 # Sprint button down state
 var _sprint_button_down : bool = false

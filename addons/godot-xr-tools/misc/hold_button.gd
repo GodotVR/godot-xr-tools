@@ -36,7 +36,10 @@ var XRStartNode : XRToolsStartXR
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	material = $Visualise.get_surface_override_material(0)
-	XRStartNode = XRTools.find_xr_child(XRTools.find_xr_ancestor(self,"*Staging","XRToolsStaging"),"StartXR","Node")
+	XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 	if !Engine.is_editor_hint():
 		_set_time_held(0.0)

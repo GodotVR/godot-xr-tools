@@ -56,7 +56,7 @@ var _turn_step : float = 0.0
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsDesktopMovementTurn" or super(name)
 
-var move := Vector2.ZERO
+var mouse_move_vector := Vector2.ZERO
 func _unhandled_input(event):
 	if !enabled:
 		return
@@ -64,14 +64,14 @@ func _unhandled_input(event):
 		event.relative*=.1
 		if invert_y:
 			event.relative.y *= -1
-		move += event.relative
+		mouse_move_vector += event.relative
 
 # Perform jump movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
 	if !player_body.enabled or XRStartNode.xr_active:
 		if clear_mouse_move_when_body_not_active:
-			move=Vector2.ZERO
+			mouse_move_vector=Vector2.ZERO
 		return
 
 	var deadzone = 0.1
@@ -79,7 +79,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 #		deadzone = XRTools.get_snap_turning_deadzone()
 
 	# Read the left/right joystick axis
-	var left_right := move.x
+	var left_right := mouse_move_vector.x
 	if abs(left_right) <= deadzone:
 		# Not turning
 		_turn_step = 0.0
@@ -90,10 +90,10 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	left_right -= deadzone * sign(left_right)
 	player_body.rotate_player(smooth_turn_speed * delta * left_right)
 	player_body.camera_node.rotation_degrees.x=clamp(
-		player_body.camera_node.rotation_degrees.x+move.y,
+		player_body.camera_node.rotation_degrees.x+mouse_move_vector.y,
 		-89.999,
 		89.999)
-	move=Vector2.ZERO
+	mouse_move_vector=Vector2.ZERO
 	return
 
 
