@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dipg8euybm3f1"]
 
+[ext_resource type="PackedScene" uid="uid://px47xx1e0la2" path="res://scenes/basic_movement_demo/objects/instructions_2d.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="2"]
-[ext_resource type="PackedScene" uid="uid://dph2a2rn6yf8d" path="res://scenes/seating_demo/objects/instructions_2d.tscn" id="2_gtldi"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="3"]
 
 [sub_resource type="BoxMesh" id="1"]
@@ -14,7 +14,7 @@ size = Vector3(4.2, 2.7, 0.1)
 screen_size = Vector2(4, 2.5)
 viewport_size = Vector2(400, 250)
 unshaded = true
-scene = ExtResource("2_gtldi")
+scene = ExtResource("1")
 update_mode = 0
 collision_layer = 0
 
