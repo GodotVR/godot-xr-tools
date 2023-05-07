@@ -1,6 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://cbcbffvk7xth4"]
+[gd_scene load_steps=26 format=3 uid="uid://bwcpq6cuejbiy"]
 
-[ext_resource type="Material" path="res://assets/maps/holodeck/materials/baseblack.material" id="1_bgdif"]
+[ext_resource type="Material" uid="uid://dhxgicbiapemv" path="res://assets/maps/holodeck/materials/table.material" id="1_mamxo"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bwck6"]
 
@@ -205,32 +205,32 @@ points = PackedVector3Array(2.22814, 0.837697, 1.14028, -0.0173247, 0.697369, -0
 [node name="mesh_table_long" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_qf6i0")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="mesh_table_long001" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_ncl20")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="mesh_table_long002" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_fst0s")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="mesh_table_long003" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_rtahr")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="mesh_table_long004" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_qghl2")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="mesh_table_long005" type="MeshInstance3D" parent="."]
 mesh = SubResource("ArrayMesh_b1jps")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("1_bgdif")
+surface_material_override/0 = ExtResource("1_mamxo")
 
 [node name="CollisionShape3D6" type="CollisionShape3D" parent="."]
 shape = SubResource("ConvexPolygonShape3D_5ejlt")
