@@ -1,0 +1,126 @@
+[gd_resource type="VisualShader" load_steps=11 format=3 uid="uid://y6tg1jpuq3l3"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_vpqyn"]
+parameter_name = "grid_color"
+default_value_enabled = true
+default_value = Color(1, 0.891186, 0, 1)
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_gtoha"]
+size = Vector2(839.821, 618.333)
+title = "Grid albedo"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_lyqxh"]
+parameter_name = "grid_texture"
+texture_type = 1
+texture_filter = 4
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_yw2hg"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_chh5r"]
+source = 5
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_kkkmo"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_g5u13"]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_s2l5i"]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_3474v"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 0)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_va76r"]
+parameter_name = "grid_scale"
+default_value_enabled = true
+default_value = Vector2(1, 1)
+
+[resource]
+code = "shader_type spatial;
+render_mode unshaded;
+
+uniform vec2 grid_scale = vec2(1.000000, 1.000000);
+uniform vec4 grid_color : source_color = vec4(1.000000, 0.891186, 0.000000, 1.000000);
+uniform sampler2D grid_texture : source_color, filter_linear_mipmap, repeat_enable;
+
+
+
+void vertex() {
+// Input:2
+	vec3 n_out2p0 = VERTEX;
+
+
+// VectorDecompose:3
+	float n_out3p0 = n_out2p0.x;
+	float n_out3p1 = n_out2p0.y;
+	float n_out3p2 = n_out2p0.z;
+
+
+// VectorCompose:4
+	vec2 n_out4p0 = vec2(n_out3p0, n_out3p1);
+
+
+// Vector2Parameter:6
+	vec2 n_out6p0 = grid_scale;
+
+
+// VectorOp:5
+	vec2 n_out5p0 = n_out4p0 * n_out6p0;
+
+
+// Output:0
+	UV = n_out5p0;
+
+
+}
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = grid_color;
+
+
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(grid_texture, UV);
+
+
+// VectorOp:4
+	vec3 n_out4p0 = vec3(n_out2p0.xyz) * vec3(n_out5p0.xyz);
+
+
+// Output:0
+	ALBEDO = n_out4p0;
+
+
+}
+"
+graph_offset = Vector2(-643.693, -65.0522)
+flags/unshaded = true
+nodes/vertex/0/position = Vector2(600, 0)
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_kkkmo")
+nodes/vertex/2/position = Vector2(-600, 0)
+nodes/vertex/3/node = SubResource("VisualShaderNodeVectorDecompose_g5u13")
+nodes/vertex/3/position = Vector2(-260, 0)
+nodes/vertex/4/node = SubResource("VisualShaderNodeVectorCompose_s2l5i")
+nodes/vertex/4/position = Vector2(0, 0)
+nodes/vertex/5/node = SubResource("VisualShaderNodeVectorOp_3474v")
+nodes/vertex/5/position = Vector2(220, 0)
+nodes/vertex/6/node = SubResource("VisualShaderNodeVec2Parameter_va76r")
+nodes/vertex/6/position = Vector2(-260, 200)
+nodes/vertex/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 4, 0, 3, 1, 4, 1, 4, 0, 5, 0, 5, 0, 0, 4, 6, 0, 5, 1)
+nodes/fragment/0/position = Vector2(220, -20)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_vpqyn")
+nodes/fragment/2/position = Vector2(-680, 20)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_lyqxh")
+nodes/fragment/3/position = Vector2(-680, 280)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_yw2hg")
+nodes/fragment/4/position = Vector2(-60, 80)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_chh5r")
+nodes/fragment/5/position = Vector2(-340, 280)
+nodes/fragment/22/node = SubResource("VisualShaderNodeComment_gtoha")
+nodes/fragment/22/position = Vector2(-700, -20)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 3, 0, 5, 2, 5, 0, 4, 1, 4, 0, 0, 0)

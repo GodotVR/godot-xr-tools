@@ -1,21 +1,21 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=13 format=3 uid="uid://b7gwqyw63kd4x"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://fiul51tsyoop" path="res://addons/godot-xr-tools/functions/function_teleport.tscn" id="2"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_sq0a2"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="3"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_py1j5"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_qc6yg"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="6"]
-[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="7"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="7_nxeuw"]
 [ext_resource type="PackedScene" uid="uid://bdc23valbh8gf" path="res://assets/meshes/ramps/ramps.tscn" id="8"]
-[ext_resource type="PackedScene" path="res://scenes/teleport_demo/objects/instructions.tscn" id="8_s8lss"]
+[ext_resource type="PackedScene" uid="uid://bt5vh1mtil328" path="res://scenes/teleport_demo/objects/instructions.tscn" id="8_s8lss"]
 [ext_resource type="PackedScene" uid="uid://dpjfart2qg8k7" path="res://assets/meshes/mound/mound.tscn" id="9"]
 
 [node name="TeleportDemo" instance=ExtResource("1")]
 script = ExtResource("2_sq0a2")
-environment = ExtResource("3_py1j5")
+environment = ExtResource("3_qc6yg")
 
 [node name="FunctionTeleport" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2")]
 
@@ -23,7 +23,7 @@ environment = ExtResource("3_py1j5")
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("4")]
 
-[node name="BasicMap" parent="." index="1" instance=ExtResource("7")]
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("7_nxeuw")]
 
 [node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
@@ -34,7 +34,7 @@ title = ExtResource("3")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4, -4)
 
 [node name="Ramps" parent="." index="4" instance=ExtResource("8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -8)
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 6, 0, 0)
 
 [node name="Mound" parent="." index="5" instance=ExtResource("9")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, -8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7, 0, 0)

@@ -1,10 +1,9 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=28 format=3 uid="uid://0c76wodjd7rm"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_kjksy"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_5jcff"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_7gvmo"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="5_laayj"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="6"]
@@ -16,7 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://1mb16xioom74" path="res://scenes/pickable_demo/objects/belt_snap_zone.tscn" id="10_5odnk"]
 [ext_resource type="PackedScene" uid="uid://cf024hg5alcif" path="res://scenes/pickable_demo/objects/snap_toy_red.tscn" id="11"]
 [ext_resource type="PackedScene" uid="uid://cboxrvj4xdi6f" path="res://scenes/pickable_demo/objects/snap_toy_yellow.tscn" id="12"]
-[ext_resource type="PackedScene" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="12_8rh1y"]
+[ext_resource type="PackedScene" uid="uid://bmdafjhc8cwia" path="res://scenes/pickable_demo/objects/instructions.tscn" id="12_282ma"]
 [ext_resource type="PackedScene" uid="uid://clta811tt773x" path="res://scenes/pickable_demo/objects/grab_ball.tscn" id="13"]
 [ext_resource type="PackedScene" uid="uid://djkjuy7wct10q" path="res://scenes/pickable_demo/objects/grab_cube.tscn" id="14"]
 [ext_resource type="PackedScene" uid="uid://gi3cc6cxi81j" path="res://scenes/pickable_demo/objects/saucer.tscn" id="14_ani61"]
@@ -30,7 +30,7 @@
 
 [node name="PickableDemo" instance=ExtResource("1")]
 script = ExtResource("2_kjksy")
-environment = ExtResource("3_5jcff")
+environment = ExtResource("3_7gvmo")
 
 [node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_8wi6c")]
 
@@ -72,7 +72,7 @@ transform = Transform3D(0.92388, 0, -0.382683, 0, 1, 0, 0.382683, 0, 0.92388, 0.
 [node name="BeltSnapZone05" parent="XROrigin3D/PlayerBody" index="4" instance=ExtResource("10_5odnk")]
 transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 0.177, 1, -0.177)
 
-[node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("12_8rh1y")]
 
 [node name="Teleport" parent="." index="2" instance=ExtResource("5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
@@ -83,22 +83,22 @@ title = ExtResource("6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -5)
 
 [node name="Table2" parent="." index="4" instance=ExtResource("15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3)
 
 [node name="Table1" parent="." index="5" instance=ExtResource("15")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0, -3)
 
 [node name="Saucer" parent="Table1" index="10" instance=ExtResource("14_ani61")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.584, 0.829, 0.266)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.584, 0.829, 0.973725)
 
 [node name="TeacupStand" parent="Table1" index="11" instance=ExtResource("15_bq355")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.8, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.6, 0.8, 0.707725)
 
 [node name="SnapZone1" parent="Table1/TeacupStand" index="5"]
 initial_object = NodePath("../Teacup")
 
 [node name="Teacup" parent="Table1/TeacupStand" index="8" instance=ExtResource("16_v5unt")]
-transform = Transform3D(4.81713e-09, 4.34452e-08, 1, 0.993909, -0.110203, 0, 0.110203, 0.993909, -4.37114e-08, 0.0796152, 0.205038, -0.0390518)
+transform = Transform3D(4.81713e-09, 4.34452e-08, 1, 0.993909, -0.110203, 0, 0.110203, 0.993909, -4.37114e-08, 0.0796151, 0.205038, -0.0390518)
 collision_layer = 65536
 collision_mask = 0
 freeze = true
@@ -108,66 +108,66 @@ script = ExtResource("19_iqmkd")
 snap_zone_path = NodePath("../../SnapZone1")
 
 [node name="Teacup" parent="Table1" index="12" instance=ExtResource("16_v5unt")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.235, 0.825, 0.266)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.235, 0.825, 0.973725)
 
 [node name="Knife1" parent="Table1" index="13" instance=ExtResource("19_6grml")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.694, 0.834, 0)
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.306, 0.834, 0.707725)
 
 [node name="Knife2" parent="Table1" index="14" instance=ExtResource("19_6grml")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.594, 0.834, 0)
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.406, 0.834, 0.707725)
 
 [node name="Knife3" parent="Table1" index="15" instance=ExtResource("19_6grml")]
-transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, -0.494, 0.834, 0)
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.506, 0.834, 0.707725)
 
 [node name="RemoteGrabBalls" type="Node3D" parent="." index="6"]
 
 [node name="Ball1" parent="RemoteGrabBalls" index="0" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -2.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.2, -2.6)
 
 [node name="Ball2" parent="RemoteGrabBalls" index="1" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.6, 0.2, -3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0.2, -3.2)
 
 [node name="Ball3" parent="RemoteGrabBalls" index="2" instance=ExtResource("13")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.2, -2.9)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.2, -2.9)
 
 [node name="Hammers" type="Node3D" parent="." index="7"]
 
 [node name="Hammer" parent="Hammers" index="0" instance=ExtResource("17")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.991849, 0.15, -2.96188)
 
 [node name="Hammer4" parent="Hammers" index="1" instance=ExtResource("17")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.4, 0.15, -3.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.991849, 0.15, -2.56188)
 
 [node name="Hammer2" parent="Hammers" index="2" instance=ExtResource("17")]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -2.6, 0.15, -3.5)
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0.791849, 0.15, -2.86188)
 
 [node name="Hammer3" parent="Hammers" index="3" instance=ExtResource("17")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -2.2, 0.15, -3.3)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.19185, 0.15, -2.66188)
 
 [node name="GrabCubes" type="Node3D" parent="." index="8"]
 
 [node name="Cube1" parent="GrabCubes" index="0" instance=ExtResource("14")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1, 0.875, -2.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.1534, 0.875, -2.29219)
 
 [node name="Cube2" parent="GrabCubes" index="1" instance=ExtResource("14")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.9, 0.875, -2.8)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.3534, 0.875, -2.29219)
 
 [node name="Cube3" parent="GrabCubes" index="2" instance=ExtResource("14")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, -1, 0.975, -2.8)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 2.2534, 0.975, -2.29219)
 
 [node name="SnapToys" type="Node3D" parent="." index="9"]
 
 [node name="SnapTray1" parent="SnapToys" index="0" instance=ExtResource("16")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 1.5, 1, -2.9)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 3.5, 1.02968, -2.16355)
 
 [node name="SnapTray2" parent="SnapToys" index="1" instance=ExtResource("16")]
-transform = Transform3D(0.996195, 0, -0.0871558, 0, 1, 0, 0.0871558, 0, 0.996195, 1.1, 1, -3)
+transform = Transform3D(0.996195, 0, -0.0871558, 0, 1, 0, 0.0871558, 0, 0.996195, 3.1, 1.02968, -2.26355)
 tray_active = false
 
 [node name="SnapToyRed" parent="SnapToys" index="2" instance=ExtResource("11")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0.9, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.6, 0.929682, -2.26355)
 
 [node name="SnapToyYellow" parent="SnapToys" index="3" instance=ExtResource("12")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0.9, -3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.8, 0.929682, -2.26355)
 
 [editable path="Table1/TeacupStand"]

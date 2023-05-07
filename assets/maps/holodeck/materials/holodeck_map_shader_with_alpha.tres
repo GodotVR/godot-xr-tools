@@ -1,0 +1,305 @@
+[gd_resource type="VisualShader" load_steps=30 format=3 uid="uid://04pifas70548"]
+
+[sub_resource type="VisualShaderNodeTransformDecompose" id="VisualShaderNodeTransformDecompose_s70ql"]
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_ra5tm"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_26x2j"]
+operator = 1
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_kkt4w"]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_xm0ho"]
+operator = 3
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_4ng0m"]
+default_input_values = [0, 0.0, 1, 2.0]
+operator = 3
+
+[sub_resource type="VisualShaderNodeClamp" id="VisualShaderNodeClamp_c4ff3"]
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_vpqyn"]
+parameter_name = "grid_color"
+default_value_enabled = true
+default_value = Color(1, 0.891186, 0, 1)
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_valfd"]
+parameter_name = "depth_fade"
+default_value_enabled = true
+default_value = 2.0
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_p7sm4"]
+size = Vector2(1189.24, 801.078)
+title = "Calculate depth"
+description = "Extrapolates the depth behind our fragment to where we hit the ground.
+This then outputs a value between 0 (on floor) to 1 (exceeds depth_fade distance) that we use as our alpha
+"
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_gtoha"]
+size = Vector2(839.821, 618.333)
+title = "Grid albedo"
+
+[sub_resource type="VisualShaderNodeVectorFunc" id="VisualShaderNodeVectorFunc_nn1oc"]
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_7rqi5"]
+size = Vector2(1127.36, 204.593)
+title = "Calculate inverse view direction in world space"
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_lyqxh"]
+parameter_name = "grid_texture"
+texture_type = 1
+texture_filter = 4
+texture_repeat = 1
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_2gsdw"]
+size = Vector2(1073.06, 190.705)
+title = "Calculate distance to ground (depth)"
+
+[sub_resource type="VisualShaderNodeComment" id="VisualShaderNodeComment_3nypx"]
+size = Vector2(870.868, 254.261)
+title = "Fade depth from 0 to 1 for alpha"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_2dpq6"]
+default_input_values = [0, 0.0, 1, 0.001]
+operator = 6
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_yw2hg"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_chh5r"]
+source = 5
+
+[sub_resource type="VisualShaderNodeVaryingGetter" id="VisualShaderNodeVaryingGetter_s0m2n"]
+varying_name = "world_pos"
+varying_type = 4
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_b4pby"]
+input_name = "inv_view_matrix"
+
+[sub_resource type="VisualShaderNodeVaryingSetter" id="VisualShaderNodeVaryingSetter_q1m4k"]
+varying_name = "world_pos"
+varying_type = 4
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_kkkmo"]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVectorDecompose" id="VisualShaderNodeVectorDecompose_g5u13"]
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_s2l5i"]
+op_type = 0
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_3474v"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(0, 0)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeVec2Parameter" id="VisualShaderNodeVec2Parameter_va76r"]
+parameter_name = "grid_scale"
+default_value_enabled = true
+default_value = Vector2(1, 1)
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_bvh4x"]
+input_name = "model_matrix"
+
+[sub_resource type="VisualShaderNodeTransformVecMult" id="VisualShaderNodeTransformVecMult_lw1ie"]
+
+[resource]
+code = "shader_type spatial;
+render_mode unshaded;
+
+
+// Varyings
+varying vec3 world_pos;
+
+uniform vec2 grid_scale = vec2(1.000000, 1.000000);
+uniform vec4 grid_color : source_color = vec4(1.000000, 0.891186, 0.000000, 1.000000);
+uniform sampler2D grid_texture : source_color, filter_linear_mipmap, repeat_enable;
+uniform float depth_fade = 2;
+
+
+
+void vertex() {
+// Input:2
+	vec3 n_out2p0 = VERTEX;
+
+
+// VectorDecompose:3
+	float n_out3p0 = n_out2p0.x;
+	float n_out3p1 = n_out2p0.y;
+	float n_out3p2 = n_out2p0.z;
+
+
+// VectorCompose:4
+	vec2 n_out4p0 = vec2(n_out3p0, n_out3p1);
+
+
+// Vector2Parameter:6
+	vec2 n_out6p0 = grid_scale;
+
+
+// VectorOp:5
+	vec2 n_out5p0 = n_out4p0 * n_out6p0;
+
+
+// Output:0
+	UV = n_out5p0;
+
+
+// Input:7
+	mat4 n_out7p0 = MODEL_MATRIX;
+
+
+// TransformVectorMult:8
+	vec3 n_out8p0 = (n_out7p0 * vec4(n_out2p0, 1.0)).xyz;
+
+
+// VaryingSetter:15
+	world_pos = n_out8p0;
+
+
+}
+
+void fragment() {
+// ColorParameter:2
+	vec4 n_out2p0 = grid_color;
+
+
+	vec4 n_out5p0;
+// Texture2D:5
+	n_out5p0 = texture(grid_texture, UV);
+
+
+// VectorOp:4
+	vec3 n_out4p0 = vec3(n_out2p0.xyz) * vec3(n_out5p0.xyz);
+
+
+// VaryingGetter:6
+	vec3 n_out6p0 = world_pos;
+
+
+// VectorDecompose:11
+	float n_out11p0 = n_out6p0.x;
+	float n_out11p1 = n_out6p0.y;
+	float n_out11p2 = n_out6p0.z;
+
+
+// Input:9
+	mat4 n_out9p0 = INV_VIEW_MATRIX;
+
+
+// TransformDecompose:10
+	vec3 n_out10p0 = n_out9p0[0].xyz;
+	vec3 n_out10p1 = n_out9p0[1].xyz;
+	vec3 n_out10p2 = n_out9p0[2].xyz;
+	vec3 n_out10p3 = n_out9p0[3].xyz;
+
+
+// VectorOp:12
+	vec3 n_out12p0 = n_out10p3 - n_out6p0;
+
+
+// VectorFunc:28
+	vec3 n_out28p0 = normalize(n_out12p0);
+
+
+// VectorDecompose:13
+	float n_out13p0 = n_out28p0.x;
+	float n_out13p1 = n_out28p0.y;
+	float n_out13p2 = n_out28p0.z;
+
+
+// FloatOp:32
+	float n_in32p1 = 0.00100;
+	float n_out32p0 = max(n_out13p1, n_in32p1);
+
+
+// FloatOp:16
+	float n_out16p0 = n_out11p1 / n_out32p0;
+
+
+// FloatParameter:20
+	float n_out20p0 = depth_fade;
+
+
+// FloatOp:18
+	float n_out18p0 = n_out16p0 / n_out20p0;
+
+
+// Clamp:19
+	float n_in19p1 = 0.00000;
+	float n_in19p2 = 1.00000;
+	float n_out19p0 = clamp(n_out18p0, n_in19p1, n_in19p2);
+
+
+// Output:0
+	ALBEDO = n_out4p0;
+	ALPHA = n_out19p0;
+
+
+}
+"
+graph_offset = Vector2(-514.14, 399.514)
+flags/unshaded = true
+varyings/world_pos = "0,4"
+nodes/vertex/0/position = Vector2(600, 0)
+nodes/vertex/2/node = SubResource("VisualShaderNodeInput_kkkmo")
+nodes/vertex/2/position = Vector2(-600, 0)
+nodes/vertex/3/node = SubResource("VisualShaderNodeVectorDecompose_g5u13")
+nodes/vertex/3/position = Vector2(-260, 0)
+nodes/vertex/4/node = SubResource("VisualShaderNodeVectorCompose_s2l5i")
+nodes/vertex/4/position = Vector2(0, 0)
+nodes/vertex/5/node = SubResource("VisualShaderNodeVectorOp_3474v")
+nodes/vertex/5/position = Vector2(220, 0)
+nodes/vertex/6/node = SubResource("VisualShaderNodeVec2Parameter_va76r")
+nodes/vertex/6/position = Vector2(-260, 200)
+nodes/vertex/7/node = SubResource("VisualShaderNodeInput_bvh4x")
+nodes/vertex/7/position = Vector2(-600, 460)
+nodes/vertex/8/node = SubResource("VisualShaderNodeTransformVecMult_lw1ie")
+nodes/vertex/8/position = Vector2(-260, 440)
+nodes/vertex/15/node = SubResource("VisualShaderNodeVaryingSetter_q1m4k")
+nodes/vertex/15/position = Vector2(600, 380)
+nodes/vertex/connections = PackedInt32Array(2, 0, 3, 0, 3, 0, 4, 0, 3, 1, 4, 1, 4, 0, 5, 0, 5, 0, 0, 4, 6, 0, 5, 1, 7, 0, 8, 0, 2, 0, 8, 1, 8, 0, 15, 0)
+nodes/fragment/0/position = Vector2(800, 0)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorParameter_vpqyn")
+nodes/fragment/2/position = Vector2(-680, 20)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture2DParameter_lyqxh")
+nodes/fragment/3/position = Vector2(-680, 280)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_yw2hg")
+nodes/fragment/4/position = Vector2(20, 20)
+nodes/fragment/5/node = SubResource("VisualShaderNodeTexture_chh5r")
+nodes/fragment/5/position = Vector2(-280, 240)
+nodes/fragment/6/node = SubResource("VisualShaderNodeVaryingGetter_s0m2n")
+nodes/fragment/6/position = Vector2(-660, 980)
+nodes/fragment/9/node = SubResource("VisualShaderNodeInput_b4pby")
+nodes/fragment/9/position = Vector2(-660, 760)
+nodes/fragment/10/node = SubResource("VisualShaderNodeTransformDecompose_s70ql")
+nodes/fragment/10/position = Vector2(-400, 760)
+nodes/fragment/11/node = SubResource("VisualShaderNodeVectorDecompose_ra5tm")
+nodes/fragment/11/position = Vector2(-380, 980)
+nodes/fragment/12/node = SubResource("VisualShaderNodeVectorOp_26x2j")
+nodes/fragment/12/position = Vector2(-80, 760)
+nodes/fragment/13/node = SubResource("VisualShaderNodeVectorDecompose_kkt4w")
+nodes/fragment/13/position = Vector2(220, 760)
+nodes/fragment/16/node = SubResource("VisualShaderNodeFloatOp_xm0ho")
+nodes/fragment/16/position = Vector2(240, 980)
+nodes/fragment/18/node = SubResource("VisualShaderNodeFloatOp_4ng0m")
+nodes/fragment/18/position = Vector2(-160, 1180)
+nodes/fragment/19/node = SubResource("VisualShaderNodeClamp_c4ff3")
+nodes/fragment/19/position = Vector2(20, 1180)
+nodes/fragment/20/node = SubResource("VisualShaderNodeFloatParameter_valfd")
+nodes/fragment/20/position = Vector2(-660, 1180)
+nodes/fragment/21/node = SubResource("VisualShaderNodeComment_p7sm4")
+nodes/fragment/21/position = Vector2(-700, 620)
+nodes/fragment/22/node = SubResource("VisualShaderNodeComment_gtoha")
+nodes/fragment/22/position = Vector2(-700, -20)
+nodes/fragment/28/node = SubResource("VisualShaderNodeVectorFunc_nn1oc")
+nodes/fragment/28/position = Vector2(60, 760)
+nodes/fragment/29/node = SubResource("VisualShaderNodeComment_7rqi5")
+nodes/fragment/29/position = Vector2(-680, 720)
+nodes/fragment/30/node = SubResource("VisualShaderNodeComment_2gsdw")
+nodes/fragment/30/position = Vector2(-680, 940)
+nodes/fragment/31/node = SubResource("VisualShaderNodeComment_3nypx")
+nodes/fragment/31/position = Vector2(-680, 1140)
+nodes/fragment/32/node = SubResource("VisualShaderNodeFloatOp_2dpq6")
+nodes/fragment/32/position = Vector2(-80, 980)
+nodes/fragment/connections = PackedInt32Array(2, 0, 4, 0, 3, 0, 5, 2, 5, 0, 4, 1, 9, 0, 10, 0, 6, 0, 11, 0, 11, 1, 16, 0, 16, 0, 18, 0, 18, 0, 19, 0, 20, 0, 18, 1, 12, 0, 28, 0, 28, 0, 13, 0, 4, 0, 0, 0, 32, 0, 16, 1, 10, 3, 12, 0, 6, 0, 12, 1, 13, 1, 32, 0, 19, 0, 0, 1)

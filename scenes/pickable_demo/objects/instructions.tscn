@@ -1,23 +1,23 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://bmdafjhc8cwia"]
 
-[ext_resource path="res://scenes/pickable_demo/objects/instructions_2d.tscn" type="PackedScene" id=1]
-[ext_resource path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" type="Material" id=3]
+[ext_resource type="PackedScene" uid="uid://d0a7u3r7mcoqb" path="res://scenes/pickable_demo/objects/instructions_2d.tscn" id="1"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="2"]
+[ext_resource type="Material" path="res://assets/maps/holodeck/materials/base.material" id="3_oo0u2"]
 
-[sub_resource type="CubeMesh" id=1]
-material = ExtResource( 3 )
-size = Vector3( 4.2, 2.7, 0.1 )
+[sub_resource type="BoxMesh" id="1"]
+material = ExtResource("3_oo0u2")
+size = Vector3(4.2, 2.7, 0.1)
 
-[node name="Instructions" type="Spatial"]
+[node name="Instructions" type="Node3D"]
 
-[node name="Viewport2Din3D" parent="." instance=ExtResource( 2 )]
-screen_size = Vector2( 4, 2.5 )
-viewport_size = Vector2( 400, 250 )
+[node name="Viewport2Din3D" parent="." instance=ExtResource("2")]
+screen_size = Vector2(4, 2.5)
+viewport_size = Vector2(400, 250)
 unshaded = true
-scene = ExtResource( 1 )
+scene = ExtResource("1")
 update_mode = 0
 collision_layer = 0
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
-mesh = SubResource( 1 )
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("1")

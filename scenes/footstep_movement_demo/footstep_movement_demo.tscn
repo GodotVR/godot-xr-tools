@@ -1,11 +1,10 @@
-[gd_scene load_steps=20 format=3]
+[gd_scene load_steps=20 format=3 uid="uid://dt5jsm43uk88b"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
-[ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="3"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_1ck1y"]
 [ext_resource type="PackedScene" uid="uid://mnoirgubr2js" path="res://scenes/footstep_movement_demo/objects/instructions.tscn" id="3_8248t"]
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_virb4"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="6"]
@@ -18,6 +17,7 @@
 [ext_resource type="AudioStream" uid="uid://cddgfn5xkknr4" path="res://assets/footsteps/default_footstep.wav" id="11_xknd6"]
 [ext_resource type="PackedScene" uid="uid://54qovguk25i5" path="res://assets/meshes/plate/surface_objects.tscn" id="12"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="14_cqr4a"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="18_qxr43"]
 
 [sub_resource type="Resource" id="Resource_lclo7"]
 script = ExtResource("14_cqr4a")
@@ -29,7 +29,7 @@ walk_pitch_maximum = 1.2
 
 [node name="FootstepMovementDemo" instance=ExtResource("1")]
 script = ExtResource("1_yauh3")
-environment = ExtResource("3_1ck1y")
+environment = ExtResource("3_virb4")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("6")]
 
@@ -62,14 +62,15 @@ crouch_type = 1
 [node name="MovementFootstep" parent="XROrigin3D" index="4" instance=ExtResource("10_e05iy")]
 default_surface_audio_type = SubResource("Resource_lclo7")
 
-[node name="BasicMap" parent="." index="1" instance=ExtResource("2")]
-
-[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11")]
+[node name="MainMenuTeleport" parent="." index="1" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
 scene_base = NodePath("..")
 title = ExtResource("10")
 
-[node name="Instructions" parent="." index="3" instance=ExtResource("3_8248t")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -16)
+[node name="Instructions" parent="." index="2" instance=ExtResource("3_8248t")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12)
 
-[node name="surface_objects" parent="." index="4" instance=ExtResource("12")]
+[node name="surface_objects" parent="." index="3" instance=ExtResource("12")]
+transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 6)
+
+[node name="HolodeckMap" parent="." index="4" instance=ExtResource("18_qxr43")]

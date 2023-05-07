@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=3 uid="uid://3a6wjr3a13vd"]
 
 [ext_resource type="Script" path="res://assets/meshes/teleport/teleport.gd" id="1_mkuv0"]
-[ext_resource type="Material" path="res://assets/meshes/teleport/teleport_body_material.tres" id="2_0kehv"]
+[ext_resource type="Material" path="res://assets/maps/holodeck/materials/base.material" id="2_kj6s5"]
 [ext_resource type="Material" uid="uid://c26e12f2whdrj" path="res://assets/meshes/teleport/teleport_title_material.tres" id="3_sl3q4"]
 [ext_resource type="Material" uid="uid://d4nr1joloeff8" path="res://assets/meshes/teleport/teleport_area_shader.tres" id="4_2bbe5"]
 
@@ -142,7 +142,7 @@ script = ExtResource("1_mkuv0")
 gi_mode = 0
 mesh = SubResource("ArrayMesh_6x10k")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("2_0kehv")
+surface_material_override/0 = ExtResource("2_kj6s5")
 
 [node name="BaseCollisionShape" type="CollisionShape3D" parent="TeleportBody"]
 shape = SubResource("ConvexPolygonShape3D_4fsqc")
@@ -151,7 +151,7 @@ shape = SubResource("ConvexPolygonShape3D_4fsqc")
 gi_mode = 0
 mesh = SubResource("ArrayMesh_20bhj")
 skeleton = NodePath("")
-surface_material_override/0 = ExtResource("2_0kehv")
+surface_material_override/0 = ExtResource("2_kj6s5")
 surface_material_override/1 = ExtResource("3_sl3q4")
 
 [node name="TopCollisionShape" type="CollisionShape3D" parent="TeleportBody"]
