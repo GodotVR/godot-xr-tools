@@ -39,9 +39,11 @@ radius = 80.0
 
 [node name="SphereWorldDemo" instance=ExtResource("1")]
 script = ExtResource("2_nlk8r")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
 environment = ExtResource("19")
 
-[node name="XROrigin3D" parent="." index="0"]
+[node name="XROrigin3D" parent="." index="1"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 50, 0)
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("4")]
@@ -87,27 +89,27 @@ grapple_collision_mask = 3
 
 [node name="MovementWallWalk" parent="XROrigin3D" index="7" instance=ExtResource("12")]
 
-[node name="Teleport1" parent="." index="1" instance=ExtResource("20")]
+[node name="Teleport1" parent="." index="2" instance=ExtResource("20")]
 transform = Transform3D(-4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 49.9, 0, 0)
 scene_base = NodePath("..")
 title = ExtResource("21")
 
-[node name="Teleport2" parent="." index="2" instance=ExtResource("20")]
+[node name="Teleport2" parent="." index="3" instance=ExtResource("20")]
 transform = Transform3D(1.91069e-15, -4.37114e-08, 1, -1, -4.37114e-08, 0, 4.37114e-08, -1, -4.37114e-08, 0, 0, -49.9)
 scene_base = NodePath("..")
 title = ExtResource("21")
 
-[node name="Teleport3" parent="." index="3" instance=ExtResource("20")]
+[node name="Teleport3" parent="." index="4" instance=ExtResource("20")]
 transform = Transform3D(4.37114e-08, -1, -8.74228e-08, -1, -4.37114e-08, 0, -3.82137e-15, 8.74228e-08, -1, -49.9, 0, 0)
 scene_base = NodePath("..")
 title = ExtResource("21")
 
-[node name="Teleport4" parent="." index="4" instance=ExtResource("20")]
+[node name="Teleport4" parent="." index="5" instance=ExtResource("20")]
 transform = Transform3D(-5.73206e-15, 1.31134e-07, -1, -1, -4.37114e-08, 0, -4.37114e-08, 1, 1.31134e-07, 0, 0, 49.9)
 scene_base = NodePath("..")
 title = ExtResource("21")
 
-[node name="World" type="Node3D" parent="." index="5"]
+[node name="World" type="Node3D" parent="." index="6"]
 
 [node name="Body" type="StaticBody3D" parent="World" index="0"]
 collision_layer = 8
@@ -160,6 +162,6 @@ transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 
 [node name="Donut2" parent="World" index="11" instance=ExtResource("23_nox6a")]
 transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 0, 49.5, 0)
 
-[node name="DirectionalLight" type="DirectionalLight3D" parent="." index="6"]
+[node name="DirectionalLight" type="DirectionalLight3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 0.258819, 0.965926, 0, -0.965926, 0.258819, 0, 60, 0)
 light_energy = 0.8

@@ -1,5 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://rypqa6qcv0st"]
+[gd_scene load_steps=7 format=3 uid="uid://rypqa6qcv0st"]
 
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="1_d6n2l"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2"]
 
 [sub_resource type="QuadMesh" id="7"]
@@ -15,6 +16,9 @@ size = Vector2(96, 16)
 size = Vector3(100, 16, 2)
 
 [node name="BasicMap" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_d6n2l")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 5, 0)

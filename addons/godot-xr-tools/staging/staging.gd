@@ -63,18 +63,6 @@ var current_scene_path : String
 # Tween for fading
 var _tween : Tween
 
-
-## WorldEnvironment
-##
-## You will note that our staging scene has a world environment
-## node included. Godot does not have a mechanism for having
-## multiple world environments in our scene and marking one as
-## active which makes it impractical to embed these in our demo
-## scenes. Instead we will obtain the environment from our demo
-## scene and manage it here. Our world environment at the start
-## belongs to our loading screen and we need to keep a copy.
-@onready var loading_screen_environment = $WorldEnvironment.environment
-
 ## XR Origin
 @onready var xr_origin : XROrigin3D = XRHelpers.get_xr_origin(self)
 
@@ -165,7 +153,6 @@ func load_scene(p_scene_path : String) -> void:
 		xr_origin.set_process_internal(true)
 		xr_origin.current = true
 		xr_camera.current = true
-		$WorldEnvironment.environment = loading_screen_environment
 		$LoadingScreen.progress = 0.0
 		$LoadingScreen.enable_press_to_continue = false
 		$LoadingScreen.follow_camera = true
@@ -226,7 +213,6 @@ func load_scene(p_scene_path : String) -> void:
 	current_scene = new_scene.instantiate()
 	current_scene_path = p_scene_path
 	$Scene.add_child(current_scene)
-	$WorldEnvironment.environment = current_scene.environment
 	_add_signals(current_scene)
 
 	# We create a small delay here to give tracking some time to update our nodes...

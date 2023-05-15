@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnqnnnet4dw12"]
+[gd_scene load_steps=9 format=3 uid="uid://bnqnnnet4dw12"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/staging.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bqumugyvkct4r" path="res://addons/godot-xr-tools/staging/loading_screen.tscn" id="2"]
+[ext_resource type="Environment" uid="uid://ckiwtcdsam7ed" path="res://addons/godot-xr-tools/staging/staging_env.tres" id="3_40x3a"]
 [ext_resource type="Shader" path="res://addons/godot-xr-tools/staging/fade.gdshader" id="4"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="6_balvx"]
@@ -13,28 +14,19 @@ size = Vector2(2, 2)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_snlak"]
 render_priority = 0
 shader = ExtResource("4")
-shader_parameter/alpha = null
-
-[sub_resource type="Sky" id="1"]
-
-[sub_resource type="Environment" id="2"]
-background_mode = 1
-sky = SubResource("1")
+shader_parameter/alpha = 0.0
 
 [node name="Staging" type="Node3D"]
 script = ExtResource("1")
-main_scene = ""
 
 [node name="Fade" type="MeshInstance3D" parent="."]
 mesh = SubResource("4")
 surface_material_override/0 = SubResource("ShaderMaterial_snlak")
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("2")
-
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+environment = ExtResource("3_40x3a")
 
 [node name="VRCommonShaderCache" parent="XROrigin3D/XRCamera3D" instance=ExtResource("5")]
 

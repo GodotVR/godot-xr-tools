@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://ca6c2h3xsflxf"]
+[gd_scene load_steps=11 format=3 uid="uid://ca6c2h3xsflxf"]
 
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="1_ggqvk"]
 [ext_resource type="Material" uid="uid://bhchqeutlu0os" path="res://assets/maps/holodeck/materials/floor.material" id="1_w8tvf"]
 [ext_resource type="Material" uid="uid://c5no820h1vdbl" path="res://assets/maps/holodeck/materials/holodeck_grid.material" id="2_bu2ws"]
 [ext_resource type="PackedScene" uid="uid://ca4dy4a8x7myp" path="res://assets/maps/holodeck/holodeck_wall.tscn" id="2_eifp0"]
@@ -24,6 +25,9 @@ metallic = 1.0
 roughness = 0.3
 
 [node name="HolodeckMap" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_ggqvk")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.814705, -0.576268, -0.0645869, 0.185005, 0.152748, 0.970794, -0.549572, -0.802859, 0.231057, 0, 5.09148, 0)
