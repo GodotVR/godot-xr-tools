@@ -8,7 +8,7 @@
 script = ExtResource("2")
 main_scene = "res://scenes/main_menu/main_menu_level.tscn"
 
-[node name="LoadingScreen" parent="." index="3"]
+[node name="LoadingScreen" parent="." index="2"]
 splash_screen = ExtResource("3_2an2h")
 
 [connection signal="scene_exiting" from="." to="." method="_on_Staging_scene_exiting"]

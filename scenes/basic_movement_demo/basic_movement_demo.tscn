@@ -1,9 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://bbcamgruwhrq4"]
+[gd_scene load_steps=16 format=3 uid="uid://bbcamgruwhrq4"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5ptmo"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="2_54yy3"]
-[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_xhf7c"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="5_2ekvc"]
@@ -19,7 +18,6 @@
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
 script = ExtResource("2_5ptmo")
-environment = ExtResource("3_xhf7c")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("2_54yy3")]
 

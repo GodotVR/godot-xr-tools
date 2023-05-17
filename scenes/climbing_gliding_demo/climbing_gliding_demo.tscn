@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3]
+[gd_scene load_steps=25 format=3 uid="uid://40a3andy74bw"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_nosao"]
@@ -31,9 +31,11 @@ size = Vector3(200, 1, 200)
 
 [node name="ClimbingGlidingDemo" instance=ExtResource("1")]
 script = ExtResource("2_nosao")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
 environment = ExtResource("3_tyrna")
 
-[node name="XROrigin3D" parent="." index="0"]
+[node name="XROrigin3D" parent="." index="1"]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -89, 36, -65)
 
 [node name="XRCamera3D" parent="XROrigin3D" index="0"]
@@ -72,11 +74,11 @@ wings_impulse = true
 
 [node name="MovementWind" parent="XROrigin3D" index="6" instance=ExtResource("22")]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="1"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." index="2"]
 transform = Transform3D(0.866025, -0.321394, 0.383022, 0, 0.766044, 0.642788, -0.5, -0.55667, 0.663414, 0, 5, 0)
 light_energy = 0.8
 
-[node name="Terrain" type="Node3D" parent="." index="2"]
+[node name="Terrain" type="Node3D" parent="." index="3"]
 
 [node name="Ground" type="StaticBody3D" parent="Terrain" index="0"]
 
@@ -224,15 +226,15 @@ transform = Transform3D(-0.999976, 0, 0.00698123, 0, 1, 0, -0.00698123, 0, -0.99
 [node name="ring6" parent="Terrain/Rings" index="5" instance=ExtResource("18_gu236")]
 transform = Transform3D(-0.880477, 0, -0.474088, 0, 1, 0, 0.474088, 0, -0.880477, -47.65, 14.547, -50.234)
 
-[node name="MainMenuTeleport1" parent="." index="3" instance=ExtResource("14")]
+[node name="MainMenuTeleport1" parent="." index="4" instance=ExtResource("14")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 36, -68)
 scene_base = NodePath("..")
 title = ExtResource("13")
 
-[node name="MainMenuTeleport2" parent="." index="4" instance=ExtResource("14")]
+[node name="MainMenuTeleport2" parent="." index="5" instance=ExtResource("14")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91, 6, 81)
 scene_base = NodePath("..")
 title = ExtResource("13")
 
-[node name="Instructions" parent="." index="5" instance=ExtResource("19_3dxda")]
+[node name="Instructions" parent="." index="6" instance=ExtResource("19_3dxda")]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40, -60)
