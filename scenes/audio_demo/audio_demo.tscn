@@ -1,0 +1,60 @@
+[gd_scene load_steps=15 format=3 uid="uid://c2peddtwxsah5"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_jceij"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_tafmy"]
+[ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="3_xxmgq"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_1uxxi"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="5_02uus"]
+[ext_resource type="PackedScene" uid="uid://bft3xyxs31ci3" path="res://addons/godot-xr-tools/functions/function_pose_detector.tscn" id="6_131o8"]
+[ext_resource type="PackedScene" uid="uid://btf05hjpw6k05" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_physics_hand_low.tscn" id="6_vetbi"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7_h0ohr"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="8_bx0ud"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9_8cb2y"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="11_uavgr"]
+[ext_resource type="Material" uid="uid://l6k6mcocgs1v" path="res://assets/maps/holodeck/materials/arcade_floor.material" id="12_e348c"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="13_nq2ma"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14_17t48"]
+
+[node name="AudioDemo" instance=ExtResource("1_jceij")]
+script = ExtResource("2_tafmy")
+
+[node name="LeftPhysicsHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_xxmgq")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("4_1uxxi")]
+strafe = true
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5_02uus")]
+grab_distance = 0.1
+ranged_angle = 10.0
+
+[node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6_131o8")]
+
+[node name="RightPhysicsHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("6_vetbi")]
+
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("4_1uxxi")]
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("7_h0ohr")]
+
+[node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5_02uus")]
+grab_distance = 0.1
+ranged_angle = 10.0
+
+[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("8_bx0ud")]
+show_laser = 2
+laser_length = 1
+
+[node name="FunctionPoseDetector" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("6_131o8")]
+
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9_8cb2y")]
+
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("11_uavgr")]
+
+[node name="MeshInstance3D" parent="HolodeckMap/Ground" index="0"]
+surface_material_override/0 = ExtResource("12_e348c")
+
+[node name="Teleport" parent="." index="2" instance=ExtResource("13_nq2ma")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
+scene_base = NodePath("..")
+title = ExtResource("14_17t48")
+
+[editable path="HolodeckMap"]
