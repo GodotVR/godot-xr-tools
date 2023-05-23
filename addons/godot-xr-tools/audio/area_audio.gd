@@ -11,7 +11,7 @@ extends Node
 ## this node will work on those as well
 
 
-## XRToolsPickableAfxType to associate with this pickable
+## XRToolsAreaAudioType to associate with this Area Audio
 @export var area_audio_type : XRToolsAreaAudioType
 @onready var area : Area3D = get_parent()
 @export var player : AudioStreamPlayer3D
