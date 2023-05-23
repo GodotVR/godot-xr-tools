@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_vvlyb"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_nd4we"]
 [ext_resource type="PackedScene" uid="uid://bl6lg0rqvld7m" path="res://assets/digitaln8m4r3/models/pingpong/ping_pong_racket.glb" id="6_0mnuj"]
-[ext_resource type="Script" path="res://assets/digitaln8m4r3/pickable_audio.gd" id="6_vvh3y"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="6_3h5ab"]
 [ext_resource type="Material" uid="uid://c3npqgwm8y0sc" path="res://assets/digitaln8m4r3/materials/ping_pong.material" id="7_cocq2"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5u67t"]
@@ -43,7 +43,7 @@ max_db = 1.0
 max_distance = 100.0
 
 [node name="XRToolsPickableAudio" type="Node" parent="." index="7"]
-script = ExtResource("6_vvh3y")
+script = ExtResource("6_3h5ab")
 
 [node name="ping_pong_racket" parent="." index="8" instance=ExtResource("6_0mnuj")]
 

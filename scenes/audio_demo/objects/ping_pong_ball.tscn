@@ -1,18 +1,24 @@
-[gd_scene load_steps=14 format=3 uid="uid://co4srrnve77vf"]
+[gd_scene load_steps=16 format=3 uid="uid://d3mg3nmndxvxv"]
 
-[ext_resource type="PhysicsMaterial" uid="uid://gl74f6dst4cl" path="res://assets/digitaln8m4r3/phymat/ping_pong_ball.phymat" id="1_gcgbf"]
+[ext_resource type="PhysicsMaterial" uid="uid://gl74f6dst4cl" path="res://scenes/audio_demo/phymat/ping_pong_ball.phymat" id="1_gcgbf"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="2_1wp73"]
+[ext_resource type="Animation" uid="uid://c8qmcuyaltdnw" path="res://addons/godot-xr-tools/hands/animations/left/PingPong.res" id="4_rj6uc"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="5_20p03"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="5_xcxyk"]
-[ext_resource type="Resource" uid="uid://epoxycj2fyxq" path="res://assets/digitaln8m4r3/poses/pose_basketball_left.tres" id="6_qvopf"]
+[ext_resource type="Resource" uid="uid://dfy1y2oko2r26" path="res://scenes/audio_demo/poses/pose_ping_pong_right.tres" id="7_c7erp"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_r4he2"]
-[ext_resource type="Resource" uid="uid://d0mybjeq0k340" path="res://assets/digitaln8m4r3/poses/pose_basketball_right.tres" id="8_8g2ji"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="9_h5kay"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_y4qol"]
 [ext_resource type="PackedScene" uid="uid://d2tqk4wgfwcl8" path="res://assets/digitaln8m4r3/models/pingpong/ping_pong_ball.glb" id="10_6mlut"]
-[ext_resource type="Script" path="res://assets/digitaln8m4r3/pickable_audio.gd" id="10_ks381"]
 [ext_resource type="Material" uid="uid://c3npqgwm8y0sc" path="res://assets/digitaln8m4r3/materials/ping_pong.material" id="11_fxpom"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2mypd"]
 radius = 0.03
+
+[sub_resource type="Resource" id="Resource_lrs62"]
+script = ExtResource("5_20p03")
+open_pose = ExtResource("4_rj6uc")
+closed_pose = ExtResource("4_rj6uc")
 
 [sub_resource type="SphereMesh" id="SphereMesh_p1ov5"]
 flip_faces = true
@@ -42,12 +48,12 @@ script = ExtResource("2_1wp73")
 shape = SubResource("SphereShape3D_2mypd")
 
 [node name="GrabPointHandLeft" parent="." instance=ExtResource("5_xcxyk")]
-transform = Transform3D(0.993303, 0.0272349, 0.112285, -0.0415362, 0.991024, 0.127065, -0.107817, -0.130878, 0.985518, -0.0242711, 0.00416873, -0.08)
-hand_pose = ExtResource("6_qvopf")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.006, 0.029, -0.067)
+hand_pose = SubResource("Resource_lrs62")
 
 [node name="GrabPointHandRight" parent="." instance=ExtResource("7_r4he2")]
-transform = Transform3D(0.991198, 0.0845015, 0.101913, -0.0708858, 0.988908, -0.130526, -0.111812, 0.122153, 0.986193, 0.00657664, 0.0221884, -0.08)
-hand_pose = ExtResource("8_8g2ji")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00628921, 0.0287624, -0.0669996)
+hand_pose = ExtResource("7_c7erp")
 
 [node name="GrabHighlight" type="Node3D" parent="."]
 script = ExtResource("9_y4qol")
@@ -62,7 +68,7 @@ max_db = 1.0
 max_distance = 100.0
 
 [node name="XRToolsPickableAudio" type="Node" parent="."]
-script = ExtResource("10_ks381")
+script = ExtResource("9_h5kay")
 
 [node name="ping_pong_ball" parent="." instance=ExtResource("10_6mlut")]
 
