@@ -48,6 +48,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	if !_controller.get_is_active():
 		return
 
+	# this is not eficient, should receive a message to update or something...
 	_y_axis_dead_zone = XRTools.get_y_axis_dead_zone()
 	_x_axis_dead_zone = XRTools.get_x_axis_dead_zone()
 
@@ -62,13 +63,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		forward_backward = remap(abs(forward_backward), _y_axis_dead_zone, 1, 0, 1)
 		if negative == true:
 			forward_backward *= -1
-			
-		#print("input y %s" % forward_backward)
 		player_body.ground_control_velocity.y += forward_backward * max_speed
-		label.text = ""
-	#elif forward_backward != 0:
-	#	#print("deadzone y %s | %s" % [XRTools.get_y_axis_dead_zone(), forward_backward])
-	#	label.text = "y %s | %s" % [XRTools.get_y_axis_dead_zone(), forward_backward]
 
 	# Apply left/right ground control
 	if strafe:
@@ -80,11 +75,6 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 			if negative == true:
 				left_right *= -1
 			player_body.ground_control_velocity.x += left_right * max_speed
-			#print("input x %s" % left_right)
-			#label.text = ""
-	#elif left_right != 0:
-	#	print("deadzone x %s | %s" % [XRTools.get_x_axis_dead_zone(), left_right])
-	#	#label.text = "x %s | %s" % [XRTools.get_x_axis_dead_zone(), left_right]
 		
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()
