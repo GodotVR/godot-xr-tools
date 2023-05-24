@@ -7,7 +7,9 @@ extends TabContainer
 func _update():
 	# Input
 	$Input/SnapTurning/SnapTurningCB.button_pressed = XRToolsUserSettings.snap_turning
-
+	$Input/yAxisDeadZone/yAxisDeadZoneSlider.value = XRToolsUserSettings.y_axis_dead_zone
+	$Input/xAxisDeadZone/xAxisDeadZoneSlider.value = XRToolsUserSettings.x_axis_dead_zone
+	
 	# Player
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
 
@@ -62,3 +64,16 @@ func _on_PlayerHeightStandard_pressed():
 
 func _on_web_xr_primary_item_selected(index: int) -> void:
 	XRToolsUserSettings.webxr_primary = index
+
+
+func _on_y_axis_dead_zone_slider_value_changed(value):
+	#print($Input/yAxisDeadZone/yAxisDeadZoneSlider.value)
+	#print(XRToolsUserSettings.y_axis_dead_zone)
+	XRToolsUserSettings.y_axis_dead_zone = $Input/yAxisDeadZone/yAxisDeadZoneSlider.value
+
+func _on_x_axis_dead_zone_slider_value_changed(value):
+	#print($Input/xAxisDeadZone/xAxisDeadZoneSlider.value)
+	#print(XRToolsUserSettings.x_axis_dead_zone)
+	XRToolsUserSettings.x_axis_dead_zone = $Input/xAxisDeadZone/xAxisDeadZoneSlider.value
+
+
