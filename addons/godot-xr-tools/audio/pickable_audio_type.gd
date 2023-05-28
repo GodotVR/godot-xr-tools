@@ -4,7 +4,7 @@ class_name XRToolsPickableAudioType
 extends Resource
 
 
-## XRTools Pickable Afx Type Resource
+## XRTools Pickable Audio Type Resource
 ##
 ## This resource defines the audio streams to play when
 ## the pickable is being picked up/ dropped/ hit something while being held
