@@ -43,6 +43,9 @@ script = ExtResource("1_hc6k0")
 start_sound = ExtResource("2_juy2l")
 game_over_sound = ExtResource("3_m3fwu")
 score_sound = ExtResource("4_dhmji")
+start_text = "PUSH THE BUTTON"
+game_over_text = "GAME OVER"
+scored_text = "NICE SHOT"
 
 [node name="DebugRing" type="CSGTorus3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.0172369, 0)

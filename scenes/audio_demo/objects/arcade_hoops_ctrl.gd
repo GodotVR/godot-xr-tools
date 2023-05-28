@@ -17,9 +17,9 @@ extends Node3D
 @export var token: int = 0
 @export var _start_count = 60
 
-var start_str = "PUSH THE BUTTON"
-var game_over_str = "GAME OVER"
-var hitted_str = "NICE SHOT"
+@export var start_text : String = ""
+@export var game_over_text : String = ""
+@export var scored_text : String= ""
 ## Audio streams to play when the player walks on this surface
 @onready var player := $AudioStreamPlayer3D
 
@@ -50,7 +50,7 @@ signal count_down(number)
 
 func _ready() -> void:
 	timer_label.text = str(_start_count)
-	info_label.text = str(start_str)
+	info_label.text = str(start_text)
 	timer.timeout.connect(_on_start)
 
 	start_button.button_pressed.connect(_on_game_start)
@@ -86,7 +86,7 @@ func _on_exit_area_entered(_pickable):
 
 		emit_signal("target_passed")
 		score += 1
-		info_label.text = str(hitted_str)
+		info_label.text = str(scored_text)
 		score_label.text =  str(score)
 
 func _on_token_insert(_what : Node3D) -> void:
@@ -108,7 +108,7 @@ func _on_token_eject(_button) -> void:
 func _on_game_start(_button) -> void:
 	if token > 0 and !_running:
 		token -= 1
-		info_label.text = str(start_str)
+		info_label.text = str(start_text)
 		_count = _start_count
 		score = 0
 		_running = true
@@ -135,4 +135,4 @@ func _on_game_over() -> void:
 	player.play()
 	timer.stop()
 	_running = false
-	info_label.text = str(game_over_str)
+	info_label.text = str(game_over_text)
