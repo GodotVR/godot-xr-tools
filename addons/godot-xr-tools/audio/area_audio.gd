@@ -14,8 +14,9 @@ extends Node
 ## XRToolsAreaAudioType to associate with this Area Audio
 @export var area_audio_type : XRToolsAreaAudioType
 @onready var area : Area3D = get_parent()
-@export var player : AudioStreamPlayer3D
+@export var player := AudioStreamPlayer3D
 
+var _player
 
 # Add support for is_class on XRTools classes
 func is_xr_class(name : String) -> bool:
@@ -24,22 +25,23 @@ func is_xr_class(name : String) -> bool:
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_player = player
 	# Listen for enter
 	area.body_entered.connect(_on_body_entered)
 	# Listen for exit
 	area.body_exited.connect(_on_body_exited)
 
 
-func _on_body_entered(body):
-	if player.playing:
-			player.stop()
-	player.stream = area_audio_type.touch_sound
-	player.play()
+func _on_body_entered(_body):
+	if _player.playing:
+			_player.stop()
+	_player.stream = area_audio_type.touch_sound
+	_player.play()
 
 
-func _on_body_exited(body):
-	if player.playing:
-			player.stop()
+func _on_body_exited(_body):
+	if _player.playing:
+			_player.stop()
 
 
 # This method checks for configuration issues.

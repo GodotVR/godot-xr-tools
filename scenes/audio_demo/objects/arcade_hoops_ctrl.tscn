@@ -29,7 +29,7 @@ radius = 0.05
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_d2p37"]
 height = 0.05
-radius = 0.04
+radius = 0.0648648
 
 [sub_resource type="BoxMesh" id="BoxMesh_qku5y"]
 size = Vector3(0.01, 0.01, 0.05)
@@ -137,7 +137,7 @@ collision_mask = 131072
 script = ExtResource("5_sjn2m")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayButton/InteractableAreaButton"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.016, 0.0111994)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0207906, 0.0111994)
 shape = SubResource("CylinderShape3D_d2p37")
 
 [node name="XRToolsAreaAudio" type="Node" parent="PlayButton/InteractableAreaButton" node_paths=PackedStringArray("player")]
@@ -155,7 +155,7 @@ left_pose = ExtResource("9_w7004")
 right_pose = ExtResource("10_f0gwn")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayButton/HandPoseArea"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00472975, 0.0127674)
 shape = SubResource("SphereShape3D_53sn6")
 
 [node name="Start_Text" type="Label3D" parent="."]
