@@ -11,13 +11,15 @@ extends Node
 ## along with a audio for when the object is being picked up.
 
 
-## XRToolsPickableAfxType to associate with this pickable
+## XRToolsPickableAudioType to associate with this pickable
 @export var pickable_audio_type  : XRToolsPickableAudioType
+
 @export var player : AudioStreamPlayer3D
 
-@onready var _pickable : XRToolsPickable = get_parent()
 ## delta throttle is 1/10 of delta
 @onready var delta_throttle : float = 0.1
+
+@onready var _pickable : XRToolsPickable = get_parent()
 
 
 # Add support for is_class on XRTools classes

@@ -13,6 +13,7 @@ extends Node
 
 ## XRToolsAreaAudioType to associate with this Area Audio
 @export var area_audio_type : XRToolsAreaAudioType
+
 @export var player : AudioStreamPlayer3D
 
 @onready var area : Area3D = get_parent()
