@@ -1,0 +1,29 @@
+	
+	Arcade Hoops 3D Model
+	Basketball 3D Model
+	PingPong Ball 3D Model
+	Ping Pong Racket 3D Model
+	Table 3D Model
+	Token 3D Model
+
+
+	Created/distributed by DigitalN8m4r3 aka Miodrag Sejic
+	https://www.digitalnightmare.eu/en/privacy.html
+	Release Date: Mai 2023
+
+			------------------------------
+
+	License: (Creative Commons Zero, CC0)
+	http://creativecommons.org/publicdomain/zero/1.0/
+
+	This content is free to use in personal, educational and commercial projects.
+
+			------------------------------
+
+	Follow on Twitter for updates:
+	https://twitter.com/DigitalN8m4r3
+
+
+	Note:
+		token 3D Model ressembles the Godot Engine Logo
+		Arcade Hoops Texture ressembles the Godot Engine Logo

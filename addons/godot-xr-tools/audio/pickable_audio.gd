@@ -22,7 +22,7 @@ extends Node
 
 # Add support for is_class on XRTools classes
 func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPickableAfx"
+	return name == "XRToolsPickableAudio"
 
 
 # Called when the node enters the scene tree for the first time.

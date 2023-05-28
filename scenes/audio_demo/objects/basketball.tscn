@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ca4wkvbu8jnb4"]
+[gd_scene load_steps=15 format=3 uid="uid://ca4wkvbu8jnb4"]
 
 [ext_resource type="PhysicsMaterial" uid="uid://cp81nam8s31si" path="res://scenes/audio_demo/phymat/basketball.phymat" id="1_nyqn6"]
 [ext_resource type="Material" uid="uid://b75k00p8ogwv2" path="res://assets/digitaln8m4r3/materials/basketball_godot.material" id="2_h8b1f"]
@@ -10,6 +10,7 @@
 [ext_resource type="Resource" uid="uid://d0mybjeq0k340" path="res://scenes/audio_demo/poses/pose_basketball_right.tres" id="5_tgtml"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_d5g7v"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="10_nyvoh"]
+[ext_resource type="Resource" uid="uid://c7l7qe7dqosqw" path="res://scenes/audio_demo/audio/audio_basketball.tres" id="11_4ra8e"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yc584"]
 radius = 0.14
@@ -61,13 +62,13 @@ mesh = SubResource("SphereMesh_p1ov5")
 surface_material_override/0 = SubResource("StandardMaterial3D_ghe2f")
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-volume_db = -80.0
 unit_size = 3.0
 max_db = 1.0
 max_distance = 100.0
 
 [node name="XRToolsPickableAudio" type="Node" parent="." node_paths=PackedStringArray("player")]
 script = ExtResource("10_nyvoh")
-player = NodePath("")
+pickable_audio_type = ExtResource("11_4ra8e")
+player = NodePath("../AudioStreamPlayer3D")
 
 [editable path="basketball"]

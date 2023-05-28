@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c2peddtwxsah5"]
+[gd_scene load_steps=23 format=3 uid="uid://c2peddtwxsah5"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_jceij"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_tafmy"]
@@ -10,10 +10,18 @@
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7_h0ohr"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="8_bx0ud"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9_8cb2y"]
-[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="11_uavgr"]
-[ext_resource type="Material" uid="uid://l6k6mcocgs1v" path="res://assets/maps/holodeck/materials/arcade_floor.material" id="12_e348c"]
+[ext_resource type="PackedScene" uid="uid://6xxscqoyit84" path="res://assets/maps/holodeck_map_s.tscn" id="11_yy8rv"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="13_nq2ma"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14_17t48"]
+[ext_resource type="PackedScene" uid="uid://ca4wkvbu8jnb4" path="res://scenes/audio_demo/objects/basketball.tscn" id="15_vjd76"]
+[ext_resource type="PackedScene" uid="uid://d3mg3nmndxvxv" path="res://scenes/audio_demo/objects/ping_pong_ball.tscn" id="16_3eyoi"]
+[ext_resource type="PackedScene" uid="uid://coa22qqgjs0yb" path="res://scenes/audio_demo/objects/ping_pong_racket.tscn" id="17_lx4jc"]
+[ext_resource type="PackedScene" uid="uid://0yjbl2vc5ry" path="res://scenes/audio_demo/objects/token.tscn" id="18_4luwj"]
+[ext_resource type="AudioStream" uid="uid://dd1dmsoxo58ao" path="res://assets/BryanTeoh/Soundtrack From the Starcourt Mall.mp3" id="19_3odgn"]
+[ext_resource type="PackedScene" uid="uid://bwcpq6cuejbiy" path="res://assets/meshes/table/table.tscn" id="20_wktwo"]
+[ext_resource type="PackedScene" uid="uid://coqjbivi8c757" path="res://scenes/audio_demo/objects/ping_pong_table.tscn" id="21_brgsn"]
+[ext_resource type="PackedScene" uid="uid://diyu4g17s0n8g" path="res://scenes/audio_demo/objects/arcade_hoops.tscn" id="21_v27ri"]
+[ext_resource type="PackedScene" uid="uid://c8v28upinm8k8" path="res://scenes/audio_demo/objects/instructions.tscn" id="22_8pmnk"]
 
 [node name="AudioDemo" instance=ExtResource("1_jceij")]
 script = ExtResource("2_tafmy")
@@ -47,14 +55,91 @@ laser_length = 1
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9_8cb2y")]
 
-[node name="HolodeckMap" parent="." index="1" instance=ExtResource("11_uavgr")]
-
-[node name="MeshInstance3D" parent="HolodeckMap/Ground" index="0"]
-surface_material_override/0 = ExtResource("12_e348c")
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("11_yy8rv")]
 
 [node name="Teleport" parent="." index="2" instance=ExtResource("13_nq2ma")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
 scene_base = NodePath("..")
 title = ExtResource("14_17t48")
 
-[editable path="HolodeckMap"]
+[node name="Instructions" parent="." index="3" instance=ExtResource("22_8pmnk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6.821)
+
+[node name="AudioToys" type="Node3D" parent="." index="4"]
+
+[node name="OnArcade" type="Node3D" parent="AudioToys" index="0"]
+
+[node name="Token" parent="AudioToys/OnArcade" index="0" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.51667, 0.804258, -4.52431)
+
+[node name="Token2" parent="AudioToys/OnArcade" index="1" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.56099, 0.80477, -4.58466)
+
+[node name="Token3" parent="AudioToys/OnArcade" index="2" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.49533, 0.8027, -4.5853)
+
+[node name="Basketball" parent="AudioToys/OnArcade" index="3" instance=ExtResource("15_vjd76")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.681, -4.89)
+
+[node name="Basketball2" parent="AudioToys/OnArcade" index="4" instance=ExtResource("15_vjd76")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.395, 0.681, -4.877)
+
+[node name="Basketball3" parent="AudioToys/OnArcade" index="5" instance=ExtResource("15_vjd76")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.641, 0.681, -4.884)
+
+[node name="OnTable" type="Node3D" parent="AudioToys" index="1"]
+
+[node name="Token" parent="AudioToys/OnTable" index="0" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.57792, 0.899712, -2.23814)
+
+[node name="Token2" parent="AudioToys/OnTable" index="1" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.62224, 0.888851, -2.26039)
+
+[node name="Token3" parent="AudioToys/OnTable" index="2" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.53759, 0.886781, -2.23687)
+
+[node name="Token4" parent="AudioToys/OnTable" index="3" instance=ExtResource("18_4luwj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.59301, 0.881359, -2.20364)
+
+[node name="PingPongRacket" parent="AudioToys/OnTable" index="4" instance=ExtResource("17_lx4jc")]
+transform = Transform3D(1.31134e-07, 1, -3.82137e-15, -4.37114e-08, 1.91069e-15, -1, -1, 1.31134e-07, 4.37114e-08, 0.369839, 0.863113, -2.1133)
+
+[node name="PingPongBall" parent="AudioToys/OnTable" index="5" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.624029, 0.843041, -2.09441)
+
+[node name="PingPongBall2" parent="AudioToys/OnTable" index="6" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.747767, 0.843041, -2.09441)
+
+[node name="PingPongBall3" parent="AudioToys/OnTable" index="7" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.863703, 0.843041, -2.09441)
+
+[node name="Basketball4" parent="AudioToys/OnTable" index="8" instance=ExtResource("15_vjd76")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0543816, 0.917915, -2.11224)
+
+[node name="OnPingPongTable" type="Node3D" parent="AudioToys" index="2"]
+
+[node name="PingPongRacket2" parent="AudioToys/OnPingPongTable" index="0" instance=ExtResource("17_lx4jc")]
+transform = Transform3D(-0.866026, -0.5, 2.2954e-08, 4.37114e-08, -2.98023e-08, 1, -0.5, 0.866026, 4.76653e-08, 4.01502, 1.04976, -5.63702)
+
+[node name="PingPongBall" parent="AudioToys/OnPingPongTable" index="1" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.86931, 1.05169, -5.53634)
+
+[node name="PingPongBall2" parent="AudioToys/OnPingPongTable" index="2" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.99304, 1.05169, -5.53634)
+
+[node name="PingPongBall3" parent="AudioToys/OnPingPongTable" index="3" instance=ExtResource("16_3eyoi")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.10898, 1.05169, -5.53634)
+
+[node name="ArcadeHoops" parent="." index="5" instance=ExtResource("21_v27ri")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4.018, 0, -4.4)
+
+[node name="Table" parent="." index="6" instance=ExtResource("20_wktwo")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -3)
+
+[node name="PingPongTable" parent="." index="7" instance=ExtResource("21_brgsn")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.61845, 0, -6.9979)
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="8"]
+stream = ExtResource("19_3odgn")
+max_db = -20.0
+autoplay = true
