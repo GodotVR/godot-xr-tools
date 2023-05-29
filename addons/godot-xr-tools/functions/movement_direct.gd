@@ -28,14 +28,6 @@ extends XRToolsMovementProvider
 # Controller node
 @onready var _controller := XRHelpers.get_xr_controller(self)
 
-## y_axis_dead_zone (from configuration)
-@onready var _y_axis_dead_zone : float = XRTools.get_y_axis_dead_zone()
-
-## x_axis_dead_zone (from configuration)
-@onready var _x_axis_dead_zone : float = XRTools.get_x_axis_dead_zone()
-
-@onready var label = $"../../XRCamera3D/Label3D"
-
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
@@ -48,33 +40,11 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	if !_controller.get_is_active():
 		return
 
-	# this is not eficient, should receive a message to update or something...
-	_y_axis_dead_zone = XRTools.get_y_axis_dead_zone()
-	_x_axis_dead_zone = XRTools.get_x_axis_dead_zone()
-
-	# Apply forwards/backwards ground control
-	var forward_backward := _controller.get_vector2(input_action).y
-	var left_right := _controller.get_vector2(input_action).x
-	
-	if abs(forward_backward) > _y_axis_dead_zone:
-		var negative = false
-		if forward_backward < 0:
-			negative = true			
-		forward_backward = remap(abs(forward_backward), _y_axis_dead_zone, 1, 0, 1)
-		if negative == true:
-			forward_backward *= -1
-		player_body.ground_control_velocity.y += forward_backward * max_speed
-
-	# Apply left/right ground control
-	if strafe:
-		if abs(left_right) > _x_axis_dead_zone:
-			var negative = false
-			if left_right < 0:
-				negative = true	
-			left_right = remap(abs(left_right), _x_axis_dead_zone, 1, 0, 1)
-			if negative == true:
-				left_right *= -1
-			player_body.ground_control_velocity.x += left_right * max_speed
+	## get input action with deadzone correction applied
+	var dz_input_action = XRToolsUserSettings.get_adjusted_vector2(_controller, input_action)
+			
+	player_body.ground_control_velocity.x += dz_input_action.x * max_speed
+	player_body.ground_control_velocity.y += dz_input_action.y * max_speed
 		
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()
