@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c2peddtwxsah5"]
+[gd_scene load_steps=27 format=3 uid="uid://c2peddtwxsah5"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_jceij"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_tafmy"]
@@ -10,7 +10,10 @@
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="7_h0ohr"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="8_bx0ud"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9_8cb2y"]
+[ext_resource type="PackedScene" uid="uid://0xlsitpu17r1" path="res://addons/godot-xr-tools/functions/movement_footstep.tscn" id="11_4jiwm"]
 [ext_resource type="PackedScene" uid="uid://6xxscqoyit84" path="res://assets/maps/holodeck_map_s.tscn" id="11_yy8rv"]
+[ext_resource type="AudioStream" uid="uid://cddgfn5xkknr4" path="res://assets/footsteps/default_footstep.wav" id="12_sotnm"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="13_8k0am"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="13_nq2ma"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14_17t48"]
 [ext_resource type="PackedScene" uid="uid://ca4wkvbu8jnb4" path="res://scenes/audio_demo/objects/basketball.tscn" id="15_vjd76"]
@@ -22,6 +25,14 @@
 [ext_resource type="PackedScene" uid="uid://coqjbivi8c757" path="res://scenes/audio_demo/objects/ping_pong_table.tscn" id="21_brgsn"]
 [ext_resource type="PackedScene" uid="uid://diyu4g17s0n8g" path="res://scenes/audio_demo/objects/arcade_hoops.tscn" id="21_v27ri"]
 [ext_resource type="PackedScene" uid="uid://c8v28upinm8k8" path="res://scenes/audio_demo/objects/instructions.tscn" id="22_8pmnk"]
+
+[sub_resource type="Resource" id="Resource_ppd3h"]
+script = ExtResource("13_8k0am")
+name = "Default"
+hit_sound = ExtResource("12_sotnm")
+walk_sounds = Array[AudioStream]([ExtResource("12_sotnm"), ExtResource("12_sotnm")])
+walk_pitch_minimum = 0.8
+walk_pitch_maximum = 1.2
 
 [node name="AudioDemo" instance=ExtResource("1_jceij")]
 script = ExtResource("2_tafmy")
@@ -54,6 +65,13 @@ laser_length = 1
 [node name="FunctionPoseDetector" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("6_131o8")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9_8cb2y")]
+
+[node name="MovementFootstep" parent="XROrigin3D" index="4" instance=ExtResource("11_4jiwm")]
+order = 1001
+default_surface_audio_type = SubResource("Resource_ppd3h")
+walk_speed = 0.4
+steps_per_meter = 1.0
+enabled = true
 
 [node name="HolodeckMap" parent="." index="1" instance=ExtResource("11_yy8rv")]
 
