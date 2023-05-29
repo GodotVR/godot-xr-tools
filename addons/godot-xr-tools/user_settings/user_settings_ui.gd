@@ -9,7 +9,7 @@ func _update():
 	$Input/SnapTurning/SnapTurningCB.button_pressed = XRToolsUserSettings.snap_turning
 	$Input/yAxisDeadZone/yAxisDeadZoneSlider.value = XRToolsUserSettings.y_axis_dead_zone
 	$Input/xAxisDeadZone/xAxisDeadZoneSlider.value = XRToolsUserSettings.x_axis_dead_zone
-	
+
 	# Player
 	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
 
