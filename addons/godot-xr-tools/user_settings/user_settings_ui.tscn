@@ -161,9 +161,7 @@ theme_override_font_sizes/font_size = 12
 text = "Reset"
 
 [connection signal="pressed" from="Input/SnapTurning/SnapTurningCB" to="." method="_on_SnapTurningCB_pressed"]
-[connection signal="drag_ended" from="Input/yAxisDeadZone/yAxisDeadZoneSlider" to="." method="_on_y_axis_dead_zone_slider_drag_ended"]
 [connection signal="value_changed" from="Input/yAxisDeadZone/yAxisDeadZoneSlider" to="." method="_on_y_axis_dead_zone_slider_value_changed"]
-[connection signal="drag_ended" from="Input/xAxisDeadZone/xAxisDeadZoneSlider" to="." method="_on_x_axis_dead_zone_slider_drag_ended"]
 [connection signal="value_changed" from="Input/xAxisDeadZone/xAxisDeadZoneSlider" to="." method="_on_x_axis_dead_zone_slider_value_changed"]
 [connection signal="pressed" from="Input/Buttons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Input/Buttons/Reset" to="." method="_on_Reset_pressed"]
