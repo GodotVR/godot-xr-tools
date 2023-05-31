@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/audio.svg")
 class_name XRToolsAreaAudio
-extends Node
+extends AudioStreamPlayer3D
 
 
 ## XRTools Area Audio
@@ -13,8 +13,6 @@ extends Node
 
 ## XRToolsAreaAudioType to associate with this Area Audio
 @export var area_audio_type : XRToolsAreaAudioType
-
-@export var player : AudioStreamPlayer3D
 
 @onready var area : Area3D = get_parent()
 
@@ -33,15 +31,15 @@ func _ready() -> void:
 
 
 func _on_body_entered(_body):
-	if player.playing:
-		player.stop()
-	player.stream = area_audio_type.touch_sound
-	player.play()
+	if playing:
+		stop()
+	stream = area_audio_type.touch_sound
+	play()
 
 
 func _on_body_exited(_body):
-	if player.playing:
-			player.stop()
+	if playing:
+			stop()
 
 
 # This method checks for configuration issues.

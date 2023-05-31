@@ -248,14 +248,11 @@ func pick_up_object(target: Node3D) -> void:
 
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_object = target
-	if !get_node("AudioStreamPlayer3D"):
-		pass
-	else:
-		var player = get_node("AudioStreamPlayer3D")
-		if player.playing:
-			player.stop()
-		player.stream = stash_sound
-		player.play()
+	var player = get_node("AudioStreamPlayer3D")
+	if player.playing:
+		player.stop()
+	player.stream = stash_sound
+	player.play()
 
 	target.pick_up(self, null)
 

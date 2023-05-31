@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/audio.svg")
 class_name XRToolsPickableAudio
-extends Node
+extends AudioStreamPlayer3D
 
 
 ## XRTools Pickable Audio
@@ -13,8 +13,6 @@ extends Node
 
 ## XRToolsPickableAudioType to associate with this pickable
 @export var pickable_audio_type  : XRToolsPickableAudioType
-
-@export var player : AudioStreamPlayer3D
 
 ## delta throttle is 1/10 of delta
 @onready var delta_throttle : float = 0.1
@@ -39,35 +37,35 @@ func _ready() -> void:
 func _physics_process(_delta):
 	if !_pickable.sleeping:
 		if _pickable.linear_velocity.length() > 5:
-			player.volume_db = 0
+			volume_db = 0
 		else:
-			player.volume_db -= _pickable.linear_velocity.length() * delta_throttle
+			volume_db -= _pickable.linear_velocity.length() * delta_throttle
 
 
 # Called when this object is picked up
 func _on_picked_up(_pickable) -> void:
-	player.volume_db = 0
-	if player.playing:
-		player.stop()
-	player.stream = pickable_audio_type.grab_sound
-	player.play()
+	volume_db = 0
+	if playing:
+		stop()
+	stream = pickable_audio_type.grab_sound
+	play()
 
 
 # Called when this object is dropped
 func _on_dropped(_pickable) -> void:
 	for body in _pickable.get_colliding_bodies():
-		if player.playing:
-			player.stop()
+		if playing:
+			stop()
 
 
 func _on_body_entered(_body):
-	if player.playing:
-			player.stop()
+	if playing:
+			stop()
 	if _pickable.is_picked_up():
-		player.stream = pickable_audio_type.hit_sound
+		stream = pickable_audio_type.hit_sound
 	else:
-		player.stream = pickable_audio_type.drop_sound
-	player.play()
+		stream = pickable_audio_type.drop_sound
+	play()
 
 
 # This method checks for configuration issues.

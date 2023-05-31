@@ -10,7 +10,7 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="9_h5kay"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_y4qol"]
 [ext_resource type="PackedScene" uid="uid://d2tqk4wgfwcl8" path="res://assets/digitaln8m4r3/models/pingpong/ping_pong_ball.glb" id="10_6mlut"]
-[ext_resource type="Resource" uid="uid://dfdfownva5ttm" path="res://scenes/audio_demo/audio/audio_ping_pong_ball.tres" id="10_j1hd7"]
+[ext_resource type="Resource" uid="uid://dfdfownva5ttm" path="res://scenes/audio_demo/audio/pickable/audio_ping_pong_ball.tres" id="10_j1hd7"]
 [ext_resource type="Material" uid="uid://c3npqgwm8y0sc" path="res://assets/digitaln8m4r3/materials/ping_pong.material" id="11_fxpom"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2mypd"]
@@ -63,19 +63,16 @@ script = ExtResource("9_y4qol")
 mesh = SubResource("SphereMesh_p1ov5")
 surface_material_override/0 = SubResource("StandardMaterial3D_ghe2f")
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
-unit_size = 3.0
-max_db = 1.0
-max_distance = 100.0
-
-[node name="XRToolsPickableAudio" type="Node" parent="." node_paths=PackedStringArray("player")]
-script = ExtResource("9_h5kay")
-pickable_audio_type = ExtResource("10_j1hd7")
-player = NodePath("../AudioStreamPlayer3D")
-
 [node name="ping_pong_ball" parent="." instance=ExtResource("10_6mlut")]
 
 [node name="pingpong" parent="ping_pong_ball" index="0"]
 surface_material_override/0 = ExtResource("11_fxpom")
+
+[node name="XRToolsPickableAudio" type="AudioStreamPlayer3D" parent="."]
+unit_size = 3.0
+max_db = 1.0
+max_distance = 100.0
+script = ExtResource("9_h5kay")
+pickable_audio_type = ExtResource("10_j1hd7")
 
 [editable path="ping_pong_ball"]
