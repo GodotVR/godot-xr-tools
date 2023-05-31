@@ -5,11 +5,11 @@
 [ext_resource type="AudioStream" uid="uid://but7isr8c2t64" path="res://assets/freesound/648462__andreas__wrong-answer.wav" id="3_m3fwu"]
 [ext_resource type="AudioStream" uid="uid://b6gdj8w4wvyn1" path="res://assets/freesound/677836__stormystock__he-shoots-he-scores.wav" id="4_dhmji"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="5_sjn2m"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/area_audio.gd" id="6_d2dv1"]
 [ext_resource type="Resource" uid="uid://bmhn7klmod0bm" path="res://scenes/audio_demo/audio/area/audio_button.tres" id="7_4xiv7"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="8_fu51s"]
 [ext_resource type="Resource" uid="uid://ciw0f7mg4ai0k" path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" id="9_w7004"]
 [ext_resource type="Resource" uid="uid://bhvrpfo4ecbub" path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" id="10_f0gwn"]
+[ext_resource type="PackedScene" uid="uid://duqehif60vcjg" path="res://addons/godot-xr-tools/audio/area_audio.tscn" id="11_jkmyx"]
 [ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="11_nnqng"]
 [ext_resource type="AudioStream" uid="uid://d2ti2ar5ck7oe" path="res://assets/freesound/384700_quarter_insert_edited.wav" id="12_bb26y"]
 
@@ -113,11 +113,7 @@ displacement = Vector3(0, 0, -0.005)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00274318, 0)
 shape = SubResource("BoxShape3D_67r71")
 
-[node name="XRToolsAreaAudio" type="AudioStreamPlayer3D" parent="EjectButton/InteractableAreaButton"]
-unit_size = 3.0
-max_db = 1.0
-max_distance = 100.0
-script = ExtResource("6_d2dv1")
+[node name="AreaAudio" parent="EjectButton/InteractableAreaButton" instance=ExtResource("11_jkmyx")]
 area_audio_type = ExtResource("7_4xiv7")
 
 [node name="HandPoseArea" parent="EjectButton" instance=ExtResource("8_fu51s")]
@@ -140,11 +136,7 @@ script = ExtResource("5_sjn2m")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0207906, 0.0111994)
 shape = SubResource("CylinderShape3D_d2p37")
 
-[node name="XRToolsAreaAudio" type="AudioStreamPlayer3D" parent="PlayButton/InteractableAreaButton"]
-unit_size = 3.0
-max_db = 1.0
-max_distance = 100.0
-script = ExtResource("6_d2dv1")
+[node name="AreaAudio" parent="PlayButton/InteractableAreaButton" instance=ExtResource("11_jkmyx")]
 area_audio_type = ExtResource("7_4xiv7")
 
 [node name="HandPoseArea" parent="PlayButton" instance=ExtResource("8_fu51s")]

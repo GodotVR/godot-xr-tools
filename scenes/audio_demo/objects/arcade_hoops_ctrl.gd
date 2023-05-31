@@ -78,7 +78,6 @@ func _on_exit_area_entered(_pickable):
 		if player.playing:
 				player.stop()
 		if _count <= 11:
-
 			player.stream = voice_sound
 		else:
 			player.stream = score_sound
@@ -93,7 +92,7 @@ func _on_token_insert(_what : Node3D) -> void:
 	token += 1
 	zone.enabled = false
 	tween = get_tree().create_tween()
-	tween.tween_callback(_what.queue_free).set_delay(1)
+	tween.tween_callback(_what.queue_free).set_delay(0.15)
 	tween.kill
 
 

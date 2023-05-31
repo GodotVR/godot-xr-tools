@@ -7,11 +7,11 @@
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="5_xcxyk"]
 [ext_resource type="Resource" uid="uid://dfy1y2oko2r26" path="res://scenes/audio_demo/poses/pose_ping_pong_right.tres" id="7_c7erp"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_r4he2"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="9_h5kay"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_y4qol"]
 [ext_resource type="PackedScene" uid="uid://d2tqk4wgfwcl8" path="res://assets/digitaln8m4r3/models/pingpong/ping_pong_ball.glb" id="10_6mlut"]
 [ext_resource type="Resource" uid="uid://dfdfownva5ttm" path="res://scenes/audio_demo/audio/pickable/audio_ping_pong_ball.tres" id="10_j1hd7"]
 [ext_resource type="Material" uid="uid://c3npqgwm8y0sc" path="res://assets/digitaln8m4r3/materials/ping_pong.material" id="11_fxpom"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="11_j4k1x"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_2mypd"]
 radius = 0.03
@@ -68,11 +68,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ghe2f")
 [node name="pingpong" parent="ping_pong_ball" index="0"]
 surface_material_override/0 = ExtResource("11_fxpom")
 
-[node name="XRToolsPickableAudio" type="AudioStreamPlayer3D" parent="."]
-unit_size = 3.0
-max_db = 1.0
-max_distance = 100.0
-script = ExtResource("9_h5kay")
+[node name="PickableAudio" parent="." instance=ExtResource("11_j4k1x")]
 pickable_audio_type = ExtResource("10_j1hd7")
 
 [editable path="ping_pong_ball"]

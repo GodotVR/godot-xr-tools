@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_6mufe"]
 [ext_resource type="Resource" uid="uid://d0mybjeq0k340" path="res://scenes/audio_demo/poses/pose_basketball_right.tres" id="5_tgtml"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_d5g7v"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio.gd" id="10_nyvoh"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="10_vd3v1"]
 [ext_resource type="Resource" uid="uid://c7l7qe7dqosqw" path="res://scenes/audio_demo/audio/pickable/audio_basketball.tres" id="11_h0jkj"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_yc584"]
@@ -61,11 +61,7 @@ script = ExtResource("9_d5g7v")
 mesh = SubResource("SphereMesh_p1ov5")
 surface_material_override/0 = SubResource("StandardMaterial3D_ghe2f")
 
-[node name="XRToolsPickableAudio" type="AudioStreamPlayer3D" parent="."]
-unit_size = 3.0
-max_db = 1.0
-max_distance = 100.0
-script = ExtResource("10_nyvoh")
+[node name="PickableAudio" parent="." instance=ExtResource("10_vd3v1")]
 pickable_audio_type = ExtResource("11_h0jkj")
 
 [editable path="basketball"]
