@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=5 format=3 uid="uid://bk1xkvtypqtwk"]
+
+[ext_resource type="Shader" uid="uid://d4f0sv3c8yhgx" path="res://assets/maps/holodeck/materials/holodeck_map_floor_shader.tres" id="1_64ydx"]
+[ext_resource type="Texture2D" uid="uid://im7p7npaiu5y" path="res://assets/maps/holodeck/textures/arcade_floor_baseColor.png" id="2_1qqwn"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1warn"]
+frequency = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_1ka77"]
+noise = SubResource("FastNoiseLite_1warn")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_64ydx")
+shader_parameter/uv_scale = Vector2(200, 200)
+shader_parameter/base_color = Color(0.168627, 0.176471, 0.223529, 1)
+shader_parameter/texture_base = SubResource("NoiseTexture2D_1ka77")
+shader_parameter/texture_decal = ExtResource("2_1qqwn")
