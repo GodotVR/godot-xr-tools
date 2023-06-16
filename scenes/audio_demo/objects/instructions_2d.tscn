@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://occi6hsabsk1"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Audio Demo
+
+contains objects that will play audio upon pickup/ drop/ hit/ snap in snapzone::
+
+ - PickableAudio: pickables play audio depending on velocity
+[Example: Basketball/ Racket/ PingPong/Coins]
+
+ - AreaAudio: play audio inside area3d derived nodes
+[Example: Play/ Eject Buttons on the Arcade]
+
+ - SnapZone: play a stash sound upon snapping
+[Example: arcade coin slot is a snap zone]
+
+demo contains a arcade machine, insert a coin in the slot and hit the play button or grab the racket and play pingpong"

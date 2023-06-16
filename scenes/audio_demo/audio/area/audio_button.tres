@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="XRToolsAreaAudioType" load_steps=3 format=3 uid="uid://bmhn7klmod0bm"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/area_audio_type.gd" id="1_t5i2u"]
+[ext_resource type="AudioStream" uid="uid://bbe283racxu5y" path="res://assets/freesound/63529__florian_reinke__button_on.wav" id="2_fmxfd"]
+
+[resource]
+script = ExtResource("1_t5i2u")
+name = "Button"
+touch_sound = ExtResource("2_fmxfd")

@@ -1,0 +1,198 @@
+[gd_scene load_steps=20 format=3 uid="uid://qs3ih3whxi63"]
+
+[ext_resource type="Script" path="res://scenes/audio_demo/objects/arcade_hoops_ctrl.gd" id="1_hc6k0"]
+[ext_resource type="AudioStream" uid="uid://bpwmmom4spy3o" path="res://assets/freesound/218318__splicesound__referee-whistle-blow-gymnasium.wav" id="2_juy2l"]
+[ext_resource type="AudioStream" uid="uid://but7isr8c2t64" path="res://assets/freesound/648462__andreas__wrong-answer.wav" id="3_m3fwu"]
+[ext_resource type="AudioStream" uid="uid://b6gdj8w4wvyn1" path="res://assets/freesound/677836__stormystock__he-shoots-he-scores.wav" id="4_dhmji"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="5_sjn2m"]
+[ext_resource type="Resource" uid="uid://bmhn7klmod0bm" path="res://scenes/audio_demo/audio/area/audio_button.tres" id="7_4xiv7"]
+[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="8_fu51s"]
+[ext_resource type="Resource" uid="uid://ciw0f7mg4ai0k" path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" id="9_w7004"]
+[ext_resource type="Resource" uid="uid://bhvrpfo4ecbub" path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" id="10_f0gwn"]
+[ext_resource type="PackedScene" uid="uid://duqehif60vcjg" path="res://addons/godot-xr-tools/audio/area_audio.tscn" id="11_jkmyx"]
+[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="11_nnqng"]
+[ext_resource type="AudioStream" uid="uid://d2ti2ar5ck7oe" path="res://assets/freesound/384700_quarter_insert_edited.wav" id="12_bb26y"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wxulc"]
+height = 0.001
+radius = 0.21
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_gwu43"]
+height = 0.001
+radius = 0.21
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_67r71"]
+size = Vector3(0.0638347, 0.00889492, 0.0574027)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_53sn6"]
+radius = 0.05
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_d2p37"]
+height = 0.05
+radius = 0.0648648
+
+[sub_resource type="BoxMesh" id="BoxMesh_qku5y"]
+size = Vector3(0.01, 0.01, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_64oma"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[node name="ArcadeHoopsCtrl" type="Node3D" groups=["target"]]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.4, -2.21847)
+script = ExtResource("1_hc6k0")
+start_sound = ExtResource("2_juy2l")
+game_over_sound = ExtResource("3_m3fwu")
+score_sound = ExtResource("4_dhmji")
+start_text = "PUSH THE BUTTON"
+game_over_text = "GAME OVER"
+scored_text = "NICE SHOT"
+
+[node name="DebugRing" type="CSGTorus3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.0172369, 0)
+visible = false
+use_collision = true
+inner_radius = 0.21
+outer_radius = 0.24
+sides = 12
+ring_sides = 8
+smooth_faces = false
+
+[node name="EntranceArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.014, -0.0134485)
+collision_layer = 0
+collision_mask = 65540
+
+[node name="CollisionShape" type="CollisionShape3D" parent="EntranceArea"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_wxulc")
+
+[node name="ExitArea" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.014, -0.125909)
+collision_layer = 0
+collision_mask = 65540
+
+[node name="CollisionShape" type="CollisionShape3D" parent="ExitArea"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_gwu43")
+
+[node name="Score_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.324127, 0.243393, 0.266209)
+pixel_size = 0.0035
+modulate = Color(0, 1, 0, 1)
+text = "0"
+outline_size = 0
+
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+unit_size = 3.0
+max_db = 1.0
+max_distance = 100.0
+
+[node name="Timer" type="Timer" parent="."]
+
+[node name="Timer_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.00123978, 0.243393, 0.266209)
+pixel_size = 0.0035
+modulate = Color(0, 1, 0, 1)
+text = "60"
+outline_size = 0
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.208219, -0.978082, 0, 0.978082, 0.208219, 0, -1.19957, 0.0569407)
+
+[node name="EjectButton" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -1, 1.50996e-07, 0, -1.50996e-07, -1, 0.399258, -2.14866, -0.759112)
+
+[node name="InteractableAreaButton" type="Area3D" parent="EjectButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0693008, 0)
+collision_layer = 0
+collision_mask = 131072
+script = ExtResource("5_sjn2m")
+displacement = Vector3(0, 0, -0.005)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EjectButton/InteractableAreaButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00274318, 0)
+shape = SubResource("BoxShape3D_67r71")
+
+[node name="AreaAudio" parent="EjectButton/InteractableAreaButton" instance=ExtResource("11_jkmyx")]
+area_audio_type = ExtResource("7_4xiv7")
+
+[node name="HandPoseArea" parent="EjectButton" instance=ExtResource("8_fu51s")]
+left_pose = ExtResource("9_w7004")
+right_pose = ExtResource("10_f0gwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="EjectButton/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+shape = SubResource("SphereShape3D_53sn6")
+
+[node name="PlayButton" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.016, -0.578)
+
+[node name="InteractableAreaButton" type="Area3D" parent="PlayButton"]
+collision_layer = 0
+collision_mask = 131072
+script = ExtResource("5_sjn2m")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayButton/InteractableAreaButton"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0207906, 0.0111994)
+shape = SubResource("CylinderShape3D_d2p37")
+
+[node name="AreaAudio" parent="PlayButton/InteractableAreaButton" instance=ExtResource("11_jkmyx")]
+area_audio_type = ExtResource("7_4xiv7")
+
+[node name="HandPoseArea" parent="PlayButton" instance=ExtResource("8_fu51s")]
+left_pose = ExtResource("9_w7004")
+right_pose = ExtResource("10_f0gwn")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayButton/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.00472975, 0.0127674)
+shape = SubResource("SphereShape3D_53sn6")
+
+[node name="Start_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.00123978, 0.237804, 0.53767)
+pixel_size = 0.0035
+modulate = Color(0, 1, 0, 1)
+text = "PUSH THE BUTTON"
+font_size = 16
+outline_size = 10
+
+[node name="HiScore_Board_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.325198, 0.237804, 0.370551)
+pixel_size = 0.0017
+text = "HI SCORE"
+outline_size = 0
+
+[node name="Time_Board_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.003, 0.238035, 0.371)
+pixel_size = 0.0017
+text = "TIME"
+outline_size = 0
+
+[node name="Score_Board_Text" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.325, 0.238035, 0.371)
+pixel_size = 0.0017
+text = "SCORE"
+outline_size = 0
+
+[node name="SnapZone" parent="." instance=ExtResource("11_nnqng")]
+transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 0.352, -2.18278, -0.76)
+stash_sound = ExtResource("12_bb26y")
+grab_distance = 0.1
+snap_mode = 1
+snap_require = "Coin"
+
+[node name="DebugInsertPlacement" type="MeshInstance3D" parent="SnapZone"]
+visible = false
+mesh = SubResource("BoxMesh_qku5y")
+
+[node name="TokenHolder" type="Node3D" parent="."]
+transform = Transform3D(-0.258819, 0.965926, -8.74228e-08, 0.965926, 0.258819, 0, 2.26267e-08, -8.44439e-08, -1, 0.376565, -2.13196, -0.901484)
+
+[node name="DebugEjectLocation" type="MeshInstance3D" parent="TokenHolder"]
+visible = false
+mesh = SubResource("BoxMesh_64oma")
+
+[connection signal="body_entered" from="EntranceArea" to="." method="_on_entrance_area_entered" flags=18]
+[connection signal="body_exited" from="EntranceArea" to="." method="_on_entrance_area_exited" flags=18]
+[connection signal="body_entered" from="ExitArea" to="." method="_on_exit_area_entered" flags=18]
+
+[editable path="SnapZone"]

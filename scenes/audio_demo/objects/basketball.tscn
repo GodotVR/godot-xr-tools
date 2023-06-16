@@ -1,0 +1,67 @@
+[gd_scene load_steps=15 format=3 uid="uid://ca4wkvbu8jnb4"]
+
+[ext_resource type="PhysicsMaterial" uid="uid://cp81nam8s31si" path="res://scenes/audio_demo/phymat/basketball.phymat" id="1_nyqn6"]
+[ext_resource type="Material" uid="uid://b75k00p8ogwv2" path="res://assets/digitaln8m4r3/materials/basketball_godot.material" id="2_h8b1f"]
+[ext_resource type="PackedScene" uid="uid://c3rwol8inp0wi" path="res://assets/digitaln8m4r3/models/basketball/basketball.glb" id="2_pdhln"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_urgjl"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="2_wv51h"]
+[ext_resource type="Resource" uid="uid://epoxycj2fyxq" path="res://scenes/audio_demo/poses/pose_basketball_left.tres" id="3_71udh"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_6mufe"]
+[ext_resource type="Resource" uid="uid://d0mybjeq0k340" path="res://scenes/audio_demo/poses/pose_basketball_right.tres" id="5_tgtml"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="9_d5g7v"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="10_vd3v1"]
+[ext_resource type="Resource" uid="uid://c7l7qe7dqosqw" path="res://scenes/audio_demo/audio/pickable/audio_basketball.tres" id="11_h0jkj"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_yc584"]
+radius = 0.14
+
+[sub_resource type="SphereMesh" id="SphereMesh_p1ov5"]
+flip_faces = true
+radius = 0.15
+height = 0.3
+radial_segments = 12
+rings = 12
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ghe2f"]
+shading_mode = 0
+albedo_color = Color(1, 1, 0, 1)
+
+[node name="Basketball" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 589831
+mass = 1.3
+center_of_mass_mode = 1
+physics_material_override = ExtResource("1_nyqn6")
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
+freeze_mode = 1
+script = ExtResource("2_wv51h")
+
+[node name="basketball" parent="." instance=ExtResource("2_pdhln")]
+
+[node name="basketball2" parent="basketball" index="0"]
+surface_material_override/0 = ExtResource("2_h8b1f")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_yc584")
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource("2_urgjl")]
+transform = Transform3D(0.993303, 0.0272349, 0.112285, -0.0415362, 0.991024, 0.127065, -0.107817, -0.130878, 0.985518, -0.119914, 0.061, -0.08)
+hand_pose = ExtResource("3_71udh")
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource("4_6mufe")]
+transform = Transform3D(0.991198, 0.0845015, 0.101913, -0.0708858, 0.988908, -0.130526, -0.111812, 0.122153, 0.986193, 0.118853, 0.061, -0.08)
+hand_pose = ExtResource("5_tgtml")
+
+[node name="GrabHighlight" type="Node3D" parent="."]
+script = ExtResource("9_d5g7v")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="GrabHighlight"]
+mesh = SubResource("SphereMesh_p1ov5")
+surface_material_override/0 = SubResource("StandardMaterial3D_ghe2f")
+
+[node name="PickableAudio" parent="." instance=ExtResource("10_vd3v1")]
+pickable_audio_type = ExtResource("11_h0jkj")
+
+[editable path="basketball"]

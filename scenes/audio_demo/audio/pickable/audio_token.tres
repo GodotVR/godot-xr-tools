@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="XRToolsPickableAudioType" load_steps=4 format=3 uid="uid://crbmdfy85d5qy"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio_type.gd" id="1_pqhac"]
+[ext_resource type="AudioStream" uid="uid://dehnfr8v4iexa" path="res://assets/freesound/630018_coin.wav" id="1_ucy6x"]
+[ext_resource type="AudioStream" uid="uid://b14fxver5fex4" path="res://assets/freesound/652661_grab_edited.wav" id="2_6qyyu"]
+
+[resource]
+script = ExtResource("1_pqhac")
+name = "Token"
+grab_sound = ExtResource("2_6qyyu")
+drop_sound = ExtResource("1_ucy6x")
+hit_sound = ExtResource("1_ucy6x")
