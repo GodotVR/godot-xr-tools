@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cj0ohmnxlfemk"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/collision_hand/pickable_collision/pickable_collision.gd" id="1_7fwev"]
+
+[node name="PickableCollision" type="Node3D"]
+script = ExtResource("1_7fwev")
