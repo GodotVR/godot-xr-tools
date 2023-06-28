@@ -47,6 +47,12 @@ const DEFAULT_LAYER := 0b0000_0000_0001_0000_0000_0000_0000_0001
 ## Alpha Scissor Threshold property
 @export var alpha_scissor_threshold : float = 0.25: set = set_alpha_scissor_threshold
 
+## Render priority property
+@export var render_priority : int = 0
+
+## no depth test property
+@export var no_depth_test : bool = false
+
 ## Unshaded
 @export var unshaded : bool = false: set = set_unshaded
 
@@ -81,6 +87,8 @@ func _ready():
 	material = StandardMaterial3D.new()
 	material.flags_unshaded = true
 	material.params_cull_mode = StandardMaterial3D.CULL_DISABLED
+	material.set_render_priority(render_priority)
+	material.no_depth_test = no_depth_test
 	$Screen.set_surface_override_material(0, material)
 
 	# apply properties
