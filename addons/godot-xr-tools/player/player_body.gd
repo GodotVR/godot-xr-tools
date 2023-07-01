@@ -45,6 +45,7 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## If true, the player body performs physics processing and movement
 @export var enabled : bool = true: set = set_enabled
 
+@export_group("Player setup")
 ## Radius of the player body collider
 @export var player_radius : float = 0.2: set = set_player_radius
 
@@ -63,8 +64,15 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## Mix factor for body orientation
 @export_range(0.0, 1.0) var body_forward_mix : float = 0.75
 
+@export_group("Collisions")
+
 ## Lets the player push rigid bodies
 @export var push_rigid_bodies : bool = true
+
+## If push_rigid_bodies is enabled, provides a strength factor for the impulse
+@export var push_strength_factor : float = 1.0
+
+@export_group("Physics")
 
 ## Default ground physics settings
 @export var physics : XRToolsGroundPhysicsSettings: set = set_physics
@@ -337,8 +345,35 @@ func move_body(p_velocity: Vector3) -> Vector3:
 	velocity = p_velocity
 	max_slides = 4
 	up_direction = up_gravity_vector
-	# push_rigid_bodies seems to no longer be supported...
+
 	move_and_slide()
+
+	# Check if we collided with rigid bodies and apply impulses to them to move them out of the way
+	if push_rigid_bodies:
+		for idx in range(get_slide_collision_count()):
+			var with = get_slide_collision(idx)
+			var obj = with.get_collider()
+
+			if obj.is_class("RigidBody3D"):
+				var rb : RigidBody3D = obj
+
+				# Get our relative impact velocity
+				var impact_velocity = p_velocity - rb.linear_velocity
+
+				# Determine the strength of the impulse we're about to give
+				var strength = impact_velocity.dot(-with.get_normal(0)) * push_strength_factor
+
+				# Our impulse is applied in the opposite direction
+				# of the normal of the surface we're hitting
+				var impulse = -with.get_normal(0) * strength
+
+				# Determine the location at which we're hitting in the object local space
+				# but in global orientation
+				var pos = with.get_position(0) - rb.global_transform.origin
+
+				# And apply the impulse
+				rb.apply_impulse(impulse, pos)
+
 	return velocity
 
 ## This method rotates the player by rotating the [XROrigin3D] around the camera.
