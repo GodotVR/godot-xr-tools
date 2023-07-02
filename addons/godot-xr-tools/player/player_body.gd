@@ -46,6 +46,10 @@ const NEAR_GROUND_DISTANCE := 1.0
 @export var enabled : bool = true: set = set_enabled
 
 @export_group("Player setup")
+
+## Automatically calibrate player body on next frame
+@export var player_calibrate_height : bool = true
+
 ## Radius of the player body collider
 @export var player_radius : float = 0.2: set = set_player_radius
 
@@ -56,7 +60,7 @@ const NEAR_GROUND_DISTANCE := 1.0
 @export var player_height_min : float = 0.6
 
 ## Maximum player height
-@export var player_height_max : float = 2.2
+@export var player_height_max : float = 2.5
 
 ## Eyes forward offset from center of body in player_radius units
 @export_range(0.0, 1.0) var eye_forward_offset : float = 0.5
@@ -199,6 +203,7 @@ func _ready():
 	# Propagate defaults
 	_update_enabled()
 	_update_player_radius()
+
 
 func set_enabled(new_value) -> void:
 	enabled = new_value
@@ -414,6 +419,13 @@ func slew_up(up: Vector3, slew: float) -> void:
 	# Update the origin
 	origin_node.global_transform = new_origin
 
+## This method calibrates the players height on the assumption
+## the player is in rest position
+func calibrate_player_height():
+	var base_height = camera_node.transform.origin.y + (player_head_height * XRServer.world_scale)
+	var player_height = XRToolsUserSettings.player_height * XRServer.world_scale
+	player_height_offset = (player_height - base_height) / XRServer.world_scale
+
 ## This method sets or clears a named height override
 func override_player_height(key, value: float = -1.0):
 	# Clear or set the override
@@ -462,10 +474,16 @@ func _estimate_body_forward_dir() -> Vector3:
 
 # This method updates the player body to match the player position
 func _update_body_under_camera():
+	# Initially calibration of player height
+	if player_calibrate_height:
+		calibrate_player_height()
+		player_calibrate_height = false
+
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
-			camera_node.transform.origin.y + player_head_height +
-					player_height_offset + XRToolsUserSettings.player_height_adjust,
+			camera_node.transform.origin.y
+					+ (player_head_height * XRServer.world_scale)
+					+ (player_height_offset * XRServer.world_scale),
 			player_height_min * XRServer.world_scale,
 			player_height_max * XRServer.world_scale)
 
