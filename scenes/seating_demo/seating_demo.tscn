@@ -1,7 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://mn5ioyp8cafm"]
+[gd_scene load_steps=20 format=3 uid="uid://mn5ioyp8cafm"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/seating_demo/seating_demo.gd" id="2_ntsit"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5ptmo"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="3_r3l36"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="4_mkimu"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
@@ -14,33 +15,6 @@
 [ext_resource type="PackedScene" uid="uid://dipg8euybm3f1" path="res://scenes/basic_movement_demo/objects/instructions.tscn" id="12_qasi6"]
 [ext_resource type="PackedScene" uid="uid://svmpofy8s8r" path="res://scenes/seating_demo/objects/seat.tscn" id="13_eimg5"]
 [ext_resource type="PackedScene" uid="uid://dbv1hvxufc1al" path="res://assets/meshes/interactables/push_button.tscn" id="14_gu85s"]
-
-[sub_resource type="Animation" id="Animation_7j74v"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(-8, 0, -10)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:rotation")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, -1.5708, 0)]
-}
 
 [sub_resource type="Animation" id="Animation_p0ken"]
 resource_name = "move"
@@ -70,6 +44,33 @@ tracks/1/keys = {
 "values": [Vector3(0, -1.5708, 0), Vector3(0, -1.5708, 0), Vector3(0.785398, -1.5708, 7.54979e-08), Vector3(0.785398, -1.5708, 7.54979e-08), Vector3(1.5708, -1.5708, 0), Vector3(1.5708, -1.5708, 0), Vector3(0.785398, 1.5708, 3.14159), Vector3(0.785398, 1.5708, 3.14159), Vector3(-5.96047e-08, 1.5708, 3.14159), Vector3(-5.96047e-08, 1.5708, 3.14159), Vector3(-0.785398, 1.5708, 3.14159), Vector3(-0.785398, 1.5708, 3.14159), Vector3(-1.5708, -1.5708, 0), Vector3(-1.5708, -1.5708, 0), Vector3(-0.785398, -1.5708, 7.54979e-08), Vector3(-0.785398, -1.5708, 7.54979e-08), Vector3(5.96047e-08, -1.5708, 5.33851e-08), Vector3(0, -1.5708, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_7j74v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-8, 0, -10)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, -1.5708, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_rsj5g"]
 _data = {
 "RESET": SubResource("Animation_7j74v"),
@@ -84,7 +85,8 @@ _data = {
 point_count = 9
 
 [node name="BasicMovementDemo" instance=ExtResource("1")]
-script = ExtResource("2_ntsit")
+script = ExtResource("2_5ptmo")
+environment = ExtResource("3_r3l36")
 
 [node name="XROrigin3D" parent="." index="0"]
 unique_name_in_owner = true
@@ -128,7 +130,7 @@ transform = Transform3D(-4.37114e-08, -1, -8.74228e-08, 1, -4.37114e-08, 8.74228
 transform = Transform3D(1, 0, 0, 0, 0.819152, -0.573576, 0, 0.573576, 0.819152, 3.49689e-08, 0.9, -0.4)
 
 [node name="Seat2" parent="." index="5" instance=ExtResource("13_eimg5")]
-transform = Transform3D(-3.61999e-06, 0, -1, 0, 1, 0, 1, 0, -3.61999e-06, -8, 0, -10)
+transform = Transform3D(7.54979e-08, 0, -1, 0, 1, 0, 1, 0, 7.54979e-08, -8, 0, -10)
 
 [node name="Seat" parent="Seat2" index="5" instance=ExtResource("14_gu85s")]
 transform = Transform3D(-4.37114e-08, -1, -8.74228e-08, 1, -4.37114e-08, 8.74228e-08, -8.74228e-08, -8.74228e-08, 1, -0.3, 1.5, 0.4)
