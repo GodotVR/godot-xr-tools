@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://kxwtplqo7nqv"]
+[gd_scene load_steps=27 format=3 uid="uid://kxwtplqo7nqv"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_3253r"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_uwwri"]
@@ -23,6 +23,8 @@
 [ext_resource type="AudioStream" uid="uid://dd1dmsoxo58ao" path="res://assets/BryanTeoh/Soundtrack From the Starcourt Mall.mp3" id="19_cwo10"]
 [ext_resource type="PackedScene" uid="uid://cesp8gobclvg8" path="res://scenes/collision_hands_demo/objects/col_basketball.tscn" id="23_ngp5y"]
 [ext_resource type="PackedScene" uid="uid://bjbxp637gnc6j" path="res://scenes/collision_hands_demo/objects/two_handed_demo_pickable.tscn" id="23_pryi5"]
+[ext_resource type="PackedScene" uid="uid://tjgodflq1v7v" path="res://scenes/collision_hands_demo/objects/dummy_blue.tscn" id="25_dp60a"]
+[ext_resource type="PackedScene" uid="uid://doixdwtf03lj2" path="res://scenes/collision_hands_demo/objects/dummy_godot.tscn" id="26_vytfs"]
 
 [sub_resource type="Resource" id="Resource_ppd3h"]
 script = ExtResource("13_p3ct3")
@@ -117,3 +119,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.529279, 0.964873, -2.41965)
 
 [node name="TwoHandedDemoPickable" parent="CollisionToys" index="1" instance=ExtResource("23_pryi5")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.838, -2.309)
+
+[node name="DummyBlue" parent="CollisionToys" index="2" instance=ExtResource("25_dp60a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.01126, 0, -2.38264)
+
+[node name="DummyGodot" parent="CollisionToys" index="3" instance=ExtResource("26_vytfs")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.011, 0, -2.383)

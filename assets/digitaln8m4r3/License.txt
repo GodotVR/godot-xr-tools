@@ -1,6 +1,7 @@
 	
 	Arcade Hoops 3D Model
 	Basketball 3D Model
+	Muscleboy 3D Model
 	PingPong Ball 3D Model
 	Ping Pong Racket 3D Model
 	Table 3D Model
