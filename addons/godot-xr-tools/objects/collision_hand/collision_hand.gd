@@ -73,25 +73,24 @@ extends CharacterBody3D
 @onready var palm_shape : CollisionShape3D = $PalmShape
 @onready var hand_remote : RemoteTransform3D = $HandRemoteTransform3D
 @onready var pickup_remote : RemoteTransform3D = $PickupRemoteTransform3D
-
-# check for collision when twohanded object is picked up
-var twohanded_collision : bool = false
-var collision
-var start_speed : float
-
-# _weight is set to true if pickable_weight is true, otherwise false
-# this ensures that the current hand, once it drops the pickable gets its velocity reset
-var _weight : bool = false
-
+# Get the gravity from the project settings to be synced
+# with RigidDynamicBody nodes.
+@onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
+@onready var col_dict : Dictionary
 # List of colliders added by grabbed objects
-var collider_list : Array = [] 
-var held_body : PhysicsBody3D
+@onready var collider_list : Array = [] 
+@onready var held_body : PhysicsBody3D
+# check for collision when twohanded object is picked up
+@onready var twohanded_collision : bool = false
+@onready var start_speed : float
+# _weight is set to true if pickable_weight is true, otherwise false
+# this ensures that the current hand, once it drops
+# the pickable gets its velocity reset
+@onready var _weight : bool = false
+
 var _what 
 var _collider
 var two_handed
-var col_dict : Dictionary
-# Get the gravity from the project settings to be synced with RigidDynamicBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 
 # Add support for is_xr_class on XRTools classes
@@ -111,7 +110,7 @@ func _ready():
 		_pickup.has_dropped.connect(remove_colliders)
 
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -124,10 +123,12 @@ func _physics_process(delta):
 	if is_instance_valid(held_body):
 		if _weight:
 			if held_body.is_picked_up():
-				# here we use divide by two like this = /2 to ensure that there is no twitching
+				# here we use divide by two like this = /2
+				# to ensure that there is no twitching
 				velocity.y -= move_toward(held_body.linear_velocity.y, gravity, held_body.mass) / 2
-				# if the pickables mass is higher then, we use apply_floor_snap
-				# to produce some kind of heavy lift up effect
+				# if the pickables mass is higher,
+				# we use apply_floor_snap to produce some kind
+				# of heavy lift up effect
 				if held_body.mass >= min_mass:
 					apply_floor_snap()
 				move_and_slide()
@@ -182,7 +183,6 @@ func add_colliders(_what : Node3D) -> void:
 			_weight = true
 		if _what.has_node("TwoHanded"):
 			twohanded_collision = true
-			#two_handed = _what.get_node("TwoHanded")
 			col_dict = _what.get_node("TwoHanded").get_collider_dict()
 			for key in col_dict.keys():
 				_collider = key.duplicate()
@@ -193,7 +193,6 @@ func add_colliders(_what : Node3D) -> void:
 			self.add_collision_exception_with(held_body)
 		if  _what.has_node("PickableCollision"):
 			twohanded_collision = false
-			#two_handed = _what.get_node("TwoHanded")
 			col_dict = _what.get_node("PickableCollision").get_collider_dict()
 			for key in col_dict.keys():
 				_collider = key.duplicate()
