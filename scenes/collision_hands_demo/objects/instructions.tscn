@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://3ots8lt8h1dq"]
+
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1_rm7kj"]
+[ext_resource type="PackedScene" uid="uid://c8x7n6e6taoyx" path="res://scenes/collision_hands_demo/objects/instructions_2d.tscn" id="2_480tg"]
+[ext_resource type="Material" uid="uid://cliyhjfvy8pfd" path="res://assets/maps/holodeck/materials/base.material" id="3_nbhbl"]
+
+[sub_resource type="BoxMesh" id="1"]
+material = ExtResource("3_nbhbl")
+size = Vector3(4.2, 3.5, 0.1)
+
+[node name="Instructions" type="Node3D"]
+
+[node name="Viewport2Din3D" parent="." instance=ExtResource("1_rm7kj")]
+screen_size = Vector2(4, 3.25)
+viewport_size = Vector2(400, 325)
+unshaded = true
+scene = ExtResource("2_480tg")
+update_mode = 0
+collision_layer = 0
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("1")

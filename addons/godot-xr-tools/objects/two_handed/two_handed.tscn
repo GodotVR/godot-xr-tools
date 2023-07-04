@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cjsewjkr255iq"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/two_handed/two_handed.gd" id="1_eh0db"]
+
+[node name="TwoHanded" type="Node"]
+script = ExtResource("1_eh0db")

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7b01gdfjmvfx"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/collision_hand/collision_hand.gd" id="1_81rb2"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_152xl"]
+radius = 0.0291045
+height = 0.097935
+
+[node name="CollisionHandLeft" type="CharacterBody3D" groups=["HandLeft"]]
+collision_layer = 268435456
+collision_mask = 268435457
+script = ExtResource("1_81rb2")
+
+[node name="PalmShape" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.029, -0.051, 0.129)
+shape = SubResource("CapsuleShape3D_152xl")
+
+[node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="."]
+
+[node name="PickupRemoteTransform3D" type="RemoteTransform3D" parent="."]

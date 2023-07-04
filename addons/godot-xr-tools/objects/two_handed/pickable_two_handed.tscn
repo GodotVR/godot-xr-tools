@@ -1,0 +1,84 @@
+[gd_scene load_steps=16 format=3 uid="uid://c83fyu5ypp0fm"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_kxjeu"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_v1c6x"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="3_y0dvf"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="4_mad8c"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="5_wq71n"]
+[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="6_56n5t"]
+[ext_resource type="Animation" uid="uid://plad1r85f7ws" path="res://addons/godot-xr-tools/hands/animations/left/Grip.res" id="7_jhoeb"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="8_5dvs2"]
+[ext_resource type="Animation" uid="uid://ccds2u22gbxn7" path="res://addons/godot-xr-tools/hands/animations/right/Grip.res" id="9_78rgj"]
+[ext_resource type="PackedScene" uid="uid://cjsewjkr255iq" path="res://addons/godot-xr-tools/objects/two_handed/two_handed.tscn" id="10_0r2wl"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_5uhgs"]
+size = Vector3(0.0569031, 0.044017, 0.885155)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_qlsjv"]
+radius = 0.1
+
+[sub_resource type="Resource" id="Resource_ihog4"]
+script = ExtResource("8_5dvs2")
+open_pose = ExtResource("7_jhoeb")
+closed_pose = ExtResource("7_jhoeb")
+
+[sub_resource type="Resource" id="Resource_xl2tb"]
+script = ExtResource("8_5dvs2")
+open_pose = ExtResource("9_78rgj")
+closed_pose = ExtResource("9_78rgj")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_nbq4t"]
+radius = 0.1
+
+[node name="PickableTwoHanded" groups=["Heavy", "Weapons"] instance=ExtResource("1_kxjeu")]
+collision_mask = 268435463
+mass = 6.2
+angular_damp_mode = 1
+angular_damp = 25.0
+
+[node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource("2_v1c6x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.004, -0.037, 0.32)
+
+[node name="GrabPointHandRight" parent="." index="1" instance=ExtResource("3_y0dvf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.004, -0.037, 0.32)
+
+[node name="CollisionShape3D" parent="." index="2"]
+shape = SubResource("BoxShape3D_5uhgs")
+
+[node name="HighlightRing" parent="." index="3" instance=ExtResource("4_mad8c")]
+
+[node name="PrimaryHandMarker3D" type="Marker3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.037, 0.32)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PrimaryHandMarker3D" index="0"]
+
+[node name="SecondHandMarker3D" type="Marker3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.162)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="SecondHandMarker3D" index="0"]
+
+[node name="InteractableHandle" type="RigidBody3D" parent="." index="6"]
+collision_layer = 262144
+gravity_scale = 0.0
+script = ExtResource("5_wq71n")
+picked_up_layer = 262144
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableHandle" index="0"]
+shape = SubResource("SphereShape3D_qlsjv")
+
+[node name="HandPoseArea" parent="InteractableHandle" index="1" instance=ExtResource("6_56n5t")]
+monitorable = false
+left_pose = SubResource("Resource_ihog4")
+right_pose = SubResource("Resource_xl2tb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableHandle/HandPoseArea" index="0"]
+shape = SubResource("SphereShape3D_nbq4t")
+
+[node name="TwoHanded" parent="." index="7" node_paths=PackedStringArray("interactable_handle", "second_hand_position", "primary_hand_position", "pose_area") instance=ExtResource("10_0r2wl")]
+interactable_handle = NodePath("../InteractableHandle")
+second_hand_position = NodePath("../SecondHandMarker3D")
+primary_hand_position = NodePath("../PrimaryHandMarker3D")
+pose_area = NodePath("../InteractableHandle/HandPoseArea")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="." index="8"]
+size = Vector3(0.0500104, 0.0408358, 0.887269)

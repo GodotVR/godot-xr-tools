@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://c8x7n6e6taoyx"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 321.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Collision Hands Demo
+
+adds collision to the Open_XR_Tools_Hands by using a CharacterBody3D that follows the corresponding XRController3D.
+
+it is able to collide with the world and with static objects
+
+optional:
+*	collision on pickables
+*	weight on pickables
+*	zero_g movement
+
+currently not supported:
+* accounting for switching grab points
+
+this scene contains a two handed example
+and the collision hands are made to account for this, currently the two handed is mainly useable for ranged weapon objects.
+
+however under its additional settings, there is a optional mod.
+if enabled, changing the rotational offset may produce something along the lines of a melee two handed object."
+fit_content = true
