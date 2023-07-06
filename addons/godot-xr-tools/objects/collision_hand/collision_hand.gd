@@ -46,9 +46,10 @@ extends CharacterBody3D
 @export_subgroup("Optional Weight")
 ## if set to true, pickable objects will have weight
 ## ________________________________________________________
-## Requirement Note:
+## Additional Note:
 ## ________________________________________________________
-## Zero-G Movement needs to be enabled
+## Zero-G Movement is set enabled on add colliders
+## removed on remove colliders
 @export var pickable_weight : bool = false
 ## lift up mass is used to produce a heavy lift up effect
 ## if the pickable touches any surface
@@ -180,6 +181,7 @@ func _check_for_drop():
 func add_colliders(_what : Node3D) -> void:
 	if is_instance_valid(_what):
 		if pickable_weight:
+			zero_g = true
 			_weight = true
 		if _what.has_node("TwoHanded"):
 			twohanded_collision = true
@@ -207,6 +209,7 @@ func add_colliders(_what : Node3D) -> void:
 func remove_colliders() -> void:
 	if pickable_weight:
 		_weight = false
+		zero_g = false
 	if twohanded_collision:
 		twohanded_collision = false
 	for col in collider_list:

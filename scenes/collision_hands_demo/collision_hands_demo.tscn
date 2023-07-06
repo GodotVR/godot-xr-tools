@@ -86,7 +86,6 @@ _hand_path = NodePath("../LeftHand/LeftHand")
 _pickup_path = NodePath("../LeftHand/FunctionPickup")
 pickable_collision = true
 pickable_weight = true
-zero_g = true
 g_speed = 10.0
 
 [node name="CollisionHandRight" parent="XROrigin3D" index="6" instance=ExtResource("15_q16aj")]
@@ -95,7 +94,6 @@ _hand_path = NodePath("../RightHand/RightHand")
 _pickup_path = NodePath("../RightHand/FunctionPickup")
 pickable_collision = true
 pickable_weight = true
-zero_g = true
 g_speed = 10.0
 
 [node name="HolodeckMap" parent="." index="1" instance=ExtResource("16_kkrii")]
