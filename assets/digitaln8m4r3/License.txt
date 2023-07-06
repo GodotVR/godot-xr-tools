@@ -6,7 +6,7 @@
 	Ping Pong Racket 3D Model
 	Table 3D Model
 	Token 3D Model
-
+	1kg/3kg/5kgWeight 3D Model
 
 	Created/distributed by DigitalN8m4r3 aka Miodrag Sejic
 	https://www.digitalnightmare.eu/en/privacy.html

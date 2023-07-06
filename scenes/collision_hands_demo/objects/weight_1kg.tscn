@@ -1,0 +1,48 @@
+[gd_scene load_steps=9 format=3 uid="uid://bm4xdvyffe2vj"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_fr7lu"]
+[ext_resource type="PackedScene" uid="uid://b35b4oi3lo63s" path="res://assets/digitaln8m4r3/models/gym weights/1kgweight.glb" id="2_xi4xn"]
+[ext_resource type="Material" uid="uid://dwvwmujicq37a" path="res://assets/digitaln8m4r3/materials/pallete.material" id="3_u4a8s"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="4_sxpgd"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="5_1snya"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="6_spmx7"]
+[ext_resource type="PackedScene" uid="uid://cj0ohmnxlfemk" path="res://addons/godot-xr-tools/objects/collision_hand/pickable_collision/pickable_collision.tscn" id="7_h4hqr"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_clpow"]
+points = PackedVector3Array(0.079954, 0.234303, -0.0485274, -0.0707804, -0.210689, -0.0435774, -0.0787794, -0.234303, 0.0497176, 0.079954, -0.234303, -0.0485274, 0.0345994, 0.234303, 0.079954, -0.0485274, 0.226726, -0.0712125, 0.079954, -0.226726, 0.0497176, -0.0787794, 0.234303, 0.0497176, 0.0253635, -0.226614, -0.0737705, 0.0345994, -0.234303, 0.079954, 0.079954, 0.226726, 0.0497176, -0.0485274, -0.226726, -0.0712125, -0.0297981, -0.209415, 0.0715236, 0.0253635, 0.226614, -0.0737705, -0.0707804, 0.210689, -0.0435774, -0.0297981, 0.209415, 0.0715236, -0.0242746, -0.227532, -0.0740716, -0.0242746, 0.227532, -0.0740716, -0.0667374, 0.226804, -0.0454662, -0.0667374, -0.226804, -0.0454662, -0.0315679, -0.228778, 0.0684982, -0.0315679, 0.228778, 0.0684982)
+
+[node name="Weight1kg" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 268435463
+freeze_mode = 1
+script = ExtResource("1_fr7lu")
+
+[node name="1kgweight" parent="." instance=ExtResource("2_xi4xn")]
+
+[node name="weight1kg" parent="1kgweight" index="0"]
+surface_material_override/0 = ExtResource("3_u4a8s")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_clpow")
+
+[node name="HighlightRing" parent="." instance=ExtResource("4_sxpgd")]
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource("5_1snya")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0191657, 0.0418458, -0.0917016)
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource("6_spmx7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019, 0.042, -0.092)
+
+[node name="PickableCollision" parent="." instance=ExtResource("7_h4hqr")]
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.242622, 0)
+pixel_size = 0.002
+text = "1kg"
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.243, 0)
+pixel_size = 0.002
+text = "1kg"
+
+[editable path="1kgweight"]
