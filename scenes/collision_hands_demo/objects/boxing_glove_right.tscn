@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://clm4krnab4see"]
+[gd_scene load_steps=12 format=3 uid="uid://clm4krnab4see"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_53v5y"]
-[ext_resource type="Material" uid="uid://b302r50f3b1m8" path="res://assets/digitaln8m4r3/materials/boxing_gloves_classic.material" id="3_8g0t0"]
+[ext_resource type="Material" uid="uid://ce4m8atbt42h0" path="res://addons/godot-xr-tools/hands/materials/boxing_gloves_blue.material" id="3_xjkx8"]
 [ext_resource type="PackedScene" uid="uid://c4f3ghyc7b16d" path="res://assets/digitaln8m4r3/models/boxing gloves/boxing_glove_right.glb" id="4_ead7o"]
 [ext_resource type="PackedScene" uid="uid://dt5uomhqyclmn" path="res://assets/digitaln8m4r3/models/boxing gloves/boxing_glove_left.glb" id="4_m7qao"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_xtoim"]
@@ -10,8 +10,12 @@
 [ext_resource type="PackedScene" uid="uid://cj0ohmnxlfemk" path="res://addons/godot-xr-tools/objects/collision_hand/pickable_collision/pickable_collision.tscn" id="8_cq0u0"]
 [ext_resource type="Script" path="res://scenes/collision_hands_demo/objects/boxing_glove.gd" id="8_g0tln"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_1lbte"]
-radius = 0.0830955
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hltbd"]
+radius = 0.0640324
+height = 0.146455
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b2wnm"]
+size = Vector3(0.0960104, 0.127105, 0.13256)
 
 [node name="BoxingGloveRight" type="RigidBody3D"]
 collision_layer = 4
@@ -24,17 +28,18 @@ script = ExtResource("1_53v5y")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, 0, -0.02)
 
 [node name="mesh_Boxing_Glove_R" parent="boxing_glove_right" index="0"]
-surface_material_override/0 = ExtResource("3_8g0t0")
+surface_material_override/0 = ExtResource("3_xjkx8")
 
 [node name="boxing_glove_left" parent="." instance=ExtResource("4_m7qao")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0, -0.02)
 visible = false
 
 [node name="mesh_Boxing_Glove_L" parent="boxing_glove_left" index="0"]
-surface_material_override/0 = ExtResource("3_8g0t0")
+surface_material_override/0 = ExtResource("3_xjkx8")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_1lbte")
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("CapsuleShape3D_hltbd")
 
 [node name="HighlightRing" parent="." instance=ExtResource("5_xtoim")]
 
@@ -51,6 +56,10 @@ script = ExtResource("8_g0tln")
 left_glove = NodePath("../boxing_glove_left")
 right_glove = NodePath("../boxing_glove_right")
 c = NodePath("../CollisionShape3D")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 0.0076372, 0)
+shape = SubResource("BoxShape3D_b2wnm")
 
 [editable path="boxing_glove_right"]
 [editable path="boxing_glove_left"]
