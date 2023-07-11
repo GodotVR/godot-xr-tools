@@ -20,7 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://6xxscqoyit84" path="res://assets/maps/holodeck_map_s.tscn" id="16_kkrii"]
 [ext_resource type="PackedScene" uid="uid://3ots8lt8h1dq" path="res://scenes/collision_hands_demo/objects/instructions.tscn" id="17_rinma"]
 [ext_resource type="PackedScene" uid="uid://bwcpq6cuejbiy" path="res://assets/meshes/table/table.tscn" id="18_ttvh8"]
-[ext_resource type="AudioStream" uid="uid://dd1dmsoxo58ao" path="res://assets/BryanTeoh/Soundtrack From the Starcourt Mall.mp3" id="19_cwo10"]
+[ext_resource type="AudioStream" uid="uid://bknr7ftar4n0d" path="res://assets/Kevin MacLeod/Neon and Kickboxing.mp3" id="21_v20l3"]
 [ext_resource type="PackedScene" uid="uid://cesp8gobclvg8" path="res://scenes/collision_hands_demo/objects/col_basketball.tscn" id="23_ngp5y"]
 [ext_resource type="PackedScene" uid="uid://bjbxp637gnc6j" path="res://scenes/collision_hands_demo/objects/two_handed_demo_pickable.tscn" id="23_pryi5"]
 [ext_resource type="PackedScene" uid="uid://brx2h8aycgwnh" path="res://scenes/collision_hands_demo/objects/boxing_dummy.tscn" id="24_7mfn3"]
@@ -115,7 +115,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, -6.821)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.15, 0, -3)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="5"]
-stream = ExtResource("19_cwo10")
+stream = ExtResource("21_v20l3")
 max_db = -20.0
 autoplay = true
 

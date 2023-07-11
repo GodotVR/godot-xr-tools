@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://civfpynlh0lod"]
+[gd_scene load_steps=11 format=3 uid="uid://civfpynlh0lod"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_647sc"]
 [ext_resource type="Material" uid="uid://p0j8ayyebdyr" path="res://assets/digitaln8m4r3/materials/gym_weight.material" id="3_wv2m8"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="6_8p162"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_57qve"]
 [ext_resource type="PackedScene" uid="uid://cj0ohmnxlfemk" path="res://addons/godot-xr-tools/objects/collision_hand/pickable_collision/pickable_collision.tscn" id="7_weihx"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="8_fkv5l"]
+[ext_resource type="Resource" uid="uid://1yy64kkae3k0" path="res://scenes/collision_hands_demo/audio/pickables/weights.tres" id="9_dfus1"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_kwiw0"]
 height = 0.293686
@@ -16,6 +18,10 @@ radius = 0.0528922
 collision_layer = 4
 collision_mask = 268435463
 mass = 3.0
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
 freeze_mode = 1
 script = ExtResource("1_647sc")
 
@@ -46,5 +52,8 @@ text = "3kg"
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.15, 0)
 pixel_size = 0.0015
 text = "3kg"
+
+[node name="PickableAudio" parent="." instance=ExtResource("8_fkv5l")]
+pickable_audio_type = ExtResource("9_dfus1")
 
 [editable path="3kgweight"]

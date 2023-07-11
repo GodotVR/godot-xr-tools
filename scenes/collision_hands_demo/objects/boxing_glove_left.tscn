@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bbmlhqjmjgwcw"]
+[gd_scene load_steps=17 format=3 uid="uid://bbmlhqjmjgwcw"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_82x3y"]
 [ext_resource type="PackedScene" uid="uid://dt5uomhqyclmn" path="res://assets/digitaln8m4r3/models/boxing gloves/boxing_glove_left.glb" id="2_g1lkr"]
@@ -9,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_gs6wp"]
 [ext_resource type="PackedScene" uid="uid://cj0ohmnxlfemk" path="res://addons/godot-xr-tools/objects/collision_hand/pickable_collision/pickable_collision.tscn" id="8_6hcxn"]
 [ext_resource type="Script" path="res://scenes/collision_hands_demo/objects/boxing_glove.gd" id="9_n7ame"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="10_t714h"]
+[ext_resource type="Resource" uid="uid://coyrqi1ko6bwt" path="res://scenes/collision_hands_demo/audio/pickables/boxing_gloves.tres" id="11_tw21d"]
+[ext_resource type="PackedScene" uid="uid://duqehif60vcjg" path="res://addons/godot-xr-tools/audio/area_audio.tscn" id="12_illxb"]
+[ext_resource type="Resource" uid="uid://4ph4bhfo0d4p" path="res://scenes/collision_hands_demo/audio/pickables/boxing_punch.tres" id="13_2i4bq"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_c7qrj"]
 radius = 0.0640324
@@ -17,9 +21,16 @@ height = 0.146455
 [sub_resource type="BoxShape3D" id="BoxShape3D_l1o4a"]
 size = Vector3(0.0960104, 0.127105, 0.13256)
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_caoqj"]
+size = Vector3(0.0976646, 0.143984, 0.236883)
+
 [node name="BoxingGloveLeft" type="RigidBody3D"]
 collision_layer = 4
-collision_mask = 196615
+collision_mask = 65543
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
 freeze_mode = 1
 script = ExtResource("1_82x3y")
 
@@ -37,7 +48,6 @@ visible = false
 surface_material_override/0 = ExtResource("3_n2rtp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 shape = SubResource("CapsuleShape3D_c7qrj")
 
 [node name="HighlightRing" parent="." instance=ExtResource("5_ywufh")]
@@ -59,6 +69,22 @@ c = NodePath("../CollisionShape3D")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 0.0076372, 0)
 shape = SubResource("BoxShape3D_l1o4a")
+
+[node name="PickableAudio" parent="." instance=ExtResource("10_t714h")]
+max_distance = 200.0
+max_polyphony = 2
+pickable_audio_type = ExtResource("11_tw21d")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 268435457
+
+[node name="AreaAudio" parent="Area3D" instance=ExtResource("12_illxb")]
+area_audio_type = ExtResource("13_2i4bq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0534897)
+shape = SubResource("BoxShape3D_caoqj")
 
 [editable path="boxing_glove_left"]
 [editable path="boxing_glove_right"]
