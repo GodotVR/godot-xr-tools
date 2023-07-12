@@ -1,0 +1,40 @@
+[gd_scene load_steps=3 format=3 uid="uid://cgcrkjmhwjgtf"]
+
+[ext_resource type="PackedScene" uid="uid://cjyilbm4ucc7s" path="res://addons/godot-xr-tools/objects/climbable.tscn" id="1_qhuxa"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_dmfj3"]
+size = Vector3(6.92398, 0.0554399, 0.102059)
+
+[node name="Climbable_Ropes" type="Node3D"]
+
+[node name="_Rope" type="Node3D" parent="."]
+
+[node name="Climbable" parent="_Rope" instance=ExtResource("1_qhuxa")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope/Climbable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.47468, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
+
+[node name="_Rope2" type="Node3D" parent="."]
+
+[node name="Climbable" parent="_Rope2" instance=ExtResource("1_qhuxa")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope2/Climbable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17057, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
+
+[node name="_Rope3" type="Node3D" parent="."]
+
+[node name="Climbable" parent="_Rope3" instance=ExtResource("1_qhuxa")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope3/Climbable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85781, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
+
+[node name="_Rope4" type="Node3D" parent="."]
+
+[node name="Climbable" parent="_Rope4" instance=ExtResource("1_qhuxa")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope4/Climbable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59106, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
