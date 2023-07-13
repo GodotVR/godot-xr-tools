@@ -1,0 +1,5 @@
+[gd_scene format=3 uid="uid://d1sb44vie8u1q"]
+
+[node name="RightHandMarker3D" type="Marker3D"]
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="."]

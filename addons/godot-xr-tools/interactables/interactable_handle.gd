@@ -22,6 +22,20 @@ extends XRToolsPickable
 ## Distance from the handle origin to auto-snap the grab
 @export var snap_distance : float = 0.3
 
+@export_group("Optional attach Hand")
+## this latches the grabbing Hand onto the Interactable
+## ________________________________________________________
+## Requirement: Collision Hands
+## ________________________________________________________
+## Additional Note:
+## ________________________________________________________
+## if export paths are not set, this will be ignored
+## so make sure to setup the paths corresponding to hand
+## Example: left_hand_position = LeftHandMarker3D
+@export var left_hand_position : Marker3D
+## Requirement: Collision Hands
+@export var right_hand_position : Marker3D
+
 
 # Handle origin spatial node
 @onready var handle_origin: Node3D = get_parent()
@@ -61,7 +75,11 @@ func _process(_delta: float) -> void:
 func pick_up(by, with_controller) -> void:
 	# Call the base-class to perform the pickup
 	super(by, with_controller)
-
+	if left_hand_position:
+		if with_controller.name.matchn("*left*"):
+			left_hand_position.get_node("RemoteTransform3D").remote_path = self.by_hand.get_path()
+		else:
+			right_hand_position.get_node("RemoteTransform3D").remote_path = self.by_hand.get_path()
 	# Enable the process function while held
 	set_process(true)
 
@@ -70,6 +88,9 @@ func pick_up(by, with_controller) -> void:
 func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	# Call the base-class to perform the drop, but with no velocity
 	super(Vector3.ZERO, Vector3.ZERO)
+	if left_hand_position:
+		left_hand_position.get_node("RemoteTransform3D").remote_path = ""
+		right_hand_position.get_node("RemoteTransform3D").remote_path = ""
 
 	# Disable the process function as no-longer held
 	set_process(false)

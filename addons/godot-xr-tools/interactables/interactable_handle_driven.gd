@@ -19,6 +19,19 @@ signal grabbed(interactable)
 ## Signal called when this interactable is released
 signal released(interactable)
 
+@export_group("Optional attach Hand")
+## this latches the grabbing Hand onto the Interactable
+## ________________________________________________________
+## Requirement: Collision Hands
+## ________________________________________________________
+## Additional Note:
+## ________________________________________________________
+## if export paths are not set, this will be ignored
+## so make sure to setup the paths corresponding to hand
+## Example: left_hand_position = LeftHandMarker3D
+@export var left_hand_position : Marker3D
+## Requirement: Collision Hands
+@export var right_hand_position : Marker3D
 
 # Array of handles currently grabbed
 var grabbed_handles := Array()
@@ -47,7 +60,11 @@ func _on_handle_picked_up(handle: XRToolsInteractableHandle) -> void:
 	if grabbed_handles.size() == 1:
 		# Report grabbed
 		emit_signal("grabbed", self)
-
+		if left_hand_position:
+			if handle.name.matchn("*left*"):
+				left_hand_position.get_node("RemoteTransform3D").remote_path = handle.by_hand.get_path()
+			else:
+				right_hand_position.get_node("RemoteTransform3D").remote_path = handle.by_hand.get_path()
 		# Enable physics processing
 		set_process(true)
 
@@ -59,9 +76,11 @@ func _on_handle_dropped(handle: XRToolsInteractableHandle) -> void:
 
 	# Disable processing when we drop the last handle
 	if grabbed_handles.is_empty():
+		if left_hand_position:
+			left_hand_position.get_node("RemoteTransform3D").remote_path = ""
+			right_hand_position.get_node("RemoteTransform3D").remote_path = ""
 		# Disable physics processing
 		set_process(false)
-
 		# Report released
 		emit_signal("released", self)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cll4pk3kuuq1"]
+[gd_scene load_steps=18 format=3 uid="uid://cll4pk3kuuq1"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_rm136"]
 [ext_resource type="Resource" uid="uid://c5nxxsga5kesd" path="res://assets/meshes/interactables/pose_grab_ball_left.tres" id="6_41y4y"]
 [ext_resource type="Resource" uid="uid://dvvw0k7tqagx" path="res://assets/meshes/interactables/pose_grab_ball_right.tres" id="7_nrov4"]
+[ext_resource type="PackedScene" uid="uid://6tmuxqjq38tt" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/left_hand_marker_3d.tscn" id="8_7lo6e"]
+[ext_resource type="PackedScene" uid="uid://d1sb44vie8u1q" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/right_hand_marker_3d.tscn" id="9_hode7"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.2, 0.6, 0.1)
@@ -93,3 +95,7 @@ right_pose = ExtResource("7_nrov4")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle/HandPoseArea"]
 shape = SubResource("SphereShape3D_ak455")
+
+[node name="LeftHandMarker3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource("8_7lo6e")]
+
+[node name="RightHandMarker3D" parent="LeverOrigin/InteractableLever/HandleOrigin/InteractableHandle" instance=ExtResource("9_hode7")]

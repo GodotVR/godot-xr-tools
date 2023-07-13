@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2td5hwh2oluy"]
+[gd_scene load_steps=13 format=3 uid="uid://d2td5hwh2oluy"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="4_2vgo6"]
+[ext_resource type="PackedScene" uid="uid://6tmuxqjq38tt" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/left_hand_marker_3d.tscn" id="4_fqyfb"]
 [ext_resource type="Resource" uid="uid://bd1dxftyxdgup" path="res://assets/meshes/interactables/pose_grab_wheel_left.tres" id="5_gt8jj"]
+[ext_resource type="PackedScene" uid="uid://d1sb44vie8u1q" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/right_hand_marker_3d.tscn" id="5_nmm55"]
 [ext_resource type="Resource" uid="uid://dsiujx4dllwvd" path="res://assets/meshes/interactables/pose_grab_wheel_right.tres" id="6_ss5gc"]
 
 [sub_resource type="CylinderShape3D" id="1"]
@@ -59,6 +61,10 @@ picked_up_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle1/InteractableHandle"]
 shape = SubResource("3")
 
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle1/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle1/InteractableHandle" instance=ExtResource("5_nmm55")]
+
 [node name="Handle2" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0.141, -0.141)
 
@@ -70,6 +76,10 @@ script = ExtResource("3")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle2/InteractableHandle"]
 shape = SubResource("3")
+
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle2/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle2/InteractableHandle" instance=ExtResource("5_nmm55")]
 
 [node name="Handle3" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.2)
@@ -84,6 +94,10 @@ picked_up_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle3/InteractableHandle"]
 shape = SubResource("3")
 
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle3/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle3/InteractableHandle" instance=ExtResource("5_nmm55")]
+
 [node name="Handle4" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, -0.141, -0.141)
 
@@ -96,6 +110,10 @@ picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle4/InteractableHandle"]
 shape = SubResource("3")
+
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle4/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle4/InteractableHandle" instance=ExtResource("5_nmm55")]
 
 [node name="Handle5" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, -0.2, 0)
@@ -110,6 +128,10 @@ picked_up_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle5/InteractableHandle"]
 shape = SubResource("3")
 
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle5/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle5/InteractableHandle" instance=ExtResource("5_nmm55")]
+
 [node name="Handle6" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, -0.707107, -0.707107, 0, 0.707107, -0.707107, 0, -0.141, 0.141)
 
@@ -122,6 +144,10 @@ picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle6/InteractableHandle"]
 shape = SubResource("3")
+
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle6/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle6/InteractableHandle" instance=ExtResource("5_nmm55")]
 
 [node name="Handle7" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, 1.19249e-08, -1, 0, 1, 1.19249e-08, 0, 0, 0.2)
@@ -136,6 +162,10 @@ picked_up_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle7/InteractableHandle"]
 shape = SubResource("3")
 
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle7/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle7/InteractableHandle" instance=ExtResource("5_nmm55")]
+
 [node name="Handle8" type="Node3D" parent="HingeOrigin/InteractableHinge"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0.141, 0.141)
 
@@ -148,6 +178,10 @@ picked_up_layer = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle"]
 shape = SubResource("3")
+
+[node name="LeftHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle" instance=ExtResource("4_fqyfb")]
+
+[node name="RightHandMarker3D" parent="HingeOrigin/InteractableHinge/Handle8/InteractableHandle" instance=ExtResource("5_nmm55")]
 
 [node name="HandPoseArea" parent="HingeOrigin" instance=ExtResource("4_2vgo6")]
 left_pose = ExtResource("5_gt8jj")

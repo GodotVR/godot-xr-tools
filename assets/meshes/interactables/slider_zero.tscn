@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://hv8nnbkuccxi"]
+[gd_scene load_steps=18 format=3 uid="uid://hv8nnbkuccxi"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_slider.gd" id="2"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_ec2uv"]
 [ext_resource type="Resource" uid="uid://c5nxxsga5kesd" path="res://assets/meshes/interactables/pose_grab_ball_left.tres" id="6_bqubh"]
 [ext_resource type="Resource" uid="uid://dvvw0k7tqagx" path="res://assets/meshes/interactables/pose_grab_ball_right.tres" id="7_dmlvy"]
+[ext_resource type="PackedScene" uid="uid://6tmuxqjq38tt" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/left_hand_marker_3d.tscn" id="8_yoy1t"]
+[ext_resource type="PackedScene" uid="uid://d1sb44vie8u1q" path="res://addons/godot-xr-tools/objects/collision_hand/interactable_latch_on/right_hand_marker_3d.tscn" id="9_cmu0f"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.2, 0.6, 0.1)
@@ -52,6 +54,7 @@ surface_material_override/0 = ExtResource("1")
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.2, 0)
 
 [node name="InteractableSlider" type="Node3D" parent="SliderOrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
 script = ExtResource("2")
 slider_limit_max = 0.4
 slider_position = 0.2
@@ -96,3 +99,7 @@ right_pose = ExtResource("7_dmlvy")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle/HandPoseArea"]
 shape = SubResource("SphereShape3D_tg476")
+
+[node name="LeftHandMarker3D" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle" instance=ExtResource("8_yoy1t")]
+
+[node name="RightHandMarker3D" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle" instance=ExtResource("9_cmu0f")]
