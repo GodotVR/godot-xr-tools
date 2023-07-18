@@ -1,6 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://cgcrkjmhwjgtf"]
+[gd_scene load_steps=9 format=3 uid="uid://cgcrkjmhwjgtf"]
 
 [ext_resource type="PackedScene" uid="uid://cjyilbm4ucc7s" path="res://addons/godot-xr-tools/objects/climbable.tscn" id="1_qhuxa"]
+[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="2_es74i"]
+[ext_resource type="Animation" uid="uid://dqa0h82y3qn1t" path="res://addons/godot-xr-tools/hands/animations/left/Grip 1.res" id="3_yocjc"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_185bt"]
+[ext_resource type="Animation" uid="uid://daqddcrbpam0c" path="res://addons/godot-xr-tools/hands/animations/right/Grip 1.res" id="5_go5rt"]
+
+[sub_resource type="Resource" id="Resource_k48vj"]
+script = ExtResource("4_185bt")
+open_pose = ExtResource("3_yocjc")
+closed_pose = ExtResource("3_yocjc")
+
+[sub_resource type="Resource" id="Resource_8ucfj"]
+script = ExtResource("4_185bt")
+open_pose = ExtResource("5_go5rt")
+closed_pose = ExtResource("5_go5rt")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_dmfj3"]
 size = Vector3(6.92398, 0.0554399, 0.102059)
@@ -11,6 +25,14 @@ size = Vector3(6.92398, 0.0554399, 0.102059)
 
 [node name="Climbable" parent="_Rope" instance=ExtResource("1_qhuxa")]
 
+[node name="HandPoseArea" parent="_Rope/Climbable" instance=ExtResource("2_es74i")]
+left_pose = SubResource("Resource_k48vj")
+right_pose = SubResource("Resource_8ucfj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope/Climbable/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.47468, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
+
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope/Climbable"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.47468, 3.46526)
 shape = SubResource("BoxShape3D_dmfj3")
@@ -18,6 +40,14 @@ shape = SubResource("BoxShape3D_dmfj3")
 [node name="_Rope2" type="Node3D" parent="."]
 
 [node name="Climbable" parent="_Rope2" instance=ExtResource("1_qhuxa")]
+
+[node name="HandPoseArea" parent="_Rope2/Climbable" instance=ExtResource("2_es74i")]
+left_pose = SubResource("Resource_k48vj")
+right_pose = SubResource("Resource_8ucfj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope2/Climbable/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17057, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope2/Climbable"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.17057, 3.46526)
@@ -27,6 +57,14 @@ shape = SubResource("BoxShape3D_dmfj3")
 
 [node name="Climbable" parent="_Rope3" instance=ExtResource("1_qhuxa")]
 
+[node name="HandPoseArea" parent="_Rope3/Climbable" instance=ExtResource("2_es74i")]
+left_pose = SubResource("Resource_k48vj")
+right_pose = SubResource("Resource_8ucfj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope3/Climbable/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85781, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
+
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope3/Climbable"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.85781, 3.46526)
 shape = SubResource("BoxShape3D_dmfj3")
@@ -34,6 +72,14 @@ shape = SubResource("BoxShape3D_dmfj3")
 [node name="_Rope4" type="Node3D" parent="."]
 
 [node name="Climbable" parent="_Rope4" instance=ExtResource("1_qhuxa")]
+
+[node name="HandPoseArea" parent="_Rope4/Climbable" instance=ExtResource("2_es74i")]
+left_pose = SubResource("Resource_k48vj")
+right_pose = SubResource("Resource_8ucfj")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope4/Climbable/HandPoseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59106, 3.46526)
+shape = SubResource("BoxShape3D_dmfj3")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="_Rope4/Climbable"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.59106, 3.46526)

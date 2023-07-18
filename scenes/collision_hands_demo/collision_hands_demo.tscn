@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="15_8ujnv"]
 [ext_resource type="PackedScene" uid="uid://ywphgkaktdg0" path="res://addons/godot-xr-tools/objects/collision_hand/collision_hand_right.tscn" id="15_q16aj"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="16_0ifip"]
-[ext_resource type="PackedScene" uid="uid://6xxscqoyit84" path="res://assets/maps/holodeck_map_s.tscn" id="16_kkrii"]
+[ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="17_8ul4v"]
 [ext_resource type="PackedScene" uid="uid://3ots8lt8h1dq" path="res://scenes/collision_hands_demo/objects/instructions.tscn" id="17_rinma"]
 [ext_resource type="PackedScene" uid="uid://bwcpq6cuejbiy" path="res://assets/meshes/table/table.tscn" id="18_ttvh8"]
 [ext_resource type="AudioStream" uid="uid://bknr7ftar4n0d" path="res://assets/Kevin MacLeod/Neon and Kickboxing.mp3" id="21_v20l3"]
@@ -50,37 +50,37 @@ pickable_collision = true
 pickable_weight = true
 g_speed = 10.0
 
-[node name="LeftHand" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="3" instance=ExtResource("3_febd4")]
+[node name="LeftHand" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="1" instance=ExtResource("3_febd4")]
 
-[node name="MovementDirect" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="4" instance=ExtResource("4_a68at")]
+[node name="MovementDirect" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="2" instance=ExtResource("4_a68at")]
 strafe = true
 
-[node name="FunctionPickup" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="5" instance=ExtResource("5_xgqc6")]
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="3" instance=ExtResource("5_xgqc6")]
 grab_distance = 0.1
 ranged_angle = 10.0
 
-[node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="6" instance=ExtResource("6_cqxpi")]
+[node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="4" instance=ExtResource("6_cqxpi")]
 
 [node name="CollisionHandRight" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("15_q16aj")]
 pickable_collision = true
 pickable_weight = true
 g_speed = 10.0
 
-[node name="RightHand" parent="XROrigin3D/RightHand/CollisionHandRight" index="3" instance=ExtResource("7_4bclg")]
+[node name="RightHand" parent="XROrigin3D/RightHand/CollisionHandRight" index="1" instance=ExtResource("7_4bclg")]
 
-[node name="MovementDirect" parent="XROrigin3D/RightHand/CollisionHandRight" index="4" instance=ExtResource("4_a68at")]
+[node name="MovementDirect" parent="XROrigin3D/RightHand/CollisionHandRight" index="2" instance=ExtResource("4_a68at")]
 
-[node name="MovementTurn" parent="XROrigin3D/RightHand/CollisionHandRight" index="5" instance=ExtResource("8_eaqgd")]
+[node name="MovementTurn" parent="XROrigin3D/RightHand/CollisionHandRight" index="3" instance=ExtResource("8_eaqgd")]
 
-[node name="FunctionPickup" parent="XROrigin3D/RightHand/CollisionHandRight" index="6" instance=ExtResource("5_xgqc6")]
+[node name="FunctionPickup" parent="XROrigin3D/RightHand/CollisionHandRight" index="4" instance=ExtResource("5_xgqc6")]
 grab_distance = 0.1
 ranged_angle = 10.0
 
-[node name="FunctionPointer" parent="XROrigin3D/RightHand/CollisionHandRight" index="7" instance=ExtResource("9_6jyeo")]
+[node name="FunctionPointer" parent="XROrigin3D/RightHand/CollisionHandRight" index="5" instance=ExtResource("9_6jyeo")]
 show_laser = 2
 laser_length = 1
 
-[node name="FunctionPoseDetector" parent="XROrigin3D/RightHand/CollisionHandRight" index="8" instance=ExtResource("6_cqxpi")]
+[node name="FunctionPoseDetector" parent="XROrigin3D/RightHand/CollisionHandRight" index="6" instance=ExtResource("6_cqxpi")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("10_847y2")]
 collision_layer = 0
@@ -90,8 +90,8 @@ default_surface_audio_type = SubResource("Resource_ppd3h")
 
 [node name="MovementClimb" parent="XROrigin3D" index="5" instance=ExtResource("14_k2eur")]
 
-[node name="HolodeckMap" parent="." index="1" instance=ExtResource("16_kkrii")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
+[node name="HolodeckMap" parent="." index="1" instance=ExtResource("17_8ul4v")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 
 [node name="Teleport" parent="." index="2" instance=ExtResource("15_8ujnv")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 2)
@@ -103,7 +103,7 @@ title = ExtResource("16_0ifip")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -8.821)
 
 [node name="Table" parent="." index="4" instance=ExtResource("18_ttvh8")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.87296, 0, -3.34297)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.873, 0, -3.34297)
 
 [node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
@@ -115,34 +115,40 @@ autoplay = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)
 
 [node name="ColBasketball" parent="CollisionToys" index="0" instance=ExtResource("23_ngp5y")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.29261, 0.964873, -3.35375)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.2926, 0.964873, -3.35375)
 
 [node name="TwoHandedDemoPickable" parent="CollisionToys" index="1" instance=ExtResource("23_pryi5")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -6.18196, 0.838, -3.01179)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -11.182, 0.838, -3.01179)
 
 [node name="DummyGodot" parent="CollisionToys" index="2" instance=ExtResource("26_vytfs")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.296, -5.383)
 
 [node name="GymBag" parent="CollisionToys" index="3" instance=ExtResource("32_1f8wv")]
-transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 6.37952, 0, -6.41807)
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 11.3795, 0, -6.41807)
 
 [node name="GymBall" parent="CollisionToys" index="4" instance=ExtResource("33_1htkj")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.39456, 0, -0.0782299)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.3946, 0, -0.0782299)
 
 [node name="Weight1kg" parent="CollisionToys" index="5" instance=ExtResource("26_53r7c")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.91675, 1.104, -1.55051)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10.9167, 1.104, -1.55051)
 
 [node name="Weight3kg" parent="CollisionToys" index="6" instance=ExtResource("27_apjjh")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.91675, 1.104, -2.05051)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10.9167, 1.104, -2.05051)
 
 [node name="Weight5kg" parent="CollisionToys" index="7" instance=ExtResource("28_isv50")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -5.91675, 1.104, -2.5505)
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -10.9167, 1.104, -2.5505)
 
 [node name="BoxingGloveLeft" parent="CollisionToys" index="8" instance=ExtResource("30_1meie")]
-transform = Transform3D(0.183013, 0.183013, -0.965925, -0.707107, 0.707107, 0, 0.683012, 0.683012, 0.258819, 5.89929, 0.063502, -6.07418)
+transform = Transform3D(0.183013, 0.183013, -0.965925, -0.707107, 0.707107, 0, 0.683012, 0.683012, 0.258819, 10.8993, 0.063502, -6.07418)
 
 [node name="BoxingGloveRight" parent="CollisionToys" index="9" instance=ExtResource("31_5nhjl")]
-transform = Transform3D(0.836516, 0.482963, -0.258819, -0.5, 0.866025, 1.49012e-08, 0.224144, 0.12941, 0.965926, 6.1368, 0.063502, -5.83668)
+transform = Transform3D(0.836516, 0.482963, -0.258819, -0.5, 0.866025, 1.49012e-08, 0.224144, 0.12941, 0.965926, 11.1368, 0.063502, -5.83668)
+
+[node name="BoxingGloveLeft2" parent="CollisionToys" index="10" instance=ExtResource("30_1meie")]
+transform = Transform3D(0.797246, -0.55557, -0.236094, 0.532703, 0.83147, -0.157753, 0.283948, 0, 0.95884, -0.120998, 1.37134, -4)
+
+[node name="BoxingGloveRight2" parent="CollisionToys" index="11" instance=ExtResource("31_5nhjl")]
+transform = Transform3D(0.566393, 0.800533, 0.195821, -0.824113, 0.551897, 0.127464, -0.00603449, -0.233574, 0.97232, 0.177989, 1.37134, -4)
 
 [node name="BoxingRing" parent="." index="7" instance=ExtResource("34_dnbfk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
