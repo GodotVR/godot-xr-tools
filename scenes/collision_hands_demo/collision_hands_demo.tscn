@@ -45,38 +45,42 @@ walk_pitch_maximum = 1.2
 [node name="CollisionHandsDemo" instance=ExtResource("1_3253r")]
 script = ExtResource("2_uwwri")
 
-[node name="LeftHand" parent="XROrigin3D" index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="CollisionHandLeft" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("14_1k85a")]
+pickable_collision = true
+pickable_weight = true
+g_speed = 10.0
 
-[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_febd4")]
+[node name="LeftHand" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="3" instance=ExtResource("3_febd4")]
 
-[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("4_a68at")]
+[node name="MovementDirect" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="4" instance=ExtResource("4_a68at")]
 strafe = true
 
-[node name="FunctionPickup" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5_xgqc6")]
+[node name="FunctionPickup" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="5" instance=ExtResource("5_xgqc6")]
 grab_distance = 0.1
 ranged_angle = 10.0
 
-[node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6_cqxpi")]
+[node name="FunctionPoseDetector" parent="XROrigin3D/LeftHand/CollisionHandLeft" index="6" instance=ExtResource("6_cqxpi")]
 
-[node name="RightHand" parent="XROrigin3D" index="2"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+[node name="CollisionHandRight" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("15_q16aj")]
+pickable_collision = true
+pickable_weight = true
+g_speed = 10.0
 
-[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("7_4bclg")]
+[node name="RightHand" parent="XROrigin3D/RightHand/CollisionHandRight" index="3" instance=ExtResource("7_4bclg")]
 
-[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("4_a68at")]
+[node name="MovementDirect" parent="XROrigin3D/RightHand/CollisionHandRight" index="4" instance=ExtResource("4_a68at")]
 
-[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("8_eaqgd")]
+[node name="MovementTurn" parent="XROrigin3D/RightHand/CollisionHandRight" index="5" instance=ExtResource("8_eaqgd")]
 
-[node name="FunctionPickup" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5_xgqc6")]
+[node name="FunctionPickup" parent="XROrigin3D/RightHand/CollisionHandRight" index="6" instance=ExtResource("5_xgqc6")]
 grab_distance = 0.1
 ranged_angle = 10.0
 
-[node name="FunctionPointer" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("9_6jyeo")]
+[node name="FunctionPointer" parent="XROrigin3D/RightHand/CollisionHandRight" index="7" instance=ExtResource("9_6jyeo")]
 show_laser = 2
 laser_length = 1
 
-[node name="FunctionPoseDetector" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("6_cqxpi")]
+[node name="FunctionPoseDetector" parent="XROrigin3D/RightHand/CollisionHandRight" index="8" instance=ExtResource("6_cqxpi")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("10_847y2")]
 collision_layer = 0
@@ -85,22 +89,6 @@ collision_layer = 0
 default_surface_audio_type = SubResource("Resource_ppd3h")
 
 [node name="MovementClimb" parent="XROrigin3D" index="5" instance=ExtResource("14_k2eur")]
-
-[node name="CollisionHandLeft" parent="XROrigin3D" index="6" instance=ExtResource("14_1k85a")]
-controller_path = NodePath("../LeftHand")
-_hand_path = NodePath("../LeftHand/LeftHand")
-_pickup_path = NodePath("../LeftHand/FunctionPickup")
-pickable_collision = true
-pickable_weight = true
-g_speed = 10.0
-
-[node name="CollisionHandRight" parent="XROrigin3D" index="7" instance=ExtResource("15_q16aj")]
-controller_path = NodePath("../RightHand")
-_hand_path = NodePath("../RightHand/RightHand")
-_pickup_path = NodePath("../RightHand/FunctionPickup")
-pickable_collision = true
-pickable_weight = true
-g_speed = 10.0
 
 [node name="HolodeckMap" parent="." index="1" instance=ExtResource("16_kkrii")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -2)

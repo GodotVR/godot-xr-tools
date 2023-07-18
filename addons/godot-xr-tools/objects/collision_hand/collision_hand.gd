@@ -12,21 +12,10 @@ class_name XRToolsCollisionHand
 extends CharacterBody3D
 
 #
-# THIS addition adds a KinematicBody that "chases" the controller THIS is assigned
-# to. THIS has a simple CollisionShape to simulate the empty hand and will copy
+# THIS addition adds a KinematicBody that "chases" the controller THIS is a child
+# off. THIS has a simple CollisionShape to simulate the empty hand and will copy
 # the CollisionShapes of held objects and add them to THIS as children; then it
 # will delete the copied CollisionShapes on drop.
-
-@export_group("Collision Hand Setup")
-
-## select controller
-@export var controller_path : NodePath
-
-## select visual hand
-@export var _hand_path : NodePath
-
-## select function_pickup
-@export var _pickup_path : NodePath #Should be child of ARVRController
 
 @export_subgroup("Optional Collision")
 ## if set to true, pickable objects will have collision.
@@ -68,12 +57,7 @@ extends CharacterBody3D
 @onready var max_distance : float = 0.2
 @onready var _speed : float = 30.0
 
-@onready var controller : XRController3D = get_node(controller_path)
-@onready var _hand = get_node(_hand_path)
-@onready var _pickup = get_node(_pickup_path)
 @onready var palm_shape : CollisionShape3D = $PalmShape
-@onready var hand_remote : RemoteTransform3D = $HandRemoteTransform3D
-@onready var pickup_remote : RemoteTransform3D = $PickupRemoteTransform3D
 # Get the gravity from the project settings to be synced
 # with RigidDynamicBody nodes.
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -89,31 +73,41 @@ extends CharacterBody3D
 # the pickable gets its velocity reset
 @onready var _weight : bool = false
 
-var _what 
-var _collider
-var two_handed
-
+# Scene information
+var _controller : XRController3D
+var _pickup_function : XRToolsFunctionPickup
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsCollisionHand"
 
 func _ready():
-	start_speed = _speed
-
-	hand_remote.set_transform(_hand.get_transform())
-	hand_remote.remote_path = _hand.get_path()
-	pickup_remote.set_transform(_pickup.get_transform())
-	pickup_remote.remote_path = _pickup.get_path()
-
-	if pickable_collision:
-		_pickup.has_picked_up.connect(add_colliders)
-		_pickup.has_dropped.connect(remove_colliders)
-
-
-func _physics_process(_delta):
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
+		return
+
+	start_speed = _speed
+
+	# find the nodes we need
+	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
+	_pickup_function = XRTools.find_xr_child(self, "*", "XRToolsFunctionPickup")
+
+	if pickable_collision:
+		_pickup_function.has_picked_up.connect(add_colliders)
+		_pickup_function.has_dropped.connect(remove_colliders)
+
+	# Now for the magic settings,
+	# this disjoins our node from our parents position.
+	# Once set, global_transform = transform on this node.
+	top_level = true
+
+func _physics_process(_delta):
+	# Do not process if in the editor
+	if Engine.is_editor_hint():
+		return
+
+	if !_controller:
+		# We're not a child of a controller node!
 		return
 
 	if zero_g:
@@ -135,18 +129,26 @@ func _physics_process(_delta):
 				move_and_slide()
 
 		if twohanded_collision:
-			two_handed = held_body.get_node("TwoHanded")
-			if two_handed.using_two_handed:
-				if two_handed.mod:
-					_collider.global_transform = controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
-					controller.rotation = two_handed.second_hand_controller.rotation.rotated(two_handed.axis, two_handed.radians)
-				_collider.global_transform = controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
-				_collider.translate(Vector3(0,0,0)- held_body.get_active_grab_point().transform.origin)
+			# !BAS! Still experimental
+			# This was using whatever _collider was last created on pickup,
+			# not sure if that was intentional, I'm not entirely sure what
+			# we're doing here.
+			# Assigning the controller rotation definately is wrong.
+			# I haven't had time to look into this further but will. 
+			var two_handed = held_body.get_node_or_null("TwoHanded")
+			if two_handed and two_handed.using_two_handed:
+				for collider in collider_list:
+					if two_handed.mod:
+						collider.global_transform = _controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
+						_controller.rotation = two_handed.second_hand_controller.rotation.rotated(two_handed.axis, two_handed.radians)
+					collider.global_transform = _controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
+					collider.translate(Vector3(0,0,0)- held_body.get_active_grab_point().transform.origin)
 			else:
-				_collider.global_transform = held_body.get_active_grab_point().global_transform
-				_collider.translate(Vector3(0,0,0)- held_body.get_active_grab_point().transform.origin)
+				for collider in collider_list:
+					collider.global_transform = held_body.get_active_grab_point().global_transform
+					collider.translate(Vector3(0,0,0)- held_body.get_active_grab_point().transform.origin)
 
-	move_to(controller)
+	move_to(_controller)
 	_check_for_drop()
 
 
@@ -158,21 +160,33 @@ func move_to(target : Node) -> void:
 	var dir : Vector3 = t_pos - s_pos #Move Direction
 	velocity = dir * _speed
 	move_and_slide()
-	self.set_rotation(controller.rotation)
+
+	# orientation is just copied
+	self.global_transform.basis = target.global_transform.basis
 
 
 func _check_for_drop():
-	var c_pos = controller.global_transform.origin #Controller Position
+	var c_pos = _controller.global_transform.origin #Controller Position
 	var s_pos = self.global_transform.origin #Self Position
 
-	var face_pos = self.get_parent().global_transform.origin
-	var s_dist = s_pos.distance_to(face_pos)
-	var c_dist = c_pos.distance_to(face_pos)
+	# If we want to do it this way, we'll need to obtain the camera,
+	# but I think my alternative works just fine
+	# var face_pos = self.get_parent().global_transform.origin
+	# var s_dist = s_pos.distance_to(face_pos)
+	# var c_dist = c_pos.distance_to(face_pos)
 
-	if s_dist > c_dist + max_distance: #If object too far from face
-		_pickup.drop_object()
-		remove_colliders()
-		self.transform = controller.transform
+	# if s_dist > c_dist + max_distance: #If object too far from face
+	if c_pos.distance_to(s_pos) > max_distance: # Did we move to far away?
+		# We're either stuck behind something,
+		# or the weight of what we're holding is slowing us down too much.
+		
+		# Drop any held object
+		if _pickup_function:
+			_pickup_function.drop_object()
+			remove_colliders()
+
+		# Snap back into place
+		self.transform = _controller.global_transform
 
 
 # Requests a dictionary of CollisionShapes with Transforms from Spatial object
@@ -183,24 +197,26 @@ func add_colliders(_what : Node3D) -> void:
 		if pickable_weight:
 			zero_g = true
 			_weight = true
+
 		if _what.has_node("TwoHanded"):
 			twohanded_collision = true
 			col_dict = _what.get_node("TwoHanded").get_collider_dict()
 			for key in col_dict.keys():
-				_collider = key.duplicate()
-				_collider.transform = col_dict[key]
-				collider_list.append(_collider)
-				self.add_child(_collider)
+				var collider = key.duplicate()
+				collider.transform = col_dict[key]
+				collider_list.append(collider)
+				self.add_child(collider)
 			held_body = _what
 			self.add_collision_exception_with(held_body)
+
 		if  _what.has_node("PickableCollision"):
 			twohanded_collision = false
 			col_dict = _what.get_node("PickableCollision").get_collider_dict()
 			for key in col_dict.keys():
-				_collider = key.duplicate()
-				_collider.transform = col_dict[key]
-				collider_list.append(_collider)
-				self.add_child(_collider)
+				var collider = key.duplicate()
+				collider.transform = col_dict[key]
+				collider_list.append(collider)
+				self.add_child(collider)
 			held_body = _what
 			self.add_collision_exception_with(held_body)
 
@@ -210,8 +226,10 @@ func remove_colliders() -> void:
 	if pickable_weight:
 		_weight = false
 		zero_g = false
+
 	if twohanded_collision:
 		twohanded_collision = false
+
 	for col in collider_list:
 		col.queue_free()
 
@@ -219,10 +237,24 @@ func remove_colliders() -> void:
 	if is_instance_valid(held_body):
 		self.remove_collision_exception_with(held_body)
 
+	# No longer holding this...
+	held_body = null
 
-## Find an [XRToolsPlayerBody] node.
+# This method verifies the hand has a valid configuration.
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
+	if not XRTools.find_xr_ancestor(self, "*", "XRController3D"):
+		warnings.append("This node must be a child of an XRController3D node")
+
+	if pickable_collision and not XRTools.find_xr_child(self, "*", "XRToolsFunctionPickup"):
+		warnings.append("This node needs a pickup function to apply pickable collisions")
+
+	return warnings
+
+## Find an [XRToolsCollisionHand] node.
 ##
-## This function searches from the specified node for an [XRToolsPlayerBody]
+## This function searches from the specified node for an [XRToolsCollisionHand]
 ## assuming the node is a sibling of the body under an [XROrigin3D].
 static func find_instance(node: Node) -> XRToolsCollisionHand:
 	return XRTools.find_xr_child(

@@ -14,7 +14,3 @@ script = ExtResource("1_o6lmh")
 [node name="PalmShape" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.029, -0.051, 0.129)
 shape = SubResource("CapsuleShape3D_a4yah")
-
-[node name="HandRemoteTransform3D" type="RemoteTransform3D" parent="."]
-
-[node name="PickupRemoteTransform3D" type="RemoteTransform3D" parent="."]
