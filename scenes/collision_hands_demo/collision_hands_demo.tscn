@@ -151,11 +151,28 @@ transform = Transform3D(0.797246, -0.55557, -0.236094, 0.532703, 0.83147, -0.157
 [node name="BoxingGloveRight2" parent="CollisionToys" index="11" instance=ExtResource("31_5nhjl")]
 transform = Transform3D(0.566393, 0.800533, 0.195821, -0.824113, 0.551897, 0.127464, -0.00603449, -0.233574, 0.97232, 0.177989, 1.37134, -4)
 
-[node name="BoxingRing" parent="." index="7" instance=ExtResource("34_dnbfk")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+[node name="ClimbingWallToys" type="Node3D" parent="." index="7"]
 
-[node name="ClimbingWall" parent="." index="8" instance=ExtResource("34_yajvx")]
+[node name="ClimbingWall" parent="ClimbingWallToys" index="0" instance=ExtResource("34_yajvx")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12, 0, -2)
 
-[node name="ClimbingWall2" parent="." index="9" instance=ExtResource("34_yajvx")]
+[node name="ClimbingWall2" parent="ClimbingWallToys" index="1" instance=ExtResource("34_yajvx")]
 transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12, 3, -2)
+
+[node name="ClimbingWall3" parent="ClimbingWallToys" index="2" instance=ExtResource("34_yajvx")]
+transform = Transform3D(-4.37114e-08, 0, 1, -0.866025, 0.5, -3.78552e-08, -0.5, -0.866025, -2.18557e-08, -12, 6.41265, 0.818371)
+
+[node name="ClimbingWall4" parent="ClimbingWallToys" index="3" instance=ExtResource("34_yajvx")]
+transform = Transform3D(1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, -13.8159, 10, -2)
+
+[node name="ClimbingWall5" parent="ClimbingWallToys" index="4" instance=ExtResource("34_yajvx")]
+transform = Transform3D(1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, -10.8159, 10, -2)
+
+[node name="ClimbingWall6" parent="ClimbingWallToys" index="5" instance=ExtResource("34_yajvx")]
+transform = Transform3D(1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, -7.81588, 10, -2)
+
+[node name="ClimbingWall7" parent="ClimbingWallToys" index="6" instance=ExtResource("34_yajvx")]
+transform = Transform3D(1.91069e-15, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, -1, 0, -4.37114e-08, -4.81588, 10, -2)
+
+[node name="BoxingRing" parent="." index="8" instance=ExtResource("34_dnbfk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
