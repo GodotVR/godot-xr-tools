@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://kxwtplqo7nqv"]
+[gd_scene load_steps=36 format=3 uid="uid://kxwtplqo7nqv"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_3253r"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_uwwri"]
@@ -33,6 +33,7 @@
 [ext_resource type="PackedScene" uid="uid://c2eidrk6oradg" path="res://scenes/collision_hands_demo/objects/gym_bag.tscn" id="32_1f8wv"]
 [ext_resource type="PackedScene" uid="uid://dse4t0qb3h44k" path="res://scenes/collision_hands_demo/objects/gym_ball.tscn" id="33_1htkj"]
 [ext_resource type="PackedScene" uid="uid://cq5v8bd5nja17" path="res://scenes/collision_hands_demo/objects/boxing_ring.tscn" id="34_dnbfk"]
+[ext_resource type="PackedScene" uid="uid://ckcpwwmhswcg7" path="res://scenes/collision_hands_demo/objects/climbing_wall.tscn" id="34_yajvx"]
 
 [sub_resource type="Resource" id="Resource_ppd3h"]
 script = ExtResource("13_p3ct3")
@@ -152,3 +153,9 @@ transform = Transform3D(0.566393, 0.800533, 0.195821, -0.824113, 0.551897, 0.127
 
 [node name="BoxingRing" parent="." index="7" instance=ExtResource("34_dnbfk")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="ClimbingWall" parent="." index="8" instance=ExtResource("34_yajvx")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12, 0, -2)
+
+[node name="ClimbingWall2" parent="." index="9" instance=ExtResource("34_yajvx")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12, 3, -2)

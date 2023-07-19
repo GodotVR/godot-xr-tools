@@ -3,6 +3,7 @@
 	Basketball 3D Model
 	Boxing Glove Left/Right 3D Model
 	Boxing Ring 3D Model
+	Climbing Grips 3D Model
 	(added the Boxing Gloves to the XR Tools as well, located res://addons/godot-xr-tools/hands/model/Boxing_Glove_L.glb and Boxing_Glove_R.glb)
 	
 	Muscleboy 3D Model

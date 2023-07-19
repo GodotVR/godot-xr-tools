@@ -1,0 +1,41 @@
+[gd_scene load_steps=10 format=3 uid="uid://ckcpwwmhswcg7"]
+
+[ext_resource type="PackedScene" uid="uid://butobbphx3t3l" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_01.tscn" id="1_gihig"]
+[ext_resource type="PackedScene" uid="uid://ccqakatidptqs" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_02.tscn" id="2_vyudc"]
+[ext_resource type="PackedScene" uid="uid://c4ch0j45ey22j" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_03.tscn" id="3_ihqk6"]
+[ext_resource type="PackedScene" uid="uid://d2cr7jejkccbb" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_04.tscn" id="4_tknim"]
+[ext_resource type="PackedScene" uid="uid://bv4j0ugrntpoq" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_05.tscn" id="5_nj50e"]
+[ext_resource type="PackedScene" uid="uid://cyhartma3r7av" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_06.tscn" id="6_am5vt"]
+[ext_resource type="PackedScene" uid="uid://cndirjtj5ixby" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_07.tscn" id="7_lcuay"]
+[ext_resource type="PackedScene" uid="uid://b1kggqm0l5w6b" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_08.tscn" id="8_oe6ut"]
+[ext_resource type="PackedScene" uid="uid://fadlho1icr32" path="res://scenes/collision_hands_demo/objects/climbing_grips/climbing_grip_09.tscn" id="9_hcs3r"]
+
+[node name="ClimbingWall" type="Node3D"]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="ClimbingGrip01" parent="." instance=ExtResource("1_gihig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.609773, 3.51611, 0)
+
+[node name="ClimbingGrip02" parent="." instance=ExtResource("2_vyudc")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.1218, 3.32001, 0)
+
+[node name="ClimbingGrip03" parent="." instance=ExtResource("3_ihqk6")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.98752, 3.93284, 0)
+
+[node name="ClimbingGrip04" parent="." instance=ExtResource("4_tknim")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0934443, 2.02058, 0)
+
+[node name="ClimbingGrip05" parent="." instance=ExtResource("5_nj50e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6774, 4.34002, 0)
+
+[node name="ClimbingGrip06" parent="." instance=ExtResource("6_am5vt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.696584, 1.95066, 0)
+
+[node name="ClimbingGrip07" parent="." instance=ExtResource("7_lcuay")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.892499, 2.46473, 0)
+
+[node name="ClimbingGrip08" parent="." instance=ExtResource("8_oe6ut")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.689714, 2.98392, 0)
+
+[node name="ClimbingGrip09" parent="." instance=ExtResource("9_hcs3r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.426612, 2.43974, 0)
