@@ -15,6 +15,12 @@ enum WebXRPrimary {
 ## User setting for snap-turn
 @export var snap_turning : bool = true
 
+## User setting for y axis dead zone
+@export var y_axis_dead_zone : float = 0.1
+
+## User setting for y axis dead zone
+@export var x_axis_dead_zone : float = 0.2
+
 ## User setting for player height adjust
 @export var player_height_adjust : float = 0.0: set = set_player_height_adjust
 
@@ -42,15 +48,15 @@ func _ready():
 func reset_to_defaults() -> void:
 	# Reset to defaults
 	snap_turning = XRTools.get_default_snap_turning()
+	y_axis_dead_zone = XRTools.get_y_axis_dead_zone()
+	x_axis_dead_zone = XRTools.get_x_axis_dead_zone()
 	player_height_adjust = 0.0
 	webxr_primary = WebXRPrimary.AUTO
 	webxr_auto_primary = 0
 
-
 ## Set the player height adjust property
 func set_player_height_adjust(new_value : float) -> void:
 	player_height_adjust = clamp(new_value, -1.0, 1.0)
-
 
 ## Set the WebXR primary
 func set_webxr_primary(new_value : WebXRPrimary) -> void:
@@ -77,7 +83,9 @@ func save() -> void:
 	# Convert the settings to a dictionary
 	var settings := {
 		"input" : {
-			"default_snap_turning" : snap_turning
+			"default_snap_turning" : snap_turning,
+			"y_axis_dead_zone" : y_axis_dead_zone,
+			"x_axis_dead_zone" : x_axis_dead_zone
 		},
 		"player" : {
 			"height_adjust" : player_height_adjust
@@ -145,6 +153,10 @@ func _load() -> void:
 		var input : Dictionary = settings["input"]
 		if input.has("default_snap_turning"):
 			snap_turning = input["default_snap_turning"]
+		if input.has("y_axis_dead_zone"):
+			y_axis_dead_zone = input["y_axis_dead_zone"]
+		if input.has("x_axis_dead_zone"):
+			x_axis_dead_zone = input["x_axis_dead_zone"]
 
 	# Parse our player settings
 	if settings.has("player"):
@@ -177,3 +189,21 @@ func _on_webxr_vector2_changed(name: String, _vector: Vector2) -> void:
 		if webxr_auto_primary != 0:
 			# Let the developer know which one is chosen.
 			webxr_primary_changed.emit(webxr_auto_primary)
+
+## Helper function to remap input vector with deadzone values
+func get_adjusted_vector2(p_controller, p_input_action):
+	var vector = Vector2.ZERO
+	var original_vector = p_controller.get_vector2(p_input_action)
+
+	if abs(original_vector.y) > y_axis_dead_zone:
+		vector.y = remap(abs(original_vector.y), y_axis_dead_zone, 1, 0, 1)
+		if original_vector.y < 0:
+			vector.y *= -1
+
+	if abs(original_vector.x) > x_axis_dead_zone:
+		vector.x = remap(abs(original_vector.x), x_axis_dead_zone, 1, 0, 1)
+		if original_vector.x < 0:
+			vector.x *= -1
+
+	return vector
+
