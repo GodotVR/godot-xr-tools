@@ -1,6 +1,7 @@
 # 4.2.0
 - Environments can now be set normally in scenes loaded through the staging system.
 - Fixed issue with not being able to push rigid bodies when colliding with them.
+- Fixed player movement on slopes.
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers
