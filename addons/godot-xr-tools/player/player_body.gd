@@ -344,7 +344,7 @@ func request_jump(skip_jump_velocity := false):
 func move_body(p_velocity: Vector3) -> Vector3:
 	velocity = p_velocity
 	max_slides = 4
-	up_direction = up_gravity_vector
+	up_direction = ground_vector
 
 	move_and_slide()
 
