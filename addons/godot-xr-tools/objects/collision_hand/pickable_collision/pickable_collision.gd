@@ -5,8 +5,7 @@
 class_name XRToolsPickableCollision
 extends Node
 
-# parent
-@onready var _parent : XRToolsPickable = get_parent()
+
 # collision
 var c
 # correction
@@ -15,6 +14,10 @@ var _c
 var _tl
 # transform
 var _tf
+
+# parent
+@onready var _parent : XRToolsPickable = get_parent()
+
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:

@@ -159,7 +159,7 @@ func _correct_alignment():
 
 	# by setting translate self to the get_active_grab_point we get
 	# the pickable positioned correctly when being held with twohands
-	_parent.translate(Vector3(0,0,0)- _parent.get_active_grab_point().transform.origin) 
+	_parent.translate(Vector3(0,0,0)- _parent.get_active_grab_point().transform.origin)
 
 
 func get_collider_dict():
