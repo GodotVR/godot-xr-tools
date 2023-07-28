@@ -3,10 +3,55 @@ class_name XRToolsPoke
 extends Node3D
 
 
+## XR Tools Poke Script
+##
+## This node a finger push mechanism that can be attached to a finger bone
+## using a [BoneAttachment3D].
+##
+## The poke can interact with user interfaces, and can optionally push rigid
+## bodies.
+
+
+# Default layer of 18:player-hands
+const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
+
+# Default mask of 0xFFFF (1..16)
+# - 1:static-world
+# - 2:dynamic-world
+# - 3:pickable-objects
+# - 4:wall-walking
+# - 5:grappling-target
+const DEFAULT_MASK := 0b0000_0000_0000_0000_1111_1111_1111_1111
+
+
+## Enables or disables the poke functionality
 @export var enabled : bool = true: set = set_enabled
+
+## Sets the radius of the poke mesh and collision
 @export var radius : float = 0.005: set = set_radius
-@export var teleport_distance : float = 0.1: set = set_teleport_distance
+
+## Set the color of the poke mesh
 @export var color : Color = Color(0.8, 0.8, 1.0, 0.5): set = set_color
+
+## Set the poke teleport distance
+@export var teleport_distance : float = 0.1: set = set_teleport_distance
+
+@export_category("Poke Collison")
+
+## Sets the collision layer
+@export_flags_3d_physics var layer : int = DEFAULT_LAYER: set = set_layer
+
+## Sets the collision mask
+@export_flags_3d_physics var mask : int = DEFAULT_MASK: set = set_mask
+
+## Enables or disables pushing bodies
+@export var push_bodies : bool = true: set = set_push_bodies
+
+## Control the stiffness of the finger
+@export var stiffness : float = 10.0: set = set_stiffness
+
+## Control the maximum force the finger can push with
+@export var maximum_force : float = 1.0: set = set_maximum_force
 
 
 var is_ready = false
@@ -44,10 +89,50 @@ func _update_radius() -> void:
 func set_teleport_distance(new_distance : float) -> void:
 	teleport_distance = new_distance
 	if is_ready:
-		_update_set_teleport_distance()
+		_update_teleport_distance()
 
-func _update_set_teleport_distance() -> void:
+func _update_teleport_distance() -> void:
 	$PokeBody.teleport_distance = teleport_distance
+
+func set_push_bodies(new_push_bodies : bool) -> void:
+	push_bodies = new_push_bodies
+	if is_ready:
+		_update_push_bodies()
+
+func _update_push_bodies() -> void:
+	$PokeBody.push_bodies = push_bodies
+
+func set_layer(new_layer : int) -> void:
+	layer = new_layer
+	if is_ready:
+		_update_layer()
+
+func _update_layer() -> void:
+	$PokeBody.collision_layer = layer
+
+func set_mask(new_mask : int) -> void:
+	mask = new_mask
+	if is_ready:
+		_update_mask()
+
+func _update_mask() -> void:
+	$PokeBody.collision_mask = mask
+
+func set_stiffness(new_stiffness : float) -> void:
+	stiffness = new_stiffness
+	if is_ready:
+		_update_stiffness()
+
+func _update_stiffness() -> void:
+	$PokeBody.stiffness = stiffness
+
+func set_maximum_force(new_maximum_force : float) -> void:
+	maximum_force = new_maximum_force
+	if is_ready:
+		_update_maximum_force()
+
+func _update_maximum_force() -> void:
+	$PokeBody.maximum_force = maximum_force
 
 func set_color(new_color : Color) -> void:
 	color = new_color
@@ -76,7 +161,12 @@ func _ready():
 
 	_update_enabled()
 	_update_radius()
-	_update_set_teleport_distance()
+	_update_teleport_distance()
+	_update_layer()
+	_update_mask()
+	_update_push_bodies()
+	_update_stiffness()
+	_update_maximum_force()
 	_update_color()
 
 func _process(_delta):
@@ -93,7 +183,7 @@ func _process(_delta):
 		set_process(false)
 
 
-func _on_PokeBody_body_entered(body):
+func _on_PokeBody_body_contact_start(body):
 	# We are going to poke this body at our current position.
 	# This will be slightly above the object but since this
 	# mostly targets Viewport2Din3D, this will work
@@ -110,7 +200,7 @@ func _on_PokeBody_body_entered(body):
 	if target:
 		set_process(true)
 
-func _on_PokeBody_body_exited(body):
+func _on_PokeBody_body_contact_end(body):
 	if body.has_signal("pointer_released"):
 		body.emit_signal("pointer_released", last_collided_at)
 	elif body.has_method("pointer_released"):
