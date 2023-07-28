@@ -43,17 +43,17 @@ extends CharacterBody3D
 # Scene information
 var _controller : XRController3D
 var _pickup_function : XRToolsFunctionPickup
-var palm_shape : CollisionShape3D = $PalmShape
+var start_speed : float
+var col_dict : Dictionary
 # Get the gravity from the project settings to be synced
 # with RigidDynamicBody nodes.
-var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
-var col_dict : Dictionary
+@onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 # List of colliders added by grabbed objects
-var collider_list : Array = []
-var held_body : PhysicsBody3D
+@onready var collider_list : Array = []
+@onready var held_body : PhysicsBody3D
 # check for collision when twohanded object is picked up
-var twohanded_collision : bool = false
-var start_speed : float
+@onready var twohanded_collision : bool = false
+@onready var palm_shape : CollisionShape3D = $PalmShape
 ## Distance before dropping when stuck
 @onready var max_distance : float = 0.2
 @onready var _speed : float = 30.0
@@ -61,7 +61,6 @@ var start_speed : float
 # this ensures that the current hand, once it drops
 # the pickable gets its velocity reset
 @onready var _weight : bool = false
-
 
 
 # Add support for is_xr_class on XRTools classes
