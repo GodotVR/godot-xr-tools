@@ -40,6 +40,9 @@ extends CharacterBody3D
 # best practice: set g_speed to 10 or 15 if using it with weight
 @export var g_speed : float = 5
 
+# Scene information
+var _controller : XRController3D
+var _pickup_function : XRToolsFunctionPickup
 
 ## Distance before dropping when stuck
 @onready var max_distance : float = 0.2
@@ -51,7 +54,7 @@ extends CharacterBody3D
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 @onready var col_dict : Dictionary
 # List of colliders added by grabbed objects
-@onready var collider_list : Array = [] 
+@onready var collider_list : Array = []
 @onready var held_body : PhysicsBody3D
 # check for collision when twohanded object is picked up
 @onready var twohanded_collision : bool = false
@@ -61,9 +64,7 @@ extends CharacterBody3D
 # the pickable gets its velocity reset
 @onready var _weight : bool = false
 
-# Scene information
-var _controller : XRController3D
-var _pickup_function : XRToolsFunctionPickup
+
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
@@ -122,14 +123,17 @@ func _physics_process(_delta):
 			# not sure if that was intentional, I'm not entirely sure what
 			# we're doing here.
 			# Assigning the controller rotation definately is wrong.
-			# I haven't had time to look into this further but will. 
+			# I haven't had time to look into this further but will.
 			var two_handed = XRTools.find_xr_child(held_body, "*", "XRToolsTwoHanded")
 			if two_handed and two_handed.using_two_handed:
 				for collider in collider_list:
 					if two_handed.mod:
-						collider.global_transform = _controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
-						_controller.rotation = two_handed.second_hand_controller.rotation.rotated(two_handed.axis, two_handed.radians)
-					collider.global_transform = _controller.global_transform.looking_at(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
+						collider.global_transform = _controller.global_transform.looking_at\
+						(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
+						_controller.rotation = two_handed.second_hand_controller.rotation.rotated\
+						(two_handed.axis, two_handed.radians)
+					collider.global_transform = _controller.global_transform.looking_at\
+					(two_handed.second_hand_controller.global_transform.origin,Vector3.UP)
 					collider.translate(Vector3(0,0,0)- held_body.get_active_grab_point().transform.origin)
 			else:
 				for collider in collider_list:
@@ -167,7 +171,7 @@ func _check_for_drop():
 	if c_pos.distance_to(s_pos) > max_distance: # Did we move to far away?
 		# We're either stuck behind something,
 		# or the weight of what we're holding is slowing us down too much.
-		
+
 		# Drop any held object
 		if _pickup_function:
 			_pickup_function.drop_object()

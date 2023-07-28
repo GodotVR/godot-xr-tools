@@ -20,7 +20,7 @@ extends Node
 @export var mod : bool = false
 @export var axis : Vector3 = Vector3(0,1,1)
 @export var radians : float = 180
-@onready var _parent : XRToolsPickable = get_parent()
+
 # Check if using two-handed
 var using_two_handed : bool = false
 
@@ -43,6 +43,8 @@ var _c
 var _tl
 # transform
 var _tf
+
+@onready var _parent : XRToolsPickable = get_parent()
 
 
 # Add support for is_xr_class on XRTools classes
@@ -89,7 +91,7 @@ func _on_second_hand_grabbed(_handle):
 			primary_hand_position.transform = _parent.get_node("GrabPointHandLeft").transform
 		if second_hand_position != null:
 			second_hand_position.get_node("RemoteTransform3D").remote_path = _handle.by_hand.get_path()
-		if primary_hand_position != null:	
+		if primary_hand_position != null:
 			primary_hand_position.get_node("RemoteTransform3D").remote_path = _parent.by_hand.get_path()
 		using_two_handed = true
 		pose_area.monitorable = true
@@ -146,7 +148,8 @@ func _correct_alignment():
 	# this way we get the twohanded working but without the
 	# _parent.translate the twohanded will be displaced because
 	# of the grabpoints
-	_parent.global_transform = _parent.by_controller.global_transform.looking_at(second_hand_controller.global_transform.origin,Vector3.UP)
+	_parent.global_transform = _parent.by_controller.global_transform.looking_at\
+	(second_hand_controller.global_transform.origin,Vector3.UP)
 
 	# if it is a melee object, primary controller rotation is set to
 	# second controller rotation with an axis and radians offset
