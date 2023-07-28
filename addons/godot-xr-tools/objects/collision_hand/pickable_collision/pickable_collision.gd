@@ -1,13 +1,7 @@
 @tool
-## adds collision to the pickable parent object
-## ________________________________________________________
-## Instructions:
-## ________________________________________________________
-## instantiate as child of a pickable
-## ________________________________________________________
-## Requirements:
-## ________________________________________________________
-## requires the use of the CollisionHand
+## adds collision to the pickable parent object.
+## Requirements: requires the use of the CollisionHand.
+# Instructions: instantiate as child of a pickable
 class_name XRToolsPickableCollision
 extends Node
 
@@ -28,7 +22,7 @@ func is_xr_class(name : String) -> bool:
 
 
 func get_collider_dict():
-	c = _parent.get_node("CollisionShape3D")
+	c = XRTools.find_xr_child(_parent, "*", "CollisionShape3D")
 	_c = _parent.get_active_grab_point().transform.origin
 	_tl = _parent.get_active_grab_point().transform * c.transform.origin - _c * 2
 	_tf = Transform3D(_parent.get_active_grab_point().transform.basis, _tl)

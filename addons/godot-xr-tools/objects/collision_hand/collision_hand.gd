@@ -1,55 +1,43 @@
 @tool
-## adds collision to the Open_XR Hands
-## ________________________________________________________
-## a CharacterBody3D that follows the corresponding XRController3D.
-## it is able to collide with the world and with static objects
-## ________________________________________________________
-## OPTIONAL FEATURES:
-## ________________________________________________________
-## collision on pickables/ weight on pickables/ zero_g movement
-
 class_name XRToolsCollisionHand
 extends CharacterBody3D
 
-#
-# THIS addition adds a KinematicBody that "chases" the controller THIS is a child
-# off. THIS has a simple CollisionShape to simulate the empty hand and will copy
-# the CollisionShapes of held objects and add them to THIS as children; then it
-# will delete the copied CollisionShapes on drop.
+
+## THIS addition adds a KinematicBody that "chases" the controller THIS is a child
+## off.
+##
+## THIS has a simple CollisionShape to simulate the empty hand and will copy
+## the CollisionShapes of held objects and add them to THIS as children; then it
+## will delete the copied CollisionShapes on drop.
+##
+## Optional Features: collision on pickables/ weight on pickables/ zero_g movement
 
 @export_subgroup("Optional Collision")
-## if set to true, pickable objects will have collision.
-## ________________________________________________________
-## best practice: use simple collision shapes for collision
-## such as spheres, cubes, less is more
-## ________________________________________________________
-## Requirement Note:
-## ________________________________________________________
-## for pickables to have collision, they require the
-## pickable_collision node to be instantiated
-## as a child of the pickable object
-## ________________________________________________________
-## for twohanded_collision, the two_handed does not need the above
-## since it contains the code for collision in the two_handed node
+# if set to true, pickable objects will have collision.
+# best practice: use simple collision shapes for collision
+# such as spheres, cubes, less is more
+# Requirement Note:
+# for pickables to have collision, they require the
+# pickable_collision node to be instantiated
+# as a child of the pickable object
+# for twohanded_collision, the two_handed does not need the above
+# since it contains the code for collision in the two_handed node
 @export var pickable_collision : bool = false
 @export_subgroup("Optional Weight")
-## if set to true, pickable objects will have weight
-## ________________________________________________________
-## Additional Note:
-## ________________________________________________________
-## Zero-G Movement is set enabled on add colliders
-## removed on remove colliders
+# if set to true, pickable objects will have weight
+# Additional Note:
+# Zero-G Movement is set enabled on add colliders
+# removed on remove colliders
 @export var pickable_weight : bool = false
-## lift up mass is used to produce a heavy lift up effect
-## if the pickable touches any surface
+# lift up mass is used to produce a heavy lift up effect
+# if the pickable touches any surface
 @export var min_mass : float = 3
 @export_subgroup("Optional Zero-G Movement")
-## if set to true
-## hands will have zero gravity movement
+# if set to true
+# hands will have zero gravity movement
 @export var zero_g : bool = false
-## use 5 for zero gravity like movement
-## ________________________________________________________
-## best practice: set g_speed to 10 or 15 if using it with weight
+# use 5 for zero gravity like movement
+# best practice: set g_speed to 10 or 15 if using it with weight
 @export var g_speed : float = 5
 
 
@@ -135,7 +123,7 @@ func _physics_process(_delta):
 			# we're doing here.
 			# Assigning the controller rotation definately is wrong.
 			# I haven't had time to look into this further but will. 
-			var two_handed = held_body.get_node_or_null("TwoHanded")
+			var two_handed = XRTools.find_xr_child(held_body, "*", "XRToolsTwoHanded")
 			if two_handed and two_handed.using_two_handed:
 				for collider in collider_list:
 					if two_handed.mod:
@@ -197,10 +185,10 @@ func add_colliders(_what : Node3D) -> void:
 		if pickable_weight:
 			zero_g = true
 			_weight = true
-
-		if _what.has_node("TwoHanded"):
+		var two_handed := XRTools.find_xr_child(_what, "*", "XRToolsTwoHanded")
+		if two_handed :
 			twohanded_collision = true
-			col_dict = _what.get_node("TwoHanded").get_collider_dict()
+			col_dict = two_handed.get_collider_dict()
 			for key in col_dict.keys():
 				var collider = key.duplicate()
 				collider.transform = col_dict[key]
@@ -209,9 +197,10 @@ func add_colliders(_what : Node3D) -> void:
 			held_body = _what
 			self.add_collision_exception_with(held_body)
 
-		if  _what.has_node("PickableCollision"):
+		var whats_pickable_collision := XRTools.find_xr_child(_what, "*", "XRToolsPickableCollision")
+		if whats_pickable_collision :
 			twohanded_collision = false
-			col_dict = _what.get_node("PickableCollision").get_collider_dict()
+			col_dict = whats_pickable_collision.get_collider_dict()
 			for key in col_dict.keys():
 				var collider = key.duplicate()
 				collider.transform = col_dict[key]

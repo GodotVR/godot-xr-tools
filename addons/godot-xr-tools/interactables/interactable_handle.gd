@@ -24,14 +24,12 @@ extends XRToolsPickable
 
 @export_group("Optional attach Hand")
 ## this latches the grabbing Hand onto the Interactable
-## ________________________________________________________
+##
 ## Requirement: Collision Hands
-## ________________________________________________________
-## Additional Note:
-## ________________________________________________________
-## if export paths are not set, this will be ignored
-## so make sure to setup the paths corresponding to hand
-## Example: left_hand_position = LeftHandMarker3D
+# Additional Note: if export paths are not set, this will be ignored
+# so make sure to setup the paths corresponding to hand
+# Example: left_hand_position = LeftHandMarker3D
+## Requirement: Collision Hands
 @export var left_hand_position : Marker3D
 ## Requirement: Collision Hands
 @export var right_hand_position : Marker3D

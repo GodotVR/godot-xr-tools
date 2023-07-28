@@ -1,11 +1,7 @@
-## adds collision to the Open_XR Hands
-## ________________________________________________________
-## a CharacterBody3D that follows the corresponding XRController3D.
-## it is able to collide with the world and with static objects
-## ________________________________________________________
-## OPTIONAL FEATURES:
-## ________________________________________________________
-## collision on pickables/ weight on pickables/ zero_g movement
+## a Two Handed Pickable - Example, currently useable mainly for ranged types
+## of pickables.
+##
+## Optional: collision, requires XRToolsCollisionHand
 class_name XRToolsTwoHanded
 extends Node
 
@@ -47,12 +43,6 @@ var _c
 var _tl
 # transform
 var _tf
-
-## Left hand XRController3D node
-@onready var left_hand_node : XRController3D = XRHelpers.get_left_controller(self)
-
-## Right hand XRController3D node
-@onready var right_hand_node : XRController3D = XRHelpers.get_right_controller(self)
 
 
 # Add support for is_xr_class on XRTools classes
@@ -151,26 +141,26 @@ func _on_second_hand_dropped(_handle):
 
 
 func _correct_alignment():
-	## by_controller as in the controller that picked up the pickable first
-	## is being set to looking_at the second hand controller
-	## this way we get the twohanded working but without the
-	## _parent.translate the twohanded will be displaced because
-	## of the grabpoints
+	# by_controller as in the controller that picked up the pickable first
+	# is being set to looking_at the second hand controller
+	# this way we get the twohanded working but without the
+	# _parent.translate the twohanded will be displaced because
+	# of the grabpoints
 	_parent.global_transform = _parent.by_controller.global_transform.looking_at(second_hand_controller.global_transform.origin,Vector3.UP)
 
-	## if it is a melee object, primary controller rotation is set to
-	## second controller rotation with an axis and radians offset
+	# if it is a melee object, primary controller rotation is set to
+	# second controller rotation with an axis and radians offset
 	if mod:
 		_parent.by_controller.rotation = second_hand_controller.rotation.rotated(axis, radians)
 
 
-	## by setting translate self to the get_active_grab_point we get
-	## the pickable positioned correctly when being held with twohands
+	# by setting translate self to the get_active_grab_point we get
+	# the pickable positioned correctly when being held with twohands
 	_parent.translate(Vector3(0,0,0)- _parent.get_active_grab_point().transform.origin) 
 
 
 func get_collider_dict():
-	c = _parent.get_node("CollisionShape3D")
+	c = XRTools.find_xr_child(_parent, "*", "CollisionShape3D")
 	_c = _parent.get_active_grab_point().transform.origin
 	_tl = _parent.get_active_grab_point().transform * c.transform.origin - _c * 2
 	_tf = Transform3D(_parent.get_active_grab_point().transform.basis, _tl)
