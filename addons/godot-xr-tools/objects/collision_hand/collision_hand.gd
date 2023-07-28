@@ -56,8 +56,9 @@ var _pickup_function : XRToolsFunctionPickup
 @onready var palm_shape : CollisionShape3D = $PalmShape
 ## Distance before dropping when stuck
 @onready var max_distance : float = 0.2
-@onready var _speed : float = 30.0
+## speed at start
 @onready var start_speed : float
+@onready var _speed : float = 30.0
 # _weight is set to true if pickable_weight is true, otherwise false
 # this ensures that the current hand, once it drops
 # the pickable gets its velocity reset
