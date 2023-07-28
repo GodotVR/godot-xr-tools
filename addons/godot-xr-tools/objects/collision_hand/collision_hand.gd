@@ -43,8 +43,9 @@ extends CharacterBody3D
 # Scene information
 var _controller : XRController3D
 var _pickup_function : XRToolsFunctionPickup
-var start_speed : float
 var col_dict : Dictionary
+var start_speed : float
+
 # Get the gravity from the project settings to be synced
 # with RigidDynamicBody nodes.
 @onready var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
