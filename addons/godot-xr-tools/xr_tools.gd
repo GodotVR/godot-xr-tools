@@ -1,6 +1,10 @@
 class_name XRTools
 extends Node
 
+## Below are helper functions to obtain various project settings that drive
+## the default behavior of XR Tools. The project settings themselves are
+## registered in plugin.gd.
+## Some of these settings can be overridden by the user through user settings.
 
 static func get_grip_threshold() -> float:
 	# can return null which is not a float, so don't type this!
