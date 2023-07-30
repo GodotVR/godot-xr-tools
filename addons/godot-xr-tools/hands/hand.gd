@@ -37,6 +37,9 @@ signal hand_scale_changed(scale)
 ## Last world scale (for scaling hands)
 var _last_world_scale : float = 1.0
 
+## Controller used for input/tracking
+var _controller : XRController3D
+
 ## Initial hand transform (from controller) - used for scaling hands
 var _transform : Transform3D
 
@@ -90,6 +93,9 @@ func _ready() -> void:
 	# Save the initial hand transform
 	_transform = transform
 
+	# Find our controller
+	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
+
 	# Find the relevant hand nodes
 	_hand_mesh = _find_child(self, "MeshInstance3D")
 	_animation_player = _find_child(self, "AnimationPlayer")
@@ -116,10 +122,9 @@ func _process(_delta: float) -> void:
 		emit_signal("hand_scale_changed", _last_world_scale)
 
 	# Animate the hand mesh with the controller inputs
-	var controller : XRController3D = get_parent()
-	if controller:
-		var grip : float = controller.get_float(grip_action)
-		var trigger : float = controller.get_float(trigger_action)
+	if _controller:
+		var grip : float = _controller.get_float(grip_action)
+		var trigger : float = _controller.get_float(trigger_action)
 
 		# Allow overriding of grip and trigger
 		if _force_grip >= 0.0: grip = _force_grip
