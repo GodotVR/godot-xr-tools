@@ -1,25 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://hpxufsmhvnq0"]
+[gd_scene load_steps=3 format=3 uid="uid://hpxufsmhvnq0"]
 
 [ext_resource type="PackedScene" uid="uid://ytsxet2k47lj" path="res://addons/godot-xr-tools/user_settings/user_settings_ui.tscn" id="1"]
+[ext_resource type="Script" path="res://scenes/main_menu/objects/settings_ui_content.gd" id="1_4ef25"]
 
 [node name="SettingsUIContent" type="VBoxContainer"]
 offset_right = 250.0
 offset_bottom = 252.0
 size_flags_horizontal = 0
+script = ExtResource("1_4ef25")
 
 [node name="Header" type="HBoxContainer" parent="."]
-offset_right = 250.0
-offset_bottom = 60.0
+layout_mode = 2
 
 [node name="Label" type="Label" parent="Header"]
-offset_right = 250.0
-offset_bottom = 60.0
+layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 12
 text = "Welcome to Godot XR Tools. Use the joysticks on your controllers to move around."
 autowrap_mode = 2
 
 [node name="UserSettingsUI" parent="." instance=ExtResource("1")]
-offset_top = 64.0
-offset_right = 250.0
-offset_bottom = 252.0
+layout_mode = 2
+
+[connection signal="player_height_changed" from="UserSettingsUI" to="." method="_on_user_settings_ui_player_height_changed"]

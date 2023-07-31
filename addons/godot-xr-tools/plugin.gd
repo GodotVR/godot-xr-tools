@@ -84,6 +84,22 @@ func _enter_tree():
 			"0.2,0.8,0.05",
 			0.7)
 
+	# Add input y_axis_dead_zone to the project settings
+	_define_project_setting(
+			"godot_xr_tools/input/y_axis_dead_zone",
+			TYPE_FLOAT,
+			PROPERTY_HINT_RANGE,
+			"0.0,0.5,0.01",
+			0.1)
+
+	# Add input x_axis_dead_zone to the project settings
+	_define_project_setting(
+			"godot_xr_tools/input/x_axis_dead_zone",
+			TYPE_FLOAT,
+			PROPERTY_HINT_RANGE,
+			"0.0,0.5,0.01",
+			0.2)
+
 	# Add input snap turning dead-zone to the project settings
 	_define_project_setting(
 			"godot_xr_tools/input/snap_turning_deadzone",

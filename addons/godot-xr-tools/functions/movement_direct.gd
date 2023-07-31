@@ -40,12 +40,12 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	if !_controller.get_is_active():
 		return
 
-	# Apply forwards/backwards ground control
-	player_body.ground_control_velocity.y += _controller.get_vector2(input_action).y * max_speed
+	## get input action with deadzone correction applied
+	var dz_input_action = XRToolsUserSettings.get_adjusted_vector2(_controller, input_action)
 
-	# Apply left/right ground control
+	player_body.ground_control_velocity.y += dz_input_action.y * max_speed
 	if strafe:
-		player_body.ground_control_velocity.x += _controller.get_vector2(input_action).x * max_speed
+		player_body.ground_control_velocity.x += dz_input_action.x * max_speed
 
 	# Clamp ground control
 	var length := player_body.ground_control_velocity.length()

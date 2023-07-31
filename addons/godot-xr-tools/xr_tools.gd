@@ -1,6 +1,10 @@
 class_name XRTools
 extends Node
 
+## Below are helper functions to obtain various project settings that drive
+## the default behavior of XR Tools. The project settings themselves are
+## registered in plugin.gd.
+## Some of these settings can be overridden by the user through user settings.
 
 static func get_grip_threshold() -> float:
 	# can return null which is not a float, so don't type this!
@@ -21,6 +25,46 @@ static func set_grip_threshold(p_threshold : float) -> void:
 		return
 
 	ProjectSettings.set_setting("godot_xr_tools/input/grip_threshold", p_threshold)
+
+static func get_y_axis_dead_zone() -> float:
+	# can return null which is not a float, so don't type this!
+	var deadzone = 0.1
+
+	if ProjectSettings.has_setting("godot_xr_tools/input/y_axis_dead_zone"):
+		deadzone = ProjectSettings.get_setting("godot_xr_tools/input/y_axis_dead_zone")
+
+	if !(deadzone >= 0.0 and deadzone <= 0.5):
+		# out of bounds? reset to default
+		deadzone = 0.1
+
+	return deadzone
+
+static func set_y_axis_dead_zone(p_deadzone : float) -> void:
+	if !(p_deadzone >= 0.0 and p_deadzone <= 0.5):
+		print("Deadzone out of bounds")
+		return
+
+	ProjectSettings.set_setting("godot_xr_tools/input/y_axis_dead_zone", p_deadzone)
+
+static func get_x_axis_dead_zone() -> float:
+	# can return null which is not a float, so don't type this!
+	var deadzone = 0.2
+
+	if ProjectSettings.has_setting("godot_xr_tools/input/x_axis_dead_zone"):
+		deadzone = ProjectSettings.get_setting("godot_xr_tools/input/x_axis_dead_zone")
+
+	if !(deadzone >= 0.0 and deadzone <= 0.5):
+		# out of bounds? reset to default
+		deadzone = 0.2
+
+	return deadzone
+
+static func set_x_axis_dead_zone(p_deadzone : float) -> void:
+	if !(p_deadzone >= 0.0 and p_deadzone <= 0.5):
+		print("Deadzone out of bounds")
+		return
+
+	ProjectSettings.set_setting("godot_xr_tools/input/x_axis_dead_zone", p_deadzone)
 
 
 static func get_snap_turning_deadzone() -> float:
