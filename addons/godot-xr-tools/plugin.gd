@@ -32,6 +32,8 @@ func _define_project_setting(
 	}
 
 	ProjectSettings.add_property_info(property_info)
+	if ProjectSettings.has_method("set_as_basic"):
+		ProjectSettings.call("set_as_basic", p_name, true)
 	ProjectSettings.set_initial_value(p_name, p_default_val)
 
 
