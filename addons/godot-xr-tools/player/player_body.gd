@@ -119,16 +119,10 @@ var player_height_offset : float = 0.0
 var ground_velocity : Vector3 = Vector3.ZERO
 
 ## Gravity-based "up" direction
-var up_gravity_vector := Vector3.UP
+var up_gravity := Vector3.UP
 
 ## Player-based "up" direction
-var up_player_vector := Vector3.UP
-
-## Gravity-based "up" plane
-var up_gravity_plane := Plane(Vector3.UP, 0.0)
-
-## Player-based "up" plane
-var up_player_plane := Plane(Vector3.UP, 0.0)
+var up_player := Vector3.UP
 
 # Array of [XRToolsMovementProvider] nodes for the player
 var _movement_providers := Array()
@@ -248,8 +242,7 @@ func _physics_process(delta: float):
 		_jump_cooldown -= 1
 
 	# Calculate the players "up" direction and plane
-	up_player_vector = origin_node.global_transform.basis.y
-	up_player_plane = Plane(up_player_vector, 0.0)
+	up_player = origin_node.global_transform.basis.y
 
 	# Determine environmental gravity
 	var gravity_state := PhysicsServer3D.body_get_direct_state(get_rid())
@@ -267,12 +260,10 @@ func _physics_process(delta: float):
 	# Determine the gravity "up" direction and plane
 	if gravity.is_equal_approx(Vector3.ZERO):
 		# Gravity too weak - use player
-		up_gravity_vector = up_player_vector
-		up_gravity_plane = up_player_plane
+		up_gravity = up_player
 	else:
 		# Use gravity direction
-		up_gravity_vector = -gravity.normalized()
-		up_gravity_plane = Plane(up_gravity_vector, 0.0)
+		up_gravity = -gravity.normalized()
 
 	# Update the ground information
 	_update_ground_information(delta)
@@ -444,15 +435,15 @@ func _estimate_body_forward_dir() -> Vector3:
 	var camera_basis : Basis = camera_node.global_transform.basis
 	var camera_forward : Vector3 = -camera_basis.z;
 
-	var camera_elevation := camera_forward.dot(up_player_vector)
+	var camera_elevation := camera_forward.dot(up_player)
 	if camera_elevation > 0.75:
 		# User is looking up
-		forward = up_player_plane.project(-camera_basis.y).normalized()
+		forward = -camera_basis.y.slide(up_player).normalized()
 	elif camera_elevation < -0.75:
 		# User is looking down
-		forward = up_player_plane.project(camera_basis.y).normalized()
+		forward = camera_basis.y.slide(up_player).normalized()
 	else:
-		forward = up_player_plane.project(camera_forward).normalized()
+		forward = camera_forward.slide(up_player).normalized()
 
 	if (left_hand_node and left_hand_node.get_is_active()
 		and right_hand_node and right_hand_node.get_is_active()
@@ -461,8 +452,8 @@ func _estimate_body_forward_dir() -> Vector3:
 		# Note, in Godot 4.0 we should check tracker confidence
 
 		var tangent = right_hand_node.global_transform.origin - left_hand_node.global_transform.origin
-		tangent = up_player_plane.project(tangent).normalized()
-		var hands_forward = up_player_vector.cross(tangent).normalized()
+		tangent = tangent.slide(up_player).normalized()
+		var hands_forward = up_player.cross(tangent).normalized()
 
 		# Rotate our forward towards our hand direction but not more than 60 degrees
 		var dot = forward.dot(hands_forward)
@@ -504,12 +495,12 @@ func _update_body_under_camera():
 	var camera_transform := camera_node.global_transform
 	curr_transform.basis = origin_node.global_transform.basis
 	curr_transform.origin = camera_transform.origin
-	curr_transform.origin += up_player_vector * (player_head_height - player_height)
+	curr_transform.origin += up_player * (player_head_height - player_height)
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := _estimate_body_forward_dir()
 	if forward_dir.length() > 0.01:
-		curr_transform = curr_transform.looking_at(curr_transform.origin + forward_dir, up_player_vector)
+		curr_transform = curr_transform.looking_at(curr_transform.origin + forward_dir, up_player)
 		curr_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
 
 	# Set the body position
@@ -519,13 +510,13 @@ func _update_body_under_camera():
 func _update_ground_information(delta: float):
 	# Test how close we are to the ground
 	var ground_collision := move_and_collide(
-			up_gravity_vector * -NEAR_GROUND_DISTANCE, true)
+			up_gravity * -NEAR_GROUND_DISTANCE, true)
 
 	# Handle no collision (or too far away to care about)
 	if !ground_collision:
 		near_ground = false
 		on_ground = false
-		ground_vector = up_gravity_vector
+		ground_vector = up_gravity
 		ground_angle = 0.0
 		ground_node = null
 		ground_physics = null
@@ -538,7 +529,7 @@ func _update_ground_information(delta: float):
 
 	# Save the ground information from the collision
 	ground_vector = ground_collision.get_normal()
-	ground_angle = rad_to_deg(ground_collision.get_angle(0, up_gravity_vector))
+	ground_angle = rad_to_deg(ground_collision.get_angle(0, up_gravity))
 	ground_node = ground_collision.get_collider()
 
 	# Select the ground physics
@@ -568,7 +559,7 @@ func _apply_velocity_and_control(delta: float):
 	var local_velocity := velocity - ground_velocity
 
 	# Split the velocity into horizontal and vertical components
-	var horizontal_velocity := up_gravity_plane.project(local_velocity)
+	var horizontal_velocity := local_velocity.slide(up_gravity)
 	var vertical_velocity := local_velocity - horizontal_velocity
 
 	# If the player is on the ground then give them control
@@ -577,8 +568,8 @@ func _apply_velocity_and_control(delta: float):
 		var control_velocity := Vector3.ZERO
 		if abs(ground_control_velocity.x) > 0.1 or abs(ground_control_velocity.y) > 0.1:
 			var camera_transform := camera_node.global_transform
-			var dir_forward := up_gravity_plane.project(camera_transform.basis.z).normalized()
-			var dir_right := up_gravity_plane.project(camera_transform.basis.x).normalized()
+			var dir_forward := camera_transform.basis.z.slide(up_gravity).normalized()
+			var dir_right := camera_transform.basis.x.slide(up_gravity).normalized()
 			control_velocity = (
 					dir_forward * -ground_control_velocity.y +
 					dir_right * ground_control_velocity.x
@@ -595,7 +586,7 @@ func _apply_velocity_and_control(delta: float):
 					ground_physics, default_physics)
 			if ground_angle > current_max_slope:
 				# Get a vector in the down-hill direction
-				var down_direction := up_gravity_plane.project(ground_vector).normalized()
+				var down_direction := ground_vector.slide(up_gravity).normalized()
 				var vdot: float = down_direction.dot(horizontal_velocity)
 				if vdot < 0:
 					horizontal_velocity -= down_direction * vdot

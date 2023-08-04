@@ -174,8 +174,9 @@ func _set_climbing(active: bool, player_body: XRToolsPlayerBody) -> void:
 		emit_signal("player_climb_start")
 	else:
 		# Calculate the forward direction (based on camera-forward)
-		var dir_forward = -player_body.up_player_plane.project(
-			player_body.camera_node.global_transform.basis.z).normalized()
+		var dir_forward = -player_body.camera_node.global_transform.basis.z \
+				.slide(player_body.up_player) \
+				.normalized()
 
 		# Set player velocity based on averaged velocity, fling multiplier,
 		# and a forward push
