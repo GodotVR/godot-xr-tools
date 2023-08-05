@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="XRToolsAreaAudioType" load_steps=3 format=3 uid="uid://4ph4bhfo0d4p"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/area_audio_type.gd" id="1_bdka4"]
+[ext_resource type="AudioStream" uid="uid://cn3cwd8l6lejs" path="res://assets/freesound/637252__punching_edited.wav" id="2_5jdt5"]
+
+[resource]
+script = ExtResource("1_bdka4")
+name = "Boxing_Punch"
+touch_sound = ExtResource("2_5jdt5")

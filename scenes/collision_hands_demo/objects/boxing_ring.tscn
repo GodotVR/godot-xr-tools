@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://cq5v8bd5nja17"]
+
+[ext_resource type="PackedScene" uid="uid://c1e7a5x7i6781" path="res://assets/digitaln8m4r3/models/boxing ring/boxing_ring.glb" id="1_8ofnk"]
+[ext_resource type="Material" uid="uid://q0cpmetjbgdy" path="res://assets/digitaln8m4r3/materials/boxing_ring.material" id="2_arwh1"]
+[ext_resource type="PackedScene" uid="uid://cjyilbm4ucc7s" path="res://addons/godot-xr-tools/objects/climbable.tscn" id="3_dmp15"]
+[ext_resource type="PackedScene" uid="uid://cgcrkjmhwjgtf" path="res://scenes/collision_hands_demo/objects/climbable_ropes.tscn" id="4_jp06c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_qa3m4"]
+size = Vector3(7.79584, 1.29466, 7.79712)
+
+[node name="BoxingRing" type="Node3D"]
+
+[node name="boxing_ring" parent="." instance=ExtResource("1_8ofnk")]
+
+[node name="mesh_boxing_ring" parent="boxing_ring" index="0"]
+surface_material_override/0 = ExtResource("2_arwh1")
+
+[node name="Climbable_Ring" type="Node3D" parent="."]
+
+[node name="Climbable" parent="Climbable_Ring" instance=ExtResource("3_dmp15")]
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Climbable_Ring/Climbable"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.647024, 0)
+shape = SubResource("BoxShape3D_qa3m4")
+
+[node name="Climbable_Ropes" parent="." instance=ExtResource("4_jp06c")]
+
+[node name="Climbable_Ropes2" parent="." instance=ExtResource("4_jp06c")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+
+[node name="Climbable_Ropes3" parent="." instance=ExtResource("4_jp06c")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0)
+
+[node name="Climbable_Ropes4" parent="." instance=ExtResource("4_jp06c")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+
+[editable path="boxing_ring"]

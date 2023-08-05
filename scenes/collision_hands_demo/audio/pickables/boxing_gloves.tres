@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="XRToolsPickableAudioType" load_steps=4 format=3 uid="uid://coyrqi1ko6bwt"]
+
+[ext_resource type="AudioStream" uid="uid://dencxmp57rmd1" path="res://assets/freesound/267713__weejee_vdh__velcro.wav" id="1_nn16h"]
+[ext_resource type="AudioStream" uid="uid://4wyb4lcp60xk" path="res://assets/freesound/429404__leonelmail__latex-gloves-box-pull-glove-out.wav" id="2_qtjo1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio_type.gd" id="4_1faue"]
+
+[resource]
+script = ExtResource("4_1faue")
+name = "Boxing_Gloves"
+grab_sound = ExtResource("2_qtjo1")
+drop_sound = ExtResource("1_nn16h")

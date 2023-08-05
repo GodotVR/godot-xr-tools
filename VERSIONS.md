@@ -4,6 +4,7 @@
 - Fixed player movement on slopes.
 - Fixed lag in finger-poke.
 - Added initial collision hand support.
+- Added boxing ring demo for showing collision hand functionality.
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers
