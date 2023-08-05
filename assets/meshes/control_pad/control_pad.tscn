@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct3p5sgwvkmva"]
+
+[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad.gd" id="1_gm1fj"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1_q3mfi"]
+[ext_resource type="PackedScene" uid="uid://ungirnwga6pc" path="res://assets/meshes/control_pad/control_pad_display.tscn" id="2_hiy0n"]
+
+[node name="ControlPad" type="Node3D"]
+visible = false
+script = ExtResource("1_gm1fj")
+
+[node name="Viewport2Din3D" parent="." instance=ExtResource("1_q3mfi")]
+screen_size = Vector2(0.16, 0.08)
+collision_layer = 4194304
+scene = ExtResource("2_hiy0n")
+viewport_size = Vector2(400, 200)
+update_mode = 2
+throttle_fps = 15.0
+transparent = 0
+unshaded = true

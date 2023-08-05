@@ -49,8 +49,8 @@ const _DIRTY_SURFACE		:= 0x0200	# Surface material needs update
 const _DIRTY_REDRAW			:= 0x0400	# Redraw required
 const _DIRTY_ALL			:= 0x07FF	# All dirty
 
-# Default layer of 1:static-world and 21:pointable
-const DEFAULT_LAYER := 0b0000_0000_0001_0000_0000_0000_0000_0001
+# Default layer of 1:static-world, 21:pointable, 23:ui-objects
+const DEFAULT_LAYER := 0b0000_0000_0101_0000_0000_0000_0000_0001
 
 
 # Physics property group
