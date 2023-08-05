@@ -1,0 +1,60 @@
+[gd_scene load_steps=13 format=3 uid="uid://bqsmb4x0g2hs7"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_s0e3k"]
+[ext_resource type="Material" uid="uid://p0j8ayyebdyr" path="res://assets/digitaln8m4r3/materials/gym_weight.material" id="3_foak3"]
+[ext_resource type="PackedScene" uid="uid://dimw2psym3b5i" path="res://assets/digitaln8m4r3/models/gym weights/5kgweight.glb" id="4_eomo8"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_3b73i"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="6_tv86d"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_nl608"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="8_jkrtk"]
+[ext_resource type="AudioStream" uid="uid://cpc1bnwvben70" path="res://assets/freesound/586902__vlad209__edited_weight_drop.wav" id="9_5myap"]
+[ext_resource type="AudioStream" uid="uid://cpjjkvkkjimvu" path="res://assets/freesound/586902__vlad209__edited_weight_pull.wav" id="10_8f3yn"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio_type.gd" id="11_sh8ch"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hjwod"]
+height = 0.321889
+radius = 0.0643227
+
+[sub_resource type="Resource" id="Resource_lru5a"]
+script = ExtResource("11_sh8ch")
+name = "Weights"
+grab_sound = ExtResource("10_8f3yn")
+drop_sound = ExtResource("9_5myap")
+hit_sound = ExtResource("9_5myap")
+
+[node name="Weight5kg" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 65543
+mass = 5.0
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
+freeze_mode = 1
+script = ExtResource("1_s0e3k")
+
+[node name="5kgweight" parent="." instance=ExtResource("4_eomo8")]
+
+[node name="weight5kg" parent="5kgweight" index="0"]
+surface_material_override/0 = ExtResource("3_foak3")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_hjwod")
+
+[node name="HighlightRing" parent="." instance=ExtResource("5_3b73i")]
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource("6_tv86d")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0191657, 0.0418458, -0.0917016)
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource("7_nl608")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019, 0.042, -0.092)
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.165, 0)
+pixel_size = 0.0018
+text = "5kg"
+
+[node name="PickableAudio" parent="." instance=ExtResource("8_jkrtk")]
+pickable_audio_type = SubResource("Resource_lru5a")
+
+[editable path="5kgweight"]
