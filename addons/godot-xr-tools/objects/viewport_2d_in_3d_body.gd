@@ -13,7 +13,7 @@ func _ready():
 # Convert intersection point to screen coordinate
 func global_to_viewport(p_at):
 	var t = $CollisionShape3D.global_transform
-	var at = t.inverse() * p_at
+	var at = t.affine_inverse() * p_at
 
 	# Convert to screen space
 	at.x = ((at.x / screen_size.x) + 0.5) * viewport_size.x
