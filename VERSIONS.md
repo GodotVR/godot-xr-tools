@@ -5,6 +5,8 @@
 - Fixed lag in finger-poke.
 - Added initial collision hand support.
 - Added support for custom materials for 2D in 3D viewport
+- Updated pointer to support visibility properties and events
+- Modified virtual keyboard to expose viewport controls and default to unshaded
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers

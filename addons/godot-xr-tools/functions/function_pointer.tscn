@@ -5,10 +5,12 @@
 
 [sub_resource type="BoxMesh" id="1"]
 resource_local_to_scene = true
+material = ExtResource("1")
 size = Vector3(0.002, 0.002, 10)
 subdivide_depth = 20
 
 [sub_resource type="SphereMesh" id="2"]
+material = ExtResource("1")
 radius = 0.05
 height = 0.1
 radial_segments = 16
@@ -16,19 +18,18 @@ rings = 8
 
 [node name="FunctionPointer" type="Node3D"]
 script = ExtResource("2")
+collision_mask = 1048577
 
 [node name="RayCast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, 0)
-target_position = Vector3(0, 0, 0)
-collision_mask = 1048576
+target_position = Vector3(0, 0, -10)
+collision_mask = 1048577
 
 [node name="Laser" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.05, -5)
 cast_shadow = 0
 mesh = SubResource("1")
-surface_material_override/0 = ExtResource("1")
 
 [node name="Target" type="MeshInstance3D" parent="."]
 visible = false
 mesh = SubResource("2")
-surface_material_override/0 = ExtResource("1")

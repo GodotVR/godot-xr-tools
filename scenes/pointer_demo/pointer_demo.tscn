@@ -1,9 +1,8 @@
-[gd_scene load_steps=16 format=3 uid="uid://bfw18y0j2blo4"]
+[gd_scene load_steps=17 format=3 uid="uid://bfw18y0j2blo4"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="2"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_pbiwr"]
-[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_4fh2w"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_j5kt2"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="4"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="5"]
@@ -16,9 +15,17 @@
 [ext_resource type="PackedScene" uid="uid://nnse6wsxsjeo" path="res://scenes/pointer_demo/objects/display.tscn" id="12"]
 [ext_resource type="PackedScene" uid="uid://bk34216s7eynw" path="res://scenes/pointer_demo/objects/color_change_cube.tscn" id="15"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_87ic1"]
+shading_mode = 0
+albedo_color = Color(0, 0, 0.501961, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_gdrki"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(0.12549, 0.12549, 1, 0.501961)
+
 [node name="PointerDemo" instance=ExtResource("1")]
 script = ExtResource("2_pbiwr")
-environment = ExtResource("3_4fh2w")
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_j5kt2")]
 
@@ -35,7 +42,11 @@ strafe = true
 
 [node name="FunctionPointer" parent="XROrigin3D" index="4" instance=ExtResource("5")]
 laser_length = 1
+laser_material = SubResource("StandardMaterial3D_87ic1")
+laser_hit_material = SubResource("StandardMaterial3D_gdrki")
 show_target = true
+target_radius = 0.02
+target_material = SubResource("StandardMaterial3D_gdrki")
 
 [node name="HolodeckMap" parent="." index="1" instance=ExtResource("10_qlbta")]
 
