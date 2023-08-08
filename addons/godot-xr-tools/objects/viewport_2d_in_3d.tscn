@@ -41,6 +41,7 @@ script = ExtResource("2")
 viewport_size = Vector2(300, 200)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
 shape = SubResource("4")
 
 [connection signal="pointer_entered" from="StaticBody3D" to="." method="_on_pointer_entered"]
