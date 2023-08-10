@@ -135,14 +135,10 @@ func action():
 	pass
 
 
-# Pickable Method: Ignore snap-zone proximity to grippers
-func increase_is_closest():
-	pass
-
-
-# Pickable Method: Ignore snap-zone proximity to grippers
-func decrease_is_closest():
-	pass
+# Ignore highlighting requests from XRToolsFunctionPickup
+func request_highlight(from : Node, on : bool = true) -> void:
+	if picked_up_object:
+		picked_up_object.request_highlight(from, on)
 
 
 # Pickable Method: Object being grabbed from this snap zone

@@ -129,6 +129,12 @@ var _grab_points : Array = []
 # Currently active grab-point
 var _active_grab_point : XRToolsGrabPoint
 
+# Dictionary of nodes requesting highlight
+var _highlight_requests : Dictionary = {}
+
+# Is this node highlighted
+var _highlighted : bool = false
+
 
 # Remember some state so we can return to it when the user drops the object
 @onready var original_parent = get_parent()
@@ -166,26 +172,27 @@ func action():
 	emit_signal("action_pressed", self)
 
 
-# This method is invoked when it becomes the closest pickable object to one of
-# the pickup functions.
-func increase_is_closest():
-	# Increment the closest counter
-	_closest_count += 1
+## This method requests highlighting of the [XRToolsPickable].
+## If [param from] is null then all highlighting requests are cleared,
+## otherwise the highlight request is associated with the specified node.
+func request_highlight(from : Node, on : bool = true) -> void:
+	# Save if we are highlighted
+	var old_highlighted := _highlighted
 
-	# If this object has just become highlighted then emit the signal
-	if _closest_count == 1:
-		emit_signal("highlight_updated", self, true)
+	# Update the highlight requests dictionary
+	if not from:
+		_highlight_requests.clear()
+	elif on:
+		_highlight_requests[from] = from
+	else:
+		_highlight_requests.erase(from)
 
+	# Update the highlighted state
+	_highlighted = _highlight_requests.size() > 0
 
-# This method is invoked when it stops being the closest pickable object to one
-# of the pickup functions.
-func decrease_is_closest():
-	# Decrement the closest counter
-	_closest_count -= 1
-
-	# If no-longer highlighted then emit the signal
-	if _closest_count == 0:
-		emit_signal("highlight_updated", self, false)
+	# Report any changes
+	if _highlighted != old_highlighted:
+		emit_signal("highlight_updated", self, _highlighted)
 
 
 func drop_and_free():

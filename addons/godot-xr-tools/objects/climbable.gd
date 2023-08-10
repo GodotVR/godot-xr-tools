@@ -35,12 +35,8 @@ func can_pick_up(_by: Node3D) -> bool:
 func action():
 	pass
 
-# Called by XRToolsFunctionPickup when this becomes the closest object to a controller
-func increase_is_closest():
-	pass
-
-# Called by XRToolsFunctionPickup when this stops being the closest object to a controller
-func decrease_is_closest():
+# Ignore highlighting requests from XRToolsFunctionPickup
+func request_highlight(_from, _on) -> void:
 	pass
 
 # Called by XRToolsFunctionPickup when this is picked up by a controller
