@@ -17,6 +17,9 @@ extends CharacterBody3D
 ## Signal emitted when the teleporter is activated
 signal teleporter_activated()
 
+## Signal emitted when the teleporter's ability to perform a teleportation changes
+signal can_teleport_changed(can_teleport)
+
 ## Signal emitted when the player gets teleportet to the teleporter's target location
 signal teleported_to(location)
 
@@ -67,7 +70,7 @@ const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
 var is_on_floor : bool = true
 var is_teleporting : bool = false: set = set_is_teleporting
-var can_teleport : bool = true
+var can_teleport : bool = true: set = set_can_teleport
 var teleport_rotation : float = 0.0;
 var floor_normal : Vector3 = Vector3.UP
 var last_target_transform : Transform3D = Transform3D()
@@ -382,6 +385,12 @@ func set_player_radius(p_radius : float) -> void:
 	_update_player_radius()
 
 
+func set_can_teleport(new_value : bool) -> void:
+	if new_value != can_teleport:
+		can_teleport = new_value
+		_report_can_teleport_changed(can_teleport)
+
+
 # Set is_teleporting property and notify about its changes
 func set_is_teleporting(new_value : bool) -> void:
 	if new_value != is_teleporting:
@@ -416,6 +425,11 @@ func _update_player_radius():
 # Report events for teleporter activation
 func _report_activated():
 	teleporter_activated.emit()
+
+
+# Report events for teleportation ability changes
+func _report_can_teleport_changed(can_teleport : bool) -> void:
+	can_teleport_changed.emit(can_teleport)
 
 
 # Report events for teleportation to target location
