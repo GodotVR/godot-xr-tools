@@ -14,6 +14,13 @@ extends CharacterBody3D
 ## a teleport function on that controller.
 
 
+## Signal emitted when the teleporter is activated
+signal teleporter_activated()
+
+## Signal emitted when the teleporter is deactivated
+signal teleporter_deactivated()
+
+
 # Default teleport collision mask of all
 const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
@@ -56,7 +63,7 @@ const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
 
 var is_on_floor : bool = true
-var is_teleporting : bool = false
+var is_teleporting : bool = false: set = set_is_teleporting
 var can_teleport : bool = true
 var teleport_rotation : float = 0.0;
 var floor_normal : Vector3 = Vector3.UP
@@ -371,6 +378,16 @@ func set_player_radius(p_radius : float) -> void:
 	_update_player_radius()
 
 
+# Set is_teleporting property and notify about its changes
+func set_is_teleporting(new_value : bool) -> void:
+	if new_value != is_teleporting:
+		is_teleporting = new_value
+		if is_teleporting:
+			_report_activated()
+		else:
+			_report_deactivated()
+
+
 # Player height update handler
 func _update_player_height() -> void:
 	if collision_shape:
@@ -390,3 +407,13 @@ func _update_player_radius():
 	if capsule:
 		capsule.mesh.height = player_height
 		capsule.mesh.radius = player_radius
+
+
+# Report events for teleporter activation
+func _report_activated():
+	teleporter_activated.emit()
+
+
+# Report events for teleporter deactivation
+func _report_deactivated():
+	teleporter_deactivated.emit()
