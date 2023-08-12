@@ -17,6 +17,9 @@ extends CharacterBody3D
 ## Signal emitted when the teleporter is activated
 signal teleporter_activated()
 
+## Signal emitted when the player gets teleportet to the teleporter's target location
+signal teleported_to(location)
+
 ## Signal emitted when the teleporter is deactivated
 signal teleporter_deactivated()
 
@@ -328,6 +331,7 @@ func _physics_process(delta):
 			# now move the origin such that the new global user_feet_transform
 			# would be == new_transform
 			origin_node.global_transform = new_transform * user_feet_transform.inverse()
+			_report_teleported_to(new_transform.origin)
 
 		# and disable
 		is_teleporting = false;
@@ -412,6 +416,11 @@ func _update_player_radius():
 # Report events for teleporter activation
 func _report_activated():
 	teleporter_activated.emit()
+
+
+# Report events for teleportation to target location
+func _report_teleported_to(location : Vector3) -> void:
+	teleported_to.emit(location)
 
 
 # Report events for teleporter deactivation
