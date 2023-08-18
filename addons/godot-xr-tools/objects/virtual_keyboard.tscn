@@ -5,42 +5,40 @@
 
 [sub_resource type="QuadMesh" id="QuadMesh_iets3"]
 resource_local_to_scene = true
-size = Vector2(1.5, 0.558)
+size = Vector2(1.5, 0.75)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_r67jr"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ncnoj"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4r2sk"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kjc12"]
 cull_mode = 2
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_r67jr")
+albedo_texture = SubResource("ViewportTexture_ncnoj")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_twvoe"]
 resource_local_to_scene = true
-size = Vector3(1.5, 0.558, 0.02)
+size = Vector3(1.5, 0.75, 0.02)
 
 [node name="VirtualKeyboard" instance=ExtResource("1")]
-screen_size = Vector2(1.5, 0.558)
+screen_size = Vector2(1.5, 0.75)
 scene = ExtResource("2")
-viewport_size = Vector2(390, 145)
+viewport_size = Vector2(400, 200)
 update_mode = 2
 throttle_fps = 15.0
 transparent = 0
-alpha_scissor_threshold = 0.25
 unshaded = true
-filter = true
 
 [node name="Viewport" parent="." index="0"]
 transparent_bg = false
-size = Vector2i(390, 145)
+size = Vector2i(400, 200)
 
 [node name="Screen" parent="." index="1"]
 mesh = SubResource("QuadMesh_iets3")
-surface_material_override/0 = SubResource("StandardMaterial3D_4r2sk")
+surface_material_override/0 = SubResource("StandardMaterial3D_kjc12")
 
 [node name="StaticBody3D" parent="." index="2"]
-screen_size = Vector2(1.5, 0.558)
-viewport_size = Vector2(390, 145)
+screen_size = Vector2(1.5, 0.75)
+viewport_size = Vector2(400, 200)
 
 [node name="CollisionShape3D" parent="StaticBody3D" index="0"]
 shape = SubResource("BoxShape3D_twvoe")

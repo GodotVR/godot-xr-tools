@@ -1,17 +1,11 @@
 extends RigidBody3D
 
 
-signal pointer_pressed(at)
-
-
 var _material := StandardMaterial3D.new()
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	# Connect pointer_pressed signals
-	connect("pointer_pressed",Callable(self,"_on_pointer_pressed"))
-
 	# Generate a random material color
 	_set_random_color()
 
@@ -19,10 +13,11 @@ func _ready():
 	$MeshInstance3D.material_override = _material
 
 
-# Called when a user clicks on the cube using the pointer
-func _on_pointer_pressed(_at: Vector3):
-	# Randomize the color
-	_set_random_color()
+# Handle pointer events
+func pointer_event(event : XRToolsPointerEvent) -> void:
+	# When pressed, randomize the color
+	if event.event_type == XRToolsPointerEvent.Type.PRESSED:
+		_set_random_color()
 
 
 # Sets a random color on the material

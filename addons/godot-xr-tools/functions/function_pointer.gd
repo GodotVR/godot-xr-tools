@@ -14,20 +14,8 @@ extends Node3D
 ## [XRToolsInteractableBody].
 
 
-## Signal emitted when the pointer enters the target
-signal pointer_entered(target)
-
-## Signal emitted when the pointer moves on the target
-signal pointer_moved(target, from, to)
-
-## Signal emitted when the pointer is pressed on the target
-signal pointer_pressed(target, at)
-
-## Signal emitted when the pointer is released on the target
-signal pointer_released(target, at)
-
-## Signal emitted when the pointer exits the target collision object
-signal pointer_exited(target)
+## Signal emitted when this object points at another object
+signal pointing_event(event)
 
 
 ## Enumeration of laser show modes
@@ -47,6 +35,9 @@ enum LaserLength {
 ## Default pointer collision mask of 21:pointable and 23:ui-objects
 const DEFAULT_MASK := 0b0000_0000_0101_0000_0000_0000_0000_0000
 
+## Default pointer collision mask of 23:ui-objects
+const SUPPRESS_MASK := 0b0000_0000_0100_0000_0000_0000_0000_0000
+
 
 @export_group("General")
 
@@ -54,7 +45,7 @@ const DEFAULT_MASK := 0b0000_0000_0101_0000_0000_0000_0000_0000
 @export var enabled : bool = true: set = set_enabled
 
 ## Y Offset for pointer
-@export var y_offset : float = -0.05: set = set_y_offset
+@export var y_offset : float = -0.013: set = set_y_offset
 
 ## Pointer distance
 @export var distance : float = 10: set = set_distance
@@ -97,6 +88,14 @@ const DEFAULT_MASK := 0b0000_0000_0101_0000_0000_0000_0000_0000
 
 ## Enable pointer collision with areas
 @export var collide_with_areas : bool = false: set = set_collide_with_areas
+
+@export_group("Suppression")
+
+## Suppress radius
+@export var suppress_radius : float = 0.2: set = set_suppress_radius
+
+## Suppress mask
+@export_flags_3d_physics var suppress_mask : int = SUPPRESS_MASK: set = set_suppress_mask
 
 
 ## Current target node
@@ -174,6 +173,8 @@ func _ready():
 	_update_collision_mask()
 	_update_collide_with_bodies()
 	_update_collide_with_areas()
+	_update_suppress_radius()
+	_update_suppress_mask()
 
 
 # Called on each frame to update the pickup
@@ -195,7 +196,11 @@ func _process(_delta):
 	# Find the new pointer target
 	var new_target : Node3D
 	var new_at : Vector3
-	if enabled and $RayCast.is_colliding():
+	var suppress_area := $SuppressArea
+	if (enabled and
+		not $SuppressArea.has_overlapping_bodies() and
+		not $SuppressArea.has_overlapping_areas() and
+		$RayCast.is_colliding()):
 		new_at = $RayCast.get_collision_point()
 		if target:
 			# Locked to 'target' even if we're colliding with something else
@@ -211,34 +216,34 @@ func _process(_delta):
 	# Handle pointer changes
 	if new_target and not last_target:
 		# Pointer entered new_target
-		_report_entered(new_target)
+		XRToolsPointerEvent.entered(self, new_target, new_at)
 
-		# Pointer moved on new_target
-		_report_moved(new_target, new_at, new_at)
+		# Pointer moved on new_target for the first time
+		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
 
 		# Update visible artifacts for hit
 		_visible_hit(new_at)
 	elif not new_target and last_target:
 		# Pointer exited last_target
-		_report_exited(last_target)
+		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
 
 		# Update visible artifacts for miss
 		_visible_miss()
 	elif new_target != last_target:
 		# Pointer exited last_target
-		_report_exited(last_target)
+		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
 
 		# Pointer entered new_target
-		_report_entered(new_target)
+		XRToolsPointerEvent.entered(self, new_target, new_at)
 
 		# Pointer moved on new_target
-		_report_moved(new_target, last_collided_at, new_at)
+		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
 
 		# Move visible artifacts
 		_visible_move(new_at)
 	elif new_at != last_collided_at:
 		# Pointer moved on new_target
-		_report_moved(new_target, last_collided_at, new_at)
+		XRToolsPointerEvent.moved(self, new_target, new_at, last_collided_at)
 
 		# Move visible artifacts
 		_visible_move(new_at)
@@ -339,6 +344,19 @@ func set_collide_with_areas(p_new_value : bool) -> void:
 		_update_collide_with_areas()
 
 
+# Set suppress radius property
+func set_suppress_radius(p_suppress_radius : float) -> void:
+	suppress_radius = p_suppress_radius
+	if is_inside_tree():
+		_update_suppress_radius()
+
+
+func set_suppress_mask(p_suppress_mask : int) -> void:
+	suppress_mask = p_suppress_mask
+	if is_inside_tree():
+		_update_suppress_mask()
+
+
 # Pointer Y offset update handler
 func _update_y_offset() -> void:
 	$Laser.position.y = y_offset * _world_scale
@@ -377,6 +395,16 @@ func _update_collide_with_areas() -> void:
 	$RayCast.collide_with_areas = collide_with_areas
 
 
+# Pointer suppress_radius update handler
+func _update_suppress_radius() -> void:
+	$SuppressArea/CollisionShape3D.shape.radius = suppress_radius
+
+
+# Pointer suppress_mask update handler
+func _update_suppress_mask() -> void:
+	$SuppressArea.collision_mask = suppress_mask
+
+
 # Pointer visible artifacts update handler
 func _update_pointer() -> void:
 	if enabled and last_target:
@@ -391,14 +419,14 @@ func _button_pressed() -> void:
 		# Report pressed
 		target = $RayCast.get_collider()
 		last_collided_at = $RayCast.get_collision_point()
-		_report_pressed(target, last_collided_at)
+		XRToolsPointerEvent.pressed(self, target, last_collided_at)
 
 
 # Pointer-activation button released handler
 func _button_released() -> void:
 	if target:
 		# Report release
-		_report_released(target, last_collided_at)
+		XRToolsPointerEvent.released(self, target, last_collided_at)
 		target = null
 		last_collided_at = Vector3(0, 0, 0)
 
@@ -424,71 +452,6 @@ func _update_laser_active_material(hit : bool) -> void:
 		$Laser.set_surface_override_material(0, laser_hit_material)
 	else:
 		$Laser.set_surface_override_material(0, laser_material)
-
-
-# Report events for pointer entering collision object
-func _report_entered(node : Node3D) -> void:
-	# Fire entered event
-	pointer_entered.emit(node)
-
-	# Fire event/method on the node if it's valid
-	if is_instance_valid(node):
-		if node.has_signal("pointer_entered"):
-			node.emit_signal("pointer_entered")
-		elif node.has_method("pointer_entered"):
-			node.pointer_entered()
-
-
-# Report events for pointer moved on node
-func _report_moved(node : Node3D, from : Vector3, to : Vector3) -> void:
-	# Fire moved event
-	pointer_moved.emit(node, from, to)
-
-	# Fire event/method on the node if it's valid
-	if is_instance_valid(node):
-		if node.has_signal("pointer_moved"):
-			node.emit_signal("pointer_moved", from, to)
-		elif node.has_method("pointer_moved"):
-			node.pointer_moved(from, to)
-
-
-# Report events for pointer pressed on 'node'
-func _report_pressed(node : Node3D, at : Vector3) -> void:
-	# Fire pressed event
-	pointer_pressed.emit(node, at)
-
-	# Fire event/method on the node if it's valid
-	if is_instance_valid(node):
-		if node.has_signal("pointer_pressed"):
-			node.emit_signal("pointer_pressed", at)
-		elif node.has_method("pointer_pressed"):
-			node.pointer_pressed(at)
-
-
-# Report events for pointer released on 'node'
-func _report_released(node : Node3D, at : Vector3) -> void:
-	# Fire released event
-	pointer_released.emit(node, at)
-
-	# Fire event/method on the node if it's valid
-	if is_instance_valid(node):
-		if node.has_signal("pointer_released"):
-			node.emit_signal("pointer_released", at)
-		elif node.has_method("pointer_released"):
-			node.pointer_released(at)
-
-
-# Report events for pointer exiting node
-func _report_exited(node : Node3D) -> void:
-	# Fire exited event
-	pointer_exited.emit(node)
-
-	# Fire event/method on the node if it's valid
-	if is_instance_valid(node):
-		if node.has_signal("pointer_exited"):
-			node.emit_signal("pointer_exited")
-		elif node.has_method("pointer_exited"):
-			node.pointer_exited()
 
 
 # Update the visible artifacts to show a hit

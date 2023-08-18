@@ -3,11 +3,8 @@ class_name XRToolsInteractableArea
 extends Area3D
 
 
-signal pointer_pressed(at)
-signal pointer_released(at)
-signal pointer_moved(from, to)
-signal pointer_entered()
-signal pointer_exited()
+## Signal when pointer event occurs on area
+signal pointer_event(event)
 
 
 # Add support for is_xr_class on XRTools classes

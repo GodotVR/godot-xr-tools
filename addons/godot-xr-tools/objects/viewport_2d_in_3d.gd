@@ -9,8 +9,8 @@ extends Node3D
 ## Pointer and keyboard input are mapped into the 2D scene.
 
 
-signal pointer_entered
-signal pointer_exited
+## Signal for pointer events
+signal pointer_event(event)
 
 
 ## Transparent property
@@ -111,6 +111,9 @@ var _dirty := _DIRTY_ALL
 func _ready():
 	is_ready = true
 
+	# Listen for pointer events on the screen body
+	$StaticBody3D.connect("pointer_event", _on_pointer_event)
+
 	# Apply physics properties
 	_update_screen_size()
 	_update_enabled()
@@ -189,14 +192,9 @@ func connect_scene_signal(which : String, callback : Callable, flags : int = 0):
 		scene_node.connect(which, callback, flags)
 
 
-# Handler for pointer entered
-func _on_pointer_entered():
-	emit_signal("pointer_entered")
-
-
-# Handler for pointer exited
-func _on_pointer_exited():
-	emit_signal("pointer_exited")
+# Handle pointer event from screen-body
+func _on_pointer_event(event : XRToolsPointerEvent) -> void:
+	pointer_event.emit(event)
 
 
 # Handler for input eventsd
