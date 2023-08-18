@@ -8,6 +8,7 @@
 - Updated pointer to support visibility properties and events
 - Modified virtual keyboard to expose viewport controls and default to unshaded
 - Cleaned up teleport and added more properties for customization
+- Modified pickup highlighting to support pickables in snap-zones
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers

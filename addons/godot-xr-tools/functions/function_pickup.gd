@@ -316,12 +316,12 @@ func _update_closest_object() -> void:
 
 	# remove highlight on old object
 	if is_instance_valid(closest_object):
-		closest_object.decrease_is_closest()
+		closest_object.request_highlight(self, false)
 
 	# add highlight to new object
 	closest_object = new_closest_obj
 	if is_instance_valid(closest_object):
-		closest_object.increase_is_closest()
+		closest_object.request_highlight(self, true)
 
 
 # Find the pickable object closest to our hand's grab location
