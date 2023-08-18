@@ -480,7 +480,7 @@ func _update_body_under_camera():
 
 	# Allow forced overriding of height
 	if _player_height_override >= 0.0:
-		player_height = _player_height_override
+		player_height = _player_height_override * XRServer.world_scale
 
 	# Ensure player height makes mathematical sense
 	player_height = max(player_height, player_radius)

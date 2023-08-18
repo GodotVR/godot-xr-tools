@@ -1,4 +1,5 @@
 @tool
+class_name DemoStaging
 extends XRToolsStaging
 
 ## Introduction
@@ -23,6 +24,9 @@ extends XRToolsStaging
 # tracking data at this point.
 
 var scene_is_loaded : bool = false
+
+# Stores which hand the control pad is bound to
+var control_pad_hand : String = "LEFT"
 
 
 func _ready() -> void:

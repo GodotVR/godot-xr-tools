@@ -15,13 +15,8 @@ extends Node3D
 # Default layer of 18:player-hands
 const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
 
-# Default mask of 0xFFFF (1..16)
-# - 1:static-world
-# - 2:dynamic-world
-# - 3:pickable-objects
-# - 4:wall-walking
-# - 5:grappling-target
-const DEFAULT_MASK := 0b0000_0000_0000_0000_1111_1111_1111_1111
+# Default mask [1..16] and 23:ui-objects
+const DEFAULT_MASK := 0b0000_0000_0100_0000_1111_1111_1111_1111
 
 
 ## Enables or disables the poke functionality
@@ -74,17 +69,19 @@ func set_radius(new_radius : float) -> void:
 		_update_radius()
 
 func _update_radius() -> void:
+	# Calculate the user-scaled radius
+	var sr := radius * XRServer.world_scale
+
+	# Update the collision shape
 	var shape : SphereShape3D = $PokeBody/CollisionShape.shape
 	if shape:
-		shape.radius = radius
+		shape.radius = sr
 
+	# Update the mesh shape
 	var mesh : SphereMesh = $PokeBody/MeshInstance.mesh
 	if mesh:
-		mesh.radius = radius
-		mesh.height = radius * 2.0
-
-	if material:
-		$PokeBody/MeshInstance.set_surface_override_material(0, material)
+		mesh.radius = sr
+		mesh.height = sr * 2.0
 
 func set_teleport_distance(new_distance : float) -> void:
 	teleport_distance = new_distance
@@ -155,9 +152,12 @@ func _ready():
 	$PokeBody.set_as_top_level(true)
 
 	is_ready = true
+
+	# Construct the poke material
 	material = StandardMaterial3D.new()
 	material.flags_unshaded = true
 	material.flags_transparent = true
+	$PokeBody/MeshInstance.set_surface_override_material(0, material)
 
 	_update_enabled()
 	_update_radius()
@@ -168,6 +168,12 @@ func _ready():
 	_update_stiffness()
 	_update_maximum_force()
 	_update_color()
+
+	# Detect hand scale changing
+	var hand := XRToolsHand.find_instance(self)
+	if hand:
+		hand.hand_scale_changed.connect(_on_hand_scale_changed)
+
 
 func _process(_delta):
 	if is_instance_valid(target):
@@ -181,6 +187,11 @@ func _process(_delta):
 		last_collided_at = new_at
 	else:
 		set_process(false)
+
+
+func _on_hand_scale_changed(_scale : float) -> void:
+	# Update the radius to account for the new hand scale
+	_update_radius()
 
 
 func _on_PokeBody_body_contact_start(body):

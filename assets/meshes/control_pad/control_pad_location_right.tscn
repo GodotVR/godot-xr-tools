@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://deyk5frilshws"]
+
+[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad_location.gd" id="1_nolsk"]
+
+[node name="ControlPadLocationRight" type="Node3D"]
+
+[node name="Position" type="Node3D" parent="."]
+transform = Transform3D(-5.73206e-15, 1, -1.31134e-07, 0.0871558, 1.30635e-07, 0.996195, 0.996195, -1.14291e-08, -0.0871558, 0.03, 0, 0.3)
+script = ExtResource("1_nolsk")

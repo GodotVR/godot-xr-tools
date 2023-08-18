@@ -9,6 +9,8 @@
 - Modified virtual keyboard to expose viewport controls and default to unshaded
 - Cleaned up teleport and added more properties for customization
 - Modified pickup highlighting to support pickables in snap-zones
+- Added "UI Objects" layer 23 for viewports to support interaction by pointer and poking
+- Fixed player scaling issues with crouching and poke
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers
