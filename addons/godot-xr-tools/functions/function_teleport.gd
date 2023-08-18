@@ -1,25 +1,36 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 class_name XRToolsFunctionTeleport
-extends CharacterBody3D
-
-# should really change this to Node3D once #17401 is resolved
+extends Node3D
 
 
 ## XR Tools Function Teleport Script
 ##
 ## This script provides teleport functionality.
 ##
-## Add this scene as a sub scene of your ARVRController node to implement
+## Add this scene as a sub scene of your [XRController3D] node to implement
 ## a teleport function on that controller.
 
 
 # Default teleport collision mask of all
 const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
+# Default material
+# gdlint:ignore = load-constant-name
+const _DefaultMaterial := preload("res://addons/godot-xr-tools/materials/capsule.tres")
+
 
 ## If true, teleporting is enabled
 @export var enabled : bool = true: set = set_enabled
+
+## Teleport button action
+@export var teleport_button_action : String = "trigger_click"
+
+## Teleport rotation action
+@export var rotation_action : String = "primary"
+
+# Teleport Path Group
+@export_group("Visuals")
 
 ## Teleport allowed color property
 @export var can_teleport_color : Color = Color(0.0, 1.0, 0.0, 1.0)
@@ -30,29 +41,46 @@ const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 ## Teleport no-collision color property
 @export var no_collision_color : Color = Color(45.0 / 255.0, 80.0 / 255.0, 220.0 / 255.0, 1.0)
 
+## Teleport-arc strength
+@export var strength : float = 5.0
+
+## Teleport texture
+@export var arc_texture : Texture2D \
+	= preload("res://addons/godot-xr-tools/images/teleport_arrow.png") \
+	: set = set_arc_texture
+
+## Target texture
+@export var target_texture : Texture2D \
+	= preload("res://addons/godot-xr-tools/images/teleport_target.png") \
+	: set = set_target_texture
+
+# Player Group
+@export_group("Player")
+
 ## Player height property
 @export var player_height : float = 1.8: set = set_player_height
 
 ## Player radius property
 @export var player_radius : float = 0.4: set = set_player_radius
 
-## Teleport-arc strength
-@export var strength : float = 5.0
+## Player scene
+@export var player_scene : PackedScene: set = set_player_scene
+
+# Target Group
+@export_group("Collision")
 
 ## Maximum floor slope
 @export var max_slope : float = 20.0
 
+## Collision mask
+@export_flags_3d_physics var collision_mask : int = 1023
+
 ## Valid teleport layer mask
 @export_flags_3d_physics var valid_teleport_mask : int = DEFAULT_MASK
 
-# once this is no longer a kinematic body, we'll need this..
-# export (int, LAYERS_3D_PHYSICS) var collision_mask = 1
 
-## Teleport button action
-@export var teleport_button_action : String = "trigger_click"
-
-## Teleport rotation action
-@export var rotation_action : String = "primary"
+## Player capsule material (ignored for custom player scenes)
+var player_material : StandardMaterial3D = _DefaultMaterial :  set = set_player_material
 
 
 var is_on_floor : bool = true
@@ -65,14 +93,15 @@ var collision_shape : Shape3D
 var step_size : float = 0.5
 
 
+# Custom player scene
+var player : Node3D
+
+
 # World scale
 @onready var ws : float = XRServer.world_scale
 
-# By default we show a capsule to indicate where the player lands.
-# Turn on editable children,
-# hide the capsule,
-# and add your own player character as child.
-@onready var capsule : MeshInstance3D = get_node("Target/Player_figure/Capsule")
+## Capsule shown when not using a custom player mesh
+@onready var capsule : MeshInstance3D = $Target/Player_figure/Capsule
 
 ## [XROrigin3D] node.
 @onready var origin_node := XRHelpers.get_xr_origin(self)
@@ -105,15 +134,15 @@ func _ready():
 	$Target/Player_figure.scale = Vector3(ws, ws, ws)
 
 	# get our capsule shape
-	collision_shape = $CollisionShape3D.shape
-	$CollisionShape3D.shape = null
+	collision_shape = CapsuleShape3D.new()
 
-	# now remove our collision shape, we are not using our kinematic body
-	remove_child($CollisionShape3D)
-
-	# call set player to ensure our collision shape is sized
+	# Apply properties
+	_update_arc_texture()
+	_update_target_texture()
+	_update_player_scene()
 	_update_player_height()
 	_update_player_radius()
+	_update_player_material()
 
 
 func _physics_process(delta):
@@ -153,13 +182,12 @@ func _physics_process(delta):
 			teleport_rotation = 0.0
 
 		# get our physics engine state
-		var space = PhysicsServer3D.body_get_space(self.get_rid())
-		var state = PhysicsServer3D.space_get_direct_state(space)
+		var state = get_world_3d().direct_space_state
 		var query = PhysicsShapeQueryParameters3D.new()
 
 		# init stuff about our query that doesn't change
 		query.collision_mask = collision_mask
-		query.margin = get_safe_margin()
+		query.margin = collision_shape.margin
 		query.shape_rid = collision_shape.get_rid()
 
 		# make a transform for offsetting our shape, it's always
@@ -348,6 +376,36 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 
+# Provide custom property information
+func _get_property_list() -> Array[Dictionary]:
+	return [
+		{
+			"name" : "Player",
+			"type" : TYPE_NIL,
+			"usage" : PROPERTY_USAGE_GROUP
+		},
+		{
+			"name" : "player_material",
+			"class_name" : "StandardMaterial3D",
+			"type" : TYPE_OBJECT,
+			"usage" : PROPERTY_USAGE_NO_EDITOR if player_scene else PROPERTY_USAGE_DEFAULT,
+			"hint" : PROPERTY_HINT_RESOURCE_TYPE,
+			"hint_string" : "StandardMaterial3D"
+		}
+	]
+
+
+# Allow revert of custom properties
+func _property_can_revert(property : StringName) -> bool:
+	return property == "player_material"
+
+
+# Provide revert values for custom properties
+func _property_get_revert(property : StringName): # Variant
+	if property == "player_material":
+		return _DefaultMaterial
+
+
 # Set enabled property
 func set_enabled(new_value : bool) -> void:
 	enabled = new_value
@@ -359,16 +417,61 @@ func set_enabled(new_value : bool) -> void:
 		pass
 
 
+# Set the arc texture
+func set_arc_texture(p_arc_texture : Texture2D) -> void:
+	arc_texture = p_arc_texture
+	if is_inside_tree():
+		_update_arc_texture()
+
+
+# Set the target texture
+func set_target_texture(p_target_texture : Texture2D) -> void:
+	target_texture = p_target_texture
+	if is_inside_tree():
+		_update_target_texture()
+
+
 # Set player height property
 func set_player_height(p_height : float) -> void:
 	player_height = p_height
-	_update_player_height()
+	if is_inside_tree():
+		_update_player_height()
 
 
 # Set player radius property
 func set_player_radius(p_radius : float) -> void:
 	player_radius = p_radius
-	_update_player_radius()
+	if is_inside_tree():
+		_update_player_radius()
+
+
+# Set the player scene
+func set_player_scene(p_player_scene : PackedScene) -> void:
+	player_scene = p_player_scene
+	notify_property_list_changed()
+	if is_inside_tree():
+		_update_player_scene()
+
+
+# Set the player material
+func set_player_material(p_player_material : StandardMaterial3D) -> void:
+	player_material = p_player_material
+	if is_inside_tree():
+		_update_player_material()
+
+
+# Update arc texture
+func _update_arc_texture():
+	var material : ShaderMaterial = $Teleport.get_surface_override_material(0)
+	if material and arc_texture:
+		material.set_shader_parameter("arrow_texture", arc_texture)
+
+
+# Update target texture
+func _update_target_texture():
+	var material : StandardMaterial3D = $Target.get_surface_override_material(0)
+	if material and target_texture:
+		material.albedo_texture = target_texture
 
 
 # Player height update handler
@@ -390,3 +493,25 @@ func _update_player_radius():
 	if capsule:
 		capsule.mesh.height = player_height
 		capsule.mesh.radius = player_radius
+
+
+# Update the player scene
+func _update_player_scene() -> void:
+	# Free the current player
+	if player:
+		player.queue_free()
+		player = null
+
+	# If specified, instantiate a new player
+	if player_scene:
+		player = player_scene.instantiate()
+		$Target/Player_figure.add_child(player)
+
+	# Show the capsule mesh only if we have no player
+	capsule.visible = player == null
+
+
+# Update player material
+func _update_player_material():
+	if player_material:
+		capsule.set_surface_override_material(0, player_material)

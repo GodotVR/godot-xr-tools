@@ -7,6 +7,7 @@
 - Added support for custom materials for 2D in 3D viewport
 - Updated pointer to support visibility properties and events
 - Modified virtual keyboard to expose viewport controls and default to unshaded
+- Cleaned up teleport and added more properties for customization
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers
