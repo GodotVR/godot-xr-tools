@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://dpy1eg3i331se"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/teleport_area.gd" id="1_0awk1"]
+
+[node name="TeleportArea" type="Area3D"]
+collision_layer = 0
+collision_mask = 524288
+script = ExtResource("1_0awk1")

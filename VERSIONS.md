@@ -12,7 +12,7 @@
 - Added "UI Objects" layer 23 for viewports to support interaction by pointer and poking
 - Fixed player scaling issues with crouching and poke
 - **minor-breakage** Added support for passing user data between staged scenes with default handling for spawn-points
-
+- Moved teleport logic to player and added teleport area node
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers

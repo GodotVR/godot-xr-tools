@@ -23,6 +23,9 @@ extends CharacterBody3D
 ## Signal emitted when the player jumps
 signal player_jumped()
 
+## Signal emitted when the player teleports
+signal player_teleported()
+
 ## Signal emitted when the player bounces
 signal player_bounced(collider, magnitude)
 
@@ -303,6 +306,21 @@ func _physics_process(delta: float):
 
 	# Orient the player towards (potentially modified) gravity
 	slew_up(-gravity.normalized(), 5.0 * delta)
+
+
+## Teleport the player body
+func teleport(target : Transform3D) -> void:
+	# Get the player-to-origin transform
+	var player_to_origin = global_transform.inverse() * origin_node.global_transform
+
+	# Set the player
+	global_transform = target
+
+	# Set the origin
+	origin_node.global_transform = target * player_to_origin
+
+	# Report the player teleported
+	player_teleported.emit()
 
 
 ## Request a jump
