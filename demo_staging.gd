@@ -34,14 +34,14 @@ func _ready() -> void:
 	super()
 
 
-func _on_Staging_scene_loaded(_scene):
+func _on_Staging_scene_loaded(_scene, _user_data):
 	# We only show the press to continue the first time we load a scene
 	# to give the player time to put their headset on.
 	prompt_for_continue = false
 	scene_is_loaded = true
 
 
-func _on_Staging_scene_exiting(_scene):
+func _on_Staging_scene_exiting(_scene, _user_data):
 	# We no longer have an active scene
 	scene_is_loaded = false
 
