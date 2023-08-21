@@ -1,841 +1,724 @@
-[gd_scene load_steps=3 format=3 uid="uid://lauwp8okd1vh"]
+[gd_scene load_steps=4 format=3 uid="uid://lauwp8okd1vh"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/keyboard/virtual_keyboard_2d.gd" id="1"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/keyboard/virtual_key.tscn" id="2"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/keyboard/virtual_key_char.gd" id="2_n0nlg"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/keyboard/virtual_key.gd" id="3_h05ve"]
 
 [node name="VirtualKeyboard2D" type="CanvasLayer"]
 script = ExtResource("1")
 
 [node name="Background" type="ColorRect" parent="."]
-offset_right = 390.0
-offset_bottom = 145.0
+offset_right = 400.0
+offset_bottom = 200.0
 color = Color(0.12549, 0.12549, 0.12549, 0.752941)
 
 [node name="Standard" type="Control" parent="Background"]
 layout_mode = 1
 anchors_preset = 0
-offset_right = 390.0
-offset_bottom = 145.0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 394.0
+offset_bottom = 149.0
 
-[node name="VirtualKey1" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-text = "1"
+[node name="VirtualKey1" type="Node2D" parent="Background/Standard"]
+script = ExtResource("2_n0nlg")
 scan_code_text = "1"
 unicode = 49
+key_text = "1"
 
-[node name="VirtualKey2" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 40.0
-offset_right = 70.0
-text = "2"
+[node name="VirtualKey2" type="Node2D" parent="Background/Standard"]
+position = Vector2(40, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "2"
 unicode = 50
+key_text = "2"
 
-[node name="VirtualKey3" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 80.0
-offset_right = 110.0
-text = "3"
+[node name="VirtualKey3" type="Node2D" parent="Background/Standard"]
+position = Vector2(80, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "3"
 unicode = 51
+key_text = "3"
 
-[node name="VirtualKey4" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 120.0
-offset_right = 150.0
-text = "4"
+[node name="VirtualKey4" type="Node2D" parent="Background/Standard"]
+position = Vector2(120, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "4"
 unicode = 52
+key_text = "4"
 
-[node name="VirtualKey5" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 160.0
-offset_right = 190.0
-text = "5"
+[node name="VirtualKey5" type="Node2D" parent="Background/Standard"]
+position = Vector2(160, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "5"
 unicode = 53
+key_text = "5"
 
-[node name="VirtualKey6" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 200.0
-offset_right = 230.0
-text = "6"
+[node name="VirtualKey6" type="Node2D" parent="Background/Standard"]
+position = Vector2(200, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "6"
 unicode = 54
+key_text = "6"
 
-[node name="VirtualKey7" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 240.0
-offset_right = 270.0
-text = "7"
+[node name="VirtualKey7" type="Node2D" parent="Background/Standard"]
+position = Vector2(240, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "7"
 unicode = 55
+key_text = "7"
 
-[node name="VirtualKey8" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 280.0
-offset_right = 310.0
-text = "8"
+[node name="VirtualKey8" type="Node2D" parent="Background/Standard"]
+position = Vector2(280, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "8"
 unicode = 56
+key_text = "8"
 
-[node name="VirtualKey9" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 320.0
-offset_right = 350.0
-text = "9"
+[node name="VirtualKey9" type="Node2D" parent="Background/Standard"]
+position = Vector2(320, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "9"
 unicode = 57
+key_text = "9"
 
-[node name="VirtualKey0" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 360.0
-offset_right = 390.0
-text = "0"
+[node name="VirtualKey0" type="Node2D" parent="Background/Standard"]
+position = Vector2(360, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "0"
 unicode = 48
+key_text = "0"
 
-[node name="ToggleShift" type="Button" parent="Background/Standard"]
-layout_mode = 0
-offset_top = 90.0
-offset_right = 50.0
-offset_bottom = 115.0
-focus_mode = 0
-toggle_mode = true
-text = "SHIFT"
+[node name="ToggleShift" type="Node2D" parent="Background/Standard"]
+position = Vector2(0, 120)
+script = ExtResource("3_h05ve")
+key_size = Vector2(50, 32)
+key_text = "SHIFT"
+key_highlight = Color(1, 1, 1, 1)
 
-[node name="ToggleCaps" type="Button" parent="Background/Standard"]
-layout_mode = 0
-offset_top = 120.0
-offset_right = 45.0
-offset_bottom = 145.0
-focus_mode = 0
-toggle_mode = true
-text = "CAPS"
+[node name="ToggleCaps" type="Node2D" parent="Background/Standard"]
+position = Vector2(0, 160)
+script = ExtResource("3_h05ve")
+key_size = Vector2(45, 32)
+key_text = "CAPS"
+key_highlight = Color(1, 1, 1, 1)
 
-[node name="ToggleAlt" type="Button" parent="Background/Standard"]
-layout_mode = 0
-offset_left = 55.0
-offset_top = 120.0
-offset_right = 90.0
-offset_bottom = 145.0
-focus_mode = 0
-toggle_mode = true
-text = "ALT"
+[node name="ToggleAlt" type="Node2D" parent="Background/Standard"]
+position = Vector2(55, 160)
+script = ExtResource("3_h05ve")
+key_size = Vector2(35, 32)
+key_text = "ALT"
+key_highlight = Color(1, 1, 1, 1)
 
-[node name="VirtualKeyBackspace" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 340.0
-offset_top = 90.0
-offset_right = 390.0
-offset_bottom = 115.0
-text = "BKSP"
+[node name="VirtualKeyBackspace" type="Node2D" parent="Background/Standard"]
+position = Vector2(340, 120)
+script = ExtResource("2_n0nlg")
 scan_code_text = "BackSpace"
+key_size = Vector2(52, 32)
+key_text = "BKSP"
 
-[node name="VirtualKeySpace" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 100.0
-offset_top = 120.0
-offset_right = 290.0
-offset_bottom = 145.0
-text = "Space"
+[node name="VirtualKeySpace" type="Node2D" parent="Background/Standard"]
+position = Vector2(100, 160)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Space"
 unicode = 32
+key_size = Vector2(190, 32)
+key_text = "Space"
 
-[node name="VirtualKeyPeriod" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 300.0
-offset_top = 120.0
-offset_right = 330.0
-offset_bottom = 145.0
-text = "."
+[node name="VirtualKeyPeriod" type="Node2D" parent="Background/Standard"]
+position = Vector2(300, 160)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Period"
 unicode = 46
+key_text = "."
 
-[node name="VirtualKeyEnter" parent="Background/Standard" instance=ExtResource("2")]
-layout_mode = 0
-offset_left = 340.0
-offset_top = 120.0
-offset_right = 390.0
-offset_bottom = 145.0
-text = "Enter"
+[node name="VirtualKeyEnter" type="Node2D" parent="Background/Standard"]
+position = Vector2(340, 160)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Enter"
+key_size = Vector2(52, 32)
+key_text = "Enter"
 
 [node name="LowerCase" type="Node2D" parent="Background"]
-position = Vector2(0, 30)
+position = Vector2(4, 44)
 
-[node name="VirtualKeyLowerQ" parent="Background/LowerCase" instance=ExtResource("2")]
-text = "q"
+[node name="VirtualKeyLowerQ" type="Node2D" parent="Background/LowerCase"]
+script = ExtResource("2_n0nlg")
 scan_code_text = "Q"
 unicode = 113
+key_text = "q"
 
-[node name="VirtualKeyLowerW" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 40.0
-offset_right = 70.0
-text = "w"
+[node name="VirtualKeyLowerW" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(40, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "W"
 unicode = 119
+key_text = "w"
 
-[node name="VirtualKeyLowerE" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 80.0
-offset_right = 110.0
-text = "e"
+[node name="VirtualKeyLowerE" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(80, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "E"
 unicode = 101
+key_text = "e"
 
-[node name="VirtualKeyLowerR" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 120.0
-offset_right = 150.0
-text = "r"
+[node name="VirtualKeyLowerR" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(120, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "R"
 unicode = 114
+key_text = "r"
 
-[node name="VirtualKeyLowerT" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 160.0
-offset_right = 190.0
-text = "t"
+[node name="VirtualKeyLowerT" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(160, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "T"
 unicode = 116
+key_text = "t"
 
-[node name="VirtualKeyLowerY" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 200.0
-offset_right = 230.0
-text = "y"
+[node name="VirtualKeyLowerY" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(200, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Y"
 unicode = 121
+key_text = "y"
 
-[node name="VirtualKeyLowerU" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 240.0
-offset_right = 270.0
-text = "u"
+[node name="VirtualKeyLowerU" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(240, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "U"
 unicode = 117
+key_text = "u"
 
-[node name="VirtualKeyLowerI" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 280.0
-offset_right = 310.0
-text = "i"
+[node name="VirtualKeyLowerI" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(280, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "I"
 unicode = 105
+key_text = "i"
 
-[node name="VirtualKeyLowerO" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 320.0
-offset_right = 350.0
-text = "o"
+[node name="VirtualKeyLowerO" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(320, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "O"
 unicode = 111
+key_text = "o"
 
-[node name="VirtualKeyLowerP" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 360.0
-offset_right = 390.0
-text = "p"
+[node name="VirtualKeyLowerP" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(360, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "P"
 unicode = 112
+key_text = "p"
 
-[node name="VirtualKeyLowerA" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 20.0
-offset_top = 30.0
-offset_right = 50.0
-offset_bottom = 55.0
-text = "a"
+[node name="VirtualKeyLowerA" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(20, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "A"
 unicode = 97
+key_text = "a"
 
-[node name="VirtualKeyLowerS" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 30.0
-offset_right = 90.0
-offset_bottom = 55.0
-text = "s"
+[node name="VirtualKeyLowerS" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(60, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "S"
 unicode = 115
+key_text = "s"
 
-[node name="VirtualKeyLowerD" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 30.0
-offset_right = 130.0
-offset_bottom = 55.0
-text = "d"
+[node name="VirtualKeyLowerD" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(100, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "D"
 unicode = 100
+key_text = "d"
 
-[node name="VirtualKeyLowerF" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 30.0
-offset_right = 170.0
-offset_bottom = 55.0
-text = "f"
+[node name="VirtualKeyLowerF" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(140, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "F"
 unicode = 102
+key_text = "f"
 
-[node name="VirtualKeyLowerG" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 30.0
-offset_right = 210.0
-offset_bottom = 55.0
-text = "g"
+[node name="VirtualKeyLowerG" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(180, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "G"
 unicode = 103
+key_text = "g"
 
-[node name="VirtualKeyLowerH" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 55.0
-text = "h"
+[node name="VirtualKeyLowerH" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(220, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "H"
 unicode = 104
+key_text = "h"
 
-[node name="VirtualKeyLowerJ" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 30.0
-offset_right = 290.0
-offset_bottom = 55.0
-text = "j"
+[node name="VirtualKeyLowerJ" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(260, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "J"
 unicode = 106
+key_text = "j"
 
-[node name="VirtualKeyLowerK" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 30.0
-offset_right = 330.0
-offset_bottom = 55.0
-text = "k"
+[node name="VirtualKeyLowerK" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(300, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "K"
 unicode = 107
+key_text = "k"
 
-[node name="VirtualKeyLowerL" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 340.0
-offset_top = 30.0
-offset_right = 370.0
-offset_bottom = 55.0
-text = "l"
+[node name="VirtualKeyLowerL" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(340, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "L"
 unicode = 108
+key_text = "l"
 
-[node name="VirtualKeyLowerZ" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 60.0
-offset_right = 90.0
-offset_bottom = 85.0
-text = "z"
+[node name="VirtualKeyLowerZ" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(60, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Z"
 unicode = 122
+key_text = "z"
 
-[node name="VirtualKeyLowerX" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 60.0
-offset_right = 130.0
-offset_bottom = 85.0
-text = "x"
+[node name="VirtualKeyLowerX" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(100, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "X"
 unicode = 120
+key_text = "x"
 
-[node name="VirtualKeyLowerC" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 60.0
-offset_right = 170.0
-offset_bottom = 85.0
-text = "c"
+[node name="VirtualKeyLowerC" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(140, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "C"
 unicode = 99
+key_text = "c"
 
-[node name="VirtualKeyLowerV" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 60.0
-offset_right = 210.0
-offset_bottom = 85.0
-text = "v"
+[node name="VirtualKeyLowerV" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(180, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "V"
 unicode = 118
+key_text = "v"
 
-[node name="VirtualKeyLowerB" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 60.0
-offset_right = 250.0
-offset_bottom = 85.0
-text = "b"
+[node name="VirtualKeyLowerB" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(220, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "B"
 unicode = 98
+key_text = "b"
 
-[node name="VirtualKeyLowerN" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 60.0
-offset_right = 290.0
-offset_bottom = 85.0
-text = "n"
+[node name="VirtualKeyLowerN" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(260, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "N"
 unicode = 110
+key_text = "n"
 
-[node name="VirtualKeyLowerM" parent="Background/LowerCase" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 60.0
-offset_right = 330.0
-offset_bottom = 85.0
-text = "m"
+[node name="VirtualKeyLowerM" type="Node2D" parent="Background/LowerCase"]
+position = Vector2(300, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "M"
 unicode = 109
+key_text = "m"
 
 [node name="UpperCase" type="Node2D" parent="Background"]
 visible = false
-position = Vector2(0, 30)
+position = Vector2(4, 44)
 
-[node name="VirtualKeyUpperQ" parent="Background/UpperCase" instance=ExtResource("2")]
-text = "Q"
+[node name="VirtualKeyUpperQ" type="Node2D" parent="Background/UpperCase"]
+script = ExtResource("2_n0nlg")
 scan_code_text = "Q"
 unicode = 81
 shift_modifier = true
+key_text = "Q"
 
-[node name="VirtualKeyUpperW" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 40.0
-offset_right = 70.0
-text = "W"
+[node name="VirtualKeyUpperW" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(40, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "W"
 unicode = 87
 shift_modifier = true
+key_text = "W"
 
-[node name="VirtualKeyUpperE" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 80.0
-offset_right = 110.0
-text = "E"
+[node name="VirtualKeyUpperE" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(80, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "E"
 unicode = 69
 shift_modifier = true
+key_text = "E"
 
-[node name="VirtualKeyUpperR" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 120.0
-offset_right = 150.0
-text = "R"
+[node name="VirtualKeyUpperR" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(120, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "R"
 unicode = 82
 shift_modifier = true
+key_text = "R"
 
-[node name="VirtualKeyUpperT" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 160.0
-offset_right = 190.0
-text = "T"
+[node name="VirtualKeyUpperT" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(160, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "T"
 unicode = 84
 shift_modifier = true
+key_text = "T"
 
-[node name="VirtualKeyUpperY" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 200.0
-offset_right = 230.0
-text = "Y"
+[node name="VirtualKeyUpperY" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(200, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Y"
 unicode = 89
 shift_modifier = true
+key_text = "Y"
 
-[node name="VirtualKeyUpperU" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 240.0
-offset_right = 270.0
-text = "U"
+[node name="VirtualKeyUpperU" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(240, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "U"
 unicode = 85
 shift_modifier = true
+key_text = "U"
 
-[node name="VirtualKeyUpperI" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 280.0
-offset_right = 310.0
-text = "I"
+[node name="VirtualKeyUpperI" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(280, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "I"
 unicode = 73
 shift_modifier = true
+key_text = "I"
 
-[node name="VirtualKeyUpperO" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 320.0
-offset_right = 350.0
-text = "O"
+[node name="VirtualKeyUpperO" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(320, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "O"
 unicode = 79
 shift_modifier = true
+key_text = "O"
 
-[node name="VirtualKeyUpperP" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 360.0
-offset_right = 390.0
-text = "P"
+[node name="VirtualKeyUpperP" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(360, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "P"
 unicode = 80
 shift_modifier = true
+key_text = "P"
 
-[node name="VirtualKeyUpperA" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 20.0
-offset_top = 30.0
-offset_right = 50.0
-offset_bottom = 55.0
-text = "A"
+[node name="VirtualKeyUpperA" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(20, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "A"
 unicode = 65
 shift_modifier = true
+key_text = "A"
 
-[node name="VirtualKeyUpperS" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 30.0
-offset_right = 90.0
-offset_bottom = 55.0
-text = "S"
+[node name="VirtualKeyUpperS" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(60, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "S"
 unicode = 83
 shift_modifier = true
+key_text = "S"
 
-[node name="VirtualKeyUpperD" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 30.0
-offset_right = 130.0
-offset_bottom = 55.0
-text = "D"
+[node name="VirtualKeyUpperD" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(100, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "D"
 unicode = 68
 shift_modifier = true
+key_text = "D"
 
-[node name="VirtualKeyUpperF" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 30.0
-offset_right = 170.0
-offset_bottom = 55.0
-text = "F"
+[node name="VirtualKeyUpperF" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(140, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "F"
 unicode = 70
 shift_modifier = true
+key_text = "F"
 
-[node name="VirtualKeyUpperG" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 30.0
-offset_right = 210.0
-offset_bottom = 55.0
-text = "G"
+[node name="VirtualKeyUpperG" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(180, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "G"
 unicode = 71
 shift_modifier = true
+key_text = "G"
 
-[node name="VirtualKeyUpperH" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 55.0
-text = "H"
+[node name="VirtualKeyUpperH" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(220, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "H"
 unicode = 72
 shift_modifier = true
+key_text = "H"
 
-[node name="VirtualKeyUpperJ" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 30.0
-offset_right = 290.0
-offset_bottom = 55.0
-text = "J"
+[node name="VirtualKeyUpperJ" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(260, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "J"
 unicode = 74
 shift_modifier = true
+key_text = "J"
 
-[node name="VirtualKeyUpperK" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 30.0
-offset_right = 330.0
-offset_bottom = 55.0
-text = "K"
+[node name="VirtualKeyUpperK" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(300, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "K"
 unicode = 75
 shift_modifier = true
+key_text = "K"
 
-[node name="VirtualKeyUpperL" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 340.0
-offset_top = 30.0
-offset_right = 370.0
-offset_bottom = 55.0
-text = "L"
+[node name="VirtualKeyUpperL" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(340, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "L"
 unicode = 76
 shift_modifier = true
+key_text = "L"
 
-[node name="VirtualKeyUpperZ" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 60.0
-offset_right = 90.0
-offset_bottom = 85.0
-text = "Z"
+[node name="VirtualKeyUpperZ" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(60, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Z"
 unicode = 90
 shift_modifier = true
+key_text = "Z"
 
-[node name="VirtualKeyUpperX" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 60.0
-offset_right = 130.0
-offset_bottom = 85.0
-text = "X"
+[node name="VirtualKeyUpperX" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(100, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "X"
 unicode = 88
 shift_modifier = true
+key_text = "X"
 
-[node name="VirtualKeyUpperC" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 60.0
-offset_right = 170.0
-offset_bottom = 85.0
-text = "C"
+[node name="VirtualKeyUpperC" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(140, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "C"
 unicode = 67
 shift_modifier = true
+key_text = "C"
 
-[node name="VirtualKeyUpperV" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 60.0
-offset_right = 210.0
-offset_bottom = 85.0
-text = "V"
+[node name="VirtualKeyUpperV" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(180, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "V"
 unicode = 86
 shift_modifier = true
+key_text = "V"
 
-[node name="VirtualKeyUpperB" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 60.0
-offset_right = 250.0
-offset_bottom = 85.0
-text = "B"
+[node name="VirtualKeyUpperB" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(220, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "B"
 unicode = 66
 shift_modifier = true
+key_text = "B"
 
-[node name="VirtualKeyUpperN" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 60.0
-offset_right = 290.0
-offset_bottom = 85.0
-text = "N"
+[node name="VirtualKeyUpperN" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(260, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "N"
 unicode = 78
 shift_modifier = true
+key_text = "N"
 
-[node name="VirtualKeyUpperM" parent="Background/UpperCase" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 60.0
-offset_right = 330.0
-offset_bottom = 85.0
-text = "M"
+[node name="VirtualKeyUpperM" type="Node2D" parent="Background/UpperCase"]
+position = Vector2(300, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "M"
 unicode = 77
 shift_modifier = true
+key_text = "M"
 
 [node name="Alternate" type="Node2D" parent="Background"]
 visible = false
-position = Vector2(0, 30)
+position = Vector2(4, 44)
 
-[node name="VirtualKeyPlus" parent="Background/Alternate" instance=ExtResource("2")]
-text = "+"
+[node name="VirtualKeyPlus" type="Node2D" parent="Background/Alternate"]
+script = ExtResource("2_n0nlg")
 scan_code_text = "Plus"
 unicode = 43
+key_text = "+"
 
-[node name="VirtualKeyAsterisk" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 40.0
-offset_right = 70.0
-text = "*"
+[node name="VirtualKeyAsterisk" type="Node2D" parent="Background/Alternate"]
+position = Vector2(40, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Asterisk"
 unicode = 42
+key_text = "*"
 
-[node name="VirtualKeyDivision" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 80.0
-offset_right = 110.0
-text = "÷"
+[node name="VirtualKeyDivision" type="Node2D" parent="Background/Alternate"]
+position = Vector2(80, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Division"
 unicode = 247
+key_text = "÷"
 
-[node name="VirtualKeyEqual" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 120.0
-offset_right = 150.0
-text = "="
+[node name="VirtualKeyEqual" type="Node2D" parent="Background/Alternate"]
+position = Vector2(120, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Equal"
 unicode = 61
+key_text = "="
 
-[node name="VirtualKeySlash" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 160.0
-offset_right = 190.0
-text = "/"
+[node name="VirtualKeySlash" type="Node2D" parent="Background/Alternate"]
+position = Vector2(160, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Slash"
 unicode = 47
+key_text = "/"
 
-[node name="VirtualKeyUnderScore" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 200.0
-offset_right = 230.0
-text = "_"
+[node name="VirtualKeyUnderScore" type="Node2D" parent="Background/Alternate"]
+position = Vector2(200, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "UnderScore"
 unicode = 95
+key_text = "_"
 
-[node name="VirtualKeyLess" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 240.0
-offset_right = 270.0
-text = "<"
+[node name="VirtualKeyLess" type="Node2D" parent="Background/Alternate"]
+position = Vector2(240, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Less"
 unicode = 60
-shift_modifier = true
+key_text = "<"
 
-[node name="VirtualKeyGreater" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 280.0
-offset_right = 310.0
-text = ">"
+[node name="VirtualKeyGreater" type="Node2D" parent="Background/Alternate"]
+position = Vector2(280, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Greater"
 unicode = 62
+key_text = ">"
 
-[node name="VirtualKeyBracketLeft" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 320.0
-offset_right = 350.0
-text = "["
+[node name="VirtualKeyBracketLeft" type="Node2D" parent="Background/Alternate"]
+position = Vector2(320, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "BracketLeft"
 unicode = 91
-shift_modifier = true
+key_text = "["
 
-[node name="VirtualKeyBracketRight" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 360.0
-offset_right = 390.0
-text = "]"
+[node name="VirtualKeyBracketRight" type="Node2D" parent="Background/Alternate"]
+position = Vector2(360, 0)
+script = ExtResource("2_n0nlg")
 scan_code_text = "BracketRight"
 unicode = 93
+key_text = "]"
 
-[node name="VirtualKeyExclam" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 20.0
-offset_top = 30.0
-offset_right = 50.0
-offset_bottom = 55.0
-text = "!"
+[node name="VirtualKeyExclam" type="Node2D" parent="Background/Alternate"]
+position = Vector2(20, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Exclam"
 unicode = 33
+key_text = "!"
 
-[node name="VirtualKeyAt" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 30.0
-offset_right = 90.0
-offset_bottom = 55.0
-text = "@"
+[node name="VirtualKeyAt" type="Node2D" parent="Background/Alternate"]
+position = Vector2(60, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "At"
 unicode = 64
+key_text = "@"
 
-[node name="VirtualKeyNumberSign" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 30.0
-offset_right = 130.0
-offset_bottom = 55.0
-text = "#"
+[node name="VirtualKeyNumberSign" type="Node2D" parent="Background/Alternate"]
+position = Vector2(100, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "NumberSign"
 unicode = 35
+key_text = "#"
 
-[node name="VirtualKeyDollar" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 30.0
-offset_right = 170.0
-offset_bottom = 55.0
-text = "$"
+[node name="VirtualKeyDollar" type="Node2D" parent="Background/Alternate"]
+position = Vector2(140, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Dollar"
 unicode = 36
+key_text = "$"
 
-[node name="VirtualKeyPercent" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 30.0
-offset_right = 210.0
-offset_bottom = 55.0
-text = "%"
+[node name="VirtualKeyPercent" type="Node2D" parent="Background/Alternate"]
+position = Vector2(180, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Percent"
 unicode = 37
+key_text = "%"
 
-[node name="VirtualKeyCircumflex" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 30.0
-offset_right = 250.0
-offset_bottom = 55.0
-text = "^"
+[node name="VirtualKeyCircumflex" type="Node2D" parent="Background/Alternate"]
+position = Vector2(220, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "AsciiCircum"
 unicode = 94
+key_text = "^"
 
-[node name="VirtualKeyAmpersand" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 30.0
-offset_right = 290.0
-offset_bottom = 55.0
-text = "&"
+[node name="VirtualKeyAmpersand" type="Node2D" parent="Background/Alternate"]
+position = Vector2(260, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Ampersand"
 unicode = 38
+key_text = "&"
 
-[node name="VirtualKeyParenLeft" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 30.0
-offset_right = 330.0
-offset_bottom = 55.0
-text = "("
+[node name="VirtualKeyParenLeft" type="Node2D" parent="Background/Alternate"]
+position = Vector2(300, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "ParenLeft"
 unicode = 40
+key_text = "("
 
-[node name="VirtualKeyParenRight" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 340.0
-offset_top = 30.0
-offset_right = 370.0
-offset_bottom = 55.0
-text = ")"
+[node name="VirtualKeyParenRight" type="Node2D" parent="Background/Alternate"]
+position = Vector2(340, 40)
+script = ExtResource("2_n0nlg")
 scan_code_text = "ParenRight"
 unicode = 41
+key_text = ")"
 
-[node name="VirtualKeyMinus" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 60.0
-offset_top = 60.0
-offset_right = 90.0
-offset_bottom = 85.0
-text = "-"
+[node name="VirtualKeyMinus" type="Node2D" parent="Background/Alternate"]
+position = Vector2(60, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Minus"
 unicode = 45
+key_text = "-"
 
-[node name="VirtualKeyApostrophe" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 100.0
-offset_top = 60.0
-offset_right = 130.0
-offset_bottom = 85.0
-text = "'"
+[node name="VirtualKeyApostrophe" type="Node2D" parent="Background/Alternate"]
+position = Vector2(100, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Apostrophe"
 unicode = 39
+key_text = "'"
 
-[node name="VirtualKeyQuoteDbl" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 140.0
-offset_top = 60.0
-offset_right = 170.0
-offset_bottom = 85.0
-text = "\""
+[node name="VirtualKeyQuoteDbl" type="Node2D" parent="Background/Alternate"]
+position = Vector2(140, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "QuoteDbl"
 unicode = 34
+key_text = "\""
 
-[node name="VirtualKeyColon" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 180.0
-offset_top = 60.0
-offset_right = 210.0
-offset_bottom = 85.0
-text = ":"
+[node name="VirtualKeyColon" type="Node2D" parent="Background/Alternate"]
+position = Vector2(180, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Colon"
 unicode = 58
+key_text = ":"
 
-[node name="VirtualKeySemicolon" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 220.0
-offset_top = 60.0
-offset_right = 250.0
-offset_bottom = 85.0
-text = ";"
+[node name="VirtualKeySemicolon" type="Node2D" parent="Background/Alternate"]
+position = Vector2(220, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Semicolon"
 unicode = 59
+key_text = ";"
 
-[node name="VirtualKeyComma" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 260.0
-offset_top = 60.0
-offset_right = 290.0
-offset_bottom = 85.0
-text = ","
+[node name="VirtualKeyComma" type="Node2D" parent="Background/Alternate"]
+position = Vector2(260, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Comma"
 unicode = 44
+key_text = ","
 
-[node name="VirtualKeyQuestion" parent="Background/Alternate" instance=ExtResource("2")]
-offset_left = 300.0
-offset_top = 60.0
-offset_right = 330.0
-offset_bottom = 85.0
-text = "?"
+[node name="VirtualKeyQuestion" type="Node2D" parent="Background/Alternate"]
+position = Vector2(300, 80)
+script = ExtResource("2_n0nlg")
 scan_code_text = "Question"
 unicode = 63
+key_text = "?"
 
-[connection signal="toggled" from="Background/Standard/ToggleShift" to="." method="on_shift_toggle"]
-[connection signal="toggled" from="Background/Standard/ToggleCaps" to="." method="on_caps_toggle"]
-[connection signal="toggled" from="Background/Standard/ToggleAlt" to="." method="on_alt_toggle"]
+[connection signal="pressed" from="Background/Standard/ToggleShift" to="." method="_on_toggle_shift_pressed"]
+[connection signal="pressed" from="Background/Standard/ToggleCaps" to="." method="_on_toggle_caps_pressed"]
+[connection signal="pressed" from="Background/Standard/ToggleAlt" to="." method="_on_toggle_alt_pressed"]

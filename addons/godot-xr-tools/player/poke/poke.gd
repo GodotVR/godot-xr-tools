@@ -12,6 +12,10 @@ extends Node3D
 ## bodies.
 
 
+## Signal emitted when this object pokes another object
+signal pointing_event(event)
+
+
 # Default layer of 18:player-hands
 const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
 
@@ -176,17 +180,15 @@ func _ready():
 
 
 func _process(_delta):
-	if is_instance_valid(target):
-		var new_at = $PokeBody.global_transform.origin
-
-		if target.has_signal("pointer_moved"):
-			target.emit_signal("pointer_moved", last_collided_at, new_at)
-		elif target.has_method("pointer_moved"):
-			target.pointer_moved(last_collided_at, new_at)
-
-		last_collided_at = new_at
-	else:
+	# If no target then disable processing
+	if not is_instance_valid(target):
 		set_process(false)
+		return
+
+	# Update moving on the target
+	var new_at : Vector3 = $PokeBody.global_transform.origin
+	XRToolsPointerEvent.moved(self, target, new_at, last_collided_at)
+	last_collided_at = new_at
 
 
 func _on_hand_scale_changed(_scale : float) -> void:
@@ -199,24 +201,22 @@ func _on_PokeBody_body_contact_start(body):
 	# This will be slightly above the object but since this
 	# mostly targets Viewport2Din3D, this will work
 
-	if body.has_signal("pointer_pressed"):
-		target = body
-		last_collided_at = $PokeBody.global_transform.origin
-		target.emit_signal("pointer_pressed", last_collided_at)
-	elif body.has_method("pointer_pressed"):
-		target = body
-		last_collided_at = $PokeBody.global_transform.origin
-		target.pointer_pressed(last_collided_at)
+	# Report body pressed
+	target = body
+	last_collided_at = $PokeBody.global_transform.origin
+	XRToolsPointerEvent.entered(self, body, last_collided_at)
+	XRToolsPointerEvent.pressed(self, body, last_collided_at)
 
-	if target:
-		set_process(true)
+	# Enable processing to track movement
+	set_process(true)
+
 
 func _on_PokeBody_body_contact_end(body):
-	if body.has_signal("pointer_released"):
-		body.emit_signal("pointer_released", last_collided_at)
-	elif body.has_method("pointer_released"):
-		body.pointer_released(last_collided_at)
+	# Skip if not current target
+	if body != target:
+		return
 
-	# if we were tracking this target, clear it
-	if target == body:
-		target = null
+	# Report release
+	XRToolsPointerEvent.released(self, target, last_collided_at)
+	XRToolsPointerEvent.exited(self, target, last_collided_at)
+	target = null

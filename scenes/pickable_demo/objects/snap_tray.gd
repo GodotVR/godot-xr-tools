@@ -1,9 +1,6 @@
 extends XRToolsPickable
 
 
-signal pointer_pressed(at)
-
-
 ## Snap-tray active state
 @export var tray_active : bool = true: set = _set_tray_active
 
@@ -16,20 +13,18 @@ signal pointer_pressed(at)
 
 ## Called when the node enters the scene tree for the first time.
 func _ready():
-	# Connect to the pointer pressed signal
-	pointer_pressed.connect(_on_pointer_pressed)
-
 	# Update the tray_active state
 	_update_tray_active()
 
 
-## Handler for snap tray being pressed by pointer
-func _on_pointer_pressed(_at : Vector3) -> void:
-	# Toggle tray_active
-	_set_tray_active(not tray_active)
+# Handle pointer events
+func pointer_event(event : XRToolsPointerEvent) -> void:
+	# When pressed, toggle the tray active
+	if event.event_type == XRToolsPointerEvent.Type.PRESSED:
+		_set_tray_active(not tray_active)
 
 
-## Handler for tray_active property change
+# Handler for tray_active property change
 func _set_tray_active(new_value : bool) -> void:
 	tray_active = new_value
 	if is_inside_tree():

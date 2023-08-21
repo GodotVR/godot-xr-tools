@@ -13,6 +13,9 @@
 - Fixed player scaling issues with crouching and poke
 - **minor-breakage** Added support for passing user data between staged scenes with default handling for spawn-points
 - Moved teleport logic to player and added teleport area node
+- Change pointer event dispatching
+- Added multi-touch on 2D in 3D viewports and virtual-keyboard
+- Added option to disable laser-pointers when close to specific bodies/areas
 
 # 4.1.0
 - Enhanced grappling to support collision and target layers
