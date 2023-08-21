@@ -8,6 +8,6 @@ render_priority = 0
 shader = ExtResource("1")
 shader_parameter/scale_t = 0.2
 shader_parameter/length = 30.0
-shader_parameter/ws = 1.0
+shader_parameter/down = Vector3(0, -1, 0)
 shader_parameter/mix_color = Color(0.176471, 0.313726, 0.862745, 1)
 shader_parameter/arrow_texture = ExtResource("2")
