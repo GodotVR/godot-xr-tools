@@ -21,6 +21,8 @@
   - player_body
   - hand_models
   - hand_poses
+  - physics_resource
+  - vignette
 
 - title: Movement
   docs:
@@ -48,3 +50,7 @@
   - pickable
   - grab_point
   - snap_zone
+
+- title: Staging
+  docs:
+  - staging

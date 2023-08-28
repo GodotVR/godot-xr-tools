@@ -4,8 +4,6 @@ permalink: /docs/home/
 redirect_from: /docs/index.html
 ---
 
-## Introduction
-
 The Godot XR Tools library was created as a repository of classes to use when building
 an AR or VR game or experience using the Godot Game Engine.
 
