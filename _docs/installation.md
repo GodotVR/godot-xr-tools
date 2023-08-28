@@ -6,11 +6,23 @@ permalink: /docs/installation/
 You will need to install the AR or VR plugin for your device which falls outside of
 this guide.
 
-This add on should be installed in the addons/godot-xr-tools subfolder of your project.
-Note that the repository contains this folder and you should copy that folder over to
-your project. If you're downloading this add on from the asset library make sure to
-only add this subfolder to your project!
+You can install this plugin by:
+- installing it from the Godot Asset Library,
+- downloading it from the releases page [here](https://github.com/GodotVR/godot-xr-tools/releases),
+- cloning the Godot XR Tools repository.
 
-There is a project underway in Godot that will allow us to restructure this repository
-so the add on subfolder is the root of this repository which will allow you to
-submodule the add on.
+## Installing from the Godot Asset Library
+
+To install from the Godot Asset Library simply select the AssetLib tab in the Godot IDE and search for XR Tools.
+Select the Godot XR Tools asset, select Download from the popup window and then install it.
+Godot will place the files in the correct folders.
+
+## Downloading from the releases page
+
+When downloading the Godot XR Tools plugin from the releases page be sure to download the `godot-xr-tools.zip` file.
+Unzip this file and then copy the `godot-xr-tools/addons/godot-xr-tools` folder into the `addons` folder in your project.
+If you do not have an `addons` folder in your project, create it first.
+
+# Cloning the Godot XR Tools repository
+
+Note that the XR Tools repository contains a whole demo setup of the XR Tools plugin so you'll want to copy only the `addons/godot-xr-tools` folder into your project.
