@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwr0eqi231lf0"]
+
+[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad_location.gd" id="1_4uvgi"]
+
+[node name="ControlPadLocationLeft" type="Node3D"]
+
+[node name="Position" type="Node3D" parent="."]
+transform = Transform3D(1.91069e-15, -1, -4.37114e-08, -0.0871558, -4.35451e-08, 0.996195, -0.996195, 3.8097e-09, -0.0871558, -0.03, 0, 0.3)
+script = ExtResource("1_4uvgi")

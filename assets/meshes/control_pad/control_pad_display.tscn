@@ -1,0 +1,123 @@
+[gd_scene load_steps=2 format=3 uid="uid://ungirnwga6pc"]
+
+[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad_display.gd" id="1_iqtwx"]
+
+[node name="ControlPadDisplay" type="TabContainer"]
+offset_right = 400.0
+offset_bottom = 200.0
+tab_alignment = 1
+script = ExtResource("1_iqtwx")
+
+[node name="RefreshTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[node name="Body" type="MarginContainer" parent="."]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Body"]
+layout_mode = 2
+
+[node name="Position" type="HBoxContainer" parent="Body/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Body/VBoxContainer/Position"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Position:"
+
+[node name="Value" type="Label" parent="Body/VBoxContainer/Position"]
+layout_mode = 2
+text = "0, 0, 0"
+
+[node name="Velocity" type="HBoxContainer" parent="Body/VBoxContainer"]
+layout_mode = 2
+
+[node name="Name" type="Label" parent="Body/VBoxContainer/Velocity"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Velocity:
+"
+
+[node name="Value" type="Label" parent="Body/VBoxContainer/Velocity"]
+layout_mode = 2
+text = "0, 0, 0"
+
+[node name="Scale" type="HBoxContainer" parent="Body/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Body/VBoxContainer/Scale"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Scale:"
+
+[node name="BodyScaleSlider" type="HSlider" parent="Body/VBoxContainer/Scale"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+min_value = 0.5
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="Settings" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Settings"]
+layout_mode = 2
+
+[node name="Panel" type="HBoxContainer" parent="Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Panel"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Panel:"
+
+[node name="Container" type="HBoxContainer" parent="Settings/VBoxContainer/Panel"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="Left" type="Button" parent="Settings/VBoxContainer/Panel/Container"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Left"
+
+[node name="Right" type="Button" parent="Settings/VBoxContainer/Panel/Container"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+text = "Right
+"
+
+[node name="Demo" type="HBoxContainer" parent="Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Demo"]
+custom_minimum_size = Vector2(90, 0)
+layout_mode = 2
+text = "Main:"
+
+[node name="Container" type="HBoxContainer" parent="Settings/VBoxContainer/Demo"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="MainScene" type="Button" parent="Settings/VBoxContainer/Demo/Container"]
+layout_mode = 2
+text = "Return to Main Scene"
+
+[connection signal="timeout" from="RefreshTimer" to="." method="_on_refresh_timer_timeout"]
+[connection signal="value_changed" from="Body/VBoxContainer/Scale/BodyScaleSlider" to="." method="_on_body_scale_slider_value_changed"]
+[connection signal="pressed" from="Settings/VBoxContainer/Panel/Container/Left" to="." method="_on_panel_left_pressed"]
+[connection signal="pressed" from="Settings/VBoxContainer/Panel/Container/Right" to="." method="_on_panel_right_pressed"]
+[connection signal="pressed" from="Settings/VBoxContainer/Demo/Container/MainScene" to="." method="_on_main_scene_pressed"]

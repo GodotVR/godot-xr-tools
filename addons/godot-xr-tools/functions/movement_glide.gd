@@ -158,11 +158,11 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	var left_to_right := right_position - left_position
 
 	if turn_with_roll:
-		var angle = -left_to_right.dot(player_body.up_player_vector)
+		var angle = -left_to_right.dot(player_body.up_player)
 		player_body.rotate_player(roll_turn_speed * delta * angle)
 
 	# If not falling, then not gliding
-	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity_vector)
+	var vertical_velocity := player_body.velocity.dot(player_body.up_gravity)
 	vertical_velocity += wings_impulse_velocity
 	if vertical_velocity >= glide_min_fall_speed && wings_impulse_velocity == 0.0:
 		_set_gliding(false)
@@ -180,14 +180,16 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	vertical_velocity = lerp(vertical_velocity, glide_fall_speed, vertical_slew_rate * delta)
 
 	# Lerp the horizontal velocity towards forward_speed
-	var horizontal_velocity := player_body.up_gravity_plane.project(player_body.velocity)
-	var dir_forward := player_body.up_gravity_plane.project(
-			left_to_right.rotated(player_body.up_gravity_vector, PI/2)).normalized()
+	var horizontal_velocity := player_body.velocity.slide(player_body.up_gravity)
+	var dir_forward := left_to_right \
+			.rotated(player_body.up_gravity, PI/2) \
+			.slide(player_body.up_gravity) \
+			.normalized()
 	var forward_velocity := dir_forward * glide_forward_speed
 	horizontal_velocity = horizontal_velocity.lerp(forward_velocity, horizontal_slew_rate * delta)
 
 	# Perform the glide
-	var glide_velocity := horizontal_velocity + vertical_velocity * player_body.up_gravity_vector
+	var glide_velocity := horizontal_velocity + vertical_velocity * player_body.up_gravity
 	player_body.velocity = player_body.move_body(glide_velocity)
 
 	# Report exclusive motion performed (to bypass gravity)

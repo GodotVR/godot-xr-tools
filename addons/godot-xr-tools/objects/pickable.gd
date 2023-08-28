@@ -102,8 +102,14 @@ var picked_up_by: Node3D = null
 ## Controller holding this item (may be null if held by snap-zone)
 var by_controller : XRController3D = null
 
+## What node "holds" the object
+var hold_node : Node3D = null
+
 ## Hand holding this item (may be null if held by snap-zone)
 var by_hand : XRToolsHand = null
+
+## Collision hand holding this item (may be null)
+var by_collision_hand : XRToolsCollisionHand = null
 
 # Count of 'is_closest' grabbers
 var _closest_count: int = 0
@@ -122,6 +128,12 @@ var _grab_points : Array = []
 
 # Currently active grab-point
 var _active_grab_point : XRToolsGrabPoint
+
+# Dictionary of nodes requesting highlight
+var _highlight_requests : Dictionary = {}
+
+# Is this node highlighted
+var _highlighted : bool = false
 
 
 # Remember some state so we can return to it when the user drops the object
@@ -160,26 +172,27 @@ func action():
 	emit_signal("action_pressed", self)
 
 
-# This method is invoked when it becomes the closest pickable object to one of
-# the pickup functions.
-func increase_is_closest():
-	# Increment the closest counter
-	_closest_count += 1
+## This method requests highlighting of the [XRToolsPickable].
+## If [param from] is null then all highlighting requests are cleared,
+## otherwise the highlight request is associated with the specified node.
+func request_highlight(from : Node, on : bool = true) -> void:
+	# Save if we are highlighted
+	var old_highlighted := _highlighted
 
-	# If this object has just become highlighted then emit the signal
-	if _closest_count == 1:
-		emit_signal("highlight_updated", self, true)
+	# Update the highlight requests dictionary
+	if not from:
+		_highlight_requests.clear()
+	elif on:
+		_highlight_requests[from] = from
+	else:
+		_highlight_requests.erase(from)
 
+	# Update the highlighted state
+	_highlighted = _highlight_requests.size() > 0
 
-# This method is invoked when it stops being the closest pickable object to one
-# of the pickup functions.
-func decrease_is_closest():
-	# Decrement the closest counter
-	_closest_count -= 1
-
-	# If no-longer highlighted then emit the signal
-	if _closest_count == 0:
-		emit_signal("highlight_updated", self, false)
+	# Report any changes
+	if _highlighted != old_highlighted:
+		emit_signal("highlight_updated", self, _highlighted)
 
 
 func drop_and_free():
@@ -201,7 +214,9 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 	# remember who picked us up
 	picked_up_by = by
 	by_controller = with_controller
+	hold_node = with_controller if with_controller else by
 	by_hand = XRToolsHand.find_instance(by_controller)
+	by_collision_hand = XRToolsCollisionHand.find_instance(by_controller)
 	_active_grab_point = _get_grab_point(by)
 
 	# If we have been picked up by a hand then apply the hand-pose-override
@@ -210,6 +225,12 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 		var grab_point_hand := _active_grab_point as XRToolsGrabPointHand
 		if grab_point_hand and grab_point_hand.hand_pose:
 			by_hand.add_pose_override(self, GRIP_POSE_PRIORITY, grab_point_hand.hand_pose)
+
+	# If we have been picked up by a collision hand then add collision
+	# exceptions to prevent the hand and pickable colliding.
+	if by_collision_hand:
+		add_collision_exception_with(by_collision_hand)
+		by_collision_hand.add_collision_exception_with(self)
 
 	# Remember the mode before pickup
 	match release_mode:
@@ -272,11 +293,19 @@ func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
 	if by_hand:
 		by_hand.remove_pose_override(self)
 
+	# If we are held by a cillision hand then remove any collision exceptions
+	# we may have added.
+	if by_collision_hand:
+		remove_collision_exception_with(by_collision_hand)
+		by_collision_hand.remove_collision_exception_with(self)
+
 	# we are no longer picked up
 	_state = PickableState.IDLE
 	picked_up_by = null
 	by_controller = null
 	by_hand = null
+	by_collision_hand = null
+	hold_node = null
 
 	# Stop any XRToolsMoveTo being used for remote grabbing
 	if _move_to:
@@ -346,7 +375,7 @@ func _start_ranged_grab() -> void:
 	# us to the pickup object at the ranged-grab speed, and also takes into account
 	# the center-pickup position
 	_move_to = XRToolsMoveTo.new()
-	_move_to.start(self, picked_up_by, offset, ranged_grab_speed)
+	_move_to.start(self, hold_node, offset, ranged_grab_speed)
 	_move_to.move_complete.connect(_ranged_grab_complete)
 	self.add_child(_move_to)
 
@@ -377,7 +406,7 @@ func _do_snap_grab() -> void:
 			# Construct the remote transform
 			_remote_transform = RemoteTransform3D.new()
 			_remote_transform.set_name("PickupRemoteTransform")
-			picked_up_by.add_child(_remote_transform)
+			hold_node.add_child(_remote_transform)
 			_remote_transform.transform = snap_transform
 			_remote_transform.remote_path = _remote_transform.get_path_to(self)
 
@@ -391,7 +420,7 @@ func _do_snap_grab() -> void:
 
 			# Reparent to the holder with snap transform
 			original_parent.remove_child(self)
-			picked_up_by.add_child(self)
+			hold_node.add_child(self)
 			transform = snap_transform
 
 	# Emit the picked up signal
@@ -406,13 +435,13 @@ func _do_precise_grab() -> void:
 	match hold_method:
 		HoldMethod.REMOTE_TRANSFORM:
 			# Calculate the precise transform for remote-transforming
-			var precise_transform = picked_up_by.global_transform.inverse() * global_transform
+			var precise_transform = hold_node.global_transform.inverse() * global_transform
 
 			# Construct the remote transform
 			_remote_transform = RemoteTransform3D.new()
 			_remote_transform.set_name("PickupRemoteTransform")
-			picked_up_by.add_child(_remote_transform)
-			_remote_transform.transform = picked_up_by.global_transform.inverse() * global_transform
+			hold_node.add_child(_remote_transform)
+			_remote_transform.transform = hold_node.global_transform.inverse() * global_transform
 			_remote_transform.remote_path = _remote_transform.get_path_to(self)
 
 		HoldMethod.REPARENT:
@@ -421,7 +450,7 @@ func _do_precise_grab() -> void:
 
 			# Reparent to the holder with precise transform
 			original_parent.remove_child(self)
-			picked_up_by.add_child(self)
+			hold_node.add_child(self)
 			global_transform = precise_transform
 
 	# Emit the picked up signal

@@ -3,7 +3,7 @@ class_name XRToolsStaging
 extends Node3D
 
 
-## XR Tools Staging
+## XR Tools Staging Class
 ##
 ## When creating a game with multiple levels where you want to
 ## make use of background loading and have some nice structure
@@ -28,22 +28,36 @@ extends Node3D
 ## explained in individual demos found here.
 
 
-## Current scene is being unloaded
-signal scene_exiting(scene)
+## This signal is emitted when the current scene starts to be unloaded. The
+## [param scene] parameter is the path of the current scene, and the
+## [param user_data] parameter is the optional data passed from the
+## current scene to the next.
+signal scene_exiting(scene, user_data)
 
-## Switched to the loading scene
-signal switching_to_loading_scene
+## This signal is emitted when the old scene has been unloaded and the user
+## is fading into the loading scene. The [param user_data] parameter is the
+## optional data provided by the old scene.
+signal switching_to_loading_scene(user_data)
 
-## New scene has been loaded
-signal scene_loaded(scene)
+## This signal is emitted when the new scene has been loaded before it becomes
+## visible. The [param scene] parameter is the path of the new scene, and the
+## [param user_data] parameter is the optional data passed from the old scene
+## to the new scene.
+signal scene_loaded(scene, user_data)
 
-## New scene is now visible
-signal scene_visible(scene)
+## This signal is emitted when the new scene has become fully visible to the
+## player. The [param scene] parameter is the path of the new scene, and the
+## [param user_data] parameter is the optional data passed from the old scene
+## to the new scene.
+signal scene_visible(scene, user_data)
 
-## XR interaction started
+## This signal is invoked when the XR experience starts.
 signal xr_started
 
-## XR interaction ended
+## This signal is invoked when the XR experience ends. This usually occurs when
+## the player removes the headset. The game may want to react by pausing until
+## the player puts the headset back on and the [signal xr_started] signal is
+## emitted.
 signal xr_ended
 
 
@@ -54,31 +68,19 @@ signal xr_ended
 @export var prompt_for_continue : bool = true
 
 
-# Current scene
+## The current scene
 var current_scene : XRToolsSceneBase
 
-# Current scene path
+## The current scene path
 var current_scene_path : String
 
 # Tween for fading
 var _tween : Tween
 
-
-## WorldEnvironment
-##
-## You will note that our staging scene has a world environment
-## node included. Godot does not have a mechanism for having
-## multiple world environments in our scene and marking one as
-## active which makes it impractical to embed these in our demo
-## scenes. Instead we will obtain the environment from our demo
-## scene and manage it here. Our world environment at the start
-## belongs to our loading screen and we need to keep a copy.
-@onready var loading_screen_environment = $WorldEnvironment.environment
-
-## XR Origin
+## The [XROrigin3D] node used while staging
 @onready var xr_origin : XROrigin3D = XRHelpers.get_xr_origin(self)
 
-## XR Camera
+## The [XRCamera3D] node used while staging
 @onready var xr_camera : XRCamera3D = XRHelpers.get_xr_camera(self)
 
 
@@ -126,8 +128,14 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsStaging"
 
 
-## Load the specified scene
-func load_scene(p_scene_path : String) -> void:
+## This function loads the [param p_scene_path] scene file.
+##
+## The [param user_data] parameter contains optional data passed from the old
+## scene to the new scene.
+##
+## See [method XRToolsSceneBase.scene_loaded] for details on how to implement
+## advanced scene-switching.
+func load_scene(p_scene_path : String, user_data = null) -> void:
 	# Do not load if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -142,7 +150,7 @@ func load_scene(p_scene_path : String) -> void:
 		# Start by unloading our scene
 
 		# Let the scene know we're about to remove it
-		current_scene.scene_pre_exiting()
+		current_scene.scene_pre_exiting(user_data)
 
 		# Remove signals
 		_remove_signals(current_scene)
@@ -155,8 +163,8 @@ func load_scene(p_scene_path : String) -> void:
 		await _tween.finished
 
 		# Now we remove our scene
-		emit_signal("scene_exiting", current_scene)
-		current_scene.scene_exiting()
+		emit_signal("scene_exiting", current_scene, user_data)
+		current_scene.scene_exiting(user_data)
 		$Scene.remove_child(current_scene)
 		current_scene.queue_free()
 		current_scene = null
@@ -165,12 +173,11 @@ func load_scene(p_scene_path : String) -> void:
 		xr_origin.set_process_internal(true)
 		xr_origin.current = true
 		xr_camera.current = true
-		$WorldEnvironment.environment = loading_screen_environment
 		$LoadingScreen.progress = 0.0
 		$LoadingScreen.enable_press_to_continue = false
 		$LoadingScreen.follow_camera = true
 		$LoadingScreen.visible = true
-		emit_signal("switching_to_loading_scene")
+		switching_to_loading_scene.emit(user_data)
 
 		# Fade to visible
 		if _tween:
@@ -226,13 +233,12 @@ func load_scene(p_scene_path : String) -> void:
 	current_scene = new_scene.instantiate()
 	current_scene_path = p_scene_path
 	$Scene.add_child(current_scene)
-	$WorldEnvironment.environment = current_scene.environment
 	_add_signals(current_scene)
 
 	# We create a small delay here to give tracking some time to update our nodes...
 	await get_tree().create_timer(0.1).timeout
-	current_scene.scene_loaded()
-	emit_signal("scene_loaded", current_scene)
+	current_scene.scene_loaded(user_data)
+	scene_loaded.emit(current_scene, user_data)
 
 	# Fade to visible
 	if _tween:
@@ -241,11 +247,12 @@ func load_scene(p_scene_path : String) -> void:
 	_tween.tween_method(set_fade, 1.0, 0.0, 1.0)
 	await _tween.finished
 
-	current_scene.scene_visible()
-	emit_signal("scene_visible", current_scene)
+	current_scene.scene_visible(user_data)
+	scene_visible.emit(current_scene, user_data)
 
 
-## Fade
+## This method sets the fade-alpha for scene transitions. The [param p_value]
+## parameter must be in the range [0.0 - 1.0].
 ##
 ## Our fade object allows us to black out the screen for transitions.
 ## Note that our AABB is set to HUGE so it should always be rendered
@@ -276,12 +283,12 @@ func _on_exit_to_main_menu():
 	load_scene(main_scene)
 
 
-func _on_load_scene(p_scene_path : String):
-	load_scene(p_scene_path)
+func _on_load_scene(p_scene_path : String, user_data):
+	load_scene(p_scene_path, user_data)
 
 
-func _on_reset_scene():
-	load_scene(current_scene_path)
+func _on_reset_scene(user_data):
+	load_scene(current_scene_path, user_data)
 
 
 func _on_StartXR_xr_started():

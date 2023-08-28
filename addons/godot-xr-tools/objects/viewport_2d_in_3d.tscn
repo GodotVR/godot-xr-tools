@@ -7,13 +7,12 @@
 resource_local_to_scene = true
 size = Vector2(3, 2)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_0vyuj"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_ufe4n"]
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ney1s"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvml0"]
 transparency = 1
 cull_mode = 2
-shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_0vyuj")
+albedo_texture = SubResource("ViewportTexture_ufe4n")
 texture_filter = 1
 
 [sub_resource type="BoxShape3D" id="4"]
@@ -22,6 +21,9 @@ size = Vector3(3, 2, 0.02)
 
 [node name="Viewport2Din3D" type="Node3D"]
 script = ExtResource("1")
+alpha_scissor_threshold = 0.25
+unshaded = false
+filter = true
 
 [node name="Viewport" type="SubViewport" parent="."]
 disable_3d = true
@@ -32,19 +34,14 @@ render_target_update_mode = 1
 
 [node name="Screen" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")
-surface_material_override/0 = SubResource("StandardMaterial3D_ney1s")
+surface_material_override/0 = SubResource("StandardMaterial3D_fvml0")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-collision_layer = 1048577
+collision_layer = 5242881
 collision_mask = 0
 script = ExtResource("2")
 viewport_size = Vector2(300, 200)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.01)
 shape = SubResource("4")
-
-[connection signal="pointer_entered" from="StaticBody3D" to="." method="_on_pointer_entered"]
-[connection signal="pointer_exited" from="StaticBody3D" to="." method="_on_pointer_exited"]
-[connection signal="pointer_moved" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_moved"]
-[connection signal="pointer_pressed" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_pressed"]
-[connection signal="pointer_released" from="StaticBody3D" to="StaticBody3D" method="_on_pointer_released"]

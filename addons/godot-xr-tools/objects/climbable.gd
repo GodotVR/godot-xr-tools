@@ -15,7 +15,7 @@ extends Node3D
 ## If true, the grip control must be held to keep holding the climbable
 var press_to_hold : bool = true
 
-## Dictionary of grab locations by pickup
+## Dictionary of temporary grab-handles indexed by the pickup node.
 var grab_locations := {}
 
 
@@ -35,26 +35,30 @@ func can_pick_up(_by: Node3D) -> bool:
 func action():
 	pass
 
-# Called by XRToolsFunctionPickup when this becomes the closest object to a controller
-func increase_is_closest():
-	pass
-
-# Called by XRToolsFunctionPickup when this stops being the closest object to a controller
-func decrease_is_closest():
+# Ignore highlighting requests from XRToolsFunctionPickup
+func request_highlight(_from, _on) -> void:
 	pass
 
 # Called by XRToolsFunctionPickup when this is picked up by a controller
 func pick_up(by: Node3D, _with_controller: XRController3D) -> void:
-	save_grab_location(by)
+	# Get the ID to save the grab handle under
+	var id = by.get_instance_id()
+
+	# Get or construct the grab handle
+	var handle = grab_locations.get(id)
+	if not handle:
+		handle = Node3D.new()
+		add_child(handle)
+		grab_locations[id] = handle
+
+	# Set the handles global transform. As it's a child of this
+	# climbable it will move as the climbable moves
+	handle.global_transform = by.global_transform
 
 # Called by XRToolsFunctionPickup when this is let go by a controller
 func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	pass
 
-# Save the grab location
-func save_grab_location(p: Node3D):
-	grab_locations[p.get_instance_id()] = to_local(p.global_transform.origin)
-
-# Get the grab location in world-space
-func get_grab_location(p: Node3D) -> Vector3:
-	return to_global(grab_locations[p.get_instance_id()])
+# Get the grab handle
+func get_grab_handle(p: Node3D) -> Node3D:
+	return grab_locations.get(p.get_instance_id())

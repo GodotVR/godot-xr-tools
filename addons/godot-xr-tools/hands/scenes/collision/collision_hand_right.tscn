@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3uoohvnshach"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/collision_hand.gd" id="1_so3hf"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fc2ij"]
+size = Vector3(0.045, 0.075, 0.1)
+
+[node name="CollisionHandRight" type="StaticBody3D"]
+process_priority = -90
+process_physics_priority = -90
+collision_layer = 131072
+collision_mask = 327711
+script = ExtResource("1_so3hf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.03, -0.05, 0.11)
+shape = SubResource("BoxShape3D_fc2ij")

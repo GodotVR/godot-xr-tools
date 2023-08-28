@@ -4,7 +4,6 @@
 
 [node name="StartXR" type="Node"]
 script = ExtResource("1_ljt1b")
-physics_rate_multiplier = 1.0
 
 [node name="EnterWebXR" type="CanvasLayer" parent="."]
 visible = false

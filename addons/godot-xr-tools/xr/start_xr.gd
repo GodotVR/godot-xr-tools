@@ -29,6 +29,9 @@ signal xr_ended
 ## If true, the XR interface is automatically initialized
 @export var auto_initialize : bool = true
 
+## Adjusts the pixel density on the rendering target
+@export var render_target_size_multiplier : float = 1.0
+
 ## If true, the XR passthrough is enabled (OpenXR only)
 @export var enable_passthrough : bool = false: set = _set_enable_passthrough
 
@@ -86,6 +89,11 @@ func _get_configuration_warnings() -> PackedStringArray:
 # Perform OpenXR setup
 func _setup_for_openxr() -> bool:
 	print("OpenXR: Configuring interface")
+
+	# Set the render target size multiplier - must be done befor initializing interface
+	# NOTE: Only implemented in Godot 4.1+
+	if "render_target_size_multiplier" in xr_interface:
+		xr_interface.render_target_size_multiplier = render_target_size_multiplier
 
 	# Initialize the OpenXR interface
 	if not xr_interface.is_initialized():

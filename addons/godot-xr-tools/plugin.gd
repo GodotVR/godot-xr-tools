@@ -32,6 +32,8 @@ func _define_project_setting(
 	}
 
 	ProjectSettings.add_property_info(property_info)
+	if ProjectSettings.has_method("set_as_basic"):
+		ProjectSettings.call("set_as_basic", p_name, true)
 	ProjectSettings.set_initial_value(p_name, p_default_val)
 
 
@@ -52,6 +54,7 @@ func _set_physics_layers() -> void:
 	ProjectSettings.set("layer_names/3d_physics/layer_20", "Player Body")
 	ProjectSettings.set("layer_names/3d_physics/layer_21", "Pointable Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_22", "Hand Pose Areas")
+	ProjectSettings.set("layer_names/3d_physics/layer_23", "UI Objects")
 
 
 func _on_xr_tools_menu_pressed(id : int) -> void:
@@ -83,6 +86,22 @@ func _enter_tree():
 			PROPERTY_HINT_RANGE,
 			"0.2,0.8,0.05",
 			0.7)
+
+	# Add input y_axis_dead_zone to the project settings
+	_define_project_setting(
+			"godot_xr_tools/input/y_axis_dead_zone",
+			TYPE_FLOAT,
+			PROPERTY_HINT_RANGE,
+			"0.0,0.5,0.01",
+			0.1)
+
+	# Add input x_axis_dead_zone to the project settings
+	_define_project_setting(
+			"godot_xr_tools/input/x_axis_dead_zone",
+			TYPE_FLOAT,
+			PROPERTY_HINT_RANGE,
+			"0.0,0.5,0.01",
+			0.2)
 
 	# Add input snap turning dead-zone to the project settings
 	_define_project_setting(

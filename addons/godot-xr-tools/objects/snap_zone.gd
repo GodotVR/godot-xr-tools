@@ -26,6 +26,9 @@ enum SnapMode {
 ## Enable or disable snap-zone
 @export var enabled : bool = true
 
+## Optional audio stream to play when a object snaps to the zone
+@export var stash_sound : AudioStream
+
 ## Grab distance
 @export var grab_distance : float = 0.3: set = _set_grab_distance
 
@@ -132,14 +135,10 @@ func action():
 	pass
 
 
-# Pickable Method: Ignore snap-zone proximity to grippers
-func increase_is_closest():
-	pass
-
-
-# Pickable Method: Ignore snap-zone proximity to grippers
-func decrease_is_closest():
-	pass
+# Ignore highlighting requests from XRToolsFunctionPickup
+func request_highlight(from : Node, on : bool = true) -> void:
+	if picked_up_object:
+		picked_up_object.request_highlight(from, on)
 
 
 # Pickable Method: Object being grabbed from this snap zone
@@ -245,6 +244,13 @@ func pick_up_object(target: Node3D) -> void:
 
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_object = target
+	var player = get_node("AudioStreamPlayer3D")
+	if is_instance_valid(player):
+		if player.playing:
+			player.stop()
+		player.stream = stash_sound
+		player.play()
+
 	target.pick_up(self, null)
 
 	# If object picked up then emit signal

@@ -1,18 +1,24 @@
 extends TabContainer
 
-@export_node_path("XRCamera3D") var camera
+signal player_height_changed(new_height)
 
-@export var player_head_height : float = 0.1
+@onready var snap_turning_button = $Input/InputVBox/SnapTurning/SnapTurningCB
+@onready var y_deadzone_slider = $Input/InputVBox/yAxisDeadZone/yAxisDeadZoneSlider
+@onready var x_deadzone_slider = $Input/InputVBox/xAxisDeadZone/xAxisDeadZoneSlider
+@onready var player_height_slider = $Player/PlayerVBox/PlayerHeight/PlayerHeightSlider
+@onready var webxr_primary_button = $WebXR/WebXRVBox/WebXR/WebXRPrimary
 
 func _update():
 	# Input
-	$Input/SnapTurning/SnapTurningCB.button_pressed = XRToolsUserSettings.snap_turning
+	snap_turning_button.button_pressed = XRToolsUserSettings.snap_turning
+	y_deadzone_slider.value = XRToolsUserSettings.y_axis_dead_zone
+	x_deadzone_slider.value = XRToolsUserSettings.x_axis_dead_zone
 
 	# Player
-	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
+	player_height_slider.value = XRToolsUserSettings.player_height
 
 	# WebXR
-	$WebXR/WebXR/WebXRPrimary.selected = XRToolsUserSettings.webxr_primary
+	webxr_primary_button.selected = XRToolsUserSettings.webxr_primary
 
 
 # Called when the node enters the scene tree for the first time.
@@ -36,29 +42,27 @@ func _on_Reset_pressed():
 	if XRToolsUserSettings:
 		XRToolsUserSettings.reset_to_defaults()
 		_update()
+		emit_signal("player_height_changed", XRToolsUserSettings.player_height)
+
 
 # Input settings changed
 func _on_SnapTurningCB_pressed():
-	XRToolsUserSettings.snap_turning = $Input/SnapTurning/SnapTurningCB.button_pressed
+	XRToolsUserSettings.snap_turning = snap_turning_button.button_pressed
+
 
 # Player settings changed
 func _on_PlayerHeightSlider_drag_ended(_value_changed):
-	XRToolsUserSettings.player_height_adjust = $Player/PlayerHeight/PlayerHeightSlider.value
-
-
-func _on_PlayerHeightStandard_pressed():
-	if camera.is_empty():
-		return
-
-	var camera_node = get_node_or_null(camera)
-	if !camera_node:
-		return
-
-	var base_height = camera_node.transform.origin.y + player_head_height
-	var height_adjust = XRTools.get_player_standard_height() - base_height
-	XRToolsUserSettings.player_height_adjust = height_adjust
-	$Player/PlayerHeight/PlayerHeightSlider.value = XRToolsUserSettings.player_height_adjust
+	XRToolsUserSettings.player_height = player_height_slider.value
+	emit_signal("player_height_changed", XRToolsUserSettings.player_height)
 
 
 func _on_web_xr_primary_item_selected(index: int) -> void:
 	XRToolsUserSettings.webxr_primary = index
+
+
+func _on_y_axis_dead_zone_slider_value_changed(value):
+	XRToolsUserSettings.y_axis_dead_zone = y_deadzone_slider.value
+
+func _on_x_axis_dead_zone_slider_value_changed(value):
+	XRToolsUserSettings.x_axis_dead_zone = x_deadzone_slider.value
+

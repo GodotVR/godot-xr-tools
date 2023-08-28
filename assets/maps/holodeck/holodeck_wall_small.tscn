@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://cjwolyrlp00gv"]
+
+[ext_resource type="Material" uid="uid://c5no820h1vdbl" path="res://assets/maps/holodeck/materials/holodeck_grid.material" id="1_pps1f"]
+[ext_resource type="Material" uid="uid://djndismnbsfc2" path="res://assets/maps/holodeck/materials/holodeck_grid_with_alpha.material" id="2_hld3i"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_r6c4s"]
+size = Vector2(14, 7)
+
+[sub_resource type="QuadMesh" id="QuadMesh_gs3in"]
+lightmap_size_hint = Vector2i(126, 21)
+size = Vector2(14, 3)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_v8rwh"]
+size = Vector3(24, 10, 1)
+
+[node name="Wall1" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -7)
+
+[node name="TopWall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
+layers = 3
+material_override = ExtResource("1_pps1f")
+mesh = SubResource("QuadMesh_r6c4s")
+skeleton = NodePath("../..")
+
+[node name="BottomWall" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.5, 0)
+layers = 3
+material_override = ExtResource("2_hld3i")
+mesh = SubResource("QuadMesh_gs3in")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.5)
+shape = SubResource("BoxShape3D_v8rwh")

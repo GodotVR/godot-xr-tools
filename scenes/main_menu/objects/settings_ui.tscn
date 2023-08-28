@@ -9,10 +9,10 @@
 [ext_resource type="Resource" uid="uid://bhvrpfo4ecbub" path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" id="7_tfhna"]
 
 [sub_resource type="BoxMesh" id="1"]
-size = Vector3(0.65, 0.525, 0.02)
+size = Vector3(0.7, 0.7, 0.02)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_7u64y"]
-size = Vector3(0.65, 0.2, 0.5)
+size = Vector3(0.65, 0.2, 0.650062)
 
 [node name="SettingsUI" type="Node3D"]
 script = ExtResource("3")
@@ -24,9 +24,9 @@ surface_material_override/0 = ExtResource("2_jyjdc")
 
 [node name="Viewport2Din3D" parent="Screen" instance=ExtResource("1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.015)
-screen_size = Vector2(0.625, 0.5)
-viewport_size = Vector2(250, 200)
+screen_size = Vector2(0.625, 0.625)
 scene = ExtResource("2")
+viewport_size = Vector2(250, 250)
 
 [node name="CSGCylinder" type="CSGCylinder3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)

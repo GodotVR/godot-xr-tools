@@ -1,4 +1,5 @@
 @tool
+class_name DemoStaging
 extends XRToolsStaging
 
 ## Introduction
@@ -24,20 +25,23 @@ extends XRToolsStaging
 
 var scene_is_loaded : bool = false
 
+# Stores which hand the control pad is bound to
+var control_pad_hand : String = "LEFT"
+
 
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
 
-func _on_Staging_scene_loaded(_scene):
+func _on_Staging_scene_loaded(_scene, _user_data):
 	# We only show the press to continue the first time we load a scene
 	# to give the player time to put their headset on.
 	prompt_for_continue = false
 	scene_is_loaded = true
 
 
-func _on_Staging_scene_exiting(_scene):
+func _on_Staging_scene_exiting(_scene, _user_data):
 	# We no longer have an active scene
 	scene_is_loaded = false
 

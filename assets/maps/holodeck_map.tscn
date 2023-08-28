@@ -1,0 +1,84 @@
+[gd_scene load_steps=11 format=3 uid="uid://ca6c2h3xsflxf"]
+
+[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="1_ggqvk"]
+[ext_resource type="Material" uid="uid://bhchqeutlu0os" path="res://assets/maps/holodeck/materials/floor.material" id="1_w8tvf"]
+[ext_resource type="Material" uid="uid://c5no820h1vdbl" path="res://assets/maps/holodeck/materials/holodeck_grid.material" id="2_bu2ws"]
+[ext_resource type="PackedScene" uid="uid://ca4dy4a8x7myp" path="res://assets/maps/holodeck/holodeck_wall.tscn" id="2_eifp0"]
+
+[sub_resource type="QuadMesh" id="7"]
+size = Vector2(96, 96)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_w36qy"]
+size = Vector3(100, 2, 100)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_sy4yq"]
+size = Vector2(24, 24)
+orientation = 2
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1q432"]
+size = Vector3(24, 24, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_0bpjd"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_4qh5r"]
+metallic = 1.0
+roughness = 0.3
+
+[node name="HolodeckMap" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("1_ggqvk")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.814705, -0.576268, -0.0645869, 0.185005, 0.152748, 0.970794, -0.549572, -0.802859, 0.231057, 0, 5.09148, 0)
+light_energy = 0.8
+
+[node name="Ground" type="StaticBody3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+layers = 3
+mesh = SubResource("7")
+surface_material_override/0 = ExtResource("1_w8tvf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+shape = SubResource("BoxShape3D_w36qy")
+
+[node name="Wall1" parent="." instance=ExtResource("2_eifp0")]
+
+[node name="Wall2" parent="." instance=ExtResource("2_eifp0")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 12, 5, 0)
+
+[node name="Wall3" parent="." instance=ExtResource("2_eifp0")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 5, 12)
+
+[node name="Wall4" parent="." instance=ExtResource("2_eifp0")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -12, 5, 0)
+
+[node name="Roof" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Roof"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 5, 12)
+layers = 3
+material_override = ExtResource("2_bu2ws")
+mesh = SubResource("PlaneMesh_sy4yq")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Roof"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 5.5, 12.5)
+shape = SubResource("BoxShape3D_1q432")
+
+[node name="TestReflection" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.75654, 0.468747)
+visible = false
+mesh = SubResource("SphereMesh_0bpjd")
+surface_material_override/0 = SubResource("StandardMaterial3D_4qh5r")
+
+[node name="ReflectionProbe" type="ReflectionProbe" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, 0)
+size = Vector3(25, 15, 25)
+box_projection = true
+interior = true
+cull_mask = 2

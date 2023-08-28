@@ -1,7 +1,27 @@
+# 4.2.0
+- Environments can now be set normally in scenes loaded through the staging system.
+- Fixed issue with not being able to push rigid bodies when colliding with them.
+- Fixed player movement on slopes.
+- Fixed lag in finger-poke.
+- Added initial collision hand support.
+- Added support for custom materials for 2D in 3D viewport
+- Updated pointer to support visibility properties and events
+- Modified virtual keyboard to expose viewport controls and default to unshaded
+- Cleaned up teleport and added more properties for customization
+- Modified pickup highlighting to support pickables in snap-zones
+- Added "UI Objects" layer 23 for viewports to support interaction by pointer and poking
+- Fixed player scaling issues with crouching and poke
+- **minor-breakage** Added support for passing user data between staged scenes with default handling for spawn-points
+- Moved teleport logic to player and added teleport area node
+- Change pointer event dispatching
+- Added multi-touch on 2D in 3D viewports and virtual-keyboard
+- Added option to disable laser-pointers when close to specific bodies/areas
+
 # 4.1.0
 - Enhanced grappling to support collision and target layers
 - Added Godot Editor XR Tools menu for layers and openxr configuration
 - Improved gliding to support roll-turning while flapping
+- Added render_target_size_multiplier to StartXR (requires Godot 4.1+)
 
 # 4.0.0
 - Conversion to Godot 4

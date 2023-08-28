@@ -1,0 +1,158 @@
+[gd_resource type="ShaderMaterial" load_steps=14 format=3 uid="uid://og4bdoukiu8l"]
+
+[sub_resource type="VisualShaderNodeFloatFunc" id="8"]
+output_port_for_preview = 0
+function = 17
+
+[sub_resource type="VisualShaderNodeInput" id="14"]
+input_name = "time"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="19"]
+default_input_values = [0, 0.0, 1, 0.8]
+operator = 2
+
+[sub_resource type="VisualShaderNodeVectorOp" id="23"]
+default_input_values = [0, Vector2(0, 0), 1, Vector2(1.25, 0)]
+op_type = 0
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatOp" id="24"]
+
+[sub_resource type="VisualShaderNodeVectorOp" id="25"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="28"]
+output_port_for_preview = 0
+default_input_values = [0, 0.4, 1, 0.5, 2, 0.0]
+
+[sub_resource type="VisualShaderNodeSmoothStep" id="29"]
+output_port_for_preview = 0
+default_input_values = [0, 1.0, 1, 0.4, 2, 0.0]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="30"]
+output_port_for_preview = 0
+operator = 7
+
+[sub_resource type="VisualShaderNodeFloatOp" id="31"]
+default_input_values = [0, 0.0, 1, 0.8]
+operator = 2
+
+[sub_resource type="VisualShaderNodeInput" id="21"]
+output_port_for_preview = 0
+expanded_output_ports = [0]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_sreim"]
+expanded_output_ports = [0]
+parameter_name = "beam_color"
+default_value_enabled = true
+default_value = Color(0.168627, 0.25098, 0.972549, 1)
+
+[sub_resource type="VisualShader" id="22"]
+code = "shader_type spatial;
+render_mode blend_add, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx, unshaded;
+
+uniform vec4 beam_color : source_color = vec4(0.168627, 0.250980, 0.972549, 1.000000);
+
+
+
+void fragment() {
+// ColorParameter:50
+	vec4 n_out50p0 = beam_color;
+
+
+// Input:2
+	float n_out2p0 = TIME;
+
+
+// FloatOp:25
+	float n_in25p1 = 0.80000;
+	float n_out25p0 = n_out2p0 * n_in25p1;
+
+
+// Input:5
+	vec2 n_out5p0 = UV;
+	float n_out5p2 = n_out5p0.g;
+
+
+// VectorOp:26
+	vec2 n_in26p1 = vec2(1.25000, 0.00000);
+	vec2 n_out26p0 = vec2(n_out5p2) * n_in26p1;
+
+
+// FloatOp:27
+	float n_out27p0 = n_out25p0 + n_out26p0.x;
+
+
+// FloatFunc:12
+	float n_out12p0 = fract(n_out27p0);
+
+
+// SmoothStep:46
+	float n_in46p0 = 0.40000;
+	float n_in46p1 = 0.50000;
+	float n_out46p0 = smoothstep(n_in46p0, n_in46p1, n_out12p0);
+
+
+// SmoothStep:47
+	float n_in47p0 = 1.00000;
+	float n_in47p1 = 0.40000;
+	float n_out47p0 = smoothstep(n_in47p0, n_in47p1, n_out12p0);
+
+
+// FloatOp:48
+	float n_out48p0 = min(n_out46p0, n_out47p0);
+
+
+// FloatOp:49
+	float n_in49p1 = 0.80000;
+	float n_out49p0 = n_out48p0 * n_in49p1;
+
+
+// VectorOp:40
+	vec3 n_out40p0 = vec3(n_out50p0.xyz) * vec3(n_out49p0);
+
+
+// Output:0
+	ALBEDO = n_out40p0;
+	ALPHA = n_out49p0;
+
+
+}
+"
+graph_offset = Vector2(118.2, -413.764)
+modes/blend = 1
+modes/cull = 2
+flags/unshaded = true
+nodes/fragment/0/position = Vector2(1820, 0)
+nodes/fragment/2/node = SubResource("14")
+nodes/fragment/2/position = Vector2(-520, 40)
+nodes/fragment/5/node = SubResource("21")
+nodes/fragment/5/position = Vector2(-580, 280)
+nodes/fragment/12/node = SubResource("8")
+nodes/fragment/12/position = Vector2(360, 160)
+nodes/fragment/25/node = SubResource("19")
+nodes/fragment/25/position = Vector2(-80, 20)
+nodes/fragment/26/node = SubResource("23")
+nodes/fragment/26/position = Vector2(-220, 280)
+nodes/fragment/27/node = SubResource("24")
+nodes/fragment/27/position = Vector2(126, 105)
+nodes/fragment/40/node = SubResource("25")
+nodes/fragment/40/position = Vector2(1617, -84)
+nodes/fragment/46/node = SubResource("28")
+nodes/fragment/46/position = Vector2(800, -100)
+nodes/fragment/47/node = SubResource("29")
+nodes/fragment/47/position = Vector2(800, 400)
+nodes/fragment/48/node = SubResource("30")
+nodes/fragment/48/position = Vector2(1071, 42)
+nodes/fragment/49/node = SubResource("31")
+nodes/fragment/49/position = Vector2(1302, 84)
+nodes/fragment/50/node = SubResource("VisualShaderNodeColorParameter_sreim")
+nodes/fragment/50/position = Vector2(1160, -460)
+nodes/fragment/connections = PackedInt32Array(2, 0, 25, 0, 25, 0, 27, 0, 26, 0, 27, 1, 27, 0, 12, 0, 12, 0, 47, 2, 46, 0, 48, 0, 47, 0, 48, 1, 48, 0, 49, 0, 49, 0, 0, 1, 40, 0, 0, 0, 49, 0, 40, 1, 5, 2, 26, 0, 12, 0, 46, 2, 50, 0, 40, 0)
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = SubResource("22")
+shader_parameter/beam_color = Color(0.972549, 0.168627, 0.25098, 1)

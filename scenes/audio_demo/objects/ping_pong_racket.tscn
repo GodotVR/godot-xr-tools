@@ -1,0 +1,50 @@
+[gd_scene load_steps=11 format=3 uid="uid://coa22qqgjs0yb"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_01ph5"]
+[ext_resource type="Script" path="res://scenes/pickable_demo/objects/knife.gd" id="2_mckv5"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="3_3aj4h"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="4_vvlyb"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_nd4we"]
+[ext_resource type="PackedScene" uid="uid://bl6lg0rqvld7m" path="res://assets/digitaln8m4r3/models/pingpong/ping_pong_racket.glb" id="6_0mnuj"]
+[ext_resource type="Material" uid="uid://c3npqgwm8y0sc" path="res://assets/digitaln8m4r3/materials/ping_pong.material" id="7_cocq2"]
+[ext_resource type="Resource" uid="uid://dcym1383fvib1" path="res://scenes/audio_demo/audio/pickable/audio_racket.tres" id="7_riksm"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="8_urrs4"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5u67t"]
+points = PackedVector3Array(0.0840189, 0.0823676, 0.00530444, 0.102649, 0.0790942, 0.00530444, 0.0840189, 0.0823676, -0.00530654, 0.0666312, 0.0822708, 0.00530444, -0.111988, -1.61305e-05, 0.0106485, -0.0188112, -7.45058e-09, 0.0106506, -0.0163554, -7.45058e-09, 0.0106485, 0.121278, 0.0729505, 0.00530444, 0.102649, 0.0790942, -0.00530654, 0.0666312, 0.0822708, -0.00530654, -0.0163554, -7.45058e-09, -0.0106506, -0.0588649, -7.45058e-09, -0.0106506, -0.111988, -1.61305e-05, -0.0106506, 0.0517275, 0.0798521, 0.00530444, -0.110802, 0.009917, 0.00988536, -0.11371, -1.61305e-05, 0.00745833, -0.110802, -0.00993314, 0.00988536, 0.0666312, -0.082287, 0.00530444, 0.0840189, -0.0823676, 0.00530444, 0.102649, -0.0791103, 0.00530444, 0.121278, -0.0729666, 0.00530444, 0.138638, -0.06542, 0.00530444, 0.153541, -0.0534228, 0.00530444, 0.165001, -0.0377814, 0.00530444, 0.172199, -0.0195599, 0.00530444, 0.174627, -7.45058e-09, 0.00530444, 0.172199, 0.0195438, 0.00530444, 0.165001, 0.0377652, 0.00530444, 0.153541, 0.0534067, 0.00530444, 0.138638, 0.0654039, 0.00530444, 0.121278, 0.0729505, -0.00530654, 0.0517275, 0.0798521, -0.00530654, -0.110802, 0.009917, -0.00988746, 0.138638, 0.0654039, -0.00530654, 0.153541, 0.0534067, -0.00530654, 0.165001, 0.0377652, -0.00530654, 0.172199, 0.0195438, -0.00530654, 0.174655, -7.45058e-09, -0.00530654, 0.172199, -0.0195599, -0.00530654, 0.165001, -0.0377814, -0.00530654, 0.153541, -0.0534228, -0.00530654, 0.138638, -0.06542, -0.00530654, 0.121278, -0.0729666, -0.00530654, 0.102649, -0.0791103, -0.00530654, 0.0840189, -0.0823676, -0.00530654, -0.110802, -0.00993314, -0.00988746, -0.11371, -1.61305e-05, -0.00746042, 0.0666312, -0.082287, -0.00530654, 0.0402957, 0.0765141, 0.00530444, -0.109221, 0.0161091, 0.00912014, -0.112213, 0.009917, 0.0067494, -0.112213, -0.00993314, 0.0067494, -0.109221, -0.0161252, 0.00912014, 0.0517275, -0.0798521, 0.00530444, 0.174655, -7.45058e-09, -5.58794e-09, 0.0402957, 0.0765141, -0.00530654, -0.109221, 0.0161091, -0.00912223, -0.112213, 0.009917, -0.0067515, -0.109221, -0.0161252, -0.00912223, -0.112213, -0.00993314, -0.0067515, 0.0517275, -0.0798521, -0.00530654, -0.109221, 0.0196889, 0.00604047, -0.109221, -0.019705, 0.00604047, 0.0402957, -0.0765303, 0.00530444, -0.109221, 0.0196889, -0.00604257, -0.109221, -0.019705, -0.00604257, 0.0402957, -0.0765303, -0.00530654)
+
+[node name="PingPongRacket" instance=ExtResource("1_01ph5")]
+collision_mask = 65543
+mass = 0.87
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
+script = ExtResource("2_mckv5")
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("ConvexPolygonShape3D_5u67t")
+
+[node name="GrabPointHandLeft" parent="." index="1" instance=ExtResource("3_3aj4h")]
+transform = Transform3D(-0.0412479, 0.99089, -0.128202, -5.60865e-09, 0.128311, 0.991734, 0.999149, 0.040907, -0.00529256, -0.0267695, -0.0835771, 0.0177133)
+
+[node name="GrabPointHandRight" parent="." index="2" instance=ExtResource("4_vvlyb")]
+transform = Transform3D(0.0412479, 0.99089, -0.128202, 0, 0.128311, 0.991734, 0.999149, -0.0409069, 0.00529256, -0.027, -0.084, -0.018)
+
+[node name="GrabPointGripLeft" parent="." index="3" instance=ExtResource("3_3aj4h")]
+transform = Transform3D(0.0412478, -0.99089, 0.128202, -5.60865e-09, 0.128311, 0.991734, -0.999149, -0.0409069, 0.00529255, -0.136863, -0.084, -0.018)
+
+[node name="GrabPointGripRight" parent="." index="4" instance=ExtResource("4_vvlyb")]
+transform = Transform3D(-0.041248, -0.99089, 0.128202, 0, 0.128311, 0.991734, -0.999149, 0.040907, -0.00529257, -0.137, -0.084, 0.018)
+
+[node name="HighlightRing" parent="." index="5" instance=ExtResource("5_nd4we")]
+
+[node name="ping_pong_racket" parent="." index="6" instance=ExtResource("6_0mnuj")]
+
+[node name="racket" parent="ping_pong_racket" index="0"]
+surface_material_override/0 = ExtResource("7_cocq2")
+
+[node name="PickableAudio" parent="." index="7" instance=ExtResource("8_urrs4")]
+pickable_audio_type = ExtResource("7_riksm")
+
+[editable path="ping_pong_racket"]

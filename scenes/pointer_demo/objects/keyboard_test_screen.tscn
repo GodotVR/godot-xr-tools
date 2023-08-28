@@ -5,6 +5,11 @@
 [node name="KeyboardTestScreen" type="Node2D"]
 script = ExtResource("1")
 
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 281.0
+offset_bottom = 194.0
+color = Color(0.247059, 0.247059, 0.247059, 1)
+
 [node name="Container" type="VBoxContainer" parent="."]
 offset_left = 10.0
 offset_top = 10.0
@@ -13,13 +18,9 @@ offset_bottom = 157.0
 
 [node name="Header" type="HBoxContainer" parent="Container"]
 layout_mode = 2
-offset_right = 250.0
-offset_bottom = 54.0
 
 [node name="Label" type="Label" parent="Container/Header"]
 layout_mode = 2
-offset_right = 250.0
-offset_bottom = 54.0
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_constants/line_spacing = 0
@@ -30,91 +31,58 @@ autowrap_mode = 2
 
 [node name="Line1" type="HBoxContainer" parent="Container"]
 layout_mode = 2
-offset_top = 58.0
-offset_right = 250.0
-offset_bottom = 83.0
 
 [node name="Label" type="Label" parent="Container/Line1"]
 layout_mode = 2
-offset_top = 2.0
-offset_right = 38.0
-offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
 text = "Line 1:"
 vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line1"]
-custom_minimum_size = Vector2i(0, 25)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-offset_left = 42.0
-offset_right = 250.0
-offset_bottom = 25.0
 size_flags_horizontal = 3
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 12
 
 [node name="Line2" type="HBoxContainer" parent="Container"]
 layout_mode = 2
-offset_top = 87.0
-offset_right = 250.0
-offset_bottom = 112.0
 
 [node name="Label" type="Label" parent="Container/Line2"]
 layout_mode = 2
-offset_top = 2.0
-offset_right = 38.0
-offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
 text = "Line 2:"
 vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line2"]
-custom_minimum_size = Vector2i(0, 25)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-offset_left = 42.0
-offset_right = 250.0
-offset_bottom = 25.0
 size_flags_horizontal = 3
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 12
 
 [node name="Line3" type="HBoxContainer" parent="Container"]
 layout_mode = 2
-offset_top = 116.0
-offset_right = 250.0
-offset_bottom = 141.0
 
 [node name="Label" type="Label" parent="Container/Line3"]
 layout_mode = 2
-offset_top = 2.0
-offset_right = 38.0
-offset_bottom = 22.0
 theme_override_font_sizes/font_size = 12
 text = "Line 3:"
 vertical_alignment = 1
 
 [node name="TextEdit" type="TextEdit" parent="Container/Line3"]
-custom_minimum_size = Vector2i(0, 25)
+custom_minimum_size = Vector2(0, 25)
 layout_mode = 2
-offset_left = 42.0
-offset_right = 250.0
-offset_bottom = 25.0
 size_flags_horizontal = 3
 theme_override_constants/line_spacing = 0
 theme_override_font_sizes/font_size = 12
 
 [node name="Footer" type="HBoxContainer" parent="Container"]
 layout_mode = 2
-offset_top = 145.0
-offset_right = 250.0
-offset_bottom = 170.0
 alignment = 2
 
 [node name="ClearButton" type="Button" parent="Container/Footer"]
 layout_mode = 2
-offset_left = 211.0
-offset_right = 250.0
-offset_bottom = 25.0
 theme_override_font_sizes/font_size = 12
 text = "Clear"
 

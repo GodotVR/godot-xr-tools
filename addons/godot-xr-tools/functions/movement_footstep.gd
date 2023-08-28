@@ -133,7 +133,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 # Update the foot spatial to be where the players foot is
 func _update_foot_spatial() -> void:
 	# Project the players camera down to the XZ plane (real-world space)
-	var local_foot := Plane.PLANE_XZ.project(player_body.camera_node.position)
+	var local_foot := player_body.camera_node.position.slide(Vector3.UP)
 
 	# Move the foot_spatial to the local foot in the global origin space
 	_foot_spatial.global_position = player_body.origin_node.global_transform * local_foot
