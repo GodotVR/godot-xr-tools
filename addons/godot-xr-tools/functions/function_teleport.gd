@@ -12,6 +12,28 @@ extends Node3D
 ## a teleport function on that controller.
 
 
+## Signal emitted when the teleporter is activated
+signal teleporter_activated()
+
+## Signal emitted when the teleporter's ability to perform a teleportation changes
+signal can_teleport_changed(can_teleport)
+
+# signal emitted when the teleporter beam hits a suitable target
+signal teleporter_target_entered(node, at)
+
+# signal emitted when the teleporter beam moves along a suitable target
+signal teleporter_target_moved(node, from, to)
+
+# signal emitted when the teleporter beam leaves a suitable target
+signal teleporter_target_exited(node, at)
+
+## Signal emitted when the player gets teleportet to the teleporter's target location
+signal teleported_to(location)
+
+## Signal emitted when the teleporter is deactivated
+signal teleporter_deactivated()
+
+
 # Default teleport collision mask of all
 const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
@@ -84,8 +106,10 @@ var player_material : StandardMaterial3D = _DefaultMaterial :  set = set_player_
 
 
 var is_on_floor : bool = true
-var is_teleporting : bool = false
-var can_teleport : bool = true
+var is_teleporting : bool = false: set = set_is_teleporting
+var can_teleport : bool = true: set = set_can_teleport
+var target_node : Node3D = null
+var target_hit_pos : Vector3
 var teleport_rotation : float = 0.0;
 var floor_normal : Vector3 = Vector3.UP
 var last_target_transform : Transform3D = Transform3D()
@@ -277,6 +301,9 @@ func _physics_process(delta):
 						if not valid_teleport_mask & collider_mask:
 							is_on_floor = false
 
+						if is_on_floor:
+							_update_target(intersects["collider"], intersects["position"])
+
 				# we are colliding, find our if we're colliding on a wall or
 				# floor, one we can do, the other nope...
 				cast_length += (collided_at - target_global_origin).length()
@@ -329,8 +356,10 @@ func _physics_process(delta):
 			new_transform.basis.x = new_transform.basis.y.cross(new_transform.basis.z).normalized()
 			new_transform.basis.z = new_transform.basis.x.cross(new_transform.basis.y).normalized()
 
+			_clear_target()
 			# Teleport the player
 			player_body.teleport(new_transform)
+			_report_teleported_to(new_transform.origin)
 
 		# and disable
 		is_teleporting = false;
@@ -452,6 +481,26 @@ func _update_target_texture():
 		material.albedo_texture = target_texture
 
 
+# Set property telling whether all conditions for successful teleportation are met
+func set_can_teleport(new_value : bool) -> void:
+	if new_value != can_teleport:
+		can_teleport = new_value
+		if not can_teleport:
+			# Can't teleport => no suitable target
+			_clear_target()
+		_report_can_teleport_changed(can_teleport)
+
+
+# Set is_teleporting property and notify about its changes
+func set_is_teleporting(new_value : bool) -> void:
+	if new_value != is_teleporting:
+		is_teleporting = new_value
+		if is_teleporting:
+			_report_activated()
+		else:
+			_report_deactivated()
+
+
 # Player height update handler
 func _update_player_height() -> void:
 	if collision_shape:
@@ -471,7 +520,6 @@ func _update_player_radius():
 	if capsule:
 		capsule.mesh.height = player_height
 		capsule.mesh.radius = player_radius
-
 
 # Update the player scene
 func _update_player_scene() -> void:
@@ -493,3 +541,72 @@ func _update_player_scene() -> void:
 func _update_player_material():
 	if player_material:
 		capsule.set_surface_override_material(0, player_material)
+
+
+# Teleporter target doesn't hit something suitable
+func _clear_target():
+	_update_target(null, Vector3.ZERO)
+
+
+# Teleporter target hit something suitiable change handler
+func _update_target(node: Node3D, hit_pos: Vector3) -> void:
+	if node == target_node:
+		if (hit_pos != target_hit_pos):
+			_report_target_moved(target_node, target_hit_pos, hit_pos)
+	else:
+		if target_node != null:
+			_report_target_exited(target_node, target_hit_pos)
+		if node != null:
+			_report_target_entered(node, hit_pos)
+	target_node = node
+	target_hit_pos = hit_pos
+
+
+# Report events for teleporter activation
+func _report_activated() -> void:
+	teleporter_activated.emit()
+
+
+# Report events for teleportation ability changes
+func _report_can_teleport_changed(can_teleport : bool) -> void:
+	can_teleport_changed.emit(can_teleport)
+
+
+# Report events for the teleporter target entering a node
+func _report_target_entered(node: Node3D, at: Vector3) -> void:
+	teleporter_target_entered.emit(node, at)
+	if is_instance_valid(node):
+		if node.has_signal("teleporter_target_entered"):
+			node.emit_signal("teleporter_target_entered", at)
+		elif node.has_method("teleporter_target_entered"):
+			node.teleporter_target_entered(at)
+
+
+# Report event for the teleporter target moving on a node
+func _report_target_moved(node: Node3D, from: Vector3, to: Vector3) -> void:
+	teleporter_target_moved.emit(node, from, to)
+	if is_instance_valid(node):
+		if node.has_signal("teleporter_target_moved"):
+			node.emit_signal("teleporter_target_moved", from, to)
+		elif node.has_method("teleporter_target_moved"):
+			node.teleporter_target_moved(from, to)
+
+
+# Report events for the teleporter target exiting a node
+func _report_target_exited(node: Node3D, at: Vector3) -> void:
+	teleporter_target_exited.emit(node, at)
+	if is_instance_valid(node):
+		if node.has_signal("teleporter_target_exited"):
+			node.emit_signal("teleporter_target_exited", at)
+		elif node.has_method("teleporter_target_exited"):
+			node.teleporter_target_exited(at)
+
+
+# Report events for teleportation to target location
+func _report_teleported_to(location : Vector3) -> void:
+	teleported_to.emit(location)
+
+
+# Report events for teleporter deactivation
+func _report_deactivated() -> void:
+	teleporter_deactivated.emit()
