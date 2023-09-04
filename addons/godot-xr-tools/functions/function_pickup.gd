@@ -141,8 +141,8 @@ func _ready():
 	_update_colliders()
 
 	# Monitor Grab Button
-	get_parent().connect("button_pressed", _on_button_pressed)
-	get_parent().connect("button_released", _on_button_released)
+	_controller.connect("button_pressed", _on_button_pressed)
+	_controller.connect("button_released", _on_button_released)
 
 
 # Called on each frame to update the pickup
