@@ -29,7 +29,10 @@ The following shows the hand grab-point configuration options:
 ![Hand Config]({{ site.url }}/assets/img/grab_point/grab_point_hand_config.png)
 > Changing the Editor Preview Mode has no effect on the game and is just used to
 > help the alignment process.
-
+> 
+> Changing the Transform's `Scale` properties for the Grab Point Node will resize
+> the object when it is picked up. Modification of this property is likely not
+> necessary.
 ## Snap-Zone Grab Points
 Snap-zone grab-points can be configured to control which snap-zones the object
 can be snapped into, and the orientation when snapping. To view the snap-zone
