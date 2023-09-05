@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxjtki6y27hay"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/popup/popup.gd" id="1_tdqnv"]
+
+[node name="Popup" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, 0)
+script = ExtResource("1_tdqnv")
