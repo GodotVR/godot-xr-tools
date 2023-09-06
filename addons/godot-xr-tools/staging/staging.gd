@@ -196,14 +196,27 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 		ResourceLoader.load_threaded_request(p_scene_path)
 
 		# Loop waiting for the scene to load
+		var res : ResourceLoader.ThreadLoadStatus
 		while true:
 			var progress := []
-			var res := ResourceLoader.load_threaded_get_status(p_scene_path, progress)
+			res = ResourceLoader.load_threaded_get_status(p_scene_path, progress)
 			if res != ResourceLoader.THREAD_LOAD_IN_PROGRESS:
 				break;
 
 			$LoadingScreen.progress = progress[0]
 			await get_tree().create_timer(0.1).timeout
+
+		# Handle load error
+		if res != ResourceLoader.THREAD_LOAD_LOADED:
+			# Report the error to the log and console
+			push_error("Error ", res, " loading resource ", p_scene_path)
+
+			# Halt if running in the debugger
+			# gdlint:ignore=expression-not-assigned
+			breakpoint
+
+			# Terminate with a non-zero error code to indicate failure
+			get_tree().quit(1)
 
 		# Get the loaded scene
 		new_scene = ResourceLoader.load_threaded_get(p_scene_path)
