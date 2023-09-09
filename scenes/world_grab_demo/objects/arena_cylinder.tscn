@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3x7ha0qme5uv"]
+
+[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="1_mutqd"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_k887j"]
+height = 0.5
+radius = 0.2
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_40nqw"]
+material = ExtResource("1_mutqd")
+top_radius = 0.2
+bottom_radius = 0.2
+height = 0.5
+radial_segments = 16
+rings = 1
+
+[node name="Cylinder" type="StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_k887j")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("CylinderMesh_40nqw")
