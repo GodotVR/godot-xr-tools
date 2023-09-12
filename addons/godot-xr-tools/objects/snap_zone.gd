@@ -24,7 +24,7 @@ enum SnapMode {
 
 
 ## Enable or disable snap-zone
-@export var enabled : bool = true
+@export var enabled : bool = true: set = _set_enabled
 
 ## Optional audio stream to play when a object snaps to the zone
 @export var stash_sound : AudioStream
@@ -75,7 +75,7 @@ func _ready():
 
 	# Perform the initial object check when next idle
 	if not Engine.is_editor_hint():
-		call_deferred("_initial_object_check")
+		_initial_object_check.call_deferred()
 
 
 # Called on each frame to update the pickup
@@ -159,8 +159,8 @@ func drop_object() -> void:
 	# let go of this object
 	picked_up_object.let_go(Vector3.ZERO, Vector3.ZERO)
 	picked_up_object = null
-	emit_signal("has_dropped")
-	emit_signal("highlight_updated", self, true)
+	has_dropped.emit()
+	highlight_updated.emit(self, enabled)
 
 
 # Check for an initial object pickup
@@ -170,8 +170,8 @@ func _initial_object_check() -> void:
 		# Force pick-up the initial object
 		pick_up_object(get_node(initial_object))
 	else:
-		# Show highlight when empty
-		emit_signal("highlight_updated", self, true)
+		# Show highlight when empty and enabled
+		highlight_updated.emit(self, enabled)
 
 
 # Called when a body enters the snap zone
@@ -206,7 +206,7 @@ func _on_snap_zone_body_entered(target: Node3D) -> void:
 
 	# Show highlight when something could be snapped
 	if not is_instance_valid(picked_up_object):
-		emit_signal("close_highlight_updated", self, true)
+		close_highlight_updated.emit(self, enabled)
 
 
 # Called when a body leaves the snap zone
@@ -220,7 +220,7 @@ func _on_snap_zone_body_exited(target: Node3D) -> void:
 
 	# Hide highlight when nothing could be snapped
 	if _object_in_grab_area.is_empty():
-		emit_signal("close_highlight_updated", self, false)
+		close_highlight_updated.emit(self, false)
 
 
 # Test if this snap zone has a picked up object
@@ -255,8 +255,17 @@ func pick_up_object(target: Node3D) -> void:
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
-		emit_signal("has_picked_up", picked_up_object)
-		emit_signal("highlight_updated", self, false)
+		has_picked_up.emit(picked_up_object)
+		highlight_updated.emit(self, false)
+
+
+# Called when the enabled property has been modified
+func _set_enabled(p_enabled: bool) -> void:
+	enabled = p_enabled
+	if is_inside_tree:
+		highlight_updated.emit(
+			self,
+			enabled and not is_instance_valid(picked_up_object))
 
 
 # Called when the grab distance has been modified
