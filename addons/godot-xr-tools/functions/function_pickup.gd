@@ -405,6 +405,7 @@ func _pick_up_object(target: Node3D) -> void:
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
+		picked_up_object.request_highlight(self, false)
 		emit_signal("has_picked_up", picked_up_object)
 
 
