@@ -1,3 +1,7 @@
+# 4.2.1
+- Fixed snap-zones showing highlight when disabled.
+- Fixed pickup leaving target highlighted after picking up.
+
 # 4.2.0
 - Environments can now be set normally in scenes loaded through the staging system.
 - Fixed issue with not being able to push rigid bodies when colliding with them.
