@@ -36,6 +36,9 @@ const DEFAULT_MASK := 0b0000_0000_0000_0000_1111_1111_1111_1111
 # How much displacement is required for the hand to start orienting to a surface
 const ORIENT_DISPLACEMENT := 0.05
 
+# Distance to teleport hands
+const TELEPORT_DISTANCE := 1.0
+
 
 ## Controls the hand collision mode
 @export var mode : CollisionHandMode = CollisionHandMode.COLLIDE
@@ -157,6 +160,11 @@ func _move_to_target():
 
 	# Handle TELEPORT
 	if mode == CollisionHandMode.TELEPORT:
+		global_transform = _target.global_transform
+		return
+
+	# Handle too far from target
+	if global_position.distance_to(_target.global_position) > TELEPORT_DISTANCE:
 		global_transform = _target.global_transform
 		return
 

@@ -1,6 +1,7 @@
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.
 - Fixed pickup leaving target highlighted after picking up.
+- Fixed collision hands getting stuck too far from the real hands.
 
 # 4.2.0
 - Environments can now be set normally in scenes loaded through the staging system.
