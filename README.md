@@ -63,3 +63,4 @@ Further resources:
 - [Bastiaan Olij on Twitter](https://twitter.com/mux213) for regular updates
 - [Bastiaan Olij on Youtube](https://www.youtube.com/BastiaanOlij) for tutorials
 - [Malcolm Nixon on Youtube](https://www.youtube.com/user/MalcolmANixon) for demonstrations of Godot XR Tools.
+- [DigitalN8m4r3 on Youtube](https://youtube.com/playlist?list=PLBpYNPEE9RKiB7Rnn1tDpMO5wQEG0WnUt&feature=shared) custom hand poses tutorial for Godot XR Tools
