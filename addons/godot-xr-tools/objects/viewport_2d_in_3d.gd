@@ -199,7 +199,8 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 
 # Handler for input eventsd
 func _input(event):
-	$Viewport.push_input(event)
+	if not (event is InputEventMouseButton):
+		$Viewport.push_input(event)
 
 
 # Process event
