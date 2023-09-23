@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/snap_zone.gd" id="1"]
 
 [sub_resource type="SphereShape3D" id="1"]
+resource_local_to_scene = true
 radius = 0.1
 
 [node name="SnapZone" type="Area3D"]
