@@ -1,3 +1,6 @@
+# 4.3.0
+- Upgraded project to Godot 4.1 as the new minimum version.
+
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.
 - Fixed pickup leaving target highlighted after picking up.
