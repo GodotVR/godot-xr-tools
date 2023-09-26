@@ -156,6 +156,13 @@ func _ready():
 			_grab_points.push_back(grab_point)
 
 
+# Called when the node exits the tree
+func _exit_tree():
+	# Ensure any hand poses we have applied are revoked on exit
+	if is_instance_valid(by_hand):
+		by_hand.remove_pose_override(self)
+
+
 # Test if this object can be picked up
 func can_pick_up(_by: Node3D) -> bool:
 	return enabled and _state == PickableState.IDLE
