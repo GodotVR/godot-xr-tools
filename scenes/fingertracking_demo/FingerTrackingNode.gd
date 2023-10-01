@@ -86,8 +86,9 @@ static func getovrhandrestdata(ovrhandmodel):
 
 func _on_left_hand_button_pressed(name):
 	print("_on_left_hand_button_pressed ", name)
-	var vel = 2.5*Vector3(-XRCamera.global_transform.basis.z.x, 0, -XRCamera.global_transform.basis.z.z)
-	PlayerBody.velocity = vel
+	if name == "select_button":
+		var vel = 2.5*Vector3(-XRCamera.global_transform.basis.z.x, 0, -XRCamera.global_transform.basis.z.z)
+		PlayerBody.velocity = vel
 
 func _on_left_hand_button_released(name):
 	print("_on_left_hand_button_released ", name)
