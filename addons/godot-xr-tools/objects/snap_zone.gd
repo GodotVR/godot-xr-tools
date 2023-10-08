@@ -137,7 +137,7 @@ func action():
 
 # Ignore highlighting requests from XRToolsFunctionPickup
 func request_highlight(from : Node, on : bool = true) -> void:
-	if picked_up_object:
+	if is_instance_valid(picked_up_object):
 		picked_up_object.request_highlight(from, on)
 
 
