@@ -33,7 +33,7 @@ controller we need to add the scene to the right hand:
 ![Direct Movement Setup]({{ site.url }}/assets/img/direct/direct_setup.png)
 
 > Note that we recommend adding the ability to your game for the user to configure
-  the movement controls. This can be achieved by modigying the MovementDirect 
+  the movement controls. This can be achieved by modifying the MovementDirect 
   configuration such as enabling or disabling.
 
 The functionality works out of the box but can be further configured:
