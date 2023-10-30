@@ -10,7 +10,7 @@ enum Type {
 
 	## Pointer pressed target
 	PRESSED,
-	
+
 	## Pointer double click target
 	DOUBLECLICK,
 

@@ -87,7 +87,7 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 		XRToolsPointerEvent.Type.PRESSED:
 			_presses[pointer] = true
 			pressed = true
-		
+
 		XRToolsPointerEvent.Type.DOUBLECLICK:
 			_presses[pointer] = true
 			pressed = true
@@ -133,7 +133,7 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 
 			XRToolsPointerEvent.Type.MOVED:
 				_report_mouse_move(pressed, last, at)
-				
+
 			XRToolsPointerEvent.Type.DOUBLECLICK:
 				_report_mouse_down(at)
 				_report_mouse_down_double_click(at)
