@@ -53,6 +53,9 @@ const SUPPRESS_MASK := 0b0000_0000_0100_0000_0000_0000_0000_0000
 ## Active button action
 @export var active_button_action : String = "trigger_click"
 
+## Double Click action
+@export var double_click_action : String = "ax_button"
+
 @export_group("Laser")
 
 ## Controls when the laser is visible
@@ -421,6 +424,13 @@ func _button_pressed() -> void:
 		last_collided_at = $RayCast.get_collision_point()
 		XRToolsPointerEvent.pressed(self, target, last_collided_at)
 
+# Pointer-activation button pressed handler
+func _button_doubleclick() -> void:
+	if $RayCast.is_colliding():
+		# Report doubleclick
+		target = $RayCast.get_collider()
+		last_collided_at = $RayCast.get_collision_point()
+		XRToolsPointerEvent.doubleclick(self, target, last_collided_at)
 
 # Pointer-activation button released handler
 func _button_released() -> void:
@@ -433,9 +443,15 @@ func _button_released() -> void:
 
 # Button pressed handler
 func _on_button_pressed(p_button : String, controller : XRController3D) -> void:
+	#detect if trigger or double click action
 	if p_button == active_button_action and enabled:
 		if controller == _active_controller:
 			_button_pressed()
+		else:
+			_active_controller = controller
+	if p_button == double_click_action and enabled:
+		if controller == _active_controller:
+			_button_doubleclick()
 		else:
 			_active_controller = controller
 
