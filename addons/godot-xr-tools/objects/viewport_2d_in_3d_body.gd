@@ -103,9 +103,6 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 	match type:
 		XRToolsPointerEvent.Type.PRESSED:
 			_report_touch_down(index, at)
-		
-		XRToolsPointerEvent.Type.DOUBLECLICK:
-			_report_mouse_down_double_click(at)
 
 		XRToolsPointerEvent.Type.RELEASED:
 			_report_touch_up(index, at)
@@ -136,6 +133,10 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 
 			XRToolsPointerEvent.Type.MOVED:
 				_report_mouse_move(pressed, last, at)
+				
+			XRToolsPointerEvent.Type.DOUBLECLICK:
+				_report_mouse_down(at)
+				_report_mouse_down_double_click(at)
 
 	# Clear pointer information on exit
 	if type == XRToolsPointerEvent.Type.EXITED:
