@@ -147,7 +147,7 @@ func pick_up(_by: Node3D, _with_controller: XRController3D) -> void:
 
 
 # Pickable Method: Player never graps snap-zone
-func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
+func let_go(_by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	pass
 
 
@@ -157,7 +157,7 @@ func drop_object() -> void:
 		return
 
 	# let go of this object
-	picked_up_object.let_go(Vector3.ZERO, Vector3.ZERO)
+	picked_up_object.let_go(self, Vector3.ZERO, Vector3.ZERO)
 	picked_up_object = null
 	has_dropped.emit()
 	highlight_updated.emit(self, enabled)

@@ -51,5 +51,6 @@ surface_material_override/0 = ExtResource("1_ycnf3")
 shape = SubResource("ConvexPolygonShape3D_v45tx")
 
 [node name="SnapZoneTeacup" parent="." instance=ExtResource("1")]
+grab_distance = 0.1
 snap_mode = 1
 snap_require = "Teacup"
