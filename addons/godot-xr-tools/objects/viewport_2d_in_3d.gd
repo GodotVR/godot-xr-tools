@@ -1,4 +1,6 @@
 @tool
+@icon("res://addons/godot-xr-tools/editor/icons/node.svg")
+class_name XRToolsViewport2DIn3D
 extends Node3D
 
 
@@ -107,12 +109,20 @@ var _screen_material : StandardMaterial3D
 var _dirty := _DIRTY_ALL
 
 
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsViewport2DIn3D"
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	is_ready = true
 
 	# Listen for pointer events on the screen body
 	$StaticBody3D.connect("pointer_event", _on_pointer_event)
+
+	# Update enabled when visibility changes
+	visibility_changed.connect(_update_enabled)
 
 	# Apply physics properties
 	_update_screen_size()
@@ -330,7 +340,7 @@ func _update_enabled() -> void:
 	if Engine.is_editor_hint():
 		return
 
-	$StaticBody3D/CollisionShape3D.disabled = !enabled
+	$StaticBody3D/CollisionShape3D.disabled = !enabled or !is_visible_in_tree()
 
 
 # Collision layer update handler

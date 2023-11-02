@@ -253,6 +253,39 @@ func _process(_delta):
 	last_collided_at = new_at
 
 
+## Find an [XRToolsFunctionPointer] node.
+##
+## This function searches from the specified node for an [XRToolsFunctionPointer]
+## assuming the node is a sibling of the pickup under an [XRController3D].
+static func find_instance(node : Node) -> XRToolsFunctionPointer:
+	return XRTools.find_xr_child(
+		XRHelpers.get_xr_controller(node),
+		"*",
+		"XRToolsFunctionPointer") as XRToolsFunctionPointer
+
+
+## Find the left [XRToolsFunctionPointer] node.
+##
+## This function searches from the specified node for the left controller
+## [XRToolsFunctionPointer] assuming the node is a sibling of the [XOrigin3D].
+static func find_left(node : Node) -> XRToolsFunctionPointer:
+	return XRTools.find_xr_child(
+		XRHelpers.get_left_controller(node),
+		"*",
+		"XRToolsFunctionPointer") as XRToolsFunctionPointer
+
+
+## Find the right [XRToolsFunctionPointer] node.
+##
+## This function searches from the specified node for the right controller
+## [XRToolsFunctionPointer] assuming the node is a sibling of the [XROrigin3D].
+static func find_right(node : Node) -> XRToolsFunctionPointer:
+	return XRTools.find_xr_child(
+		XRHelpers.get_right_controller(node),
+		"*",
+		"XRToolsFunctionPointer") as XRToolsFunctionPointer
+
+
 # Set pointer enabled property
 func set_enabled(p_enabled : bool) -> void:
 	enabled = p_enabled

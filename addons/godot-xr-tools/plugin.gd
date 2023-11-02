@@ -55,6 +55,7 @@ func _set_physics_layers() -> void:
 	ProjectSettings.set("layer_names/3d_physics/layer_21", "Pointable Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_22", "Hand Pose Areas")
 	ProjectSettings.set("layer_names/3d_physics/layer_23", "UI Objects")
+	ProjectSettings.set("layer_names/3d_physics/layer_24", "Popup UI")
 
 
 func _on_xr_tools_menu_pressed(id : int) -> void:

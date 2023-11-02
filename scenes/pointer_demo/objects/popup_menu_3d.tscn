@@ -1,0 +1,54 @@
+[gd_scene load_steps=8 format=3 uid="uid://dgawr3dqud5xl"]
+
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1_21tfb"]
+[ext_resource type="PackedScene" uid="uid://dih211imseahj" path="res://scenes/pointer_demo/objects/popup_menu_2d.tscn" id="2_ndymt"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_suuqe"]
+render_priority = 50
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.752941)
+
+[sub_resource type="QuadMesh" id="QuadMesh_yphgk"]
+resource_local_to_scene = true
+size = Vector2(0.75, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_oqexw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p1jcc"]
+render_priority = 50
+transparency = 1
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 1, 1, 0.752941)
+albedo_texture = SubResource("ViewportTexture_oqexw")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ot28o"]
+resource_local_to_scene = true
+size = Vector3(0.75, 1, 0.02)
+
+[node name="PopupMenu" instance=ExtResource("1_21tfb")]
+screen_size = Vector2(0.75, 1)
+collision_layer = 8388608
+scene = ExtResource("2_ndymt")
+viewport_size = Vector2(150, 200)
+material = SubResource("StandardMaterial3D_suuqe")
+transparent = 0
+unshaded = true
+
+[node name="Viewport" parent="." index="0"]
+transparent_bg = false
+size = Vector2i(150, 200)
+
+[node name="Screen" parent="." index="1"]
+mesh = SubResource("QuadMesh_yphgk")
+surface_material_override/0 = SubResource("StandardMaterial3D_p1jcc")
+
+[node name="StaticBody3D" parent="." index="2"]
+collision_layer = 8388608
+screen_size = Vector2(0.75, 1)
+viewport_size = Vector2(150, 200)
+
+[node name="CollisionShape3D" parent="StaticBody3D" index="0"]
+shape = SubResource("BoxShape3D_ot28o")
