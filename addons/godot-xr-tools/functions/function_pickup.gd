@@ -373,6 +373,7 @@ func drop_object() -> void:
 
 	# let go of this object
 	picked_up_object.let_go(
+		self,
 		_velocity_averager.linear_velocity() * impulse_factor,
 		_velocity_averager.angular_velocity())
 	picked_up_object = null

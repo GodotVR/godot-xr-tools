@@ -56,7 +56,7 @@ func pick_up(by: Node3D, _with_controller: XRController3D) -> void:
 	handle.global_transform = by.global_transform
 
 # Called by XRToolsFunctionPickup when this is let go by a controller
-func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
+func let_go(_by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	pass
 
 # Get the grab handle

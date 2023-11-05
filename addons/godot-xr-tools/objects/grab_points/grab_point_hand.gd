@@ -16,6 +16,13 @@ enum Hand {
 	RIGHT,	## Right hand
 }
 
+## Grab mode for this grab point
+enum Mode {
+	GENERAL,	## General grab point
+	PRIMARY,	## Primary-hand grab point
+	SECONDARY	## Secondary-hand grab point
+}
+
 ## Hand preview option
 enum PreviewMode {
 	CLOSED,	## Preview hand closed
@@ -32,6 +39,9 @@ const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right
 
 ## Which hand this grab point is for
 @export var hand : Hand: set = _set_hand
+
+## Hand grab mode
+@export var mode : Mode = Mode.GENERAL
 
 ## Hand pose
 @export var hand_pose : XRToolsHandPoseSettings: set = _set_hand_pose
@@ -52,27 +62,39 @@ func _ready():
 
 
 ## Test if a grabber can grab by this grab-point
-func can_grab(_grabber : Node) -> bool:
+func can_grab(grabber : Node3D, secondary : bool) -> float:
 	# Skip if not enabled
 	if not enabled:
-		return false
+		return 0.0
 
 	# Get the grabber controller
-	var controller := _get_grabber_controller(_grabber)
+	var controller := _get_grabber_controller(grabber)
 	if not controller:
-		return false
+		return 0.0
 
 	# Only allow left controller to grab left-hand grab points
 	if hand == Hand.LEFT and controller.tracker != "left_hand":
-		return false
+		return 0.0
 
 	# Only allow right controller to grab right-hand grab points
 	if hand == Hand.RIGHT and controller.tracker != "right_hand":
-		return false
+		return 0.0
 
-	# Allow grab
-	return true
+	# Get the distance-weighted fitness in the range (0.0 - 0.5]
+	var fitness := _weight(grabber, 0.5)
 
+	# Adjust the fitness based on the mode and grab type
+	match mode:
+		Mode.PRIMARY:
+			# Boost fitness if primary else refuse
+			fitness = fitness + 0.5 if not secondary else 0.0
+
+		Mode.SECONDARY:
+			# Boost fitness if secondary else refuse
+			fitness = fitness + 0.5 if secondary else 0.0
+
+	# Return the grab fitness
+	return fitness
 
 func _set_hand(new_value : Hand) -> void:
 	hand = new_value
@@ -123,16 +145,15 @@ func _update_editor_preview() -> void:
 
 
 # Get the controller associated with a grabber
-static func _get_grabber_controller(_grabber : Node) -> XRController3D:
+static func _get_grabber_controller(grabber : Node3D) -> XRController3D:
 	# Ensure the grabber is valid
-	if not is_instance_valid(_grabber):
+	if not is_instance_valid(grabber):
 		return null
 
 	# Ensure the pickup is a function pickup for a controller
-	var pickup := _grabber as XRToolsFunctionPickup
+	var pickup := grabber as XRToolsFunctionPickup
 	if not pickup:
 		return null
 
 	# Get the controller associated with the pickup
 	return pickup.get_controller()
-

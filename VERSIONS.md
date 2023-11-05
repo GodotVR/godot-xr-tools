@@ -2,6 +2,7 @@
 - Upgraded project to Godot 4.1 as the new minimum version.
 - Added reporting of stage load errors.
 - Blend player height changes and prevent the player from standing up under a low ceiling.
+- **minor-breakage** Added support for swapping held items between hands.
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.

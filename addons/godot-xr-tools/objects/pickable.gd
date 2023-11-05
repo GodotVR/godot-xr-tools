@@ -54,6 +54,11 @@ enum ReleaseMode {
 	FROZEN = 1,			## Release and freeze
 }
 
+enum SecondHandGrab {
+	IGNORE,				## Ignore second grab
+	SWAP				## Swap to second hand
+}
+
 
 # Default layer for held objects is 17:held-object
 const DEFAULT_LAYER := 0b0000_0000_0000_0001_0000_0000_0000_0000
@@ -79,6 +84,9 @@ const GRIP_POSE_PRIORITY = 100
 
 ## Method used to perform a ranged grab
 @export var ranged_grab_method : RangedMethod = RangedMethod.SNAP: set = _set_ranged_grab_method
+
+## Second hand grab mode
+@export var second_hand_grab : SecondHandGrab = SecondHandGrab.IGNORE
 
 ## Speed for ranged grab
 @export var ranged_grab_speed : float = 20.0
@@ -124,7 +132,7 @@ var _remote_transform: RemoteTransform3D = null
 var _move_to: XRToolsMoveTo = null
 
 # Array of grab points
-var _grab_points : Array = []
+var _grab_points : Array[XRToolsGrabPoint] = []
 
 # Currently active grab-point
 var _active_grab_point : XRToolsGrabPoint
@@ -164,8 +172,24 @@ func _exit_tree():
 
 
 # Test if this object can be picked up
-func can_pick_up(_by: Node3D) -> bool:
-	return enabled and _state == PickableState.IDLE
+func can_pick_up(by: Node3D) -> bool:
+	# Refuse if not enabled
+	if not enabled:
+		return false
+
+	# Allow if the item is idle
+	if _state == PickableState.IDLE:
+		return true
+
+	# Allow swapping the item from one hand to the other
+	if _state == PickableState.HELD and \
+		second_hand_grab != SecondHandGrab.IGNORE and \
+		picked_up_by is XRToolsFunctionPickup and \
+		by is XRToolsFunctionPickup:
+		return true
+
+	# Refuse the pickup
+	return false
 
 
 # Test if this object is picked up
@@ -211,12 +235,17 @@ func drop_and_free():
 
 # Called when this object is picked up
 func pick_up(by: Node3D, with_controller: XRController3D) -> void:
-	# Skip if disabled or already picked up
-	if not enabled or _state != PickableState.IDLE:
+	# Skip if not enabled or range-grabbing
+	if not enabled or _state == PickableState.GRABBING_RANGED:
 		return
 
+	# Skip if held and we don't support second-hand grab
+	if _state != PickableState.IDLE and second_hand_grab == SecondHandGrab.IGNORE:
+		return
+
+	# Drop if currently held
 	if picked_up_by:
-		let_go(Vector3.ZERO, Vector3.ZERO)
+		let_go(picked_up_by, Vector3.ZERO, Vector3.ZERO)
 
 	# remember who picked us up
 	picked_up_by = by
@@ -224,7 +253,7 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 	hold_node = with_controller if with_controller else by
 	by_hand = XRToolsHand.find_instance(by_controller)
 	by_collision_hand = XRToolsCollisionHand.find_instance(by_controller)
-	_active_grab_point = _get_grab_point(by)
+	_active_grab_point = _get_grab_point(by, false)
 
 	# If we have been picked up by a hand then apply the hand-pose-override
 	# from the grab-point.
@@ -267,9 +296,9 @@ func pick_up(by: Node3D, with_controller: XRController3D) -> void:
 
 
 # Called when this object is dropped
-func let_go(p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
-	# Skip if idle
-	if _state == PickableState.IDLE:
+func let_go(by: Node3D, p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void:
+	# Skip if idle or not picked up by the specified node
+	if _state == PickableState.IDLE or by != picked_up_by:
 		return
 
 	# If held then detach from holder
@@ -464,16 +493,19 @@ func _do_precise_grab() -> void:
 	emit_signal("picked_up", self)
 
 
-## Find the first grab-point for the grabber
-func _get_grab_point(_grabber : Node) -> XRToolsGrabPoint:
-	# Iterate over all grab points
-	for g in _grab_points:
-		var grab_point : XRToolsGrabPoint = g
-		if grab_point.can_grab(_grabber):
-			return grab_point
+## Find the most suitable grab-point for the grabber
+func _get_grab_point(grabber : Node3D, secondary : bool) -> XRToolsGrabPoint:
+	# Find the best grab-point
+	var fitness := 0.0
+	var point : XRToolsGrabPoint = null
+	for p in _grab_points:
+		var f = p.can_grab(grabber, secondary)
+		if f > fitness:
+			fitness = f
+			point = p
 
-	# No suitable grab-point found
-	return null
+	# Return the best grab point
+	return point
 
 
 func _set_ranged_grab_method(new_value: int) -> void:
