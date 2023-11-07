@@ -1,0 +1,127 @@
+[gd_scene load_steps=21 format=3 uid="uid://bmjemjgtnpkpo"]
+
+[ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_lpv7q"]
+[ext_resource type="Script" path="res://assets/3dmodelscc0/models/scenes/sniper_rifle.gd" id="2_bdnea"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_x4cgt"]
+[ext_resource type="Animation" uid="uid://ddbo6ioa282en" path="res://addons/godot-xr-tools/hands/animations/left/Pistol.res" id="3_np0oa"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_mworp"]
+[ext_resource type="PackedScene" uid="uid://e8cx22o0aoxa" path="res://assets/3dmodelscc0/models/scenes/scope_display.tscn" id="5_oy4qx"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_sjb82"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="6_x8gva"]
+[ext_resource type="Animation" uid="uid://csp3fdknowmi5" path="res://addons/godot-xr-tools/hands/animations/right/Pistol.res" id="7_ll2st"]
+[ext_resource type="PackedScene" uid="uid://jg1pijfn8ea3" path="res://assets/3dmodelscc0/models/sniper_rifle/sniper_rifle.glb" id="7_tk4wb"]
+[ext_resource type="Material" uid="uid://pcfey2xeiuoe" path="res://assets/3dmodelscc0/models/sniper_rifle/sniper_rifle.material" id="8_7v2rw"]
+[ext_resource type="Script" path="res://assets/3dmodelscc0/models/sniper_rifle/firearm_trigger.gd" id="9_0ljhu"]
+[ext_resource type="Animation" uid="uid://dlxa6f6hwurka" path="res://addons/godot-xr-tools/hands/animations/left/Default pose.res" id="11_bhts3"]
+[ext_resource type="Animation" uid="uid://ky28birj4su6" path="res://addons/godot-xr-tools/hands/animations/right/Default pose.res" id="13_46eib"]
+[ext_resource type="PackedScene" uid="uid://ce7vysyvondf8" path="res://addons/godot-xr-tools/objects/snap_zone.tscn" id="15_coy4c"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_apd71"]
+size = Vector3(0.0449182, 0.225, 1.145)
+
+[sub_resource type="Resource" id="Resource_ok7hp"]
+script = ExtResource("4_mworp")
+open_pose = ExtResource("11_bhts3")
+closed_pose = ExtResource("3_np0oa")
+
+[sub_resource type="Resource" id="Resource_kscym"]
+script = ExtResource("4_mworp")
+open_pose = ExtResource("13_46eib")
+closed_pose = ExtResource("7_ll2st")
+
+[sub_resource type="Resource" id="Resource_tbrsh"]
+script = ExtResource("4_mworp")
+open_pose = ExtResource("3_np0oa")
+closed_pose = ExtResource("3_np0oa")
+
+[sub_resource type="Resource" id="Resource_6toxn"]
+script = ExtResource("4_mworp")
+open_pose = ExtResource("7_ll2st")
+closed_pose = ExtResource("7_ll2st")
+
+[node name="SniperRifle" instance=ExtResource("1_lpv7q")]
+script = ExtResource("2_bdnea")
+second_hand_grab = 2
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00313599, -0.0294102, 0.0465783)
+shape = SubResource("BoxShape3D_apd71")
+
+[node name="HighlightRing" parent="." index="1" instance=ExtResource("6_x8gva")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0309925, 0.3)
+
+[node name="sniper_rifle" parent="." index="2" instance=ExtResource("7_tk4wb")]
+
+[node name="Barrel" parent="sniper_rifle/SniperRifle" index="0"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="Bolt" parent="sniper_rifle/SniperRifle" index="1"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="FlipFlap" parent="sniper_rifle/SniperRifle" index="2"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="IronSight" parent="sniper_rifle/SniperRifle" index="3"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="Magazine" parent="sniper_rifle/SniperRifle" index="4"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="Scope" parent="sniper_rifle/SniperRifle" index="5"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="Stock" parent="sniper_rifle/SniperRifle" index="6"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="Trigger" parent="sniper_rifle/SniperRifle" index="7"]
+surface_material_override/0 = ExtResource("8_7v2rw")
+
+[node name="ScopeDisplay" parent="sniper_rifle" index="1" instance=ExtResource("5_oy4qx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00361723, 0.0610211, 0.324882)
+radius = 0.01
+fov = 5.0
+
+[node name="XRFirearmTrigger" type="Node" parent="." index="3" node_paths=PackedStringArray("mesh_trigger")]
+script = ExtResource("9_0ljhu")
+mesh_trigger = NodePath("../sniper_rifle/SniperRifle/Trigger")
+value = 0.25
+
+[node name="GrabPointGripLeft" parent="." index="4" instance=ExtResource("2_x4cgt")]
+transform = Transform3D(1, 0, 0, 0, 0.975366, 0.220595, 0, -0.220595, 0.975366, 0.001, -0.016, 0.207)
+handle = "Grip"
+mode = 1
+hand_pose = SubResource("Resource_ok7hp")
+
+[node name="GrabPointGripRight" parent="." index="5" instance=ExtResource("5_sjb82")]
+transform = Transform3D(1, 0, 0, 0, 0.975366, 0.220595, 0, -0.220595, 0.975366, -0.00131561, -0.0162657, 0.207056)
+visible = true
+handle = "Grip"
+mode = 1
+hand_pose = SubResource("Resource_kscym")
+
+[node name="GrabPointForestockLeft" parent="." index="6" instance=ExtResource("2_x4cgt")]
+transform = Transform3D(-2.50718e-08, -0.573576, -0.819152, 0.965926, 0.212012, -0.148453, 0.258819, -0.79124, 0.554032, 0.0292044, 0.0294211, -0.107)
+visible = true
+handle = null
+hand_pose = SubResource("Resource_tbrsh")
+drive_position = 0.0
+drive_angle = 0.0
+drive_aim = 1.0
+
+[node name="GrabPointForestockRight" parent="." index="7" instance=ExtResource("5_sjb82")]
+transform = Transform3D(-2.50718e-08, 0.573576, 0.819152, -0.965926, 0.212012, -0.148452, -0.258819, -0.79124, 0.554032, -0.039, 0.029, -0.107)
+handle = null
+hand_pose = SubResource("Resource_6toxn")
+drive_position = 0.0
+drive_angle = 0.0
+drive_aim = 1.0
+
+[node name="MagSnapZone" parent="." index="8" groups=["sniper_slot"] instance=ExtResource("15_coy4c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00341882, -0.0350358, 0.15841)
+snap_require = "sinper_magazine"
+
+[node name="ScopeSnapZone" parent="." index="9" groups=["sniper_attachment"] instance=ExtResource("15_coy4c")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00416867, 0.0566482, 0.159675)
+snap_require = "sniper_scope"
+
+[editable path="sniper_rifle"]

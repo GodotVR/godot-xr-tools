@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca3daqmpo0tua"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_redirect.gd" id="1_vyuch"]
+
+[node name="GrabPointRedirect" type="Marker3D"]
+script = ExtResource("1_vyuch")

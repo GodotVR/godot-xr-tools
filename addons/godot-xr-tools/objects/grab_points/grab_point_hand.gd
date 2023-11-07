@@ -37,17 +37,32 @@ const LEFT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/left_h
 const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn"
 
 
+## Grab-point handle
+@export var handle : String
+
 ## Which hand this grab point is for
 @export var hand : Hand: set = _set_hand
 
 ## Hand grab mode
 @export var mode : Mode = Mode.GENERAL
 
+## Snap the hand mesh to the grab-point
+@export var snap_hand : bool = true
+
 ## Hand pose
 @export var hand_pose : XRToolsHandPoseSettings: set = _set_hand_pose
 
 ## If true, the hand is shown in the editor
 @export var editor_preview_mode : PreviewMode = PreviewMode.CLOSED: set = _set_editor_preview_mode
+
+## How much this grab-point drives the position
+@export var drive_position : float = 1.0
+
+## How much this grab-point drives the angle
+@export var drive_angle : float = 1.0
+
+## How much this grab-point drives the aim
+@export var drive_aim : float = 0.0
 
 
 ## Hand to use for editor preview
@@ -62,39 +77,28 @@ func _ready():
 
 
 ## Test if a grabber can grab by this grab-point
-func can_grab(grabber : Node3D, secondary : bool) -> float:
+func can_grab(grabber : Node3D, current : XRToolsGrabPoint) -> float:
 	# Skip if not enabled
 	if not enabled:
 		return 0.0
 
-	# Get the grabber controller
-	var controller := _get_grabber_controller(grabber)
-	if not controller:
+	# Verify the hand matches
+	if not _is_correct_hand(grabber):
 		return 0.0
 
-	# Only allow left controller to grab left-hand grab points
-	if hand == Hand.LEFT and controller.tracker != "left_hand":
+	# Fail if the hand grab is not permitted
+	if not _is_valid_hand_grab(current):
 		return 0.0
 
-	# Only allow right controller to grab right-hand grab points
-	if hand == Hand.RIGHT and controller.tracker != "right_hand":
-		return 0.0
-
-	# Get the distance-weighted fitness in the range (0.0 - 0.5]
+	# Get the distance-weighted fitness in the range (0.0 - 0.5], but boost
+	# to [0.5 - 1.0] for valid "specific" grabs.
 	var fitness := _weight(grabber, 0.5)
-
-	# Adjust the fitness based on the mode and grab type
-	match mode:
-		Mode.PRIMARY:
-			# Boost fitness if primary else refuse
-			fitness = fitness + 0.5 if not secondary else 0.0
-
-		Mode.SECONDARY:
-			# Boost fitness if secondary else refuse
-			fitness = fitness + 0.5 if secondary else 0.0
+	if mode != Mode.GENERAL:
+		fitness += 0.5
 
 	# Return the grab fitness
 	return fitness
+
 
 func _set_hand(new_value : Hand) -> void:
 	hand = new_value
@@ -142,6 +146,48 @@ func _update_editor_preview() -> void:
 
 	# Add the editor-preview hand as a child
 	add_child(_editor_preview_hand)
+
+
+# Is the grabber for the correct hand
+func _is_correct_hand(grabber : Node3D) -> bool:
+	# Find the controller
+	var controller := _get_grabber_controller(grabber)
+	if not controller:
+		return false
+
+	# If left hand then verify left controller
+	if hand == Hand.LEFT and controller.tracker != "left_hand":
+		return false
+
+	# If right hand then verify right controller
+	if hand == Hand.RIGHT and controller.tracker != "right_hand":
+		return false
+
+	# Controller matches hand
+	return true
+
+
+# Test if hand grab is permitted
+func _is_valid_hand_grab(current : XRToolsGrabPoint) -> bool:
+	# Not a valid hand grab if currently held by something other than a hand
+	var current_hand := current as XRToolsGrabPointHand
+	if current and not current_hand:
+		return false
+
+	# Not valid if grabbing the same named handle
+	if handle and current_hand and handle == current_hand.handle:
+		return false
+
+	# Not valid if attempting PRIMARY grab while current is PRIMARY
+	if mode == Mode.PRIMARY and current_hand and current_hand.mode == Mode.PRIMARY:
+		return false
+
+	# Not valid if attempting SECONDARY grab while no current
+	if mode == Mode.SECONDARY and not current_hand:
+		return false
+
+	# Hand is allowed to grab
+	return true
 
 
 # Get the controller associated with a grabber

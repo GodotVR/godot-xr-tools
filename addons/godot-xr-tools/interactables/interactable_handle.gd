@@ -47,20 +47,20 @@ func _ready() -> void:
 # Called on every frame when the handle is held to check for snapping
 func _process(_delta: float) -> void:
 	# Skip if not picked up
-	if !picked_up_by:
+	if not is_picked_up():
 		return
 
 	# If too far from the origin then drop the handle
 	var origin_pos = handle_origin.global_transform.origin
 	var handle_pos = global_transform.origin
 	if handle_pos.distance_to(origin_pos) > snap_distance:
-		picked_up_by.drop_object()
+		drop()
 
 
 # Called when the handle is picked up
-func pick_up(by, with_controller) -> void:
+func pick_up(by) -> void:
 	# Call the base-class to perform the pickup
-	super(by, with_controller)
+	super(by)
 
 	# Enable the process function while held
 	set_process(true)

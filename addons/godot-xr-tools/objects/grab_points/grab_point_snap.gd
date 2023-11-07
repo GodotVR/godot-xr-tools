@@ -24,9 +24,9 @@ func _ready():
 
 
 ## Evaluate fitness of the proposed grab, with 0.0 for not allowed.
-func can_grab(grabber : Node3D, secondary : bool) -> float:
-	# Skip if not enabled or secondary
-	if not enabled or secondary:
+func can_grab(grabber : Node3D, current : XRToolsGrabPoint) -> float:
+	# Skip if not enabled or current grab
+	if not enabled or current:
 		return 0.0
 
 	# Ensure the pickup is valid

@@ -1,12 +1,15 @@
-[gd_scene load_steps=16 format=3 uid="uid://hv8nnbkuccxi"]
+[gd_scene load_steps=20 format=3 uid="uid://hv8nnbkuccxi"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_slider.gd" id="2"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="3"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="4"]
-[ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_ec2uv"]
-[ext_resource type="Resource" uid="uid://c5nxxsga5kesd" path="res://assets/meshes/interactables/pose_grab_ball_left.tres" id="6_bqubh"]
-[ext_resource type="Resource" uid="uid://dvvw0k7tqagx" path="res://assets/meshes/interactables/pose_grab_ball_right.tres" id="7_dmlvy"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="4_0po6f"]
+[ext_resource type="Animation" uid="uid://db62hs5s4n2b3" path="res://addons/godot-xr-tools/hands/animations/left/Grip 4.res" id="5_h4r7f"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="6_e7vn2"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_1nus5"]
+[ext_resource type="Animation" uid="uid://d1xnpyc08njjx" path="res://addons/godot-xr-tools/hands/animations/right/Grip 4.res" id="8_8wyl7"]
+[ext_resource type="PackedScene" uid="uid://ca3daqmpo0tua" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_redirect.tscn" id="10_jjlwa"]
 
 [sub_resource type="BoxShape3D" id="1"]
 size = Vector3(0.2, 0.6, 0.1)
@@ -29,11 +32,17 @@ height = 0.12
 radial_segments = 16
 rings = 8
 
-[sub_resource type="SphereShape3D" id="7"]
-margin = 0.12
-radius = 0.06
+[sub_resource type="Resource" id="Resource_4k01m"]
+script = ExtResource("6_e7vn2")
+open_pose = ExtResource("5_h4r7f")
+closed_pose = ExtResource("5_h4r7f")
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_tg476"]
+[sub_resource type="Resource" id="Resource_cnpc5"]
+script = ExtResource("6_e7vn2")
+open_pose = ExtResource("8_8wyl7")
+closed_pose = ExtResource("8_8wyl7")
+
+[sub_resource type="SphereShape3D" id="7"]
 margin = 0.12
 radius = 0.06
 
@@ -52,6 +61,7 @@ surface_material_override/0 = ExtResource("1")
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.2, 0)
 
 [node name="InteractableSlider" type="Node3D" parent="SliderOrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 0)
 script = ExtResource("2")
 slider_limit_max = 0.4
 slider_position = 0.2
@@ -77,6 +87,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
 mesh = SubResource("6")
 surface_material_override/0 = ExtResource("3")
 
+[node name="GrabPointHandLeft" parent="SliderOrigin/InteractableSlider/SliderBody/HandleMesh" instance=ExtResource("4_0po6f")]
+transform = Transform3D(-0.707107, -7.462e-08, -0.707107, 7.462e-08, -1, 3.09086e-08, -0.707107, -3.09086e-08, 0.707107, 0.0760452, -0.0474728, -0.0419973)
+hand_pose = SubResource("Resource_4k01m")
+
+[node name="GrabPointHandRight" parent="SliderOrigin/InteractableSlider/SliderBody/HandleMesh" instance=ExtResource("7_1nus5")]
+transform = Transform3D(0.642788, 1.56143e-08, -0.766044, 1.56143e-08, 1, 3.34849e-08, 0.766044, -3.34849e-08, 0.642788, 0.0760452, 0.0525272, -0.0419973)
+hand_pose = SubResource("Resource_cnpc5")
+
 [node name="HandleOrigin" type="Node3D" parent="SliderOrigin/InteractableSlider"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.2)
 
@@ -90,9 +108,8 @@ picked_up_layer = 0
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle"]
 shape = SubResource("7")
 
-[node name="HandPoseArea" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle" instance=ExtResource("5_ec2uv")]
-left_pose = ExtResource("6_bqubh")
-right_pose = ExtResource("7_dmlvy")
+[node name="GrabPointRedirectLeft" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle" node_paths=PackedStringArray("target") instance=ExtResource("10_jjlwa")]
+target = NodePath("../../../SliderBody/HandleMesh/GrabPointHandLeft")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle/HandPoseArea"]
-shape = SubResource("SphereShape3D_tg476")
+[node name="GrabPointRedirectRight" parent="SliderOrigin/InteractableSlider/HandleOrigin/InteractableHandle" node_paths=PackedStringArray("target") instance=ExtResource("10_jjlwa")]
+target = NodePath("../../../SliderBody/HandleMesh/GrabPointHandRight")
