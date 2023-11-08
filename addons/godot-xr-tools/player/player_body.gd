@@ -732,7 +732,7 @@ func _apply_velocity_and_control(delta: float):
 
 		# Detect if bounce should be performed
 		if bounciness > 0.0 and magnitude >= bounce_threshold:
-			local_velocity += 2 * collision.normal * magnitude * bounciness
+			local_velocity += 2 * collision.get_normal() * magnitude * bounciness
 			velocity = local_velocity + ground_velocity
 			emit_signal("player_bounced", collision_node, magnitude)
 
