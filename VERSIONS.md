@@ -4,6 +4,7 @@
 - Blend player height changes and prevent the player from standing up under a low ceiling.
 - **minor-breakage** Added support for swapping held items between hands.
 - Added jog-in-place movement provider.
+- Added support for grappling on GridMap instances
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.
