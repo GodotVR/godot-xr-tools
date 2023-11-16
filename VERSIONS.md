@@ -5,6 +5,8 @@
 - **minor-breakage** Added support for swapping held items between hands.
 - Added jog-in-place movement provider.
 - Added support for grappling on GridMap instances
+- **breakage** Added support for two-handed grabbing.
+- Added support for snapping hands to grab-points.
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.

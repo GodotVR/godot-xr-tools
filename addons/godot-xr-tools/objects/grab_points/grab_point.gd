@@ -14,7 +14,7 @@ extends Marker3D
 
 
 ## Evaluate fitness of the proposed grab, with 0.0 for not allowed.
-func can_grab(grabber : Node3D, _secondary : bool) -> float:
+func can_grab(grabber : Node3D, _current : XRToolsGrabPoint) -> float:
 	if not enabled:
 		return 0.0
 

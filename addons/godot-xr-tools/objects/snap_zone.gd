@@ -142,7 +142,7 @@ func request_highlight(from : Node, on : bool = true) -> void:
 
 
 # Pickable Method: Object being grabbed from this snap zone
-func pick_up(_by: Node3D, _with_controller: XRController3D) -> void:
+func pick_up(_by: Node3D) -> void:
 	pass
 
 
@@ -251,7 +251,7 @@ func pick_up_object(target: Node3D) -> void:
 		player.stream = stash_sound
 		player.play()
 
-	target.pick_up(self, null)
+	target.pick_up(self)
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
