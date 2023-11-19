@@ -2,10 +2,6 @@ class_name XRFirearmBolt
 extends MeshInstance3D
 
 
-# follow up on the idea of using the LeftHandMarker3D Nodes, child remotetransform
-# to place the hand that grabbed the handle
-# or create something similar to how u did the barrel system?
-
 @export var _owner : XRToolsPickable
 
 @export var _handle : XRToolsInteractableHandle
