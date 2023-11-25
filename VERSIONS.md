@@ -10,6 +10,7 @@
 - Added support for world-grab movement.
 - Fixed editor errors when using hand physics bones.
 - Added support for climbable grab-points.
+- Added control of keyboard or gamepad inputs to Viewport2Din3D instances.
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.
