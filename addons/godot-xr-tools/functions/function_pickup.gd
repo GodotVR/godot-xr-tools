@@ -141,8 +141,8 @@ func _ready():
 	_update_colliders()
 
 	# Monitor Grab Button
-	get_parent().connect("button_pressed", _on_button_pressed)
-	get_parent().connect("button_released", _on_button_released)
+	_controller.connect("button_pressed", _on_button_pressed)
+	_controller.connect("button_released", _on_button_released)
 
 
 # Called on each frame to update the pickup
@@ -373,6 +373,7 @@ func drop_object() -> void:
 
 	# let go of this object
 	picked_up_object.let_go(
+		self,
 		_velocity_averager.linear_velocity() * impulse_factor,
 		_velocity_averager.angular_velocity())
 	picked_up_object = null
@@ -401,10 +402,11 @@ func _pick_up_object(target: Node3D) -> void:
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_ranged = not _object_in_grab_area.has(target)
 	picked_up_object = target
-	target.pick_up(self, _controller)
+	target.pick_up(self)
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
+		picked_up_object.request_highlight(self, false)
 		emit_signal("has_picked_up", picked_up_object)
 
 

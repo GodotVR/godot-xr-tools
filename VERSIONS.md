@@ -1,3 +1,19 @@
+# 4.3.0
+- Upgraded project to Godot 4.1 as the new minimum version.
+- Added reporting of stage load errors.
+- Blend player height changes and prevent the player from standing up under a low ceiling.
+- **minor-breakage** Added support for swapping held items between hands.
+- Added jog-in-place movement provider.
+- Added support for grappling on GridMap instances
+- **breakage** Added support for two-handed grabbing.
+- Added support for snapping hands to grab-points.
+- Added support for world-grab movement.
+
+# 4.2.1
+- Fixed snap-zones showing highlight when disabled.
+- Fixed pickup leaving target highlighted after picking up.
+- Fixed collision hands getting stuck too far from the real hands.
+
 # 4.2.0
 - Environments can now be set normally in scenes loaded through the staging system.
 - Fixed issue with not being able to push rigid bodies when colliding with them.

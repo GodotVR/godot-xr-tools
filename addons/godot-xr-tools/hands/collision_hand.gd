@@ -36,6 +36,9 @@ const DEFAULT_MASK := 0b0000_0000_0000_0000_1111_1111_1111_1111
 # How much displacement is required for the hand to start orienting to a surface
 const ORIENT_DISPLACEMENT := 0.05
 
+# Distance to teleport hands
+const TELEPORT_DISTANCE := 1.0
+
 
 ## Controls the hand collision mode
 @export var mode : CollisionHandMode = CollisionHandMode.COLLIDE
@@ -76,8 +79,10 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	# Disconnect from parent transform, as we move to it in the physics step
+	# Disconnect from parent transform as we move to it in the physics step,
+	# and boost the physics priority above any grab-drivers or hands.
 	top_level = true
+	process_physics_priority = -90
 
 	# Populate nodes
 	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
@@ -160,9 +165,15 @@ func _move_to_target():
 		global_transform = _target.global_transform
 		return
 
+	# Handle too far from target
+	if global_position.distance_to(_target.global_position) > TELEPORT_DISTANCE:
+		global_transform = _target.global_transform
+		return
+
 	# Orient the hand then move
 	global_transform.basis = _target.global_transform.basis
 	move_and_slide(_target.global_position - global_position)
+	force_update_transform()
 
 
 # This function inserts a target override into the overrides list by priority

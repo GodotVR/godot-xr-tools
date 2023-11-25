@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://chcuj3jysipk8"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_jog.gd" id="1_k4cao"]
+
+[node name="MovementJog" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_k4cao")

@@ -5,11 +5,10 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_fc2ij"]
 size = Vector3(0.045, 0.075, 0.1)
 
-[node name="CollisionHandRight" type="StaticBody3D"]
-process_priority = -90
-process_physics_priority = -90
+[node name="CollisionHandRight" type="AnimatableBody3D"]
 collision_layer = 131072
 collision_mask = 327711
+sync_to_physics = false
 script = ExtResource("1_so3hf")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]

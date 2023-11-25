@@ -69,6 +69,12 @@ var _dominant : Node3D
 @onready var _right_controller := XRHelpers.get_right_controller(self)
 
 # Left collision hand
+@onready var _left_hand := XRToolsHand.find_left(self)
+
+# Right collision hand
+@onready var _right_hand := XRToolsHand.find_right(self)
+
+# Left collision hand
 @onready var _left_collision_hand := XRToolsCollisionHand.find_left(self)
 
 # Right collision hand
@@ -205,6 +211,8 @@ func _on_left_picked_up(what : Node3D) -> void:
 	# If collision hands present then target the handle
 	if _left_collision_hand:
 		_left_collision_hand.add_target_override(_left_handle, 0)
+	elif _left_hand:
+		_left_hand.add_target_override(_left_handle, 0)
 
 
 ## Handler for right controller picked up
@@ -225,6 +233,8 @@ func _on_right_picked_up(what : Node3D) -> void:
 	# If collision hands present then target the handle
 	if _right_collision_hand:
 		_right_collision_hand.add_target_override(_right_handle, 0)
+	elif _right_hand:
+		_right_hand.add_target_override(_right_handle, 0)
 
 
 ## Handler for left controller dropped
@@ -232,6 +242,8 @@ func _on_left_dropped() -> void:
 	# If collision hands present then clear handle target
 	if _left_collision_hand:
 		_left_collision_hand.remove_target_override(_left_handle)
+	if _left_hand:
+		_left_hand.remove_target_override(_left_handle)
 
 	# Release handle and transfer dominance
 	_left_handle = null
@@ -243,6 +255,8 @@ func _on_right_dropped() -> void:
 	# If collision hands present then clear handle target
 	if _right_collision_hand:
 		_right_collision_hand.remove_target_override(_right_handle)
+	if _right_hand:
+		_right_hand.remove_target_override(_right_handle)
 
 	# Release handle and transfer dominance
 	_right_handle = null

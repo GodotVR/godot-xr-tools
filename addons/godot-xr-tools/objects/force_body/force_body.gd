@@ -1,11 +1,11 @@
 @tool
 class_name XRToolsForceBody
-extends StaticBody3D
+extends AnimatableBody3D
 
 
 ## XRTools Force Body script
 ##
-## This script enhances StaticBody3D with move_and_slide and the ability
+## This script enhances AnimatableBody3D with move_and_slide and the ability
 ## to push bodies by emparting forces on them.
 
 
@@ -42,6 +42,9 @@ func is_xr_class(name : String) -> bool:
 ## This function moves and slides along the [param move] vector. It returns
 ## information about the last collision, or null if no collision
 func move_and_slide(move : Vector3) -> ForceBodyCollision:
+	# Make sure this is off or weird shit happens...
+	sync_to_physics = false
+
 	# Loop performing the movement steps
 	var step_move := move
 	var ret : ForceBodyCollision = null

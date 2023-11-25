@@ -65,6 +65,9 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## Maximum player height
 @export var player_height_max : float = 2.5
 
+## Slew-rate for player height overriding (button-crouch)
+@export var player_height_rate : float = 4.0
+
 ## Eyes forward offset from center of body in player_radius units
 @export_range(0.0, 1.0) var eye_forward_offset : float = 0.5
 
@@ -130,14 +133,20 @@ var up_player := Vector3.UP
 # Array of [XRToolsMovementProvider] nodes for the player
 var _movement_providers := Array()
 
-# Jump cool-down counter
-var _jump_cooldown := 0
-
 # Player height overrides
 var _player_height_overrides := { }
 
-# Player height override (enabled when non-negative)
-var _player_height_override : float = -1.0
+# Player height override - current height
+var _player_height_override_current : float = 0.0
+
+# Player height override - target height
+var _player_height_override_target : float = 0.0
+
+# Player height override - enabled
+var _player_height_override_enabled : bool = false
+
+# Player height override - lerp between real and override
+var _player_height_override_lerp : float = 0.0
 
 # Previous ground node
 var _previous_ground_node : Node3D = null
@@ -150,6 +159,9 @@ var _previous_ground_global : Vector3 = Vector3.ZERO
 
 # Player body Collision node
 var _collision_node : CollisionShape3D
+
+# Player head shape cast
+var _head_shape_cast : ShapeCast3D
 
 
 ## XROrigin3D node
@@ -192,6 +204,16 @@ func _ready():
 	_collision_node.shape = capsule
 	_collision_node.transform.origin = Vector3(0.0, 0.8, 0.0)
 	add_child(_collision_node)
+
+	# Create the shape-cast for head collisions
+	_head_shape_cast = ShapeCast3D.new()
+	_head_shape_cast.enabled = false
+	_head_shape_cast.margin = 0.01
+	_head_shape_cast.collision_mask = collision_mask
+	_head_shape_cast.max_results = 1
+	_head_shape_cast.shape = SphereShape3D.new()
+	_head_shape_cast.shape.radius = player_radius
+	add_child(_head_shape_cast)
 
 	# Get the movement providers ordered by increasing order
 	_movement_providers = get_tree().get_nodes_in_group("movement_providers")
@@ -240,10 +262,6 @@ func _physics_process(delta: float):
 		set_physics_process(false)
 		return
 
-	# Decrement the jump cool-down on each physics update
-	if _jump_cooldown:
-		_jump_cooldown -= 1
-
 	# Calculate the players "up" direction and plane
 	up_player = origin_node.global_transform.basis.y
 
@@ -252,7 +270,7 @@ func _physics_process(delta: float):
 	gravity = gravity_state.total_gravity
 
 	# Update the kinematic body to be under the camera
-	_update_body_under_camera()
+	_update_body_under_camera(delta)
 
 	# Allow the movement providers a chance to perform pre-movement updates. The providers can:
 	# - Adjust the gravity direction
@@ -325,12 +343,13 @@ func teleport(target : Transform3D) -> void:
 
 ## Request a jump
 func request_jump(skip_jump_velocity := false):
-	# Skip if cooling down from a previous jump
-	if _jump_cooldown:
-		return;
-
 	# Skip if not on ground
 	if !on_ground:
+		return
+
+	# Skip if our vertical velocity is not essentially the same as the ground
+	var ground_relative := velocity - ground_velocity
+	if abs(ground_relative.dot(up_player)) > 0.01:
 		return
 
 	# Skip if jump disabled on this ground
@@ -351,7 +370,6 @@ func request_jump(skip_jump_velocity := false):
 
 	# Report the jump
 	emit_signal("player_jumped")
-	_jump_cooldown = 4
 
 ## This method moves the players body using the provided velocity. Movement
 ## providers may use this function if they are exclusively driving the player.
@@ -443,9 +461,15 @@ func override_player_height(key, value: float = -1.0):
 	else:
 		_player_height_overrides[key] = value
 
-	# Set or clear the override value
+	# Evaluate whether a height override is active
 	var override = _player_height_overrides.values().min()
-	_player_height_override = override if override != null else -1.0
+	if override != null:
+		# Enable override with the target height
+		_player_height_override_target = override
+		_player_height_override_enabled = true
+	else:
+		# Disable height override
+		_player_height_override_enabled = false
 
 # Estimate body forward direction
 func _estimate_body_forward_dir() -> Vector3:
@@ -482,7 +506,7 @@ func _estimate_body_forward_dir() -> Vector3:
 	return forward
 
 # This method updates the player body to match the player position
-func _update_body_under_camera():
+func _update_body_under_camera(delta : float):
 	# Initially calibration of player height
 	if player_calibrate_height:
 		calibrate_player_height()
@@ -496,12 +520,76 @@ func _update_body_under_camera():
 			player_height_min * XRServer.world_scale,
 			player_height_max * XRServer.world_scale)
 
-	# Allow forced overriding of height
-	if _player_height_override >= 0.0:
-		player_height = _player_height_override * XRServer.world_scale
+	# Manage any player height overriding such as:
+	# - Slewing between software override heights
+	# - Slewing the lerp between player and software-override heights
+	if _player_height_override_enabled:
+		# Update the current override height to the target height
+		if _player_height_override_lerp <= 0.0:
+			# Override not in use, snap to target
+			_player_height_override_current = _player_height_override_target
+		elif _player_height_override_current < _player_height_override_target:
+			# Override in use, slew up to target override height
+			_player_height_override_current = min(
+				_player_height_override_current + player_height_rate * delta,
+				_player_height_override_target)
+		elif _player_height_override_current > _player_height_override_target:
+			# Override in use, slew down to target override height
+			_player_height_override_current = max(
+				_player_height_override_current - player_height_rate * delta,
+				_player_height_override_target)
+
+		# Slew towards height being controlled by software-override
+		_player_height_override_lerp = min(
+			_player_height_override_lerp + player_height_rate * delta,
+			1.0)
+	else:
+		# Slew towards height being controlled by player
+		_player_height_override_lerp = max(
+			_player_height_override_lerp - player_height_rate * delta,
+			0.0)
+
+	# Blend the player height between the player and software-override
+	player_height = lerp(
+		player_height,
+		_player_height_override_current,
+		_player_height_override_lerp)
 
 	# Ensure player height makes mathematical sense
 	player_height = max(player_height, player_radius)
+
+	# Test if the player is trying to get taller
+	var current_height : float = _collision_node.shape.height
+	if player_height > current_height:
+		# Calculate how tall we would like to get this frame
+		var target_height : float = min(
+			current_height + player_height_rate * delta,
+			player_height)
+
+		# Calculate a reduced height - slghtly smaller than the current player
+		# height so we can cast a virtual head up and probe the where we hit the
+		# ceiling.
+		var reduced_height : float = max(
+			current_height - 0.1,
+			player_radius)
+
+		# Calculate how much we want to grow to hit the target height
+		var grow := target_height - reduced_height
+
+		# Cast the virtual head up from the reduced-height position up to the
+		# target height to check for ceiling collisions.
+		_head_shape_cast.shape.radius = player_radius
+		_head_shape_cast.transform.origin.y = reduced_height - player_radius
+		_head_shape_cast.collision_mask = collision_mask
+		_head_shape_cast.target_position = Vector3.UP * grow
+		_head_shape_cast.force_shapecast_update()
+
+		# Use the ceiling collision information to decide how much to grow the
+		# player height
+		var safe := _head_shape_cast.get_closest_collision_safe_fraction()
+		player_height = max(
+			reduced_height + grow * safe,
+			current_height)
 
 	# Adjust the collision shape to match the player geometry
 	_collision_node.shape.radius = player_radius
@@ -644,7 +732,7 @@ func _apply_velocity_and_control(delta: float):
 
 		# Detect if bounce should be performed
 		if bounciness > 0.0 and magnitude >= bounce_threshold:
-			local_velocity += 2 * collision.normal * magnitude * bounciness
+			local_velocity += 2 * collision.get_normal() * magnitude * bounciness
 			velocity = local_velocity + ground_velocity
 			emit_signal("player_bounced", collision_node, magnitude)
 

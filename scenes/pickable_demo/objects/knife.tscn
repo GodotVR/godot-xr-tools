@@ -71,6 +71,7 @@ points = PackedVector3Array(-0.0142231, 0.0175055, 0.00419341, -0.0142231, -0.01
 [node name="Knife" instance=ExtResource("1")]
 continuous_cd = true
 script = ExtResource("7")
+second_hand_grab = 1
 
 [node name="Knife" type="MeshInstance3D" parent="." index="0"]
 mesh = SubResource("ArrayMesh_anmh6")
@@ -81,9 +82,11 @@ shape = SubResource("ConvexPolygonShape3D_2tu7g")
 
 [node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("5")]
 transform = Transform3D(-0.0412479, 0.99089, -0.128202, -5.60865e-09, 0.128311, 0.991734, 0.999149, 0.040907, -0.00529256, -0.0267695, -0.0835771, 0.0177133)
+mode = 1
 
 [node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("4")]
 transform = Transform3D(0.0412479, 0.99089, -0.128202, 0, 0.128311, 0.991734, 0.999149, -0.0409069, 0.00529256, -0.027, -0.084, -0.018)
+mode = 1
 
 [node name="GrabPointGripLeft" parent="." index="4" instance=ExtResource("5")]
 transform = Transform3D(0.0412478, -0.99089, 0.128202, -5.60865e-09, 0.128311, 0.991734, -0.999149, -0.0409069, 0.00529255, -0.136863, -0.084, -0.018)

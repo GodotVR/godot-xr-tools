@@ -13,6 +13,16 @@ extends Marker3D
 @export var enabled : bool = true
 
 
-## Test if a grabber can grab by this grab-point
-func can_grab(_grabber : Node) -> bool:
-	return enabled
+## Evaluate fitness of the proposed grab, with 0.0 for not allowed.
+func can_grab(grabber : Node3D, _current : XRToolsGrabPoint) -> float:
+	if not enabled:
+		return 0.0
+
+	# Return the distance-weighted fitness
+	return _weight(grabber)
+
+
+# Return a distance-weighted fitness weight in the range (0.0 - max]
+func _weight(grabber : Node3D, max : float = 1.0) -> float:
+	var distance := global_position.distance_to(grabber.global_position)
+	return max / (1.0 + distance)
