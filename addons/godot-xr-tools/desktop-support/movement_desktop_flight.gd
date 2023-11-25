@@ -108,17 +108,17 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	# Select the pitch vector
 	var pitch_vector: Vector3
 	# Use the vertical part of the 'head' forwards vector
-	pitch_vector = -_camera.transform.basis.z.y * player_body.up_player_vector
+	pitch_vector = -_camera.transform.basis.z.y * player_body.up_player
 
 	# Select the bearing vector
 	var bearing_vector: Vector3
 	# Use the horizontal part of the 'head' forwards vector
-	bearing_vector = -player_body.up_player_plane.project(
-			_camera.global_transform.basis.z)
+	bearing_vector = -_camera.global_transform.basis.z \
+			.slide(player_body.up_player)
 
 	# Construct the flight bearing
 	var forwards := (bearing_vector.normalized() + pitch_vector).normalized()
-	var side := forwards.cross(player_body.up_player_vector)
+	var side := forwards.cross(player_body.up_player)
 
 	# Construct the target velocity
 	var input_dir = Input.get_vector(input_left, input_right, input_backward, input_forward)

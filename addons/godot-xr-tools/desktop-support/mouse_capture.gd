@@ -9,7 +9,7 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-@export var order : int = 100
+@export var order : int = 1
 
 ## Our directional input
 @export var escape_action : String = "ui_cancel"
