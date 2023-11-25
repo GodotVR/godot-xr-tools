@@ -19,7 +19,7 @@ extends Area3D
 ## Right hand pose settings (XRToolsHandPoseSettings)
 @export var right_pose : XRToolsHandPoseSettings
 
-## Array of grabpoints this hand pose area can disable/enable
+## Array of grabpoints this hand pose area disables when active
 @export var grabpoints : Array[XRToolsGrabPointHand]
 
 # Add support for is_xr_class on XRTools classes
