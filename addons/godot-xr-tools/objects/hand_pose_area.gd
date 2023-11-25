@@ -19,7 +19,19 @@ extends Area3D
 ## Right hand pose settings (XRToolsHandPoseSettings)
 @export var right_pose : XRToolsHandPoseSettings
 
+## Array of grabpoints this hand pose area disables when active
+@export var grabpoints : Array[XRToolsGrabPointHand]
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsHandPoseArea"
+
+# Disables grabpoints
+func disable_grab_points():
+	for grabpoint in grabpoints:
+		grabpoint.enabled = false
+
+# Enables grabpoints
+func enable_grab_points():
+	for grabpoint in grabpoints:
+		grabpoint.enabled = true

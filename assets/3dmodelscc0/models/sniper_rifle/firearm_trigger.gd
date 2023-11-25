@@ -6,6 +6,8 @@ extends Node
 
 @export var value : float
 
+@export var handle_grabpoints : Array[XRToolsGrabPoint]
+
 @onready var _parent : XRToolsPickable = get_parent()
 
 # Current controller holding this object
@@ -24,15 +26,31 @@ func _ready() -> void:
 	# Listen for when this object is picked up or dropped
 	_parent.grabbed.connect(_on_grabbed)
 	_parent.released.connect(_on_released)
+	# disable handle grabpoints on ready
+	for handle_grabpoint in handle_grabpoints:
+		handle_grabpoint.enabled = false
 
+func _physics_process(delta):
+	if is_instance_valid(_parent):
+		# toggle handle grabpoints if parent got grabbed/released
+		if _parent.get_picked_up_by():
+			for handle_grabpoint in handle_grabpoints:
+				handle_grabpoint.enabled = true
+		else:
+			for handle_grabpoint in handle_grabpoints:
+				handle_grabpoint.enabled = false
 
 # Called when this object is grabbed
 func _on_grabbed(_pickable, _by) -> void:
 	_update_controller_signals()
-
+	for handle_grabpoint in handle_grabpoints:
+		handle_grabpoint.enabled = true
 
 # Called when this object is released
 func _on_released(_pickable, _by) -> void:
+	# disables handle grabpoints to ensure no missgrab if pickable is not being held
+	for handle_grabpoint in handle_grabpoints:
+		handle_grabpoint.enabled = false
 	_update_controller_signals()
 
 
@@ -58,7 +76,6 @@ func _update_controller_signals() -> void:
 		_current_controller = controller
 		_current_controller.button_pressed.connect(_on_controller_trigger_pressed)
 		_current_controller.button_released.connect(_on_controller_trigger_released)
-
 
 # Called when a controller button is released
 func _on_controller_trigger_released(trigger_button : String):
