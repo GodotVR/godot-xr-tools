@@ -80,6 +80,15 @@ const DEFAULT_LAYER := 0b0000_0000_0101_0000_0000_0000_0000_0001
 ## Update throttle property
 @export var throttle_fps : float = 30.0
 
+# Input property group
+@export_group("Input")
+
+## Allow physical keyboard input to viewport
+@export var input_keyboard : bool = true
+
+## Allow gamepad input to viewport
+@export var input_gamepad : bool = false
+
 # Rendering property group
 @export_group("Rendering")
 
@@ -197,10 +206,17 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 	pointer_event.emit(event)
 
 
-# Handler for input eventsd
+# Handler for input events
 func _input(event):
-	if not (event is InputEventMouseButton):
+	# Map keyboard events to the viewport if enabled
+	if input_keyboard and (event is InputEventKey or event is InputEventShortcut):
 		$Viewport.push_input(event)
+		return
+
+	# Map gamepad events to the viewport if enable
+	if input_gamepad and (event is InputEventJoypadButton or event is InputEventJoypadMotion):
+		$Viewport.push_input(event)
+		return
 
 
 # Process event
