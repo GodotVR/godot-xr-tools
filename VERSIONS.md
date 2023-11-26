@@ -9,6 +9,7 @@
 - Added support for snapping hands to grab-points.
 - Added support for world-grab movement.
 - Fixed editor errors when using hand physics bones.
+- Added support for climbable grab-points.
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.

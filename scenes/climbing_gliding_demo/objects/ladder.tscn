@@ -1,0 +1,282 @@
+[gd_scene load_steps=12 format=3 uid="uid://q3pa72xp41cq"]
+
+[ext_resource type="PackedScene" uid="uid://cjyilbm4ucc7s" path="res://addons/godot-xr-tools/objects/climbable.tscn" id="1_hhghe"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_3xg87"]
+[ext_resource type="Animation" uid="uid://dqa0h82y3qn1t" path="res://addons/godot-xr-tools/hands/animations/left/Grip 1.res" id="3_ypeye"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_bklyl"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_4eyqy"]
+[ext_resource type="Animation" uid="uid://daqddcrbpam0c" path="res://addons/godot-xr-tools/hands/animations/right/Grip 1.res" id="6_0yqiw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4n540"]
+size = Vector3(0.5, 7, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_idndg"]
+size = Vector3(0.05, 7, 0.05)
+
+[sub_resource type="BoxMesh" id="BoxMesh_0dvmy"]
+size = Vector3(0.4, 0.04, 0.04)
+
+[sub_resource type="Resource" id="Resource_j1r2j"]
+script = ExtResource("4_bklyl")
+open_pose = ExtResource("3_ypeye")
+closed_pose = ExtResource("3_ypeye")
+
+[sub_resource type="Resource" id="Resource_emqla"]
+script = ExtResource("4_bklyl")
+open_pose = ExtResource("6_0yqiw")
+closed_pose = ExtResource("6_0yqiw")
+
+[node name="Ladder" instance=ExtResource("1_hhghe")]
+
+[node name="CollisionShape3D" parent="." index="0"]
+shape = SubResource("BoxShape3D_4n540")
+
+[node name="Meshes" type="Node3D" parent="." index="1"]
+
+[node name="Left" type="MeshInstance3D" parent="Meshes" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.225, 0, 0)
+mesh = SubResource("BoxMesh_idndg")
+skeleton = NodePath("../..")
+
+[node name="Right" type="MeshInstance3D" parent="Meshes" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.225, 0, 0)
+mesh = SubResource("BoxMesh_idndg")
+skeleton = NodePath("../..")
+
+[node name="Rung1" type="MeshInstance3D" parent="Meshes" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung2" type="MeshInstance3D" parent="Meshes" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.8, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung3" type="MeshInstance3D" parent="Meshes" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.4, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung4" type="MeshInstance3D" parent="Meshes" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung5" type="MeshInstance3D" parent="Meshes" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.6, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung6" type="MeshInstance3D" parent="Meshes" index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung7" type="MeshInstance3D" parent="Meshes" index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.8, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung8" type="MeshInstance3D" parent="Meshes" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.4, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung9" type="MeshInstance3D" parent="Meshes" index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -9.68575e-08, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung10" type="MeshInstance3D" parent="Meshes" index="11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung11" type="MeshInstance3D" parent="Meshes" index="12"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.8, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung12" type="MeshInstance3D" parent="Meshes" index="13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung13" type="MeshInstance3D" parent="Meshes" index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung14" type="MeshInstance3D" parent="Meshes" index="15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung15" type="MeshInstance3D" parent="Meshes" index="16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung16" type="MeshInstance3D" parent="Meshes" index="17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.8, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="Rung17" type="MeshInstance3D" parent="Meshes" index="18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0)
+mesh = SubResource("BoxMesh_0dvmy")
+skeleton = NodePath("../..")
+
+[node name="GrabPointHandLeft1" parent="." index="2" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -3.15, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight1" parent="." index="3" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -3.15, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft2" parent="." index="4" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -2.75, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight2" parent="." index="5" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -2.75, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft3" parent="." index="6" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -2.35, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight3" parent="." index="7" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -2.35, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft4" parent="." index="8" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -1.95, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight4" parent="." index="9" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -1.95, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft5" parent="." index="10" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -1.55, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight5" parent="." index="11" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -1.55, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft6" parent="." index="12" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -1.15, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight6" parent="." index="13" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -1.15, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft7" parent="." index="14" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -0.75, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight7" parent="." index="15" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -0.75, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft8" parent="." index="16" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, -0.35, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight8" parent="." index="17" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, -0.35, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft9" parent="." index="18" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 0.05, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight9" parent="." index="19" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 0.05, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft10" parent="." index="20" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 0.45, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight10" parent="." index="21" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 0.45, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft11" parent="." index="22" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 0.85, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight11" parent="." index="23" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 0.85, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft12" parent="." index="24" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 1.25, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight12" parent="." index="25" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 1.25, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft13" parent="." index="26" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 1.65, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight13" parent="." index="27" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 1.65, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft14" parent="." index="28" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 2.05, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight14" parent="." index="29" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 2.05, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft15" parent="." index="30" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 2.45, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight15" parent="." index="31" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 2.45, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft16" parent="." index="32" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 2.85, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight16" parent="." index="33" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 2.85, -0.05)
+hand_pose = SubResource("Resource_emqla")
+
+[node name="GrabPointHandLeft17" parent="." index="34" instance=ExtResource("2_3xg87")]
+transform = Transform3D(-4.2222e-08, 0.965926, -0.258819, -0.707107, -0.183013, -0.683013, -0.707107, 0.183013, 0.683013, -0.05, 3.25, -0.05)
+hand_pose = SubResource("Resource_j1r2j")
+editor_preview_mode = 1
+
+[node name="GrabPointHandRight17" parent="." index="35" instance=ExtResource("5_4eyqy")]
+transform = Transform3D(-4.2222e-08, -0.965926, 0.258819, 0.707107, -0.183013, -0.683013, 0.707107, 0.183013, 0.683013, 0.05, 3.25, -0.05)
+hand_pose = SubResource("Resource_emqla")
