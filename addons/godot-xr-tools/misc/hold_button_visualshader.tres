@@ -102,7 +102,7 @@ function = 12
 
 [resource]
 code = "shader_type spatial;
-render_mode unshaded;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
 
 uniform vec4 albedo : source_color;
 uniform float value;

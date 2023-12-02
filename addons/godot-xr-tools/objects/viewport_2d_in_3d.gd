@@ -80,6 +80,15 @@ const DEFAULT_LAYER := 0b0000_0000_0101_0000_0000_0000_0000_0001
 ## Update throttle property
 @export var throttle_fps : float = 30.0
 
+# Input property group
+@export_group("Input")
+
+## Allow physical keyboard input to viewport
+@export var input_keyboard : bool = true
+
+## Allow gamepad input to viewport
+@export var input_gamepad : bool = false
+
 # Rendering property group
 @export_group("Rendering")
 
@@ -197,10 +206,17 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 	pointer_event.emit(event)
 
 
-# Handler for input eventsd
+# Handler for input events
 func _input(event):
-	if not (event is InputEventMouseButton) and not (event is InputEventKey):
+	# Map keyboard events to the viewport if enabled
+	if input_keyboard and (event is InputEventKey or event is InputEventShortcut):
 		$Viewport.push_input(event)
+		return
+
+	# Map gamepad events to the viewport if enable
+	if input_gamepad and (event is InputEventJoypadButton or event is InputEventJoypadMotion):
+		$Viewport.push_input(event)
+		return
 
 
 # Process event
@@ -319,10 +335,10 @@ func set_filter(new_filter: bool) -> void:
 func _update_screen_size() -> void:
 	$Screen.mesh.size = screen_size
 	$StaticBody3D.screen_size = screen_size
-	$StaticBody3D/CollisionShape3D.shape.extents = Vector3(
-			screen_size.x * 0.5,
-			screen_size.y * 0.5,
-			0.01)
+	$StaticBody3D/CollisionShape3D.shape.size = Vector3(
+			screen_size.x,
+			screen_size.y,
+			0.02)
 
 
 # Enabled update handler
@@ -437,8 +453,14 @@ func _update_render() -> void:
 
 		# If using a temporary material then update transparency
 		if _screen_material and not material:
-			_screen_material.flags_transparent = transparent != TransparancyMode.OPAQUE
-			_screen_material.params_use_alpha_scissor = transparent == TransparancyMode.SCISSOR
+			# Set the transparancy mode
+			match transparent:
+				TransparancyMode.OPAQUE:
+					_screen_material.transparency = BaseMaterial3D.TRANSPARENCY_DISABLED
+				TransparancyMode.TRANSPARENT:
+					_screen_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA
+				TransparancyMode.SCISSOR:
+					_screen_material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_SCISSOR
 
 		# Set the viewport background transparency mode and force a redraw
 		$Viewport.transparent_bg = transparent != TransparancyMode.OPAQUE
