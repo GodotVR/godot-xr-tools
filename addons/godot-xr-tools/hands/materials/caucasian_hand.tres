@@ -1,0 +1,8 @@
+[gd_resource type="ORMMaterial3D" load_steps=3 format=3 uid="uid://dy6nhifvvmm73"]
+
+[ext_resource type="Texture2D" uid="uid://c506svon268ms" path="res://addons/godot-xr-tools/hands/textures/caucasian_baseColor.png" id="1_si4on"]
+[ext_resource type="Texture2D" uid="uid://h3sjbnu6uplb" path="res://addons/godot-xr-tools/hands/textures/hands_occlusionRoughnessMetallic.png" id="2_agvfk"]
+
+[resource]
+albedo_texture = ExtResource("1_si4on")
+orm_texture = ExtResource("2_agvfk")
