@@ -347,9 +347,9 @@ func request_jump(skip_jump_velocity := false):
 	if !on_ground:
 		return
 
-	# Skip if our vertical velocity is not essentially the same as the ground
+	# Skip if we have any vertical velocity with regards to the ground-plane
 	var ground_relative := velocity - ground_velocity
-	if abs(ground_relative.dot(up_player)) > 0.01:
+	if abs(ground_relative.dot(ground_vector)) > 0.01:
 		return
 
 	# Skip if jump disabled on this ground
