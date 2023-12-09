@@ -40,6 +40,7 @@ func _define_project_setting(
 func _enable_openxr() -> void:
 	ProjectSettings.set("xr/openxr/enabled", true)
 	ProjectSettings.set("xr/shaders/enabled", true)
+	ProjectSettings.save()
 
 
 func _set_physics_layers() -> void:
@@ -55,6 +56,7 @@ func _set_physics_layers() -> void:
 	ProjectSettings.set("layer_names/3d_physics/layer_21", "Pointable Objects")
 	ProjectSettings.set("layer_names/3d_physics/layer_22", "Hand Pose Areas")
 	ProjectSettings.set("layer_names/3d_physics/layer_23", "UI Objects")
+	ProjectSettings.save()
 
 
 func _on_xr_tools_menu_pressed(id : int) -> void:
