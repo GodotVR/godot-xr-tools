@@ -2,7 +2,6 @@
 class_name XRToolsInteractableJoystick
 extends XRToolsInteractableHandleDriven
 
-
 ## XR Tools Interactable Joystick script
 ##
 ## The interactable joystick is a joystick transform node controlled by the
@@ -15,85 +14,60 @@ extends XRToolsInteractableHandleDriven
 ## to any collisions.
 
 
-## Signal for hinge moved
-signal joystick_moved(x_angle, y_angle)
+## Emitted when the hinge is moved
+signal joystick_moved(x_angle: float, y_angle: float)
 
-
-## Constant for flattening a vector horizontally (X/Z only)
-const VECTOR_XZ := Vector3(1.0, 0.0, 1.0)
-
-## Constant for flattening a vector vertically (Y/Z only)
-const VECTOR_YZ := Vector3(0.0, 1.0, 1.0)
-
-
-## Joystick X minimum limit
-@export var joystick_x_limit_min : float = -45.0: set = _set_joystick_x_limit_min
-
-## Joystick X maximum limit
-@export var joystick_x_limit_max : float = 45.0: set = _set_joystick_x_limit_max
-
-## Joystick Y minimum limit
-@export var joystick_y_limit_min : float = -45.0: set = _set_joystick_y_limit_min
-
-## Joystick Y maximum limit
-@export var joystick_y_limit_max : float = 45.0: set = _set_joystick_y_limit_max
 
 ## Joystick X step size (zero for no steps)
-@export var joystick_x_steps : float = 0.0: set = _set_joystick_x_steps
+@export var joystick_x_steps := 0.0 : set = _set_joystick_x_steps
 
 ## Joystick Y step size (zero for no steps)
-@export var joystick_y_steps : float = 0.0: set = _set_joystick_y_steps
+@export var joystick_y_steps := 0.0 : set = _set_joystick_y_steps
 
 ## Joystick X position
-@export var joystick_x_position : float = 0.0: set = _set_joystick_x_position
+@export var joystick_x_position := 0.0 : set = _set_joystick_x_position
 
 ## Joystick Y position
-@export var joystick_y_position : float = 0.0: set = _set_joystick_y_position
+@export var joystick_y_position := 0.0 : set = _set_joystick_y_position
 
 ## Default X position
-@export var default_x_position : float = 0.0: set = _set_default_x_position
+@export var default_x_position := 0.0 : set = _set_default_x_position
 
 ## Default Y position
-@export var default_y_position : float = 0.0: set = _set_default_y_position
+@export var default_y_position := 0.0 : set = _set_default_y_position
 
-## If true, the joystick moves to the default position when released
-@export var default_on_release : bool = false
-
-
-# Joystick values in radians
-@onready var _joystick_x_limit_min_rad : float = deg_to_rad(joystick_x_limit_min)
-@onready var _joystick_x_limit_max_rad : float = deg_to_rad(joystick_x_limit_max)
-@onready var _joystick_y_limit_min_rad : float = deg_to_rad(joystick_y_limit_min)
-@onready var _joystick_y_limit_max_rad : float = deg_to_rad(joystick_y_limit_max)
-@onready var _joystick_x_steps_rad : float = deg_to_rad(joystick_x_steps)
-@onready var _joystick_y_steps_rad : float = deg_to_rad(joystick_y_steps)
-@onready var _joystick_x_position_rad : float = deg_to_rad(joystick_x_position)
-@onready var _joystick_y_position_rad : float = deg_to_rad(joystick_y_position)
-@onready var _default_x_position_rad : float = deg_to_rad(default_x_position)
-@onready var _default_y_position_rad : float = deg_to_rad(default_y_position)
+## Whether the joystick moves to the default position when released
+@export var default_on_release := false
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsInteractableJoystick" or super(xr_name)
+## Joystick origin
+var _origin: XRToolsInteractableJoystickOrigin
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
+	# Get the parent origin
+	_origin = get_parent()
+
 	# Set the initial position to match the initial joystick position value
 	transform = Transform3D(
-		Basis.from_euler(Vector3(_joystick_y_position_rad, _joystick_x_position_rad, 0)),
-		Vector3.ZERO)
+			Basis.from_euler(Vector3(
+					-deg_to_rad(joystick_y_position),
+					deg_to_rad(joystick_x_position),
+					0.0),
+			),
+			Vector3.ZERO,
+	)
 
 	# Connect signals
 	if released.connect(_on_joystick_released):
 		push_error("Cannot connect joystick released signal")
 
 
-# Called every frame when one or more handles are held by the player
+# When one or more handles are held by the player
 func _process(_delta: float) -> void:
 	# Do not process in the editor
 	if Engine.is_editor_hint():
@@ -106,18 +80,21 @@ func _process(_delta: float) -> void:
 	# Get the total handle angular offsets
 	var offset_x_sum := 0.0
 	var offset_y_sum := 0.0
-	for item in grabbed_handles:
-		var handle := item as XRToolsInteractableHandle
+	for handle: XRToolsInteractableHandle in grabbed_handles:
 		var to_handle: Vector3 = handle.global_transform.origin * global_transform
 		var to_handle_origin: Vector3 = handle.handle_origin.global_transform.origin * global_transform
 
-		var to_handle_x := to_handle * VECTOR_XZ
-		var to_handle_origin_x := to_handle_origin * VECTOR_XZ
-		offset_x_sum += to_handle_origin_x.signed_angle_to(to_handle_x, Vector3.UP)
+		var to_handle_x := to_handle.slide(Vector3.UP)
+		var to_handle_origin_x := to_handle_origin.slide(Vector3.UP)
+		offset_x_sum += rad_to_deg(
+				to_handle_origin_x.signed_angle_to(to_handle_x, Vector3.UP)
+		)
 
-		var to_handle_y := to_handle * VECTOR_YZ
-		var to_handle_origin_y := to_handle_origin * VECTOR_YZ
-		offset_y_sum += to_handle_origin_y.signed_angle_to(to_handle_y, Vector3.RIGHT)
+		var to_handle_y := to_handle.slide(Vector3.LEFT)
+		var to_handle_origin_y := to_handle_origin.slide(Vector3.LEFT)
+		offset_y_sum += rad_to_deg(
+				to_handle_origin_y.signed_angle_to(to_handle_y, Vector3.LEFT)
+		)
 
 	# Average the angular offsets
 	var offset_x := offset_x_sum / grabbed_handles.size()
@@ -125,112 +102,120 @@ func _process(_delta: float) -> void:
 
 	# Move the joystick by the requested offset
 	move_joystick(
-		_joystick_x_position_rad + offset_x,
-		_joystick_y_position_rad + offset_y)
+			joystick_x_position + offset_x,
+			joystick_y_position + offset_y,
+	)
 
 
-# Move the joystick to the specified position
-func move_joystick(position_x: float, position_y: float) -> void:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsInteractableJoystick" or super(xr_name)
+
+
+## Moves the joystick to the specified position
+func move_joystick(pos_x: float, pos_y: float) -> void:
 	# Do the move
-	var pos := _do_move_joystick(Vector2(position_x, position_y))
-	if pos.x == _joystick_x_position_rad and pos.y == _joystick_y_position_rad:
+	var pos := _do_move_joystick(Vector2(pos_x, pos_y))
+	if pos.x == joystick_x_position and pos.y == joystick_y_position:
 		return
 
 	# Update the current positon
-	_joystick_x_position_rad = pos.x
-	_joystick_y_position_rad = pos.y
-	joystick_x_position = rad_to_deg(pos.x)
-	joystick_y_position = rad_to_deg(pos.y)
+	joystick_x_position = pos.x
+	joystick_y_position = pos.y
 
 	# Emit the joystick signal
-	emit_signal("joystick_moved", joystick_x_position, joystick_y_position)
+	joystick_moved.emit(pos.x, pos.y)
 
 
-# Handle release of joystick
-func _on_joystick_released(_interactable: XRToolsInteractableJoystick):
-	if default_on_release:
-		move_joystick(_default_x_position_rad, _default_y_position_rad)
-
-
-# Called when joystick_x_limit_min is set externally
-func _set_joystick_x_limit_min(value: float) -> void:
-	joystick_x_limit_min = value
-	_joystick_x_limit_min_rad = deg_to_rad(value)
-
-
-# Called when joystick_y_limit_min is set externally
-func _set_joystick_y_limit_min(value: float) -> void:
-	joystick_y_limit_min = value
-	_joystick_y_limit_min_rad = deg_to_rad(value)
-
-
-# Called when joystick_x_limit_max is set externally
-func _set_joystick_x_limit_max(value: float) -> void:
-	joystick_x_limit_max = value
-	_joystick_x_limit_max_rad = deg_to_rad(value)
-
-
-# Called when joystick_y_limit_max is set externally
-func _set_joystick_y_limit_max(value: float) -> void:
-	joystick_y_limit_max = value
-	_joystick_y_limit_max_rad = deg_to_rad(value)
-
-
-# Called when joystick_x_steps is set externally
-func _set_joystick_x_steps(value: float) -> void:
-	joystick_x_steps = value
-	_joystick_x_steps_rad = deg_to_rad(value)
-
-
-# Called when joystick_y_steps is set externally
-func _set_joystick_y_steps(value: float) -> void:
-	joystick_y_steps = value
-	_joystick_y_steps_rad = deg_to_rad(value)
-
-
-# Called when joystick_x_position is set externally
-func _set_joystick_x_position(value: float) -> void:
-	var pos := Vector2(deg_to_rad(value), _joystick_y_position_rad)
-	pos = _do_move_joystick(pos)
-	joystick_x_position = rad_to_deg(pos.x)
-	_joystick_x_position_rad = pos.x
-
-
-# Called when joystick_y_position is set externally
-func _set_joystick_y_position(value: float) -> void:
-	var pos := Vector2(_joystick_x_position_rad, deg_to_rad(value))
-	pos = _do_move_joystick(pos)
-	joystick_y_position = rad_to_deg(pos.y)
-	_joystick_y_position_rad = pos.y
-
-
-# Called when default_x_position is set externally
-func _set_default_x_position(value: float) -> void:
-	default_x_position = value
-	_default_x_position_rad = deg_to_rad(value)
-
-
-# Called when default_y_position is set externally
-func _set_default_y_position(value: float) -> void:
-	default_y_position = value
-	_default_y_position_rad = deg_to_rad(value)
-
-
-# Do the joystick move
-func _do_move_joystick(pos: Vector2) -> Vector2:
+# Clamps the X position based on the hinge rules
+func _clamp_x_position(p_x_position: float) -> float:
 	# Apply joystick step-quantization
-	if _joystick_x_steps_rad:
-		pos.x = round(pos.x / _joystick_x_steps_rad) * _joystick_x_steps_rad
-	if _joystick_y_steps_rad:
-		pos.y = round(pos.y / _joystick_y_steps_rad) * _joystick_y_steps_rad
+	if joystick_x_steps:
+		p_x_position = snappedf(p_x_position, joystick_x_steps)
 
 	# Apply joystick limits
-	pos.x = clamp(pos.x, _joystick_x_limit_min_rad, _joystick_x_limit_max_rad)
-	pos.y = clamp(pos.y, _joystick_y_limit_min_rad, _joystick_y_limit_max_rad)
+	if _origin:
+		p_x_position = clampf(
+				p_x_position,
+				_origin.limit_x_minimum,
+				_origin.limit_x_maximum,
+		)
+
+	# Return the updated x position
+	return p_x_position
+
+
+# Clamps the Y position based on the hinge rules
+func _clamp_y_position(p_y_position: float) -> float:
+	# Apply joystick step-quantization
+	if joystick_y_steps:
+		p_y_position = snappedf(p_y_position, joystick_y_steps)
+
+	# Apply joystick limits
+	if _origin:
+		p_y_position = clampf(
+				p_y_position,
+				_origin.limit_y_minimum,
+				_origin.limit_y_maximum,
+		)
+
+	# Return the updated y position
+	return p_y_position
+
+
+# Moves the joystick
+func _do_move_joystick(p_pos: Vector2) -> Vector2:
+	# Clamp position
+	p_pos.x = _clamp_x_position(p_pos.x)
+	p_pos.y = _clamp_y_position(p_pos.y)
 
 	# Move if necessary
-	if pos.x != _joystick_x_position_rad or pos.y != _joystick_y_position_rad:
-		transform.basis = Basis.from_euler(Vector3(pos.y, pos.x, 0.0))
+	if p_pos.x != joystick_x_position or p_pos.y != joystick_y_position:
+		transform.basis = Basis.from_euler(Vector3(
+				-deg_to_rad(p_pos.y),
+				deg_to_rad(p_pos.x),
+				0.0,
+		))
 
 	# Return the updated position
-	return pos
+	return p_pos
+
+
+# Handles the release of the joystick
+func _on_joystick_released(_interactable: XRToolsInteractableJoystick) -> void:
+	if default_on_release:
+		move_joystick(default_x_position, default_y_position)
+
+
+# When default_x_position is set
+func _set_default_x_position(p_default_x_position: float) -> void:
+	default_x_position = _clamp_x_position(p_default_x_position)
+
+
+# When default_y_position is set
+func _set_default_y_position(p_default_y_position: float) -> void:
+	default_y_position = _clamp_y_position(p_default_y_position)
+
+
+# When joystick_x_position is set
+func _set_joystick_x_position(p_joystick_x_position: float) -> void:
+	var pos := Vector2(p_joystick_x_position, joystick_y_position)
+	pos = _do_move_joystick(pos)
+	joystick_x_position = pos.x
+
+
+# When joystick_y_position is set
+func _set_joystick_y_position(p_joystick_y_position: float) -> void:
+	var pos := Vector2(joystick_x_position, p_joystick_y_position)
+	pos = _do_move_joystick(pos)
+	joystick_y_position = pos.y
+
+
+# When joystick_x_steps is set
+func _set_joystick_x_steps(p_joystick_x_steps: float) -> void:
+	joystick_x_steps = maxf(0.0, p_joystick_x_steps)
+
+
+# When joystick_y_steps is set
+func _set_joystick_y_steps(p_joystick_y_steps: float) -> void:
+	joystick_y_steps = maxf(0.0, p_joystick_y_steps)

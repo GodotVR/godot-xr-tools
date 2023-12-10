@@ -8,9 +8,33 @@ const MENU_ID_ENABLE_OPENXR := 1001
 ## Menu ID for setting the physics layers
 const MENU_ID_SET_PHYSICS_LAYERS := 1002
 
+## Hinge joint editor gizmo
+const GIZMO_HINGE_JOINT := preload(
+		"res://addons/godot-xr-tools/editor/gizmos/hinge_origin.gd"
+)
+
+## Slider joint editor gizmo
+const GIZMO_SLIDER_JOINT := preload(
+		"res://addons/godot-xr-tools/editor/gizmos/slider_origin.gd"
+)
+
+## Joystick joint editor gizmo
+const GIZMO_JOYSTICK_JOINT := preload(
+		"res://addons/godot-xr-tools/editor/gizmos/joystick_origin.gd"
+)
+
 
 # XR Tools popup menu
 var _xr_tools_menu: PopupMenu
+
+# Gizmo for editing hinge joints
+var _gizmo_hinge_joint: EditorNode3DGizmoPlugin = GIZMO_HINGE_JOINT.new()
+
+# Gizmo for editing slider joints
+var _gizmo_slider_joint: EditorNode3DGizmoPlugin = GIZMO_SLIDER_JOINT.new()
+
+# Gizmo for editing joystick joints
+var _gizmo_joystick_joint: EditorNode3DGizmoPlugin = GIZMO_JOYSTICK_JOINT.new()
 
 
 func _enter_tree() -> void:
@@ -97,6 +121,16 @@ func _enter_tree() -> void:
 			"res://addons/godot-xr-tools/rumble/rumble_manager.gd",
 	)
 
+	# TODO: Fix saving undo/redo manager in gizmos
+	_gizmo_hinge_joint.undo_redo = get_undo_redo()
+	_gizmo_slider_joint.undo_redo = get_undo_redo()
+	_gizmo_joystick_joint.undo_redo = get_undo_redo()
+
+	# Add gizmos
+	add_node_3d_gizmo_plugin(_gizmo_hinge_joint)
+	add_node_3d_gizmo_plugin(_gizmo_slider_joint)
+	add_node_3d_gizmo_plugin(_gizmo_joystick_joint)
+
 
 func _define_project_setting(
 		p_name: String,
@@ -127,8 +161,10 @@ func _enable_openxr() -> void:
 
 
 func _exit_tree() -> void:
-	# our plugin is turned off
-	pass
+	# our plugin is turned off, so remove gizmos
+	remove_node_3d_gizmo_plugin(_gizmo_hinge_joint)
+	remove_node_3d_gizmo_plugin(_gizmo_slider_joint)
+	remove_node_3d_gizmo_plugin(_gizmo_joystick_joint)
 
 
 func _on_xr_tools_menu_pressed(id: int) -> void:

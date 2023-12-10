@@ -2,7 +2,6 @@
 class_name XRToolsInteractableHandleDriven
 extends Node3D
 
-
 ## XR Tools Interactable Handle Driven script
 ##
 ## This is the base class for interactables driven by handles. It subscribes
@@ -13,57 +12,29 @@ extends Node3D
 ## to process the handle-driven movement.
 
 
-## Signal called when this interactable is grabbed
-signal grabbed(interactable)
+## Emitted when this interactable is grabbed
+signal grabbed(interactable: XRToolsInteractableHandleDriven)
 
-## Signal called when this interactable is released
-signal released(interactable)
-
-
-# Array of handles currently grabbed
-var grabbed_handles := Array()
+## Emitted when this interactable is released
+signal released(interactable: XRToolsInteractableHandleDriven)
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Currently-grabbed handles
+var grabbed_handles: Array[XRToolsInteractableHandle]
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsInteractableHandleDriven"
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# Hook picked_up and dropped signals from all child handles
 	_hook_child_handles(self)
 
 	# Turn off processing until a handle is grabbed
 	set_process(false)
-
-
-# Called when a handle is picked up
-func _on_handle_picked_up(handle: XRToolsInteractableHandle) -> void:
-	# Append to the list of grabbed handles
-	grabbed_handles.append(handle)
-
-	# Enable processing
-	if grabbed_handles.size() == 1:
-		# Report grabbed
-		emit_signal("grabbed", self)
-
-		# Enable physics processing
-		set_process(true)
-
-
-# Called when a handle is dropped
-func _on_handle_dropped(handle: XRToolsInteractableHandle) -> void:
-	# Remove from the list of grabbed handles
-	grabbed_handles.erase(handle)
-
-	# Disable processing when we drop the last handle
-	if grabbed_handles.is_empty():
-		# Disable physics processing
-		set_process(false)
-
-		# Report released
-		emit_signal("released", self)
 
 
 # Recursive function to hook picked_up and dropped signals in all child handles
@@ -77,5 +48,33 @@ func _hook_child_handles(node: Node) -> void:
 			push_error("Unable to connect handle signal")
 
 	# Recurse into all children
-	for child in node.get_children():
+	for child: Node in node.get_children():
 		_hook_child_handles(child)
+
+
+# When a handle is picked up
+func _on_handle_picked_up(handle: XRToolsInteractableHandle) -> void:
+	# Append to the list of grabbed handles
+	grabbed_handles.append(handle)
+
+	# Enable processing
+	if grabbed_handles.size() == 1:
+		# Report grabbed
+		grabbed.emit(self)
+
+		# Enable physics processing
+		set_process(true)
+
+
+# When a handle is dropped
+func _on_handle_dropped(handle: XRToolsInteractableHandle) -> void:
+	# Remove from the list of grabbed handles
+	grabbed_handles.erase(handle)
+
+	# Disable processing when we drop the last handle
+	if grabbed_handles.is_empty():
+		# Disable physics processing
+		set_process(false)
+
+		# Report released
+		released.emit(self)
