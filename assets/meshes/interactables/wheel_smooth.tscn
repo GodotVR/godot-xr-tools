@@ -1,6 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2td5hwh2oluy"]
+[gd_scene load_steps=12 format=3 uid="uid://d2td5hwh2oluy"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="1"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge_origin.gd" id="1_amejw"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="4_2vgo6"]
@@ -29,11 +30,12 @@ radius = 0.22
 
 [node name="HingeOrigin" type="Node3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
+script = ExtResource("1_amejw")
+limit_minimum = -180.0
+limit_maximum = 180.0
 
 [node name="InteractableHinge" type="Node3D" parent="HingeOrigin"]
 script = ExtResource("2")
-hinge_limit_min = -360.0
-hinge_limit_max = 360.0
 
 [node name="WheelBody" type="StaticBody3D" parent="HingeOrigin/InteractableHinge"]
 

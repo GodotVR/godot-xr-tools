@@ -1,3 +1,6 @@
+# 4.4.0
+- **minor-breakage** Add gizmos to help align interactable hinges, sliders, and joysticks
+
 # 4.3.0
 - Upgraded project to Godot 4.1 as the new minimum version.
 - Added reporting of stage load errors.
