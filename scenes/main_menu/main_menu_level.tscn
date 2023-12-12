@@ -25,7 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://xqimcf20s2jp" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_fullglove_low.tscn" id="25_2b81d"]
 [ext_resource type="Texture2D" uid="uid://bbe7o7pdq38m2" path="res://scenes/poke_demo/poke_demo.png" id="25_rg3rn"]
 [ext_resource type="PackedScene" uid="uid://3bsyhd7ehoa1" path="res://scenes/main_menu/objects/settings_ui.tscn" id="26_0uyxa"]
-[ext_resource type="Material" uid="uid://bhiiya7ow6h8v" path="res://addons/godot-xr-tools/hands/materials/labglove.material" id="26_id1x7"]
+[ext_resource type="Material" uid="uid://ds2dpvbpht0ea" path="res://addons/godot-xr-tools/hands/materials/labglove.tres" id="26_id1x7"]
 [ext_resource type="Texture2D" uid="uid://v4807nasx1dc" path="res://scenes/sprinting_demo/sprinting_demo.png" id="29_h1jn0"]
 [ext_resource type="Texture2D" uid="uid://cr1l4g7btdyht" path="res://scenes/origin_gravity_demo/origin_gravity_demo.png" id="32_c4n1q"]
 [ext_resource type="Texture2D" uid="uid://dhd30j0xpcxoi" path="res://scenes/sphere_world_demo/sphere_world_demo.png" id="34_xw8ig"]

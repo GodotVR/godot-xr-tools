@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/physics_hand.gd" id="3"]
 [ext_resource type="Resource" uid="uid://dmpjtk0l8vh6v" path="res://addons/godot-xr-tools/hands/poses/pose_default_right.tres" id="3_23oai"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" id="4"]
-[ext_resource type="Material" uid="uid://bhiiya7ow6h8v" path="res://addons/godot-xr-tools/hands/materials/labglove.material" id="5"]
+[ext_resource type="Material" uid="uid://ds2dpvbpht0ea" path="res://addons/godot-xr-tools/hands/materials/labglove.tres" id="5"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://m85b1gogdums" path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" id="7"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sbg56"]

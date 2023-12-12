@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="3"]
 [ext_resource type="Resource" uid="uid://dertgu7k8alls" path="res://addons/godot-xr-tools/hands/poses/pose_default_left.tres" id="3_iq5xt"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="4"]
-[ext_resource type="Material" uid="uid://b718ylp68nhtc" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.material" id="5"]
+[ext_resource type="Material" uid="uid://f2uhcqq8s2jx" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.tres" id="5"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_a8arv"]
 animation = &"Grip"
