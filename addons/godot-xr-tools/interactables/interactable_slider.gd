@@ -19,23 +19,21 @@ extends XRToolsInteractableHandleDriven
 signal slider_moved(position)
 
 
-## Slider minimum limit
-@export var slider_limit_min : float = 0.0
-
-## Slider maximum limit
-@export var slider_limit_max : float = 1.0
-
 ## Slider step size (zero for no steps)
-@export var slider_steps : float = 0.0
+@export var slider_steps : float = 0.0 : set = _set_slider_steps
 
 ## Slider position
-@export var slider_position : float = 0.0: set = _set_slider_position
+@export var slider_position : float = 0.0 : set = _set_slider_position
 
 ## Default position
-@export var default_position : float = 0.0
+@export var default_position : float = 0.0 : set = _set_default_position
 
 ## If true, the slider moves to the default position when released
 @export var default_on_release : bool = false
+
+
+## Slider origin
+var _origin : XRToolsInteractableSliderOrigin
 
 
 # Add support for is_xr_class on XRTools classes
@@ -47,6 +45,9 @@ func is_xr_class(name : String) -> bool:
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
+
+	# Get the parent origin
+	_origin = get_parent()
 
 	# Set the initial position to match the initial slider position value
 	transform = Transform3D(
@@ -60,7 +61,7 @@ func _ready() -> void:
 
 
 # Called every frame when one or more handles are held by the player
-func _process(_delta: float) -> void:
+func _process(_delta : float) -> void:
 	# Get the total handle offsets
 	var offset_sum := Vector3.ZERO
 	for item in grabbed_handles:
@@ -78,43 +79,62 @@ func _process(_delta: float) -> void:
 
 
 # Move the slider to the specified position
-func move_slider(position: float) -> void:
+func move_slider(p_position : float) -> void:
 	# Do the slider move
-	position = _do_move_slider(position)
-	if position == slider_position:
+	p_position = _do_move_slider(p_position)
+	if p_position == slider_position:
 		return
 
 	# Update the current position
-	slider_position = position
+	slider_position = p_position
 
 	# Emit the moved signal
-	emit_signal("slider_moved", position)
+	emit_signal("slider_moved", p_position)
 
 
 # Handle release of slider
-func _on_slider_released(_interactable: XRToolsInteractableSlider):
+func _on_slider_released(_interactable : XRToolsInteractableSlider):
 	if default_on_release:
 		move_slider(default_position)
 
 
-# Called when the slider position is set externally
-func _set_slider_position(position: float) -> void:
-	position = _do_move_slider(position)
-	slider_position = position
+# Called when the slider steps are set
+func _set_slider_steps(p_slider_steps : float) -> void:
+	slider_steps = maxf(0.0, p_slider_steps)
+
+
+# Called when the slider position is set
+func _set_slider_position(p_slider_position : float) -> void:
+	slider_position = _do_move_slider(p_slider_position)
+
+
+# Called when the default position is set
+func _set_default_position(p_default_position : float) -> void:
+	default_position = _clamp_position(p_default_position)
 
 
 # Do the slider move
-func _do_move_slider(position: float) -> float:
-	# Apply slider step-quantization
-	if slider_steps:
-		position = round(position / slider_steps) * slider_steps
-
-	# Apply slider limits
-	position = clamp(position, slider_limit_min, slider_limit_max)
+func _do_move_slider(p_position : float) -> float:
+	# Clamp the position
+	p_position = _clamp_position(p_position)
 
 	# Move if necessary
-	if position != slider_position:
-		transform.origin.x = position
+	if p_position != slider_position:
+		transform.origin.x = p_position
 
 	# Return the updated position
-	return position
+	return p_position
+
+
+# Clamp the position based on the hinge rules
+func _clamp_position(p_position : float) -> float:
+	# Apply hinge step-quantization
+	if slider_steps:
+		p_position = snappedf(p_position, slider_steps)
+
+	# Apply hinge limits
+	if _origin:
+		p_position = clamp(p_position, _origin.limit_minimum, _origin.limit_maximum)
+
+	# Return the updated position
+	return p_position
