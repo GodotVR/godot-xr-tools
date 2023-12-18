@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://baj8c710hqjhn"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 257.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = 390.0
+offset_bottom = 256.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 11
+text = "Rumble Demo
+
+
+This scene demonstrates rumbling scenarios. 
+Push the A/X button on either hand's controller for a short, small rumble on that hand.
+Push the B/Y button on either hand's controller for a short, large rumble on that hand.
+
+The colored areas will trigger an indefinite rumble from least to most strength, left to right, respectively.
+
+You can activate a button-activated short rumble during the indefinite rumbles, but it may be harder to notice, the stronger the area you're in is!
+
+They are scaled according to the \"Haptics Scale\" from the Main Menu's settings."

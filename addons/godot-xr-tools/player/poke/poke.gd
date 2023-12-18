@@ -15,6 +15,12 @@ extends Node3D
 ## Signal emitted when this object pokes another object
 signal pointing_event(event)
 
+## Signal emitted when this object presses another object
+signal pressed(body)
+
+## Signal emitted when this object releases the press on another object
+signal released(body)
+
 
 # Default layer of 18:player-hands
 const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
@@ -204,6 +210,7 @@ func _on_PokeBody_body_contact_start(body):
 	# Report body pressed
 	target = body
 	last_collided_at = $PokeBody.global_transform.origin
+	pressed.emit(body)
 	XRToolsPointerEvent.entered(self, body, last_collided_at)
 	XRToolsPointerEvent.pressed(self, body, last_collided_at)
 
@@ -219,4 +226,5 @@ func _on_PokeBody_body_contact_end(body):
 	# Report release
 	XRToolsPointerEvent.released(self, target, last_collided_at)
 	XRToolsPointerEvent.exited(self, target, last_collided_at)
+	released.emit(target)
 	target = null
