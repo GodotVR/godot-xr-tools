@@ -31,9 +31,9 @@ As mentioned setting up the climbing system requires a few more steps.
 First, the climbing function uses our pickup function from the Pickup and throw 
 system. You thus need to add the Pickup functions to both hands.
 
-Next you need to add the Climb movement function as a child to the ARVROrigin node,
+Next you need to add the Climb movement function as a child to the XROrigin3D node,
 note that as with other movement functions this will add a PlayerBody node to your
-ARVROrigin node if it doesn't already exist.
+XROrigin3D node if it doesn't already exist.
 
 Your setup should now look like this:
 ![ARVR Climb Movement]({{ site.url }}/assets/img/climbing/arvr_climb_movement.png)
@@ -72,3 +72,10 @@ Now save the scene and add it to your main scene and your player can climb the b
 | Forward Push  | When the player lets go they are pushed away from the object they were holding by this force  |
 | Fling Multiplier  | If the player lets go their current momentum is multiplied by this amount allowing the player to "fling" themselves off a wall.  |
 | Velocity Averages  | The number of velocity samples to take to determine the players velocity when they let go.  |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with movement including climbing:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Advanced Movement](https://youtu.be/tTdaU57M-0s)
