@@ -43,9 +43,17 @@ The functionality works out of the box but can be further configured:
 
 ### XRToolsMovementDirect
 
-| Property      | Description                                                     |
-| ------------- | --------------------------------------------------------------- |
-| Enabled       | When ticked the movement function is enabled.                   |
-| Order         | The order in which this movement is applied when multiple movement functions are used.  |
-| Max Speed     | The maximum speed at which we can move, note that this is never reached depending on the drag factor configured on the player body.  |
-| Strafe        | Enables left/right control of strafing. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled      | When ticked the movement function is enabled. |
+| Order        | The order in which this movement is applied when multiple movement functions are used. |
+| Max Speed    | The maximum speed at which we can move, note that this is never reached depending on the drag factor configured on the player body. |
+| Strafe       | Enables left/right control of strafing. |
+| Input Action | The OpenXR Vector2 action to use for input. |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with hands and movement:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Basic Movement](https://youtu.be/29qlCRw2TpE)
