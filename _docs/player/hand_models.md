@@ -5,7 +5,7 @@ permalink: /docs/hand_models/
 
 
 ## Introduction
-The player can have XRToolsHand based scenes attached to the ARVRController
+The player can have XRToolsHand based scenes attached to the XRController3D
 nodes to provide hands for the player.
 
 
@@ -53,3 +53,9 @@ The hand materials can be overridden, and the following materials have been prov
 | Hand Blend Tree        | Blend tree to define how the grip and trigger inputs control the fingers |
 | Hand Material Override | Override material to apply to the hand mesh  |
 | Default Pose           | Default XRToolsHandPoseSettings resource defining the pose |
+
+
+## Additional Resources
+
+The following video show the creation of a basic XR Player with hands:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
