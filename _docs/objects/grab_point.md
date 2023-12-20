@@ -51,18 +51,31 @@ The following shows the snap-zone grab-point configuration options:
 
 ### XRToolsGrabPointHand
 
-| Property            | Description                                                     |
-| ------------------- | --------------------------------------------------------------- |
-| Enabled             | When enabled, the object can be picked up by this grab-point. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled             | When enabled, the object can be picked up by this grab-point |
+| Handle              | Name for the handle (to prevent multiple grabs on the same logical handle) |
 | Hand                | Which hand this hand-grab-point is configured for. |
-| Hand Pose           | XRToolsHandPoseSettings to apply when holding an object by this grab-point. |
+| Mode                | Type of grab that can be performed at this point (primary, secondary, general) |
+| Snap Hand           | When checked, the hand model snaps to the grab-point when grabbed |
+| Hand Pose           | XRToolsHandPoseSettings to apply when holding an object by this grab-point |
 | Editor Preview Mode | Mode for the preview hand in the editor. |
+| Drive Position      | When two-handed grabbing, controls how much this grab drives position |
+| Drive Angle         | When two-handed grabbing, controls how much this grab drives angle |
+| Drive Aim           | When two-handed grabbing, controls how much this grab drives aim |
 
 
 ### XRToolsGrabPointSnap
 
-| Property            | Description                                                     |
-| ------------------- | --------------------------------------------------------------- |
-| Enabled             | When enabled, the object can be snapped by this grab-point. |
-| Require Group       | Optional name of a group the object requires the snap-zone to be in. |
-| Exclude Group       | Optional name of a group the object refuses the snap-zone to be in. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled       | When enabled, the object can be snapped by this grab-point |
+| Require Group | Optional name of a group the object requires the snap-zone to be in |
+| Exclude Group | Optional name of a group the object refuses the snap-zone to be in |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with pickup and grab-points:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Pickable Grab Points](https://youtu.be/46Mp8PxcNXs)

@@ -31,17 +31,23 @@ how to configure physics layers for Godot XR Tools.
 
 ### XRToolsFunctionPickup
 
-| Property              | Description                                                     |
-| --------------------- | --------------------------------------------------------------- |
-| Enabled               | When enabled, the pickup is capable of picking up objects. |
-| Pickup Axis ID        | The axis to trigger gripping (usually the Grip axis).  |
-| Action Button ID      | The button to trigger the default action (if any) on the held object. |
-| Smooth Turn Speed     | Smooth turn speed in radians per second. |
-| Grab Distance         | Distance that regular pickups can be performed. |
-| Grab Collision Mask   | Collision mask to detect pickable objects. |
-| Ranged Enable         | When enabled, the pickup is capable of picking up objects from a distance. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled               | When enabled, the pickup is capable of picking up objects |
+| Pickup Axis Action    | OpenXR Bool action to trigger gripping (usually the Grip axis) |
+| Action Button Action  | OpenXR Bool action to trigger the default action (if any) on the held object |
+| Grab Distance         | Distance that regular pickups can be performed |
+| Grab Collision Mask   | Collision mask to detect pickable objects |
+| Ranged Enable         | When enabled, the pickup is capable of picking up objects from a distance |
 | Ranged Distance       | Distance that ranged-grabs can be performed. |
-| Ranged Angle          | Angle (from controller-forward) that ranged grabs can be performed. |
-| Ranged Collision Mask | Collision mask to detect ranged-pickable objects. |
-| Impulse Factor        | Velocity scale to apply to thrown objects. |
-| Velocity Samples      | How many averages to perform on held objects to detect veliocity (for throwing). |
+| Ranged Angle          | Angle (from controller-forward) that ranged grabs can be performed |
+| Ranged Collision Mask | Collision mask to detect ranged-pickable objects |
+| Impulse Factor        | Velocity scale to apply to thrown objects |
+| Velocity Samples      | How many averages to perform on held objects to detect veliocity (for throwing) |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with hands and picking up objects:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Pickable Grab Points](https://youtu.be/46Mp8PxcNXs)
