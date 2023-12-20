@@ -19,11 +19,14 @@ The following are the recommended physics layers:
  - [2] Dynamic World - for scenery objects which may move
  - [3] Pickable Objects - for [pickable]({{ site.url }}/docs/pickable/) objects
  - [4] Wall Walking Surface - for objects the player can [wall walk]({{ site.url }}/docs/wall_walk/) on
+ - [5] Grappling Target - for grappling movement
  - [17] Held Objects - for [pickable]({{ site.url }}/docs/pickable/) objects held by the player
  - [18] Player Hand - for the players [physical hand]({{ site.url }}/docs/hand_models/) bones
+ - [19] Grab handles - for pickable objects
  - [20] Player Body - for the players [body]({{ site.url }}/docs/player_body/)
  - [21] Pointable - for objects the player can interact with using the [pointer]({{ site.url }}/docs/pointer/)
  - [22] Hand Pose Area - for areas enforcing hand poses
+ - [23] UI Objects - for physically touchable UIs using the pointer or finger poke
 
 ![Physics Layers]({{ site.url }}/assets/img/physics_layers/physics_layers_config.png)
 
