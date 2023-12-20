@@ -25,14 +25,22 @@ The functionality works out of the box but can be further configured:
 
 ### XRToolsMovementGrapple
 
-| Property               | Description                                                     |
-| ---------------------- | --------------------------------------------------------------- |
-| Enabled                | When ticked the movement function is enabled.                   |
-| Order                  | The order in which this movement is applied when multiple movement functions are used.  |
-| Grapple Length         | Maximum length to allow firing the grapple line. |
-| Grapple Collision Mask | Physics layers the grapple line can hook on to. |
-| Impulse Speed          | Initial impulse speed along the line when fired. |
-| Winch Speed            | Speed at which the grapple line is winched in (pulling the player). |
-| Rope Width             | Visible width of the grapple line rope. |
-| Friction               | Friction coefficient against the air while grappling (to slow swinging). |
-| Grapple Button Id      | Specifies which controller button fires and holds the grapple line. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled                | When ticked the movement function is enabled |
+| Order                  | The order in which this movement is applied when multiple movement functions are used |
+| Grapple Length         | Maximum length to allow firing the grapple line |
+| Grapple Collision Mask | Physics layers the grapple line collides with |
+| Grapple Enable Mask    | Physics layers the grapple line can hook on to |
+| Impulse Speed          | Initial impulse speed along the line when fired |
+| Winch Speed            | Speed at which the grapple line is winched in (pulling the player) |
+| Rope Width             | Visible width of the grapple line rope |
+| Friction               | Friction coefficient against the air while grappling (to slow swinging) |
+| Grapple Button Action  | OpenXR Bool action to trigger grappling (usually `trigger_click` when using the default action map) |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with movement including grappling:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Advanced Movement](https://youtu.be/tTdaU57M-0s)
