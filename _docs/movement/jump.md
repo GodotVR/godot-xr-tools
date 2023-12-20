@@ -27,15 +27,22 @@ ground physics properties:
 
 ### XRToolsMovementJump
 
-| Property       | Description                                                     |
-| -------------- | --------------------------------------------------------------- |
-| Enabled        | When ticked the movement function is enabled.                   |
-| Order          | The order in which this movement is applied when multiple movement functions are used.  |
-| Jump Button Id | Specifies which controller button causes the player to jump. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled            | When ticked the movement function is enabled |
+| Order              | The order in which this movement is applied when multiple movement functions are used |
+| Jump Button Action | OpenXR Bool action to trigger jumping (usually `ax_button` when using the default action map) |
 
 ### XRToolsGroundPhysicsSettings (for jump)
 
-| Property       | Description                                                     |
-| -------------- | --------------------------------------------------------------- |
-| Flags          | Enable Jump Velocity to override with the Jump Velocity value. |
-| Jump Velocity  | Velocity to apply to the player body when jumping. |
+| Property | Description |
+| ---- | ------------ |
+| Flags          | Enable Jump Velocity to override with the Jump Velocity value |
+| Jump Velocity  | Velocity to apply to the player body when jumping |
+
+
+## Additional Resources
+
+The following videos show the creation of a basic XR Player with hands and movement including jumping:
+* [Getting Started](https://youtu.be/VrpySdMcdyw)
+* [Basic Movement](https://youtu.be/29qlCRw2TpE)
