@@ -11,9 +11,9 @@ slide.
 
 ## Setup
 The wind movement is implemented as a movement scene that needs to be added
-to the ARVROrigin node. This will add a PlayerBody if necessary.
+to the XROrigin3D node. This will add a PlayerBody if necessary.
 
-The following shows a player configuration including turning:
+The following shows a player configuration including wind movement:
 ![Wind Movement Setup]({{ site.url }}/assets/img/wind/wind_setup.png)
 
 The functionality works out of the box but can be further configured:
@@ -30,19 +30,19 @@ body and setting the ground physics properties:
 
 ### XRToolsMovementWind
 
-| Property        | Description                                                     |
-| --------------- | --------------------------------------------------------------- |
-| Enabled         | When ticked the movement function is enabled.                   |
-| Order           | The order in which this movement is applied when multiple movement functions are used.  |
-| Drag Multiplier | Drag coefficient for how much the wind affects the player. |
-| Collision Mask  | Collision mask for detecting wind areas. |
+| Property | Description |
+| ---- | ------------ |
+| Enabled         | When ticked the movement function is enabled |
+| Order           | Order in which this movement is applied when multiple movement functions are used |
+| Drag Multiplier | Drag coefficient for how much the wind affects the player |
+| Collision Mask  | Collision mask for detecting wind areas |
 
 ### XRToolsGroundPhysicsSettings (for sliding)
 
-| Property       | Description                                                     |
-| -------------- | --------------------------------------------------------------- |
-| Move Drag      | Coefficient for how fast the player slows down when not trying to move. |
-| Move Traction  | Coefficient for how much the player movement is affected by direct control. |
+| Property | Description |
+| ---- | ------------ |
+| Move Drag      | Coefficient for how fast the player slows down when not trying to move |
+| Move Traction  | Coefficient for how much the player movement is affected by direct control |
 
 > Setting move drag and traction to zero simulates perfect frictionless ice - the 
 player will slide without any movement control other than being blown around by
