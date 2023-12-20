@@ -33,15 +33,21 @@ The functionality works out of the box but can be further configured:
 
 ### XRToolsFunctionTeleport
 
-| Property            | Description                                                     |
-| ------------------- | --------------------------------------------------------------- |
-| Enabled             | When ticked the teleport function is enabled.                   |
-| Can Teleport Color  | This color is used to draw the teleport ribbon when we can teleport to the location.  |
-| Cant Teleport Color | This color is used when we can't reach the location.  |
-| No Collision Color  | This color is used when the teleport isn't colliding with any surface.  |
-| Player Height       | The height of the player, used for our collision shape. |
-| Player Radius       | The radius of the player, used for our collisions shape. |
-| Strength            | Determines how far we can cast our teleporter. |
-| Max Slope           | Maximum angle from flat our surface can be for us to teleport onto it. | 
-| Valid Teleport Mask | Physics mask for valid teleport targets. | 
-| Teleport Button     | Hold this button to start the teleport function, release to teleport, by default this is our trigger. | 
+| Property | Description |
+| ---- | ------------ |
+| Enabled                | When ticked the teleport function is enabled |
+| Teleport Button Action | OpenXR Bool action to trigger teleport |
+| Rotation Action        | OpenXR Vector2 action to trigger rotation |
+| Can Teleport Color     | Teleport arc color when teleporting is valid |
+| Cant Teleport Color    | Teleport arc color when teleporting is invalid |
+| No Collision Color     | Teleport arc color when teleport arc has no collision |
+| Strength               | Determines how far the teleport arc extends |
+| Arc Texture            | Texture drawn on the teleport arc |
+| Target Texture         | Texture drawn on the teleport target |
+| Player Height          | Height of the player used for our collision shape |
+| Player Radius          | Radius of the player used for our collisions shape |
+| Player Scene           | Custom player scene |
+| Player Material        | Custom player material (if scene not specified) |
+| Max Slope              | Maximum angle from flat our surface can be for us to teleport onto it | 
+| Collision Mask         | Physics collision mask for arc | 
+| Valid Teleport Mask    | Physics mask for valid teleport targets | 
