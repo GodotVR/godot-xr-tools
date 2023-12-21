@@ -20,6 +20,7 @@ gem install bundler
 
 # install dependencies
 bundle install
+bundle add webrick
 
 # run jekyll serving the pages locally
 bundle exec jekyll serve --baseurl=""
