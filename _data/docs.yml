@@ -42,6 +42,7 @@
   docs:
   - pickup
   - pointer
+  - poke
  
 - title: Objects
   docs:
