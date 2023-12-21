@@ -31,12 +31,14 @@
   - flight
   - glide
   - grapple
+  - jog
   - jump
   - physical_jump
   - teleport
   - turn
   - wall_walk
   - wind
+  - world_grab
 
 - title: Interaction
   docs:
