@@ -1,3 +1,11 @@
+# 4.3.1
+- Fix saving project when using plugin-tools to set physics layers or enable OpenXR
+- Fix updating the editor-preview hand-pose
+- Fix jumping on slopes
+- Fix material warnings by converting binary .material files to .tres files
+- Fix staging to use threaded loading while starting the fade
+- Fix broken world-grab script
+
 # 4.3.0
 - Upgraded project to Godot 4.1 as the new minimum version.
 - Added reporting of stage load errors.
