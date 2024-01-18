@@ -26,6 +26,13 @@ signal xr_started
 signal xr_ended
 
 
+## This signal is emitted when the user has requested to recenter their view.
+## The default logic already ensures that the player is now centered on
+## the XROrigin facing the -z direction.
+## You can further react to this by placing the XROrigin where the player
+## should be positioned.
+signal xr_recentered
+
 ## If true, the XR interface is automatically initialized
 @export var auto_initialize : bool = true
 
@@ -106,6 +113,7 @@ func _setup_for_openxr() -> bool:
 	xr_interface.connect("session_begun", _on_openxr_session_begun)
 	xr_interface.connect("session_visible", _on_openxr_visible_state)
 	xr_interface.connect("session_focussed", _on_openxr_focused_state)
+	xr_interface.connect("pose_recentered", _on_openxr_pose_recentered)
 
 	# Check for passthrough
 	if enable_passthrough and xr_interface.is_passthrough_supported():
@@ -171,6 +179,10 @@ func _on_openxr_focused_state() -> void:
 		xr_active = true
 		emit_signal("xr_started")
 
+# Handle recentering player (moves player to where XROrigin is)
+func _on_openxr_pose_recentered() -> void:
+	XRServer.center_on_hmd(XRServer.RESET_BUT_KEEP_TILT, true)
+	emit_signal("xr_recentered")
 
 # Handle changes to the enable_passthrough property
 func _set_enable_passthrough(p_new_value : bool) -> void:
