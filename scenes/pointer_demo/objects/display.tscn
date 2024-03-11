@@ -8,7 +8,7 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_kusv1"]
 viewport_path = NodePath("Viewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0cmcb"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_smcu6"]
 cull_mode = 2
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_kusv1")
@@ -20,7 +20,7 @@ size = Vector3(3, 2, 0.02)
 
 [node name="Display" type="Node3D"]
 script = ExtResource("1_y8sny")
-isArrayMesh = true
+array_mesh = true
 screen_size = Vector2(1, 1)
 scene = ExtResource("2")
 viewport_size = Vector2(280, 190)
@@ -39,7 +39,7 @@ render_target_update_mode = 1
 
 [node name="Screen" type="MeshInstance3D" parent="."]
 mesh = ExtResource("3_v34mr")
-surface_material_override/0 = SubResource("StandardMaterial3D_0cmcb")
+surface_material_override/0 = SubResource("StandardMaterial3D_smcu6")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 collision_layer = 5242881
