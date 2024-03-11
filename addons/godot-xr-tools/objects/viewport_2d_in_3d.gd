@@ -56,6 +56,9 @@ const DEFAULT_LAYER := 0b0000_0000_0101_0000_0000_0000_0000_0001
 # Physics property group
 @export_group("Physics")
 
+## ArrayMesh enabled property
+@export var isArrayMesh : bool = false
+
 ## Physical screen size property
 @export var screen_size : Vector2 = Vector2(3.0, 2.0): set = set_screen_size
 
@@ -124,7 +127,8 @@ func _ready():
 	$StaticBody3D.connect("pointer_event", _on_pointer_event)
 
 	# Apply physics properties
-	_update_screen_size()
+	if !isArrayMesh:
+		_update_screen_size()
 	_update_enabled()
 	_update_collision_layer()
 
