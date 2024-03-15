@@ -32,9 +32,9 @@ You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/
 
 To obtain just the XR Tools library for your own project, please check [releases](https://github.com/GodotVR/godot-xr-tools/releases) or download it from the asset library within Godot.
 
-### Preventing hickups
+### Preventing hiccups
 
-As many of the functions in this module will hide objects that are later shown as the user performs actions, the user will experience a hickup as Godot compiles the shader used to draw the object on screen.
+As many of the functions in this module will hide objects that are later shown as the user performs actions, the user will experience a hiccup as Godot compiles the shader used to draw the object on screen.
 
 To combat this you will find a scene in this module called `misc/VR_Common_Shader_Cache.tscn`.
 Add this scene as a child node to your XRCamera3D. This will trigger the required shaders being
