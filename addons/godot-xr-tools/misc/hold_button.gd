@@ -10,6 +10,7 @@ signal pressed
 @export var enabled : bool = false: set = set_enabled
 
 @export var activate_action : String = "trigger_click"
+@export var activate_action_desktop : String = "ui_accept"
 
 # Countdown
 @export var hold_time : float = 2.0
@@ -31,9 +32,14 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsHoldButton"
 
 
+var XRStartNode : XRToolsStartXR
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	material = $Visualise.get_surface_override_material(0)
+	XRStartNode = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 	if !Engine.is_editor_hint():
 		_set_time_held(0.0)
@@ -55,7 +61,14 @@ func _process(delta):
 		var tracker : XRPositionalTracker = controllers[name]
 		if tracker.get_input(activate_action):
 			button_pressed = true
-
+	
+	
+	if !XRStartNode.xr_active:
+		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed(activate_action_desktop):
+			button_pressed = true
+	
+	
+	
 	if button_pressed:
 		_set_time_held(time_held + delta)
 		if time_held > hold_time:
