@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Godot XR Tools Demo"
 run/main_scene="res://demo_staging.tscn"
-config/features=PackedStringArray("4.1")
+config/features=PackedStringArray("4.2")
 config/icon="res://icon.png"
 
 [autoload]
@@ -59,4 +59,6 @@ limits/time/time_rollover_secs=30.0
 [xr]
 
 openxr/enabled=true
+openxr/foveation_level=3
+openxr/foveation_dynamic=true
 shaders/enabled=true
