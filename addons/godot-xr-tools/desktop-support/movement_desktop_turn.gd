@@ -96,10 +96,10 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 	# Read the left/right joystick axis
 	var left_right := mouse_move_vector.x
-	if abs(left_right) <= deadzone:
-		# Not turning
-		_turn_step = 0.0
-		return
+	#if abs(left_right) <= deadzone:
+	#	# Not turning
+	#	_turn_step = 0.0
+	#	return
 
 	# Handle smooth rotation
 	#if !_snap_turning():
