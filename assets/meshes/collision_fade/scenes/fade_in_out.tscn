@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dapr8mrnkgum0"]
+
+[ext_resource type="Script" path="res://assets/meshes/collision_fade/scripts/fade_in_out.gd" id="1_gqyql"]
+
+[node name="FadeInOut" type="Node"]
+script = ExtResource("1_gqyql")

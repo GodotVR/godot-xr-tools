@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlivaur4w2m12"]
+
+[ext_resource type="Script" path="res://assets/meshes/collision_fade/scripts/fade_collision.gd" id="1_2vuvb"]
+
+[node name="FadeCollision" type="Node3D"]
+script = ExtResource("1_2vuvb")

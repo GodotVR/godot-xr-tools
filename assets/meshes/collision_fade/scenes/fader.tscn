@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://w82xvrc74u1b"]
+
+[ext_resource type="Script" path="res://assets/meshes/collision_fade/scripts/fader.gd" id="1_r8ais"]
+[ext_resource type="Shader" path="res://assets/meshes/collision_fade/shader/fade.gdshader" id="2_oa6c6"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_iv1ir"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tmf72"]
+render_priority = 127
+shader = ExtResource("2_oa6c6")
+shader_parameter/albedo = Color(0, 0, 0, 0)
+
+[node name="Fader" type="Node3D"]
+script = ExtResource("1_r8ais")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("QuadMesh_iv1ir")
+surface_material_override/0 = SubResource("ShaderMaterial_tmf72")
