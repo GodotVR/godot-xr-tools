@@ -68,13 +68,30 @@ signal xr_ended
 		update_configuration_warnings()
 
 ## If true, the player is prompted to continue
+## so no change to main scene, until the user
+## interacts with the button to continue.
+## If false, the transition to main scene
+## is automatic
 @export var prompt_for_continue : bool = true
 
-## Scene container file as a Node3D used as
+## Scene container file as a [Node3D] used as
 ## the parent of the current scene.
 @export var scene_container : Node3D:
 	set(value):
 		scene_container = value
+		update_configuration_warnings()
+
+## Fade is a [MeshInstance3D] object using a [QuadMesh]. Set its
+## shader to [godot-xr-tools/staging/fade.gdshader].
+##
+## Holds the fade-alpha for scene transitions. See set_fade method
+##
+## Our fade object allows us to black out the screen for transitions.
+## Note that our AABB is set to HUGE so it should always be rendered
+## unless hidden.
+@export var fade : MeshInstance3D:
+	set(value):
+		fade = value
 		update_configuration_warnings()
 
 
@@ -133,6 +150,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	if not scene_container:
 		warnings.append("No Node3D child, named \"Scene\" has been added")
+	
+	if not fade:
+		warnings.append("No MeshInstance3D fade has been added")
 
 	# Return warnings
 	return warnings
@@ -284,12 +304,12 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 ## unless hidden.
 func set_fade(p_value : float):
 	if p_value == 0.0:
-		$Fade.visible = false
+		fade.visible = false
 	else:
-		var material : ShaderMaterial = $Fade.get_surface_override_material(0)
+		var material : ShaderMaterial = fade.get_surface_override_material(0)
 		if material:
 			material.set_shader_parameter("alpha", p_value)
-		$Fade.visible = true
+		fade.visible = true
 
 
 func _add_signals(p_scene : XRToolsSceneBase):
