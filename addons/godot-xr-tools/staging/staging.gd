@@ -62,10 +62,20 @@ signal xr_ended
 
 
 ## Main scene file
-@export_file('*.tscn') var main_scene : String
+@export_file('*.tscn') var main_scene : String:
+	set(value):
+		main_scene = value
+		update_configuration_warnings()
 
 ## If true, the player is prompted to continue
 @export var prompt_for_continue : bool = true
+
+## Scene container file as a Node3D used as
+## the parent of the current scene.
+@export var scene_container : Node3D:
+	set(value):
+		scene_container = value
+		update_configuration_warnings()
 
 
 ## The current scene
@@ -93,6 +103,8 @@ func _ready():
 	if xr_camera:
 		$LoadingScreen.set_camera(xr_camera)
 
+	update_configuration_warnings()
+
 	# We start by loading our main level scene
 	load_scene(main_scene)
 
@@ -118,6 +130,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	# Report main scene invalid
 	if !FileAccess.file_exists(main_scene):
 		warnings.append("Main scene doesn't exist")
+
+	if not scene_container:
+		warnings.append("No Node3D child, named \"Scene\" has been added")
 
 	# Return warnings
 	return warnings
@@ -166,7 +181,7 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 		# Now we remove our scene
 		emit_signal("scene_exiting", current_scene, user_data)
 		current_scene.scene_exiting(user_data)
-		$Scene.remove_child(current_scene)
+		scene_container.remove_child(current_scene)
 		current_scene.queue_free()
 		current_scene = null
 
@@ -241,7 +256,7 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 	# Setup our new scene
 	current_scene = new_scene.instantiate()
 	current_scene_path = p_scene_path
-	$Scene.add_child(current_scene)
+	scene_container.add_child(current_scene)
 	_add_signals(current_scene)
 
 	# We create a small delay here to give tracking some time to update our nodes...
