@@ -1,3 +1,7 @@
+# 4.3.2
+- Move fade logic into effect
+- Added collision fade support
+
 # 4.3.1
 - Fix saving project when using plugin-tools to set physics layers or enable OpenXR
 - Fix updating the editor-preview hand-pose

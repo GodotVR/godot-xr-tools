@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bintvchia5op"]
+
+[ext_resource type="Script" path="res://scenes/basic_movement_demo/objects/damage_area.gd" id="1_b1a30"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_6dri3"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xeoaa"]
+height = 0.05
+radial_segments = 32
+rings = 1
+
+[node name="DamageArea" type="Node3D"]
+script = ExtResource("1_b1a30")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 524288
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CylinderShape3D_6dri3")
+
+[node name="Marker" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
+mesh = SubResource("CylinderMesh_xeoaa")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_area_3d_body_exited"]

@@ -268,13 +268,7 @@ func load_scene(p_scene_path : String, user_data = null) -> void:
 ## Note that our AABB is set to HUGE so it should always be rendered
 ## unless hidden.
 func set_fade(p_value : float):
-	if p_value == 0.0:
-		$Fade.visible = false
-	else:
-		var material : ShaderMaterial = $Fade.get_surface_override_material(0)
-		if material:
-			material.set_shader_parameter("alpha", p_value)
-		$Fade.visible = true
+	XRToolsFade.set_fade("staging", Color(0, 0, 0, p_value))
 
 
 func _add_signals(p_scene : XRToolsSceneBase):
