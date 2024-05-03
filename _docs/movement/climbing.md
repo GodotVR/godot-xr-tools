@@ -28,7 +28,7 @@ to walk up to a wall, and then use the climbing function to scale the wall.
 ## Setup
 As mentioned setting up the climbing system requires a few more steps.
 
-First, the climbing function uses our pickup function from the Pickup and throw 
+First, the climbing function uses our [pickup function]({{ site.url }}/docs/pickable/) from the Pickup and throw 
 system. You thus need to add the Pickup functions to both hands.
 
 Next you need to add the Climb movement function as a child to the XROrigin3D node,
@@ -39,7 +39,7 @@ Your setup should now look like this:
 ![ARVR Climb Movement]({{ site.url }}/assets/img/climbing/arvr_climb_movement.png)
 
 Now that our player is able to climb, we need to define the things they can climb
-on. This is accomplished by inheriting the objects/climbable.tscn scene, 
+on. This is accomplished by inheriting the `objects/climbable.tscn` scene, 
 simply open the Scene menu, select New Inherited Scene... and select the 
 climbable.tscn scene from the xr tools library. This scene sets up a static
 body with a collision shape and a script that allows you to grab that static body. 
