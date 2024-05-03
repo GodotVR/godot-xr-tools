@@ -6,17 +6,17 @@ permalink: /docs/pickup/
 
 ## Introduction
 A common feature in VR is picking up objects. This is usually combined with
-adding hand models to the players controllers to make pickup feel more 
+adding hand models to the player's controllers to make pickup feel more 
 natural.
 
 ## Setup
-Adding support for object pickup involves adding XRToolsFunctionPickup instances
-to the controllers of both hands.
+Adding support for object pickup involves adding XRToolsFunctionPickup instances as children
+to the controllers of both hands. The pickup function can be found in `addons/godot-xr-tools/functions/function_pickup.tscn`
 
 The following shows a player configuration including pickups:
 ![Pickup Setup]({{ site.url }}/assets/img/pickup/pickup_setup.png)
 
-The functionality works out of the box but can be further configured:
+The functionality works out of the box but can be further configured in the inspector:
 ![Pickup Configuration]({{ site.url }}/assets/img/pickup/pickup_config.png)
 
 The two common types of objects that XRToolsFunctionPickup can interact with are:
@@ -43,7 +43,7 @@ how to configure physics layers for Godot XR Tools.
 | Ranged Angle          | Angle (from controller-forward) that ranged grabs can be performed |
 | Ranged Collision Mask | Collision mask to detect ranged-pickable objects |
 | Impulse Factor        | Velocity scale to apply to thrown objects |
-| Velocity Samples      | How many averages to perform on held objects to detect veliocity (for throwing) |
+| Velocity Samples      | How many averages to perform on held objects to detect velocity (for throwing) |
 
 
 ## Additional Resources
