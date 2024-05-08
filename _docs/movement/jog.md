@@ -9,7 +9,7 @@ Jog movement allows the player to move by swinging their arms.
 
 ## Setup
 The jog movement is implemented as a function scene that needs to be added
-to the XROrigin3D node. This will add a PlayerBody if necessary.
+to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) node. This will add a PlayerBody if necessary.
 
 The following shows a player configuration including jogging:
 ![Jog Movement Setup]({{ site.url }}/assets/img/jog/jog_setup.png)
