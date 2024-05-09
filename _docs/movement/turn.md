@@ -10,7 +10,7 @@ either smooth or snap to limit motion sickness.
 
 ## Setup
 The turn movement is implemented as a movement scene that needs to be added
-to the controller node whose input we are using. This will add a PlayerBody if
+to the controller node whose input we are using. This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if
 necessary.
 
 The following shows a player configuration including turning:
