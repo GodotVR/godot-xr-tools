@@ -10,7 +10,7 @@ jump in the game.
 
 ## Setup
 The physical jump movement is implemented as a function scene that needs to be added
-as a child of the XROrigin3D. This will add a PlayerBody if necessary.
+as a child of the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html). This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if necessary.
 
 The setup should now look like this:
 ![Physical Jump Movement Setup]({{ site.url }}/assets/img/physical_jump/physical_jump_setup.png)
