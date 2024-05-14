@@ -3,7 +3,6 @@ title: Climbing
 permalink: /docs/climbing/
 ---
 
-
 ## Introduction
 Climbing in games has been a staple for decades, with modern games like Uncharted
 or Tomb Raider having the player scaling mountains, making death defying jumps, or
