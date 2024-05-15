@@ -10,7 +10,7 @@ effects can be achieved by varying the flight configuration.
 
 ## Setup
 The flight movement is implemented as a movement scene that needs to be added
-to the XROrigin3D node. This will add a PlayerBody if necessary.
+to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) node. This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if necessary.
 
 The following shows a player configuration including flying:
 ![Flight Movement Setup]({{ site.url }}/assets/img/flight/flight_setup.png)

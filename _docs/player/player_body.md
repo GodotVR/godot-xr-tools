@@ -6,7 +6,7 @@ permalink: /docs/player_body/
 
 ## Introduction
 Player movement and world interaction is performed using an XRToolsPlayerBody
-node. This node is automatically added to the XROrigin3D whenever a movement
+node. This node is automatically added to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) whenever a movement
 provider node is added.
 
 The player body works out of the box but can be further configured:

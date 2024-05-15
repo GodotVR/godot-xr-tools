@@ -7,11 +7,11 @@ permalink: /docs/grapple/
 ## Introduction
 Grapple movement allows the player to fire a grappling line to an appropriate
 target, and to swing from the grappling line. This can achieve effects similar
-to notable and trade-marked super-heroes.
+to notable and trade-marked superheroes.
 
 ## Setup
 The grapple movement is implemented as a function scene that needs to be added
-to the controller node whose input we are using. This will add a PlayerBody if
+to the controller node whose input we are using. This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if
 necessary.
 
 So if we want to implement the grapple movement feature on the right hand

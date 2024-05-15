@@ -9,7 +9,7 @@ Jump movement allows the player to jump by pressing a button on the controller.
 
 ## Setup
 The jump movement is implemented as a function scene that needs to be added
-to the controller node whose input we are using. This will add a PlayerBody if
+to the [XRController3D](https://docs.godotengine.org/en/stable/classes/class_xrcontroller3d.html) whose input we are using. This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if
 necessary.
 
 So if we want to implement the jump movement feature on the left hand

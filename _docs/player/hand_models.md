@@ -5,7 +5,7 @@ permalink: /docs/hand_models/
 
 
 ## Introduction
-The player can have XRToolsHand based scenes attached to the XRController3D
+The player can have XRToolsHand based scenes attached to the [XRController3D](https://docs.godotengine.org/en/stable/classes/class_xrcontroller3d.html)
 nodes to provide hands for the player.
 
 

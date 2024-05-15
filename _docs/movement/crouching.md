@@ -5,12 +5,12 @@ permalink: /docs/crouching/
 
 
 ## Introduction
-Crouching allows the user to override the players height to a fixed value and
+Crouching allows the user to override the player's height to a fixed value and
 ignoring the actual height of the headset in the play-space.
 
 ## Setup
 Add the MovementCrouch under the appropriate controllers. This will add a 
-PlayerBody if necessary.
+[PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if necessary.
 
 The setup should now look like:
 ![Crouch Setup]({{ site.url }}/assets/img/crouching/crouch_setup.png)

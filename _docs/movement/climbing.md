@@ -3,7 +3,6 @@ title: Climbing
 permalink: /docs/climbing/
 ---
 
-
 ## Introduction
 Climbing in games has been a staple for decades, with modern games like Uncharted
 or Tomb Raider having the player scaling mountains, making death defying jumps, or
@@ -32,7 +31,7 @@ First, the climbing function uses our [pickup function]({{ site.url }}/docs/pick
 system. You thus need to add the Pickup functions to both hands.
 
 Next you need to add the Climb movement function as a child to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) node,
-note that as with other movement functions, this will add a PlayerBody node to your
+note that as with other movement functions, this will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) node to your
 XROrigin3D node if it doesn't already exist.
 
 Your setup should now look like this:
@@ -48,10 +47,10 @@ move instead of the hand.
 
 You can create small objects to create climbing anchors that the player must grab
 and create an experience where the player needs to be very precise, or you can just
-create one big collision shape the player can climb on without caring much where
+create one big collision shape the player can climb on without caring much about where
 the player holds the shape.
 
-We're taking the later as an example, the screenshot below sets up a scene, I've
+We're taking the latter as an example, the screenshot below sets up a scene, I've
 renamed the root node, added a MeshInstance with a box, and then added a collision
 shape to the CollisionShape node giving it the same size as the block:
 ![ARVR Climbing Block]({{ site.url }}/assets/img/climbing/arvr_climbing_block.png)

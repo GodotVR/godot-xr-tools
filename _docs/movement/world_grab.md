@@ -11,7 +11,7 @@ allowing for rotation as well as growing and shrinking.
 
 ## Setup
 The world-grab movement is implemented as a function scene that needs to be added
-to the XROrigin3D node. This will add a PlayerBody if necessary. Additionally the
+to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) node. This will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) if necessary. Additionally, the
 player needs to have grab functions on both hands to grab hold of world-grab
 areas.
 

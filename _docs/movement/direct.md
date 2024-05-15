@@ -8,10 +8,10 @@ permalink: /docs/direct/
 Direct movement allows the user to move using controller input, it uses either
 the joystick or thumbpad that can be found on many XR controllers. 
 
-It uses the 'PlayerBody' node to support collisions with the environment. This
+It uses the '[PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/)' node to support collisions with the environment. This
 node will be added automatically to your scene if it doesn't exist yet.
 
-The main issue with direct movement is that it can easily result in dizzyness
+The main issue with direct movement is that it can easily result in dizziness
 on the part of the player. Especially rotating the player leads to many players
 getting nauseated.
 
@@ -20,9 +20,9 @@ We combat this in three ways:
   looking. 
 - it is possible to configure a step value for the rotation. Instead of smoothly
   rotating around the player the direction the player is looking will rotate a
-  fixes number of degrees at a fixed pace. While this looks jerky it is a very
-  efficient way to combat nausia. 
-- you can add a Vignette that blacks out the players peripheral vision.
+  fixed number of degrees at a fixed pace. While this looks jerky it is a very
+  efficient way to combat nausea. 
+- you can add a Vignette that blacks out the player's peripheral vision.
 
 ## Setup
 The direct movement is implemented as a function scene that needs to be added
