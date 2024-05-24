@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://d1i0fadwbjxr0"]
+
+[node name="FadeInstructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+offset_right = 400.0
+offset_bottom = 250.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Collision Fade
+
+walk up a wall to experience the fade upon collision. Step on the disk to trigger virtual damage-fade.
+
+ > how to add it to your scenes:
+   - Add a FadeCollision node under the XRCamera3D
+   - Configure fade collision layers
+   - Tune the fade distances"

@@ -1,27 +1,16 @@
-[gd_scene load_steps=9 format=3 uid="uid://bnqnnnet4dw12"]
+[gd_scene load_steps=7 format=3 uid="uid://bnqnnnet4dw12"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/staging/staging.gd" id="1"]
 [ext_resource type="PackedScene" uid="uid://bqumugyvkct4r" path="res://addons/godot-xr-tools/staging/loading_screen.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://wtpox7m5vu2b" path="res://addons/godot-xr-tools/effects/fade.tscn" id="2_htugy"]
 [ext_resource type="Environment" uid="uid://ckiwtcdsam7ed" path="res://addons/godot-xr-tools/staging/staging_env.tres" id="3_40x3a"]
-[ext_resource type="Shader" path="res://addons/godot-xr-tools/staging/fade.gdshader" id="4"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/misc/vr_common_shader_cache.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="6_balvx"]
-
-[sub_resource type="QuadMesh" id="4"]
-custom_aabb = AABB(-5000, -5000, -5000, 10000, 10000, 10000)
-size = Vector2(2, 2)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_snlak"]
-render_priority = 0
-shader = ExtResource("4")
-shader_parameter/alpha = 0.0
 
 [node name="Staging" type="Node3D"]
 script = ExtResource("1")
 
-[node name="Fade" type="MeshInstance3D" parent="."]
-mesh = SubResource("4")
-surface_material_override/0 = SubResource("ShaderMaterial_snlak")
+[node name="Fade" parent="." instance=ExtResource("2_htugy")]
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
@@ -44,7 +33,6 @@ progress = 0.0
 [node name="Scene" type="Node3D" parent="."]
 
 [node name="StartXR" parent="." instance=ExtResource("6_balvx")]
-physics_rate_multiplier = 1
 
 [connection signal="xr_ended" from="StartXR" to="." method="_on_StartXR_xr_ended"]
 [connection signal="xr_started" from="StartXR" to="." method="_on_StartXR_xr_started"]
