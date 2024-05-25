@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="XRToolsRumbleEvent" load_steps=2 format=3 uid="uid://bhk87dfdgqklt"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/rumble/rumble_event.gd" id="1_hn3cr"]
+
+[resource]
+script = ExtResource("1_hn3cr")
+magnitude = 0.6
+active_during_pause = false
+indefinite = true
+duration_ms = 300
