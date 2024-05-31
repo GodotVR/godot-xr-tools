@@ -19,7 +19,7 @@ When the pointer interacts with physics bodies or areas it will send a signal or
 
 By adding a script to your physics body that extends XRToolsInteractableBody or a script to your area that extends 'XRToolsInteractableArea' the required signals are added to that object and you can simply implement that logic.
 
-For convenience our toolkit has an object that fully that fully implements the pointer logic to simulate a 2D interface you can interact with in XR.
+For convenience our toolkit has an object that fully implements the pointer logic to simulate a 2D interface you can interact with in XR.
 
 First we need to create the 2D interface we want to show. We do this by creating a separate Godot 2D scene. For now I've created something very simple like so:
 
