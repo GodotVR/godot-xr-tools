@@ -23,6 +23,9 @@ enum WebXRPrimary {
 ## User setting for y axis dead zone
 @export var x_axis_dead_zone : float = 0.2
 
+## Used to control rumble like volume
+@export_range(0.0, 1.0, 0.05) var haptics_scale := 1.0
+
 @export_group("Player")
 
 ## User setting for player height
@@ -60,6 +63,7 @@ func reset_to_defaults() -> void:
 	player_height = XRTools.get_player_standard_height()
 	webxr_primary = WebXRPrimary.AUTO
 	webxr_auto_primary = 0
+	haptics_scale = XRToolsRumbleManager.get_default_haptics_scale()
 
 ## Set the player height property
 func set_player_height(new_value : float) -> void:
@@ -92,7 +96,8 @@ func save() -> void:
 		"input" : {
 			"default_snap_turning" : snap_turning,
 			"y_axis_dead_zone" : y_axis_dead_zone,
-			"x_axis_dead_zone" : x_axis_dead_zone
+			"x_axis_dead_zone" : x_axis_dead_zone,
+			"haptics_scale": haptics_scale
 		},
 		"player" : {
 			"height" : player_height
@@ -164,6 +169,8 @@ func _load() -> void:
 			y_axis_dead_zone = input["y_axis_dead_zone"]
 		if input.has("x_axis_dead_zone"):
 			x_axis_dead_zone = input["x_axis_dead_zone"]
+		if input.has("haptics_scale"):
+			haptics_scale = input["haptics_scale"]
 
 	# Parse our player settings
 	if settings.has("player"):

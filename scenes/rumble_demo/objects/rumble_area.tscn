@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqcuhdwpar4ju"]
+
+[ext_resource type="Script" path="res://scenes/rumble_demo/objects/rumble_area.gd" id="1_0xik5"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hoknj"]
+height = 3.26948
+radius = 1.04594
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xyxvd"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_1kr1e"]
+material = SubResource("StandardMaterial3D_xyxvd")
+inner_radius = 1.0
+outer_radius = 1.1
+ring_segments = 8
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vk68p"]
+albedo_color = Color(0.678431, 1, 0.184314, 1)
+
+[node name="RumbleArea" type="Area3D"]
+collision_mask = 655360
+script = ExtResource("1_0xik5")
+ring_color = Color(0.678431, 1, 0.184314, 1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
+shape = SubResource("CylinderShape3D_hoknj")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("TorusMesh_1kr1e")
+surface_material_override/0 = SubResource("StandardMaterial3D_vk68p")
