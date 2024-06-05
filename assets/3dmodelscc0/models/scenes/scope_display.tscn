@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://e8cx22o0aoxa"]
+
+[ext_resource type="Script" path="res://assets/3dmodelscc0/models/scenes/scope_display.gd" id="1_ggrlg"]
+[ext_resource type="Shader" path="res://assets/3dmodelscc0/models/scenes/scope_display.gdshader" id="2_il1pd"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_fim7a"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_guleq"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_il1pd")
+shader_parameter/radius = 0.025
+shader_parameter/depth = 0.35
+shader_parameter/scope_texture = SubResource("ViewportTexture_fim7a")
+
+[sub_resource type="QuadMesh" id="QuadMesh_p2a2g"]
+size = Vector2(0.02, 0.02)
+
+[node name="ScopeDisplay" type="Node3D"]
+script = ExtResource("1_ggrlg")
+
+[node name="ScopeAnchor" type="RemoteTransform3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.35)
+remote_path = NodePath("../SubViewport/Camera3D")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.35)
+fov = 10.0
+
+[node name="DisplayMesh" type="MeshInstance3D" parent="."]
+material_override = SubResource("ShaderMaterial_guleq")
+mesh = SubResource("QuadMesh_p2a2g")

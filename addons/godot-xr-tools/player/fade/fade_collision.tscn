@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b228p8k6sonve"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/fade/fade_collision.gd" id="1_xrp2u"]
+
+[node name="FadeCollision" type="Node3D"]
+script = ExtResource("1_xrp2u")

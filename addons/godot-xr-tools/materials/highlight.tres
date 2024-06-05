@@ -17,6 +17,8 @@ operator = 2
 
 [sub_resource type="VisualShader" id="VisualShader_wb0u4"]
 code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
 uniform vec4 Color : source_color;
 
 

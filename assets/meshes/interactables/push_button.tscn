@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://dbv1hvxufc1al"]
+[gd_scene load_steps=15 format=3 uid="uid://dbv1hvxufc1al"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="2"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="3_2axcm"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/rumble/rumbler.gd" id="3_kg5ep"]
 [ext_resource type="Resource" uid="uid://ciw0f7mg4ai0k" path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" id="4_sgcw0"]
+[ext_resource type="Resource" uid="uid://brci6umrcd157" path="res://addons/godot-xr-tools/rumble/tap_rumble.tres" id="4_sq4bi"]
 [ext_resource type="Resource" uid="uid://bhvrpfo4ecbub" path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" id="5_g2ih4"]
 
 [sub_resource type="CylinderShape3D" id="1"]
@@ -65,6 +67,10 @@ collision_mask = 131072
 script = ExtResource("2")
 button = NodePath("../Button")
 
+[node name="Rumbler" type="Node" parent="InteractableAreaButton"]
+script = ExtResource("3_kg5ep")
+event = ExtResource("4_sq4bi")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="InteractableAreaButton"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 shape = SubResource("6")
@@ -76,3 +82,6 @@ right_pose = ExtResource("5_g2ih4")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HandPoseArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.025, 0)
 shape = SubResource("SphereShape3D_lygiq")
+
+[connection signal="body_entered" from="InteractableAreaButton" to="InteractableAreaButton/Rumbler" method="rumble_hand"]
+[connection signal="body_exited" from="InteractableAreaButton" to="InteractableAreaButton/Rumbler" method="cancel_hand"]

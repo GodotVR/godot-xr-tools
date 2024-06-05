@@ -63,7 +63,7 @@ condition = 1
 
 [resource]
 code = "shader_type spatial;
-render_mode unshaded;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
 
 uniform vec4 bar_color : source_color;
 uniform sampler2D bar_texture : source_color;

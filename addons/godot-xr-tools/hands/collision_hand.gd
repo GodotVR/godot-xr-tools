@@ -79,8 +79,10 @@ func _ready():
 	if Engine.is_editor_hint():
 		return
 
-	# Disconnect from parent transform, as we move to it in the physics step
+	# Disconnect from parent transform as we move to it in the physics step,
+	# and boost the physics priority above any grab-drivers or hands.
 	top_level = true
+	process_physics_priority = -90
 
 	# Populate nodes
 	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
@@ -171,6 +173,7 @@ func _move_to_target():
 	# Orient the hand then move
 	global_transform.basis = _target.global_transform.basis
 	move_and_slide(_target.global_position - global_position)
+	force_update_transform()
 
 
 # This function inserts a target override into the overrides list by priority

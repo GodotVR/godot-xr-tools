@@ -1,7 +1,28 @@
+# 4.3.2
+- Move fade logic into effect
+- Added collision fade support
+
+# 4.3.1
+- Fix saving project when using plugin-tools to set physics layers or enable OpenXR
+- Fix updating the editor-preview hand-pose
+- Fix jumping on slopes
+- Fix material warnings by converting binary .material files to .tres files
+- Fix staging to use threaded loading while starting the fade
+- Fix broken world-grab script
+
 # 4.3.0
 - Upgraded project to Godot 4.1 as the new minimum version.
 - Added reporting of stage load errors.
 - Blend player height changes and prevent the player from standing up under a low ceiling.
+- **minor-breakage** Added support for swapping held items between hands.
+- Added jog-in-place movement provider.
+- Added support for grappling on GridMap instances
+- **breakage** Added support for two-handed grabbing.
+- Added support for snapping hands to grab-points.
+- Added support for world-grab movement.
+- Fixed editor errors when using hand physics bones.
+- Added support for climbable grab-points.
+- Added control of keyboard or gamepad inputs to Viewport2Din3D instances.
 
 # 4.2.1
 - Fixed snap-zones showing highlight when disabled.

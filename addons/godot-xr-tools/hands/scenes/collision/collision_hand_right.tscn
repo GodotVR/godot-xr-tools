@@ -6,7 +6,6 @@
 size = Vector3(0.045, 0.075, 0.1)
 
 [node name="CollisionHandRight" type="AnimatableBody3D"]
-process_priority = -90
 collision_layer = 131072
 collision_mask = 327711
 sync_to_physics = false

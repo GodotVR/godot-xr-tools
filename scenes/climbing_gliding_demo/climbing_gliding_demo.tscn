@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://40a3andy74bw"]
+[gd_scene load_steps=42 format=3 uid="uid://40a3andy74bw"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_nosao"]
@@ -26,6 +26,7 @@
 [ext_resource type="PackedScene" path="res://scenes/climbing_gliding_demo/objects/ring.tscn" id="18_gu236"]
 [ext_resource type="PackedScene" uid="uid://b634pnt2nrn77" path="res://scenes/climbing_gliding_demo/objects/instructions.tscn" id="19_3dxda"]
 [ext_resource type="PackedScene" uid="uid://bgts3vpmjn6bb" path="res://addons/godot-xr-tools/functions/movement_wind.tscn" id="22"]
+[ext_resource type="PackedScene" uid="uid://q3pa72xp41cq" path="res://scenes/climbing_gliding_demo/objects/ladder.tscn" id="27_mmo3a"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_lj651"]
 animation = &"Grip"
@@ -374,16 +375,23 @@ transform = Transform3D(-0.880477, 0, -0.474088, 0, 1, 0, 0.474088, 0, -0.880477
 
 [node name="MainMenuTeleport1" parent="." index="4" instance=ExtResource("14")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -83, 36, -68)
-scene_base = NodePath("..")
 title = ExtResource("13")
+spawn_point_name = ""
+spawn_point_position = Vector3(0, 0, 0)
+spawn_point_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="MainMenuTeleport2" parent="." index="5" instance=ExtResource("14")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 91, 6, 81)
-scene_base = NodePath("..")
 title = ExtResource("13")
+spawn_point_name = ""
+spawn_point_position = Vector3(0, 0, 0)
+spawn_point_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="Instructions" parent="." index="6" instance=ExtResource("19_3dxda")]
 transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, -80, 40, -60)
+
+[node name="Ladder" parent="." index="7" instance=ExtResource("27_mmo3a")]
+transform = Transform3D(-0.866025, -0.118419, 0.485774, 0, 0.971549, 0.236838, -0.5, 0.205108, -0.841386, -81.4744, 33.4, -70.5593)
 
 [editable path="XROrigin3D/LeftHand/LeftHand"]
 [editable path="XROrigin3D/LeftHand/LeftHand/Hand_Nails_low_L"]

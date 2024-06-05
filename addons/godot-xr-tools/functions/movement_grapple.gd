@@ -117,13 +117,21 @@ func _ready():
 	_line.hide()
 
 
-# Update grapple display objects
-func _process(_delta: float):
+# Update the grappling line and target
+func _physics_process(_delta : float):
 	# Skip if running in the editor
 	if Engine.is_editor_hint():
 		return
 
-	# Update grapple line
+	# If pointing grappler at target then show the target
+	if enabled and not is_active and _is_raycast_valid():
+		_grapple_target.global_transform.origin = _grapple_raycast.get_collision_point()
+		_grapple_target.global_transform = _grapple_target.global_transform.orthonormalized()
+		_grapple_target.visible = true
+	else:
+		_grapple_target.visible = false
+
+	# If actively grappling then update and show the grappling line
 	if is_active:
 		var line_length := (hook_point - _controller.global_transform.origin).length()
 		_line_helper.look_at(hook_point, Vector3.UP)
@@ -132,14 +140,6 @@ func _process(_delta: float):
 		_line.visible = true
 	else:
 		_line.visible = false
-
-	# Update grapple target
-	if enabled and !is_active and _is_raycast_valid():
-		_grapple_target.global_transform.origin  = _grapple_raycast.get_collision_point()
-		_grapple_target.global_transform = _grapple_target.global_transform.orthonormalized()
-		_grapple_target.visible = true
-	else:
-		_grapple_target.visible = false
 
 
 # Perform grapple movement
@@ -220,14 +220,12 @@ func _set_grappling(active: bool) -> void:
 
 # Test if the raycast is striking a valid target
 func _is_raycast_valid() -> bool:
-	# Fail if raycast not colliding
-	if not _grapple_raycast.is_colliding():
+	# Test if the raycast hit a collider
+	var target = _grapple_raycast.get_collider()
+	if not is_instance_valid(target):
 		return false
 
-	# Get the target of the raycast
-	var target : CollisionObject3D = _grapple_raycast.get_collider()
-
-	# Check tartget layer
+	# Check collider layer
 	return true if target.collision_layer & grapple_enable_mask else false
 
 

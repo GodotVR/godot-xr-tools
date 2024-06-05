@@ -81,11 +81,15 @@ func _on_area_entered(area : Area3D) -> void:
 				pose_area,
 				pose_area.pose_priority,
 				pose_area.left_pose)
+		# Disable grabpoints in this pose_area
+		pose_area.disable_grab_points()
 	elif _controller.tracker == "right_hand" and pose_area.right_pose:
 		_hand.add_pose_override(
 				pose_area,
 				pose_area.pose_priority,
 				pose_area.right_pose)
+		# Disable grabpoints in this pose_area
+		pose_area.disable_grab_points()
 
 
 ## Signal handler called when this XRToolsFunctionPoseArea leaves an area
@@ -97,3 +101,6 @@ func _on_area_exited(area : Area3D) -> void:
 
 	# Remove any overrides set from this hand-pose area
 	_hand.remove_pose_override(pose_area)
+
+	# Enable previously disabled grabpoints
+	pose_area.enable_grab_points()

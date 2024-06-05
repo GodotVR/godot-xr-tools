@@ -373,6 +373,7 @@ func drop_object() -> void:
 
 	# let go of this object
 	picked_up_object.let_go(
+		self,
 		_velocity_averager.linear_velocity() * impulse_factor,
 		_velocity_averager.angular_velocity())
 	picked_up_object = null
@@ -401,7 +402,7 @@ func _pick_up_object(target: Node3D) -> void:
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_ranged = not _object_in_grab_area.has(target)
 	picked_up_object = target
-	target.pick_up(self, _controller)
+	target.pick_up(self)
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):

@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjcxf427un2wp"]
+[gd_scene load_steps=8 format=3 uid="uid://bjcxf427un2wp"]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/player/poke/poke.gd" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/player/poke/poke_body.gd" id="2"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/rumble/rumbler.gd" id="3_41fwo"]
+[ext_resource type="Resource" uid="uid://brci6umrcd157" path="res://addons/godot-xr-tools/rumble/tap_rumble.tres" id="4_mskmk"]
 
 [sub_resource type="SphereShape3D" id="1"]
 resource_local_to_scene = true
@@ -14,7 +16,7 @@ height = 0.01
 radial_segments = 32
 rings = 16
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_g1b1h"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgik7"]
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0.8, 0.8, 1, 0.5)
@@ -34,7 +36,12 @@ shape = SubResource("1")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="PokeBody"]
 mesh = SubResource("2")
-surface_material_override/0 = SubResource("StandardMaterial3D_g1b1h")
+surface_material_override/0 = SubResource("StandardMaterial3D_hgik7")
 
+[node name="Rumbler" type="Node" parent="."]
+script = ExtResource("3_41fwo")
+event = ExtResource("4_mskmk")
+
+[connection signal="pointing_event" from="." to="Rumbler" method="rumble_pointer"]
 [connection signal="body_contact_end" from="PokeBody" to="." method="_on_PokeBody_body_contact_end"]
 [connection signal="body_contact_start" from="PokeBody" to="." method="_on_PokeBody_body_contact_start"]

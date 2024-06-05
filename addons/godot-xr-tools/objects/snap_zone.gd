@@ -142,12 +142,12 @@ func request_highlight(from : Node, on : bool = true) -> void:
 
 
 # Pickable Method: Object being grabbed from this snap zone
-func pick_up(_by: Node3D, _with_controller: XRController3D) -> void:
+func pick_up(_by: Node3D) -> void:
 	pass
 
 
 # Pickable Method: Player never graps snap-zone
-func let_go(_p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
+func let_go(_by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
 	pass
 
 
@@ -157,7 +157,7 @@ func drop_object() -> void:
 		return
 
 	# let go of this object
-	picked_up_object.let_go(Vector3.ZERO, Vector3.ZERO)
+	picked_up_object.let_go(self, Vector3.ZERO, Vector3.ZERO)
 	picked_up_object = null
 	has_dropped.emit()
 	highlight_updated.emit(self, enabled)
@@ -251,7 +251,7 @@ func pick_up_object(target: Node3D) -> void:
 		player.stream = stash_sound
 		player.play()
 
-	target.pick_up(self, null)
+	target.pick_up(self)
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):

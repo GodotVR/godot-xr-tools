@@ -29,32 +29,51 @@ size = Vector3(0.1, 0.1, 0.2)
 [node name="Hammer" instance=ExtResource("1")]
 collision_mask = 7
 ranged_grab_method = 0
+second_hand_grab = 2
 
-[node name="GrabPointHandLeft" parent="." index="0" instance=ExtResource("2_2myoy")]
+[node name="GrabPointBaseLeft" parent="." index="0" instance=ExtResource("2_2myoy")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.58166e-08, -0.981627, 0.190809, 1.66811e-08, 0.190809, 0.981627, -0.007, 0.355, -0.071)
+mode = 1
 hand_pose = ExtResource("3_p8dbs")
 
-[node name="GrabPointHandRight" parent="." index="1" instance=ExtResource("3_3xwvb")]
+[node name="GrabPointBaseRight" parent="." index="1" instance=ExtResource("3_3xwvb")]
 transform = Transform3D(-1, 8.74228e-08, 0, -8.58166e-08, -0.981627, 0.190809, 1.66811e-08, 0.190809, 0.981627, 0.007, 0.355, -0.071)
+mode = 1
 hand_pose = ExtResource("5_tuke4")
 
-[node name="CollisionShape3D" parent="." index="2"]
+[node name="GrabPointTopLeft" parent="." index="2" instance=ExtResource("2_2myoy")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.58166e-08, -0.981627, 0.190809, 1.66811e-08, 0.190809, 0.981627, -0.007, 0.055, -0.071)
+mode = 2
+hand_pose = ExtResource("3_p8dbs")
+drive_position = 0.1
+drive_angle = 0.0
+drive_aim = 1.0
+
+[node name="GrabPointTopRight" parent="." index="3" instance=ExtResource("3_3xwvb")]
+transform = Transform3D(-1, 8.74228e-08, 0, -8.58166e-08, -0.981627, 0.190809, 1.66811e-08, 0.190809, 0.981627, 0.007, 0.055, -0.071)
+mode = 2
+hand_pose = ExtResource("5_tuke4")
+drive_position = 0.1
+drive_angle = 0.0
+drive_aim = 1.0
+
+[node name="CollisionShape3D" parent="." index="4"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 shape = SubResource("1")
 
-[node name="CollisionShape2" type="CollisionShape3D" parent="." index="3"]
+[node name="CollisionShape2" type="CollisionShape3D" parent="." index="5"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 shape = SubResource("3")
 
-[node name="Handle" type="MeshInstance3D" parent="." index="4"]
+[node name="Handle" type="MeshInstance3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0)
 mesh = SubResource("2")
 surface_material_override/0 = ExtResource("2")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="5"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." index="7"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1, 0)
 mesh = SubResource("4")
 surface_material_override/0 = ExtResource("3")
 
-[node name="HighlightRing" parent="." index="6" instance=ExtResource("4")]
+[node name="HighlightRing" parent="." index="8" instance=ExtResource("4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://57q7hhomocdh"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/world_grab_area.gd" id="1_uxhq5"]
+
+[node name="WorldGrabArea" type="Area3D"]
+collision_layer = 262144
+collision_mask = 524288
+script = ExtResource("1_uxhq5")
