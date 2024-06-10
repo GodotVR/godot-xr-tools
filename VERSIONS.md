@@ -1,6 +1,8 @@
 # 4.3.2
 - Move fade logic into effect
 - Added collision fade support
+- Added fix for slowly sliding on slopes
+- Added fix for ground-control preventing jumping over objects
 
 # 4.3.1
 - Fix saving project when using plugin-tools to set physics layers or enable OpenXR

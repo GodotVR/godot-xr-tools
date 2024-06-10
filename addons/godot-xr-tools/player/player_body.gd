@@ -669,45 +669,53 @@ func _apply_velocity_and_control(delta: float):
 	var vertical_velocity := local_velocity - horizontal_velocity
 
 	# If the player is on the ground then give them control
-	if _can_apply_ground_control():
+	if _can_apply_ground_control() and ground_control_velocity.length() >= 0.1:
 		# If ground control is being supplied then update the horizontal velocity
 		var control_velocity := Vector3.ZERO
-		if abs(ground_control_velocity.x) > 0.1 or abs(ground_control_velocity.y) > 0.1:
-			var camera_transform := camera_node.global_transform
-			var dir_forward := camera_transform.basis.z.slide(up_gravity).normalized()
-			var dir_right := camera_transform.basis.x.slide(up_gravity).normalized()
-			control_velocity = (
-					dir_forward * -ground_control_velocity.y +
-					dir_right * ground_control_velocity.x
-			) * XRServer.world_scale
+		var camera_transform := camera_node.global_transform
+		var dir_forward := camera_transform.basis.z.slide(up_gravity).normalized()
+		var dir_right := camera_transform.basis.x.slide(up_gravity).normalized()
+		control_velocity = (
+				dir_forward * -ground_control_velocity.y +
+				dir_right * ground_control_velocity.x
+		) * XRServer.world_scale
 
-			# Apply control velocity to horizontal velocity based on traction
-			var current_traction := XRToolsGroundPhysicsSettings.get_move_traction(
-					ground_physics, default_physics)
-			var traction_factor: float = clamp(current_traction * delta, 0.0, 1.0)
-			horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
+		# Apply control velocity to horizontal velocity based on traction
+		var current_traction := XRToolsGroundPhysicsSettings.get_move_traction(
+				ground_physics, default_physics)
+		var traction_factor: float = clamp(current_traction * delta, 0.0, 1.0)
+		horizontal_velocity = horizontal_velocity.lerp(control_velocity, traction_factor)
 
-			# Prevent the player from moving up steep slopes
-			var current_max_slope := XRToolsGroundPhysicsSettings.get_move_max_slope(
-					ground_physics, default_physics)
-			if ground_angle > current_max_slope:
-				# Get a vector in the down-hill direction
-				var down_direction := ground_vector.slide(up_gravity).normalized()
-				var vdot: float = down_direction.dot(horizontal_velocity)
-				if vdot < 0:
-					horizontal_velocity -= down_direction * vdot
-		else:
-			# User is not trying to move, so apply the ground drag
-			var current_drag := XRToolsGroundPhysicsSettings.get_move_drag(
-					ground_physics, default_physics)
-			var drag_factor: float = clamp(current_drag * delta, 0, 1)
-			horizontal_velocity = horizontal_velocity.lerp(control_velocity, drag_factor)
+	# Prevent the player from moving up steep slopes
+	if on_ground:
+		var current_max_slope := XRToolsGroundPhysicsSettings.get_move_max_slope(
+				ground_physics, default_physics)
+		if ground_angle > current_max_slope:
+			# Get a vector in the down-hill direction
+			var down_direction := ground_vector.slide(up_gravity).normalized()
+			var vdot: float = down_direction.dot(horizontal_velocity)
+			if vdot < 0:
+				horizontal_velocity -= down_direction * vdot
 
 	# Combine the velocities back to a 3-space velocity
 	local_velocity = horizontal_velocity + vertical_velocity
 
 	# Move the player body with the desired velocity
 	velocity = move_body(local_velocity + ground_velocity)
+
+	# Apply ground-friction after the move
+	if _can_apply_ground_control() and ground_control_velocity.length() < 0.1:
+		# User is not trying to move, so apply the ground drag
+		var current_drag := XRToolsGroundPhysicsSettings.get_move_drag(
+				ground_physics, default_physics)
+		var drag_factor: float = clamp(current_drag * delta, 0, 1)
+
+		# Apply drag to horizontal velocity relative to ground
+		local_velocity = velocity - ground_velocity
+		horizontal_velocity = local_velocity.slide(up_gravity)
+		vertical_velocity = local_velocity - horizontal_velocity
+		horizontal_velocity = horizontal_velocity.lerp(Vector3.ZERO, drag_factor)
+		velocity = horizontal_velocity + vertical_velocity + ground_velocity
 
 	# Perform bounce test if a collision occurred
 	if get_slide_collision_count():
