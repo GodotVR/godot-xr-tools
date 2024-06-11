@@ -23,7 +23,7 @@ const DEFAULT_MASK := 0b0000_0000_0000_0000_0000_0000_0000_1000
 func physics_pre_movement(_delta: float, player_body: XRToolsPlayerBody):
 	# Test for collision with wall under feet
 	var wall_collision := player_body.move_and_collide(
-		player_body.up_player * -stick_distance, true, true, true)
+		player_body.up_player * -stick_distance, true)
 	if !wall_collision:
 		return
 
