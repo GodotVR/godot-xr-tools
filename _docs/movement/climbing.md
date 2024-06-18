@@ -30,6 +30,8 @@ As mentioned setting up the climbing system requires a few more steps.
 First, the climbing function uses our [pickup function]({{ site.url }}/docs/pickable/) from the Pickup and throw 
 system. You thus need to add the Pickup functions to both hands.
 
+<span style="color: red">**NOTE**</span>: Static body 3D collisions for Jolt physics are not detected by default which is needed for the pickup_function to work properly, this is disabled by default, to enable go to project_settings > Jolt > Collisions > Areas_Detect_Static_Bodys and enable it.
+
 Next you need to add the Climb movement function as a child to the [XROrigin3D](https://docs.godotengine.org/en/stable/classes/class_xrorigin3d.html) node,
 note that as with other movement functions, this will add a [PlayerBody](https://godotvr.github.io/godot-xr-tools/docs/player_body/) node to your
 XROrigin3D node if it doesn't already exist.
