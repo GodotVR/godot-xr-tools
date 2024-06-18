@@ -112,7 +112,7 @@ var is_ready : bool = false
 var scene_node : Node
 var scene_properties_keys: PackedStringArray = []
 var scene_properties : Array[Dictionary] = []
-# Needed to apply custom properties of the scene before it is instanced, as these are set on ready, 
+# Needed to apply custom properties of the scene before it is instanced, as these are set on ready,
 # But at this point in time the scene is not instanced yet
 var scene_proxy_configuration: Dictionary = {}
 var viewport_texture : ViewportTexture
@@ -167,7 +167,7 @@ func _get_property_list() -> Array[Dictionary]:
 			type = TYPE_BOOL,
 			usage = PROPERTY_USAGE_DEFAULT if show_filter else PROPERTY_USAGE_NO_EDITOR
 		},
-		# Store the scene property keys on the disk, so that even before the scene is loaded we 
+		# Store the scene property keys on the disk, so that even before the scene is loaded we
 		# know about the custom properties
 		{
 			name = "scene_properties_keys",
@@ -177,7 +177,7 @@ func _get_property_list() -> Array[Dictionary]:
 	]
 
 	# Add all the custom properties of the subscene so they show up in the editor
-	if scene_properties_keys.size() > 0:	
+	if scene_properties_keys.size() > 0:
 		extra_properties.append_array(scene_properties)
 
 	return extra_properties
@@ -199,7 +199,7 @@ func _get(property: StringName) -> Variant:
 		# Special handling is required for NodePaths, as they are relative to the scene
 		if return_value is NodePath and !return_value.is_absolute():
 			var path_string : String = str(return_value)
-			# Remove the additional leading ../../ 
+			# Remove the additional leading ../../
 			return_value = NodePath(path_string.substr(6, -1))
 
 		return return_value
@@ -212,13 +212,14 @@ func _set(property: StringName, value: Variant):
 
 		# Special handling is required for NodePaths, as they are relative to the scene
 		if value is NodePath and !value.is_absolute():
-			# Add the additional leading ../../ 
+			# Add the additional leading ../../
 			value = NodePath("../../" + str(value))
 
 		# If our scene is already instanced then set the property directly
 		if is_instance_valid(scene_node):
 			scene_node.set(property, value)
-		# If it is not instanced yet, store it to the proxy configuration which will get applied on scene load
+		# If it is not instanced yet, store it to the proxy configuration,
+		# which will get applied on scene load
 		else:
 			scene_proxy_configuration[property] = value
 		return true
@@ -261,17 +262,18 @@ func _update_scene_property_list():
 			scene_proxy_configuration = {}
 		else:
 			# Extract relevant properties of the provided scene to display in the editor (forwarded)
-			var node_script: Script = scene_node.get_script() as Script 
+			var node_script: Script = scene_node.get_script() as Script
 			if node_script:
 				var all_properties := node_script.get_script_property_list()
 
 				# Join this with the custom property list of the object created by the script
-				if scene_node.has_method("_get_property_list"):
-					all_properties.append_array(scene_node._get_property_list())
+				if scene_node.has_method("get_property_list"):
+					all_properties.append_array(scene_node.get_property_list())
 
 				for property in all_properties:
 					# Filter out only the properties that are supposed to be stored, or are used for grouping
-					if property["usage"] & (PROPERTY_USAGE_STORAGE | PROPERTY_USAGE_GROUP | PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP):
+					if property["usage"] & (PROPERTY_USAGE_STORAGE | PROPERTY_USAGE_GROUP \
+					| PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP):
 						scene_properties.append(property)
 						scene_properties_keys.append(property["name"])
 
