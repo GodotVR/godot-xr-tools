@@ -3,6 +3,9 @@
 - Added collision fade support
 - Added fix for slowly sliding on slopes
 - Added fix for ground-control preventing jumping over objects
+- Added property forwarding for Viewport2Din3D
+- Added fix for open/close poses
+- Added rumble manager for haptic feedback
 - Fix unreliable wall-walking collision
 
 # 4.3.1
