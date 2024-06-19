@@ -1,3 +1,6 @@
+# 4.4.0
+- Minimum Godot version changed to 4.2
+
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
 

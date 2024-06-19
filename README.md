@@ -12,10 +12,22 @@ This repository contains a number of support files and support scenes that can b
 Official releases are tagged and can be found [here](https://github.com/GodotVR/godot-xr-tools/releases).
 
 The following branches are in active development:
+
 |  Branch   |  Description                  |  Godot version  |
 |-----------|-------------------------------|-----------------|
-|  master   | Current development branch    |  Godot 4.1+     |
+|  master   | Current development branch    |  Godot 4.2+     |
+|  4.3.x    | Godot XR Tools 4.3.x branch   |  Godot 4.1+     |
 |   3.x     | Godot 3.x development branch  |  Godot 3.5+     |
+
+Version compatibility:
+
+| Godot XR Tools | Minimum Godot version |
+|----------------|-----------------------|
+| 4.4.x          | 4.2                   |
+| 4.3.x          | 4.1                   |
+| 4.2.x          | 4.1                   |
+| 4.1.x          | 4.0                   |
+| 4.0.x          | 4.0                   |
 
 ## How to Use
 
