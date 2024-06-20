@@ -267,8 +267,8 @@ func _update_scene_property_list():
 				var all_properties := node_script.get_script_property_list()
 
 				# Join this with the custom property list of the object created by the script
-				if scene_node.has_method("get_property_list"):
-					all_properties.append_array(scene_node.get_property_list())
+				if scene_node.has_method("_get_property_list"):
+					all_properties.append_array(scene_node.call("_get_property_list"))
 
 				for property in all_properties:
 					# Filter out only the properties that are supposed to be stored, or are used for grouping
