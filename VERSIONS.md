@@ -1,3 +1,6 @@
+# 4.3.3
+- Fix Viewport2Din3D property forwarding
+
 # 4.3.2
 - Move fade logic into effect
 - Added collision fade support
