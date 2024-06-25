@@ -1,14 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://3a6wjr3a13vd"]
+[gd_scene load_steps=6 format=3 uid="uid://3a6wjr3a13vd"]
 
 [ext_resource type="Script" path="res://assets/meshes/teleport/teleport.gd" id="1_mkuv0"]
 [ext_resource type="PackedScene" uid="uid://vhtqagtfb4m4" path="res://assets/meshes/teleport/teleport.glb" id="2_k3yit"]
-[ext_resource type="Material" uid="uid://cliyhjfvy8pfd" path="res://assets/maps/holodeck/materials/base.material" id="2_kj6s5"]
 [ext_resource type="Material" uid="uid://c26e12f2whdrj" path="res://assets/meshes/teleport/teleport_title_material.tres" id="3_sl3q4"]
 [ext_resource type="Material" uid="uid://d4nr1joloeff8" path="res://assets/meshes/teleport/teleport_area_shader.tres" id="4_2bbe5"]
-[ext_resource type="Shape3D" uid="uid://vweyq3qwvhpi" path="res://assets/meshes/teleport/teleport_area_base.shape" id="6_wdetv"]
-[ext_resource type="Shape3D" uid="uid://bxr6sjb8invtw" path="res://assets/meshes/teleport/teleport_area_top.shape" id="7_67eq3"]
 
-[sub_resource type="CylinderShape3D" id="CylinderShape3D_bekon"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_pk0bj"]
 height = 2.8
 radius = 0.85
 
@@ -20,23 +17,11 @@ spawn_point_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
 
 [node name="teleport" parent="." instance=ExtResource("2_k3yit")]
 
-[node name="Base" parent="teleport" index="0"]
-surface_material_override/0 = ExtResource("2_kj6s5")
-
 [node name="Top" parent="teleport" index="1"]
-surface_material_override/0 = ExtResource("2_kj6s5")
 surface_material_override/1 = ExtResource("3_sl3q4")
 
 [node name="Cylinder" parent="teleport" index="2"]
 surface_material_override/0 = ExtResource("4_2bbe5")
-
-[node name="TeleportBody" type="StaticBody3D" parent="."]
-
-[node name="BaseCollisionShape" type="CollisionShape3D" parent="TeleportBody"]
-shape = ExtResource("6_wdetv")
-
-[node name="TopCollisionShape" type="CollisionShape3D" parent="TeleportBody"]
-shape = ExtResource("7_67eq3")
 
 [node name="TeleportArea" type="Area3D" parent="."]
 collision_layer = 0
@@ -44,7 +29,7 @@ collision_mask = 524288
 
 [node name="CollisionShape3d" type="CollisionShape3D" parent="TeleportArea"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0)
-shape = SubResource("CylinderShape3D_bekon")
+shape = SubResource("CylinderShape3D_pk0bj")
 
 [connection signal="body_entered" from="TeleportArea" to="." method="_on_TeleportArea_body_entered"]
 

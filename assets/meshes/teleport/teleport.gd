@@ -148,11 +148,15 @@ func _property_get_revert(property : StringName): # Variant
 			return Transform3D.IDENTITY
 
 
-func set_collision_disabled(value):
-	if !Engine.is_editor_hint():
-		for child in get_node("TeleportBody").get_children():
-			if child is CollisionShape3D:
-				child.disabled = value
+func set_collision_disabled(p_disable : bool) -> void:
+	if Engine.is_editor_hint():
+		return
+
+	# Update processing (PROCESS_MODE_DISABLED turns off physics)
+	if p_disable:
+		process_mode = PROCESS_MODE_DISABLED
+	else:
+		process_mode = PROCESS_MODE_INHERIT
 
 
 func _set_spawn_data(p_spawn_data : SpawnDataType) -> void:
