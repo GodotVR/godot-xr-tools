@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://cm0cpldqa6j4d" path="res://scenes/climbing_gliding_demo/objects/hill.tscn" id="16"]
 [ext_resource type="PackedScene" uid="uid://ct3p5sgwvkmva" path="res://assets/meshes/control_pad/control_pad.tscn" id="18_eubkd"]
-[ext_resource type="PackedScene" path="res://scenes/climbing_gliding_demo/objects/ring.tscn" id="18_gu236"]
+[ext_resource type="PackedScene" uid="uid://0biw73b8f1dx" path="res://scenes/climbing_gliding_demo/objects/ring.tscn" id="18_gu236"]
 [ext_resource type="PackedScene" uid="uid://b634pnt2nrn77" path="res://scenes/climbing_gliding_demo/objects/instructions.tscn" id="19_3dxda"]
 [ext_resource type="PackedScene" uid="uid://bgts3vpmjn6bb" path="res://addons/godot-xr-tools/functions/movement_wind.tscn" id="22"]
 [ext_resource type="PackedScene" uid="uid://q3pa72xp41cq" path="res://scenes/climbing_gliding_demo/objects/ladder.tscn" id="27_mmo3a"]
@@ -57,7 +57,7 @@ nodes/OpenHand/node = SubResource("AnimationNodeAnimation_f11fi")
 nodes/OpenHand/position = Vector2(-600, 100)
 nodes/Trigger/node = SubResource("AnimationNodeBlend2_2dm6d")
 nodes/Trigger/position = Vector2(-360, 20)
-node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1"]
+node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_kwr4e"]
 animation = &"Grip"
@@ -88,7 +88,7 @@ nodes/OpenHand/node = SubResource("AnimationNodeAnimation_j56mo")
 nodes/OpenHand/position = Vector2(-600, 100)
 nodes/Trigger/node = SubResource("AnimationNodeBlend2_cjhu6")
 nodes/Trigger/position = Vector2(-360, 40)
-node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1"]
+node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
 [sub_resource type="BoxMesh" id="1"]
 size = Vector3(200, 1, 200)

@@ -19,10 +19,10 @@
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="15"]
 [ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="16_3bcyp"]
-[ext_resource type="PackedScene" path="res://scenes/sprinting_demo/objects/ramp.tscn" id="17"]
+[ext_resource type="PackedScene" uid="uid://dmta280djb54e" path="res://scenes/sprinting_demo/objects/ramp.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="17_k8kqb"]
 [ext_resource type="PackedScene" uid="uid://ct3p5sgwvkmva" path="res://assets/meshes/control_pad/control_pad.tscn" id="17_yumhv"]
-[ext_resource type="PackedScene" path="res://scenes/sprinting_demo/objects/climbing_wall.tscn" id="18"]
+[ext_resource type="PackedScene" uid="uid://du3ti6jdtxmew" path="res://scenes/sprinting_demo/objects/climbing_wall.tscn" id="18"]
 [ext_resource type="PackedScene" uid="uid://chcuj3jysipk8" path="res://addons/godot-xr-tools/functions/movement_jog.tscn" id="18_56ii6"]
 [ext_resource type="PackedScene" uid="uid://d2bvjxai7dke8" path="res://scenes/sprinting_demo/objects/instructions.tscn" id="19"]
 
@@ -55,7 +55,7 @@ nodes/OpenHand/node = SubResource("AnimationNodeAnimation_sf0fw")
 nodes/OpenHand/position = Vector2(-600, 100)
 nodes/Trigger/node = SubResource("AnimationNodeBlend2_rd468")
 nodes/Trigger/position = Vector2(-360, 20)
-node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1"]
+node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_36rmm"]
 animation = &"Grip"
@@ -86,7 +86,7 @@ nodes/OpenHand/node = SubResource("AnimationNodeAnimation_fyr3e")
 nodes/OpenHand/position = Vector2(-600, 100)
 nodes/Trigger/node = SubResource("AnimationNodeBlend2_pfr6v")
 nodes/Trigger/position = Vector2(-360, 40)
-node_connections = [&"output", 0, &"Grip", &"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1"]
+node_connections = [&"Grip", 0, &"Trigger", &"Grip", 1, &"ClosedHand2", &"Trigger", 0, &"OpenHand", &"Trigger", 1, &"ClosedHand1", &"output", 0, &"Grip"]
 
 [sub_resource type="Curve3D" id="1"]
 bake_interval = 2.0
