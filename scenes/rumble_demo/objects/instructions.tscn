@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhysdwgk0bu8b"]
+
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1_gyors"]
+[ext_resource type="PackedScene" uid="uid://baj8c710hqjhn" path="res://scenes/rumble_demo/objects/instructions_2d.tscn" id="2_s538p"]
+[ext_resource type="Material" uid="uid://cliyhjfvy8pfd" path="res://assets/maps/holodeck/materials/base.material" id="3_ym41t"]
+
+[sub_resource type="BoxMesh" id="1"]
+material = ExtResource("3_ym41t")
+size = Vector3(4.2, 2.7, 0.1)
+
+[node name="Instructions" type="Node3D"]
+
+[node name="Viewport2Din3D" parent="." instance=ExtResource("1_gyors")]
+screen_size = Vector2(4, 2.5)
+collision_layer = 0
+scene = ExtResource("2_s538p")
+viewport_size = Vector2(400, 250)
+update_mode = 0
+unshaded = true
+
+[node name="MeshInstance" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1)
+mesh = SubResource("1")

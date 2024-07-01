@@ -50,7 +50,7 @@ default_value = Color(0.168627, 0.25098, 0.972549, 1)
 
 [sub_resource type="VisualShader" id="22"]
 code = "shader_type spatial;
-render_mode blend_add, cull_disabled, unshaded;
+render_mode blend_add, depth_draw_opaque, cull_disabled, diffuse_lambert, specular_schlick_ggx, unshaded;
 
 uniform vec4 beam_color : source_color = vec4(0.168627, 0.250980, 0.972549, 1.000000);
 

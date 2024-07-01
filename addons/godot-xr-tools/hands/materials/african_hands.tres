@@ -1,0 +1,8 @@
+[gd_resource type="ORMMaterial3D" load_steps=3 format=3 uid="uid://bde1c58rcajee"]
+
+[ext_resource type="Texture2D" uid="uid://cs7m7m0k2506g" path="res://addons/godot-xr-tools/hands/textures/african_baseColor.png" id="1_dn1i6"]
+[ext_resource type="Texture2D" uid="uid://h3sjbnu6uplb" path="res://addons/godot-xr-tools/hands/textures/hands_occlusionRoughnessMetallic.png" id="2_di2ux"]
+
+[resource]
+albedo_texture = ExtResource("1_dn1i6")
+orm_texture = ExtResource("2_di2ux")

@@ -41,7 +41,7 @@ default_value = Vector2(1, 1)
 
 [resource]
 code = "shader_type spatial;
-render_mode unshaded;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
 
 uniform vec2 grid_scale = vec2(1.000000, 1.000000);
 uniform vec4 grid_color : source_color = vec4(1.000000, 0.891186, 0.000000, 1.000000);

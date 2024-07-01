@@ -10,3 +10,4 @@
 logs
 Thumbs.db
 android/
+.venv/

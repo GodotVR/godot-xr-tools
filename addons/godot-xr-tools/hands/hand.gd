@@ -341,7 +341,7 @@ func _update_pose() -> void:
 			if _animation_player.has_animation(open_name):
 				_animation_player.remove_animation(open_name)
 
-			_animation_player.add_animation(open_name, open_pose)
+			_animation_player.get_animation_library("").add_animation(open_name, open_pose)
 
 		var open_hand_obj : AnimationNodeAnimation = _tree_root.get_node("OpenHand")
 		if open_hand_obj:
@@ -355,7 +355,7 @@ func _update_pose() -> void:
 			if _animation_player.has_animation(closed_name):
 				_animation_player.remove_animation(closed_name)
 
-			_animation_player.add_animation(closed_name, closed_pose)
+			_animation_player.get_animation_library("").add_animation(closed_name, closed_pose)
 
 		var closed_hand_obj : AnimationNodeAnimation = _tree_root.get_node("ClosedHand1")
 		if closed_hand_obj:

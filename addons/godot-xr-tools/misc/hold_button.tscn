@@ -10,9 +10,9 @@ resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2")
 shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/value = 0.2
 shader_parameter/fade = 0.05
 shader_parameter/radius = 0.8
-shader_parameter/value = 0.2
 shader_parameter/width = 0.2
 
 [node name="HoldButton" type="Node3D"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://54qovguk25i5"]
 
 [ext_resource type="Texture2D" uid="uid://cqgdloakbawp" path="res://assets/wahooney.itch.io/white_grid.png" id="1"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://c8jtmtuihfujs" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cegpwqy2053ct" path="res://assets/meshes/plate/plate.glb" id="3"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="4"]
 [ext_resource type="AudioStream" uid="uid://dkladw5jiqfnb" path="res://assets/footsteps/puddle_footstep.wav" id="4_ql6qg"]

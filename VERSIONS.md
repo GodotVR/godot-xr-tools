@@ -1,3 +1,27 @@
+# 4.4.0
+- Minimum Godot version changed to 4.2
+
+# 4.3.3
+- Fix Viewport2Din3D property forwarding
+
+# 4.3.2
+- Move fade logic into effect
+- Added collision fade support
+- Added fix for slowly sliding on slopes
+- Added fix for ground-control preventing jumping over objects
+- Added property forwarding for Viewport2Din3D
+- Added fix for open/close poses
+- Added rumble manager for haptic feedback
+- Fix unreliable wall-walking collision
+
+# 4.3.1
+- Fix saving project when using plugin-tools to set physics layers or enable OpenXR
+- Fix updating the editor-preview hand-pose
+- Fix jumping on slopes
+- Fix material warnings by converting binary .material files to .tres files
+- Fix staging to use threaded loading while starting the fade
+- Fix broken world-grab script
+
 # 4.3.0
 - Upgraded project to Godot 4.1 as the new minimum version.
 - Added reporting of stage load errors.

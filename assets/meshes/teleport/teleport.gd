@@ -148,11 +148,15 @@ func _property_get_revert(property : StringName): # Variant
 			return Transform3D.IDENTITY
 
 
-func set_collision_disabled(value):
-	if !Engine.is_editor_hint():
-		for child in get_node("TeleportBody").get_children():
-			if child is CollisionShape3D:
-				child.disabled = value
+func set_collision_disabled(p_disable : bool) -> void:
+	if Engine.is_editor_hint():
+		return
+
+	# Update processing (PROCESS_MODE_DISABLED turns off physics)
+	if p_disable:
+		process_mode = PROCESS_MODE_DISABLED
+	else:
+		process_mode = PROCESS_MODE_INHERIT
 
 
 func _set_spawn_data(p_spawn_data : SpawnDataType) -> void:
@@ -168,7 +172,7 @@ func _set_title(value):
 
 func _update_title():
 	if title:
-		var material: ShaderMaterial = $TeleportBody/Top.get_active_material(1)
+		var material: ShaderMaterial = $teleport/Top.get_surface_override_material(1)
 		material.set_shader_parameter("Title", title)
 
 
@@ -198,8 +202,8 @@ func _set_inactive_beam_visible(value):
 
 func _update_teleport():
 	if active:
-		$TeleportArea/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", active_beam_color)
-		$TeleportArea/Cylinder.visible = true
+		$teleport/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", active_beam_color)
+		$teleport/Cylinder.visible = true
 	else:
-		$TeleportArea/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", inactive_beam_color)
-		$TeleportArea/Cylinder.visible = inactive_beam_visible
+		$teleport/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", inactive_beam_color)
+		$teleport/Cylinder.visible = inactive_beam_visible

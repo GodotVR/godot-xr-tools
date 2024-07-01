@@ -107,8 +107,16 @@ func _set_hand(new_value : Hand) -> void:
 
 
 func _set_hand_pose(new_value : XRToolsHandPoseSettings) -> void:
+	# Unsubscribe from the old hand-pose changed signal
+	if Engine.is_editor_hint() and hand_pose:
+		hand_pose.changed.disconnect(_update_editor_preview)
+
+	# Save the hand pose
 	hand_pose = new_value
-	if Engine.is_editor_hint():
+
+	# Update the editor preview
+	if Engine.is_editor_hint() and hand_pose:
+		hand_pose.changed.connect(_update_editor_preview)
 		_update_editor_preview()
 
 

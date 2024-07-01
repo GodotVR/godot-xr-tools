@@ -110,6 +110,11 @@ var filter : bool = true: set = set_filter
 
 var is_ready : bool = false
 var scene_node : Node
+var scene_properties_keys: PackedStringArray = []
+var scene_properties : Array[Dictionary] = []
+# Needed to apply custom properties of the scene before it is instanced, as these are set on ready,
+# But at this point in time the scene is not instanced yet
+var scene_proxy_configuration: Dictionary = {}
 var viewport_texture : ViewportTexture
 var time_since_last_update : float = 0.0
 var _screen_material : StandardMaterial3D
@@ -139,8 +144,7 @@ func _get_property_list() -> Array[Dictionary]:
 	var show_unshaded := not material
 	var show_filter := not material
 
-	# Return extra properties
-	return [
+	var extra_properties : Array[Dictionary] = [
 		{
 			name = "Rendering",
 			type = TYPE_NIL,
@@ -162,8 +166,65 @@ func _get_property_list() -> Array[Dictionary]:
 			name = "filter",
 			type = TYPE_BOOL,
 			usage = PROPERTY_USAGE_DEFAULT if show_filter else PROPERTY_USAGE_NO_EDITOR
+		},
+		# Store the scene property keys on the disk, so that even before the scene is loaded we
+		# know about the custom properties
+		{
+			name = "scene_properties_keys",
+			type = TYPE_PACKED_STRING_ARRAY,
+			usage = PROPERTY_USAGE_NO_EDITOR | PROPERTY_USAGE_STORAGE
 		}
 	]
+
+	# Add all the custom properties of the subscene so they show up in the editor
+	if scene_properties_keys.size() > 0:
+		extra_properties.append_array(scene_properties)
+
+	return extra_properties
+
+
+# Forward setting and getting of custom properties of the child scene
+func _get(property: StringName) -> Variant:
+	if scene_properties_keys.has(property):
+
+		var return_value: Variant = null
+
+		# If our scene is already instanced then get the property directly
+		if is_instance_valid(scene_node):
+			return_value = scene_node.get(property)
+		# If it is not instanced, we use the proxy configuration
+		elif scene_proxy_configuration.has(property):
+			return_value = scene_proxy_configuration[property]
+
+		# Special handling is required for NodePaths, as they are relative to the scene
+		if return_value is NodePath and !return_value.is_absolute():
+			var path_string : String = str(return_value)
+			# Remove the additional leading ../../
+			return_value = NodePath(path_string.substr(6, -1))
+
+		return return_value
+	# Keep normal behaviour
+	return null
+
+
+func _set(property: StringName, value: Variant):
+	if scene_properties_keys.has(property):
+
+		# Special handling is required for NodePaths, as they are relative to the scene
+		if value is NodePath and !value.is_absolute():
+			# Add the additional leading ../../
+			value = NodePath("../../" + str(value))
+
+		# If our scene is already instanced then set the property directly
+		if is_instance_valid(scene_node):
+			scene_node.set(property, value)
+		# If it is not instanced yet, store it to the proxy configuration,
+		# which will get applied on scene load
+		else:
+			scene_proxy_configuration[property] = value
+		return true
+	# Keep normal behaviour
+	return false
 
 
 # Allow revert of custom properties
@@ -188,6 +249,35 @@ func _property_get_revert(property : StringName): # Variant
 			return false
 		"filter":
 			return true
+
+
+# When the scene_node changes, update the property list
+func _update_scene_property_list():
+	scene_properties = []
+	scene_properties_keys = []
+	if is_instance_valid(scene_node):
+
+		# If the scene is queued for deletion, clear the scene proxy configuration
+		if scene_node.is_queued_for_deletion():
+			scene_proxy_configuration = {}
+		else:
+			# Extract relevant properties of the provided scene to display in the editor (forwarded)
+			var node_script: Script = scene_node.get_script() as Script
+			if node_script:
+				var all_properties := node_script.get_script_property_list()
+
+				# Join this with the custom property list of the object created by the script
+				if scene_node.has_method("_get_property_list"):
+					all_properties.append_array(scene_node.call("_get_property_list"))
+
+				for property in all_properties:
+					# Filter out only the properties that are supposed to be stored, or are used for grouping
+					if property["usage"] & (PROPERTY_USAGE_STORAGE | PROPERTY_USAGE_GROUP \
+					| PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SUBGROUP):
+						scene_properties.append(property)
+						scene_properties_keys.append(property["name"])
+
+	notify_property_list_changed()
 
 
 ## Get the 2D scene instance
@@ -391,13 +481,25 @@ func _update_render() -> void:
 
 		# Out with the old
 		if is_instance_valid(scene_node):
+			if scene_node.property_list_changed.is_connected(_update_scene_property_list):
+				scene_node.property_list_changed.disconnect(_update_scene_property_list)
 			$Viewport.remove_child(scene_node)
 			scene_node.queue_free()
+			_update_scene_property_list()
 
 		# In with the new
 		if scene:
 			# Instantiate provided scene
 			scene_node = scene.instantiate()
+			_update_scene_property_list()
+			scene_node.property_list_changed.connect(_update_scene_property_list)
+
+			# Apply the scene proxy configuration on the first load
+			for key in scene_properties_keys:
+				if scene_proxy_configuration.has(key):
+					scene_node.set(key, scene_proxy_configuration[key])
+
+			# Finally add it to the scene, so values are available in _ready
 			$Viewport.add_child(scene_node)
 		elif $Viewport.get_child_count() == 1:
 			# Use already-provided scene

@@ -3,6 +3,7 @@ extends TabContainer
 signal player_height_changed(new_height)
 
 @onready var snap_turning_button = $Input/InputVBox/SnapTurning/SnapTurningCB
+@onready var haptics_scale_slider = $Input/InputVBox/HapticsScale/HapticsScaleSlider
 @onready var y_deadzone_slider = $Input/InputVBox/yAxisDeadZone/yAxisDeadZoneSlider
 @onready var x_deadzone_slider = $Input/InputVBox/xAxisDeadZone/xAxisDeadZoneSlider
 @onready var player_height_slider = $Player/PlayerVBox/PlayerHeight/PlayerHeightSlider
@@ -13,6 +14,7 @@ func _update():
 	snap_turning_button.button_pressed = XRToolsUserSettings.snap_turning
 	y_deadzone_slider.value = XRToolsUserSettings.y_axis_dead_zone
 	x_deadzone_slider.value = XRToolsUserSettings.x_axis_dead_zone
+	haptics_scale_slider.value = XRToolsUserSettings.haptics_scale
 
 	# Player
 	player_height_slider.value = XRToolsUserSettings.player_height
@@ -63,6 +65,10 @@ func _on_web_xr_primary_item_selected(index: int) -> void:
 func _on_y_axis_dead_zone_slider_value_changed(value):
 	XRToolsUserSettings.y_axis_dead_zone = y_deadzone_slider.value
 
+
 func _on_x_axis_dead_zone_slider_value_changed(value):
 	XRToolsUserSettings.x_axis_dead_zone = x_deadzone_slider.value
 
+
+func _on_haptics_scale_slider_value_changed(value):
+	XRToolsUserSettings.haptics_scale = value

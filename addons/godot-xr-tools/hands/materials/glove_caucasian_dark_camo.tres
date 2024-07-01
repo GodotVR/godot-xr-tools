@@ -1,0 +1,14 @@
+[gd_resource type="ORMMaterial3D" load_steps=4 format=3 uid="uid://dogla70w8hvo8"]
+
+[ext_resource type="Texture2D" uid="uid://c7jutkax2fd1k" path="res://addons/godot-xr-tools/hands/textures/glove_caucasian_dark_camo.png" id="1_cyild"]
+[ext_resource type="Texture2D" uid="uid://bw8rmigwt5pr4" path="res://addons/godot-xr-tools/hands/textures/glove_fingerless_normal.png" id="2_2k7pb"]
+[ext_resource type="Texture2D" uid="uid://d2iocwfr47kqp" path="res://addons/godot-xr-tools/hands/textures/glove_fingerless_occlusionRoughnessMetallic.png" id="3_6vkcl"]
+
+[resource]
+albedo_texture = ExtResource("1_cyild")
+orm_texture = ExtResource("3_6vkcl")
+normal_enabled = true
+normal_scale = 0.25
+normal_texture = ExtResource("2_2k7pb")
+ao_light_affect = 0.05
+ao_on_uv2 = true

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://32dx3mgqbxkj" path="res://scenes/poke_demo/objects/instructions_2d.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="2"]
-[ext_resource type="Material" path="res://assets/maps/holodeck/materials/base.material" id="3_ieo3g"]
+[ext_resource type="Material" uid="uid://cliyhjfvy8pfd" path="res://assets/maps/holodeck/materials/base.material" id="3_ieo3g"]
 
 [sub_resource type="BoxMesh" id="1"]
 material = ExtResource("3_ieo3g")
