@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://6uusxts6n6gm"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_direct.gd" id="1_e8v0q"]
+
+[node name="MovementDesktopDirect" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_e8v0q")
+strafe = true

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dluln6777mmh3"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_jump.gd" id="1_tccpc"]
+
+[node name="MovementDesktopJump" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_tccpc")
