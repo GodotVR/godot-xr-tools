@@ -339,7 +339,7 @@ func _update_pose() -> void:
 		if open_name == "":
 			open_name = "open_hand"
 			if _animation_player.has_animation(open_name):
-				_animation_player.remove_animation(open_name)
+				_animation_player.get_animation_library("").remove_animation(open_name)
 
 			_animation_player.get_animation_library("").add_animation(open_name, open_pose)
 
@@ -353,7 +353,7 @@ func _update_pose() -> void:
 		if closed_name == "":
 			closed_name = "closed_hand"
 			if _animation_player.has_animation(closed_name):
-				_animation_player.remove_animation(closed_name)
+				_animation_player.get_animation_library("").remove_animation(closed_name)
 
 			_animation_player.get_animation_library("").add_animation(closed_name, closed_pose)
 
