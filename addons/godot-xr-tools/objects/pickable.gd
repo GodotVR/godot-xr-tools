@@ -30,6 +30,9 @@ signal released(pickable, by)
 # Signal emitted when the user presses the action button while holding this object
 signal action_pressed(pickable)
 
+# Signal emitted when the user releases the action button while holding this object
+signal action_released(pickable)
+
 # Signal emitted when the highlight state changes
 signal highlight_updated(pickable, enable)
 
@@ -172,7 +175,13 @@ func is_picked_up() -> bool:
 # action is called when user presses the action button while holding this object
 func action():
 	# let interested parties know
-	emit_signal("action_pressed", self)
+	action_pressed.emit(self)
+
+
+# action_release is called when user releases the action button while holding this object
+func action_release():
+	# let interested parties know
+	action_released.emit(self)
 
 
 ## This method requests highlighting of the [XRToolsPickable].
@@ -195,7 +204,7 @@ func request_highlight(from : Node, on : bool = true) -> void:
 
 	# Report any changes
 	if _highlighted != old_highlighted:
-		emit_signal("highlight_updated", self, _highlighted)
+		highlight_updated.emit(self, _highlighted)
 
 
 func drop():
