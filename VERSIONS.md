@@ -2,6 +2,7 @@
 - Minimum Godot version changed to 4.2
 - Add pickable action_released signal
 - Fix custom hand poses calling legacy remove_animation
+- Cleaned up StartXR
 
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
