@@ -10,17 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Check out the repository
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      # Ensure python is installed
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.10' 
+          python-version: '3.10'
+
+      # Install gdtoolkit
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install 'gdtoolkit==4.*'
+
+      # Lint the godot-xr-tools addon
       - name: Lint Godot XR Tools
         run: |
           gdlint addons/godot-xr-tools
-
