@@ -7,16 +7,19 @@ on:
 jobs:
   build:
     name: Assembling artifacts
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     # Note, to satisfy the asset library we need to make sure our zip files have a root folder
     # this is why we checkout into demo/godot-xr-tools
     # and build plugin/godot-xr-tools
     steps:
+      # Check out into demo/godot-xr-tools
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: demo/godot-xr-tools
+
+      # Assemble the plugin folder and clean up the demo folder
       - name: Create XR tools plugin
         run: |
           mkdir plugin
@@ -28,27 +31,36 @@ jobs:
           cp demo/godot-xr-tools/VERSIONS.md plugin/godot-xr-tools/addons/godot-xr-tools
           rm -rf demo/godot-xr-tools/.git
           rm -rf demo/godot-xr-tools/.github
+
+      # Upload plugin
       - name: Create XR tools library artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: godot-xr-tools
           path: |
             plugin
+
+      # Upload demo
       - name: Create XR tools demo artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: godot-xr-tools-demo
           path: |
             demo
+
+      # For tagged builds create the artifact zips
       - name: Zip asset
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         run: |
           cd plugin
           zip -qq -r ../godot-xr-tools.zip godot-xr-tools
           cd ../demo
           zip -qq -r ../godot-xr-tools-demo.zip godot-xr-tools
           cd ..
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
+
+      # For tagged builds create the release
       - name: Create and upload asset
+        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
@@ -56,4 +68,3 @@ jobs:
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}
-        if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
