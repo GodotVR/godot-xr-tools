@@ -3,6 +3,7 @@
 - Add pickable action_released signal
 - Fix custom hand poses calling legacy remove_animation
 - Cleaned up StartXR
+- Allow grab-points and poses to work with different types of hand trackers
 
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
