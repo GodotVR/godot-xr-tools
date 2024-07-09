@@ -39,18 +39,18 @@ enum SprintType {
 ## Sprint button
 @export var sprint_button : String = "action_sprint"
 
-
-# XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(
-	XRTools.find_xr_ancestor(self,
-	"*Staging",
-	"XRToolsStaging"),"StartXR","Node")
-
 # Sprint button down state
 var _sprint_button_down : bool = false
 
 # Variable to hold left controller direct movement node original max speed
 var _direct_original_max_speed : float = 0.0
+
+
+# XRStart node
+@onready var xr_start_node = XRTools.find_xr_child(
+	XRTools.find_xr_ancestor(self,
+	"*Staging",
+	"XRToolsStaging"),"StartXR","Node")
 
 
 # Variable used to cache left controller direct movement function, if any
@@ -72,7 +72,7 @@ func _ready():
 # Perform sprinting
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if the controller isn't active or is not enabled
-	if !player_body.enabled or XRStartNode.xr_active or disabled == true or !enabled:
+	if !player_body.enabled or xr_start_node.xr_active or disabled == true or !enabled:
 		set_sprinting(false)
 		return
 
@@ -116,7 +116,7 @@ func set_sprinting(active: bool) -> void:
 		# now for original max speeds of left and right nodes
 		if _desktop_direct_move:
 			_direct_original_max_speed = _desktop_direct_move.max_speed
-	
+
 		# Set both controllers' direct movement functions, if appliable, to
 		# the sprinting speed
 		if _desktop_direct_move:

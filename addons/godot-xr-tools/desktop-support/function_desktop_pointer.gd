@@ -111,7 +111,7 @@ var last_collided_at : Vector3 = Vector3.ZERO
 var _world_scale : float = 1.0
 
 # XRStart Node
-@onready var XRStartNode = XRTools.find_xr_child(
+@onready var xr_start_node = XRTools.find_xr_child(
 	XRTools.find_xr_ancestor(self,
 	"*Staging",
 	"XRToolsStaging"),"StartXR","Node")
@@ -153,16 +153,13 @@ func _process(_delta):
 	if (_world_scale != new_world_scale):
 		_world_scale = new_world_scale
 		_update_y_offset()
-	set_enabled(!XRStartNode.xr_active)
-	
-	
-	
+	set_enabled(!xr_start_node.xr_active)
+
 	if Input.is_action_just_released(active_button_action):
 		_on_button_pressed(active_button_action)
 		await get_tree().process_frame
 		_on_button_released(active_button_action)
-	
-	
+
 	# Find the new pointer target
 	var new_target : Node3D
 	var new_at : Vector3

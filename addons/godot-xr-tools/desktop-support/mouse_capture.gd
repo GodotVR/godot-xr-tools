@@ -19,7 +19,7 @@ extends XRToolsMovementProvider
 
 
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(
+@onready var xr_start_node = XRTools.find_xr_child(
 	XRTools.find_xr_ancestor(self,
 	"*Staging",
 	"XRToolsStaging"),"StartXR","Node")
@@ -33,18 +33,19 @@ func is_xr_class(name : String) -> bool:
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
-	if !player_body.enabled or (XRStartNode.xr_active and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED):
+	var check1 :bool= (xr_start_node.xr_active and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
+	if !player_body.enabled or check1:
 		return
-	
-	
+
+
 	if Input.is_action_just_pressed("ui_cancel"):
 		capture=!capture
-	
+
 	#print(Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
-	
-	if Input.mouse_mode==Input.MOUSE_MODE_CAPTURED and (XRStartNode.xr_active or !capture):
+
+	if Input.mouse_mode==Input.MOUSE_MODE_CAPTURED and (xr_start_node.xr_active or !capture):
 		Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
-	elif (!XRStartNode.xr_active and capture):
+	elif (!xr_start_node.xr_active and capture):
 		Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	return
 

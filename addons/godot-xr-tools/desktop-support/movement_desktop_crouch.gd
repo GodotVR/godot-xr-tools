@@ -40,7 +40,7 @@ var _crouch_button_down : bool = false
 
 
 # Controller node
-@onready var XRStartNode = XRTools.find_xr_child(
+@onready var xr_start_node = XRTools.find_xr_child(
 	XRTools.find_xr_ancestor(self,
 	"*Staging",
 	"XRToolsStaging"),"StartXR","Node")
@@ -54,7 +54,7 @@ func is_xr_class(name : String) -> bool:
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the controller isn't active
-	if !player_body.enabled or XRStartNode.xr_active:
+	if !player_body.enabled or xr_start_node.xr_active:
 		return
 
 	# Detect crouch button down and pressed states

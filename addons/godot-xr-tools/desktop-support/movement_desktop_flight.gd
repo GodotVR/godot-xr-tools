@@ -71,11 +71,11 @@ var _flight_button : bool = false
 
 
 # Node references
-@onready var _camera := XRHelpers.get_xr_camera(self)
-@onready var XRStartNode = XRTools.find_xr_child(
+@onready var xr_start_node = XRTools.find_xr_child(
 	XRTools.find_xr_ancestor(self,
 	"*Staging",
 	"XRToolsStaging"),"StartXR","Node")
+@onready var _camera := XRHelpers.get_xr_camera(self)
 
 
 # Add support for is_xr_class on XRTools classes
@@ -91,7 +91,7 @@ func _ready():
 # Process physics movement for flight
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Disable flying if requested, or if no controller
-	if disabled or !enabled or !player_body.enabled or XRStartNode.xr_active:
+	if disabled or !enabled or !player_body.enabled or xr_start_node.xr_active:
 		set_flying(false)
 		return
 

@@ -42,12 +42,17 @@ enum TurnMode {
 
 @export var invert_y : bool = true
 
+var plr_body : XRToolsPlayerBody
+var mouse_move_vector := Vector2.ZERO
+var _last_plr_bd_status := true
+
 # Turn step accumulator
 var _turn_step : float = 0.0
 
 
+
 # XRStart node
-@onready var XRStartNode = XRTools.find_xr_child(
+@onready var xr_start_node = XRTools.find_xr_child(
 	XRTools.find_xr_ancestor(self,
 	"*Staging",
 	"XRToolsStaging"),"StartXR","Node")
@@ -57,7 +62,6 @@ var _turn_step : float = 0.0
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsDesktopMovementTurn" or super(name)
 
-var mouse_move_vector := Vector2.ZERO
 func _unhandled_input(event):
 	if !enabled:
 		return
@@ -67,23 +71,23 @@ func _unhandled_input(event):
 			event.relative.y *= -1
 		mouse_move_vector += event.relative
 
-var last_plr_bd_status := true
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if is_instance_valid(plr_body):
-		if !plr_body.enabled and !XRStartNode.xr_active and last_plr_bd_status!=plr_body.enabled:
+		if !plr_body.enabled and !xr_start_node.xr_active and _last_plr_bd_status!=plr_body.enabled:
 			if clear_mouse_move_when_body_not_active:
 				mouse_move_vector=Vector2.ZERO
 			if clear_cam_x_when_body_not_active:
 				plr_body.camera_node.rotation_degrees.x=0
-			last_plr_bd_status!=plr_body.enabled
-			return
+			_last_plr_bd_status=!plr_body.enabled
+		elif plr_body.enabled:
+			_last_plr_bd_status=!plr_body.enabled
 
-var plr_body : XRToolsPlayerBody
+
 # Perform jump movement
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
 	plr_body=player_body
-	if !player_body.enabled or XRStartNode.xr_active:
+	if !player_body.enabled or xr_start_node.xr_active:
 		if clear_mouse_move_when_body_not_active:
 			mouse_move_vector=Vector2.ZERO
 		if clear_cam_x_when_body_not_active:
@@ -116,7 +120,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 # Test if snap turning should be used
 func _snap_turning():
-	#temp removal - IDK if normal controler will be considered t ohave this as use
+	#temp removal - IDK if normal controler will be considered to have this as use
 	return false
 #	match turn_mode:
 #		TurnMode.SNAP:
