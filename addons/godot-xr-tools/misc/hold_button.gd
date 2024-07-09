@@ -23,8 +23,8 @@ signal pressed
 
 
 var time_held = 0.0
-
 var material : ShaderMaterial
+var xr_start_node : XRToolsStartXR
 
 
 # Add support for is_xr_class on XRTools classes
@@ -32,7 +32,6 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsHoldButton"
 
 
-var xr_start_node : XRToolsStartXR
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	material = $Visualise.get_surface_override_material(0)
