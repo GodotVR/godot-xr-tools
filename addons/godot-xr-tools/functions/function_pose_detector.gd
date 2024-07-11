@@ -75,15 +75,18 @@ func _on_area_entered(area : Area3D) -> void:
 	if !pose_area:
 		return
 
+	# Get the positional tracker
+	var tracker := XRServer.get_tracker(_controller.tracker) as XRPositionalTracker
+
 	# Set the appropriate poses
-	if _controller.tracker == "left_hand" and pose_area.left_pose:
+	if tracker.hand == XRPositionalTracker.TRACKER_HAND_LEFT and pose_area.left_pose:
 		_hand.add_pose_override(
 				pose_area,
 				pose_area.pose_priority,
 				pose_area.left_pose)
 		# Disable grabpoints in this pose_area
 		pose_area.disable_grab_points()
-	elif _controller.tracker == "right_hand" and pose_area.right_pose:
+	elif tracker.hand == XRPositionalTracker.TRACKER_HAND_RIGHT and pose_area.right_pose:
 		_hand.add_pose_override(
 				pose_area,
 				pose_area.pose_priority,
