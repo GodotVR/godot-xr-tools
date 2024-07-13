@@ -47,14 +47,15 @@ signal xr_failed_to_initialize
 ## Current XR interface
 var xr_interface : XRInterface
 
-## XR active flag
-var xr_active : bool = false
-
 ## XR frame rate
 var xr_frame_rate : float = 0
 
+
 # Is a WebXR is_session_supported query running
 var _webxr_session_query : bool = false
+
+## XR active flag
+static var _xr_active : bool = false
 
 
 # Handle auto-initialization when ready
@@ -80,6 +81,23 @@ func _initialize() -> bool:
 	print("No XR interface detected")
 	xr_failed_to_initialize.emit()
 	return false
+
+
+## End the XR experience
+func end_xr() -> void:
+	# For WebXR drop the interactive experience and go back to the web page
+	if xr_interface is WebXRInterface:
+		# Uninitialize the WebXR interface
+		xr_interface.uninitialize()
+		return
+
+	# Terminate the application
+	get_tree().quit()
+
+
+## Test if XR is active
+static func is_xr_active() -> bool:
+	return _xr_active
 
 
 ## Get the XR viewport
@@ -148,18 +166,18 @@ func _on_openxr_session_begun() -> void:
 # Handle OpenXR visible state
 func _on_openxr_visible_state() -> void:
 	# Report the XR ending
-	if xr_active:
+	if _xr_active:
 		print("OpenXR: XR ended (visible_state)")
-		xr_active = false
+		_xr_active = false
 		xr_ended.emit()
 
 
 # Handle OpenXR focused state
 func _on_openxr_focused_state() -> void:
 	# Report the XR starting
-	if not xr_active:
+	if not _xr_active:
 		print("OpenXR: XR started (focused_state)")
-		xr_active = true
+		_xr_active = true
 		xr_started.emit()
 
 
@@ -237,7 +255,7 @@ func _on_webxr_session_started() -> void:
 	get_xr_viewport().use_xr = true
 
 	# Report the XR starting
-	xr_active = true
+	_xr_active = true
 	xr_started.emit()
 
 
@@ -251,7 +269,7 @@ func _on_webxr_session_ended() -> void:
 	get_xr_viewport().use_xr = false
 
 	# Report the XR ending
-	xr_active = false
+	_xr_active = false
 	xr_ended.emit()
 
 

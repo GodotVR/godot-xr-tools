@@ -17,3 +17,4 @@ update_mode = 2
 throttle_fps = 15.0
 transparent = 0
 unshaded = true
+scene_properties_keys = PackedStringArray("control_pad_display.gd")

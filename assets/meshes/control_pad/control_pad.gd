@@ -13,6 +13,7 @@ func _ready():
 	# Connect signals
 	$Viewport2Din3D.connect_scene_signal("switch_hand", _on_switch_hand)
 	$Viewport2Din3D.connect_scene_signal("main_scene", _on_main_scene)
+	$Viewport2Din3D.connect_scene_signal("quit", _on_quit)
 
 	# Update the control pad location
 	_update_location.call_deferred()
@@ -38,6 +39,19 @@ func _on_main_scene() -> void:
 	# Return to the main menu
 	if base:
 		base.exit_to_main_menu()
+
+
+# Handle request to quit
+func _on_quit() -> void:
+	# Find the scene base
+	var base := XRTools.find_xr_ancestor(
+		self,
+		"*",
+		"XRToolsSceneBase") as XRToolsSceneBase
+
+	# Return to the main menu
+	if base:
+		base.quit()
 
 
 # Update the location of this control pad
