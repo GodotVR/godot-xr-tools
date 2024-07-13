@@ -6,6 +6,8 @@
 - Allow grab-points and poses to work with different types of hand trackers
 - Add end_xr support to StartXR
 - Fixed vignette shader
+- Add visibility_changed notifications to Viewport2Din3D hosted scenes
+- Invisible Viewport2Din3D now disable physics and viewport updates
 
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
