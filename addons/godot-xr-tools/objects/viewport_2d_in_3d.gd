@@ -1,4 +1,5 @@
 @tool
+class_name XRToolsViewport2DIn3D
 extends Node3D
 
 
@@ -127,6 +128,7 @@ func _ready():
 
 	# Listen for pointer events on the screen body
 	$StaticBody3D.connect("pointer_event", _on_pointer_event)
+	self.visibility_changed.connect(_on_visibility_changed)
 
 	# Apply physics properties
 	_update_screen_size()
@@ -612,3 +614,10 @@ func _update_render() -> void:
 		# Force a redraw of the viewport
 		if Engine.is_editor_hint() or update_mode == UpdateMode.UPDATE_ONCE:
 			$Viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+
+
+func _on_visibility_changed() -> void:
+	if not is_instance_valid(scene_node):
+		return
+
+	scene_node.visible = is_visible_in_tree()
