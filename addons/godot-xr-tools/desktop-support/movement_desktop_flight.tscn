@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfa5gsol863rv"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_flight.gd" id="1_exmlf"]
+
+[node name="MovementDesktopFlight" type="Node" groups=["movement_providers"]]
+script = ExtResource("1_exmlf")

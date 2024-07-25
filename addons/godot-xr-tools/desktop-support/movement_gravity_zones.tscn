@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/desktop-support/movement_gravity_zones.gd" id="1"]
+
+[node name="MovementGravityZones" type="Node" groups=["movement_providers"]]
+script = ExtResource("1")
