@@ -1,4 +1,5 @@
 @tool
+class_name XRToolsViewport2DIn3D
 extends Node3D
 
 
@@ -119,6 +120,11 @@ var viewport_texture : ViewportTexture
 var time_since_last_update : float = 0.0
 var _screen_material : StandardMaterial3D
 var _dirty := _DIRTY_ALL
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(p_name : String) -> bool:
+	return p_name == "XRToolsViewport2DIn3D"
 
 
 # Called when the node enters the scene tree for the first time.
