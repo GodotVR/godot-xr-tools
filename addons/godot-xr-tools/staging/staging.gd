@@ -275,12 +275,14 @@ func _add_signals(p_scene : XRToolsSceneBase):
 	p_scene.connect("request_exit_to_main_menu", _on_exit_to_main_menu)
 	p_scene.connect("request_load_scene", _on_load_scene)
 	p_scene.connect("request_reset_scene", _on_reset_scene)
+	p_scene.connect("request_quit", _on_quit)
 
 
 func _remove_signals(p_scene : XRToolsSceneBase):
 	p_scene.disconnect("request_exit_to_main_menu", _on_exit_to_main_menu)
 	p_scene.disconnect("request_load_scene", _on_load_scene)
 	p_scene.disconnect("request_reset_scene", _on_reset_scene)
+	p_scene.disconnect("request_quit", _on_quit)
 
 
 func _on_exit_to_main_menu():
@@ -293,6 +295,10 @@ func _on_load_scene(p_scene_path : String, user_data):
 
 func _on_reset_scene(user_data):
 	load_scene(current_scene_path, user_data)
+
+
+func _on_quit():
+	$StartXR.end_xr()
 
 
 func _on_StartXR_xr_started():

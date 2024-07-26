@@ -6,6 +6,7 @@
 offset_right = 400.0
 offset_bottom = 200.0
 tab_alignment = 1
+current_tab = 1
 script = ExtResource("1_iqtwx")
 
 [node name="RefreshTimer" type="Timer" parent="."]
@@ -89,35 +90,54 @@ size_flags_horizontal = 3
 alignment = 1
 
 [node name="Left" type="Button" parent="Settings/VBoxContainer/Panel/Container"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Left"
 
+[node name="Padding" type="Control" parent="Settings/VBoxContainer/Panel/Container"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
 [node name="Right" type="Button" parent="Settings/VBoxContainer/Panel/Container"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
 text = "Right
 "
 
-[node name="Demo" type="HBoxContainer" parent="Settings/VBoxContainer"]
+[node name="Padding" type="Control" parent="Settings/VBoxContainer"]
+custom_minimum_size = Vector2(0, 10)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="Settings/VBoxContainer/Demo"]
+[node name="Scene" type="HBoxContainer" parent="Settings/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Settings/VBoxContainer/Scene"]
 custom_minimum_size = Vector2(90, 0)
 layout_mode = 2
-text = "Main:"
+text = "Scene:"
 
-[node name="Container" type="HBoxContainer" parent="Settings/VBoxContainer/Demo"]
+[node name="Container" type="HBoxContainer" parent="Settings/VBoxContainer/Scene"]
 layout_mode = 2
 size_flags_horizontal = 3
 alignment = 1
 
-[node name="MainScene" type="Button" parent="Settings/VBoxContainer/Demo/Container"]
+[node name="Main" type="Button" parent="Settings/VBoxContainer/Scene/Container"]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 2
-text = "Return to Main Scene"
+text = "Main"
+
+[node name="Padding" type="Control" parent="Settings/VBoxContainer/Scene/Container"]
+custom_minimum_size = Vector2(20, 0)
+layout_mode = 2
+
+[node name="Quit" type="Button" parent="Settings/VBoxContainer/Scene/Container"]
+custom_minimum_size = Vector2(100, 0)
+layout_mode = 2
+text = "Quit"
 
 [connection signal="timeout" from="RefreshTimer" to="." method="_on_refresh_timer_timeout"]
 [connection signal="value_changed" from="Body/VBoxContainer/Scale/BodyScaleSlider" to="." method="_on_body_scale_slider_value_changed"]
 [connection signal="pressed" from="Settings/VBoxContainer/Panel/Container/Left" to="." method="_on_panel_left_pressed"]
 [connection signal="pressed" from="Settings/VBoxContainer/Panel/Container/Right" to="." method="_on_panel_right_pressed"]
-[connection signal="pressed" from="Settings/VBoxContainer/Demo/Container/MainScene" to="." method="_on_main_scene_pressed"]
+[connection signal="pressed" from="Settings/VBoxContainer/Scene/Container/Main" to="." method="_on_main_scene_pressed"]
+[connection signal="pressed" from="Settings/VBoxContainer/Scene/Container/Quit" to="." method="_on_quit_pressed"]

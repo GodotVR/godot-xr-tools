@@ -7,6 +7,9 @@ signal switch_hand(hand)
 ## Signal emitted when requested to go to the main scene
 signal main_scene
 
+## Signal emitted when requested to quit
+signal quit
+
 
 var _tween : Tween
 
@@ -63,7 +66,10 @@ func _on_main_scene_pressed():
 	main_scene.emit()
 
 
+func _on_quit_pressed():
+	quit.emit()
+
+
 # Called by the tweening to change the world scale
 func _set_world_scale(scale : float) -> void:
 	XRServer.world_scale = scale
-
