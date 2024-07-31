@@ -122,6 +122,8 @@ var _controller  : XRController3D
 # The currently active controller
 var _active_controller : XRController3D
 
+var _camera_parent : XRCamera3D
+
 
 ## Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
@@ -136,33 +138,36 @@ func _ready():
 
 	# Read the initial world-scale
 	_world_scale = XRServer.world_scale
+	
+	_camera_parent = get_parent()
+	
+	if !_camera_parent:
+		# Check for a parent controller
+		_controller = XRHelpers.get_xr_controller(self)
+		if _controller:
+			# Set as active on the parent controller
+			_active_controller = _controller
 
-	# Check for a parent controller
-	_controller = XRHelpers.get_xr_controller(self)
-	if _controller:
-		# Set as active on the parent controller
-		_active_controller = _controller
+			# Get button press feedback from our parent controller
+			_controller.button_pressed.connect(_on_button_pressed.bind(_controller))
+			_controller.button_released.connect(_on_button_released.bind(_controller))
+		else:
+			# Get the left and right controllers
+			_controller_left_node = XRHelpers.get_left_controller(self)
+			_controller_right_node = XRHelpers.get_right_controller(self)
 
-		# Get button press feedback from our parent controller
-		_controller.button_pressed.connect(_on_button_pressed.bind(_controller))
-		_controller.button_released.connect(_on_button_released.bind(_controller))
-	else:
-		# Get the left and right controllers
-		_controller_left_node = XRHelpers.get_left_controller(self)
-		_controller_right_node = XRHelpers.get_right_controller(self)
+			# Start out right hand controller
+			_active_controller = _controller_right_node
 
-		# Start out right hand controller
-		_active_controller = _controller_right_node
-
-		# Get button press feedback from both left and right controllers
-		_controller_left_node.button_pressed.connect(
-				_on_button_pressed.bind(_controller_left_node))
-		_controller_left_node.button_released.connect(
-				_on_button_released.bind(_controller_left_node))
-		_controller_right_node.button_pressed.connect(
-				_on_button_pressed.bind(_controller_right_node))
-		_controller_right_node.button_released.connect(
-				_on_button_released.bind(_controller_right_node))
+			# Get button press feedback from both left and right controllers
+			_controller_left_node.button_pressed.connect(
+					_on_button_pressed.bind(_controller_left_node))
+			_controller_left_node.button_released.connect(
+					_on_button_released.bind(_controller_left_node))
+			_controller_right_node.button_pressed.connect(
+					_on_button_pressed.bind(_controller_right_node))
+			_controller_right_node.button_released.connect(
+					_on_button_released.bind(_controller_right_node))
 
 	# init our state
 	_update_y_offset()
@@ -184,7 +189,7 @@ func _process(_delta):
 		return
 
 	# Track the active controller (if this pointer is not childed to a controller)
-	if _controller == null and _active_controller != null:
+	if _camera_parent == null and _controller == null and _active_controller != null:
 		transform = _active_controller.transform
 
 	# Handle world-scale changes
