@@ -97,6 +97,29 @@ const SUPPRESS_MASK := 0b0000_0000_0100_0000_0000_0000_0000_0000
 ## Suppress mask
 @export_flags_3d_physics var suppress_mask : int = SUPPRESS_MASK: set = set_suppress_mask
 
+######### WIP    GAZE pointer
+
+@export_group("Gaze Pointer")
+
+# Countdown
+@export var hold_time : float = 2.0
+
+# Color our our visualisation
+@export var color : Color = Color(1.0, 1.0, 1.0, 1.0): set = set_color
+
+# Size
+@export var size : Vector2 = Vector2(0.3, 0.3): set = set_size
+
+
+var time_held = 0.0
+
+var material : ShaderMaterial
+
+var gaze_pressed = false
+
+#######
+
+
 
 ## Current target node
 var target : Node3D = null
@@ -139,9 +162,11 @@ func _ready():
 	# Read the initial world-scale
 	_world_scale = XRServer.world_scale
 	
-	_camera_parent = get_parent()
+	_camera_parent = get_parent() as XRCamera3D
 	
 	if !_camera_parent:
+		$Visualise.hide()
+		
 		# Check for a parent controller
 		_controller = XRHelpers.get_xr_controller(self)
 		if _controller:
@@ -168,6 +193,14 @@ func _ready():
 					_on_button_pressed.bind(_controller_right_node))
 			_controller_right_node.button_released.connect(
 					_on_button_released.bind(_controller_right_node))
+	else:
+		material = $Visualise.get_surface_override_material(0)
+
+		if !Engine.is_editor_hint():
+			_set_time_held(0.0)
+
+		_update_size()
+		_update_color()
 
 	# init our state
 	_update_y_offset()
@@ -183,7 +216,7 @@ func _ready():
 
 
 # Called on each frame to update the pickup
-func _process(_delta):
+func _process(delta):
 	# Do not process if in the editor
 	if Engine.is_editor_hint() or !is_inside_tree():
 		return
@@ -213,6 +246,12 @@ func _process(_delta):
 		else:
 			# Target is whatever the raycast is colliding with
 			new_target = $RayCast.get_collider()
+	
+	# hide gaze pointer when pressed
+	if _camera_parent and gaze_pressed:
+		show_target = false
+	else:
+		show_target = true
 
 	# If no current or previous collisions then skip
 	if not new_target and not last_target:
@@ -225,30 +264,53 @@ func _process(_delta):
 
 		# Pointer moved on new_target for the first time
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
-
+		
+		if _camera_parent and !gaze_pressed:
+			_set_time_held(time_held + delta)
+			if time_held > hold_time:
+				_button_pressed()
+		
 		# Update visible artifacts for hit
 		_visible_hit(new_at)
 	elif not new_target and last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
+		
+		if _camera_parent:
+				_set_time_held(0.0)
+				gaze_pressed = false
 
 		# Update visible artifacts for miss
 		_visible_miss()
 	elif new_target != last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
+		
+		if _camera_parent:
+				_set_time_held(0.0)
+				gaze_pressed = false
 
 		# Pointer entered new_target
 		XRToolsPointerEvent.entered(self, new_target, new_at)
 
 		# Pointer moved on new_target
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
+		
+		if _camera_parent and !gaze_pressed:
+			_set_time_held(time_held + delta)
+			if time_held > hold_time:
+				_button_pressed()
 
 		# Move visible artifacts
 		_visible_move(new_at)
 	elif new_at != last_collided_at:
 		# Pointer moved on new_target
 		XRToolsPointerEvent.moved(self, new_target, new_at, last_collided_at)
+
+		if _camera_parent and !gaze_pressed:
+			_set_time_held(time_held + delta)
+			if time_held > hold_time:
+				_button_pressed()
 
 		# Move visible artifacts
 		_visible_move(new_at)
@@ -425,7 +487,12 @@ func _button_pressed() -> void:
 		target = $RayCast.get_collider()
 		last_collided_at = $RayCast.get_collision_point()
 		XRToolsPointerEvent.pressed(self, target, last_collided_at)
-
+		if _camera_parent:
+			_set_time_held(0.0)
+			gaze_pressed = true
+			XRToolsPointerEvent.released(self, last_target, last_collided_at)
+			target = null
+			_set_time_held(0.0)
 
 # Pointer-activation button released handler
 func _button_released() -> void:
@@ -498,6 +565,9 @@ func _visible_move(at : Vector3) -> void:
 		var collide_len : float = at.distance_to(global_transform.origin)
 		$Laser.mesh.size.z = collide_len
 		$Laser.position.z = collide_len * -0.5
+	
+	if _camera_parent:
+		$Visualise.global_transform.origin = at
 
 
 # Update the visible artifacts to show a miss
@@ -514,3 +584,37 @@ func _visible_miss() -> void:
 	# Restore laser length if set to collide-length
 	$Laser.mesh.size.z = distance
 	$Laser.position.z = distance * -0.5
+
+
+############  WIP     GAZE Pointer
+
+
+func _set_time_held(p_time_held):
+	time_held = p_time_held
+	if material:
+		$Visualise.visible = time_held > 0.0
+		material.set_shader_parameter("value", time_held/hold_time)
+
+func set_size(p_size: Vector2):
+	size = p_size
+	_update_size()
+
+
+func _update_size():
+	if material: # Note, material won't be set until after we setup our scene
+		var mesh : QuadMesh = $Visualise.mesh
+		if mesh.size != size:
+			mesh.size = size
+
+			# updating the size will unset our material, so reset it
+			$Visualise.set_surface_override_material(0, material)
+
+
+func set_color(p_color: Color):
+	color = p_color
+	_update_color()
+
+
+func _update_color():
+	if material:
+		material.set_shader_parameter("albedo", color)

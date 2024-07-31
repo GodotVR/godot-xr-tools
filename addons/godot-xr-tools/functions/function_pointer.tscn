@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqhw276realc"]
+[gd_scene load_steps=9 format=3 uid="uid://cqhw276realc"]
 
-[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="1"]
+[ext_resource type="Material" uid="uid://lrh532eckgmj" path="res://addons/godot-xr-tools/materials/pointer.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_pointer.gd" id="2"]
+[ext_resource type="Shader" uid="uid://ysca35gaav86" path="res://WIP/hold_button_gaze_pointer_visualshader.tres" id="3_8hxux"]
 
 [sub_resource type="BoxMesh" id="1"]
 resource_local_to_scene = true
@@ -19,8 +20,21 @@ rings = 8
 [sub_resource type="SphereShape3D" id="SphereShape3D_k3gfm"]
 radius = 0.2
 
+[sub_resource type="QuadMesh" id="QuadMesh_lulcv"]
+resource_local_to_scene = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ico2c"]
+render_priority = -100
+shader = ExtResource("3_8hxux")
+shader_parameter/albedo = Color(1, 1, 1, 1)
+shader_parameter/value = 0.2
+shader_parameter/fade = 0.05
+shader_parameter/radius = 0.8
+shader_parameter/width = 0.2
+
 [node name="FunctionPointer" type="Node3D"]
 script = ExtResource("2")
+color = Color(1, 0, 0, 1)
 
 [node name="RayCast" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.013, 0)
@@ -42,3 +56,9 @@ collision_mask = 4194304
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SuppressArea"]
 shape = SubResource("SphereShape3D_k3gfm")
+
+[node name="Visualise" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_lulcv")
+surface_material_override/0 = SubResource("ShaderMaterial_ico2c")
