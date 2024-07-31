@@ -1,25 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://b7jmrxrx0388r"]
+[gd_scene load_steps=5 format=3 uid="uid://b7jmrxrx0388r"]
 
+[ext_resource type="Script" path="res://WIP/head_selector_function_pointer.gd" id="1_8qnhd"]
 [ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="2_0qnno"]
-[ext_resource type="PackedScene" uid="uid://cymteydkxagpp" path="res://addons/godot-xr-tools/misc/hold_button.tscn" id="3_i4876"]
-[ext_resource type="Shader" uid="uid://c6okm2ay0fkjf" path="res://addons/godot-xr-tools/misc/hold_button_visualshader.tres" id="4_bw16u"]
-
-[sub_resource type="QuadMesh" id="QuadMesh_i6g2w"]
-resource_local_to_scene = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_rqqfm"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("4_bw16u")
-shader_parameter/albedo = Color(1, 1, 1, 1)
-shader_parameter/value = 0.2
-shader_parameter/fade = 0.05
-shader_parameter/radius = 0.8
-shader_parameter/width = 0.2
+[ext_resource type="Script" path="res://WIP/xr_interactable_area.gd" id="3_687xp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_mla2p"]
 
 [node name="HeadSelectorFunctionPointer" type="Node3D"]
+script = ExtResource("1_8qnhd")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
 
@@ -47,15 +35,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.6, 0, -1.5)
 text = "Option A
 "
 
-[node name="HoldButtonA" parent="Options/OptionALabel" instance=ExtResource("3_i4876")]
-activate_action = "ax_button"
-
-[node name="Visualise" parent="Options/OptionALabel/HoldButtonA" index="0"]
-mesh = SubResource("QuadMesh_i6g2w")
-surface_material_override/0 = SubResource("ShaderMaterial_rqqfm")
-
 [node name="Area3DA" type="Area3D" parent="Options/OptionALabel"]
 collision_layer = 1048576
+script = ExtResource("3_687xp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Options/OptionALabel/Area3DA"]
 shape = SubResource("SphereShape3D_mla2p")
@@ -65,16 +47,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6, 0, -1.5)
 text = "Option B
 "
 
-[node name="HoldButtonB" parent="Options/OptionBLabel" instance=ExtResource("3_i4876")]
-activate_action = "by_button"
-
 [node name="Area3DB" type="Area3D" parent="Options/OptionBLabel"]
 collision_layer = 1048576
+script = ExtResource("3_687xp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Options/OptionBLabel/Area3DB"]
 shape = SubResource("SphereShape3D_mla2p")
 
-[connection signal="pressed" from="Options/OptionALabel/HoldButtonA" to="." method="_on_hold_button_a_pressed"]
-[connection signal="pressed" from="Options/OptionBLabel/HoldButtonB" to="." method="_on_hold_button_b_pressed"]
-
-[editable path="Options/OptionALabel/HoldButtonA"]
+[connection signal="pointer_event" from="Options/OptionALabel/Area3DA" to="." method="_on_area_3da_pointer_event"]
+[connection signal="pointer_event" from="Options/OptionBLabel/Area3DB" to="." method="_on_area_3db_pointer_event"]
