@@ -32,13 +32,13 @@ func is_xr_class(name : String) -> bool:
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint() or !is_inside_tree():
 		return
-	if xr_start_node.xr_active==_last_xr_active:
+	if xr_start_node.is_xr_active()==_last_xr_active:
 		return
 	if _pointer_disabler:
-		get_parent().enabled=xr_start_node.xr_active
+		get_parent().enabled=xr_start_node.is_xr_active()
 	elif is_instance_valid(_controller):
-		_controller.visible=xr_start_node.xr_active
-	_last_xr_active=xr_start_node.xr_active
+		_controller.visible=xr_start_node.is_xr_active()
+	_last_xr_active=xr_start_node.is_xr_active()
 
 
 # This method verifies the movement provider has a valid configuration.

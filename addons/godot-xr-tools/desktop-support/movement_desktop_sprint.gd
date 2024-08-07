@@ -72,7 +72,7 @@ func _ready():
 # Perform sprinting
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
 	# Skip if the controller isn't active or is not enabled
-	if !player_body.enabled or xr_start_node.xr_active or disabled == true or !enabled:
+	if !player_body.enabled or xr_start_node.is_xr_active() or disabled == true or !enabled:
 		set_sprinting(false)
 		return
 

@@ -33,7 +33,7 @@ func is_xr_class(name : String) -> bool:
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
-	var check1 :bool= (xr_start_node.xr_active and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
+	var check1 :bool= (xr_start_node.is_xr_active() and Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
 	if !player_body.enabled or check1:
 		return
 
@@ -43,9 +43,9 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 
 	#print(Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
 
-	if Input.mouse_mode==Input.MOUSE_MODE_CAPTURED and (xr_start_node.xr_active or !capture):
+	if Input.mouse_mode==Input.MOUSE_MODE_CAPTURED and (xr_start_node.is_xr_active() or !capture):
 		Input.mouse_mode=Input.MOUSE_MODE_VISIBLE
-	elif (!xr_start_node.xr_active and capture):
+	elif (!xr_start_node.is_xr_active() and capture):
 		Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	return
 

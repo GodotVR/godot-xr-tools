@@ -62,7 +62,7 @@ func _process(delta):
 			button_pressed = true
 
 
-	if !xr_start_node.xr_active:
+	if !xr_start_node.is_xr_active():
 		if Input.is_action_pressed("ui_accept") or Input.is_action_pressed(activate_action_desktop):
 			button_pressed = true
 
