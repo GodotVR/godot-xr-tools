@@ -173,14 +173,26 @@ func is_picked_up() -> bool:
 
 
 # action is called when user presses the action button while holding this object
-func action():
+func action(controller : XRController3D = null):
 	# let interested parties know
+	if _grab_driver.primary and _grab_driver.primary.point and _grab_driver.primary.controller == controller:
+		_grab_driver.primary.point.action(self)
+
+	if _grab_driver.secondary and _grab_driver.secondary.point and _grab_driver.secondary.controller == controller:
+		_grab_driver.secondary.point.action(self)
+
 	action_pressed.emit(self)
 
 
 # action_release is called when user releases the action button while holding this object
-func action_release():
+func action_release(controller : XRController3D = null):
 	# let interested parties know
+	if _grab_driver.primary and _grab_driver.primary.point and _grab_driver.primary.controller == controller:
+		_grab_driver.primary.point.action_release(self)
+
+	if _grab_driver.secondary and _grab_driver.secondary.point and _grab_driver.secondary.controller == controller:
+		_grab_driver.secondary.point.action_release(self)
+
 	action_released.emit(self)
 
 
