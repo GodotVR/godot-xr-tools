@@ -153,7 +153,7 @@ func _process(_delta):
 	if (_world_scale != new_world_scale):
 		_world_scale = new_world_scale
 		_update_y_offset()
-	set_enabled(!xr_start_node.xr_active)
+	set_enabled(!xr_start_node.is_xr_active())
 
 	if Input.is_action_just_released(active_button_action):
 		_on_button_pressed(active_button_action)

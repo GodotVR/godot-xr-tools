@@ -73,7 +73,7 @@ func _unhandled_input(event):
 
 func _process(_delta: float) -> void:
 	if is_instance_valid(plr_body):
-		if !plr_body.enabled and !xr_start_node.xr_active and _last_plr_bd_status!=plr_body.enabled:
+		if !plr_body.enabled and !xr_start_node.is_xr_active() and _last_plr_bd_status!=plr_body.enabled:
 			if clear_mouse_move_when_body_not_active:
 				mouse_move_vector=Vector2.ZERO
 			if clear_cam_x_when_body_not_active:
@@ -87,7 +87,7 @@ func _process(_delta: float) -> void:
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the player body isn't active
 	plr_body=player_body
-	if !player_body.enabled or xr_start_node.xr_active:
+	if !player_body.enabled or xr_start_node.is_xr_active():
 		if clear_mouse_move_when_body_not_active:
 			mouse_move_vector=Vector2.ZERO
 		if clear_cam_x_when_body_not_active:
