@@ -8,3 +8,4 @@ permalink: /docs/interaction/
 Godot XR Tools provides the following interactions:
 * [Pickup]({{ site.url }}/docs/pickup/)
 * [Pointer]({{ site.url }}/docs/pointer/)
+* [Poke]({{ site.url }}/docs/poke/)
