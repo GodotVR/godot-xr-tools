@@ -76,7 +76,7 @@ note if you edit your 2D scene while your 3D scene is still open you may not see
 | Enabled                | Enables the ability to interact with the viewport  |
 | Collision layer        | Collision layer for our screen in 3D space  |
 | **Content**            |                                                                 |
-| Scene                  | The 2D scene to display on the viewport, alternatively you can enable editable children and add this as a child to the "Screen" node  |
+| Scene                  | The 2D scene to display on the viewport, alternatively you can enable editable children and add this as a child to the "Viewport" node  |
 | Viewport size          | The size of our viewport into which our 2D interface is rendered  |
 | Update Mode            | Sets how often we update our viewport  |
 | Throttle FPS           | If **Update Mode** is set to **Update Throttled**, sets the FPS at which we update our viewport  |
