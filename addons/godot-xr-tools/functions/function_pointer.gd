@@ -277,8 +277,8 @@ func _process(delta):
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
 
 		if _camera_parent:
-				_set_time_held(0.0)
-				gaze_pressed = false
+			_set_time_held(0.0)
+			gaze_pressed = false
 
 		# Update visible artifacts for miss
 		_visible_miss()
@@ -287,8 +287,8 @@ func _process(delta):
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
 
 		if _camera_parent:
-				_set_time_held(0.0)
-				gaze_pressed = false
+			_set_time_held(0.0)
+			gaze_pressed = false
 
 		# Pointer entered new_target
 		XRToolsPointerEvent.entered(self, new_target, new_at)
@@ -585,21 +585,19 @@ func _visible_miss() -> void:
 	$Laser.mesh.size.z = distance
 	$Laser.position.z = distance * -0.5
 
-
-############  WIP     GAZE Pointer
-
-
+#set gaze pointer visualization
 func _set_time_held(p_time_held):
 	time_held = p_time_held
 	if material:
 		$Visualise.visible = time_held > 0.0
 		material.set_shader_parameter("value", time_held/hold_time)
 
+# set gaze pointer size
 func set_size(p_size: Vector2):
 	size = p_size
 	_update_size()
 
-
+# update gaze pointer size
 func _update_size():
 	if material: # Note, material won't be set until after we setup our scene
 		var mesh : QuadMesh = $Visualise.mesh
@@ -609,12 +607,12 @@ func _update_size():
 			# updating the size will unset our material, so reset it
 			$Visualise.set_surface_override_material(0, material)
 
-
+#set gaze_pointer_color
 func set_color(p_color: Color):
 	color = p_color
 	_update_color()
 
-
+#update gaze pointer color
 func _update_color():
 	if material:
 		material.set_shader_parameter("albedo", color)
