@@ -161,12 +161,12 @@ func _ready():
 
 	# Read the initial world-scale
 	_world_scale = XRServer.world_scale
-	
+
 	_camera_parent = get_parent() as XRCamera3D
-	
+
 	if !_camera_parent:
 		$Visualise.hide()
-		
+
 		# Check for a parent controller
 		_controller = XRHelpers.get_xr_controller(self)
 		if _controller:
@@ -246,7 +246,7 @@ func _process(delta):
 		else:
 			# Target is whatever the raycast is colliding with
 			new_target = $RayCast.get_collider()
-	
+
 	# hide gaze pointer when pressed
 	if _camera_parent and gaze_pressed:
 		show_target = false
@@ -264,18 +264,18 @@ func _process(delta):
 
 		# Pointer moved on new_target for the first time
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
-		
+
 		if _camera_parent and !gaze_pressed:
 			_set_time_held(time_held + delta)
 			if time_held > hold_time:
 				_button_pressed()
-		
+
 		# Update visible artifacts for hit
 		_visible_hit(new_at)
 	elif not new_target and last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
-		
+
 		if _camera_parent:
 				_set_time_held(0.0)
 				gaze_pressed = false
@@ -285,7 +285,7 @@ func _process(delta):
 	elif new_target != last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
-		
+
 		if _camera_parent:
 				_set_time_held(0.0)
 				gaze_pressed = false
@@ -295,7 +295,7 @@ func _process(delta):
 
 		# Pointer moved on new_target
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
-		
+
 		if _camera_parent and !gaze_pressed:
 			_set_time_held(time_held + delta)
 			if time_held > hold_time:
@@ -565,7 +565,7 @@ func _visible_move(at : Vector3) -> void:
 		var collide_len : float = at.distance_to(global_transform.origin)
 		$Laser.mesh.size.z = collide_len
 		$Laser.position.z = collide_len * -0.5
-	
+
 	if _camera_parent:
 		$Visualise.global_transform.origin = at
 
