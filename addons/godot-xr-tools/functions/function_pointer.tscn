@@ -1,8 +1,8 @@
 [gd_scene load_steps=9 format=3 uid="uid://cqhw276realc"]
 
-[ext_resource type="Material" uid="uid://lrh532eckgmj" path="res://addons/godot-xr-tools/materials/pointer.tres" id="1"]
+[ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="1"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_pointer.gd" id="2"]
-[ext_resource type="Shader" uid="uid://ysca35gaav86" path="res://WIP/hold_button_gaze_pointer_visualshader.tres" id="3_8hxux"]
+[ext_resource type="Shader" uid="uid://ysca35gaav86" path="res://addons/godot-xr-tools/misc/hold_button_gaze_pointer_visualshader.tres" id="3_8hxux"]
 
 [sub_resource type="BoxMesh" id="1"]
 resource_local_to_scene = true
