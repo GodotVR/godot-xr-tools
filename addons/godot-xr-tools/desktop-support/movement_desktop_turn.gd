@@ -110,7 +110,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	left_right -= deadzone * sign(left_right)
 	player_body.rotate_player(smooth_turn_speed * delta * left_right)
 	player_body.camera_node.rotation_degrees.x=clamp(
-		player_body.camera_node.rotation_degrees.x+mouse_move_vector.y,
+		player_body.camera_node.rotation_degrees.x+smooth_turn_speed * mouse_move_vector.y,
 		-89.999,
 		89.999)
 	mouse_move_vector=Vector2.ZERO
