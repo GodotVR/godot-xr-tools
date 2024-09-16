@@ -3,8 +3,8 @@
 [ext_resource type="Shader" path="res://addons/godot-xr-tools/effects/vignette.gdshader" id="1_x02h0"]
 
 [resource]
-render_priority = 0
+render_priority = 99
 shader = ExtResource("1_x02h0")
 shader_parameter/color = Color(0, 0, 0, 1)
-shader_parameter/radius = 0.2
+shader_parameter/radius = 0.282843
 shader_parameter/fade = 0.05
