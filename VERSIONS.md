@@ -5,6 +5,7 @@
 - Cleaned up StartXR
 - Allow grab-points and poses to work with different types of hand trackers
 - Add end_xr support to StartXR
+- Fixed vignette shader
 
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
