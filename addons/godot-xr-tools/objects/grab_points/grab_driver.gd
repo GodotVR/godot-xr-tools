@@ -3,14 +3,14 @@ extends RemoteTransform3D
 
 
 ## Grab state
-enum State {
+enum GrabState {
 	LERP,
 	SNAP,
 }
 
 
 ## Drive state
-var state : State = State.SNAP
+var state : GrabState = GrabState.SNAP
 
 ## Target pickable
 var target : XRToolsPickable
@@ -78,7 +78,7 @@ func _physics_process(delta : float) -> void:
 
 	# Handle update
 	match state:
-		State.LERP:
+		GrabState.LERP:
 			# Progress the lerp
 			lerp_time += delta
 			if lerp_time < lerp_duration:
@@ -88,7 +88,7 @@ func _physics_process(delta : float) -> void:
 					lerp_time / lerp_duration)
 			else:
 				# Lerp completed
-				state = State.SNAP
+				state = GrabState.SNAP
 				if primary: primary.set_arrived()
 				if secondary: secondary.set_arrived()
 
@@ -111,7 +111,7 @@ func add_grab(p_grab : Grab) -> void:
 		secondary = p_grab
 
 	# If snapped then report arrived at the new grab
-	if state == State.SNAP:
+	if state == GrabState.SNAP:
 		p_grab.set_arrived()
 
 
@@ -159,7 +159,7 @@ static func create_lerp(
 	driver.name = p_target.name + "_driver"
 	driver.top_level = true
 	driver.process_physics_priority = -80
-	driver.state = State.LERP
+	driver.state = GrabState.LERP
 	driver.target = p_target
 	driver.primary = p_grab
 	driver.global_transform = p_target.global_transform
@@ -191,7 +191,7 @@ static func create_snap(
 	driver.name = p_target.name + "_driver"
 	driver.top_level = true
 	driver.process_physics_priority = -80
-	driver.state = State.SNAP
+	driver.state = GrabState.SNAP
 	driver.target = p_target
 	driver.primary = p_grab
 	driver.global_transform = p_grab.by.global_transform * p_grab.transform.inverse()
