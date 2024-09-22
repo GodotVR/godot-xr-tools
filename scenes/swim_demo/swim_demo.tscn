@@ -1,0 +1,125 @@
+[gd_scene load_steps=25 format=3 uid="uid://cup0itbt0cr3a"]
+
+[ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_hh5kg"]
+[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_oyddf"]
+[ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="3_pllxu"]
+[ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_nrdle"]
+[ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="5_fq8ff"]
+[ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="6_7hgaq"]
+[ext_resource type="PackedScene" uid="uid://l2n30mpbkdyw" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/right_hand_low.tscn" id="7_4gmht"]
+[ext_resource type="PackedScene" uid="uid://b6bk2pj8vbj28" path="res://addons/godot-xr-tools/functions/movement_turn.tscn" id="8_0mkhw"]
+[ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="9_8t4w8"]
+[ext_resource type="PackedScene" uid="uid://bjuel0yobnb7l" path="res://scenes/swim_demo/objects/swim_map.tscn" id="10_1enq8"]
+[ext_resource type="PackedScene" uid="uid://kyhaogt0a4q8" path="res://addons/godot-xr-tools/functions/movement_flight.tscn" id="10_a44gs"]
+[ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11_2rbjy"]
+[ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="12_qpg8h"]
+[ext_resource type="PackedScene" uid="uid://cap4i60th5v7v" path="res://scenes/swim_demo/objects/instructions.tscn" id="14_eqdep"]
+[ext_resource type="Script" path="res://scenes/swim_demo/objects/swim_area.gd" id="15_pjwfr"]
+[ext_resource type="Shader" path="res://scenes/swim_demo/objects/water_shader.gdshader" id="16_k8nhe"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="17_sr5p1"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_nkslp"]
+size = Vector3(58, 6, 58)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_26y0g"]
+size = Vector2(58, 58)
+subdivide_width = 10
+subdivide_depth = 10
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_kifw3"]
+noise_type = 3
+frequency = 0.005
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jc332"]
+generate_mipmaps = false
+seamless = true
+as_normal_map = true
+bump_strength = 1.5
+noise = SubResource("FastNoiseLite_kifw3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a1mja"]
+frequency = 0.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_g0i0a"]
+seamless = true
+noise = SubResource("FastNoiseLite_a1mja")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u86hi"]
+render_priority = 0
+shader = ExtResource("16_k8nhe")
+shader_parameter/albedo = Color(0, 0, 0.4, 1)
+shader_parameter/metallic = 0.0
+shader_parameter/roughness = 0.02
+shader_parameter/alpha = 0.7
+shader_parameter/scale = 0.2
+shader_parameter/normal_texture = SubResource("NoiseTexture2D_jc332")
+shader_parameter/wave_texture = SubResource("NoiseTexture2D_g0i0a")
+
+[node name="SwimDemo" instance=ExtResource("1_hh5kg")]
+script = ExtResource("2_oyddf")
+
+[node name="XROrigin3D" parent="." index="0"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -32, 0, 0)
+
+[node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_pllxu")]
+
+[node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("4_nrdle")]
+strafe = true
+
+[node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5_fq8ff")]
+jump_button_action = "ax_button"
+
+[node name="MovementCrouch" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6_7hgaq")]
+crouch_height = 1.3
+crouch_button_action = "by_button"
+
+[node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("7_4gmht")]
+
+[node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("4_nrdle")]
+
+[node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("8_0mkhw")]
+
+[node name="MovementJump" parent="XROrigin3D/RightHand" index="3" instance=ExtResource("5_fq8ff")]
+jump_button_action = "ax_button"
+
+[node name="MovementCrouch" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("6_7hgaq")]
+crouch_height = 1.3
+crouch_button_action = "by_button"
+crouch_type = 1
+
+[node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("9_8t4w8")]
+
+[node name="MovementFlight" parent="XROrigin3D" index="4" instance=ExtResource("10_a44gs")]
+flight_button = "none"
+speed_scale = 3.0
+
+[node name="SwimMap" parent="." index="1" instance=ExtResource("10_1enq8")]
+
+[node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11_2rbjy")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 0)
+title = ExtResource("12_qpg8h")
+
+[node name="Instructions" parent="." index="3" instance=ExtResource("14_eqdep")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -26, 4, 0)
+
+[node name="SwimArea" type="Area3D" parent="." index="4"]
+collision_layer = 0
+collision_mask = 524288
+monitorable = false
+script = ExtResource("15_pjwfr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="SwimArea" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2, 0)
+shape = SubResource("BoxShape3D_nkslp")
+
+[node name="WaterPlane" type="MeshInstance3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
+mesh = SubResource("PlaneMesh_26y0g")
+surface_material_override/0 = SubResource("ShaderMaterial_u86hi")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="6"]
+environment = ExtResource("17_sr5p1")
+
+[connection signal="body_entered" from="SwimArea" to="SwimArea" method="_on_body_entered"]
+[connection signal="body_exited" from="SwimArea" to="SwimArea" method="_on_body_exited"]
