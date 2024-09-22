@@ -1,8 +1,8 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=2]
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://bv2a25s3juvpq"]
 
-[ext_resource path="res://assets/wahooney.itch.io/brown_grid.png" type="Texture2D" id=1]
+[ext_resource type="Texture2D" uid="uid://bskwc0drdadnd" path="res://assets/wahooney.itch.io/brown_grid.png" id="1"]
 
 [resource]
-albedo_texture = ExtResource( 1 )
-uv1_scale = Vector3( 0.5, 0.5, 0.5 )
+albedo_texture = ExtResource("1")
+uv1_scale = Vector3(0.25, 0.25, 0.25)
 uv1_triplanar = true

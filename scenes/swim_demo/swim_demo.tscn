@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://cup0itbt0cr3a"]
+[gd_scene load_steps=25 format=3 uid="uid://cup0itbt0cr3a"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_hh5kg"]
 [ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_oyddf"]
@@ -16,16 +16,19 @@
 [ext_resource type="PackedScene" uid="uid://cap4i60th5v7v" path="res://scenes/swim_demo/objects/instructions.tscn" id="14_eqdep"]
 [ext_resource type="Script" path="res://scenes/swim_demo/objects/swim_area.gd" id="15_pjwfr"]
 [ext_resource type="Shader" path="res://scenes/swim_demo/objects/water_shader.gdshader" id="16_k8nhe"]
-[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://default_env.tres" id="17_sr5p1"]
+[ext_resource type="Environment" uid="uid://c75hc5t2ml5re" path="res://demo_env.tres" id="17_sr5p1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_nkslp"]
-size = Vector3(8, 3, 16)
+size = Vector3(58, 6, 58)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_26y0g"]
-size = Vector2(6, 14)
+size = Vector2(58, 58)
+subdivide_width = 10
+subdivide_depth = 10
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_kifw3"]
 noise_type = 3
+frequency = 0.005
 fractal_type = 2
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_jc332"]
@@ -34,6 +37,13 @@ seamless = true
 as_normal_map = true
 bump_strength = 1.5
 noise = SubResource("FastNoiseLite_kifw3")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_a1mja"]
+frequency = 0.001
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_g0i0a"]
+seamless = true
+noise = SubResource("FastNoiseLite_a1mja")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_u86hi"]
 render_priority = 0
@@ -44,14 +54,17 @@ shader_parameter/roughness = 0.02
 shader_parameter/alpha = 0.7
 shader_parameter/scale = 0.2
 shader_parameter/normal_texture = SubResource("NoiseTexture2D_jc332")
+shader_parameter/wave_texture = SubResource("NoiseTexture2D_g0i0a")
 
 [node name="SwimDemo" instance=ExtResource("1_hh5kg")]
 script = ExtResource("2_oyddf")
 
+[node name="XROrigin3D" parent="." index="0"]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -32, 0, 0)
+
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("3_pllxu")]
 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="1" instance=ExtResource("4_nrdle")]
-max_speed = 3.0
 strafe = true
 
 [node name="MovementJump" parent="XROrigin3D/LeftHand" index="2" instance=ExtResource("5_fq8ff")]
@@ -64,7 +77,6 @@ crouch_button_action = "by_button"
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("7_4gmht")]
 
 [node name="MovementDirect" parent="XROrigin3D/RightHand" index="1" instance=ExtResource("4_nrdle")]
-max_speed = 3.0
 
 [node name="MovementTurn" parent="XROrigin3D/RightHand" index="2" instance=ExtResource("8_0mkhw")]
 
@@ -85,25 +97,24 @@ speed_scale = 3.0
 [node name="SwimMap" parent="." index="1" instance=ExtResource("10_1enq8")]
 
 [node name="MainMenuTeleport" parent="." index="2" instance=ExtResource("11_2rbjy")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
-scene_base = NodePath("..")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -36, 0, 0)
 title = ExtResource("12_qpg8h")
 
 [node name="Instructions" parent="." index="3" instance=ExtResource("14_eqdep")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -26, 4, 0)
 
 [node name="SwimArea" type="Area3D" parent="." index="4"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2, -12)
 collision_layer = 0
 collision_mask = 524288
 monitorable = false
 script = ExtResource("15_pjwfr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="SwimArea" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -3.2, 0)
 shape = SubResource("BoxShape3D_nkslp")
 
 [node name="WaterPlane" type="MeshInstance3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.7, -12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0)
 mesh = SubResource("PlaneMesh_26y0g")
 surface_material_override/0 = SubResource("ShaderMaterial_u86hi")
 

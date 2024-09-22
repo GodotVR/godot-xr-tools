@@ -10,6 +10,15 @@ uniform float alpha = 0.7;
 // Noise scale and texture
 uniform float scale = 0.05;
 uniform sampler2D normal_texture;
+uniform sampler2D wave_texture;
+
+void vertex() {
+	// Get the world X/Z coordinates
+	vec2 world = (MODEL_MATRIX * vec4(VERTEX, 1.0)).xz;
+	float noise = texture(wave_texture, world + TIME / 5.0).r;
+
+	VERTEX.y += noise * 0.2;
+}
 
 void fragment() {
 	// Get the world X/Z coordinates
