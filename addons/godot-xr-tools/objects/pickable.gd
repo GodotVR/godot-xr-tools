@@ -173,8 +173,13 @@ func is_picked_up() -> bool:
 
 
 # action is called when user presses the action button while holding this object
-func action(controller : XRController3D = null):
+func action():
 	# let interested parties know
+	action_pressed.emit(self)
+
+
+func controller_action(controller : XRController3D):
+	# Let the grab points know about the action
 	if (
 		_grab_driver.primary and _grab_driver.primary.point
 		and _grab_driver.primary.controller == controller
@@ -187,12 +192,15 @@ func action(controller : XRController3D = null):
 	):
 		_grab_driver.secondary.point.action(self)
 
-	action_pressed.emit(self)
-
 
 # action_release is called when user releases the action button while holding this object
-func action_release(controller : XRController3D = null):
+func action_release():
 	# let interested parties know
+	action_released.emit(self)
+
+
+func controller_action_release(controller : XRController3D):
+	# Let the grab points know about the action release
 	if (
 		_grab_driver.primary and _grab_driver.primary.point
 		and _grab_driver.primary.controller == controller
@@ -204,8 +212,6 @@ func action_release(controller : XRController3D = null):
 		and _grab_driver.secondary.controller == controller
 	):
 		_grab_driver.secondary.point.action_release(self)
-
-	action_released.emit(self)
 
 
 ## This method requests highlighting of the [XRToolsPickable].
