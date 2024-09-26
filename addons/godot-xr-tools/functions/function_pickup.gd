@@ -411,16 +411,20 @@ func _pick_up_object(target: Node3D) -> void:
 
 
 func _on_button_pressed(p_button) -> void:
-	if p_button == action_button_action:
-		if is_instance_valid(picked_up_object) and picked_up_object.has_method("action"):
+	if p_button == action_button_action and is_instance_valid(picked_up_object):
+		if picked_up_object.has_method("action"):
 			picked_up_object.action()
+
+		if picked_up_object.has_method("controller_action"):
 			picked_up_object.controller_action(_controller)
 
 
 func _on_button_released(p_button) -> void:
-	if p_button == action_button_action:
-		if is_instance_valid(picked_up_object) and picked_up_object.has_method("action_release"):
+	if p_button == action_button_action and is_instance_valid(picked_up_object):
+		if picked_up_object.has_method("action_release"):
 			picked_up_object.action_release()
+
+		if picked_up_object.has_method("controller_action_release"):
 			picked_up_object.controller_action_release(_controller)
 
 
