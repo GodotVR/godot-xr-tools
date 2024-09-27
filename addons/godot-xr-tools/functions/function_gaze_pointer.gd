@@ -102,7 +102,7 @@ const SUPPRESS_MASK := 0b0000_0000_0100_0000_0000_0000_0000_0000
 ## send clicks on hold or just move the mouse
 @export var click_on_hold : bool = false
 
-## time on hold to release a click 
+## time on hold to release a click
 @export var hold_time : float = 2.0
 
 ## Color our our visualisation
@@ -177,7 +177,7 @@ func _process(delta):
 	# Do not process if in the editor
 	if Engine.is_editor_hint() or !is_inside_tree():
 		return
-	
+
 	# Handle world-scale changes
 	var new_world_scale := XRServer.world_scale
 	if (_world_scale != new_world_scale):
