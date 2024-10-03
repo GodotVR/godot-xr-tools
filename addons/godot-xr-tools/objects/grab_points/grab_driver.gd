@@ -199,9 +199,8 @@ static func create_snap(
 	# Snapped to grab-point so report arrived
 	p_grab.set_arrived()
 
-	# Add the driver as a neighbor of the target as RemoteTransform3D nodes
-	# cannot be descendands of the targets they drive.
-	p_target.get_parent().add_child(driver)
+	# Add driver to child of grab node3d so p_target uses that transform
+	p_grab.by.add_child(driver)
 	driver.remote_path = driver.get_path_to(p_target)
 
 	# Return the driver
