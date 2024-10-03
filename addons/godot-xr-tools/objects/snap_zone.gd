@@ -68,7 +68,8 @@ func is_xr_class(name : String) -> bool:
 
 func _ready():
 	# Set collision shape radius
-	$CollisionShape3D.shape.radius = grab_distance
+	if $CollisionShape3D and "radius" in $CollisionShape3D.shape:
+		$CollisionShape3D.shape.radius = grab_distance
 
 	# Perform updates
 	_update_snap_mode()
