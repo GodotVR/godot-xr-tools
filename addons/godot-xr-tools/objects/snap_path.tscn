@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dsstvanwd58r0"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/snap_path.gd" id="1_m211o"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pik8g"]
+size = Vector3(0.1, 0.1, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_w68am"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -0.5, 0, 0, 0, 0, 0, 0, 0, 0, 0.5),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="SnapPath" type="Area3D"]
+script = ExtResource("1_m211o")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_pik8g")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_w68am")
