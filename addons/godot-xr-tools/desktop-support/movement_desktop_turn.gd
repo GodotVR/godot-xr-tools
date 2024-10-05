@@ -37,7 +37,7 @@ enum TurnMode {
 
 ## Our directional input
 @export var clear_mouse_move_when_body_not_active : bool = true
-@export var clear_cam_x_when_body_not_active : bool = true
+@export var clear_cam_x_when_body_not_active : bool = false
 
 
 @export var invert_y : bool = true
@@ -90,8 +90,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	if !player_body.enabled or xr_start_node.is_xr_active():
 		if clear_mouse_move_when_body_not_active:
 			mouse_move_vector=Vector2.ZERO
-		if clear_cam_x_when_body_not_active:
-			player_body.camera_node.rotation_degrees.x=0
+		#if clear_cam_x_when_body_not_active:
+		#	player_body.camera_node.rotation_degrees.x=0
 		return
 
 	var deadzone = 0.1
