@@ -22,3 +22,6 @@ shape = SubResource("BoxShape3D_pik8g")
 
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_w68am")
+
+[connection signal="body_entered" from="." to="." method="_on_snap_zone_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_snap_zone_body_exited"]
