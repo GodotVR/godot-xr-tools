@@ -13,6 +13,8 @@ _data = {
 point_count = 2
 
 [node name="SnapPath" type="Area3D"]
+collision_layer = 4
+collision_mask = 65540
 script = ExtResource("1_m211o")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
