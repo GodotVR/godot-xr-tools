@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bmjemjgtnpkpo"]
+[gd_scene load_steps=38 format=3 uid="uid://bmjemjgtnpkpo"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_lpv7q"]
 [ext_resource type="Script" path="res://assets/3dmodelscc0/models/scenes/sniper_rifle.gd" id="2_bdnea"]
@@ -6,7 +6,6 @@
 [ext_resource type="Animation" uid="uid://ddbo6ioa282en" path="res://addons/godot-xr-tools/hands/animations/left/Pistol.res" id="3_np0oa"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/hands/poses/hand_pose_settings.gd" id="4_mworp"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_sjb82"]
-[ext_resource type="PackedScene" uid="uid://cxytulli8pgww" path="res://scenes/pickable_demo/objects/picatinny_rail.tscn" id="6_bmfcj"]
 [ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="6_x8gva"]
 [ext_resource type="Script" path="res://assets/digitaln8m4r3/scripts/firearm_slide.gd" id="7_gwebu"]
 [ext_resource type="Animation" uid="uid://csp3fdknowmi5" path="res://addons/godot-xr-tools/hands/animations/right/Pistol.res" id="7_ll2st"]
@@ -22,9 +21,10 @@
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="16_4b70r"]
 [ext_resource type="Animation" uid="uid://m5x2m8x3tcel" path="res://addons/godot-xr-tools/hands/animations/left/Pinch Tight.res" id="17_in4xb"]
 [ext_resource type="Animation" uid="uid://ca21ej1p3g2yt" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Tight.res" id="18_1meaq"]
+[ext_resource type="PackedScene" uid="uid://cxytulli8pgww" path="res://scenes/pickable_demo/objects/picatinny_rail.tscn" id="20_e06no"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_apd71"]
-size = Vector3(0.0449182, 0.178784, 1.145)
+size = Vector3(0.0449182, 0.184766, 1.145)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_exh4i"]
 radius = 0.06
@@ -116,7 +116,7 @@ script = ExtResource("2_bdnea")
 second_hand_grab = 2
 
 [node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00313599, -0.0525181, 0.0465783)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00313599, -0.0495274, 0.0465783)
 shape = SubResource("BoxShape3D_apd71")
 
 [node name="HighlightRing" parent="." index="1" instance=ExtResource("6_x8gva")]
@@ -236,11 +236,14 @@ drive_position = 0.0
 drive_angle = 0.0
 drive_aim = 1.0
 
-[node name="MagSnapZone" parent="." index="8" groups=["sniper_slot"] instance=ExtResource("15_coy4c")]
+[node name="PicatinnyRail" parent="." index="8" instance=ExtResource("20_e06no")]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.00377285, 0.0421098, 0.0647577)
+
+[node name="MagSnapZone" parent="." index="9" groups=["sniper_slot"] instance=ExtResource("15_coy4c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00341882, -0.0350358, 0.15841)
 snap_require = "sinper_magazine"
 
-[node name="HandPoseArea" parent="." index="9" node_paths=PackedStringArray("grabpoints") instance=ExtResource("16_4b70r")]
+[node name="HandPoseArea" parent="." index="10" node_paths=PackedStringArray("grabpoints") instance=ExtResource("16_4b70r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00371962, 0.0341488, 0.238741)
 left_pose = SubResource("Resource_xtv8j")
 right_pose = SubResource("Resource_4jbx5")
@@ -248,8 +251,5 @@ grabpoints = [NodePath("../GrabPointForestockLeft"), NodePath("../GrabPointFores
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HandPoseArea" index="0"]
 shape = SubResource("SphereShape3D_01nvn")
-
-[node name="PicatinnyRail" parent="." index="10" instance=ExtResource("6_bmfcj")]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -0.00336933, 0.0423815, 0.0645671)
 
 [editable path="sniper_rifle"]
