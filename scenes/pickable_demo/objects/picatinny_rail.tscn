@@ -1,15 +1,15 @@
 [gd_scene load_steps=6 format=3 uid="uid://cxytulli8pgww"]
 
 [ext_resource type="PackedScene" uid="uid://dsstvanwd58r0" path="res://addons/godot-xr-tools/objects/snap_path.tscn" id="2_1acgh"]
-[ext_resource type="PackedScene" uid="uid://dfhbqqtvbmrdt" path="res://assets/meshes/picatinny_rail/picatinny_30.glb" id="3_gx4ne"]
+[ext_resource type="PackedScene" uid="uid://bkogqfbreo3hb" path="res://assets/meshes/picatinny_rail/picatinny_30.glb" id="3_gx4ne"]
 [ext_resource type="Material" path="res://scenes/pickable_demo/materials/stand_metal.tres" id="4_742ay"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_or7hd"]
-size = Vector3(0.0388184, 0.0404053, 0.283095)
+size = Vector3(0.039, 0.04, 0.3)
 
 [sub_resource type="Curve3D" id="Curve3D_jvra0"]
 _data = {
-"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -0.147, 0, 0, 0, 0.000687748, 0.00171228, -0.00834513, 0, 0, 0.143),
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -0.15, 0, 0, 0, 0.000687748, 0.00171228, -0.00834513, 0, 0, 0.15),
 "tilts": PackedFloat32Array(0, 0)
 }
 point_count = 2
@@ -24,7 +24,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0114136, 0)
 shape = SubResource("BoxShape3D_or7hd")
 
 [node name="Path3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0247566, 0)
 curve = SubResource("Curve3D_jvra0")
 
 [node name="MeshPicatinny" parent="." index="2" instance=ExtResource("3_gx4ne")]

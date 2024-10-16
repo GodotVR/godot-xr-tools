@@ -1,10 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://deuxld12hxsq0"]
+[gd_scene load_steps=11 format=3 uid="uid://deuxld12hxsq0"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_1xi8m"]
 [ext_resource type="Material" uid="uid://pcfey2xeiuoe" path="res://assets/3dmodelscc0/models/sniper_rifle/sniper_rifle.material" id="2_dg5g0"]
 [ext_resource type="PackedScene" uid="uid://e8cx22o0aoxa" path="res://assets/3dmodelscc0/models/scenes/scope_display.tscn" id="3_q578b"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="4_7qvw6"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="5_rbyja"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/snap_path_guide.gd" id="6_70w77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f44k4"]
 size = Vector3(0.0432129, 0.059082, 0.332031)
@@ -44,14 +45,13 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_mmp6s")
 
 [node name="PicatinnyScope" groups=["Picatinny"] instance=ExtResource("1_1xi8m")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00377287, 0)
 
 [node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.00244526, 0.000976563)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0028, 0.0208471, -0.0617341)
 shape = SubResource("BoxShape3D_f44k4")
 
 [node name="Scope" type="MeshInstance3D" parent="." index="1"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.007, 0, 0)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.0042, 0.0232924, -0.0607575)
 mesh = SubResource("ArrayMesh_u5vpv")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("2_dg5g0")
@@ -63,7 +63,11 @@ offset = 0.326
 fov = 5.0
 
 [node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("4_7qvw6")]
-transform = Transform3D(0.707107, -3.09086e-08, -0.707107, -0.707107, -3.09086e-08, -0.707107, 0, 1, -4.37114e-08, 0.07, 0.0545902, 0.03)
+transform = Transform3D(-0.707107, 1.18331e-07, 0.707107, -0.707107, -3.09086e-08, -0.707107, -6.18173e-08, -1, 1.05529e-07, -0.0672, 0.0778826, -0.0907575)
 
 [node name="GrabPointHandRight" parent="." index="3" instance=ExtResource("5_rbyja")]
-transform = Transform3D(0.707107, 1.28028e-08, 0.707107, 0.707107, -3.09086e-08, -0.707107, 1.28028e-08, 1, -3.09086e-08, -0.07, 0.0545902, 0.03)
+transform = Transform3D(-0.707107, 7.462e-08, -0.707107, 0.707107, -3.09086e-08, -0.707107, -7.46201e-08, -1, -3.09087e-08, 0.0728, 0.0778826, -0.0907575)
+
+[node name="XRToolsSnapPathGuide" type="Marker3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.11429)
+script = ExtResource("6_70w77")
