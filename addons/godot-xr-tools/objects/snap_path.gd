@@ -95,7 +95,7 @@ func _make_temp_zone():
 
 func _find_closest_point(_path: Path3D, _global_position: Vector3) -> Vector3:
 	# Transform target pos to local space
-	var local_position := global_position * _path.global_transform
+	var local_position := _global_position * _path.global_transform
 	return _path.curve.get_closest_point(local_position)
 
 
