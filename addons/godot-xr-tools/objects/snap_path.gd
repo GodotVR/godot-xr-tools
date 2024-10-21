@@ -39,7 +39,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 # Called when a target in our grab area is dropped
 func _on_target_dropped(target: Node3D) -> void:
 	# Skip if invalid
-	if !enabled or is_instance_valid(picked_up_object) or !is_instance_valid(target) or !path:
+	if !enabled or !path or !target.can_pick_up(self) or \
+		!is_instance_valid(target) or \
+		is_instance_valid(picked_up_object):
 		return
 	
 	# Make a zone that will destruct once its object has left
@@ -70,10 +72,7 @@ func _on_target_dropped(target: Node3D) -> void:
 	zone.has_dropped.connect(func(): zone.queue_free(), Object.ConnectFlags.CONNECT_ONE_SHOT)
 	
 	# Force pickup
-	if target.can_pick_up(self):
-		zone.pick_up_object(target)
-	else:
-		zone.queue_free()
+	zone.pick_up_object(target)
 
 
 # Make a zone that dies on dropping objects
