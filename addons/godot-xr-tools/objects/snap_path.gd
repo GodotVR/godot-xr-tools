@@ -137,8 +137,8 @@ func _find_closest_offset_with_length(_curve: Curve3D, _offset: float, _length: 
 			# snapping p1_new may move it further back, and out-of-bounds
 			# larger snaps move the object further forward
 			var p1_new = path_p2 + _length
-			var ideal_snap = snappedf(path_p2 + _length, snap_interval)
-			var more_snap = _snappedf_up(ideal_snap, snap_interval)
+			var ideal_snap = snappedf(p1_new, snap_interval)
+			var more_snap = _snappedf_up(p1_new, snap_interval)
 			# if ideal snap fits, take that
 			if ideal_snap >= p1_new:
 				return ideal_snap
