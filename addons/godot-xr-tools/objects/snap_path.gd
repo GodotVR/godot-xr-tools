@@ -71,13 +71,18 @@ func _on_target_dropped(target: Node3D) -> void:
 	# Connect self-destruct with lambda
 	zone.has_dropped.connect(func(): zone.queue_free(), Object.ConnectFlags.CONNECT_ONE_SHOT)
 	
+	# Use Pickable's Shapes as our Shapes
+	for c in target.get_children():
+		if c is CollisionShape3D:
+			PhysicsServer3D.area_add_shape(zone.get_rid(), c.shape.get_rid(), c.transform) 
+	
 	# Force pickup
 	zone.pick_up_object(target)
 
 
 # Make a zone that dies on dropping objects
 func _make_temp_zone():
-	var zone = preload("res://addons/godot-xr-tools/objects/snap_zone.tscn").instantiate()
+	var zone = XRToolsSnapZone.new()
 	
 	# connect lambda to play stash sounds when temp zone picks up
 	if has_node("AudioStreamPlayer3D"):

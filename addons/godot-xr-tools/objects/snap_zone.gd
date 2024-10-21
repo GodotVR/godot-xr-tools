@@ -68,7 +68,7 @@ func is_xr_class(name : String) -> bool:
 
 func _ready():
 	# Set collision shape radius
-	if $CollisionShape3D and "radius" in $CollisionShape3D.shape:
+	if has_node("CollisionShape3D") and "radius" in $CollisionShape3D.shape:
 		$CollisionShape3D.shape.radius = grab_distance
 	
 	# Add important connections
@@ -251,12 +251,13 @@ func pick_up_object(target: Node3D) -> void:
 
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_object = target
-	var player = get_node("AudioStreamPlayer3D")
-	if is_instance_valid(player):
-		if player.playing:
-			player.stop()
-		player.stream = stash_sound
-		player.play()
+	if has_node("AudioStreamPlayer3D"):
+		var player = get_node("AudioStreamPlayer3D")
+		if is_instance_valid(player):
+			if player.playing:
+				player.stop()
+			player.stream = stash_sound
+			player.play()
 
 	target.pick_up(self)
 
