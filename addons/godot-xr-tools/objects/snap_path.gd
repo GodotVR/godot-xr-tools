@@ -79,6 +79,14 @@ func _on_target_dropped(target: Node3D) -> void:
 func _make_temp_zone():
 	var zone = preload("res://addons/godot-xr-tools/objects/snap_zone.tscn").instantiate()
 	
+	# connect lambda to play stash sounds when temp zone picks up
+	if has_node("AudioStreamPlayer3D"):
+		zone.has_picked_up.connect(\
+		func(object):\
+			$AudioStreamPlayer3D.stream = stash_sound;\
+			$AudioStreamPlayer3D.play()\
+		)
+	
 	# XRToolsSnapZone manaul copy
 	zone.enabled        = true
 	zone.stash_sound    = stash_sound

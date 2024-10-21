@@ -20,6 +20,11 @@ script = ExtResource("1_m211o")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_pik8g")
 
+[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="."]
+unit_size = 3.0
+max_db = 1.0
+max_distance = 100.0
+
 [node name="Path3D" type="Path3D" parent="."]
 curve = SubResource("Curve3D_w68am")
 
