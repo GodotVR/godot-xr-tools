@@ -117,10 +117,12 @@ func _get_snap_guide(target: Node3D) -> Node3D:
 # Returns -1 if invalid
 # _offset should be in _curve's local coordinates
 func _find_closest_offset_with_length(_curve: Curve3D, _offset: float, _length: float) -> float:
+	# p1 and p2 are the object's start and end respectively
 	var p1      = _offset
 	var p2      = _offset - _length
 	
 	# a _curve's final point is its end, aka the furthest 'forward', which is why it is p1
+	# path_p1 and path_p2 are the curve's start and end respectively
 	var path_p1  := _curve.get_closest_offset(_curve.get_point_position(_curve.point_count-1))
 	var path_p2  := _curve.get_closest_offset(_curve.get_point_position(0))
 	
@@ -131,16 +133,28 @@ func _find_closest_offset_with_length(_curve: Curve3D, _offset: float, _length: 
 			return -1
 	# if too far back
 	elif p2 < path_p2:
-		# bad brute force:
-		# if snapped, add an interval distance so
-		#     it doesn't snap over the end
+		# check if snapping will over-extend
 		if has_snap_interval():
-			return path_p2 + _length + snap_interval
-		
+			# snapping p1_new may move it further back, and out-of-bounds
+			# larger snaps move the object further forward
+			var p1_new = path_p2 + _length
+			var ideal_snap = snappedf(path_p2 + _length, snap_interval)
+			var more_snap = _snappedf_up(ideal_snap, snap_interval)
+			# if ideal snap fits, take that
+			if ideal_snap >= p1_new:
+				return ideal_snap
+			else:
+				return more_snap
+			
 		return path_p2 + _length
 	
 	# otherwise: within bounds
 	return p1
+
+
+## Round 'x' upwards to the nearest 'step'
+func _snappedf_up(x, step) -> float:
+	return step * ceilf(x / step)
 
 
 func _find_closest_point(_path: Path3D, _global_position: Vector3) -> Vector3:
