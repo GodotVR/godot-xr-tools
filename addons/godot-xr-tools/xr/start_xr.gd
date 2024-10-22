@@ -28,6 +28,10 @@ signal xr_ended
 signal xr_failed_to_initialize
 
 
+## XR active flag
+static var _xr_active : bool = false
+
+
 ## Optional viewport to control
 @export var viewport : Viewport
 
@@ -50,12 +54,8 @@ var xr_interface : XRInterface
 ## XR frame rate
 var xr_frame_rate : float = 0
 
-
 # Is a WebXR is_session_supported query running
 var _webxr_session_query : bool = false
-
-## XR active flag
-static var _xr_active : bool = false
 
 
 # Handle auto-initialization when ready
