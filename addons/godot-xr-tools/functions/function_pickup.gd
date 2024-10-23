@@ -30,6 +30,10 @@ const DEFAULT_RANGE_MASK := 0b0000_0000_0000_0000_0000_0000_0000_0100
 # Constant for worst-case grab distance
 const MAX_GRAB_DISTANCE2: float = 1000000.0
 
+# Class for storing copied collision data
+class CopiedCollision extends RefCounted:
+	var collision_shape : CollisionShape3D
+	var org_transform : Transform3D
 
 ## Pickup enabled property
 @export var enabled : bool = true
@@ -81,10 +85,13 @@ var _grab_area : Area3D
 var _grab_collision : CollisionShape3D
 var _ranged_area : Area3D
 var _ranged_collision : CollisionShape3D
-
+var _active_copied_collisions : Array[CopiedCollision]
 
 ## Controller
 @onready var _controller := XRHelpers.get_xr_controller(self)
+
+## Collision hand (if applicable)
+@onready var _collision_hand : XRToolsCollisionHand = XRToolsCollisionHand.find_ancestor(self)
 
 ## Grip threshold (from configuration)
 @onready var _grip_threshold : float = XRTools.get_grip_threshold()
@@ -172,6 +179,7 @@ func _process(delta):
 		# Average velocity of this pickup
 		_velocity_averager.add_transform(delta, global_transform)
 
+	_update_copied_collisions()
 	_update_closest_object()
 
 
@@ -371,6 +379,9 @@ func drop_object() -> void:
 	if not is_instance_valid(picked_up_object):
 		return
 
+	# Remove any copied collision objects
+	_remove_copied_collisions()
+
 	# let go of this object
 	picked_up_object.let_go(
 		self,
@@ -406,8 +417,54 @@ func _pick_up_object(target: Node3D) -> void:
 
 	# If object picked up then emit signal
 	if is_instance_valid(picked_up_object):
+		_copy_collisions()
+
 		picked_up_object.request_highlight(self, false)
 		emit_signal("has_picked_up", picked_up_object)
+
+
+# Copy collision shapes on the held object to our collision hand (if applicable).
+# If we're two handing an object, both collision hands will get copies.
+func _copy_collisions():
+	if not is_instance_valid(_collision_hand):
+		return
+
+	if not is_instance_valid(picked_up_object) or not picked_up_object is RigidBody3D:
+		return
+
+	for child in picked_up_object.get_children():
+		if child is CollisionShape3D and not child.disabled:
+
+			var copied_collision : CopiedCollision = CopiedCollision.new()
+			copied_collision.collision_shape = CollisionShape3D.new()
+			copied_collision.collision_shape.shape = child.shape
+			copied_collision.org_transform = child.transform
+
+			_collision_hand.add_child(copied_collision.collision_shape, false, Node.INTERNAL_MODE_BACK)
+			copied_collision.collision_shape.global_transform = picked_up_object.global_transform * \
+				copied_collision.org_transform
+
+			_active_copied_collisions.push_back(copied_collision)
+
+
+# Adjust positions of our collisions to match actual location of object
+func _update_copied_collisions():
+	if is_instance_valid(_collision_hand) and is_instance_valid(picked_up_object):
+		for copied_collision : CopiedCollision in _active_copied_collisions:
+			if is_instance_valid(copied_collision.collision_shape):
+				copied_collision.collision_shape.global_transform = picked_up_object.global_transform * \
+					copied_collision.org_transform
+
+
+# Remove copied collision shapes
+func _remove_copied_collisions():
+	if is_instance_valid(_collision_hand):
+		for copied_collision : CopiedCollision in _active_copied_collisions:
+			if is_instance_valid(copied_collision.collision_shape):
+				_collision_hand.remove_child(copied_collision.collision_shape)
+				copied_collision.collision_shape.queue_free()
+
+	_active_copied_collisions.clear()
 
 
 func _on_button_pressed(p_button) -> void:

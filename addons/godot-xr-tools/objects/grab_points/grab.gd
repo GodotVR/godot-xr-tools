@@ -39,6 +39,9 @@ var drive_aim : float = 0.0
 ## Has target arrived at grab point
 var _arrived : bool = false
 
+## Collision exceptions we manage
+var _collision_exceptions : Array[PhysicsBody3D]
+
 
 ## Initialize the grab
 func _init(
@@ -75,8 +78,7 @@ func _init(
 
 	# Apply collision exceptions
 	if collision_hand:
-		what.add_collision_exception_with(collision_hand)
-		collision_hand.add_collision_exception_with(what)
+		_add_collision_exceptions(what)
 
 
 ## Set the target as arrived at the grab-point
@@ -133,10 +135,19 @@ func release() -> void:
 	# Clear any hand pose
 	_clear_hand_pose()
 
-	# Remove collision exceptions
-	if is_instance_valid(collision_hand):
-		what.remove_collision_exception_with(collision_hand)
-		collision_hand.remove_collision_exception_with(what)
+	# Remove collision exceptions with a small delay
+	if is_instance_valid(collision_hand) and not _collision_exceptions.is_empty():
+		# We need to make a copy of our array else it will be passed by reference.
+		var copy : Array[PhysicsBody3D]
+		for exc in _collision_exceptions:
+			copy.push_back(exc)
+		_collision_exceptions.clear()
+
+		# Delay removing our exceptions to give the object time to fall away
+		collision_hand.get_tree().create_timer(0.5).timeout \
+			.connect(_remove_collision_exceptions \
+				.bind(copy) \
+				.bind(collision_hand))
 
 	# Report the release
 	print_verbose("%s> released by %s", [what.name, by.name])
@@ -169,3 +180,51 @@ func _clear_hand_pose() -> void:
 
 	# Remove hand snapping
 	hand.remove_target_override(hand_point)
+
+
+# Add collision exceptions for the grabbed object and any of its children
+func _add_collision_exceptions(from : Node):
+	if not is_instance_valid(collision_hand):
+		return
+
+	if not is_instance_valid(from):
+		return
+
+	# If this is a physics body, add an exception
+	if from is PhysicsBody3D:
+		print_debug("Add collision exception for ", from.name)
+		# Make sure we don't collide with what we're holding
+		_collision_exceptions.push_back(from)
+		collision_hand.add_collision_exception_with(from)
+		from.add_collision_exception_with(collision_hand)
+
+	# Check all children
+	for child in from.get_children():
+		_add_collision_exceptions(child)
+
+
+# Remove the exceptions in our passed array. We call this with a small delay
+# to give an object a chance to drop away from the hand before it starts
+# colliding.
+# It is possible that another object is picked up in the meanwhile
+# and we thus fill _collision_exceptions with new content.
+# Hence using a copy of this list at the time of dropping the object.
+#
+# Note, this is static because our grab object gets destroyed before this code gets run.
+static func _remove_collision_exceptions( \
+	on_collision_hand : XRToolsCollisionHand, \
+	exceptions : Array[PhysicsBody3D]):
+	if not is_instance_valid(on_collision_hand):
+		return
+
+	# This can be improved by checking if we're still colliding and only
+	# removing those objects from our exception list that are not.
+	# If any are left, we can restart a new timer.
+	# This will also allow us to use a much smaller timer interval
+
+	# For now we'll remove all.
+
+	for body : PhysicsBody3D in exceptions:
+		if is_instance_valid(body):
+			on_collision_hand.remove_collision_exception_with(body)
+			body.remove_collision_exception_with(on_collision_hand)
