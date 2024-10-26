@@ -1,13 +1,28 @@
 @tool
 extends Node3D
 
+
 @export var player_camera : Camera3D
+
+
+@export_range(1.0, 10.0, 0.1) var fov : float = 10.0:
+	set(value):
+		fov = value
+		if is_inside_tree():
+			_update_fov()
 
 @export_range(0.005, 1.000, 0.005) var radius : float = 0.025:
 	set(value):
 		radius = value
 		if is_inside_tree():
 			_update_radius()
+
+@export_range(0.001, 0.500, 0.001) var offset : float = 0.35:
+	set(value):
+		offset = value
+		if is_inside_tree():
+			_update_offset()
+
 
 func _update_radius():
 	var mesh : QuadMesh = $DisplayMesh.mesh
@@ -19,11 +34,6 @@ func _update_radius():
 	if material:
 		material.set_shader_parameter("radius", radius)
 
-@export_range(0.001, 0.500, 0.001) var offset : float = 0.35:
-	set(value):
-		offset = value
-		if is_inside_tree():
-			_update_offset()
 
 func _update_offset():
 	$ScopeAnchor.position.z = -offset
@@ -35,11 +45,6 @@ func _update_offset():
 	if material:
 		material.set_shader_parameter("depth", offset)
 
-@export_range(1.0, 10.0, 0.1) var fov : float = 10.0:
-	set(value):
-		fov = value
-		if is_inside_tree():
-			_update_fov()
 
 func _update_fov():
 	$SubViewport/Camera3D.fov = fov

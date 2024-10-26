@@ -38,5 +38,5 @@ func _on_Demos_child_exiting_tree(_node):
 	_update_demo_positions()
 
 
-func _on_settings_ui_player_height_changed(new_height):
+func _on_settings_ui_player_height_changed(_new_height):
 	$XROrigin3D/PlayerBody.calibrate_player_height()
