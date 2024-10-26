@@ -1,6 +1,10 @@
 extends Node3D
 
 
+## Signal indicating a target has been passed through
+signal target_passed()
+signal count_down(number)
+
 
 ## Optional audio stream to play when the player jumps on this surface
 @export var start_sound : AudioStream
@@ -20,9 +24,20 @@ extends Node3D
 @export var start_text : String = ""
 @export var game_over_text : String = ""
 @export var scored_text : String= ""
+
+var ejected_token = preload ("res://scenes/audio_demo/objects/token.tscn")
+var score
+var tween
+var _count
+
+# Flag indicating when ball is inside the area
+var _ball_inside := false
+
+# Flag indicating if timer is running
+var _running := false
+
 ## Audio streams to play when the player walks on this surface
 @onready var player := $AudioStreamPlayer3D
-
 @onready var score_label := $Score_Text
 @onready var timer := $Timer
 @onready var timer_label := $Timer_Text
@@ -31,19 +46,8 @@ extends Node3D
 @onready var info_label := $Start_Text
 @onready var zone : XRToolsSnapZone = $SnapZone
 @onready var holder : Node3D = $TokenHolder
-var ejected_token = preload ("res://scenes/audio_demo/objects/token.tscn")
-var _count
-var score
-var tween
 
-# Flag indicating when ball is inside the area
-var _ball_inside := false
 
-# Flag indicating if timer is running
-var _running := false
-## Signal indicating a target has been passed through
-signal target_passed()
-signal count_down(number)
 
 
 
@@ -59,7 +63,7 @@ func _ready() -> void:
 	zone.has_picked_up.connect(_on_token_insert)
 
 
-func _process(delta):
+func _process(_delta):
 	if !_running:
 		zone.enabled = true
 	else:
@@ -93,11 +97,10 @@ func _on_token_insert(_what : Node3D) -> void:
 	zone.enabled = false
 	tween = get_tree().create_tween()
 	tween.tween_callback(_what.queue_free).set_delay(0.15)
-	tween.kill
 
 
 func _on_token_eject(_button) -> void:
-	var token_to_eject = ejected_token.instantiate()	
+	var token_to_eject = ejected_token.instantiate()
 	if token > 0:
 		holder.add_child(token_to_eject)
 		token -= 1
