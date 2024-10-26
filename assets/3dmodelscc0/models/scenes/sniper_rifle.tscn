@@ -151,8 +151,8 @@ surface_material_override/0 = ExtResource("8_7v2rw")
 
 [node name="ScopeDisplay" parent="sniper_rifle" index="1" instance=ExtResource("5_oy4qx")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00361723, 0.0610211, 0.324882)
-radius = 0.01
 fov = 5.0
+radius = 0.01
 
 [node name="FirearmSlide" type="Node3D" parent="sniper_rifle" index="2"]
 script = ExtResource("7_gwebu")
