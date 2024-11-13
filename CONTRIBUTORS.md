@@ -17,5 +17,6 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Julian Todd](https://github.com/goatchurchprime)
 - [Kai Tödter](https://github.com/toedter)
 - [Sam Sarette](https://github.com/lunarcloud)
+- [Squidt](https://github.com/squidt)
 
 Want to be on this list? We would love your help.
