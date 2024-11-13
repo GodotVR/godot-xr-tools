@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://0c76wodjd7rm"]
+[gd_scene load_steps=45 format=3 uid="uid://0c76wodjd7rm"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="2_8wi6c"]
@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bxk2dud5pq1uf" path="res://scenes/pickable_demo/objects/knife.tscn" id="19_6grml"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" id="19_iqmkd"]
 [ext_resource type="PackedScene" uid="uid://bmjemjgtnpkpo" path="res://assets/3dmodelscc0/models/scenes/sniper_rifle.tscn" id="25_xgu4l"]
+[ext_resource type="PackedScene" uid="uid://dfu08adatg63i" path="res://scenes/pickable_demo/objects/picatinny_scope.tscn" id="26_x40vw"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_olecg"]
 animation = &"Grip"
@@ -338,9 +339,11 @@ transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 
 [node name="Knife3" parent="Table1" index="15" instance=ExtResource("19_6grml")]
 transform = Transform3D(-4.37114e-08, -1, -4.37114e-08, 0, -4.37114e-08, 1, -1, 4.37114e-08, 1.91069e-15, 0.506, 0.834, 0.707725)
 
-[node name="SniperRifle" parent="Table1" index="18" node_paths=PackedStringArray("player_camera") instance=ExtResource("25_xgu4l")]
+[node name="SniperRifle" parent="Table1" index="18" instance=ExtResource("25_xgu4l")]
 transform = Transform3D(4.37114e-08, -8.74228e-08, -1, 1, -4.37114e-08, 4.37114e-08, -4.37114e-08, -1, 8.74228e-08, 0.714337, 0.837697, 0.196128)
-player_camera = NodePath("../../XROrigin3D/XRCamera3D")
+
+[node name="PicatinnyScope" parent="Table1" index="19" instance=ExtResource("26_x40vw")]
+transform = Transform3D(1.31134e-07, 0, -1, 1, 2.98023e-08, 1.31134e-07, 2.98023e-08, -1, 3.55271e-15, 1.03311, 0.851737, 0.423745)
 
 [node name="RemoteGrabBalls" type="Node3D" parent="." index="6"]
 

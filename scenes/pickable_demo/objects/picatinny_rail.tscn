@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cxytulli8pgww"]
+
+[ext_resource type="PackedScene" uid="uid://dsstvanwd58r0" path="res://addons/godot-xr-tools/objects/snap_path.tscn" id="2_1acgh"]
+[ext_resource type="AudioStream" uid="uid://bbe283racxu5y" path="res://assets/freesound/63529__florian_reinke__button_on.wav" id="2_40hmc"]
+[ext_resource type="PackedScene" uid="uid://bkogqfbreo3hb" path="res://assets/meshes/picatinny_rail/picatinny_30.glb" id="3_gx4ne"]
+[ext_resource type="Material" path="res://scenes/pickable_demo/materials/stand_metal.tres" id="4_742ay"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_or7hd"]
+size = Vector3(0.039, 0.04, 0.3)
+
+[sub_resource type="Curve3D" id="Curve3D_jvra0"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 0, 0, -0.15, 0, 0, 0, 0.000687748, 0.00171228, -0.00834513, 0, 0, 0.15),
+"tilts": PackedFloat32Array(0, 0)
+}
+point_count = 2
+
+[node name="PicatinnyRail" instance=ExtResource("2_1acgh")]
+snap_interval = 0.01
+stash_sound = ExtResource("2_40hmc")
+grab_distance = 0.05
+snap_require = "Picatinny"
+
+[node name="CollisionShape3D" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0114136, 0)
+shape = SubResource("BoxShape3D_or7hd")
+
+[node name="AudioStreamPlayer3D" parent="." index="1"]
+max_polyphony = 2
+
+[node name="MeshPicatinny" parent="." index="2" instance=ExtResource("3_gx4ne")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.00521621)
+
+[node name="picatinny_30\\Solid" parent="MeshPicatinny" index="0"]
+surface_material_override/0 = ExtResource("4_742ay")
+
+[node name="Path3D" parent="." index="3"]
+curve = SubResource("Curve3D_jvra0")
+
+[editable path="MeshPicatinny"]
