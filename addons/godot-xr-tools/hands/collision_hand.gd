@@ -31,7 +31,7 @@ const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
 # - 3:pickable-objects
 # - 4:wall-walking
 # - 5:grappling-target
-const DEFAULT_MASK := 0b0000_0000_0000_0000_1111_1111_1111_1111
+const DEFAULT_MASK := 0b0000_0000_0000_0101_0000_0000_0001_1111
 
 # How much displacement is required for the hand to start orienting to a surface
 const ORIENT_DISPLACEMENT := 0.05
@@ -44,6 +44,30 @@ const TELEPORT_DISTANCE := 1.0
 @export var mode : CollisionHandMode = CollisionHandMode.COLLIDE
 
 
+## Links to skeleton that adds finger digits
+@export var hand_skeleton : Skeleton3D:
+	set(value):
+		if hand_skeleton == value:
+			return
+
+		if hand_skeleton:
+			if hand_skeleton.has_signal("skeleton_updated"):
+				# Godot 4.3+
+				hand_skeleton.skeleton_updated.disconnect(_on_skeleton_updated)
+			else:
+				hand_skeleton.pose_updated.disconnect(_on_skeleton_updated)
+			for digit in _digit_collision_shapes:
+				var shape : CollisionShape3D = _digit_collision_shapes[digit]
+				remove_child(shape)
+				shape.queue_free()
+			_digit_collision_shapes.clear()
+
+		hand_skeleton = value
+		if hand_skeleton and is_inside_tree():
+			_update_hand_skeleton()
+
+		notify_property_list_changed()
+
 # Controller to target (if no target overrides)
 var _controller : XRController3D
 
@@ -52,6 +76,10 @@ var _target_overrides := []
 
 # Current target (controller or override)
 var _target : Node3D
+
+# Skeleton collisions
+var _palm_collision_shape : CollisionShape3D
+var _digit_collision_shapes : Dictionary
 
 
 ## Target-override class
@@ -73,8 +101,43 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsCollisionHand"
 
 
+# Return warnings related to this node
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := PackedStringArray()
+
+	# Check palm node
+	if not _palm_collision_shape:
+		warnings.push_back("Collision hand scenes are deprecated, use collision node script directly.")
+
+	# Check if skeleton is a child
+	if hand_skeleton and not is_ancestor_of(hand_skeleton):
+		warnings.push_back("The hand skeleton node should be within the tree of this node.")
+
+	# Return warnings
+	return warnings
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	var palm_collision : CollisionShape3D = get_node_or_null("CollisionShape3D")
+	if not palm_collision:
+		# We create our object even in editor to supress our warning.
+		# This allows us to just add an XRToolsCollisionHand node without
+		# using our scene.
+		_palm_collision_shape = CollisionShape3D.new()
+		_palm_collision_shape.name = "Palm"
+		_palm_collision_shape.shape = \
+			preload("res://addons/godot-xr-tools/hands/scenes/collision/hand_palm.shape")
+		_palm_collision_shape.transform.origin = Vector3(0.0, -0.05, 0.11)
+		add_child(_palm_collision_shape, false, Node.INTERNAL_MODE_BACK)
+	elif not Engine.is_editor_hint():
+		# Use our existing collision shape node but only in runtime.
+		# In editor we can check this to provide a deprecation warning.
+		palm_collision.name = "Palm"
+		_palm_collision_shape = palm_collision
+
+	_update_hand_skeleton()
+
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -83,6 +146,7 @@ func _ready():
 	# and boost the physics priority above any grab-drivers or hands.
 	top_level = true
 	process_physics_priority = -90
+	sync_to_physics = false
 
 	# Populate nodes
 	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
@@ -132,6 +196,14 @@ func remove_target_override(target : Node3D) -> void:
 static func find_instance(node : Node) -> XRToolsCollisionHand:
 	return XRTools.find_xr_child(
 		XRHelpers.get_xr_controller(node),
+		"*",
+		"XRToolsCollisionHand") as XRToolsCollisionHand
+
+## This function searches an [XRToolsCollisionHand] that is an ancestor
+## of the given node.
+static func find_ancestor(node : Node) -> XRToolsCollisionHand:
+	return XRTools.find_xr_ancestor(
+		node,
 		"*",
 		"XRToolsCollisionHand") as XRToolsCollisionHand
 
@@ -229,3 +301,57 @@ func _update_target() -> void:
 	# Use first target override if specified
 	if _target_overrides.size():
 		_target = _target_overrides[0].target
+
+
+# If a skeleton is set, update.
+func _update_hand_skeleton():
+	if hand_skeleton:
+		if hand_skeleton.has_signal("skeleton_updated"):
+			# Godot 4.3+
+			hand_skeleton.skeleton_updated.connect(_on_skeleton_updated)
+		else:
+			hand_skeleton.pose_updated.connect(_on_skeleton_updated)
+
+		# Run atleast once to init
+		_on_skeleton_updated()
+
+
+# Update our finger digits when our skeleton updates
+func _on_skeleton_updated():
+	if not hand_skeleton:
+		return
+
+	var bone_count = hand_skeleton.get_bone_count()
+	for i in bone_count:
+		var collision_node : CollisionShape3D
+		var offset : Transform3D
+		offset.origin = Vector3(0.0, 0.015, 0.0) # move to side of joint
+
+		var bone_name = hand_skeleton.get_bone_name(i)
+		if bone_name == "Palm_L":
+			offset.origin = Vector3(-0.02, 0.025, 0.0) # move to side of joint
+			collision_node = _palm_collision_shape
+		elif bone_name == "Palm_R":
+			offset.origin = Vector3(0.02, 0.025, 0.0) # move to side of joint
+			collision_node = _palm_collision_shape
+		elif bone_name.contains("Proximal") or bone_name.contains("Intermediate") or \
+			bone_name.contains("Distal"):
+			if _digit_collision_shapes.has(bone_name):
+				collision_node = _digit_collision_shapes[bone_name]
+			else:
+				collision_node = CollisionShape3D.new()
+				collision_node.name = bone_name
+				collision_node.shape = \
+					preload("res://addons/godot-xr-tools/hands/scenes/collision/hand_digit.shape")
+				add_child(collision_node, false, Node.INTERNAL_MODE_BACK)
+				_digit_collision_shapes[bone_name] = collision_node
+
+		if collision_node:
+			# TODO it would require a far more complex approach,
+			# but being able to check if our collision shapes can move to their new locations
+			# would be interesting.
+
+			collision_node.transform = global_transform.inverse() \
+				* hand_skeleton.global_transform \
+				* hand_skeleton.get_bone_global_pose(i) \
+				* offset

@@ -27,6 +27,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.015)
 screen_size = Vector2(0.625, 0.625)
 scene = ExtResource("2")
 viewport_size = Vector2(250, 250)
+scene_properties_keys = PackedStringArray("settings_ui_content.gd")
 
 [node name="CSGCylinder" type="CSGCylinder3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0)
