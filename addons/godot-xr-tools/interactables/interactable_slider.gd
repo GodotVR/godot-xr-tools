@@ -5,31 +5,60 @@ extends XRToolsInteractableHandleDriven
 
 ## XR Tools Interactable Slider script
 ##
-## The interactable slider is a slider transform node controlled by the
-## player through [XRToolsInteractableHandle] instances.
+## A transform node controlled by the user through [XRToolsInteractableHandle] instances.
 ##
-## The slider translates itelf along its local X axis, and so should be
-## placed as a child of a node to translate and rotate as appropriate.
+## An example scene may be setup in the following way:
+## XRSlider
+##     SliderModel (A Firearm Bolt, or Door Handle)
+##         GrabPointHandLeft
+##     InteractableHandle
+##         CollisionShape3D
+##         GrabPointRedirectLeft (set to 'GrabPointHandLeft')
 ##
 ## The interactable slider is not a [RigidBody3D], and as such will not react
 ## to any collisions.
 
 
+signal slider_moved(offset: float)
+
+
+## Start position for slide, can be positiv and negativ in values
+@export var slider_limit_min : float = 0.0:
+	set(v):
+		slider_limit_min = minf(v, slider_limit_max)
+		slider_position = slider_position
+
+## End position for slide, can be positiv and negativ in values
+@export var slider_limit_max : float = 1.0:
+	set(v):
+		slider_limit_max = maxf(v, slider_limit_min)
+		slider_position = slider_position
+
 ## Signal for slider moved
-signal slider_moved(position)
-
-
-## Slider minimum limit
-@export var slider_limit_min : float = 0.0
-
-## Slider maximum limit
-@export var slider_limit_max : float = 1.0
-
 ## Slider step size (zero for no steps)
-@export var slider_steps : float = 0.0
+@export var slider_steps : float = 0.0:
+	set(v):
+		slider_steps = maxf(v, 0)
 
-## Slider position
-@export var slider_position : float = 0.0: set = _set_slider_position
+## Slider position - move to test the position setup
+@export var slider_position : float = 0.0:
+	set(v):
+		# Apply slider step-quantization
+		if !is_zero_approx(slider_steps):
+			v = roundf(v / slider_steps) * slider_steps
+
+		# Clamp position
+		v = clampf(v, slider_limit_min, slider_limit_max)
+
+		# No change
+		if is_equal_approx(slider_position, v):
+			return
+
+		# Set, Emit
+		_is_driven_change = true
+		position = _private_transform.origin - (v * get_slider_direction())
+		slider_position = v
+		slider_moved.emit(v)
 
 ## Default position
 @export var default_position : float = 0.0
@@ -39,82 +68,37 @@ signal slider_moved(position)
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableSlider" or super(name)
+func is_xr_class(_name : String) -> bool:
+	return _name == "XRToolsInteractableSlider" or super(_name)
 
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# In Godot 4 we must now manually call our super class ready function
 	super()
 
-	# Set the initial position to match the initial slider position value
-	transform = Transform3D(
-		Basis.IDENTITY,
-		Vector3(slider_position, 0.0, 0.0)
-	)
-
 	# Connect signals
-	if released.connect(_on_slider_released):
+	if released.connect(_on_released):
 		push_error("Cannot connect slider released signal")
 
 
-# Called every frame when one or more handles are held by the player
 func _process(_delta: float) -> void:
-	# Get the total handle offsets
-	var offset_sum := Vector3.ZERO
-	for item in grabbed_handles:
-		var handle := item as XRToolsInteractableHandle
-		offset_sum += handle.global_transform.origin - handle.handle_origin.global_transform.origin
-
-	# Rotate the offset sum vector from global into local coordinate space
-	offset_sum = offset_sum * global_transform.basis
-
-	# Get the average displacement in the X axis
-	var offset := offset_sum.x / grabbed_handles.size()
-
-	# Move the slider by the requested offset
-	move_slider(slider_position + offset)
-
-
-# Move the slider to the specified position
-func move_slider(position: float) -> void:
-	# Do the slider move
-	position = _do_move_slider(position)
-	if position == slider_position:
+	if grabbed_handles.is_empty():
 		return
 
-	# Update the current position
-	slider_position = position
+	# Get the total handle offsets
+	var offset_sum := 0.0
+	for item in grabbed_handles:
+		var handle := item as XRToolsInteractableHandle
+		var hlocal := to_local(handle.global_position)
+		offset_sum = hlocal.dot(get_slider_direction())
 
-	# Emit the moved signal
-	emit_signal("slider_moved", position)
+	slider_position -= offset_sum / grabbed_handles.size()
 
 
-# Handle release of slider
-func _on_slider_released(_interactable: XRToolsInteractableSlider):
+## Returns a Unit Vector3 pointing backwards relative to the current transform
+func get_slider_direction() -> Vector3:
+		return (Vector3.BACK * _private_transform.basis.inverse()).normalized()
+
+
+func _on_released(_interactable: Variant) -> void:
 	if default_on_release:
-		move_slider(default_position)
-
-
-# Called when the slider position is set externally
-func _set_slider_position(position: float) -> void:
-	position = _do_move_slider(position)
-	slider_position = position
-
-
-# Do the slider move
-func _do_move_slider(position: float) -> float:
-	# Apply slider step-quantization
-	if slider_steps:
-		position = round(position / slider_steps) * slider_steps
-
-	# Apply slider limits
-	position = clamp(position, slider_limit_min, slider_limit_max)
-
-	# Move if necessary
-	if position != slider_position:
-		transform.origin.x = position
-
-	# Return the updated position
-	return position
+		slider_position = default_position
