@@ -37,6 +37,10 @@ signal hinge_moved(angle)
 ## If true, the hinge moves to the default position when releases
 @export var default_on_release : bool = false
 
+## Set to rotate about this local axis
+@export var hinge_axis := Vector3.RIGHT:
+	set(v):
+		hinge_axis = v.normalized()
 
 # Hinge values in radians
 @onready var _hinge_limit_min_rad : float = deg_to_rad(hinge_limit_min)
@@ -56,12 +60,6 @@ func _ready():
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
-	# Set the initial position to match the initial hinge position value
-	transform = Transform3D(
-		Basis.from_euler(Vector3(_hinge_position_rad, 0, 0)),
-		Vector3.ZERO
-	)
-
 	# Connect signals
 	if released.connect(_on_hinge_released):
 		push_error("Cannot connect hinge released signal")
@@ -73,17 +71,26 @@ func _process(_delta: float) -> void:
 	var offset_sum := 0.0
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
-		var to_handle: Vector3 = handle.global_transform.origin * global_transform
-		var to_handle_origin: Vector3 = handle.handle_origin.global_transform.origin * global_transform
-		to_handle.x = 0.0
-		to_handle_origin.x = 0.0
-		offset_sum += to_handle_origin.signed_angle_to(to_handle, Vector3.RIGHT)
+		# global handle + handle_origin position
+		var axis := get_final_axis()
+		var to_handle        : Vector3 = handle.global_transform.origin * global_transform
+		var to_handle_origin : Vector3 = handle.handle_origin.global_transform.origin * global_transform
+		var a_old = to_handle_origin.signed_angle_to(to_handle, axis)
+
+		# project 'to_handle' and 'to_handle_origin' on 'axis'
+		# then measure the angle
+		offset_sum += atan2(to_handle_origin.cross(to_handle).dot(axis), to_handle.dot(to_handle_origin))
 
 	# Average the angular offsets
 	var offset := offset_sum / grabbed_handles.size()
 
 	# Move the hinge by the requested offset
 	move_hinge(_hinge_position_rad + offset)
+
+
+## Return a unit vector of the final rotation axis
+func get_final_axis() -> Vector3:
+	return (hinge_axis * _private_transform.basis.inverse()).normalized()
 
 
 # Move the hinge to the specified position
@@ -98,7 +105,7 @@ func move_hinge(position: float) -> void:
 	hinge_position = rad_to_deg(position)
 
 	# Emit the moved signal
-	emit_signal("hinge_moved", hinge_position)
+	hinge_moved.emit(hinge_position)
 
 
 # Handle release of hinge
@@ -127,10 +134,12 @@ func _set_hinge_steps(value: float) -> void:
 
 # Called when hinge_position is set externally
 func _set_hinge_position(value: float) -> void:
-	var position := deg_to_rad(value)
-	position = _do_move_hinge(position)
-	hinge_position = rad_to_deg(position)
-	_hinge_position_rad = position
+		
+	_is_driven_change = true
+	var rads := deg_to_rad(value)
+	rads = _do_move_hinge(rads)
+	hinge_position = rad_to_deg(rads)
+	_hinge_position_rad = rads
 
 
 # Called when default_position is set externally
@@ -140,17 +149,18 @@ func _set_default_position(value: float) -> void:
 
 
 # Do the hinge move
-func _do_move_hinge(position: float) -> float:
+func _do_move_hinge(_angle_radians: float) -> float:
 	# Apply hinge step-quantization
 	if _hinge_steps_rad:
-		position = round(position / _hinge_steps_rad) * _hinge_steps_rad
+		_angle_radians = round(_angle_radians / _hinge_steps_rad) * _hinge_steps_rad
 
 	# Apply hinge limits
-	position = clamp(position, _hinge_limit_min_rad, _hinge_limit_max_rad)
+	_angle_radians = clamp(_angle_radians, _hinge_limit_min_rad, _hinge_limit_max_rad)
 
 	# Move if necessary
-	if position != _hinge_position_rad:
-		transform.basis = Basis.from_euler(Vector3(position, 0.0, 0.0))
+	if _angle_radians != _hinge_position_rad:
+		_is_driven_change = true
+		transform = _private_transform.rotated_local(get_final_axis(), _angle_radians)
 
-	# Return the updated position
-	return position
+	# Return the updated _angle_radians
+	return _angle_radians
