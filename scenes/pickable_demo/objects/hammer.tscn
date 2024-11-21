@@ -28,6 +28,7 @@ size = Vector3(0.1, 0.1, 0.2)
 
 [node name="Hammer" instance=ExtResource("1")]
 collision_mask = 7
+mass = 2.0
 ranged_grab_method = 0
 second_hand_grab = 2
 

@@ -112,6 +112,7 @@ radius = 0.001
 
 [node name="SniperRifle" instance=ExtResource("1_lpv7q")]
 collision_mask = 7
+mass = 4.0
 script = ExtResource("2_bdnea")
 second_hand_grab = 2
 

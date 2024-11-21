@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://clta811tt773x"]
+[gd_scene load_steps=11 format=3 uid="uid://clta811tt773x"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="2_qhto0"]
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="3_0q4lf"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_bv5s3"]
+bounce = 0.8
 
 [sub_resource type="SphereShape3D" id="2"]
 margin = 0.01
@@ -29,6 +32,7 @@ albedo_color = Color(1, 1, 0, 1)
 
 [node name="GrabBall" instance=ExtResource("1")]
 collision_mask = 720903
+physics_material_override = SubResource("PhysicsMaterial_bv5s3")
 ranged_grab_method = 2
 second_hand_grab = 2
 
