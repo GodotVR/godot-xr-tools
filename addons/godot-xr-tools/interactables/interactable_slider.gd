@@ -88,15 +88,21 @@ func _process(_delta: float) -> void:
 	var offset_sum := 0.0
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
-		var hlocal := to_local(handle.global_position)
-		offset_sum = hlocal.dot(get_slider_direction())
+		var to_handle        : Vector3 = to_local(handle.global_position) * _private_transform.basis.inverse()
+		var to_handle_origin : Vector3 = to_local(handle.handle_origin.global_position) * _private_transform
+		var dot1 = to_handle.dot(get_slider_direction())
+		var dot2 = to_handle_origin.dot(get_slider_direction())
+
+		# Subtracting these two dot products ensures that movement is relative to
+		# handle_origin instead of the slider's origin
+		offset_sum += dot1-dot2
 
 	slider_position -= offset_sum / grabbed_handles.size()
 
 
 ## Returns a Unit Vector3 pointing backwards relative to the current transform
 func get_slider_direction() -> Vector3:
-		return (Vector3.BACK * _private_transform.basis.inverse()).normalized()
+	return (Vector3.BACK * _private_transform.basis.inverse()).normalized()
 
 
 func _on_released(_interactable: Variant) -> void:
