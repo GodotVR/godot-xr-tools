@@ -75,7 +75,7 @@ const TELEPORT_DISTANCE := 1.0
 
 ## Force we exert on a picked up object when hand is at maximum distance
 ## before letting go.
-@export_range(1.0, 1000.0, 0.1, "suffix:N") var max_pickup_force : float = 400.0
+@export_range(1.0, 1000.0, 0.1, "suffix:N") var max_pickup_force : float = 300.0
 
 
 # Controller to target (if no target overrides)
@@ -167,6 +167,12 @@ func _ready():
 	top_level = true
 	process_physics_priority = -90
 	sync_to_physics = false
+
+	# Connect to player body signals (if applicable)
+	var player_body = XRToolsPlayerBody.find_instance(self)
+	if player_body:
+		player_body.player_moved.connect(_on_player_moved)
+		player_body.player_teleported.connect(_on_player_teleported)
 
 	# Populate nodes
 	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
@@ -262,13 +268,14 @@ func _move_to_target(delta):
 
 	# Handle too far from target
 	if global_position.distance_to(_target.global_position) > TELEPORT_DISTANCE:
+		print("max distance reached")
 		max_distance_reached.emit()
 
 		global_transform = _target.global_transform
 		return
 
 	# Orient the hand
-	global_transform.basis = _target.global_transform.basis
+	rotate_and_collide(_target.global_basis)
 
 	# Adjust target position if we're holding something
 	var target_movement : Vector3 = _target.global_position - global_position
@@ -304,6 +311,34 @@ func _move_to_target(delta):
 
 	# And move
 	move_and_slide(target_movement)
+	force_update_transform()
+
+
+# If our player moved, attempt to move our hand but ignoring weight.
+func _on_player_moved(delta_transform : Transform3D):
+	if mode == CollisionHandMode.DISABLED:
+		return
+
+	if mode == CollisionHandMode.TELEPORT:
+		_on_player_teleported(delta_transform)
+		return
+
+	var target : Transform3D = delta_transform * global_transform
+
+	# Rotate
+	rotate_and_collide(target.basis)
+
+	# And attempt to move
+	move_and_slide(target.origin - global_position)
+	force_update_transform()
+
+
+# If our player teleported, just move.
+func _on_player_teleported(delta_transform : Transform3D):
+	if mode == CollisionHandMode.DISABLED:
+		return
+
+	global_transform = delta_transform * global_transform
 	force_update_transform()
 
 

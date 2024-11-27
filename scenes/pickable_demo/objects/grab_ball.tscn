@@ -32,6 +32,7 @@ albedo_color = Color(1, 1, 0, 1)
 
 [node name="GrabBall" instance=ExtResource("1")]
 collision_mask = 720903
+mass = 10.0
 physics_material_override = SubResource("PhysicsMaterial_bv5s3")
 ranged_grab_method = 2
 second_hand_grab = 2

@@ -30,7 +30,7 @@ func _ready() -> void:
 	for handle_grabpoint in handle_grabpoints:
 		handle_grabpoint.enabled = false
 
-func _physics_process(delta):
+func _physics_process(_delta):
 	if is_instance_valid(_parent):
 		# toggle handle grabpoints if parent got grabbed/released
 		if _parent.get_picked_up_by():

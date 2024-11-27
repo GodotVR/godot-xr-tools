@@ -22,11 +22,11 @@ var hand : XRToolsHand
 ## Collision hand associated with the grabber
 var collision_hand : XRToolsCollisionHand
 
-
 ## Initialize the grabber
 func _init(p_by : Node3D) -> void:
 	by = p_by
 	pickup = p_by as XRToolsFunctionPickup
 	controller = pickup.get_controller() if pickup else null
-	hand = XRToolsHand.find_instance(controller)
-	collision_hand = XRToolsCollisionHand.find_instance(controller)
+	if controller:
+		hand = XRToolsHand.find_instance(controller)
+		collision_hand = XRToolsCollisionHand.find_instance(controller)

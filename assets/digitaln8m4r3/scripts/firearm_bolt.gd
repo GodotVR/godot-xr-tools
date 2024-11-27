@@ -2,8 +2,6 @@ class_name XRFirearmBolt
 extends MeshInstance3D
 
 
-@export var _owner : XRToolsPickable
-
 @export var _handle : XRToolsInteractableHandle
 
 @export var _slide : XRFirearmSlide
@@ -38,7 +36,7 @@ func _on_released(_pickable, _by) -> void:
 func _update_controller_signals() -> void:
 	# Find the primary controller holding the firearm
 	var controller := _handle.get_picked_up_by_controller()
-	var grab_point := _handle.get_active_grab_point() as XRToolsGrabPointHand
+	#var grab_point := _handle.get_active_grab_point() as XRToolsGrabPointHand
 	#if not grab_point or grab_point.handle != "Grip":
 	#	controller = null
 
@@ -69,6 +67,7 @@ func _on_controller_trigger_released(trigger_button : String):
 		return
 
 	reset_rotation()
+
+
 func reset_rotation():
 	rotation_degrees = Vector3(0,0,0)
-

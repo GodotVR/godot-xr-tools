@@ -186,7 +186,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# If exclusive then perform the exclusive move-and-slide
 	if exclusive:
-		player_body.velocity = player_body.move_body(flight_velocity)
+		player_body.velocity = player_body.move_player(flight_velocity)
 		return true
 
 	# Update velocity and return for additional effects

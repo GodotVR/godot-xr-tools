@@ -20,15 +20,18 @@ extends CharacterBody3D
 ## track the players movement.
 
 
-## Signal emitted when the player jumps
+## Signal emitted when the player jumps.
 signal player_jumped()
 
-## Signal emitted when the player teleports
-signal player_teleported()
+## Signal emitted when the player teleports.
+signal player_teleported(delta_transform)
 
-## Signal emitted when the player bounces
+## Signal emitted when the player bounces.
 signal player_bounced(collider, magnitude)
 
+## Signal emitted when the player has moved (excluding teleport).
+## This only captures movement handled by the player body logic.
+signal player_moved(delta_transform)
 
 ## Enumeration indicating when ground control can be used
 enum GroundControl {
@@ -163,6 +166,9 @@ var _collision_node : CollisionShape3D
 # Player head shape cast
 var _head_shape_cast : ShapeCast3D
 
+# True while we're handling physics
+var _in_physics_movement : bool = false
+
 
 ## XROrigin3D node
 @onready var origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
@@ -262,6 +268,12 @@ func _physics_process(delta: float):
 		set_physics_process(false)
 		return
 
+	# We're handling physics right now
+	_in_physics_movement = true
+
+	# Remember where we are now
+	var current_transform : Transform3D = global_transform
+
 	# Calculate the players "up" direction and plane
 	up_player = origin_node.global_transform.basis.y
 
@@ -325,11 +337,21 @@ func _physics_process(delta: float):
 	# Orient the player towards (potentially modified) gravity
 	slew_up(-gravity.normalized(), 5.0 * delta)
 
+	# If we moved our player, emit signal
+	var delta_transform : Transform3D = global_transform * current_transform.inverse()
+	if delta_transform.origin.length() > 0.001:
+		player_moved.emit(delta_transform)
 
-## Teleport the player body
+	# And we're done!
+	_in_physics_movement = false
+
+## Teleport the player body.
+## This moves the player without checking for collisions.
 func teleport(target : Transform3D) -> void:
+	var inv_global_transform : Transform3D = global_transform.inverse()
+
 	# Get the player-to-origin transform
-	var player_to_origin = global_transform.inverse() * origin_node.global_transform
+	var player_to_origin : Transform3D = inv_global_transform * origin_node.global_transform
 
 	# Set the player
 	global_transform = target
@@ -338,7 +360,7 @@ func teleport(target : Transform3D) -> void:
 	origin_node.global_transform = target * player_to_origin
 
 	# Report the player teleported
-	player_teleported.emit()
+	player_teleported.emit(target * inv_global_transform)
 
 
 ## Request a jump
@@ -371,14 +393,27 @@ func request_jump(skip_jump_velocity := false):
 	# Report the jump
 	emit_signal("player_jumped")
 
+
 ## This method moves the players body using the provided velocity. Movement
 ## providers may use this function if they are exclusively driving the player.
-func move_body(p_velocity: Vector3) -> Vector3:
+func move_player(p_velocity: Vector3) -> Vector3:
 	velocity = p_velocity
 	max_slides = 4
 	up_direction = ground_vector
 
+	# Get the player body location before we apply our movement.
+	var transform_before_movement : Transform3D = global_transform
+
 	move_and_slide()
+
+	if not _in_physics_movement:
+		# Apply the player-body movement to the XR origin
+		var movement := global_transform.origin - transform_before_movement.origin
+		origin_node.global_transform.origin += movement
+
+		var delta_transform : Transform3D = global_transform * transform_before_movement.inverse()
+		if delta_transform.origin.length() >  0.001:
+			player_moved.emit(delta_transform)
 
 	# Check if we collided with rigid bodies and apply impulses to them to move them out of the way
 	if push_rigid_bodies:
@@ -410,6 +445,8 @@ func move_body(p_velocity: Vector3) -> Vector3:
 
 ## This method rotates the player by rotating the [XROrigin3D] around the camera.
 func rotate_player(angle: float):
+	var inv_global_transform : Transform3D = global_transform.inverse()
+
 	var t1 := Transform3D()
 	var t2 := Transform3D()
 	var rot := Transform3D()
@@ -418,6 +455,9 @@ func rotate_player(angle: float):
 	t2.origin = camera_node.transform.origin
 	rot = rot.rotated(Vector3.DOWN, angle)
 	origin_node.transform = (origin_node.transform * t2 * rot * t1).orthonormalized()
+
+	if not _in_physics_movement:
+		player_moved.emit(global_transform * inv_global_transform)
 
 ## This method slews the players up vector by rotating the [ARVROrigin] around
 ## the players feet.
@@ -701,7 +741,7 @@ func _apply_velocity_and_control(delta: float):
 	local_velocity = horizontal_velocity + vertical_velocity
 
 	# Move the player body with the desired velocity
-	velocity = move_body(local_velocity + ground_velocity)
+	velocity = move_player(local_velocity + ground_velocity)
 
 	# Apply ground-friction after the move
 	if _can_apply_ground_control() and ground_control_velocity.length() < 0.1:
