@@ -28,11 +28,9 @@ size = Vector3(0.02, 0.08, 0.1)
 [node name="WheelSmooth" type="Node3D"]
 
 [node name="InteractableHinge" type="Node3D" parent="."]
-transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 0)
 script = ExtResource("2")
 hinge_limit_min = -360.0
 hinge_limit_max = 360.0
-hinge_axis = Vector3(0, 0, 1)
 
 [node name="HandPoseArea" parent="InteractableHinge" instance=ExtResource("4_2vgo6")]
 left_pose = ExtResource("5_gt8jj")
