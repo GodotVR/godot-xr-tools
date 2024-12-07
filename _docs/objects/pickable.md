@@ -51,6 +51,14 @@ how to configure physics layers for Godot XR Tools.
 
 ### XRToolsPickable
 
+| Signal | Description |
+| ---- | ------------ |
+| picked_up(pickable: XRToolsPickable) | Signal emitted when this object is picked up (held by a player or snap-zone) |
+| dropped(pickable: XRToolsPickable) | Signal emitted when this object is dropped |
+| grabbed(pickable: XRToolsPickable, by: Node3D) | Signal emitted when this object is grabbed |
+| action_pressed(pickable: XRToolsPickable) | Signal emitted when the user presses the action button while holding this object |
+| highlight_updated(pickable: XRToolsPickable, enable: bool) | Signal emitted when the highlight state changes |
+
 | Property | Description |
 | ---- | ------------ |
 | Enabled            | If true, the object can be picked up |
@@ -69,6 +77,20 @@ how to configure physics layers for Godot XR Tools.
   XRToolsPickable only affects whether it can be picked up. The object
   will still interact with the world by the rules of the RigidBody3D
   settings.
+
+| Method | Description |
+| ---- | ------------ |
+| can_pick_up(by: Node3D) -> bool                 | Test if this object can be picked up |
+| is_picked_up() -> bool                          | Test if this object is picked up |
+| request_highlight(from : Node, on : bool = true) -> void | Toggles highlight on or off for this object if there are any outstanding highlight requests |
+| drop() -> void                                  | Drop this pickable |
+| drop_and_free() -> void                         | Drop and deletes this pickable |
+| pick_up(by: Node3D) -> void                     | Pick up this object with another object |
+| let_go(by: Node3D, p_linear_velocity: Vector3, p_angular_velocity: Vector3) -> void  | Drop this object with a certain velocity |
+| get_picked_up_by() -> Node3D                    | Get the node currently holding this object |
+| get_picked_up_by_controller() -> XRController3D | Get the controller currently holding this object |
+| get_active_grab_point() -> XRToolsGrabPoint     | Get the active grab-point this object is held by |
+| switch_active_grab_point(grab_point : XRToolsGrabPoint) | Switch the active grab-point for this object |
 
 
 ## Additional Resources
