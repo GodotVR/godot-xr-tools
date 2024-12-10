@@ -45,6 +45,7 @@ blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_mmp6s")
 
 [node name="PicatinnyScope" groups=["Picatinny"] instance=ExtResource("1_1xi8m")]
+mass = 0.5
 
 [node name="CollisionShape3D" parent="." index="0"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0028, 0.0208471, -0.0617341)

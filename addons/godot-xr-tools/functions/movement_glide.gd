@@ -190,7 +190,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Perform the glide
 	var glide_velocity := horizontal_velocity + vertical_velocity * player_body.up_gravity
-	player_body.velocity = player_body.move_body(glide_velocity)
+	player_body.velocity = player_body.move_player(glide_velocity)
 
 	# Report exclusive motion performed (to bypass gravity)
 	return true

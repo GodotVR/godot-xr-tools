@@ -1,6 +1,6 @@
 [gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cf6y1af3ouutt"]
 
-[ext_resource type="Material" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.tres" id="1_3o4sh"]
+[ext_resource type="Material" uid="uid://f2uhcqq8s2jx" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.tres" id="1_3o4sh"]
 
 [resource]
 render_priority = -1

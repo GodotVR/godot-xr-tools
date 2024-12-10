@@ -30,7 +30,6 @@ var lerp_duration : float = 1.0
 ## Lerp time
 var lerp_time : float = 0.0
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta : float) -> void:
 	# Skip if no primary node
@@ -89,6 +88,7 @@ func _physics_process(delta : float) -> void:
 			else:
 				# Lerp completed
 				state = GrabState.SNAP
+				_update_weight()
 				if primary: primary.set_arrived()
 				if secondary: secondary.set_arrived()
 
@@ -112,6 +112,7 @@ func add_grab(p_grab : Grab) -> void:
 
 	# If snapped then report arrived at the new grab
 	if state == GrabState.SNAP:
+		_update_weight()
 		p_grab.set_arrived()
 
 
@@ -137,6 +138,9 @@ func remove_grab(p_grab : Grab) -> void:
 		# Remove secondary
 		print_verbose("%s> %s (secondary) released" % [target.name, p_grab.by.name])
 		secondary = null
+
+	if state == GrabState.SNAP:
+		_update_weight()
 
 
 # Discard the driver
@@ -204,6 +208,8 @@ static func create_snap(
 	p_target.get_parent().add_child(driver)
 	driver.remote_path = driver.get_path_to(p_target)
 
+	driver._update_weight()
+
 	# Return the driver
 	return driver
 
@@ -214,3 +220,17 @@ static func _vote(a : float, b : float) -> float:
 		return 0.0
 
 	return b / (a + b)
+
+
+# Update the weight on collision hands
+func _update_weight():
+	if primary:
+		var weight : float = target.mass
+		if secondary:
+			# Each hand carries half the weight
+			weight = weight / 2.0
+			if secondary.collision_hand:
+				secondary.collision_hand.set_held_weight(weight)
+
+		if primary.collision_hand:
+			primary.collision_hand.set_held_weight(weight)

@@ -388,6 +388,11 @@ func drop_object() -> void:
 		_velocity_averager.linear_velocity() * impulse_factor,
 		_velocity_averager.angular_velocity())
 	picked_up_object = null
+
+	if _collision_hand:
+		# Reset the held weight
+		_collision_hand.set_held_weight(0.0)
+
 	emit_signal("has_dropped")
 
 

@@ -191,7 +191,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	player_body.velocity *= 1.0 - friction * delta
 
 	# Perform exclusive movement as we have dealt with gravity
-	player_body.velocity = player_body.move_body(player_body.velocity)
+	player_body.velocity = player_body.move_player(player_body.velocity)
 	return true
 
 

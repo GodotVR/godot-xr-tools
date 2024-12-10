@@ -4,6 +4,7 @@
 
 [node name="XRToolsCollisionHand" type="AnimatableBody3D"]
 collision_layer = 131072
-collision_mask = 327711
+collision_mask = 262175
 sync_to_physics = false
 script = ExtResource("1_vdcct")
+max_pickup_force = 400.0

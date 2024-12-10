@@ -83,6 +83,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	# Turn one step in the requested direction
 	if step_turn_delay != 0.0:
 		_turn_step = step_turn_delay
+
 	player_body.rotate_player(deg_to_rad(step_turn_angle) * sign(left_right))
 
 
