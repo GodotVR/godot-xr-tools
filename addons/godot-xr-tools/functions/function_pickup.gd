@@ -231,8 +231,8 @@ func _set_grab_distance(new_value: float) -> void:
 # Called when the grab collision mask has been modified
 func _set_grab_collision_mask(new_value: int) -> void:
 	grab_collision_mask = new_value
-	if is_inside_tree() and _grab_collision:
-		_grab_collision.collision_mask = new_value
+	if is_inside_tree() and _grab_area:
+		_grab_area.collision_mask = new_value
 
 
 # Called when the ranged-grab distance has been modified
