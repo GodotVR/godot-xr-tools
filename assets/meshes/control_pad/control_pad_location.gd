@@ -24,9 +24,9 @@ func _ready():
 
 
 # Handle world scale changing
-func _on_hand_scale_changed(scale : float) -> void:
+func _on_hand_scale_changed(new_scale : float) -> void:
 	# Scale ourselves (and our children)
-	transform = _transform.scaled(Vector3.ONE * scale)
+	transform = _transform.scaled(Vector3.ONE * new_scale)
 
 
 ## Find a ControlPadLocation related to the specified node

@@ -75,17 +75,17 @@ func _process(_delta: float) -> void:
 
 
 # Move the slider to the specified position
-func move_slider(position: float) -> void:
+func move_slider(new_position: float) -> void:
 	# Do the slider move
-	position = _do_move_slider(position)
-	if position == slider_position:
+	new_position = _do_move_slider(new_position)
+	if new_position == slider_position:
 		return
 
 	# Update the current position
-	slider_position = position
+	slider_position = new_position
 
 	# Emit the moved signal
-	emit_signal("firearm_slider_moved", position)
+	emit_signal("firearm_slider_moved", new_position)
 
 
 # Handle release of slider
@@ -95,19 +95,19 @@ func _on_slider_released(_interactable: XRFirearmSlide):
 
 
 # Called when the slider position is set externally
-func _set_slider_position(position: float) -> void:
-	position = _do_move_slider(position)
-	slider_position = position
+func _set_slider_position(new_position: float) -> void:
+	new_position = _do_move_slider(new_position)
+	slider_position = new_position
 
 
 # Do the slider move
-func _do_move_slider(position: float) -> float:
+func _do_move_slider(new_position: float) -> float:
 	# Apply slider limits
-	position = clamp(position, slider_start, slider_end)
+	new_position = clamp(new_position, slider_start, slider_end)
 
 	# Move if necessary
-	if position != slider_position:
-		transform.origin.z = position
+	if new_position != slider_position:
+		transform.origin.z = new_position
 
 	# Return the updated position
-	return position
+	return new_position

@@ -78,6 +78,7 @@ func _init(
 
 	# Apply collision exceptions
 	if collision_hand:
+		collision_hand.max_distance_reached.connect(_on_max_distance_reached)
 		_add_collision_exceptions(what)
 
 
@@ -154,6 +155,11 @@ func release() -> void:
 	what.released.emit(what, by)
 
 
+# Hand has moved too far away from object, can no longer hold on to it.
+func _on_max_distance_reached() -> void:
+	pickup.drop_object()
+
+
 # Set hand-pose overrides
 func _set_hand_pose() -> void:
 	# Skip if not hand
@@ -192,7 +198,6 @@ func _add_collision_exceptions(from : Node):
 
 	# If this is a physics body, add an exception
 	if from is PhysicsBody3D:
-		print_debug("Add collision exception for ", from.name)
 		# Make sure we don't collide with what we're holding
 		_collision_exceptions.push_back(from)
 		collision_hand.add_collision_exception_with(from)

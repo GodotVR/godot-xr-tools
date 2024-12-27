@@ -57,6 +57,7 @@ open_pose = ExtResource("7_m23hc")
 closed_pose = ExtResource("7_m23hc")
 
 [node name="Teacup" groups=["Teacup"] instance=ExtResource("1_q232w")]
+mass = 0.2
 second_hand_grab = 1
 
 [node name="Teacup" type="MeshInstance3D" parent="." index="0"]

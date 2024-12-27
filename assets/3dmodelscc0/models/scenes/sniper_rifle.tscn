@@ -112,6 +112,7 @@ radius = 0.001
 
 [node name="SniperRifle" instance=ExtResource("1_lpv7q")]
 collision_mask = 7
+mass = 10.0
 script = ExtResource("2_bdnea")
 second_hand_grab = 2
 
@@ -175,12 +176,10 @@ value = Vector3(0, 0, 75)
 
 [node name="GrabPointHandleLeft" parent="sniper_rifle/FirearmSlide/SliderBody/Bolt" index="0" instance=ExtResource("2_x4cgt")]
 transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, -0.0359677, -0.0150545)
-visible = true
 hand_pose = SubResource("Resource_aoud0")
 
 [node name="GrabPointHandleRight" parent="sniper_rifle/FirearmSlide/SliderBody/Bolt" index="1" instance=ExtResource("5_sjb82")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0149273)
-visible = true
 hand_pose = SubResource("Resource_gyywm")
 
 [node name="HandleOrigin" type="Node3D" parent="sniper_rifle/FirearmSlide" index="1"]
@@ -223,7 +222,6 @@ hand_pose = SubResource("Resource_kscym")
 
 [node name="GrabPointForestockLeft" parent="." index="6" instance=ExtResource("2_x4cgt")]
 transform = Transform3D(-2.50718e-08, -0.573576, -0.819152, 0.965926, 0.212012, -0.148453, 0.258819, -0.79124, 0.554032, 0.0292044, 0.0294211, -0.107)
-visible = true
 hand_pose = SubResource("Resource_tbrsh")
 drive_position = 0.0
 drive_angle = 0.0

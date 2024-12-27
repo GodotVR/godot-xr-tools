@@ -71,5 +71,5 @@ func _on_quit_pressed():
 
 
 # Called by the tweening to change the world scale
-func _set_world_scale(scale : float) -> void:
-	XRServer.world_scale = scale
+func _set_world_scale(new_scale : float) -> void:
+	XRServer.world_scale = new_scale

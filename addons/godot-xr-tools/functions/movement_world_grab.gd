@@ -139,7 +139,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Move the player by the offset
 	var old_position := player_body.global_position
-	player_body.move_body(-offset / delta)
+	player_body.move_player(-offset / delta)
 	player_body.velocity = Vector3.ZERO
 	#player_body.move_and_collide(-offset)
 
