@@ -1,0 +1,228 @@
+# This workflow file build the Godot XR Tools Demo project for multiple target systems.
+---
+
+
+# Publish Demo workflow
+name: Publish Demo
+
+
+# Trigger rules (adjust to configure when CI is performed)
+on:
+  [push, pull_request]
+
+
+# Environment variables
+env:
+  # Configure Godot version
+  GODOT_VERSION: 4.3.0
+
+  # OpenXR Vendors version
+  OPENXR_VENDORS_VERSION: 3.1.1-stable
+  
+  # Butler API Key (comment to disable)
+  BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+  
+  # Butler User/Game (set to itch.io user/game)
+  BUTLER_USER_GAME: godot-xr/godot-xr-tools-demo
+
+
+# CI jobs
+jobs:
+  # Build job (Matrix build for all exports)
+  build:
+    name: Building for ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+          # Export for Windows
+          - name: 🏁 Windows
+            os: windows-latest
+            platform: windows
+            export-preset: Windows
+            export-type: release
+            export-folder: build/windows
+            archive: Windows
+            butler-channel: windows
+
+          # Export for Linux
+          - name: 🐧 Linux
+            os: ubuntu-22.04
+            platform: linux
+            export-preset: Linux
+            export-type: release
+            export-folder: build/linux
+            archive: Linux
+            butler-channel: linux
+
+          # Export for Android Quest
+          - name: 🤖 Android Quest
+            os: ubuntu-22.04
+            platform: android
+            export-preset: Android Quest
+            export-type: debug
+            export-args: --install-android-build-template
+            export-folder: build/android-quest
+            archive: Android-Quest
+            butler-channel: android-quest
+
+          # Export for Android Pico
+          - name: 🤖 Android Pico
+            os: ubuntu-22.04
+            platform: android
+            export-preset: Android Pico
+            export-type: debug
+            export-args: --install-android-build-template
+            export-folder: build/android-pico
+            archive: Android-Pico
+            butler-channel: android-pico
+
+          # Export for Android Lynx
+          - name: 🤖 Android Lynx
+            os: ubuntu-22.04
+            platform: android
+            export-preset: Android Lynx
+            export-type: debug
+            export-args: --install-android-build-template
+            export-folder: build/android-lynx
+            archive: Android-Lynx
+            butler-channel: android-lynx
+
+          # Export for Android Khronos
+          - name: 🤖 Android Khronos
+            os: ubuntu-22.04
+            platform: android
+            export-preset: Android Khronos
+            export-type: debug
+            export-args: --install-android-build-template
+            export-folder: build/android-khronos
+            archive: Android-Khronos
+            butler-channel: android-khronos
+
+          # Export for WebXR
+          - name: 🌐 WebXR
+            os: ubuntu-22.04
+            platform: web
+            export-preset: WebXR
+            export-type: release
+            export-folder: build/webxr
+            archive: WebXR
+            butler-channel: webxr
+
+    steps:
+      # Check out the repository
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Install the OpenXR Vendors Plugin
+      - name: Install OpenXR Vendors Plugin
+        shell: bash
+        run: |
+          curl -L -O https://github.com/GodotVR/godot_openxr_vendors/releases/download/${{ env.OPENXR_VENDORS_VERSION }}/godotopenxrvendorsaddon.zip
+          unzip -o godotopenxrvendorsaddon.zip -d godotopenxrvendorsaddon
+          mkdir -p addons
+          mv godotopenxrvendorsaddon/asset/addons/godotopenxrvendors addons/godotopenxrvendors
+          rm godotopenxrvendorsaddon.zip
+          rm -rf godotopenxrvendorsaddon
+
+      # If targeting android then install JDK
+      - name: Set up JDK 17
+        if: matrix.platform == 'android'
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      # If targeting android then install Android SDK
+      - name: Setup Android SDK
+        if: matrix.platform == 'android'
+        uses: android-actions/setup-android@v3
+
+      # If targeting android then install Android SDK Packages
+      - name: Install Android SDK Packages
+        if: matrix.platform == 'android'
+        run: >
+          sdkmanager
+          "platform-tools"
+          "build-tools;34.0.0"
+          "platforms;android-34"
+          "cmdline-tools;latest"
+          "cmake;3.10.2.4988404"
+          "ndk;23.2.8568313"
+
+      # Setup Godot
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: ${{ env.GODOT_VERSION }}
+          use-dotnet: false
+          include-templates: true
+
+      # Import Godot Project
+      - name: Initial Godot Import
+        shell: bash
+        run: |
+          godot --headless --verbose --import || exit 0
+
+      # Export project
+      - name: Export Godot Project
+        shell: bash
+        run: |
+          godot --headless ${{ matrix.export-args }} --export-${{ matrix.export-type }} "${{ matrix.export-preset }}" || exit 0
+
+      # Upload artifacts
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.archive }}-Artifacts
+          path: |
+            ${{ matrix.export-folder }}/*.*
+            !**/.gitignore
+
+      # Install butler (if building release with butler support)
+      - name: Install Butler
+        if: >
+          github.event_name == 'push' && 
+          github.ref_type == 'tag' &&
+          env.BUTLER_API_KEY != ''
+        uses: remarkablegames/setup-butler@v1
+        with:
+          butler-version: LATEST
+
+      # Push to itch.io (if building release)
+      - name: Push to itch.io
+        if: >
+          github.event_name == 'push' && 
+          github.ref_type == 'tag' &&
+          env.BUTLER_API_KEY != ''
+        run: >
+          butler push
+          --ignore '.gitignore'
+          ${{ matrix.export-folder }}
+          ${{ env.BUTLER_USER_GAME }}:${{ matrix.butler-channel }}
+          --userversion ${{ github.ref_name }}
+
+      # Compress project (if building release)
+      - name: Compress Project
+        if: >
+          github.event_name == 'push' && 
+          github.ref_type == 'tag'
+        run: |
+          cd ${{ matrix.export-folder }}
+          7z a -tzip ${{ matrix.archive }}.zip *.* -x'!.gitignore'
+
+      # Publish release (if building release)
+      - name: Publish Release
+        uses: ncipollo/release-action@v1
+        if: >
+          github.event_name == 'push' && 
+          github.ref_type == 'tag'
+        with:
+          allowUpdates: true
+          artifacts: '${{ matrix.export-folder }}/${{ matrix.archive }}.zip'
+          omitNameDuringUpdate: true
+          omitBodyDuringUpdate: true
+          token: ${{ secrets.GITHUB_TOKEN }}
