@@ -1,3 +1,5 @@
+# 4.4.1
+
 # 4.4.0
 - Minimum Godot version changed to 4.2
 - Add pickable action_released signal
