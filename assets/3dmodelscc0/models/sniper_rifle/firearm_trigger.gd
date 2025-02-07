@@ -8,12 +8,12 @@ extends Node
 
 @export var handle_grabpoints : Array[XRToolsGrabPoint]
 
-@onready var _parent : XRToolsPickable = get_parent()
+var triggered : bool = false
 
 # Current controller holding this object
 var _current_controller : XRController3D
 
-var triggered : bool = false
+@onready var _parent : XRToolsPickable = get_parent()
 
 
 # Add support for is_xr_class on XRTools classes
@@ -29,6 +29,7 @@ func _ready() -> void:
 	# disable handle grabpoints on ready
 	for handle_grabpoint in handle_grabpoints:
 		handle_grabpoint.enabled = false
+
 
 func _physics_process(_delta):
 	if is_instance_valid(_parent):

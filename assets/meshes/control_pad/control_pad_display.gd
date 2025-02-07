@@ -41,7 +41,7 @@ func _on_body_scale_slider_value_changed(value : float) -> void:
 	# Kill any current tween
 	if _tween:
 		_tween.kill()
-		
+
 	# Tween the world scale over the next 1/2 second
 	_tween = get_tree().create_tween()
 	_tween.tween_method(

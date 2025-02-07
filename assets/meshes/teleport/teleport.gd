@@ -201,9 +201,10 @@ func _set_inactive_beam_visible(value):
 
 
 func _update_teleport():
+	var mat = $teleport/Cylinder.get_surface_override_material(0)
 	if active:
-		$teleport/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", active_beam_color)
+		mat.set_shader_parameter("beam_color", active_beam_color)
 		$teleport/Cylinder.visible = true
 	else:
-		$teleport/Cylinder.get_surface_override_material(0).set_shader_parameter("beam_color", inactive_beam_color)
+		mat.set_shader_parameter("beam_color", inactive_beam_color)
 		$teleport/Cylinder.visible = inactive_beam_visible
