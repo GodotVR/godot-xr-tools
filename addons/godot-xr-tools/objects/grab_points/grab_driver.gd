@@ -92,6 +92,9 @@ func _physics_process(delta : float) -> void:
 				if primary: primary.set_arrived()
 				if secondary: secondary.set_arrived()
 
+	if global_transform.is_equal_approx(destination):
+		return
+
 	# Apply the destination transform
 	global_transform = destination
 	force_update_transform()
