@@ -97,7 +97,7 @@ const DEFAULT_LAYER := 0b0000_0000_0101_0000_0000_0000_0000_0001
 @export var material : StandardMaterial3D = null: set = set_material
 
 ## Transparent property
-@export var transparent : TransparancyMode = TransparancyMode.TRANSPARENT: set = set_transparent
+var transparent : TransparancyMode = TransparancyMode.TRANSPARENT: set = set_transparent
 
 ## Alpha Scissor Threshold property (ignored when custom material provided)
 var alpha_scissor_threshold : float = 0.25: set = set_alpha_scissor_threshold
@@ -149,6 +149,7 @@ func _ready():
 # Provide custom property information
 func _get_property_list() -> Array[Dictionary]:
 	# Select visibility of properties
+	var show_transparency := not material
 	var show_alpha_scissor := not material and transparent == TransparancyMode.SCISSOR
 	var show_unshaded := not material
 	var show_filter := not material
@@ -158,6 +159,11 @@ func _get_property_list() -> Array[Dictionary]:
 			name = "Rendering",
 			type = TYPE_NIL,
 			usage = PROPERTY_USAGE_GROUP
+		},
+		{
+			name = "transparent",
+			type = TYPE_BOOL,
+			usage = PROPERTY_USAGE_DEFAULT if show_transparency else PROPERTY_USAGE_NO_EDITOR
 		},
 		{
 			name = "alpha_scissor_threshold",
@@ -405,6 +411,10 @@ func set_update_mode(new_update_mode: UpdateMode) -> void:
 func set_material(new_material: StandardMaterial3D) -> void:
 	material = new_material
 	notify_property_list_changed()
+
+	# Discard our screen material, _update_render will create a new one.
+	_screen_material = null
+
 	_dirty |= _DIRTY_MATERIAL
 	if is_ready:
 		_update_render()
@@ -473,11 +483,23 @@ func _update_render() -> void:
 	if _dirty & _DIRTY_MATERIAL:
 		_dirty &= ~_DIRTY_MATERIAL
 
-		# Construct the new screen material
 		if material:
-			# Copy custom material
-			_screen_material = material.duplicate()
-		else:
+			# We can't use our material directly because each instance uses
+			# it's own ViewportTexture. So we duplicate our material.
+			if not _screen_material:
+				_screen_material = material.duplicate()
+			else:
+				# We should only get here if we're in our editor.
+				# We can't detect when our material changes,
+				# so we need to check for changed properties.
+				for property in ClassDB.class_get_property_list("BaseMaterial3D", true):
+					# If any of the material properties we do not manage changed, update them.
+					if property.name != "albedo_texture":
+						var was_value = _screen_material.get(property.name)
+						var new_value = material.get(property.name)
+						if was_value != new_value:
+							_screen_material.set(property.name, new_value)
+		elif not _screen_material:
 			# Create new local material
 			_screen_material = StandardMaterial3D.new()
 
