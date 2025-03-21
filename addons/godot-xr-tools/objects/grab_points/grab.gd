@@ -66,7 +66,7 @@ func _init(
 	if p_point:
 		transform = p_point.transform
 	elif p_precise:
-		transform = p_what.global_transform.inverse() * by.global_transform
+		transform = p_what.global_transform.affine_inverse() * by.global_transform
 	else:
 		transform = Transform3D.IDENTITY
 
