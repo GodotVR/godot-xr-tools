@@ -13,6 +13,7 @@
 - Add SnapPath
 - Improvements to collision hands so collision shapes of picked up objects
   are added and we no longer have hands collide with dropped objects
+- Added boxing ring demo for showing collision hand functionality.
 
 # 4.3.3
 - Fix Viewport2Din3D property forwarding
