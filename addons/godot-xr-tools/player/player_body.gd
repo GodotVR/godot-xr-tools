@@ -421,7 +421,7 @@ func move_player(p_velocity: Vector3) -> Vector3:
 			var with = get_slide_collision(idx)
 			var obj = with.get_collider()
 
-			if obj.is_class("RigidBody3D"):
+			if obj!=null and obj.is_class("RigidBody3D"):
 				var rb : RigidBody3D = obj
 
 				# Get our relative impact velocity
@@ -678,25 +678,26 @@ func _update_ground_information(delta: float):
 	ground_angle = rad_to_deg(ground_collision.get_angle(0, up_gravity))
 	ground_node = ground_collision.get_collider()
 
-	# Select the ground physics
-	var physics_node := ground_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
-	ground_physics = XRToolsGroundPhysics.get_physics(physics_node, default_physics)
+	if ground_node!=null:
+		# Select the ground physics
+		var physics_node := ground_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
+		ground_physics = XRToolsGroundPhysics.get_physics(physics_node, default_physics)
 
-	# Detect if we're sliding on a wall
-	# TODO: consider reworking this magic angle
-	if ground_angle > 85:
-		on_ground = false
+		# Detect if we're sliding on a wall
+		# TODO: consider reworking this magic angle
+		if ground_angle > 85:
+			on_ground = false
 
-	# Detect ground velocity under players feet
-	if _previous_ground_node == ground_node:
-		var pos_old := _previous_ground_global
-		var pos_new := ground_node.to_global(_previous_ground_local)
-		ground_velocity = (pos_new - pos_old) / delta
+		# Detect ground velocity under players feet
+		if _previous_ground_node == ground_node:
+			var pos_old := _previous_ground_global
+			var pos_new := ground_node.to_global(_previous_ground_local)
+			ground_velocity = (pos_new - pos_old) / delta
 
-	# Update ground velocity information
-	_previous_ground_node = ground_node
-	_previous_ground_global = ground_collision.get_position()
-	_previous_ground_local = ground_node.to_local(_previous_ground_global)
+		# Update ground velocity information
+		_previous_ground_node = ground_node
+		_previous_ground_global = ground_collision.get_position()
+		_previous_ground_local = ground_node.to_local(_previous_ground_global)
 
 
 # This method applies the player velocity and ground-control velocity to the physical body
@@ -763,26 +764,27 @@ func _apply_velocity_and_control(delta: float):
 		var collision := get_slide_collision(0)
 		var collision_node := collision.get_collider()
 
-		# Check for a GroundPhysics node attached to the collider
-		var collision_physics_node := \
-				collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
+		if collision_node!=null:
+			# Check for a GroundPhysics node attached to the collider
+			var collision_physics_node := \
+					collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
 
-		# Get the collision physics associated with the collider
-		var collision_physics = XRToolsGroundPhysics.get_physics(
-				collision_physics_node, default_physics)
+			# Get the collision physics associated with the collider
+			var collision_physics = XRToolsGroundPhysics.get_physics(
+					collision_physics_node, default_physics)
 
-		# Get the bounce parameters associated with the collider
-		var bounce_threshold := XRToolsGroundPhysicsSettings.get_bounce_threshold(
-				collision_physics, default_physics)
-		var bounciness := XRToolsGroundPhysicsSettings.get_bounciness(
-				collision_physics, default_physics)
-		var magnitude := -collision.get_normal().dot(local_velocity)
+			# Get the bounce parameters associated with the collider
+			var bounce_threshold := XRToolsGroundPhysicsSettings.get_bounce_threshold(
+					collision_physics, default_physics)
+			var bounciness := XRToolsGroundPhysicsSettings.get_bounciness(
+					collision_physics, default_physics)
+			var magnitude := -collision.get_normal().dot(local_velocity)
 
-		# Detect if bounce should be performed
-		if bounciness > 0.0 and magnitude >= bounce_threshold:
-			local_velocity += 2 * collision.get_normal() * magnitude * bounciness
-			velocity = local_velocity + ground_velocity
-			emit_signal("player_bounced", collision_node, magnitude)
+			# Detect if bounce should be performed
+			if bounciness > 0.0 and magnitude >= bounce_threshold:
+				local_velocity += 2 * collision.get_normal() * magnitude * bounciness
+				velocity = local_velocity + ground_velocity
+				emit_signal("player_bounced", collision_node, magnitude)
 
 	# Hack to ensure feet stick to ground (if not jumping)
 	# TODO: FIX
