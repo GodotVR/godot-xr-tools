@@ -37,7 +37,7 @@ func _physics_process(delta : float) -> void:
 		return
 
 	# Set destination from primary grab
-	var destination := primary.by.global_transform * primary.transform.inverse()
+	var destination := primary.by.global_transform * primary.transform.affine_inverse()
 
 	# If present, apply secondary-node contributions
 	if is_instance_valid(secondary):
@@ -47,7 +47,7 @@ func _physics_process(delta : float) -> void:
 
 		# Calculate the transform from secondary grab
 		var x1 := destination
-		var x2 := secondary.by.global_transform * secondary.transform.inverse()
+		var x2 := secondary.by.global_transform * secondary.transform.affine_inverse()
 
 		# Independently lerp the angle and position
 		destination = Transform3D(
@@ -57,7 +57,7 @@ func _physics_process(delta : float) -> void:
 		# Test if we need to apply aiming
 		if secondary.drive_aim > 0.0:
 			# Convert destination from global to primary-local
-			destination = primary.by.global_transform.inverse() * destination
+			destination = primary.by.global_transform.affine_inverse() * destination
 
 			# Calculate the from and to vectors in primary-local space
 			var secondary_from := destination * secondary.transform.origin
@@ -201,7 +201,7 @@ static func create_snap(
 	driver.state = GrabState.SNAP
 	driver.target = p_target
 	driver.primary = p_grab
-	driver.global_transform = p_grab.by.global_transform * p_grab.transform.inverse()
+	driver.global_transform = p_grab.by.global_transform * p_grab.transform.affine_inverse()
 
 	# Snapped to grab-point so report arrived
 	p_grab.set_arrived()
