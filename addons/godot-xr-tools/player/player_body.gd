@@ -421,7 +421,7 @@ func move_player(p_velocity: Vector3) -> Vector3:
 			var with = get_slide_collision(idx)
 			var obj = with.get_collider()
 
-			if obj!=null and obj.is_class("RigidBody3D"):
+			if obj and obj.is_class("RigidBody3D"):
 				var rb : RigidBody3D = obj
 
 				# Get our relative impact velocity
@@ -678,7 +678,7 @@ func _update_ground_information(delta: float):
 	ground_angle = rad_to_deg(ground_collision.get_angle(0, up_gravity))
 	ground_node = ground_collision.get_collider()
 
-	if ground_node!=null:
+	if ground_node:
 		# Select the ground physics
 		var physics_node := ground_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
 		ground_physics = XRToolsGroundPhysics.get_physics(physics_node, default_physics)
@@ -764,7 +764,7 @@ func _apply_velocity_and_control(delta: float):
 		var collision := get_slide_collision(0)
 		var collision_node := collision.get_collider()
 
-		if collision_node!=null:
+		if collision_node:
 			# Check for a GroundPhysics node attached to the collider
 			var collision_physics_node := \
 					collision_node.get_node_or_null("GroundPhysics") as XRToolsGroundPhysics
