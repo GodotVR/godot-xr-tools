@@ -18,7 +18,6 @@ height = 1.8
 
 [node name="FunctionTeleport" type="Node3D"]
 script = ExtResource("1")
-player_material = ExtResource("4")
 
 [node name="Teleport" type="MeshInstance3D" parent="."]
 mesh = SubResource("1")
