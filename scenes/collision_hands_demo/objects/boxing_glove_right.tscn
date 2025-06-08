@@ -1,0 +1,79 @@
+[gd_scene load_steps=15 format=3 uid="uid://clm4krnab4see"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_53v5y"]
+[ext_resource type="Material" uid="uid://ce4m8atbt42h0" path="res://scenes/collision_hands_demo/objects/boxing_glove_hands/materials/boxing_gloves_blue.material" id="3_xjkx8"]
+[ext_resource type="PackedScene" uid="uid://c4f3ghyc7b16d" path="res://assets/digitaln8m4r3/models/boxing gloves/boxing_glove_right.glb" id="4_ead7o"]
+[ext_resource type="PackedScene" uid="uid://dt5uomhqyclmn" path="res://assets/digitaln8m4r3/models/boxing gloves/boxing_glove_left.glb" id="4_m7qao"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_xtoim"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="6_grkbk"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_1wiff"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="10_edwg1"]
+[ext_resource type="PackedScene" uid="uid://duqehif60vcjg" path="res://addons/godot-xr-tools/audio/area_audio.tscn" id="10_qdup3"]
+[ext_resource type="Resource" uid="uid://coyrqi1ko6bwt" path="res://scenes/collision_hands_demo/audio/pickables/boxing_gloves.tres" id="11_3gtjc"]
+[ext_resource type="Resource" uid="uid://4ph4bhfo0d4p" path="res://scenes/collision_hands_demo/audio/pickables/boxing_punch.tres" id="11_tvp27"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hltbd"]
+radius = 0.0640324
+height = 0.146455
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_b2wnm"]
+size = Vector3(0.0960104, 0.127105, 0.13256)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wxfqt"]
+size = Vector3(0.0976646, 0.143984, 0.236883)
+
+[node name="BoxingGloveRight" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 65543
+mass = 2.0
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
+freeze_mode = 1
+script = ExtResource("1_53v5y")
+
+[node name="boxing_glove_right" parent="." instance=ExtResource("4_ead7o")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.01, 0, -0.02)
+
+[node name="mesh_Boxing_Glove_R" parent="boxing_glove_right" index="0"]
+surface_material_override/0 = ExtResource("3_xjkx8")
+
+[node name="boxing_glove_left" parent="." instance=ExtResource("4_m7qao")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0, -0.02)
+visible = false
+
+[node name="mesh_Boxing_Glove_L" parent="boxing_glove_left" index="0"]
+surface_material_override/0 = ExtResource("3_xjkx8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_hltbd")
+
+[node name="HighlightRing" parent="." instance=ExtResource("5_xtoim")]
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource("6_grkbk")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0217564, 0.0546305, -0.14583)
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource("7_1wiff")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.040365, 0.055, -0.146)
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, -4.37114e-08, -1, -4.37114e-08, 0, 0.0076372, 0)
+shape = SubResource("BoxShape3D_b2wnm")
+
+[node name="Area3D" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 268435457
+
+[node name="AreaAudio" parent="Area3D" instance=ExtResource("10_qdup3")]
+area_audio_type = ExtResource("11_tvp27")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0534897)
+shape = SubResource("BoxShape3D_wxfqt")
+
+[node name="PickableAudio" parent="." instance=ExtResource("10_edwg1")]
+pickable_audio_type = ExtResource("11_3gtjc")
+
+[editable path="boxing_glove_right"]
+[editable path="boxing_glove_left"]
