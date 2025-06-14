@@ -17,6 +17,8 @@ extends Node3D
 ## Signal emitted when this object points at another object
 signal pointing_event(event)
 
+signal is_interacting(interacting: bool)
+
 
 ## Enumeration of laser show modes
 enum LaserShow {
@@ -217,6 +219,7 @@ func _process(_delta):
 	if new_target and not last_target:
 		# Pointer entered new_target
 		XRToolsPointerEvent.entered(self, new_target, new_at)
+		is_interacting.emit(true)
 
 		# Pointer moved on new_target for the first time
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
@@ -226,6 +229,7 @@ func _process(_delta):
 	elif not new_target and last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
+		is_interacting.emit(false)
 
 		# Update visible artifacts for miss
 		_visible_miss()
