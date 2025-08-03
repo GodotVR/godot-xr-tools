@@ -399,7 +399,7 @@ func request_jump(skip_jump_velocity := false):
 func move_player(p_velocity: Vector3) -> Vector3:
 	velocity = p_velocity
 	max_slides = 4
-	up_direction = ground_vector
+	up_direction = up_gravity
 
 	# Get the player body location before we apply our movement.
 	var transform_before_movement : Transform3D = global_transform
