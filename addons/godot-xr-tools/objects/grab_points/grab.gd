@@ -40,7 +40,7 @@ var drive_aim : float = 0.0
 var _arrived : bool = false
 
 ## Collision exceptions we manage
-var _collision_exceptions : Array[PhysicsBody3D]
+var _collision_exceptions : Array[RID]
 
 
 ## Initialize the grab
@@ -138,17 +138,16 @@ func release() -> void:
 
 	# Remove collision exceptions with a small delay
 	if is_instance_valid(collision_hand) and not _collision_exceptions.is_empty():
-		# We need to make a copy of our array else it will be passed by reference.
-		var copy : Array[PhysicsBody3D]
-		for exc in _collision_exceptions:
-			copy.push_back(exc)
+		# Use RIDs instead of the objects directly in case they get freed while
+		# we are waiting for the object to fall away
+		var copy : Array[RID] = _collision_exceptions.duplicate()
 		_collision_exceptions.clear()
 
 		# Delay removing our exceptions to give the object time to fall away
 		collision_hand.get_tree().create_timer(0.5).timeout \
 			.connect(_remove_collision_exceptions \
 				.bind(copy) \
-				.bind(collision_hand))
+				.bind(collision_hand.get_rid()))
 
 	# Report the release
 	print_verbose("%s> released by %s", [what.name, by.name])
@@ -199,9 +198,9 @@ func _add_collision_exceptions(from : Node):
 	# If this is a physics body, add an exception
 	if from is PhysicsBody3D:
 		# Make sure we don't collide with what we're holding
-		_collision_exceptions.push_back(from)
-		collision_hand.add_collision_exception_with(from)
-		from.add_collision_exception_with(collision_hand)
+		_collision_exceptions.push_back(from.get_rid())
+		PhysicsServer3D.body_add_collision_exception(collision_hand.get_rid(), from.get_rid())
+		PhysicsServer3D.body_add_collision_exception(from.get_rid(), collision_hand.get_rid())
 
 	# Check all children
 	for child in from.get_children():
@@ -217,10 +216,8 @@ func _add_collision_exceptions(from : Node):
 #
 # Note, this is static because our grab object gets destroyed before this code gets run.
 static func _remove_collision_exceptions( \
-	on_collision_hand : XRToolsCollisionHand, \
-	exceptions : Array[PhysicsBody3D]):
-	if not is_instance_valid(on_collision_hand):
-		return
+	on_collision_hand : RID, \
+	exceptions : Array[RID]):
 
 	# This can be improved by checking if we're still colliding and only
 	# removing those objects from our exception list that are not.
@@ -229,7 +226,6 @@ static func _remove_collision_exceptions( \
 
 	# For now we'll remove all.
 
-	for body : PhysicsBody3D in exceptions:
-		if is_instance_valid(body):
-			on_collision_hand.remove_collision_exception_with(body)
-			body.remove_collision_exception_with(on_collision_hand)
+	for body : RID in exceptions:
+		PhysicsServer3D.body_remove_collision_exception(on_collision_hand, body)
+		PhysicsServer3D.body_remove_collision_exception(body, on_collision_hand)
