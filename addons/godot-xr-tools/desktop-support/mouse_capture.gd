@@ -48,4 +48,3 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	elif (!xr_start_node.is_xr_active() and capture):
 		Input.mouse_mode=Input.MOUSE_MODE_CAPTURED
 	return
-
