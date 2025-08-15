@@ -73,7 +73,7 @@ func _ready():
 
 	# Add important connections
 	if not body_entered.is_connected(_on_snap_zone_body_entered):
-		body_entered.connect(_on_snap_zone_body_exited)
+		body_entered.connect(_on_snap_zone_body_entered)
 	if not body_exited.is_connected(_on_snap_zone_body_exited):
 		body_exited.connect(_on_snap_zone_body_exited)
 
