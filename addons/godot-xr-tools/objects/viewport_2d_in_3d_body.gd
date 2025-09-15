@@ -88,6 +88,10 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 			_presses[pointer] = true
 			pressed = true
 
+		XRToolsPointerEvent.Type.DOUBLECLICK:
+			_presses[pointer] = true
+			pressed = true
+
 		XRToolsPointerEvent.Type.RELEASED:
 			_presses.erase(pointer)
 			pressed = false
@@ -129,6 +133,10 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 
 			XRToolsPointerEvent.Type.MOVED:
 				_report_mouse_move(pressed, last, at)
+
+			XRToolsPointerEvent.Type.DOUBLECLICK:
+				_report_mouse_down(at)
+				_report_mouse_down_double_click(at)
 
 	# Clear pointer information on exit
 	if type == XRToolsPointerEvent.Type.EXITED:
@@ -177,6 +185,17 @@ func _report_mouse_down(at : Vector2) -> void:
 	event.position = at
 	event.global_position = at
 	event.button_mask = 1
+	_viewport.push_input(event)
+
+# Report mouse-down event
+func _report_mouse_down_double_click(at : Vector2) -> void:
+	var event := InputEventMouseButton.new()
+	event.button_index = 1
+	event.pressed = true
+	event.position = at
+	event.global_position = at
+	event.button_mask = 1
+	event.double_click = true
 	_viewport.push_input(event)
 
 
