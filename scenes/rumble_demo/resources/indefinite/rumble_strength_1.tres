@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="XRToolsRumbleEvent" load_steps=2 format=3 uid="uid://dwbxd6cc7oae2"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/rumble/rumble_event.gd" id="1_6o5k2"]
+[ext_resource type="Script" uid="uid://b15qba0ch13uw" path="res://addons/godot-xr-tools/rumble/rumble_event.gd" id="1_6o5k2"]
 
 [resource]
 script = ExtResource("1_6o5k2")

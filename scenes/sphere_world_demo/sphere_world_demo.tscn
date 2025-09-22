@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="2"]
-[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_nlk8r"]
+[ext_resource type="Script" uid="uid://clipxhr1jpdbq" path="res://scenes/demo_scene_base.gd" id="2_nlk8r"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://bx1xdisoqo1f6" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_tac_glove_low.tscn" id="4"]
 [ext_resource type="Material" uid="uid://p0q2df2dmy62" path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" id="4_3wr22"]

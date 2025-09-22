@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bv46odvo22fuv"]
 
-[ext_resource type="Script" path="res://scenes/poke_demo/objects/canvas.gd" id="1"]
+[ext_resource type="Script" uid="uid://bu72b755ky0a5" path="res://scenes/poke_demo/objects/canvas.gd" id="1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_156sa"]
 bg_color = Color(1, 1, 1, 1)

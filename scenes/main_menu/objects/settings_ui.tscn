@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://hpxufsmhvnq0" path="res://scenes/main_menu/objects/settings_ui_content.tscn" id="2"]
 [ext_resource type="Material" uid="uid://bhj8fob2pxx4l" path="res://scenes/main_menu/objects/settings_ui_material.tres" id="2_jyjdc"]
-[ext_resource type="Script" path="res://scenes/main_menu/objects/settings_ui.gd" id="3"]
+[ext_resource type="Script" uid="uid://cwfi0gm4phvko" path="res://scenes/main_menu/objects/settings_ui.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="5_arb8x"]
 [ext_resource type="Resource" uid="uid://ciw0f7mg4ai0k" path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" id="6_c66hl"]
 [ext_resource type="Resource" uid="uid://bhvrpfo4ecbub" path="res://addons/godot-xr-tools/hands/poses/pose_point_right.tres" id="7_tfhna"]

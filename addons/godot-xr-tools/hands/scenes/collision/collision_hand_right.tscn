@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c3uoohvnshach"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/collision_hand.gd" id="1_so3hf"]
+[ext_resource type="Script" uid="uid://c8vnltn217quj" path="res://addons/godot-xr-tools/hands/collision_hand.gd" id="1_so3hf"]
 [ext_resource type="Shape3D" uid="uid://uc7owi5j7ib0" path="res://addons/godot-xr-tools/hands/scenes/collision/hand_palm.shape" id="2_vvxfo"]
 
 [node name="CollisionHandRight" type="AnimatableBody3D"]

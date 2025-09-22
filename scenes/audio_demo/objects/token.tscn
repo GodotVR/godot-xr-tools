@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://0yjbl2vc5ry"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_3sh1a"]
-[ext_resource type="Script" path="res://scenes/audio_demo/objects/pickable_switch_grab_point.gd" id="2_g30b7"]
+[ext_resource type="Script" uid="uid://bmivtnp5kg0wq" path="res://scenes/audio_demo/objects/pickable_switch_grab_point.gd" id="2_g30b7"]
 [ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="6_i7s5k"]
 [ext_resource type="PackedScene" uid="uid://hlmes83xhgs5" path="res://assets/digitaln8m4r3/models/token/token.glb" id="6_kty1t"]
 [ext_resource type="Resource" uid="uid://pr3rbevfhqn2" path="res://scenes/audio_demo/poses/pose_coin_left.tres" id="7_6um68"]
@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://dqfmtmgru4jki" path="res://scenes/audio_demo/poses/pose_coin_right.tres" id="9_gfihf"]
 [ext_resource type="Material" uid="uid://gs6p8qxg43n8" path="res://assets/digitaln8m4r3/materials/token.material" id="9_mer2t"]
 [ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="10_qj0es"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="10_qldmo"]
+[ext_resource type="Script" uid="uid://0b7wkxi4vymb" path="res://addons/godot-xr-tools/objects/highlight/highlight_visible.gd" id="10_qldmo"]
 [ext_resource type="Resource" uid="uid://crbmdfy85d5qy" path="res://scenes/audio_demo/audio/pickable/audio_token.tres" id="11_6a1e5"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0dw32"]

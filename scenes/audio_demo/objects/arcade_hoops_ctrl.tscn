@@ -1,10 +1,10 @@
 [gd_scene load_steps=20 format=3 uid="uid://qs3ih3whxi63"]
 
-[ext_resource type="Script" path="res://scenes/audio_demo/objects/arcade_hoops_ctrl.gd" id="1_hc6k0"]
+[ext_resource type="Script" uid="uid://csgpsvxhwemqn" path="res://scenes/audio_demo/objects/arcade_hoops_ctrl.gd" id="1_hc6k0"]
 [ext_resource type="AudioStream" uid="uid://bpwmmom4spy3o" path="res://assets/freesound/218318__splicesound__referee-whistle-blow-gymnasium.wav" id="2_juy2l"]
 [ext_resource type="AudioStream" uid="uid://but7isr8c2t64" path="res://assets/freesound/648462__andreas__wrong-answer.wav" id="3_m3fwu"]
 [ext_resource type="AudioStream" uid="uid://b6gdj8w4wvyn1" path="res://assets/freesound/677836__stormystock__he-shoots-he-scores.wav" id="4_dhmji"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="5_sjn2m"]
+[ext_resource type="Script" uid="uid://dq042kibpfryy" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="5_sjn2m"]
 [ext_resource type="Resource" uid="uid://bmhn7klmod0bm" path="res://scenes/audio_demo/audio/area/audio_button.tres" id="7_4xiv7"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="8_fu51s"]
 [ext_resource type="Resource" uid="uid://ciw0f7mg4ai0k" path="res://addons/godot-xr-tools/hands/poses/pose_point_left.tres" id="9_w7004"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://diyu06cw06syv"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="1"]
+[ext_resource type="Script" uid="uid://ck4yn3hxuobj7" path="res://addons/godot-xr-tools/player/player_body.gd" id="1"]
 
 [node name="PlayerBody" type="CharacterBody3D" groups=["player_body"]]
 process_priority = -100

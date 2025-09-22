@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://do1wif8rpqtwj"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_gaze_pointer.gd" id="1_ipkdr"]
+[ext_resource type="Script" uid="uid://f60byrk7xjak" path="res://addons/godot-xr-tools/functions/function_gaze_pointer.gd" id="1_ipkdr"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="2_ndm62"]
 [ext_resource type="Shader" uid="uid://dncfip67nl2sf" path="res://addons/godot-xr-tools/misc/hold_button_gaze_pointer_visualshader.tres" id="3_1p5pd"]
 

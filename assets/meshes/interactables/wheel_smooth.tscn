@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://d2td5hwh2oluy"]
 
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="1"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3"]
+[ext_resource type="Script" uid="uid://c8gx2wc7hsxf5" path="res://addons/godot-xr-tools/interactables/interactable_hinge.gd" id="2"]
+[ext_resource type="Script" uid="uid://dlojnwxo25bky" path="res://addons/godot-xr-tools/interactables/interactable_handle.gd" id="3"]
 [ext_resource type="PackedScene" uid="uid://dc5t2qgmhb2nf" path="res://addons/godot-xr-tools/objects/hand_pose_area.tscn" id="4_2vgo6"]
 [ext_resource type="Resource" uid="uid://bd1dxftyxdgup" path="res://assets/meshes/interactables/pose_grab_wheel_left.tres" id="5_gt8jj"]
 [ext_resource type="Resource" uid="uid://dsiujx4dllwvd" path="res://assets/meshes/interactables/pose_grab_wheel_right.tres" id="6_ss5gc"]

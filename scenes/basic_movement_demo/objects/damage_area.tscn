@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bintvchia5op"]
 
-[ext_resource type="Script" path="res://scenes/basic_movement_demo/objects/damage_area.gd" id="1_b1a30"]
+[ext_resource type="Script" uid="uid://b5t1tv76b8mgb" path="res://scenes/basic_movement_demo/objects/damage_area.gd" id="1_b1a30"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_6dri3"]
 

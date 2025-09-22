@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cymteydkxagpp"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/misc/hold_button.gd" id="1"]
+[ext_resource type="Script" uid="uid://cwvolliuv8nuy" path="res://addons/godot-xr-tools/misc/hold_button.gd" id="1"]
 [ext_resource type="Shader" uid="uid://c6okm2ay0fkjf" path="res://addons/godot-xr-tools/misc/hold_button_visualshader.tres" id="2"]
 
 [sub_resource type="QuadMesh" id="1"]

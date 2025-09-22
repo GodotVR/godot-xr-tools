@@ -1,7 +1,7 @@
 [gd_scene load_steps=43 format=3 uid="uid://c2peddtwxsah5"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1_jceij"]
-[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_tafmy"]
+[ext_resource type="Script" uid="uid://clipxhr1jpdbq" path="res://scenes/demo_scene_base.gd" id="2_tafmy"]
 [ext_resource type="PackedScene" uid="uid://bdwmserhqai5h" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_physics_hand_low.tscn" id="3_xxmgq"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="4_1uxxi"]
 [ext_resource type="PackedScene" uid="uid://bjcxf427un2wp" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="4_6vss1"]
@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://deyk5frilshws" path="res://assets/meshes/control_pad/control_pad_location_right.tscn" id="11_7wxsm"]
 [ext_resource type="PackedScene" uid="uid://6xxscqoyit84" path="res://assets/maps/holodeck_map_s.tscn" id="11_yy8rv"]
 [ext_resource type="AudioStream" uid="uid://cddgfn5xkknr4" path="res://assets/footsteps/default_footstep.wav" id="12_sotnm"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="13_8k0am"]
+[ext_resource type="Script" uid="uid://bsk5funnj0084" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="13_8k0am"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="13_nq2ma"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14_17t48"]
 [ext_resource type="PackedScene" uid="uid://ca4wkvbu8jnb4" path="res://scenes/audio_demo/objects/basketball.tscn" id="15_vjd76"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ungirnwga6pc"]
 
-[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad_display.gd" id="1_iqtwx"]
+[ext_resource type="Script" uid="uid://dc46ongrljqpv" path="res://assets/meshes/control_pad/control_pad_display.gd" id="1_iqtwx"]
 
 [node name="ControlPadDisplay" type="TabContainer"]
 offset_right = 400.0

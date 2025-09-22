@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bwr0eqi231lf0"]
 
-[ext_resource type="Script" path="res://assets/meshes/control_pad/control_pad_location.gd" id="1_4uvgi"]
+[ext_resource type="Script" uid="uid://ov7v57ikcyl5" path="res://assets/meshes/control_pad/control_pad_location.gd" id="1_4uvgi"]
 
 [node name="ControlPadLocationLeft" type="Node3D"]
 

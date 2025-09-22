@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://clc5dre31iskm"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/xr/start_xr.gd" id="1_ljt1b"]
+[ext_resource type="Script" uid="uid://ces1j6plojyra" path="res://addons/godot-xr-tools/xr/start_xr.gd" id="1_ljt1b"]
 
 [node name="StartXR" type="Node"]
 script = ExtResource("1_ljt1b")

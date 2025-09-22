@@ -1,7 +1,7 @@
 [gd_scene load_steps=20 format=3 uid="uid://dt5jsm43uk88b"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
+[ext_resource type="Script" uid="uid://clipxhr1jpdbq" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://mnoirgubr2js" path="res://scenes/footstep_movement_demo/objects/instructions.tscn" id="3_8248t"]
 [ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_virb4"]
@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="11"]
 [ext_resource type="AudioStream" uid="uid://cddgfn5xkknr4" path="res://assets/footsteps/default_footstep.wav" id="11_xknd6"]
 [ext_resource type="PackedScene" uid="uid://54qovguk25i5" path="res://assets/meshes/plate/surface_objects.tscn" id="12"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="14_cqr4a"]
+[ext_resource type="Script" uid="uid://bsk5funnj0084" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="14_cqr4a"]
 [ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="18_qxr43"]
 
 [sub_resource type="Resource" id="Resource_lclo7"]

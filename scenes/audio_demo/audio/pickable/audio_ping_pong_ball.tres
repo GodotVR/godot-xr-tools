@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="XRToolsPickableAudioType" load_steps=4 format=3 uid="uid://dfdfownva5ttm"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/pickable_audio_type.gd" id="1_bh5if"]
+[ext_resource type="Script" uid="uid://dcdtk842mf1h5" path="res://addons/godot-xr-tools/audio/pickable_audio_type.gd" id="1_bh5if"]
 [ext_resource type="AudioStream" uid="uid://dydu4jv0dhqv5" path="res://assets/freesound/269718__michorvath__ping-pong-ball-hit.wav" id="1_nrkvr"]
 [ext_resource type="AudioStream" uid="uid://b14fxver5fex4" path="res://assets/freesound/652661_grab_edited.wav" id="2_eyvfa"]
 

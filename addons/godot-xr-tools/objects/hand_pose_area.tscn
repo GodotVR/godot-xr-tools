@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dc5t2qgmhb2nf"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/hand_pose_area.gd" id="1"]
+[ext_resource type="Script" uid="uid://colsb5moktl1e" path="res://addons/godot-xr-tools/objects/hand_pose_area.gd" id="1"]
 
 [node name="HandPoseArea" type="Area3D"]
 collision_layer = 2097152

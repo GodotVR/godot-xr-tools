@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://c78tjrtiyqna8"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/movement_grapple.gd" id="1"]
+[ext_resource type="Script" uid="uid://r8s1ep2dlajf" path="res://addons/godot-xr-tools/functions/movement_grapple.gd" id="1"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="2_n6olo"]
 
 [sub_resource type="BoxMesh" id="1"]
