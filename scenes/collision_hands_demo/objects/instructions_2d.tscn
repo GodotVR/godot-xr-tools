@@ -1,0 +1,36 @@
+[gd_scene format=3 uid="uid://c8x7n6e6taoyx"]
+
+[node name="Instructions" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 400.0
+offset_bottom = 321.0
+color = Color(0, 0, 0, 0.87451)
+
+[node name="Description" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 390.0
+offset_bottom = 240.0
+theme_override_constants/line_separation = -3
+theme_override_font_sizes/normal_font_size = 12
+text = "Collision Hands Demo
+
+Demos our collision hands nodes, these prevent the players hands from going through other objects.
+
+Currently not supported:
+* collision shapes on items being picked up,
+* reacting to weights on items being picked up,
+* accounting for switching grab points.
+
+These features will return soon! 
+"
+fit_content = true

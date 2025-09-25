@@ -1,0 +1,51 @@
+[gd_scene load_steps=10 format=3 uid="uid://civfpynlh0lod"]
+
+[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_647sc"]
+[ext_resource type="Material" uid="uid://p0j8ayyebdyr" path="res://assets/digitaln8m4r3/materials/gym_weight.material" id="3_wv2m8"]
+[ext_resource type="PackedScene" uid="uid://bv115s1h8n1am" path="res://assets/digitaln8m4r3/models/gym weights/3kgweight.glb" id="4_6vn2j"]
+[ext_resource type="PackedScene" uid="uid://da2qgxxwwitl6" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tscn" id="5_cf5m0"]
+[ext_resource type="PackedScene" uid="uid://c25yxb0vt53vc" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_left.tscn" id="6_8p162"]
+[ext_resource type="PackedScene" uid="uid://ctw7nbntd5pcj" path="res://addons/godot-xr-tools/objects/grab_points/grab_point_hand_right.tscn" id="7_57qve"]
+[ext_resource type="PackedScene" uid="uid://bikkxsbo8x7sd" path="res://addons/godot-xr-tools/audio/pickable_audio.tscn" id="8_fkv5l"]
+[ext_resource type="Resource" uid="uid://1yy64kkae3k0" path="res://scenes/collision_hands_demo/audio/pickables/weights.tres" id="9_dfus1"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_kwiw0"]
+height = 0.293686
+radius = 0.0528922
+
+[node name="Weight3kg" type="RigidBody3D"]
+collision_layer = 4
+collision_mask = 268435463
+mass = 3.0
+continuous_cd = true
+max_contacts_reported = 1
+contact_monitor = true
+sleeping = true
+freeze_mode = 1
+script = ExtResource("1_647sc")
+
+[node name="3kgweight" parent="." instance=ExtResource("4_6vn2j")]
+
+[node name="weight3kg" parent="3kgweight" index="0"]
+surface_material_override/0 = ExtResource("3_wv2m8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_kwiw0")
+
+[node name="HighlightRing" parent="." instance=ExtResource("5_cf5m0")]
+
+[node name="GrabPointHandLeft" parent="." instance=ExtResource("6_8p162")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0191657, 0.0418458, -0.0917016)
+
+[node name="GrabPointHandRight" parent="." instance=ExtResource("7_57qve")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.019, 0.042, -0.092)
+
+[node name="Label3D2" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -0.15, 0)
+pixel_size = 0.0015
+text = "3kg"
+
+[node name="PickableAudio" parent="." instance=ExtResource("8_fkv5l")]
+pickable_audio_type = ExtResource("9_dfus1")
+
+[editable path="3kgweight"]

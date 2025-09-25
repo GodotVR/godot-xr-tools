@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bknr7ftar4n0d"
+path="res://.godot/imported/Neon and Kickboxing.mp3-0d916dead3d2362424645eaa25d1c0e8.mp3str"
+
+[deps]
+
+source_file="res://assets/Kevin MacLeod/Neon and Kickboxing.mp3"
+dest_files=["res://.godot/imported/Neon and Kickboxing.mp3-0d916dead3d2362424645eaa25d1c0e8.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
