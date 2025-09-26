@@ -19,5 +19,6 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Sam Sarette](https://github.com/lunarcloud)
 - [Squidt](https://github.com/squidt)
 - [Dave Hakim](https://github.com/davehakim)
+- [Daniel Kinsman](https://github.com/DanielKinsman)
 
 Want to be on this list? We would love your help.

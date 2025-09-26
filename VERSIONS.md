@@ -1,4 +1,11 @@
-# 4.4.1
+# 4.5.0
+- Minimum Godot version changed to 4.4
+- Added UIDs for all classes
+- Improve material handling in Viewport2Din3D
+- Improve performance by avoiding force_update_transform on grab driver
+- Don't trigger haptics when primary interface is null
+- Fix 'create_snap' desync
+- Fix grab with scaled pickables by swapping inverse for affine_inverse
 
 # 4.4.0
 - Minimum Godot version changed to 4.2
