@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ytsxet2k47lj"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/user_settings/user_settings_ui.gd" id="1"]
+[ext_resource type="Script" uid="uid://1kkudbch46t0" path="res://addons/godot-xr-tools/user_settings/user_settings_ui.gd" id="1"]
 
 [node name="UserSettingsUI" type="TabContainer"]
 offset_right = 214.0

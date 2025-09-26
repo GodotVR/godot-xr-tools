@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://7lfa2oytnw7o"]
 
 [ext_resource type="PackedScene" uid="uid://c2q5phg8w08o" path="res://addons/godot-xr-tools/functions/movement_jump.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/demo_scene_base.gd" id="2_5a8oj"]
+[ext_resource type="Script" uid="uid://clipxhr1jpdbq" path="res://scenes/demo_scene_base.gd" id="2_5a8oj"]
 [ext_resource type="PackedScene" uid="uid://rypqa6qcv0st" path="res://assets/maps/basic_map.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bjcxf427un2wp" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="5_euac3"]
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="6"]
@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="11"]
 [ext_resource type="Material" uid="uid://p0q2df2dmy62" path="res://addons/godot-xr-tools/hands/materials/ghost_hand.tres" id="12"]
 [ext_resource type="PackedScene" uid="uid://bxm1ply47vaan" path="res://addons/godot-xr-tools/functions/movement_climb.tscn" id="12_gkoml"]
-[ext_resource type="Resource" path="res://scenes/sprinting_demo/player_physics.tres" id="12_ureyg"]
+[ext_resource type="Resource" uid="uid://do6bg8ns70asv" path="res://scenes/sprinting_demo/player_physics.tres" id="12_ureyg"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="13"]
 [ext_resource type="PackedScene" uid="uid://deyk5frilshws" path="res://assets/meshes/control_pad/control_pad_location_right.tscn" id="13_fes4q"]
 [ext_resource type="Texture2D" uid="uid://ckw6nliyayo6a" path="res://scenes/main_menu/return to main menu.png" id="14"]

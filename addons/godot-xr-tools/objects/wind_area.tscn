@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://nack1qite6lx"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/wind_area.gd" id="1"]
+[ext_resource type="Script" uid="uid://c7l0klrkdolyw" path="res://addons/godot-xr-tools/objects/wind_area.gd" id="1"]
 
 [node name="WindArea" type="Area3D"]
 collision_layer = 524288

@@ -1,13 +1,13 @@
 [gd_scene load_steps=13 format=3 uid="uid://bqumugyvkct4r"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/staging/loading_screen.gd" id="2"]
+[ext_resource type="Script" uid="uid://bhi5ee6eerov0" path="res://addons/godot-xr-tools/staging/loading_screen.gd" id="2"]
 [ext_resource type="Shader" uid="uid://4i0pwdtfmtsv" path="res://addons/godot-xr-tools/staging/loading_screen/loading_screen_shader.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://clbtsf0ahb3fm" path="res://addons/godot-xr-tools/assets/misc/progress_bar.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://ocyj01x5mtt7" path="res://addons/godot-xr-tools/assets/misc/Hold trigger to continue.png" id="5"]
 [ext_resource type="PackedScene" uid="uid://cymteydkxagpp" path="res://addons/godot-xr-tools/misc/hold_button.tscn" id="6"]
 
 [sub_resource type="Curve" id="21"]
-max_value = 3.14
+_limits = [0.0, 3.14, 0.0, 1.0]
 _data = [Vector2(0.00207039, 0), 0.0, 1.00884, 0, 0, Vector2(1, 3.14), 0.313348, 0.0, 0, 0]
 point_count = 2
 
@@ -22,9 +22,9 @@ shading_mode = 0
 render_priority = 0
 shader = ExtResource("3")
 shader_parameter/bar_color = Color(1, 1, 1, 1)
+shader_parameter/bar_texture = ExtResource("4")
 shader_parameter/cutout = Vector3(4.85, 0.33, 0)
 shader_parameter/progress = 0.5
-shader_parameter/bar_texture = ExtResource("4")
 
 [sub_resource type="PlaneMesh" id="3"]
 material = SubResource("18")

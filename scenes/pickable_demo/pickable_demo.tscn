@@ -1,7 +1,7 @@
 [gd_scene load_steps=48 format=3 uid="uid://0c76wodjd7rm"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/pickable_demo/pickable_demo.gd" id="2_bs8b6"]
+[ext_resource type="Script" uid="uid://c80knr3rmwpbr" path="res://scenes/pickable_demo/pickable_demo.gd" id="2_bs8b6"]
 [ext_resource type="PackedScene" uid="uid://yrg5yt0yvc1q" path="res://addons/godot-xr-tools/hands/scenes/collision/collision_hand.tscn" id="3_m7tr4"]
 [ext_resource type="PackedScene" uid="uid://bjcxf427un2wp" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="4_iyttx"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="5"]
@@ -32,7 +32,7 @@
 [ext_resource type="PackedScene" uid="uid://chww0na0ryl1m" path="res://scenes/pickable_demo/objects/teacup.tscn" id="16_v5unt"]
 [ext_resource type="PackedScene" uid="uid://de0guxhrn5ouk" path="res://scenes/pickable_demo/objects/hammer.tscn" id="17"]
 [ext_resource type="PackedScene" uid="uid://bxk2dud5pq1uf" path="res://scenes/pickable_demo/objects/knife.tscn" id="19_6grml"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" id="19_iqmkd"]
+[ext_resource type="Script" uid="uid://bvnrc8puaxqel" path="res://addons/godot-xr-tools/objects/return_to_snap_zone.gd" id="19_iqmkd"]
 [ext_resource type="PackedScene" uid="uid://bmjemjgtnpkpo" path="res://assets/3dmodelscc0/models/scenes/sniper_rifle.tscn" id="25_xgu4l"]
 [ext_resource type="PackedScene" uid="uid://deuxld12hxsq0" path="res://scenes/pickable_demo/objects/picatinny_scope.tscn" id="26_x40vw"]
 

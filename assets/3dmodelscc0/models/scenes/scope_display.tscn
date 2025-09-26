@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://e8cx22o0aoxa"]
 
-[ext_resource type="Script" path="res://assets/3dmodelscc0/models/scenes/scope_display.gd" id="1_ggrlg"]
-[ext_resource type="Shader" path="res://assets/3dmodelscc0/models/scenes/scope_display.gdshader" id="2_il1pd"]
+[ext_resource type="Script" uid="uid://b5o1wahrso1t" path="res://assets/3dmodelscc0/models/scenes/scope_display.gd" id="1_ggrlg"]
+[ext_resource type="Shader" uid="uid://dx32yxdct3ivk" path="res://assets/3dmodelscc0/models/scenes/scope_display.gdshader" id="2_il1pd"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_fim7a"]
 viewport_path = NodePath("SubViewport")
@@ -10,9 +10,9 @@ viewport_path = NodePath("SubViewport")
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("2_il1pd")
+shader_parameter/scope_texture = SubResource("ViewportTexture_fim7a")
 shader_parameter/radius = 0.025
 shader_parameter/depth = 0.35
-shader_parameter/scope_texture = SubResource("ViewportTexture_fim7a")
 
 [sub_resource type="QuadMesh" id="QuadMesh_p2a2g"]
 size = Vector2(0.02, 0.02)

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cjyilbm4ucc7s"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/climbable.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqb3cy0ekk685" path="res://addons/godot-xr-tools/objects/climbable.gd" id="1"]
 
 [node name="Climbable" type="StaticBody3D"]
 collision_layer = 262145

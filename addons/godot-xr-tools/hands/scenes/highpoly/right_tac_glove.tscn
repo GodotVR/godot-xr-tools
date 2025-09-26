@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bxipj7hyjwy6f" path="res://addons/godot-xr-tools/hands/animations/right/AnimationPlayer.tscn" id="1"]
 [ext_resource type="PackedScene" uid="uid://w7th3d2hl7b5" path="res://addons/godot-xr-tools/hands/model/Hand_Glove_R.gltf" id="2"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand.gd" id="3"]
+[ext_resource type="Script" uid="uid://cnwtovj4mqc45" path="res://addons/godot-xr-tools/hands/hand.gd" id="3"]
 [ext_resource type="Resource" uid="uid://dmpjtk0l8vh6v" path="res://addons/godot-xr-tools/hands/poses/pose_default_right.tres" id="3_3ih8a"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://m85b1gogdums" path="res://addons/godot-xr-tools/hands/animations/right/hand_blend_tree.tres" id="4"]
 [ext_resource type="Material" uid="uid://f2uhcqq8s2jx" path="res://addons/godot-xr-tools/hands/materials/glove_caucasian_green_camo.tres" id="5"]

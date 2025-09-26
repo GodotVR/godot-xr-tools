@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://hpxufsmhvnq0"]
 
 [ext_resource type="PackedScene" uid="uid://ytsxet2k47lj" path="res://addons/godot-xr-tools/user_settings/user_settings_ui.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/main_menu/objects/settings_ui_content.gd" id="1_4ef25"]
+[ext_resource type="Script" uid="uid://c6swe01j0hpjr" path="res://scenes/main_menu/objects/settings_ui_content.gd" id="1_4ef25"]
 
 [node name="SettingsUIContent" type="VBoxContainer"]
 offset_right = 250.0

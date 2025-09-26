@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://yrg5yt0yvc1q"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/collision_hand.gd" id="1_vdcct"]
+[ext_resource type="Script" uid="uid://c8vnltn217quj" path="res://addons/godot-xr-tools/hands/collision_hand.gd" id="1_vdcct"]
 
 [node name="XRToolsCollisionHand" type="AnimatableBody3D"]
 collision_layer = 131072

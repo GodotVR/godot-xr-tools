@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://5ommq5on6irw"]
 
 [ext_resource type="PackedScene" uid="uid://cfagt23i6sx20" path="res://scenes/grappling_demo/objects/platform.tscn" id="2"]
-[ext_resource type="Script" path="res://scenes/grappling_demo/objects/moving_platforms.gd" id="3"]
+[ext_resource type="Script" uid="uid://bdppq2vtmfr3w" path="res://scenes/grappling_demo/objects/moving_platforms.gd" id="3"]
 
 [node name="MovingPlatforms" type="Node3D"]
 script = ExtResource("3")

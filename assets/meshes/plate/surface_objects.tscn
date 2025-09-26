@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://dkladw5jiqfnb" path="res://assets/footsteps/puddle_footstep.wav" id="4_ql6qg"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="5"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="6"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="7"]
+[ext_resource type="Script" uid="uid://bsk5funnj0084" path="res://addons/godot-xr-tools/audio/surface_audio_type.gd" id="7"]
 [ext_resource type="AudioStream" uid="uid://bu3r7384vd488" path="res://assets/footsteps/mud_footstep.wav" id="7_f6aya"]
 [ext_resource type="AudioStream" uid="uid://dl3u65cveimdq" path="res://assets/footsteps/grass_footstep.wav" id="9_4132b"]
 [ext_resource type="AudioStream" uid="uid://c7670m64eawbp" path="res://assets/footsteps/snow_footstep.wav" id="11_u808p"]

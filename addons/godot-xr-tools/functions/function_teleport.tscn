@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://fiul51tsyoop"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_teleport.gd" id="1"]
+[ext_resource type="Script" uid="uid://blaa027erhjlp" path="res://addons/godot-xr-tools/functions/function_teleport.gd" id="1"]
 [ext_resource type="Material" uid="uid://bk72wfw25ff0v" path="res://addons/godot-xr-tools/materials/teleport.tres" id="2"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/target.tres" id="3"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/capsule.tres" id="4"]

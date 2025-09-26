@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cfagt23i6sx20"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/climbable.gd" id="1"]
+[ext_resource type="Script" uid="uid://bqb3cy0ekk685" path="res://addons/godot-xr-tools/objects/climbable.gd" id="1"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="2"]
 
 [sub_resource type="BoxMesh" id="3"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cme66uldrjl2i"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="1"]
+[ext_resource type="Script" uid="uid://dq042kibpfryy" path="res://addons/godot-xr-tools/interactables/interactable_area_button.gd" id="1"]
 
 [node name="InteractableAreaButton" type="Area3D"]
 collision_layer = 0

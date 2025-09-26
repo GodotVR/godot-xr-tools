@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b0r6edl74ddo7"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/interactables/interactable_slider.gd" id="1"]
+[ext_resource type="Script" uid="uid://cloxfr8r3b00u" path="res://addons/godot-xr-tools/interactables/interactable_slider.gd" id="1"]
 
 [node name="InteractableSlider" type="Node3D"]
 script = ExtResource("1")

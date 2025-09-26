@@ -2,9 +2,9 @@
 
 [ext_resource type="PackedScene" uid="uid://16colgxrw27d" path="res://addons/godot-xr-tools/hands/model/Hand_low_L.gltf" id="1"]
 [ext_resource type="PackedScene" uid="uid://the6y7swe6j0" path="res://addons/godot-xr-tools/hands/animations/left/AnimationPlayer.tscn" id="2"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/physics_hand.gd" id="3"]
+[ext_resource type="Script" uid="uid://2vypvkq7n27l" path="res://addons/godot-xr-tools/hands/physics_hand.gd" id="3"]
 [ext_resource type="Resource" uid="uid://dertgu7k8alls" path="res://addons/godot-xr-tools/hands/poses/pose_default_left.tres" id="3_4017m"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" id="4"]
+[ext_resource type="Script" uid="uid://bfo7c10rq6xuu" path="res://addons/godot-xr-tools/hands/hand_physics_bone.gd" id="4"]
 [ext_resource type="Material" uid="uid://ds2dpvbpht0ea" path="res://addons/godot-xr-tools/hands/materials/labglove.tres" id="5"]
 [ext_resource type="AnimationNodeBlendTree" uid="uid://dl8yf7ipqotd1" path="res://addons/godot-xr-tools/hands/animations/left/hand_blend_tree.tres" id="7"]
 

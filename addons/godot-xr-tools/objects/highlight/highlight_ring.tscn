@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://da2qgxxwwitl6"]
 
-[ext_resource type="Script" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.gd" id="1"]
+[ext_resource type="Script" uid="uid://b8waaso7b6bsr" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.gd" id="1"]
 [ext_resource type="Material" path="res://addons/godot-xr-tools/objects/highlight/highlight_ring.tres" id="2"]
 
 [sub_resource type="QuadMesh" id="1"]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=54 format=3 uid="uid://037lluf8eoy6"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
-[ext_resource type="Script" path="res://scenes/main_menu/main_menu_level.gd" id="2_taoax"]
+[ext_resource type="Script" uid="uid://dlriiyt84wd6" path="res://scenes/main_menu/main_menu_level.gd" id="2_taoax"]
 [ext_resource type="PackedScene" uid="uid://b228p8k6sonve" path="res://addons/godot-xr-tools/player/fade/fade_collision.tscn" id="3_ocaqi"]
 [ext_resource type="PackedScene" uid="uid://do1wif8rpqtwj" path="res://addons/godot-xr-tools/functions/function_gaze_pointer.tscn" id="4_b4cul"]
 [ext_resource type="PackedScene" uid="uid://bjcxf427un2wp" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="4_eoo0b"]

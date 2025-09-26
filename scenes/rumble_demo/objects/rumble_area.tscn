@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqcuhdwpar4ju"]
 
-[ext_resource type="Script" path="res://scenes/rumble_demo/objects/rumble_area.gd" id="1_0xik5"]
+[ext_resource type="Script" uid="uid://0g1u31w4qtjx" path="res://scenes/rumble_demo/objects/rumble_area.gd" id="1_0xik5"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_hoknj"]
 height = 3.26948

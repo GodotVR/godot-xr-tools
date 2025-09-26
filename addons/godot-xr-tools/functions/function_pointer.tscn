@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cqhw276realc"]
 
 [ext_resource type="Material" path="res://addons/godot-xr-tools/materials/pointer.tres" id="1"]
-[ext_resource type="Script" path="res://addons/godot-xr-tools/functions/function_pointer.gd" id="2"]
+[ext_resource type="Script" uid="uid://cvnagt08r6ul4" path="res://addons/godot-xr-tools/functions/function_pointer.gd" id="2"]
 
 [sub_resource type="BoxMesh" id="1"]
 resource_local_to_scene = true
