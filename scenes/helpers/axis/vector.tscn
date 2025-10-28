@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://cfnu7rw2u32xx"]
+
+[ext_resource type="Script" uid="uid://6ith0ae5jnuy" path="res://scenes/helpers/axis/vector.gd" id="1_dofip"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dofip"]
+resource_local_to_scene = true
+resource_name = "VectorMaterial"
+shading_mode = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j8k8m"]
+top_radius = 0.002
+bottom_radius = 0.002
+height = 0.1
+radial_segments = 16
+rings = 0
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_axhod"]
+top_radius = 0.0
+bottom_radius = 0.005
+height = 0.02
+radial_segments = 16
+rings = 0
+cap_top = false
+
+[node name="Vector" type="Node3D"]
+script = ExtResource("1_dofip")
+
+[node name="Stem" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.05)
+layers = 4
+material_override = SubResource("StandardMaterial3D_dofip")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_j8k8m")
+
+[node name="Head" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.11)
+layers = 4
+material_override = SubResource("StandardMaterial3D_dofip")
+cast_shadow = 0
+mesh = SubResource("CylinderMesh_axhod")

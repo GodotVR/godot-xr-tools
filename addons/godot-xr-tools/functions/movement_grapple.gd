@@ -65,6 +65,16 @@ const DEFAULT_ENABLE_MASK := 0b0000_0000_0000_0000_0000_0000_0001_0000
 ## conflict with other functions.
 @export var grapple_button_action : String = "trigger_click"
 
+## Hand offset to apply based on our controller pose
+## You can use auto if you're using the default aim_pose or grip_pose poses.
+@export_enum("auto", "aim", "grip", "palm", "disable") var hand_offset_mode : int = 0:
+	set(value):
+		hand_offset_mode = value
+		notify_property_list_changed()
+		if is_inside_tree():
+			_update_transform()
+
+
 # Hook related variables
 var hook_object : Node3D = null
 var hook_local := Vector3(0,0,0)
@@ -73,14 +83,17 @@ var hook_point := Vector3(0,0,0)
 # Grapple button state
 var _grapple_button := false
 
-# Get line creation nodes
-@onready var _line_helper : Node3D = $LineHelper
-@onready var _line : CSGCylinder3D = $LineHelper/Line
-
 # Get Controller node - consider way to universalize this if user wanted to
 # attach this to a gun instead of player's hand.  Could consider variable to
 # select controller instead.
-@onready var _controller := XRHelpers.get_xr_controller(self)
+var _controller : XRController3D
+
+# Keep track of our tracker and pose
+var _controller_tracker_and_pose : String = ""
+
+# Get line creation nodes
+@onready var _line_helper : Node3D = $LineHelper
+@onready var _line : CSGCylinder3D = $LineHelper/Line
 
 # Get Raycast node
 @onready var _grapple_raycast : RayCast3D = $Grapple_RayCast
@@ -115,6 +128,40 @@ func _ready():
 	# Deal with line
 	_line.radius = rope_width
 	_line.hide()
+
+
+func _enter_tree():
+	_controller = XRHelpers.get_xr_controller(self)
+
+	_update_transform()
+
+
+func _exit_tree():
+	_controller = null
+
+
+# Check property config
+func _validate_property(property):
+	if hand_offset_mode != 4 and (property.name == "position" or property.name == "rotation" or property.name == "scale" or property.name == "rotation_edit_mode" or property.name == "rotation_order"):
+		# We control these, don't let the user set them.
+		property.usage = PROPERTY_USAGE_NONE
+
+
+# Update our transform so we are positioned on our palm
+func _update_transform() -> void:
+	if hand_offset_mode != 4:
+		transform = XRTools.get_palm_offset(hand_offset_mode, _controller)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta):
+	# If we have a controller, make sure our hand transform is updated when needed.
+	if _controller:
+		var tracker_and_pose = _controller.tracker + "." + _controller.pose
+		if _controller_tracker_and_pose != tracker_and_pose:
+			_controller_tracker_and_pose = tracker_and_pose
+			if hand_offset_mode == 0:
+				_update_transform()
 
 
 # Update the grappling line and target

@@ -64,9 +64,20 @@ const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right
 ## How much this grab-point drives the aim
 @export var drive_aim : float = 0.0
 
-
 ## Hand to use for editor preview
 var _editor_preview_hand : XRToolsHand
+
+# Adjust the grab point from our old aim positioning, to our palm positioning.
+func get_palm_transform(global : bool = false) -> Transform3D:
+	var adj_transform : Transform3D = global_transform if global else transform
+
+	# Historically our hands have always been positioned based on our aim,
+	# So we apply our old hardcoded offset, but adjusted for our palm center.
+	var aim_offset := Transform3D()
+	aim_offset.origin = Vector3(-0.02 if hand == Hand.LEFT else 0.02, -0.05, 0.10)
+	adj_transform = adj_transform * aim_offset
+
+	return adj_transform
 
 
 ## Called when the node enters the scene tree for the first time.
@@ -142,6 +153,14 @@ func _update_editor_preview() -> void:
 	# Construct the model
 	_editor_preview_hand = hand_scene.instantiate()
 
+	# Keep this backwards compatible,
+	# position the hand according to the original aim logic
+	var custom_offset := Transform3D()
+	# Note, base transform adds another 0.01 to x and 0.05 to z, it doesn't know which hand we're on.
+	custom_offset.origin = Vector3(-0.04 if hand == Hand.LEFT else 0.02, -0.05, 0.10)
+	_editor_preview_hand.hand_offset_mode = 4 # Custom
+	_editor_preview_hand.hand_custom_offset = custom_offset
+
 	# Set the pose
 	if hand_pose:
 		_editor_preview_hand.add_pose_override(self, 0.0, hand_pose)
@@ -153,7 +172,7 @@ func _update_editor_preview() -> void:
 		_editor_preview_hand.force_grip_trigger(0.0, 0.0)
 
 	# Add the editor-preview hand as a child
-	add_child(_editor_preview_hand)
+	add_child(_editor_preview_hand, false, Node.INTERNAL_MODE_BACK)
 
 
 # Is the grabber for the correct hand

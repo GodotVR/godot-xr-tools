@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 class_name XRToolsFunctionPointer
-extends Node3D
+extends XRToolsHandAimOffset
 
 
 ## XR Tools Function Pointer Script
@@ -116,9 +116,6 @@ var _controller_left_node : XRController3D
 # Right controller node
 var _controller_right_node : XRController3D
 
-# Parent controller (if this pointer is childed to a specific controller)
-var _controller  : XRController3D
-
 # The currently active controller
 var _active_controller : XRController3D
 
@@ -129,7 +126,9 @@ func is_xr_class(name : String) -> bool:
 
 
 # Called when the node enters the scene tree for the first time.
-func _ready():
+func _enter_tree():
+	super._enter_tree()
+
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -138,7 +137,6 @@ func _ready():
 	_world_scale = XRServer.world_scale
 
 	# Check for a parent controller
-	_controller = XRHelpers.get_xr_controller(self)
 	if _controller:
 		# Set as active on the parent controller
 		_active_controller = _controller
@@ -147,6 +145,9 @@ func _ready():
 		_controller.button_pressed.connect(_on_button_pressed.bind(_controller))
 		_controller.button_released.connect(_on_button_released.bind(_controller))
 	else:
+		# Disable this if we don't have a controller
+		hand_offset_mode = 4
+
 		# Get the left and right controllers
 		_controller_left_node = XRHelpers.get_left_controller(self)
 		_controller_right_node = XRHelpers.get_right_controller(self)
@@ -176,9 +177,37 @@ func _ready():
 	_update_suppress_radius()
 	_update_suppress_mask()
 
+func _exit_tree():
+	_active_controller = null
+
+	if _controller:
+		_controller.button_pressed.disconnect(_on_button_pressed.bind(_controller))
+		_controller.button_released.disconnect(_on_button_released.bind(_controller))
+
+		# This will be unset in our superclass method
+
+	if _controller_left_node:
+		_controller_left_node.button_pressed.disconnect(
+				_on_button_pressed.bind(_controller_left_node))
+		_controller_left_node.button_released.disconnect(
+				_on_button_released.bind(_controller_left_node))
+
+		_controller_left_node = null
+
+	if _controller_right_node:
+		_controller_right_node.button_pressed.disconnect(
+				_on_button_pressed.bind(_controller_right_node))
+		_controller_right_node.button_released.disconnect(
+				_on_button_released.bind(_controller_right_node))
+
+		_controller_right_node = null
+
+	super._exit_tree()
 
 # Called on each frame to update the pickup
-func _process(_delta):
+func _process(delta):
+	super._process(delta)
+
 	# Do not process if in the editor
 	if Engine.is_editor_hint() or !is_inside_tree():
 		return

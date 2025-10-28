@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsHand
-extends Node3D
+extends XRToolsHandPalmOffset
 
 
 ## XR Tools Hand Script
@@ -16,7 +16,6 @@ extends Node3D
 
 ## Signal emitted when the hand scale changes
 signal hand_scale_changed(scale)
-
 
 ## Blend tree to use
 @export var hand_blend_tree : AnimationNodeBlendTree: set = set_hand_blend_tree
@@ -33,12 +32,8 @@ signal hand_scale_changed(scale)
 ## Name of the Trigger action in the OpenXR Action Map.
 @export var trigger_action : String = "trigger"
 
-
 ## Last world scale (for scaling hands)
 var _last_world_scale : float = 1.0
-
-## Controller used for input/tracking
-var _controller : XRController3D
 
 ## Initial hand transform (from controller) - used for scaling hands
 var _initial_transform : Transform3D
@@ -124,9 +119,6 @@ func _ready() -> void:
 		top_level = true
 		process_physics_priority = -70
 
-	# Find our controller
-	_controller = XRTools.find_xr_ancestor(self, "*", "XRController3D")
-
 	# Find the relevant hand nodes
 	_hand_mesh = _find_child(self, "MeshInstance3D")
 	_animation_player = _find_child(self, "AnimationPlayer")
@@ -139,11 +131,30 @@ func _ready() -> void:
 	_update_target()
 
 
+# Called when we get added to our tree
+func _enter_tree():
+	# Assume our first child is our hand subscene, we position this
+	var child = get_child(0)
+	if child:
+		set_apply_to(child)
+
+	super._enter_tree()
+
+	# Offset our hand
+	var base_transform = Transform3D()
+	if _controller and _controller.tracker == "left_hand":
+		base_transform.origin = Vector3(-0.01, 0.0, 0.05)
+	else:
+		base_transform.origin = Vector3(0.01, 0.0, 0.05)
+
+	set_base_transform(base_transform)
+
+
 ## This method checks for world-scale changes and scales itself causing the
 ## hand mesh and skeleton to scale appropriately. It then reads the grip and
 ## trigger action values to animate the hand.
 func _physics_process(_delta: float) -> void:
-	# Do not run physics if in the editor
+	# Do not run the rest of physics if in the editor
 	if Engine.is_editor_hint():
 		return
 
@@ -166,13 +177,21 @@ func _physics_process(_delta: float) -> void:
 		$AnimationTree.set("parameters/Trigger/blend_amount", trigger)
 
 	# Move to target
-	global_transform = _target.global_transform * _transform
+	var target_transform : Transform3D
+	if _target is XRToolsGrabPointHand:
+		target_transform = _target.get_palm_transform(true)
+		if hand_offset_mode != 4:
+			target_transform = target_transform * XRTools.get_palm_offset(hand_offset_mode, _controller).inverse()
+	else:
+		target_transform = _target.global_transform
+
+	global_transform = target_transform * _transform
 	force_update_transform()
 
 
 # This method verifies the hand has a valid configuration.
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
+	var warnings : PackedStringArray = super._get_configuration_warnings()
 
 	# Check hand for mesh instance
 	if not _find_child(self, "MeshInstance3D"):
@@ -220,6 +239,15 @@ static func find_right(node : Node) -> XRToolsHand:
 		XRHelpers.get_right_controller(node),
 		"*",
 		"XRToolsHand") as XRToolsHand
+
+
+# Check property config
+func _validate_property(property):
+	if property.name == "top_level":
+		# Hide it!
+		property.usage = PROPERTY_USAGE_NONE
+	else:
+		super._validate_property(property)
 
 
 ## Set the blend tree

@@ -5,3 +5,4 @@
 [node name="GrabPointHandLeft" type="Marker3D"]
 visible = false
 script = ExtResource("1")
+hand_offset_mode = null

@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://b0l4n05yrf11b" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_jump.gd" id="1_tccpc"]
 
-[node name="MovementDesktopJump" type="Node" groups=["movement_providers"]]
+[node name="MovementDesktopJump" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1_tccpc")

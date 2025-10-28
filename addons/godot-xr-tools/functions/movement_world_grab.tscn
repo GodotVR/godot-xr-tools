@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://bgq1jyvtogcll" path="res://addons/godot-xr-tools/functions/movement_world_grab.gd" id="1_0qp8q"]
 
-[node name="MovementWorldGrab" type="Node" groups=["movement_providers"]]
+[node name="MovementWorldGrab" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1_0qp8q")

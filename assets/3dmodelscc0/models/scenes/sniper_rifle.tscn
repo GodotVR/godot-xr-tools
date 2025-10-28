@@ -152,6 +152,7 @@ surface_material_override/0 = ExtResource("8_7v2rw")
 surface_material_override/0 = ExtResource("8_7v2rw")
 
 [node name="FirearmSlide" type="Node3D" parent="sniper_rifle" index="1"]
+visible = false
 script = ExtResource("7_gwebu")
 slider_end = 0.072
 
@@ -163,13 +164,12 @@ collision_mask = 0
 [node name="HandleCollision" type="CollisionShape3D" parent="sniper_rifle/FirearmSlide/SliderBody" index="0"]
 shape = SubResource("SphereShape3D_exh4i")
 
-[node name="Bolt" type="MeshInstance3D" parent="sniper_rifle/FirearmSlide/SliderBody" index="1" node_paths=PackedStringArray("_owner", "_handle", "_slide")]
+[node name="Bolt" type="MeshInstance3D" parent="sniper_rifle/FirearmSlide/SliderBody" index="1" node_paths=PackedStringArray("_handle", "_slide")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00116384, 0.0329033, 0.153958)
 mesh = SubResource("ArrayMesh_rl240")
 skeleton = NodePath("")
 surface_material_override/0 = ExtResource("8_7v2rw")
 script = ExtResource("8_g4gvf")
-_owner = NodePath("../../../..")
 _handle = NodePath("../../HandleOrigin/InteractableHandle")
 _slide = NodePath("../..")
 value = Vector3(0, 0, 75)

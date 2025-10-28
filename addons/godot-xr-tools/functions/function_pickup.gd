@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 class_name XRToolsFunctionPickup
-extends Node3D
+extends XRToolsHandPalmOffset
 
 
 ## XR Tools Function Pickup Script
@@ -87,11 +87,8 @@ var _ranged_area : Area3D
 var _ranged_collision : CollisionShape3D
 var _active_copied_collisions : Array[CopiedCollision]
 
-## Controller
-@onready var _controller := XRHelpers.get_xr_controller(self)
-
 ## Collision hand (if applicable)
-@onready var _collision_hand : XRToolsCollisionHand = XRToolsCollisionHand.find_ancestor(self)
+@onready var _collision_hand : XRToolsCollisionHand
 
 ## Grip threshold (from configuration)
 @onready var _grip_threshold : float = XRTools.get_grip_threshold()
@@ -147,13 +144,35 @@ func _ready():
 	# Update the colliders
 	_update_colliders()
 
+
+# Called when we're added to the tree
+func _enter_tree():
+	super._enter_tree()
+
+	_collision_hand = XRToolsCollisionHand.find_ancestor(self)
+
 	# Monitor Grab Button
-	_controller.connect("button_pressed", _on_button_pressed)
-	_controller.connect("button_released", _on_button_released)
+	if _controller:
+		_controller.button_pressed.connect(_on_button_pressed)
+		_controller.button_released.connect(_on_button_released)
+
+# Called when we exit the tree
+func _exit_tree():
+	if _controller:
+		_controller.button_pressed.disconnect(_on_button_pressed)
+		_controller.button_released.disconnect(_on_button_released)
+
+	if _collision_hand:
+		_remove_copied_collisions()
+		_collision_hand = null
+
+	super._exit_tree()
 
 
 # Called on each frame to update the pickup
 func _process(delta):
+	super._process(delta)
+
 	# Do not process if in the editor
 	if Engine.is_editor_hint():
 		return

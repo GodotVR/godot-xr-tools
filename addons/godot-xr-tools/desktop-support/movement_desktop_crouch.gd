@@ -81,4 +81,3 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 			player_body.override_player_height(self, crouch_height)
 		else:
 			player_body.override_player_height(self)
-

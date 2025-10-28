@@ -134,4 +134,3 @@ static func _get_controller(
 
 	# Could not find the controller
 	return null
-

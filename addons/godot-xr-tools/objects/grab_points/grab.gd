@@ -63,8 +63,11 @@ func _init(
 	hand_point = p_point as XRToolsGrabPointHand
 
 	# Calculate the grab transform
-	if p_point:
-		transform = p_point.transform
+	if hand_point:
+		# Get our adjusted grab point (palm position)
+		transform = hand_point.get_palm_transform()
+	elif point:
+		transform = point.transform
 	elif p_precise:
 		transform = p_what.global_transform.affine_inverse() * by.global_transform
 	else:
@@ -113,7 +116,8 @@ func set_grab_point(p_point : XRToolsGrabPoint) -> void:
 
 	# Update the transform
 	if point:
-		transform = point.transform
+		# Get our adjusted grab point (palm position)
+		transform = p_point.get_palm_transform()
 
 	# Apply the new hand grab-point settings
 	if hand_point:

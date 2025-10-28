@@ -2,6 +2,5 @@
 
 [ext_resource type="Script" uid="uid://ciqexxqb7lxs4" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_direct.gd" id="1_e8v0q"]
 
-[node name="MovementDesktopDirect" type="Node" groups=["movement_providers"]]
+[node name="MovementDesktopDirect" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1_e8v0q")
-strafe = true

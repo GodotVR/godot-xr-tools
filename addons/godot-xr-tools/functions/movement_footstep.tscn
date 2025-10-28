@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://clpt3lske02eh" path="res://addons/godot-xr-tools/functions/movement_footstep.gd" id="1"]
 
-[node name="MovementFootstep" type="Node" groups=["movement_providers"]]
+[node name="MovementFootstep" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1")
 
 [node name="PlayerSettings" type="AudioStreamPlayer3D" parent="."]

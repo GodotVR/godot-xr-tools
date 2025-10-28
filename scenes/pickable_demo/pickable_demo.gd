@@ -1,3 +1,4 @@
+@tool
 extends DemoSceneBase
 
 @onready var left_hand : XRToolsHand = $XROrigin3D/LeftHand/XRToolsCollisionHand/LeftHand
@@ -6,6 +7,9 @@ extends DemoSceneBase
 @onready var right_ghost_hand : XRToolsHand = $XROrigin3D/RightHand/GhostHand
 
 func _process(_delta):
+	if Engine.is_editor_hint():
+		return
+
 	# Show our ghost hands when when our visible hands aren't where our hands are...
 	if left_hand and left_ghost_hand:
 		var offset = left_hand.global_position - left_ghost_hand.global_position

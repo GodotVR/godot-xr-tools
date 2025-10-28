@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://vuhhcx5m67gt" path="res://addons/godot-xr-tools/functions/movement_crouch.gd" id="1"]
 
-[node name="MovementCrouch" type="Node" groups=["movement_providers"]]
+[node name="MovementCrouch" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1")
