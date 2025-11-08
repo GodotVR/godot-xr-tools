@@ -122,7 +122,12 @@ func rotate_and_collide( \
 	# Convert collision exceptions to a RID array
 	var exception_rids : Array[RID]
 	for collision_exception in get_collision_exceptions():
-		exception_rids.push_back(collision_exception.get_rid())
+		# It is our responsibility to remove exceptions before freeing the object, but sometimes
+		# that is hard.
+		if is_instance_valid(collision_exception):
+			exception_rids.push_back(collision_exception.get_rid())
+		else:
+			push_warning("freed object still exists in a collision exception")
 
 	# Prevent collisions with ourselves
 	exception_rids.push_back(get_rid())
