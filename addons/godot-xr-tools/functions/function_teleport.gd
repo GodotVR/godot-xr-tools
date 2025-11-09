@@ -12,6 +12,11 @@ extends Node3D
 ## a teleport function on that controller.
 
 
+
+## Signal emitted when this teleporter's state changed
+signal teleporter_event(event)
+
+
 # Default teleport collision mask of all
 const DEFAULT_MASK := 0b1111_1111_1111_1111_1111_1111_1111_1111
 
@@ -84,8 +89,10 @@ var player_material : StandardMaterial3D = _DefaultMaterial :  set = set_player_
 
 
 var is_on_floor : bool = true
-var is_teleporting : bool = false
-var can_teleport : bool = true
+var is_teleporting : bool = false: set = set_is_teleporting
+var can_teleport : bool = false: set = set_can_teleport
+var target_node : Node3D = null
+var target_hit_pos : Vector3
 var teleport_rotation : float = 0.0;
 var floor_normal : Vector3 = Vector3.UP
 var last_target_transform : Transform3D = Transform3D()
@@ -154,7 +161,7 @@ func _physics_process(delta):
 	# if we're not enabled no point in doing mode
 	if !enabled:
 		# reset these
-		is_teleporting = false;
+		is_teleporting = false
 		$Teleport.visible = false
 		$Target.visible = false
 
@@ -277,6 +284,9 @@ func _physics_process(delta):
 						if not valid_teleport_mask & collider_mask:
 							is_on_floor = false
 
+						if is_on_floor:
+							_update_target(intersects["collider"], collided_at)
+
 				# we are colliding, find our if we're colliding on a wall or
 				# floor, one we can do, the other nope...
 				cast_length += (collided_at - target_global_origin).length()
@@ -331,6 +341,7 @@ func _physics_process(delta):
 
 			# Teleport the player
 			player_body.teleport(new_transform)
+			XRToolsTeleporterEvent.teleported(self, is_teleporting, can_teleport, target_node, new_transform.origin)
 
 		# and disable
 		is_teleporting = false;
@@ -452,6 +463,27 @@ func _update_target_texture():
 		material.albedo_texture = target_texture
 
 
+# Set property telling whether all conditions for successful teleportation are met
+func set_can_teleport(new_value : bool) -> void:
+	if new_value != can_teleport:
+		if not new_value:
+			_clear_target()
+		can_teleport = new_value
+		XRToolsTeleporterEvent.can_teleport_changed(self, is_teleporting, can_teleport, target_node, target_hit_pos)
+
+
+# Set is_teleporting property and notify about its changes
+func set_is_teleporting(new_value : bool) -> void:
+	if new_value != is_teleporting:
+		if new_value:
+			XRToolsTeleporterEvent.activated(self, can_teleport, target_node, target_hit_pos)
+		else:
+			_clear_target()
+			can_teleport = false
+			XRToolsTeleporterEvent.deactivated(self, can_teleport, target_node, target_hit_pos)
+		is_teleporting = new_value
+
+
 # Player height update handler
 func _update_player_height() -> void:
 	if collision_shape:
@@ -493,3 +525,22 @@ func _update_player_scene() -> void:
 func _update_player_material():
 	if player_material:
 		capsule.set_surface_override_material(0, player_material)
+
+
+# Teleporter target doesn't hit something suitable
+func _clear_target():
+	_update_target(null, Vector3.ZERO)
+
+
+# Teleporter target hit something suitiable change handler
+func _update_target(node: Node3D, hit_pos: Vector3) -> void:
+	if node == target_node:
+		if (hit_pos != target_hit_pos):
+			XRToolsTeleporterEvent.moved(self, is_teleporting, can_teleport, node, hit_pos, target_hit_pos)
+	else:
+		if target_node != null:
+			XRToolsTeleporterEvent.exited(self, is_teleporting, can_teleport, target_node, target_hit_pos)
+		if node != null:
+			XRToolsTeleporterEvent.entered(self, is_teleporting, can_teleport, node, hit_pos)
+	target_node = node
+	target_hit_pos = hit_pos
