@@ -6,6 +6,8 @@
 - Don't trigger haptics when primary interface is null
 - Fix 'create_snap' desync
 - Fix grab with scaled pickables by swapping inverse for affine_inverse
+- Fix "UP" direction in player movement
+- Gracefully handle freed objects with collision exceptions
 
 # 4.4.0
 - Minimum Godot version changed to 4.2
