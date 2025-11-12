@@ -87,15 +87,15 @@ func _process(_delta: float) -> void:
 
 
 # Move the hinge to the specified position
-func move_hinge(position: float) -> void:
+func move_hinge(pos: float) -> void:
 	# Do the hinge move
-	position = _do_move_hinge(position)
-	if position == _hinge_position_rad:
+	pos = _do_move_hinge(pos)
+	if pos == _hinge_position_rad:
 		return
 
 	# Update the current positon
-	_hinge_position_rad = position
-	hinge_position = rad_to_deg(position)
+	_hinge_position_rad = pos
+	hinge_position = rad_to_deg(pos)
 
 	# Emit the moved signal
 	emit_signal("hinge_moved", hinge_position)
@@ -127,10 +127,9 @@ func _set_hinge_steps(value: float) -> void:
 
 # Called when hinge_position is set externally
 func _set_hinge_position(value: float) -> void:
-	var position := deg_to_rad(value)
-	position = _do_move_hinge(position)
-	hinge_position = rad_to_deg(position)
-	_hinge_position_rad = position
+	var pos = _do_move_hinge(deg_to_rad(value))
+	hinge_position = rad_to_deg(pos)
+	_hinge_position_rad = pos
 
 
 # Called when default_position is set externally
@@ -140,17 +139,17 @@ func _set_default_position(value: float) -> void:
 
 
 # Do the hinge move
-func _do_move_hinge(position: float) -> float:
+func _do_move_hinge(pos: float) -> float:
 	# Apply hinge step-quantization
 	if _hinge_steps_rad:
-		position = round(position / _hinge_steps_rad) * _hinge_steps_rad
+		pos = round(pos / _hinge_steps_rad) * _hinge_steps_rad
 
 	# Apply hinge limits
-	position = clamp(position, _hinge_limit_min_rad, _hinge_limit_max_rad)
+	pos = clamp(pos, _hinge_limit_min_rad, _hinge_limit_max_rad)
 
 	# Move if necessary
-	if position != _hinge_position_rad:
-		transform.basis = Basis.from_euler(Vector3(position, 0.0, 0.0))
+	if pos != _hinge_position_rad:
+		transform.basis = Basis.from_euler(Vector3(pos, 0.0, 0.0))
 
 	# Return the updated position
-	return position
+	return pos
