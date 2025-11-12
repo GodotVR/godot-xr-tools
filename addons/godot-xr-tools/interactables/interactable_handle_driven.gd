@@ -24,18 +24,36 @@ signal released(interactable)
 var grabbed_handles := Array()
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandleDriven"
+## Transform3D that ignores driven behavior
+var _private_transform : Transform3D
+var _is_driven_change := false
 
 
-# Called when the node enters the scene tree for the first time.
+func _enter_tree() -> void:
+	set_notify_local_transform(true)  
+
+
 func _ready():
+	_private_transform = transform
+
 	# Hook picked_up and dropped signals from all child handles
 	_hook_child_handles(self)
 
 	# Turn off processing until a handle is grabbed
 	set_process(false)
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_LOCAL_TRANSFORM_CHANGED:
+		# If change NOT from driven behavior
+		if !_is_driven_change:
+			_private_transform = transform
+		_is_driven_change = false
+
+
+# Add support for is_xr_class on XRTools classes
+func is_xr_class(name : String) -> bool:
+	return name == "XRToolsInteractableHandleDriven"
 
 
 # Called when a handle is picked up
