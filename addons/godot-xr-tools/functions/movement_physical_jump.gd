@@ -84,7 +84,7 @@ class SlidingAverage:
 		_sum -= _data[_pos]
 
 		# Store the new entry in the array and circularly advance the index
-		_data[_pos] = entry;
+		_data[_pos] = entry
 		_pos = (_pos + 1) % _size
 
 		# Return the average
@@ -140,7 +140,7 @@ func _detect_body_jump(delta: float, player_body: XRToolsPlayerBody) -> void:
 
 	# Ignore zero moves (either not tracking, or no update since last physics)
 	if abs(camera_vel) < 0.001:
-		return;
+		return
 
 	# Correct for world-scale (convert to player units)
 	camera_vel /= XRServer.world_scale

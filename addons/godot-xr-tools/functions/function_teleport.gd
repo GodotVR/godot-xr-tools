@@ -86,7 +86,7 @@ var player_material : StandardMaterial3D = _DefaultMaterial :  set = set_player_
 var is_on_floor : bool = true
 var is_teleporting : bool = false
 var can_teleport : bool = true
-var teleport_rotation : float = 0.0;
+var teleport_rotation : float = 0.0
 var floor_normal : Vector3 = Vector3.UP
 var last_target_transform : Transform3D = Transform3D()
 var collision_shape : Shape3D
@@ -154,7 +154,7 @@ func _physics_process(delta):
 	# if we're not enabled no point in doing mode
 	if !enabled:
 		# reset these
-		is_teleporting = false;
+		is_teleporting = false
 		$Teleport.visible = false
 		$Target.visible = false
 
@@ -333,7 +333,7 @@ func _physics_process(delta):
 			player_body.teleport(new_transform)
 
 		# and disable
-		is_teleporting = false;
+		is_teleporting = false
 		$Teleport.visible = false
 		$Target.visible = false
 

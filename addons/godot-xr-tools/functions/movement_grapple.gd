@@ -209,7 +209,7 @@ func _set_grappling(active: bool) -> void:
 		return
 
 	# Update the is_active flag
-	is_active = active;
+	is_active = active
 
 	# Report transition
 	if is_active:
