@@ -16,7 +16,7 @@ height = 0.01
 radial_segments = 32
 rings = 16
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgik7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uvdwq"]
 transparency = 1
 shading_mode = 0
 albedo_color = Color(0.8, 0.8, 1, 0.5)
@@ -36,7 +36,7 @@ shape = SubResource("1")
 
 [node name="MeshInstance" type="MeshInstance3D" parent="PokeBody"]
 mesh = SubResource("2")
-surface_material_override/0 = SubResource("StandardMaterial3D_hgik7")
+surface_material_override/0 = SubResource("StandardMaterial3D_uvdwq")
 
 [node name="Rumbler" type="Node" parent="."]
 script = ExtResource("3_41fwo")

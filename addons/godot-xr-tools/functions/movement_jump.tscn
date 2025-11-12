@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://dur4rs2uhr6cp" path="res://addons/godot-xr-tools/functions/movement_jump.gd" id="1"]
 
-[node name="MovementJump" type="Node" groups=["movement_providers"]]
+[node name="MovementJump" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1")

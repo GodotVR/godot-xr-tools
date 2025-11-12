@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/function.svg")
 class_name XRToolsFunctionTeleport
-extends Node3D
+extends XRToolsHandPalmOffset
 
 
 ## XR Tools Function Teleport Script
@@ -106,14 +106,18 @@ var player : Node3D
 ## [XRToolsPlayerBody] node.
 @onready var player_body := XRToolsPlayerBody.find_instance(self)
 
-## [XRController3D] node.
-@onready var controller := XRHelpers.get_xr_controller(self)
-
 
 # Add support for is_xr_class on XRTools classes
 func is_xr_class(name : String) -> bool:
 	return name == "XRToolsFunctionTeleport"
 
+
+func _enter_tree():
+	var bt:= Transform3D()
+	bt.origin = Vector3(0.0, 0.0, -0.1)
+	set_base_transform(bt)
+
+	super._enter_tree()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -148,7 +152,7 @@ func _physics_process(delta):
 		return
 
 	# Skip if required nodes are missing
-	if !player_body or !controller:
+	if !player_body or !_controller:
 		return
 
 	# if we're not enabled no point in doing mode
@@ -170,8 +174,8 @@ func _physics_process(delta):
 		$Target.mesh.size = Vector2(ws, ws)
 		$Target/Player_figure.scale = Vector3(ws, ws, ws)
 
-	if controller and controller.get_is_active() and \
-			controller.is_button_pressed(teleport_button_action):
+	if _controller and _controller.get_is_active() and \
+			_controller.is_button_pressed(teleport_button_action):
 		if !is_teleporting:
 			is_teleporting = true
 			$Teleport.visible = true
@@ -300,7 +304,7 @@ func _physics_process(delta):
 				color = cant_teleport_color
 
 			# check our axis to see if we need to rotate
-			teleport_rotation += (delta * controller.get_vector2(rotation_action).x * -4.0)
+			teleport_rotation += (delta * _controller.get_vector2(rotation_action).x * -4.0)
 
 			# update target and colour
 			var target_basis := Basis()
@@ -340,15 +344,11 @@ func _physics_process(delta):
 
 # This method verifies the teleport has a valid configuration.
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
+	var warnings : PackedStringArray = super._get_configuration_warnings()
 
 	# Verify we can find the XRToolsPlayerBody
 	if !XRToolsPlayerBody.find_instance(self):
 		warnings.append("This node must be within a branch of an XRToolsPlayerBody node")
-
-	# Verify we can find the XRController3D
-	if !XRHelpers.get_xr_controller(self):
-		warnings.append("This node must be within a branch of an XRController3D node")
 
 	# Return warnings
 	return warnings

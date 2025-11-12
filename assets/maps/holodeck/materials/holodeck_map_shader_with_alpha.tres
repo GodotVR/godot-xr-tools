@@ -109,12 +109,12 @@ render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_s
 
 
 // Varyings
-varying vec3 world_pos;
+varying vec3 var_world_pos;
 
 uniform vec2 grid_scale = vec2(1.000000, 1.000000);
 uniform vec4 grid_color : source_color = vec4(1.000000, 0.891186, 0.000000, 1.000000);
 uniform sampler2D grid_texture : source_color, filter_linear_mipmap, repeat_enable;
-uniform float depth_fade = 2;
+uniform float depth_fade = 2.0;
 
 
 
@@ -154,7 +154,7 @@ void vertex() {
 
 
 // VaryingSetter:15
-	world_pos = n_out8p0;
+	var_world_pos = n_out8p0;
 
 
 }
@@ -174,7 +174,7 @@ void fragment() {
 
 
 // VaryingGetter:6
-	vec3 n_out6p0 = world_pos;
+	vec3 n_out6p0 = var_world_pos;
 
 
 // VectorDecompose:11

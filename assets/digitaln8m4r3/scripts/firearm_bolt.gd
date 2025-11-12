@@ -1,3 +1,4 @@
+@tool
 class_name XRFirearmBolt
 extends MeshInstance3D
 

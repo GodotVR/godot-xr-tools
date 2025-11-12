@@ -1,10 +1,9 @@
-[gd_scene load_steps=20 format=3 uid="uid://dt5jsm43uk88b"]
+[gd_scene load_steps=19 format=3 uid="uid://dt5jsm43uk88b"]
 
 [ext_resource type="PackedScene" uid="uid://qbmx03iibuuu" path="res://addons/godot-xr-tools/staging/scene_base.tscn" id="1"]
 [ext_resource type="Script" uid="uid://clipxhr1jpdbq" path="res://scenes/demo_scene_base.gd" id="1_yauh3"]
 [ext_resource type="PackedScene" uid="uid://clt88d5d1dje4" path="res://addons/godot-xr-tools/functions/movement_crouch.tscn" id="3"]
 [ext_resource type="PackedScene" uid="uid://mnoirgubr2js" path="res://scenes/footstep_movement_demo/objects/instructions.tscn" id="3_8248t"]
-[ext_resource type="Environment" uid="uid://bacqoq62qs27y" path="res://assets/maps/holodeck/holodeck_env.tres" id="3_virb4"]
 [ext_resource type="PackedScene" uid="uid://diyu06cw06syv" path="res://addons/godot-xr-tools/player/player_body.tscn" id="4"]
 [ext_resource type="PackedScene" uid="uid://bl2nuu3qhlb5k" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="5"]
 [ext_resource type="PackedScene" uid="uid://b4kad2kuba1yn" path="res://addons/godot-xr-tools/hands/scenes/lowpoly/left_hand_low.tscn" id="6"]
@@ -29,7 +28,11 @@ walk_pitch_maximum = 1.2
 
 [node name="FootstepMovementDemo" instance=ExtResource("1")]
 script = ExtResource("1_yauh3")
-environment = ExtResource("3_virb4")
+
+[node name="LeftHand" parent="XROrigin3D" index="1"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, -0.5, 1, -0.5)
+pose = &"grip"
+show_when_tracked = true
 
 [node name="LeftHand" parent="XROrigin3D/LeftHand" index="0" instance=ExtResource("6")]
 
@@ -42,6 +45,11 @@ jump_button_action = "ax_button"
 [node name="MovementCrouch" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("3")]
 crouch_height = 1.3
 crouch_button_action = "by_button"
+
+[node name="RightHand" parent="XROrigin3D" index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0.5, 1, -0.5)
+pose = &"grip"
+show_when_tracked = true
 
 [node name="RightHand" parent="XROrigin3D/RightHand" index="0" instance=ExtResource("8")]
 
@@ -64,7 +72,6 @@ default_surface_audio_type = SubResource("Resource_lclo7")
 
 [node name="MainMenuTeleport" parent="." index="1" instance=ExtResource("11")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 7)
-scene_base = NodePath("..")
 title = ExtResource("10")
 
 [node name="Instructions" parent="." index="2" instance=ExtResource("3_8248t")]

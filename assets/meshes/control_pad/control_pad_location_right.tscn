@@ -1,9 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://deyk5frilshws"]
+[gd_scene load_steps=3 format=3 uid="uid://deyk5frilshws"]
 
 [ext_resource type="Script" uid="uid://ov7v57ikcyl5" path="res://assets/meshes/control_pad/control_pad_location.gd" id="1_nolsk"]
+[ext_resource type="Script" uid="uid://drbnpanwky1vo" path="res://addons/godot-xr-tools/hands/hand_palm_offset.gd" id="1_yrdf8"]
 
 [node name="ControlPadLocationRight" type="Node3D"]
+script = ExtResource("1_yrdf8")
 
 [node name="Position" type="Node3D" parent="."]
-transform = Transform3D(-5.73206e-15, 1, -1.31134e-07, 0.0871558, 1.30635e-07, 0.996195, 0.996195, -1.14291e-08, -0.0871558, 0.03, 0, 0.3)
+transform = Transform3D(-5.73206e-15, 1, -1.31134e-07, 0.0871558, 1.30635e-07, 0.996195, 0.996195, -1.14291e-08, -0.0871558, 0, 0.05, 0.2)
 script = ExtResource("1_nolsk")

@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://71ls6bjad8tp" path="res://addons/godot-xr-tools/desktop-support/mouse_capture.gd" id="1_po4v8"]
 
-[node name="MouseCapture" type="Node" groups=["movement_providers"]]
+[node name="MouseCapture" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1_po4v8")

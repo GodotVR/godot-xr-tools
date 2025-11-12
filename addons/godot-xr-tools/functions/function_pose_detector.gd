@@ -1,7 +1,7 @@
 @tool
 @icon("res://addons/godot-xr-tools/editor/icons/hand.svg")
 class_name XRToolsFunctionPoseDetector
-extends Node3D
+extends XRToolsHandPalmOffset
 
 
 ## XR Tools Function Pose Area
@@ -18,11 +18,8 @@ const DEFAULT_MASK := 0b0000_0000_0010_0000_0000_0000_0000_0000
 @export_flags_3d_physics var collision_mask : int = DEFAULT_MASK: set = set_collision_mask
 
 
-## Hand controller
-@onready var _controller := XRHelpers.get_xr_controller(self)
-
 ## Hand to control
-@onready var _hand := XRToolsHand.find_instance(self)
+var _hand : XRToolsHand
 
 
 # Add support for is_xr_class on XRTools classes
@@ -30,8 +27,12 @@ func is_xr_class(name : String) -> bool:
 	return name == "XRToolsFunctionPoseDetector"
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# Called when we enter our tree
+func _enter_tree():
+	super._enter_tree()
+
+	_hand = XRToolsHand.find_instance(self)
+
 	# Connect signals (if controller and hand are valid)
 	if _controller and _hand:
 		if $SenseArea.area_entered.connect(_on_area_entered):
@@ -43,12 +44,19 @@ func _ready():
 	_update_collision_mask()
 
 
+func _exit_tree():
+	# Disconnect signals (if controller and hand are valid)
+	if _controller and _hand:
+		$SenseArea.area_entered.disconnect(_on_area_entered)
+		$SenseArea.area_exited.disconnect(_on_area_exited)
+
+	_hand = null
+	super._exit_tree()
+
+
 # This method verifies the pose area has a valid configuration.
 func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := PackedStringArray()
-
-	if !XRHelpers.get_xr_controller(self):
-		warnings.append("Node must be within a branch of an XRController3D node")
+	var warnings : PackedStringArray = super._get_configuration_warnings()
 
 	# Verify hand can be found
 	if !XRToolsHand.find_instance(self):

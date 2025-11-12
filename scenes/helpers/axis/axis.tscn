@@ -1,0 +1,52 @@
+[gd_scene load_steps=3 format=3 uid="uid://ss6ydhkwbtrl"]
+
+[ext_resource type="Script" uid="uid://d1p1vt17nrxaa" path="res://scenes/helpers/axis/axis.gd" id="1_8umds"]
+[ext_resource type="PackedScene" uid="uid://cfnu7rw2u32xx" path="res://scenes/helpers/axis/vector.tscn" id="1_axhod"]
+
+[node name="Axis" type="Node3D"]
+script = ExtResource("1_8umds")
+
+[node name="Forward" parent="." instance=ExtResource("1_axhod")]
+color = Color(0, 0, 1, 1)
+
+[node name="Z" type="Label3D" parent="Forward"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+layers = 4
+pixel_size = 0.001
+billboard = 2
+modulate = Color(0, 0, 1, 1)
+text = "Z"
+
+[node name="Up" parent="." instance=ExtResource("1_axhod")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+color = Color(0, 1, 0, 1)
+
+[node name="Y" type="Label3D" parent="Up"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+layers = 4
+pixel_size = 0.001
+billboard = 2
+modulate = Color(0, 1, 0, 1)
+text = "Y
+"
+
+[node name="Left" parent="." instance=ExtResource("1_axhod")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0, 0, 0)
+color = Color(1, 0, 0, 1)
+
+[node name="X" type="Label3D" parent="Left"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
+layers = 4
+pixel_size = 0.001
+billboard = 2
+modulate = Color(1, 0, 0, 1)
+text = "X	"
+
+[node name="Label3D" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.01, 0)
+layers = 4
+pixel_size = 0.001
+billboard = 2
+text = "XRNode3D"
+horizontal_alignment = 0
+vertical_alignment = 2

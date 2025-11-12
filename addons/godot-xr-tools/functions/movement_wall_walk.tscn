@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://bv4jc67lcmo75" path="res://addons/godot-xr-tools/functions/movement_wall_walk.gd" id="1"]
 
-[node name="MovementWallWalk" type="Node" groups=["movement_providers"]]
+[node name="MovementWallWalk" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1")

@@ -41,4 +41,3 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	# Request jump if the button is pressed
 	if Input.is_action_pressed(jump_button_action):
 		player_body.request_jump()
-

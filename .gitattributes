@@ -5,3 +5,4 @@
 *.tres eol=lf
 *.import eol=lf
 *.gdshader eol=lf
+*.uid eol=lf

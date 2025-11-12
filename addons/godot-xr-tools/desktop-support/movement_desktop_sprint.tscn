@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://dskqlyywoylkm" path="res://addons/godot-xr-tools/desktop-support/movement_desktop_sprint.gd" id="1_md0f7"]
 
-[node name="MovementDesktopSprint" type="Node" groups=["movement_providers"]]
+[node name="MovementDesktopSprint" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1_md0f7")

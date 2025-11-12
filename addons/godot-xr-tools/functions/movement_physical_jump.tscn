@@ -2,6 +2,5 @@
 
 [ext_resource type="Script" uid="uid://c0podasns5j2h" path="res://addons/godot-xr-tools/functions/movement_physical_jump.gd" id="1"]
 
-[node name="MovementPhysicalJump" type="Node" groups=["movement_providers"]]
+[node name="MovementPhysicalJump" type="Node3D" groups=["movement_providers"]]
 script = ExtResource("1")
-arms_jump_enable = true

@@ -42,7 +42,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.19, 0.04, -0.065)
 
 [node name="GrabPointHandRight" parent="." index="1" instance=ExtResource("3_0q4lf")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.19, 0.04, -0.065)
-visible = true
 
 [node name="CollisionShape3D" parent="." index="2"]
 shape = SubResource("2")
