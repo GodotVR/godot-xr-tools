@@ -90,10 +90,10 @@ func _make_temp_zone():
 
 	# connect lambda to play stash sounds when temp zone picks up
 	if has_node("AudioStreamPlayer3D"):
-		zone.has_picked_up.connect(\
-		func(object):\
-			$AudioStreamPlayer3D.stream = stash_sound;\
-			$AudioStreamPlayer3D.play()\
+		zone.has_picked_up.connect(
+			func(object):
+				$AudioStreamPlayer3D.stream = stash_sound
+				$AudioStreamPlayer3D.play()
 		)
 
 	# XRToolsSnapZone manaul copy

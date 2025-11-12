@@ -81,7 +81,7 @@ func pick_up(by: Node3D) -> void:
 
 # Called by XRToolsFunctionPickup when this is let go by a controller
 func let_go(by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
-	_grabs.erase(by);
+	_grabs.erase(by)
 
 
 # Get the grab handle

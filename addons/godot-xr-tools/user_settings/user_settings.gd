@@ -122,7 +122,7 @@ func save() -> void:
 
 
 ## Get the action associated with a WebXR primary choice
-static func get_webxr_primary_action(primary : WebXRPrimary) -> String:
+func get_webxr_primary_action(primary : WebXRPrimary) -> String:
 	match primary:
 		WebXRPrimary.THUMBSTICK:
 			return "thumbstick"
@@ -220,4 +220,3 @@ func get_adjusted_vector2(p_controller, p_input_action):
 			vector.x *= -1
 
 	return vector
-

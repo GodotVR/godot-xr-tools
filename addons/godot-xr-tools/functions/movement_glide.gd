@@ -203,7 +203,7 @@ func _set_gliding(active: bool) -> void:
 		return
 
 	# Update the is_gliding flag
-	is_active = active;
+	is_active = active
 
 	# Report transition
 	if is_active:

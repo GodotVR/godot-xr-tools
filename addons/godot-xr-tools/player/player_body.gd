@@ -515,7 +515,7 @@ func override_player_height(key, value: float = -1.0):
 func _estimate_body_forward_dir() -> Vector3:
 	var forward = Vector3()
 	var camera_basis : Basis = camera_node.global_transform.basis
-	var camera_forward : Vector3 = -camera_basis.z;
+	var camera_forward : Vector3 = -camera_basis.z
 
 	var camera_elevation := camera_forward.dot(up_player)
 	if camera_elevation > 0.75:

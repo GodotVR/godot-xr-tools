@@ -36,8 +36,8 @@ signal firearm_slider_moved(position)
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRFirearmSlide" or super(name)
+func is_xr_class(xr_name : String) -> bool:
+	return xr_name == "XRFirearmSlide" or super(xr_name)
 
 
 # Called when the node enters the scene tree for the first time.
