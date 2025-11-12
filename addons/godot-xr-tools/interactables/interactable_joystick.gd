@@ -132,15 +132,15 @@ func _process(_delta: float) -> void:
 # Move the joystick to the specified position
 func move_joystick(position_x: float, position_y: float) -> void:
 	# Do the move
-	var position := _do_move_joystick(Vector2(position_x, position_y))
-	if position.x == _joystick_x_position_rad and position.y == _joystick_y_position_rad:
+	var pos := _do_move_joystick(Vector2(position_x, position_y))
+	if pos.x == _joystick_x_position_rad and pos.y == _joystick_y_position_rad:
 		return
 
 	# Update the current positon
-	_joystick_x_position_rad = position.x
-	_joystick_y_position_rad = position.y
-	joystick_x_position = rad_to_deg(position.x)
-	joystick_y_position = rad_to_deg(position.y)
+	_joystick_x_position_rad = pos.x
+	_joystick_y_position_rad = pos.y
+	joystick_x_position = rad_to_deg(pos.x)
+	joystick_y_position = rad_to_deg(pos.y)
 
 	# Emit the joystick signal
 	emit_signal("joystick_moved", joystick_x_position, joystick_y_position)
@@ -190,18 +190,18 @@ func _set_joystick_y_steps(value: float) -> void:
 
 # Called when joystick_x_position is set externally
 func _set_joystick_x_position(value: float) -> void:
-	var position := Vector2(deg_to_rad(value), _joystick_y_position_rad)
-	position = _do_move_joystick(position)
-	joystick_x_position = rad_to_deg(position.x)
-	_joystick_x_position_rad = position.x
+	var pos := Vector2(deg_to_rad(value), _joystick_y_position_rad)
+	pos = _do_move_joystick(pos)
+	joystick_x_position = rad_to_deg(pos.x)
+	_joystick_x_position_rad = pos.x
 
 
 # Called when joystick_y_position is set externally
 func _set_joystick_y_position(value: float) -> void:
-	var position := Vector2(_joystick_x_position_rad, deg_to_rad(value))
-	position = _do_move_joystick(position)
-	joystick_y_position = rad_to_deg(position.y)
-	_joystick_y_position_rad = position.y
+	var pos := Vector2(_joystick_x_position_rad, deg_to_rad(value))
+	pos = _do_move_joystick(pos)
+	joystick_y_position = rad_to_deg(pos.y)
+	_joystick_y_position_rad = pos.y
 
 
 # Called when default_x_position is set externally
@@ -217,20 +217,20 @@ func _set_default_y_position(value: float) -> void:
 
 
 # Do the joystick move
-func _do_move_joystick(position: Vector2) -> Vector2:
+func _do_move_joystick(pos: Vector2) -> Vector2:
 	# Apply joystick step-quantization
 	if _joystick_x_steps_rad:
-		position.x = round(position.x / _joystick_x_steps_rad) * _joystick_x_steps_rad
+		pos.x = round(pos.x / _joystick_x_steps_rad) * _joystick_x_steps_rad
 	if _joystick_y_steps_rad:
-		position.y = round(position.y / _joystick_y_steps_rad) * _joystick_y_steps_rad
+		pos.y = round(pos.y / _joystick_y_steps_rad) * _joystick_y_steps_rad
 
 	# Apply joystick limits
-	position.x = clamp(position.x, _joystick_x_limit_min_rad, _joystick_x_limit_max_rad)
-	position.y = clamp(position.y, _joystick_y_limit_min_rad, _joystick_y_limit_max_rad)
+	pos.x = clamp(pos.x, _joystick_x_limit_min_rad, _joystick_x_limit_max_rad)
+	pos.y = clamp(pos.y, _joystick_y_limit_min_rad, _joystick_y_limit_max_rad)
 
 	# Move if necessary
-	if position.x != _joystick_x_position_rad or position.y != _joystick_y_position_rad:
-		transform.basis = Basis.from_euler(Vector3(position.y, position.x, 0.0))
+	if pos.x != _joystick_x_position_rad or pos.y != _joystick_y_position_rad:
+		transform.basis = Basis.from_euler(Vector3(pos.y, pos.x, 0.0))
 
 	# Return the updated position
-	return position
+	return pos

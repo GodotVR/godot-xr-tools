@@ -78,17 +78,17 @@ func _process(_delta: float) -> void:
 
 
 # Move the slider to the specified position
-func move_slider(position: float) -> void:
+func move_slider(pos: float) -> void:
 	# Do the slider move
-	position = _do_move_slider(position)
-	if position == slider_position:
+	pos = _do_move_slider(pos)
+	if pos == slider_position:
 		return
 
 	# Update the current position
-	slider_position = position
+	slider_position = pos
 
 	# Emit the moved signal
-	emit_signal("slider_moved", position)
+	emit_signal("slider_moved", pos)
 
 
 # Handle release of slider
@@ -98,23 +98,23 @@ func _on_slider_released(_interactable: XRToolsInteractableSlider):
 
 
 # Called when the slider position is set externally
-func _set_slider_position(position: float) -> void:
-	position = _do_move_slider(position)
-	slider_position = position
+func _set_slider_position(pos: float) -> void:
+	pos = _do_move_slider(pos)
+	slider_position = pos
 
 
 # Do the slider move
-func _do_move_slider(position: float) -> float:
+func _do_move_slider(pos: float) -> float:
 	# Apply slider step-quantization
 	if slider_steps:
-		position = round(position / slider_steps) * slider_steps
+		pos = round(pos / slider_steps) * slider_steps
 
 	# Apply slider limits
-	position = clamp(position, slider_limit_min, slider_limit_max)
+	pos = clamp(pos, slider_limit_min, slider_limit_max)
 
 	# Move if necessary
-	if position != slider_position:
-		transform.origin.x = position
+	if pos != slider_position:
+		transform.origin.x = pos
 
 	# Return the updated position
-	return position
+	return pos
