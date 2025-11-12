@@ -36,7 +36,7 @@ signal firearm_slider_moved(position)
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name : String) -> bool:
+func is_xr_class(xr_name:  String) -> bool:
 	return xr_name == "XRFirearmSlide" or super(xr_name)
 
 

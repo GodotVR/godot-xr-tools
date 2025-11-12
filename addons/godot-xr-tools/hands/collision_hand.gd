@@ -117,8 +117,8 @@ func set_held_weight(new_weight):
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsCollisionHand"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsCollisionHand"
 
 
 # Return warnings related to this node

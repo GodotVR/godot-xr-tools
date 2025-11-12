@@ -146,8 +146,8 @@ func _update_color() -> void:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPoke"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPoke"
 
 
 # Called when the node enters the scene tree for the first time.

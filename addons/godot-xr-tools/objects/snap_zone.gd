@@ -62,8 +62,8 @@ var _object_in_grab_area = Array()
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsSnapZone"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsSnapZone"
 
 
 func _ready():

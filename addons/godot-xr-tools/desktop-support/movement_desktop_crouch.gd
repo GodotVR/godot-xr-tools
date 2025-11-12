@@ -47,8 +47,8 @@ var _crouch_button_down : bool = false
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementCrouch" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementCrouch" or super(xr_name)
 
 
 # Perform jump movement

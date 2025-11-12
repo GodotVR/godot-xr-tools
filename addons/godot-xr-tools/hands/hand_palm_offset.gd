@@ -27,8 +27,8 @@ var _apply_to : Node3D
 var _base_transform : Transform3D = Transform3D()
 
 ## Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsHandAimOffset"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsHandAimOffset"
 
 
 ## Set the node we apply our transform to

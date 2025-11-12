@@ -22,8 +22,8 @@ var _material : ShaderMaterial
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsFade"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsFade"
 
 
 # Called when the fade node is ready

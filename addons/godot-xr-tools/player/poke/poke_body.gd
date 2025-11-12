@@ -21,8 +21,8 @@ var _contact : Node3D = null
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPokeBody" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPokeBody" or super(xr_name)
 
 
 func _validate_property(property):

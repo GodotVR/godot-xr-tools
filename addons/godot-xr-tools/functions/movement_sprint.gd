@@ -72,8 +72,8 @@ var _right_controller_original_max_speed : float = 0.0
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementSprint" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementSprint" or super(xr_name)
 
 
 func _ready():

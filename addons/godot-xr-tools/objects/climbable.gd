@@ -27,8 +27,8 @@ var _grabs : Dictionary = {}
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsClimbable"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsClimbable"
 
 
 # Called when the node becomes "ready"

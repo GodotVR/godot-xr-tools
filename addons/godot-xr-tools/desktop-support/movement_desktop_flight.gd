@@ -79,8 +79,8 @@ var _flight_button : bool = false
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopMovementFlight" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopMovementFlight" or super(xr_name)
 
 
 func _ready():

@@ -23,8 +23,8 @@ var _queues: Dictionary = {}
 
 
 ## Add support for is_xr_class
-func is_xr_class(p_name: String) -> bool:
-	return p_name == "XRToolsRumbleManager"
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsRumbleManager"
 
 
 ## Get the default Haptics Scale value

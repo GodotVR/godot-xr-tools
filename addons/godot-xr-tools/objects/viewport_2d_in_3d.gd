@@ -123,8 +123,8 @@ var _dirty := _DIRTY_ALL
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(p_name : String) -> bool:
-	return p_name == "XRToolsViewport2DIn3D"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsViewport2DIn3D"
 
 
 # Called when the node enters the scene tree for the first time.

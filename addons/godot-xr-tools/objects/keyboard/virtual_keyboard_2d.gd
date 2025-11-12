@@ -25,8 +25,8 @@ var _mode: int = KeyboardMode.LOWER_CASE
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsVirtualKeyboard2D"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsVirtualKeyboard2D"
 
 
 # Handle key pressed from VirtualKey

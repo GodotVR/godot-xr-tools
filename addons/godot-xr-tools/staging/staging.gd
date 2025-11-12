@@ -124,8 +124,8 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsStaging"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsStaging"
 
 
 ## This function loads the [param p_scene_path] scene file.

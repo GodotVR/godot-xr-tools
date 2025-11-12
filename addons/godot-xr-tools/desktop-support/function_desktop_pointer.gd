@@ -117,8 +117,8 @@ var _world_scale : float = 1.0
 	"XRToolsStaging"),"StartXR","Node")
 
 ## Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopFunctionPointer"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopFunctionPointer"
 
 
 # Called when the node enters the scene tree for the first time.

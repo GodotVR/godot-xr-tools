@@ -25,8 +25,8 @@ var grabbed_handles := Array()
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandleDriven"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsInteractableHandleDriven"
 
 
 # Called when the node enters the scene tree for the first time.

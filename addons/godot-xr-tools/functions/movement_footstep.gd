@@ -55,8 +55,8 @@ var _ground_node_audio_type : XRToolsSurfaceAudioType
 
 
 # Add support for is_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementFootstep" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementFootstep" or super(xr_name)
 
 
 func _ready():

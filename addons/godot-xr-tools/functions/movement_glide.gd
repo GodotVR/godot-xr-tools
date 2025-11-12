@@ -91,8 +91,8 @@ var _has_controller_positions : bool = false
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementGlide" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementGlide" or super(xr_name)
 
 
 func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):

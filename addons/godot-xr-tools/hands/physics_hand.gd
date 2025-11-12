@@ -36,5 +36,5 @@ const DEFAULT_LAYER := 0b0000_0000_0000_0010_0000_0000_0000_0000
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPhysicsHand" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPhysicsHand" or super(xr_name)

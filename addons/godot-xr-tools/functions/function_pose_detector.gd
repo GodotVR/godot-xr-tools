@@ -23,8 +23,8 @@ var _hand : XRToolsHand
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsFunctionPoseDetector"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsFunctionPoseDetector"
 
 
 # Called when we enter our tree
