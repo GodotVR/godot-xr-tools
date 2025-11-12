@@ -9,6 +9,7 @@
 - Fix "UP" direction in player movement
 - Gracefully handle freed objects with collision exceptions
 - Added support for using grip or palm pose instead of aim pose
+- Various bits of code cleanup
 
 # 4.4.0
 - Minimum Godot version changed to 4.2
