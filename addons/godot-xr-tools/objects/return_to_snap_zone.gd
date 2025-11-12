@@ -51,6 +51,9 @@ func _ready() -> void:
 
 # Handle the return counter
 func _process(delta : float) -> void:
+	if Engine.is_editor_hint():
+		return
+
 	# Update return time and skip if still waiting
 	_return_counter += delta
 	if _return_counter < return_delay:
