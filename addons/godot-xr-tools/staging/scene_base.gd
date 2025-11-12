@@ -35,7 +35,7 @@ signal request_reset_scene(user_data)
 signal request_quit
 
 
-# This file contains methods with parameters that are unused; however they are
+# This file contains methods with parameters that are unused, however they are
 # documented and intended to be overridden in derived classes. As such unused
 # parameter warnings need to be disabled.
 #
