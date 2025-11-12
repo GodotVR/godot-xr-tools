@@ -560,8 +560,8 @@ func _update_render() -> void:
 		$Viewport.size = viewport_size
 		$StaticBody3D.viewport_size = viewport_size
 
-		# Update our viewport texture, it will have changed
-		_dirty |= _DIRTY_ALBEDO
+		# Perform redraw to let viewport texture update correctly after changing the viewport's size
+		_dirty |= _DIRTY_REDRAW
 
 	# Handle albedo change:
 	if _dirty & _DIRTY_ALBEDO:
