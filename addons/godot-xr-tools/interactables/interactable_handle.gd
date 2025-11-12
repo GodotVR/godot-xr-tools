@@ -28,8 +28,8 @@ extends XRToolsPickable
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableHandle" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsInteractableHandle" or super(xr_name)
 
 
 # Called when this handle is added to the scene

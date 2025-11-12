@@ -99,8 +99,8 @@ func set_auto_rotation_limit(new_auto_rotation_limit : float) -> void:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsVignette"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsVignette"
 
 
 # Called when the node enters the scene tree for the first time.

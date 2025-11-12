@@ -59,8 +59,8 @@ var _turn_step : float = 0.0
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopMovementTurn" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopMovementTurn" or super(xr_name)
 
 func _unhandled_input(event):
 	if !enabled:

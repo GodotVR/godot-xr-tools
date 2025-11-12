@@ -103,8 +103,8 @@ var _controller_tracker_and_pose : String = ""
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsMovementGrapple" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsMovementGrapple" or super(xr_name)
 
 
 # Function run when node is added to scene

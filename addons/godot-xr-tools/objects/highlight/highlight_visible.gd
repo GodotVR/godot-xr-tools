@@ -4,8 +4,8 @@ extends Node3D
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsHighlightVisible"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsHighlightVisible"
 
 
 # Called when the node enters the scene tree for the first time.

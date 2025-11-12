@@ -16,8 +16,8 @@ extends Node
 
 
 # Add support for is_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsSurfaceAudio"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsSurfaceAudio"
 
 
 # This method checks for configuration issues.

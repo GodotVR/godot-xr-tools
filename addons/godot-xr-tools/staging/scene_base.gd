@@ -50,8 +50,8 @@ func _ready() -> void:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsSceneBase"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsSceneBase"
 
 
 ## This method center the player on the [param p_transform] transform.

@@ -27,8 +27,8 @@ var _space : PhysicsDirectSpaceState3D
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsFadeCollision"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsFadeCollision"
 
 
 # Called when the node enters the scene tree for the first time.

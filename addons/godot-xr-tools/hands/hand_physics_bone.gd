@@ -48,8 +48,8 @@ var _skeletal_bone : Node3D
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsHandPhysicsBone"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsHandPhysicsBone"
 
 
 # Called when the node enters the scene tree. This constructs the physics-bone

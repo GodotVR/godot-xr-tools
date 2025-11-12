@@ -35,8 +35,8 @@ class ForceBodyCollision:
 
 
 ## Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsForceBody"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsForceBody"
 
 
 ## This function moves and slides along the [param move] vector. It returns

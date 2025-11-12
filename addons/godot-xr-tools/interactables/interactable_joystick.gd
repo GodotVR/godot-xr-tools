@@ -74,8 +74,8 @@ const VECTOR_YZ := Vector3(0.0, 1.0, 1.0)
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsInteractableJoystick" or super(name)
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsInteractableJoystick" or super(xr_name)
 
 
 # Called when the node enters the scene tree for the first time.

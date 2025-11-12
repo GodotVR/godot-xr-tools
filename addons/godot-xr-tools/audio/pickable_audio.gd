@@ -21,8 +21,8 @@ extends AudioStreamPlayer3D
 
 
 # Add support for is_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPickableAudio"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPickableAudio"
 
 
 # Called when the node enters the scene tree for the first time.

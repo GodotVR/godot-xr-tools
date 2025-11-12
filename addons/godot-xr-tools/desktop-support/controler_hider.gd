@@ -26,8 +26,8 @@ func _ready() -> void:
 		_pointer_disabler = true
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsDesktopControlerHider"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsDesktopControlerHider"
 
 func _process(_delta: float) -> void:
 	if Engine.is_editor_hint() or !is_inside_tree():

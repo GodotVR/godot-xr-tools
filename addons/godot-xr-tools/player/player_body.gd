@@ -192,8 +192,8 @@ func sort_by_order(a, b) -> bool:
 
 
 # Add support for is_xr_class on XRTools classes
-func is_xr_class(name : String) -> bool:
-	return name == "XRToolsPlayerBody"
+func is_xr_class(xr_name:  String) -> bool:
+	return xr_name == "XRToolsPlayerBody"
 
 
 # Called when the node enters the scene tree for the first time.
