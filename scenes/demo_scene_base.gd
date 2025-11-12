@@ -1,3 +1,4 @@
+@tool
 class_name DemoSceneBase
 extends XRToolsSceneBase
 
