@@ -77,6 +77,14 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## Mix factor for body orientation
 @export_range(0.0, 1.0) var body_forward_mix : float = 0.75
 
+## Maximum distance the head may move away from the player body
+@export_range(0.0, 2.0, 0.01) var max_head_distance = 1.0
+
+## Behaviour mode when players head collides, or moves beyond [member max_head_distance].
+## Push away, pushes the player body away.
+## Fade, fades view to black.
+@export_enum("Push away","Fade") var head_behavior_mode = 1
+
 @export_group("Collisions")
 
 ## Lets the player push rigid bodies
@@ -169,6 +177,11 @@ var _head_shape_cast : ShapeCast3D
 # True while we're handling physics
 var _in_physics_movement : bool = false
 
+# Fade object
+var _fade : XRToolsFade
+
+# Fade value
+var _fade_value : float = 0.0
 
 ## XROrigin3D node
 @onready var origin_node : XROrigin3D = XRHelpers.get_xr_origin(self)
@@ -637,20 +650,69 @@ func _update_body_under_camera(delta : float):
 	_collision_node.transform.origin.y = (player_height / 2.0)
 
 	# Center the kinematic body on the ground under the camera
-	var curr_transform := global_transform
+	var target_transform := global_transform
 	var camera_transform := camera_node.global_transform
-	curr_transform.basis = origin_node.global_transform.basis
-	curr_transform.origin = camera_transform.origin
-	curr_transform.origin += up_player * (player_head_height - player_height)
+	target_transform.basis = origin_node.global_transform.basis
+	target_transform.origin = camera_transform.origin
+	target_transform.origin += up_player * (player_head_height - player_height)
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := _estimate_body_forward_dir()
 	if forward_dir.length() > 0.01:
-		curr_transform = curr_transform.looking_at(curr_transform.origin + forward_dir, up_player)
-		curr_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
+		target_transform = target_transform.looking_at(target_transform.origin + forward_dir, up_player)
+		target_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
 
-	# Set the body position
-	global_transform = curr_transform
+	# Apply rotation
+	global_basis = target_transform.basis
+
+	# Attempt to move here
+	var body_movement = target_transform.origin - global_position
+
+	var collision : KinematicCollision3D = move_and_collide(body_movement)
+	var fade : bool = false
+	if collision and collision.get_collision_count() > 0:
+		var camera_local_position = global_transform.inverse() * camera_node.global_position
+
+		# If we can't move here, check if our head can move
+		_head_shape_cast.shape.radius = player_radius
+		_head_shape_cast.transform.origin.y = player_height - (player_radius * 0.5)
+		_head_shape_cast.collision_mask = collision_mask
+		_head_shape_cast.target_position = camera_local_position - _head_shape_cast.transform.origin
+
+		var target_move_distance = _head_shape_cast.target_position.length()
+
+		# Cast shape
+		_head_shape_cast.force_shapecast_update()
+
+		# See how far we can move
+		var safe := min(_head_shape_cast.get_closest_collision_safe_fraction(), max_head_distance / target_move_distance)
+		if safe < 1.0:
+			# print("Attempted to move from ", global_position, " to ", target_transform.origin, " => ", body_movement, ", safe: ", safe)
+
+			if head_behavior_mode == 0:
+				# Push body back, we actually move our player body into the collision,
+				# by the amount of movement left after the collision.
+				# Then in our actual move and slide we'll get pushed out.
+				# Do note that safe isn't super accurate.
+				var push_back_by = body_movement * (1.0 - safe)
+				global_position += push_back_by
+			else:
+				# Fade to black
+				fade = true
+
+	if fade:
+		if not _fade:
+			var fade_scene : PackedScene = load("res://addons/godot-xr-tools/effects/fade.tscn")
+			_fade = fade_scene.instantiate()
+			add_child(_fade, false, Node.INTERNAL_MODE_BACK)
+
+		_fade_value = max(_fade_value + delta * 3.0, 0.0)
+
+		_fade.set_fade_level(self, Color(0, 0, 0, _fade_value))
+	elif _fade and _fade_value > 0.0:
+		_fade_value = max(_fade_value - delta * 3.0, 0.0)
+
+		_fade.set_fade_level(self, Color(0, 0, 0, _fade_value))
 
 # This method updates the information about the ground under the players feet
 func _update_ground_information(delta: float):
