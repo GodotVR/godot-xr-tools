@@ -180,6 +180,13 @@ func _initial_object_check() -> void:
 		# Show highlight when empty and enabled
 		highlight_updated.emit(self, enabled)
 
+	# Stop any audio from initial pickup
+	var audio := get_node("AudioStreamPlayer3D") if has_node("AudioStreamPlayer3D") else null
+
+	# Only stop if the user doesn't intend to auto-play
+	if audio is AudioStreamPlayer3D and !audio.autoplay:
+		audio.stop()
+
 
 # Called when a body enters the snap zone
 func _on_snap_zone_body_entered(target: Node3D) -> void:
