@@ -11,6 +11,8 @@
 - Added support for using grip or palm pose instead of aim pose
 - Various bits of code cleanup
 - Improved player body collisions so players can move over tables
+- Fix: Stash sound should not play on scene load (minor breaking)
+- Fixed node process mode issue for XRToolsInteractableAreaButton
 
 # 4.4.0
 - Minimum Godot version changed to 4.2

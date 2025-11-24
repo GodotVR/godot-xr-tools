@@ -14,6 +14,7 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Dave Hakim](https://github.com/davehakim)
 - [David Snopek](https://github.com/dsnopek)
 - [Florian Jung](https://github.com/Windfisch)
+- [Gaël Fenet-Garde](https://github.com/GaelFG-Anderon)
 - [Gavin John](https://github.com/Pandapip1)
 - [Henodude](https://github.com/Henodude)
 - [Ian Young](https://github.com/duffrecords)
