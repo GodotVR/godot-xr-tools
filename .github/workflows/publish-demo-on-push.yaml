@@ -8,16 +8,19 @@ name: Publish Demo
 
 # Trigger rules (adjust to configure when CI is performed)
 on:
-  [push, pull_request]
+  release:
+    # We'll run this workflow when a new GitHub release is created
+    types: [published]
+  workflow_dispatch: {}
 
 
 # Environment variables
 env:
   # Configure Godot version
-  GODOT_VERSION: 4.3.0
+  GODOT_VERSION: 4.4.0
 
   # OpenXR Vendors version
-  OPENXR_VENDORS_VERSION: 3.1.1-stable
+  OPENXR_VENDORS_VERSION: 4.2.1-stable
   
   # Butler API Key (comment to disable)
   BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -185,8 +188,7 @@ jobs:
       # Install butler (if building release with butler support)
       - name: Install Butler
         if: >
-          github.event_name == 'push' && 
-          github.ref_type == 'tag' &&
+
           env.BUTLER_API_KEY != ''
         uses: remarkablegames/setup-butler@v1
         with:
@@ -195,8 +197,6 @@ jobs:
       # Push to itch.io (if building release)
       - name: Push to itch.io
         if: >
-          github.event_name == 'push' && 
-          github.ref_type == 'tag' &&
           env.BUTLER_API_KEY != ''
         run: >
           butler push
@@ -207,9 +207,6 @@ jobs:
 
       # Compress project (if building release)
       - name: Compress Project
-        if: >
-          github.event_name == 'push' && 
-          github.ref_type == 'tag'
         run: |
           cd ${{ matrix.export-folder }}
           7z a -tzip ${{ matrix.archive }}.zip *.* -x'!.gitignore'
@@ -217,12 +214,12 @@ jobs:
       # Publish release (if building release)
       - name: Publish Release
         uses: ncipollo/release-action@v1
-        if: >
-          github.event_name == 'push' && 
-          github.ref_type == 'tag'
         with:
+          draft: true
           allowUpdates: true
           artifacts: '${{ matrix.export-folder }}/${{ matrix.archive }}.zip'
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}
