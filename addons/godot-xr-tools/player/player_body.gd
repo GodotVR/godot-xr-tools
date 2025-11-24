@@ -83,7 +83,7 @@ const NEAR_GROUND_DISTANCE := 1.0
 ## Behaviour mode when players head collides, or moves beyond [member max_head_distance].
 ## Push away, pushes the player body away.
 ## Fade, fades view to black.
-@export_enum("Push away","Fade") var head_behavior_mode = 1
+@export_enum("Push away", "Fade", "Disabled") var head_behavior_mode = 1
 
 @export_group("Collisions")
 
@@ -565,10 +565,13 @@ func _update_body_under_camera(delta : float):
 		calibrate_player_height()
 		player_calibrate_height = false
 
+	var adj_player_radius = player_radius * XRServer.world_scale
+	var adj_player_head_height = player_head_height * XRServer.world_scale
+
 	# Calculate the player height based on the camera position in the origin and the calibration
 	var player_height: float = clamp(
 			camera_node.transform.origin.y
-					+ (player_head_height * XRServer.world_scale)
+					+ adj_player_head_height
 					+ (player_height_offset * XRServer.world_scale),
 			player_height_min * XRServer.world_scale,
 			player_height_max * XRServer.world_scale)
@@ -609,7 +612,7 @@ func _update_body_under_camera(delta : float):
 		_player_height_override_lerp)
 
 	# Ensure player height makes mathematical sense
-	player_height = max(player_height, player_radius)
+	player_height = max(player_height, adj_player_radius)
 
 	# Test if the player is trying to get taller
 	var current_height : float = _collision_node.shape.height
@@ -624,15 +627,15 @@ func _update_body_under_camera(delta : float):
 		# ceiling.
 		var reduced_height : float = max(
 			current_height - 0.1,
-			player_radius)
+			adj_player_radius)
 
 		# Calculate how much we want to grow to hit the target height
 		var grow := target_height - reduced_height
 
 		# Cast the virtual head up from the reduced-height position up to the
 		# target height to check for ceiling collisions.
-		_head_shape_cast.shape.radius = player_radius
-		_head_shape_cast.transform.origin.y = reduced_height - player_radius
+		_head_shape_cast.shape.radius = adj_player_radius
+		_head_shape_cast.transform.origin.y = reduced_height - adj_player_radius
 		_head_shape_cast.collision_mask = collision_mask
 		_head_shape_cast.target_position = Vector3.UP * grow
 		_head_shape_cast.force_shapecast_update()
@@ -645,7 +648,7 @@ func _update_body_under_camera(delta : float):
 			current_height)
 
 	# Adjust the collision shape to match the player geometry
-	_collision_node.shape.radius = player_radius
+	_collision_node.shape.radius = adj_player_radius
 	_collision_node.shape.height = player_height
 	_collision_node.transform.origin.y = (player_height / 2.0)
 
@@ -654,30 +657,42 @@ func _update_body_under_camera(delta : float):
 	var camera_transform := camera_node.global_transform
 	target_transform.basis = origin_node.global_transform.basis
 	target_transform.origin = camera_transform.origin
-	target_transform.origin += up_player * (player_head_height - player_height)
+	target_transform.origin += up_player * (adj_player_head_height - player_height)
 
 	# The camera/eyes are towards the front of the body, so move the body back slightly
 	var forward_dir := _estimate_body_forward_dir()
 	if forward_dir.length() > 0.01:
 		target_transform = target_transform.looking_at(target_transform.origin + forward_dir, up_player)
-		target_transform.origin -= forward_dir.normalized() * eye_forward_offset * player_radius
+		target_transform.origin -= forward_dir.normalized() * eye_forward_offset * adj_player_radius
+
+	# If head behavior is disabled, just move
+	if head_behavior_mode == 2:
+		global_transform = target_transform
+		return
 
 	# Apply rotation
 	global_basis = target_transform.basis
 
-	# Attempt to move here
+	# Always apply height
+	global_position = (target_transform.origin - global_position).project(global_basis.y)
+
+	# But do lateral movement with move and collide
 	var body_movement = target_transform.origin - global_position
 
 	var collision : KinematicCollision3D = move_and_collide(body_movement)
 	var fade : bool = false
 	if collision and collision.get_collision_count() > 0:
-		var camera_local_position = global_transform.inverse() * camera_node.global_position
+		var camera_local_transform = global_transform.inverse() * camera_node.global_transform
+		var camera_local_position = camera_local_transform.origin
+
+		# Move it to our head center
+		camera_local_position += camera_local_transform.basis.z * eye_forward_offset * adj_player_radius
 
 		# If we can't move here, check if our head can move
-		_head_shape_cast.shape.radius = player_radius
-		_head_shape_cast.transform.origin.y = player_height - (player_radius * 0.5)
+		_head_shape_cast.shape.radius = adj_player_head_height
+		_head_shape_cast.transform.origin.y = player_height - adj_player_head_height
 		_head_shape_cast.collision_mask = collision_mask
-		_head_shape_cast.target_position = camera_local_position - _head_shape_cast.transform.origin
+		_head_shape_cast.target_position = (camera_local_position - _head_shape_cast.transform.origin) * Vector3(1.0, 0.0, 1.0)
 
 		var target_move_distance = _head_shape_cast.target_position.length()
 
