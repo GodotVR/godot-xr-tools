@@ -152,14 +152,7 @@ func _update_editor_preview() -> void:
 
 	# Construct the model
 	_editor_preview_hand = hand_scene.instantiate()
-
-	# Keep this backwards compatible,
-	# position the hand according to the original aim logic
-	var custom_offset := Transform3D()
-	# Note, base transform adds another 0.01 to x and 0.05 to z, it doesn't know which hand we're on.
-	custom_offset.origin = Vector3(-0.04 if hand == Hand.LEFT else 0.02, -0.05, 0.10)
-	_editor_preview_hand.hand_offset_mode = 4 # Custom
-	_editor_preview_hand.hand_custom_offset = custom_offset
+	_editor_preview_hand.hand_offset_mode = 4 # Disabled
 
 	# Set the pose
 	if hand_pose:
@@ -173,6 +166,14 @@ func _update_editor_preview() -> void:
 
 	# Add the editor-preview hand as a child
 	add_child(_editor_preview_hand, false, Node.INTERNAL_MODE_BACK)
+
+	# Keep this backwards compatible,
+	# position the hand according to the original aim logic
+	var hand_node : Node3D = _editor_preview_hand.get_child(0)
+	if hand_node:
+		var custom_offset := Transform3D()
+		custom_offset.origin = Vector3(-0.03 if hand == Hand.LEFT else 0.03, -0.05, 0.15)
+		hand_node.transform = custom_offset
 
 
 # Is the grabber for the correct hand

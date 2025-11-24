@@ -180,25 +180,27 @@ func _enter_tree():
 func _exit_tree():
 	_active_controller = null
 
-	if _controller:
+	if _controller and not Engine.is_editor_hint():
 		_controller.button_pressed.disconnect(_on_button_pressed.bind(_controller))
 		_controller.button_released.disconnect(_on_button_released.bind(_controller))
 
 		# This will be unset in our superclass method
 
 	if _controller_left_node:
-		_controller_left_node.button_pressed.disconnect(
-				_on_button_pressed.bind(_controller_left_node))
-		_controller_left_node.button_released.disconnect(
-				_on_button_released.bind(_controller_left_node))
+		if not Engine.is_editor_hint():
+			_controller_left_node.button_pressed.disconnect(
+					_on_button_pressed.bind(_controller_left_node))
+			_controller_left_node.button_released.disconnect(
+					_on_button_released.bind(_controller_left_node))
 
 		_controller_left_node = null
 
 	if _controller_right_node:
-		_controller_right_node.button_pressed.disconnect(
-				_on_button_pressed.bind(_controller_right_node))
-		_controller_right_node.button_released.disconnect(
-				_on_button_released.bind(_controller_right_node))
+		if not Engine.is_editor_hint():
+			_controller_right_node.button_pressed.disconnect(
+					_on_button_pressed.bind(_controller_right_node))
+			_controller_right_node.button_released.disconnect(
+					_on_button_released.bind(_controller_right_node))
 
 		_controller_right_node = null
 

@@ -268,7 +268,6 @@ func _move_to_target(delta):
 
 	# Handle too far from target
 	if global_position.distance_to(_target.global_position) > TELEPORT_DISTANCE:
-		print("max distance reached")
 		max_distance_reached.emit()
 
 		global_transform = _target.global_transform

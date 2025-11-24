@@ -21,7 +21,7 @@ extends XRToolsMovementProvider
 
 
 # Node references
-@onready var _controller := XRHelpers.get_xr_controller(self)
+var _controller : XRController3D
 
 
 # Add support for is_xr_class on XRTools classes
@@ -29,10 +29,20 @@ func is_xr_class(xr_name:  String) -> bool:
 	return xr_name == "XRToolsMovementJump" or super(xr_name)
 
 
+# Called when our node is added to our scene tree
+func _enter_tree():
+	_controller = XRHelpers.get_xr_controller(self)
+
+
+# Called when our node is removed from our scene tree
+func _exit_tree():
+	_controller = null
+
+
 # Perform jump movement
 func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
 	# Skip if the jump controller isn't active
-	if !_controller.get_is_active():
+	if not _controller or not _controller.get_is_active():
 		return
 
 	# Request jump if the button is pressed
@@ -45,7 +55,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := super()
 
 	# Check the controller node
-	if !XRHelpers.get_xr_controller(self):
+	if not XRHelpers.get_xr_controller(self):
 		warnings.append("This node must be within a branch of an XRController3D node")
 
 	# Return warnings

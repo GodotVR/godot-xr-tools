@@ -10,6 +10,7 @@
 - Gracefully handle freed objects with collision exceptions
 - Added support for using grip or palm pose instead of aim pose
 - Various bits of code cleanup
+- Improved player body collisions so players can move over tables
 
 # 4.4.0
 - Minimum Godot version changed to 4.2
