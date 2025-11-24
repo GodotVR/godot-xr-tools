@@ -63,8 +63,11 @@ jobs:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
         uses: ncipollo/release-action@v1
         with:
+          draft: true
           allowUpdates: true
           artifacts: "godot-xr-tools.zip,godot-xr-tools-demo.zip"
           omitNameDuringUpdate: true
           omitBodyDuringUpdate: true
+          omitDraftDuringUpdate: true
+          omitPrereleaseDuringUpdate: true
           token: ${{ secrets.GITHUB_TOKEN }}
