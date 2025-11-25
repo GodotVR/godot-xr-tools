@@ -674,7 +674,7 @@ func _update_body_under_camera(delta : float):
 	global_basis = target_transform.basis
 
 	# Always apply height
-	global_position = (target_transform.origin - global_position).project(global_basis.y)
+	global_position += (target_transform.origin - global_position).project(global_basis.y)
 
 	# But do lateral movement with move and collide
 	var body_movement = target_transform.origin - global_position

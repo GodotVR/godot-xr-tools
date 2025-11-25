@@ -8,7 +8,8 @@
 [ext_resource type="Script" uid="uid://dmdr4j8plvntu" path="res://addons/godot-xr-tools/objects/snap_path_guide.gd" id="6_70w77"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_f44k4"]
-size = Vector3(0.0432129, 0.059082, 0.332031)
+margin = 0.01
+size = Vector3(0.0432129, 0.0544434, 0.332031)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ybnhb"]
 
@@ -48,7 +49,7 @@ shadow_mesh = SubResource("ArrayMesh_mmp6s")
 mass = 0.5
 
 [node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0028, 0.0208471, -0.0617341)
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0.0028, 0.0212133, -0.0617341)
 shape = SubResource("BoxShape3D_f44k4")
 
 [node name="Scope" type="MeshInstance3D" parent="." index="1"]
@@ -59,9 +60,9 @@ surface_material_override/0 = ExtResource("2_dg5g0")
 
 [node name="ScopeDisplay" parent="Scope" index="0" instance=ExtResource("3_q578b")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00747162, 0.00605679, 0.161537)
+fov = 5.0
 radius = 0.015
 offset = 0.326
-fov = 5.0
 
 [node name="GrabPointHandLeft" parent="." index="2" instance=ExtResource("4_7qvw6")]
 transform = Transform3D(-0.707107, 1.18331e-07, 0.707107, -0.707107, -3.09086e-08, -0.707107, -6.18173e-08, -1, 1.05529e-07, -0.0672, 0.0778826, -0.0907575)
