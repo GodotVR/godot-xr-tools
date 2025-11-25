@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=4 uid="uid://bmjemjgtnpkpo"]
+[gd_scene load_steps=39 format=4 uid="uid://bmjemjgtnpkpo"]
 
 [ext_resource type="PackedScene" uid="uid://c8l60rnugru40" path="res://addons/godot-xr-tools/objects/pickable.tscn" id="1_lpv7q"]
 [ext_resource type="Script" uid="uid://brplclvgdsq5d" path="res://assets/3dmodelscc0/models/scenes/sniper_rifle.gd" id="2_bdnea"]
@@ -23,8 +23,14 @@
 [ext_resource type="Animation" uid="uid://ca21ej1p3g2yt" path="res://addons/godot-xr-tools/hands/animations/right/Pinch Tight.res" id="18_1meaq"]
 [ext_resource type="PackedScene" uid="uid://cxytulli8pgww" path="res://scenes/pickable_demo/objects/picatinny_rail.tscn" id="20_e06no"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_apd71"]
-size = Vector3(0.0449182, 0.184766, 1.145)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5m10s"]
+margin = 0.01
+points = PackedVector3Array(-0.00735998, -0.0724581, 0.0606168, 0.0073398, -0.0724581, 0.0606168, -0.00735706, -0.0720996, 0.107711, -0.0120825, -0.0702762, 0.107711, -0.0120854, -0.0706346, 0.0605394, -0.0115913, -0.0317354, -0.194186, -0.00706172, -0.0330757, -0.195269, 0.0120653, -0.0706502, 0.0605394, 0.00734273, -0.0720996, 0.107711, 0.00703277, -0.0330757, -0.195269, 0.0115652, -0.0317354, -0.194186, -0.0139277, -0.0687333, 0.107711, -0.0139306, -0.0691074, 0.0605394, -0.0133604, -0.0306133, -0.193181, -0.0133691, 0.051019, -0.671313, -0.0116, 0.0499125, -0.671777, -0.00707049, 0.0486034, -0.67224, 0.00702692, 0.0485878, -0.67224, 0.0139104, -0.0691074, 0.0605394, 0.0139133, -0.0687489, 0.107711, 0.0120682, -0.0702762, 0.107711, 0.0133343, -0.0306133, -0.193181, 0.0115565, 0.0498969, -0.671777, 0.0133256, 0.0510035, -0.671313, -0.0149336, -0.0668943, 0.107711, -0.0149336, -0.0672684, 0.0605394, -0.0143253, -0.0292574, -0.192098, -0.0143341, 0.0523437, -0.670849, -0.0133691, 0.0547594, -0.675102, -0.0116, 0.0540425, -0.67603, -0.00706757, 0.0532009, -0.677035, 0.00702692, 0.0532009, -0.677035, 0.0149192, -0.0672684, 0.0605394, 0.0142993, -0.0292574, -0.192098, 0.0149192, -0.0669099, 0.107711, 0.0142905, 0.0523282, -0.670849, 0.0115565, 0.0540425, -0.67603, 0.0133285, 0.0547438, -0.675102, -0.014916, 0.0579698, 0.106783, -0.0149307, -0.039216, 0.107479, -0.0149277, -0.0110234, 0.0600755, 0.0149368, 0.0579698, 0.106783, -0.0143312, 0.0740999, -0.679046, -0.0143312, 0.0673518, -0.67835, -0.0143312, 0.0600426, -0.67572, -0.0143312, 0.0556009, -0.674019, -0.0133662, 0.059575, -0.677035, -0.0115971, 0.0591854, -0.67804, -0.00706757, 0.0587179, -0.679278, 0.00702692, 0.0587179, -0.679278, 0.0149368, 0.0575958, 0.0596115, 0.0149397, 0.063627, 0.106705, 0.0149251, -0.039216, 0.107479, 0.0142935, 0.0600426, -0.67572, 0.0142935, 0.0673518, -0.67835, 0.0142964, 0.0795701, -0.677112, 0.0142905, 0.0556009, -0.674019, 0.0115594, 0.0591854, -0.67804, 0.0133285, 0.059575, -0.677035, -0.00733659, 0.0674453, 0.106705, -0.012062, 0.066105, 0.106705, -0.0139072, 0.0649829, 0.106705, -0.014916, 0.063627, 0.106705, -0.014919, 0.0521567, 0.0596115, 0.0139338, 0.0649673, 0.106705, 0.0120887, 0.066105, 0.106705, 0.0073632, 0.0674297, 0.106705, -0.0143283, 0.0795857, -0.677112, -0.0133662, 0.0744739, -0.680438, -0.0133662, 0.0671803, -0.679742, -0.014916, 0.0632686, 0.0595341, -0.0115971, 0.06704, -0.680824, -0.00706757, 0.0668686, -0.682139, 0.00702984, 0.0668686, -0.682139, 0.0115594, 0.06704, -0.680824, 0.0149368, 0.063253, 0.0595341, 0.0142964, 0.0829052, -0.671081, 0.0143139, 0.082952, -0.247002, 0.013349, 0.0842923, -0.24677, 0.0133285, 0.0671803, -0.679742, 0.0142935, 0.0740999, -0.679046, 0.0133285, 0.0744739, -0.680438, 0.0133314, 0.0805208, -0.678118, 0.0133314, 0.0821572, -0.675643, 0.0142964, 0.0809883, -0.674947, -0.0070471, 0.0867546, -0.246384, -0.0115766, 0.0854143, -0.246538, -0.0133458, 0.0843078, -0.24677, -0.0143107, 0.082952, -0.247002, -0.0143283, 0.0829208, -0.671081, 0.0115798, 0.0854143, -0.246538, 0.00704739, 0.086739, -0.246384, -0.0133633, 0.0805364, -0.678118, -0.0143283, 0.0809883, -0.674947, -0.0133633, 0.0821572, -0.675643, -0.0115971, 0.0747856, -0.68152, -0.00706464, 0.0751596, -0.682216, 0.0115594, 0.0747856, -0.68152, 0.00702984, 0.0751596, -0.682216, 0.0133314, 0.0842455, -0.67139, 0.0115623, 0.0853676, -0.671622, 0.0115623, 0.0813312, -0.678968, 0.0115623, 0.0831234, -0.676184, 0.00703277, 0.0866923, -0.671931, -0.00706464, 0.0867079, -0.671931, -0.0115942, 0.0853676, -0.671622, -0.0133633, 0.0842611, -0.67139, -0.0115942, 0.0813312, -0.678968, -0.0115942, 0.0831234, -0.676184, -0.00706464, 0.0822662, -0.679896, 0.00702984, 0.0822662, -0.679896, 0.00703277, 0.0842767, -0.67688, -0.00706464, 0.0842767, -0.67688)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_bsrut"]
+margin = 0.005
+height = 0.790649
+radius = 0.0112305
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_exh4i"]
 radius = 0.06
@@ -117,13 +123,17 @@ script = ExtResource("2_bdnea")
 second_hand_grab = 2
 
 [node name="CollisionShape3D" parent="." index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00313599, -0.0495274, 0.0465783)
-shape = SubResource("BoxShape3D_apd71")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00371698, -0.0683875, 0.511802)
+shape = SubResource("ConvexPolygonShape3D_5m10s")
 
-[node name="HighlightRing" parent="." index="1" instance=ExtResource("6_x8gva")]
+[node name="BarrelCollision" type="CollisionShape3D" parent="." index="1"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, -0.00394333, 0.0186853, -0.127869)
+shape = SubResource("CylinderShape3D_bsrut")
+
+[node name="HighlightRing" parent="." index="2" instance=ExtResource("6_x8gva")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0309925, 0.3)
 
-[node name="sniper_rifle" parent="." index="2" instance=ExtResource("7_tk4wb")]
+[node name="sniper_rifle" parent="." index="3" instance=ExtResource("7_tk4wb")]
 
 [node name="Barrel" parent="sniper_rifle/SniperRifle" index="0"]
 surface_material_override/0 = ExtResource("8_7v2rw")
@@ -152,7 +162,6 @@ surface_material_override/0 = ExtResource("8_7v2rw")
 surface_material_override/0 = ExtResource("8_7v2rw")
 
 [node name="FirearmSlide" type="Node3D" parent="sniper_rifle" index="1"]
-visible = false
 script = ExtResource("7_gwebu")
 slider_end = 0.072
 
@@ -190,6 +199,7 @@ collision_layer = 262144
 collision_mask = 0
 freeze = true
 script = ExtResource("14_kvs86")
+enabled = false
 picked_up_layer = 0
 release_mode = 1
 
@@ -202,46 +212,46 @@ target = NodePath("../../../SliderBody/Bolt/GrabPointHandleLeft")
 [node name="GrabPointRedirectRight" parent="sniper_rifle/FirearmSlide/HandleOrigin/InteractableHandle" index="2" node_paths=PackedStringArray("target") instance=ExtResource("15_lnxyf")]
 target = NodePath("../../../SliderBody/Bolt/GrabPointHandleRight")
 
-[node name="XRFirearmTrigger" type="Node" parent="." index="3" node_paths=PackedStringArray("mesh_trigger", "handle_grabpoints")]
+[node name="XRFirearmTrigger" type="Node" parent="." index="4" node_paths=PackedStringArray("mesh_trigger", "handle_grabpoints")]
 script = ExtResource("9_0ljhu")
 mesh_trigger = NodePath("../sniper_rifle/SniperRifle/Trigger")
 value = 0.25
 handle_grabpoints = [NodePath("../sniper_rifle/FirearmSlide/SliderBody/Bolt/GrabPointHandleLeft"), NodePath("../sniper_rifle/FirearmSlide/SliderBody/Bolt/GrabPointHandleRight")]
 
-[node name="GrabPointGripLeft" parent="." index="4" instance=ExtResource("2_x4cgt")]
+[node name="GrabPointGripLeft" parent="." index="5" instance=ExtResource("2_x4cgt")]
 transform = Transform3D(1, 0, 0, 0, 0.975366, 0.220595, 0, -0.220595, 0.975366, 0.001, -0.016, 0.207)
 handle = "Grip"
 mode = 1
 hand_pose = SubResource("Resource_ok7hp")
 
-[node name="GrabPointGripRight" parent="." index="5" instance=ExtResource("5_sjb82")]
+[node name="GrabPointGripRight" parent="." index="6" instance=ExtResource("5_sjb82")]
 transform = Transform3D(1, 0, 0, 0, 0.975366, 0.220595, 0, -0.220595, 0.975366, -0.00131561, -0.0162657, 0.207056)
 handle = "Grip"
 mode = 1
 hand_pose = SubResource("Resource_kscym")
 
-[node name="GrabPointForestockLeft" parent="." index="6" instance=ExtResource("2_x4cgt")]
+[node name="GrabPointForestockLeft" parent="." index="7" instance=ExtResource("2_x4cgt")]
 transform = Transform3D(-2.50718e-08, -0.573576, -0.819152, 0.965926, 0.212012, -0.148453, 0.258819, -0.79124, 0.554032, 0.0292044, 0.0294211, -0.107)
 hand_pose = SubResource("Resource_tbrsh")
 drive_position = 0.0
 drive_angle = 0.0
 drive_aim = 1.0
 
-[node name="GrabPointForestockRight" parent="." index="7" instance=ExtResource("5_sjb82")]
+[node name="GrabPointForestockRight" parent="." index="8" instance=ExtResource("5_sjb82")]
 transform = Transform3D(-2.50718e-08, 0.573576, 0.819152, -0.965926, 0.212012, -0.148452, -0.258819, -0.79124, 0.554032, -0.039, 0.029, -0.107)
 hand_pose = SubResource("Resource_6toxn")
 drive_position = 0.0
 drive_angle = 0.0
 drive_aim = 1.0
 
-[node name="PicatinnyRail" parent="." index="8" instance=ExtResource("20_e06no")]
+[node name="PicatinnyRail" parent="." index="9" instance=ExtResource("20_e06no")]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, -0.00377285, 0.0421098, 0.0647577)
 
-[node name="MagSnapZone" parent="." index="9" groups=["sniper_slot"] instance=ExtResource("15_coy4c")]
+[node name="MagSnapZone" parent="." index="10" groups=["sniper_slot"] instance=ExtResource("15_coy4c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00341882, -0.0350358, 0.15841)
 snap_require = "sinper_magazine"
 
-[node name="HandPoseArea" parent="." index="10" node_paths=PackedStringArray("grabpoints") instance=ExtResource("16_4b70r")]
+[node name="HandPoseArea" parent="." index="11" node_paths=PackedStringArray("grabpoints") instance=ExtResource("16_4b70r")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00371962, 0.0341488, 0.238741)
 left_pose = SubResource("Resource_xtv8j")
 right_pose = SubResource("Resource_4jbx5")
@@ -249,5 +259,8 @@ grabpoints = [NodePath("../GrabPointForestockLeft"), NodePath("../GrabPointFores
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HandPoseArea" index="0"]
 shape = SubResource("SphereShape3D_01nvn")
+
+[connection signal="dropped" from="." to="." method="_on_dropped"]
+[connection signal="picked_up" from="." to="." method="_on_picked_up"]
 
 [editable path="sniper_rifle"]
