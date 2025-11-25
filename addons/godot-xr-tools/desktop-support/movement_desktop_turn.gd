@@ -120,7 +120,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 
 # Test if snap turning should be used
 func _snap_turning():
-	#temp removal - IDK if normal controler will be considered to have this as use
+	#temp removal - IDK if normal controller will be considered to have this as use
 	return false
 #	match turn_mode:
 #		TurnMode.SNAP:

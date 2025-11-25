@@ -13,6 +13,7 @@
 - Improved player body collisions so players can move over tables
 - Fix: Stash sound should not play on scene load (minor breaking)
 - Fixed node process mode issue for XRToolsInteractableAreaButton
+- Renamed controler to controller in various classes (minor breaking)
 
 # 4.4.0
 - Minimum Godot version changed to 4.2

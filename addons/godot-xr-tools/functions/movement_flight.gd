@@ -39,7 +39,7 @@ signal flight_finished()
 ## Enumeration of controller to use for flight
 enum FlightController {
 	LEFT,		## Use left controller
-	RIGHT,		## Use right controler
+	RIGHT,		## Use right controller
 }
 
 ## Enumeration of pitch control input
