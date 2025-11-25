@@ -24,7 +24,7 @@ signal sprinting_finished()
 ## developer to assign the sprint button to either controller.
 enum SprintController {
 	LEFT,		## Use left controller
-	RIGHT,		## Use right controler
+	RIGHT,		## Use right controller
 }
 
 ## Enumeration of sprinting modes - toggle or hold button

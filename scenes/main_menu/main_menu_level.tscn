@@ -15,7 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://ct3p5sgwvkmva" path="res://assets/meshes/control_pad/control_pad.tscn" id="8_gctxe"]
 [ext_resource type="PackedScene" uid="uid://3a6wjr3a13vd" path="res://assets/meshes/teleport/teleport.tscn" id="9"]
 [ext_resource type="Texture2D" uid="uid://8jxrr3gqnxck" path="res://scenes/basic_movement_demo/basic movement demo.png" id="10"]
-[ext_resource type="PackedScene" uid="uid://chb848dtavews" path="res://addons/godot-xr-tools/desktop-support/controler_hider.tscn" id="10_wu0kt"]
+[ext_resource type="PackedScene" uid="uid://chb848dtavews" path="res://addons/godot-xr-tools/desktop-support/controller_hider.tscn" id="10_wu0kt"]
 [ext_resource type="Texture2D" uid="uid://c8qc5ja60n3u8" path="res://scenes/teleport_demo/teleport movement demo.png" id="12"]
 [ext_resource type="PackedScene" uid="uid://deyk5frilshws" path="res://assets/meshes/control_pad/control_pad_location_right.tscn" id="12_pwgp0"]
 [ext_resource type="PackedScene" uid="uid://ca6c2h3xsflxf" path="res://assets/maps/holodeck_map.tscn" id="12_rx0cj"]
@@ -148,7 +148,7 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="MovementDirect" parent="XROrigin3D/LeftHand" index="3" instance=ExtResource("6")]
 strafe = true
 
-[node name="ControlerHider" parent="XROrigin3D/LeftHand" index="4" instance=ExtResource("10_wu0kt")]
+[node name="ControllerHider" parent="XROrigin3D/LeftHand" index="4" instance=ExtResource("10_wu0kt")]
 
 [node name="RightHand" parent="XROrigin3D" index="2"]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0.5, 1, -0.5)
@@ -184,7 +184,7 @@ transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 
 [node name="ControlPadLocationRight" parent="XROrigin3D/RightHand" index="4" instance=ExtResource("12_pwgp0")]
 transform = Transform3D(1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 0, 0)
 
-[node name="ControlerHider" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("10_wu0kt")]
+[node name="ControllerHider" parent="XROrigin3D/RightHand" index="5" instance=ExtResource("10_wu0kt")]
 
 [node name="PlayerBody" parent="XROrigin3D" index="3" instance=ExtResource("8")]
 
