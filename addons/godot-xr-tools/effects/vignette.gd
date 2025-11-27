@@ -13,6 +13,12 @@ extends Node3D
 @export var auto_rotation_limit : float = 20.0: set = set_auto_rotation_limit
 @export var auto_velocity_limit : float = 10.0
 
+@export_flags_3d_render var layers = 2:
+	set(value):
+		layers = value
+		if is_inside_tree():
+			$Mesh.layers = layers
+
 var material : ShaderMaterial = preload("res://addons/godot-xr-tools/effects/vignette.tres")
 
 var auto_first = true
@@ -80,6 +86,7 @@ func _update_mesh() -> void:
 	arr_mesh.custom_aabb = AABB(Vector3(-1.0, -1.0, -1.0), Vector3(1.0, 1.0, 1.0))
 
 	$Mesh.mesh = arr_mesh
+	$Mesh.layers = layers
 	$Mesh.set_surface_override_material(0, material)
 
 func set_auto_adjust(new_auto_adjust : bool) -> void:

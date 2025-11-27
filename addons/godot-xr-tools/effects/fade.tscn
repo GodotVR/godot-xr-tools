@@ -14,6 +14,7 @@ shader_parameter/albedo = Color(0, 0, 0, 1)
 
 [node name="Fade" type="Node3D"]
 script = ExtResource("1_6667f")
+cull_mask = 1
 
 [node name="FadeMesh" type="MeshInstance3D" parent="."]
 visible = false

@@ -22,6 +22,7 @@ script = ExtResource("1")
 [node name="Mesh" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
 visible = false
+layers = 2
 cast_shadow = 0
 ignore_occlusion_culling = true
 mesh = SubResource("ArrayMesh_yyajy")

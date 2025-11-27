@@ -1,0 +1,91 @@
+[gd_scene load_steps=7 format=3 uid="uid://dbeb7yij08a0k"]
+
+[ext_resource type="Script" uid="uid://wrj82keinrmg" path="res://demo_spectator.gd" id="1_8iyqg"]
+[ext_resource type="PackedScene" uid="uid://dkr1jkk3jerux" path="res://demo_staging.tscn" id="1_sk82w"]
+[ext_resource type="PackedScene" uid="uid://ss6ydhkwbtrl" path="res://scenes/helpers/axis/axis.tscn" id="2_e6dq5"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_8iyqg"]
+radius = 0.15
+height = 0.3
+radial_segments = 32
+rings = 16
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8iyqg"]
+albedo_color = Color(0.158472, 0.158472, 0.158472, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e6dq5"]
+radius = 0.05
+height = 0.2
+radial_segments = 32
+rings = 4
+
+[node name="DemoSpectator" type="Node2D"]
+script = ExtResource("1_8iyqg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 152.0
+offset_bottom = 76.0
+
+[node name="CameraPosSelection" type="OptionButton" parent="VBoxContainer"]
+layout_mode = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "Over shoulder"
+popup/item_0/id = 0
+popup/item_1/text = "Selfie"
+popup/item_1/id = 1
+popup/item_2/text = "First Person"
+popup/item_2/id = 2
+
+[node name="ShowDebugAxis" type="CheckBox" parent="VBoxContainer"]
+layout_mode = 2
+text = "Show axis"
+
+[node name="FollowXROrigin" type="Node3D" parent="."]
+
+[node name="FollowXRCamera" type="Node3D" parent="FollowXROrigin"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.7, 0)
+
+[node name="Head" type="MeshInstance3D" parent="FollowXROrigin/FollowXRCamera"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.05)
+layers = 4
+mesh = SubResource("SphereMesh_8iyqg")
+
+[node name="HMD" type="MeshInstance3D" parent="FollowXROrigin/FollowXRCamera/Head"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 0.0133276, -0.120974)
+layers = 4
+material_override = SubResource("StandardMaterial3D_8iyqg")
+mesh = SubResource("CapsuleMesh_e6dq5")
+
+[node name="CameraAxis" parent="FollowXROrigin/FollowXRCamera" groups=["DebugAxis"] instance=ExtResource("2_e6dq5")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+label = "XRCamera3D"
+layers = 4
+
+[node name="OverShoulderCameraPos" type="Node3D" parent="FollowXROrigin"]
+transform = Transform3D(0.994739, -0.0160048, 0.101187, 0, 0.987721, 0.156228, -0.102445, -0.155406, 0.982524, 0.5, 1.5, 1)
+
+[node name="FrontCameraPos" type="Node3D" parent="FollowXROrigin"]
+transform = Transform3D(-1, 1.36759e-08, -8.63465e-08, -3.99929e-09, 0.979498, 0.201454, 8.73312e-08, 0.201454, -0.979498, 0, 2, -2)
+
+[node name="OriginAxis" parent="FollowXROrigin" groups=["DebugAxis"] instance=ExtResource("2_e6dq5")]
+transform = Transform3D(3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0)
+label = "XROrigin3D"
+layers = 4
+
+[node name="SpectatorCamera" type="Camera3D" parent="."]
+transform = Transform3D(0.994739, -0.0160048, 0.101187, 0, 0.987721, 0.156228, -0.102445, -0.155406, 0.982524, 0.5, 1.5, 1)
+cull_mask = 1048573
+
+[node name="HMDViewport" type="SubViewport" parent="."]
+
+[node name="DemoStaging" parent="HMDViewport" instance=ExtResource("1_sk82w")]
+
+[node name="XRCamera3D" parent="HMDViewport/DemoStaging/XROrigin3D" index="0"]
+cull_mask = 1048571
+
+[connection signal="toggled" from="VBoxContainer/ShowDebugAxis" to="." method="_on_show_debug_axis_toggled"]
+
+[editable path="HMDViewport/DemoStaging"]
