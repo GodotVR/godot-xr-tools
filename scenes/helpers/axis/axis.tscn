@@ -11,7 +11,7 @@ color = Color(0, 0, 1, 1)
 
 [node name="Z" type="Label3D" parent="Forward"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
-layers = 4
+layers = 7
 pixel_size = 0.001
 billboard = 2
 modulate = Color(0, 0, 1, 1)
@@ -23,7 +23,7 @@ color = Color(0, 1, 0, 1)
 
 [node name="Y" type="Label3D" parent="Up"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
-layers = 4
+layers = 7
 pixel_size = 0.001
 billboard = 2
 modulate = Color(0, 1, 0, 1)
@@ -36,7 +36,7 @@ color = Color(1, 0, 0, 1)
 
 [node name="X" type="Label3D" parent="Left"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.125)
-layers = 4
+layers = 7
 pixel_size = 0.001
 billboard = 2
 modulate = Color(1, 0, 0, 1)
@@ -44,7 +44,7 @@ text = "X	"
 
 [node name="Label3D" type="Label3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.01, 0.01, 0)
-layers = 4
+layers = 7
 pixel_size = 0.001
 billboard = 2
 text = "XRNode3D"
