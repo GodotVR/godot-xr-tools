@@ -227,6 +227,7 @@ func _ready():
 	# Create the shape-cast for head collisions
 	_head_shape_cast = ShapeCast3D.new()
 	_head_shape_cast.enabled = false
+	_head_shape_cast.exclude_parent = true
 	_head_shape_cast.margin = 0.01
 	_head_shape_cast.collision_mask = collision_mask
 	_head_shape_cast.max_results = 1
@@ -679,9 +680,14 @@ func _update_body_under_camera(delta : float):
 	# But do lateral movement with move and collide
 	var body_movement = target_transform.origin - global_position
 
-	var collision : KinematicCollision3D = move_and_collide(body_movement)
+	# Use move and slide so we don't get stopped by the ground
+	var was_velocity : Vector3 = velocity
+	velocity = body_movement / delta
+	var collided : bool = move_and_slide()
+	velocity = was_velocity
+
 	var fade : bool = false
-	if collision and collision.get_collision_count() > 0:
+	if collided:
 		var camera_local_transform = global_transform.inverse() * camera_node.global_transform
 		var camera_local_position = camera_local_transform.origin
 
@@ -702,7 +708,7 @@ func _update_body_under_camera(delta : float):
 		# See how far we can move
 		var safe := min(_head_shape_cast.get_closest_collision_safe_fraction(), max_head_distance / target_move_distance)
 		if safe < 1.0:
-			# print("Attempted to move from ", global_position, " to ", target_transform.origin, " => ", body_movement, ", safe: ", safe)
+			# print("Attempted to move head from ", _head_shape_cast.transform.origin, " to ", camera_local_position, " => ", _head_shape_cast.target_position, ", safe: ", safe)
 
 			if head_behavior_mode == 0:
 				# Push body back, we actually move our player body into the collision,
@@ -717,9 +723,13 @@ func _update_body_under_camera(delta : float):
 
 	if fade:
 		if not _fade:
-			var fade_scene : PackedScene = load("res://addons/godot-xr-tools/effects/fade.tscn")
-			_fade = fade_scene.instantiate()
-			add_child(_fade, false, Node.INTERNAL_MODE_BACK)
+			# Use global fade if we have one
+			_fade = XRToolsFade.get_fade_node()
+			if not _fade:
+				# Else create a local instance
+				var fade_scene : PackedScene = load("res://addons/godot-xr-tools/effects/fade.tscn")
+				_fade = fade_scene.instantiate()
+				add_child(_fade, false, Node.INTERNAL_MODE_BACK)
 
 		_fade_value = max(_fade_value + delta * 3.0, 0.0)
 
@@ -728,6 +738,14 @@ func _update_body_under_camera(delta : float):
 		_fade_value = max(_fade_value - delta * 3.0, 0.0)
 
 		_fade.set_fade_level(self, Color(0, 0, 0, _fade_value))
+
+
+# Called when we're removed from the scene tree
+func _exit_tree():
+	if _fade:
+		# Just in case our fade was global, make sure we clean up.
+		_fade.set_fade_level(self, Color(0 ,0 ,0 ,0 ))
+
 
 # This method updates the information about the ground under the players feet
 func _update_ground_information(delta: float):
@@ -922,6 +940,9 @@ func _get_configuration_warnings() -> PackedStringArray:
 	# Verify the player height maximum is valid
 	if player_height_max < player_height_min:
 		warnings.append("Player height maximum cannot be smaller than minimum")
+
+	if head_behavior_mode == 1 and player_radius <= player_head_height:
+		warnings.append("When using fade mode, player radius should be larger than head height")
 
 	# Verify eye-forward does not allow near-clip-plane look through
 	var eyes_to_collider = (1.0 - eye_forward_offset) * player_radius
