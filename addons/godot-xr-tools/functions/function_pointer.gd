@@ -53,6 +53,12 @@ const SUPPRESS_MASK := 0b0000_0000_0100_0000_0000_0000_0000_0000
 ## Active button action
 @export var active_button_action : String = "trigger_click"
 
+## debounce time for double click
+@export var debounce_active_button_time : float = 0.25
+
+## Double Click action
+@export var double_click_action : String = "ax_button"
+
 @export_group("Laser")
 
 ## Controls when the laser is visible
@@ -118,6 +124,9 @@ var _controller_right_node : XRController3D
 
 # The currently active controller
 var _active_controller : XRController3D
+
+# flag to manage double click in active button
+var _debounce_active_button = false
 
 
 ## Add support for is_xr_class on XRTools classes
@@ -452,6 +461,13 @@ func _button_pressed() -> void:
 		last_collided_at = $RayCast.get_collision_point()
 		XRToolsPointerEvent.pressed(self, target, last_collided_at)
 
+# Pointer-activation button pressed handler
+func _button_doubleclick() -> void:
+	if $RayCast.is_colliding():
+		# Report doubleclick
+		target = $RayCast.get_collider()
+		last_collided_at = $RayCast.get_collision_point()
+		XRToolsPointerEvent.doubleclick(self, target, last_collided_at)
 
 # Pointer-activation button released handler
 func _button_released() -> void:
@@ -464,9 +480,23 @@ func _button_released() -> void:
 
 # Button pressed handler
 func _on_button_pressed(p_button : String, controller : XRController3D) -> void:
+	#detect if trigger or double click action
 	if p_button == active_button_action and enabled:
 		if controller == _active_controller:
-			_button_pressed()
+			if _debounce_active_button:
+				_button_doubleclick()
+				_debounce_active_button = false
+			else:
+				_button_pressed()
+				_debounce_active_button = true
+				await get_tree().create_timer(debounce_active_button_time).timeout
+				_debounce_active_button = false
+		else:
+			_active_controller = controller
+
+	if p_button == double_click_action and enabled:
+		if controller == _active_controller:
+			_button_doubleclick()
 		else:
 			_active_controller = controller
 
