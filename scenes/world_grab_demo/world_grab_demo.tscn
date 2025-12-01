@@ -195,7 +195,6 @@ player_height_min = 0.8
 player_height_max = 0.8
 eye_forward_offset = 0.0
 body_forward_mix = 0.0
-head_behavior_mode = 2
 
 [node name="MovementWorldGrab" parent="XROrigin3D" index="4" instance=ExtResource("6_lqm6m")]
 

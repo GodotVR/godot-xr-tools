@@ -14,6 +14,7 @@ config/name="Godot XR Tools Demo"
 run/main_scene="res://demo_staging.tscn"
 config/features=PackedStringArray("4.4")
 config/icon="res://icon.png"
+run/main_scene.pc="uid://dbeb7yij08a0k"
 
 [autoload]
 
@@ -56,6 +57,9 @@ trigger_left={
 
 [layer_names]
 
+3d_render/layer_1="Default"
+3d_render/layer_2="HMD Only"
+3d_render/layer_3="Spectator Only"
 3d_physics/layer_1="Static World"
 3d_physics/layer_2="Dynamic World"
 3d_physics/layer_3="Pickable Objects"
@@ -79,6 +83,7 @@ renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true
 limits/time/time_rollover_secs=30.0
+environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 
 [xr]
 

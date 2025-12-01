@@ -5,7 +5,6 @@
 [node name="PlayerBody" type="CharacterBody3D" groups=["player_body"]]
 process_priority = -100
 process_physics_priority = -100
-top_level = true
 collision_layer = 524288
 collision_mask = 1023
 script = ExtResource("1")

@@ -7,6 +7,11 @@ extends Node3D
 ##
 ## This script manages fading the view.
 
+@export_flags_3d_render var layers = 2:
+	set(value):
+		layers = value
+		if _mesh:
+			_mesh.layers = layers
 
 # Dictionary of fade requests
 var _faders : Dictionary = {}
@@ -34,7 +39,9 @@ func _ready() -> void:
 
 	# Get the mesh and material
 	_mesh = $FadeMesh
-	_material = _mesh.get_surface_override_material(0)
+	if _mesh:
+		_mesh.layers = layers
+		_material = _mesh.get_surface_override_material(0)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -68,6 +75,17 @@ func set_fade_level(p_whom : Variant, p_color : Color) -> void:
 		# Fade erased
 		_update = true
 
+
+## Returns our first current fade node
+static func get_fade_node() -> XRToolsFade:
+	# In the future this use of groups should be replaced by static instances.
+	var tree := Engine.get_main_loop() as SceneTree
+	for node in tree.get_nodes_in_group("fade_mesh"):
+		var fade := node as XRToolsFade
+		if fade:
+			return fade
+
+	return null
 
 ## Set the fade level on the fade instance
 static func set_fade(p_whom : Variant, p_color : Color) -> void:

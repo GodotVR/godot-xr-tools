@@ -76,6 +76,11 @@ func center_player_on(p_transform : Transform3D):
 	# And now update our origin point
 	$XROrigin3D.global_transform = (p_transform * transform.inverse()).orthonormalized()
 
+	# If we have a player body, we need to set its starting position too.
+	var player_body : XRToolsPlayerBody = XRToolsPlayerBody.find_instance($XROrigin3D)
+	if player_body:
+		player_body.global_transform = p_transform
+
 
 ## This method is called when the scene is loaded, but before it becomes visible.
 ##
