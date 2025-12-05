@@ -271,8 +271,8 @@ func _set_ranged_angle(new_value: float) -> void:
 # Called when the ranged-grab collision mask has been modified
 func _set_ranged_collision_mask(new_value: int) -> void:
 	ranged_collision_mask = new_value
-	if is_inside_tree() and _ranged_collision:
-		_ranged_collision.collision_mask = new_value
+	if is_inside_tree() and _ranged_area:
+		_ranged_area.collision_mask = new_value
 
 
 # Update the colliders geometry
