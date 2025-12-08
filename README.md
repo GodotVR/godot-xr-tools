@@ -24,6 +24,7 @@ Version compatibility:
 
 | Godot XR Tools | Minimum Godot version |
 |----------------|-----------------------|
+| 4.5.x          | 4.4                   |
 | 4.4.x          | 4.2                   |
 | 4.3.x          | 4.1                   |
 | 4.2.x          | 4.1                   |
