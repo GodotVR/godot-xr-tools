@@ -32,6 +32,7 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Sam Sarette](https://github.com/lunarcloud)
 - [Squidt](https://github.com/squidt)
 - [Suriya Palaniswami](https://github.com/Suriya-Palaniswami)
+- [Tanner Probst](https://github.com/Ritter7124)
 - [Teddybear08](https://github.com/teddybear082)
 - [Tomaaron](https://github.com/tomaaron)
 

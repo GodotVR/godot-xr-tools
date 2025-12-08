@@ -15,6 +15,7 @@
 - Fixed node process mode issue for XRToolsInteractableAreaButton
 - Renamed controler to controller in various classes (minor breaking)
 - Demo now has an optional spectator view for PCVR
+- Fixed issue with setting the ranged collision mask
 
 # 4.4.0
 - Minimum Godot version changed to 4.2
