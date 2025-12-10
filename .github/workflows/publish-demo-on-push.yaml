@@ -17,10 +17,10 @@ on:
 # Environment variables
 env:
   # Configure Godot version
-  GODOT_VERSION: 4.4.0
+  GODOT_VERSION: 4.4.1
 
   # OpenXR Vendors version
-  OPENXR_VENDORS_VERSION: 4.2.1-stable
+  OPENXR_VENDORS_VERSION: 4.2.2-stable
   
   # Butler API Key (comment to disable)
   BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
@@ -50,6 +50,7 @@ jobs:
             export-folder: build/windows
             archive: Windows
             butler-channel: windows
+            vendor-plugin: false
 
           # Export for Linux
           - name: 🐧 Linux
@@ -60,6 +61,7 @@ jobs:
             export-folder: build/linux
             archive: Linux
             butler-channel: linux
+            vendor-plugin: false
 
           # Export for Android Quest
           - name: 🤖 Android Quest
@@ -71,6 +73,7 @@ jobs:
             export-folder: build/android-quest
             archive: Android-Quest
             butler-channel: android-quest
+            vendor-plugin: true
 
           # Export for Android Pico
           - name: 🤖 Android Pico
@@ -82,6 +85,7 @@ jobs:
             export-folder: build/android-pico
             archive: Android-Pico
             butler-channel: android-pico
+            vendor-plugin: true
 
           # Export for Android Lynx
           - name: 🤖 Android Lynx
@@ -93,6 +97,7 @@ jobs:
             export-folder: build/android-lynx
             archive: Android-Lynx
             butler-channel: android-lynx
+            vendor-plugin: true
 
           # Export for Android Khronos
           - name: 🤖 Android Khronos
@@ -104,6 +109,7 @@ jobs:
             export-folder: build/android-khronos
             archive: Android-Khronos
             butler-channel: android-khronos
+            vendor-plugin: true
 
           # Export for WebXR
           - name: 🌐 WebXR
@@ -114,6 +120,7 @@ jobs:
             export-folder: build/webxr
             archive: WebXR
             butler-channel: webxr
+            vendor-plugin: true
 
     steps:
       # Check out the repository
@@ -123,6 +130,7 @@ jobs:
       # Install the OpenXR Vendors Plugin
       - name: Install OpenXR Vendors Plugin
         shell: bash
+        if: matrix.vendor-plugin
         run: |
           curl -L -O https://github.com/GodotVR/godot_openxr_vendors/releases/download/${{ env.OPENXR_VENDORS_VERSION }}/godotopenxrvendorsaddon.zip
           unzip -o godotopenxrvendorsaddon.zip -d godotopenxrvendorsaddon
