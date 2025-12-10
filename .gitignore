@@ -11,3 +11,6 @@ logs
 Thumbs.db
 android/
 .venv/
+
+# Don't include the vendors plugin in our repo
+addons/godotopenxrvendors/
