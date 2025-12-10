@@ -195,17 +195,14 @@ jobs:
 
       # Install butler (if building release with butler support)
       - name: Install Butler
-        if: >
-
-          env.BUTLER_API_KEY != ''
+        if: env.BUTLER_API_KEY != ''
         uses: remarkablegames/setup-butler@v1
         with:
           butler-version: LATEST
 
       # Push to itch.io (if building release)
       - name: Push to itch.io
-        if: >
-          env.BUTLER_API_KEY != ''
+        if: env.BUTLER_API_KEY != ''
         run: >
           butler push
           --ignore '.gitignore'
