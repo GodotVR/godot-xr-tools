@@ -90,4 +90,6 @@ environment/defaults/default_clear_color=Color(0, 0, 0, 1)
 openxr/enabled=true
 openxr/foveation_level=3
 openxr/foveation_dynamic=true
+openxr/extensions/hand_interaction_profile=true
 shaders/enabled=true
+openxr/extensions/meta/color_space/starting_color_space=3
