@@ -38,7 +38,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 		return
 
 
-	if Input.is_action_just_pressed("ui_cancel"):
+	if Input.is_action_just_pressed(escape_action):
 		capture=!capture
 
 	#print(Input.mouse_mode==Input.MOUSE_MODE_CAPTURED)
