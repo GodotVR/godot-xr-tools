@@ -504,7 +504,7 @@ func _update_render() -> void:
 			_screen_material = StandardMaterial3D.new()
 
 			# Disable culling
-			_screen_material.params_cull_mode = StandardMaterial3D.CULL_DISABLED
+			_screen_material.cull_mode = StandardMaterial3D.CULL_DISABLED
 
 			# Ensure local material is configured
 			_dirty |= _DIRTY_TRANSPARENCY |	\
