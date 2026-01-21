@@ -1,6 +1,7 @@
 @tool
 class_name XRToolsDesktopMovementFlight
 extends XRToolsMovementProvider
+
 ## XR Tools Movement Provider for Flying
 ##
 ## This script provides flying movement for the player. The control parameters
@@ -66,7 +67,7 @@ signal flight_finished()
 ## Guidance effect (virtual fins/wings)
 @export var guidance: float = 0.0
 
-## If true, flight movement is exclusive preventing further movement functions
+## Whether flight movement is exclusive, preventing further movement functions
 @export var exclusive: bool = true
 
 
@@ -111,7 +112,9 @@ func physics_movement(
 
 	# Detect press of flight button
 	var old_flight_button: bool = _flight_button
+
 	_flight_button = Input.is_action_pressed(flight_button)
+
 	if _flight_button and not old_flight_button:
 		set_flying(not is_active)
 
@@ -119,15 +122,11 @@ func physics_movement(
 	if not is_active:
 		return
 
-	# Select the pitch vector
-	var pitch_vector: Vector3
-	# Use the vertical part of the 'head' forwards vector
-	pitch_vector = -_camera.transform.basis.z.y * player_body.up_player
+	# Select the pitch vector as the vertical part of the 'head' forwards vector
+	var pitch_vector: Vector3 = -_camera.transform.basis.z.y * player_body.up_player
 
-	# Select the bearing vector
-	var bearing_vector: Vector3
-	# Use the horizontal part of the 'head' forwards vector
-	bearing_vector = -_camera.global_transform.basis.z \
+	# Select the bearing vector as the horizontal part of the 'head' forwards vector
+	var bearing_vector: Vector3 = -_camera.global_transform.basis.z \
 			.slide(player_body.up_player)
 
 	# Construct the flight bearing
@@ -143,7 +142,7 @@ func physics_movement(
 	)
 	var joy_forwards: float = input_dir.y
 	var joy_side: float = input_dir.x
-	var heading := forwards * joy_forwards + side * joy_side
+	var heading: Vector3 = forwards * joy_forwards + side * joy_side
 
 	# Calculate the flight velocity
 	var flight_velocity: Vector3 = player_body.velocity
