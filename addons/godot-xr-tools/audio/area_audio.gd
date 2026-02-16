@@ -12,13 +12,13 @@ extends AudioStreamPlayer3D
 
 
 ## XRToolsAreaAudioType to associate with this Area Audio
-@export var area_audio_type : XRToolsAreaAudioType
+@export var area_audio_type: XRToolsAreaAudioType
 
-@onready var area : Area3D = get_parent()
+@onready var area: Area3D = get_parent()
 
 
-# Add support for is_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Add support for is_class on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsAreaAudio"
 
 
@@ -30,23 +30,23 @@ func _ready() -> void:
 	area.body_exited.connect(_on_body_exited)
 
 
-func _on_body_entered(_body):
+func _on_body_entered(_body: Node3D) -> void:
 	if playing:
 		stop()
 	stream = area_audio_type.touch_sound
 	play()
 
 
-func _on_body_exited(_body):
+func _on_body_exited(_body: Node3D) -> void:
 	if playing:
-			stop()
+		stop()
 
 
 # This method checks for configuration issues.
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
-	if !area_audio_type:
+	if not area_audio_type:
 		warnings.append("Area audio type not specified")
 
 	# Return warnings
