@@ -2,7 +2,6 @@
 class_name XRToolsDesktopMovementJump
 extends XRToolsMovementProvider
 
-
 ## XR Tools Movement Provider for Jumping
 ##
 ## This script provides jumping mechanics for the player. This script works
@@ -14,28 +13,37 @@ extends XRToolsMovementProvider
 
 
 ## Movement provider order
-@export var order : int = 20
+@export var order: int = 20
 
 ## Button to trigger jump
-@export var jump_button_action : String = "ui_accept"
+@export var jump_button_action: String = "ui_accept"
 
 
-# Node references
-@onready var xr_start_node = XRTools.find_xr_child(
-	XRTools.find_xr_ancestor(self,
-	"*Staging",
-	"XRToolsStaging"),"StartXR","Node")
+## XR start node
+@onready var xr_start_node: XRToolsStartXR = XRTools.find_xr_child(
+		XRTools.find_xr_ancestor(
+				self,
+				"*Staging",
+				"XRToolsStaging",
+		),
+		"StartXR",
+		"Node",
+)
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Add support for is_xr_class on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsDesktopMovementJump" or super(xr_name)
 
 
-# Perform jump movement
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+## Perform jump movement
+func physics_movement(
+		_delta: float,
+		player_body: XRToolsPlayerBody,
+		_disabled: bool,
+) -> void:
 	# Skip if the jump controller isn't active
-	if !player_body.enabled or xr_start_node.is_xr_active():
+	if not player_body.enabled or xr_start_node.is_xr_active():
 		return
 
 	# Request jump if the button is pressed
