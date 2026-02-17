@@ -11,17 +11,18 @@ extends AudioStreamPlayer3D
 ## along with a audio for when the object is being picked up.
 
 
-## XRToolsPickableAudioType to associate with this pickable
-@export var pickable_audio_type  : XRToolsPickableAudioType
+## [XRToolsPickableAudioType] to associate with this pickable
+@export var pickable_audio_type: XRToolsPickableAudioType
 
 ## delta throttle is 1/10 of delta
-@onready var delta_throttle : float = 0.1
+@onready var delta_throttle: float = 0.1
 
-@onready var _pickable : XRToolsPickable = get_parent()
+## [XRToolsPickable] to attach to
+@onready var _pickable: XRToolsPickable = get_parent()
 
 
-# Add support for is_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Add support for is_class on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsPickableAudio"
 
 
@@ -34,8 +35,8 @@ func _ready() -> void:
 	_pickable.dropped.connect(_on_dropped)
 
 
-func _physics_process(_delta):
-	if !_pickable.sleeping:
+func _physics_process(_delta: float) -> void:
+	if not _pickable.sleeping:
 		if _pickable.linear_velocity.length() > 5:
 			volume_db = 0
 		else:
@@ -43,28 +44,32 @@ func _physics_process(_delta):
 
 
 # Called when this object is picked up
-func _on_picked_up(_pickable) -> void:
+func _on_picked_up(_pickable: XRToolsPickable) -> void:
 	volume_db = 0
+
 	if playing:
 		stop()
+
 	stream = pickable_audio_type.grab_sound
 	play()
 
 
 # Called when this object is dropped
-func _on_dropped(_pickable) -> void:
-	for body in _pickable.get_colliding_bodies():
+func _on_dropped(_pickable: XRToolsPickable) -> void:
+	for body: Node3D in _pickable.get_colliding_bodies():
 		if playing:
 			stop()
 
 
-func _on_body_entered(_body):
+func _on_body_entered(_body: Node) -> void:
 	if playing:
-			stop()
+		stop()
+
 	if _pickable.is_picked_up():
 		stream = pickable_audio_type.hit_sound
 	else:
 		stream = pickable_audio_type.drop_sound
+
 	play()
 
 
@@ -72,7 +77,7 @@ func _on_body_entered(_body):
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
-	if !pickable_audio_type:
+	if not pickable_audio_type:
 		warnings.append("Pickable audio type not specified")
 
 	# Return warnings
