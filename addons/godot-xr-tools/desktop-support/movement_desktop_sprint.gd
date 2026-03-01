@@ -2,7 +2,6 @@
 class_name XRToolsDesktopMovementSprint
 extends XRToolsMovementProvider
 
-
 ## XR Tools Movement Provider for Sprinting
 ##
 ## This script provides sprinting movement for the player. It assumes there is
@@ -13,10 +12,10 @@ extends XRToolsMovementProvider
 ## the [XROrigin3D] node rather than to a specific [XRController3D].
 
 
-## Signal emitted when sprinting starts
+## Emitted when sprinting starts
 signal sprinting_started()
 
-## Signal emitted when sprinting finishes
+## Emitted when sprinting finishes
 signal sprinting_finished()
 
 
@@ -28,57 +27,64 @@ enum SprintType {
 
 
 ## Type of sprinting
-@export var sprint_type : SprintType = SprintType.HOLD_TO_SPRINT
+@export var sprint_type: SprintType = SprintType.HOLD_TO_SPRINT
 
 ## Sprint speed multiplier (multiplier from speed set by direct movement node(s))
-@export_range(1.0, 4.0) var sprint_speed_multiplier : float = 2.0
+@export_range(1.0, 4.0) var sprint_speed_multiplier: float = 2.0
 
 ## Movement provider order
-@export var order : int = 11
+@export var order: int = 11
 
-## Sprint button
-@export var sprint_button : String = "action_sprint"
-
-# Sprint button down state
-var _sprint_button_down : bool = false
-
-# Variable to hold left controller direct movement node original max speed
-var _direct_original_max_speed : float = 0.0
+## Input action for sprinting
+@export var sprint_button: String = "action_sprint"
 
 
-# XRStart node
-@onready var xr_start_node = XRTools.find_xr_child(
-	XRTools.find_xr_ancestor(self,
-	"*Staging",
-	"XRToolsStaging"),"StartXR","Node")
+# Whether the sprint button is held down
+var _sprint_button_down: bool = false
+
+# Direct movement node's original max speed
+var _direct_original_max_speed: float = 0.0
 
 
-# Variable used to cache left controller direct movement function, if any
+## XRStart node
+@onready var xr_start_node: XRToolsStartXR = XRTools.find_xr_child(
+		XRTools.find_xr_ancestor(
+				self,
+				"*Staging",
+				"XRToolsStaging",
+		),
+		"StartXR",
+		"Node",
+)
+
+# Direct movement node, if any
 @onready var _desktop_direct_move := XRToolsDesktopMovementDirect.find(self)
 
 
-
-
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Add support for is_xr_class on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsDesktopMovementSprint" or super(xr_name)
 
 
-func _ready():
-	# In Godot 4 we must now manually call our super class ready function
-	super()
-
-
-# Perform sprinting
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+## Perform sprinting
+func physics_movement(
+		_delta: float,
+		player_body: XRToolsPlayerBody,
+		disabled: bool,
+) -> void:
 	# Skip if the controller isn't active or is not enabled
-	if !player_body.enabled or xr_start_node.is_xr_active() or disabled == true or !enabled:
+	if (
+			not player_body.enabled
+			or xr_start_node.is_xr_active()
+			or disabled
+			or not enabled
+	):
 		set_sprinting(false)
 		return
 
 	# Detect sprint button down and pressed states
 	var sprint_button_down := Input.is_action_pressed(sprint_button)
-	var sprint_button_pressed := sprint_button_down and !_sprint_button_down
+	var sprint_button_pressed := sprint_button_down and not _sprint_button_down
 	_sprint_button_down = sprint_button_down
 
 	# Calculate new sprinting state
@@ -91,14 +97,14 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 		SprintType.TOGGLE_SPRINT:
 			# Toggle when button pressed
 			if sprint_button_pressed:
-				sprinting = !sprinting
+				sprinting = not sprinting
 
 	# Update sprinting state
 	if sprinting != is_active:
 		set_sprinting(sprinting)
 
 
-# Public function used to set sprinting active or not active
+## Toggles sprinting
 func set_sprinting(active: bool) -> void:
 	# Skip if no change
 	if active == is_active:
@@ -109,8 +115,8 @@ func set_sprinting(active: bool) -> void:
 
 	# Handle state change
 	if is_active:
-		# We are sprinting
-		emit_signal("sprinting_started")
+		# If we are sprinting
+		sprinting_started.emit()
 
 		# Since max speeds could be changed while game is running, check
 		# now for original max speeds of left and right nodes
@@ -123,8 +129,8 @@ func set_sprinting(active: bool) -> void:
 			_desktop_direct_move.max_speed = \
 					_direct_original_max_speed * sprint_speed_multiplier
 	else:
-		# We are not sprinting
-		emit_signal("sprinting_finished")
+		# If we are not sprinting
+		sprinting_finished.emit()
 
 		# Set both controllers' direct movement functions, if applicable, to
 		# their original speeds
@@ -132,12 +138,12 @@ func set_sprinting(active: bool) -> void:
 			_desktop_direct_move.max_speed = _direct_original_max_speed
 
 
-# This method verifies the movement provider has a valid configuration.
+# Verifies the movement provider has a valid configuration.
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := super()
 
 	# Make sure player has at least one direct movement node
-	if !XRToolsDesktopMovementDirect.find(self):
+	if not XRToolsDesktopMovementDirect.find(self):
 		warnings.append("Player missing XRToolsDesktopMovementDirect node")
 
 	# Return warnings
