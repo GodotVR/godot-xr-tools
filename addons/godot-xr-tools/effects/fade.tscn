@@ -14,9 +14,9 @@ shader_parameter/albedo = Color(0, 0, 0, 1)
 
 [node name="Fade" type="Node3D"]
 script = ExtResource("1_6667f")
-cull_mask = 1
 
 [node name="FadeMesh" type="MeshInstance3D" parent="."]
 visible = false
+layers = 2
 mesh = SubResource("QuadMesh_aqp6r")
 surface_material_override/0 = SubResource("ShaderMaterial_xjgy8")
