@@ -14,6 +14,8 @@ Incorrect physics layer settings are often observed as:
 
  
 ## Recommended Physics Layers
+You can set the default physics layer in the Editor with one click by going to Project → Tools → XR Tools → Set Physics Layers.
+
 The following are the recommended physics layers:
  - [1] Static World - for fixed scenery objects that never move
  - [2] Dynamic World - for scenery objects which may move
