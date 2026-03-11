@@ -19,6 +19,10 @@ func _update_label():
 
 
 func _update_layers():
+	if not layers:
+		push_error("Unset layers on ", get_path())
+		return
+
 	$Forward.layers = layers
 	$Forward/Z.layers = layers
 	$Up.layers = layers
