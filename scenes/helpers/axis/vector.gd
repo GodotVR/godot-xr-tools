@@ -20,6 +20,10 @@ func _on_color_changed():
 
 
 func _on_layers_changed():
+	if not layers:
+		push_error("Unset layers on ", get_path())
+		return
+
 	$Stem.layers = layers
 	$Head.layers = layers
 
