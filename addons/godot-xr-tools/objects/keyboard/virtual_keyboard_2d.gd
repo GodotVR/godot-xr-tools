@@ -23,6 +23,17 @@ var _alt_down := false
 # Current keyboard mode
 var _mode: int = KeyboardMode.LOWER_CASE
 
+# Viewport node to push input to
+var _viewport: Viewport = null
+
+
+func _ready() -> void:
+	# This should be the SubViewport in the virtual keyboard's Viewport2Din3D
+	var vp: Viewport = get_viewport()
+
+	if is_instance_valid(vp.get_parent()):
+		_viewport = vp.get_parent().get_viewport()
+
 
 ## Adds support for [method is_xr_class] on XRTools classes
 func is_xr_class(xr_name: String) -> bool:
@@ -44,6 +55,11 @@ func on_key_pressed(scan_code_text: String, unicode: int, shift: bool) -> void:
 
 	# Dispatch the input event
 	Input.parse_input_event(input)
+
+	# If the viewport of the virtual keyboard's Viewport2Din3D isn't the
+	# root viewport, we should pass the input event to that viewport as well
+	if _viewport != get_tree().root and _viewport != null:
+		_viewport.push_input(input)
 
 	# Pop any temporary shift key
 	if _shift_down:
