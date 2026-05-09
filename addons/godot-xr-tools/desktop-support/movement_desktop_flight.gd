@@ -79,7 +79,7 @@ var _flight_button: bool = false
 @onready var xr_start_node: Node = XRTools.find_xr_child(
 		XRTools.find_xr_ancestor(
 				self,
-				"*Staging",
+				"*",
 				"XRToolsStaging",
 		),
 		"StartXR",

@@ -1,3 +1,6 @@
+# 4.6.0
+- Fix dependency on staging system
+
 # 4.5.0
 - Minimum Godot version changed to 4.4
 - Added UIDs for all classes

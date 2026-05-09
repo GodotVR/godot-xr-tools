@@ -35,10 +35,7 @@ func is_xr_class(xr_name:  String) -> bool:
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	material = $Visualise.get_surface_override_material(0)
-	xr_start_node = XRTools.find_xr_child(
-	XRTools.find_xr_ancestor(self,
-	"*Staging",
-	"XRToolsStaging"),"StartXR","Node")
+	xr_start_node = XRToolsStartXR.get_start_xr_node()
 
 	if !Engine.is_editor_hint():
 		_set_time_held(0.0)
