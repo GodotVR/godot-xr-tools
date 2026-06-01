@@ -28,9 +28,11 @@ signal xr_ended
 signal xr_failed_to_initialize
 
 
-## XR active flag
+# XR active flag
 static var _xr_active : bool = false
 
+# Keep track of instances of this class.
+static var _start_xr_nodes: Array[XRToolsStartXR]
 
 ## Optional viewport to control
 @export var viewport : Viewport
@@ -58,10 +60,32 @@ var xr_frame_rate : float = 0
 var _webxr_session_query : bool = false
 
 
+## Get our start xr node
+static func get_start_xr_node() -> XRToolsStartXR:
+	if _start_xr_nodes.is_empty():
+		push_warning("No StartXR node has been added to the scene tree.")
+		return null
+
+	# There should be only one!
+	return _start_xr_nodes[0]
+
+
+# Called when we are added to the scene tree
+func _enter_tree():
+	_start_xr_nodes.push_back(self)
+	if _start_xr_nodes.size() > 1:
+		push_warning("More than one StartXR node has been instanced!")
+
+
 # Handle auto-initialization when ready
 func _ready() -> void:
 	if !Engine.is_editor_hint():
 		_initialize()
+
+
+# Called when we are removed from the scene tree
+func _exit_tree():
+	_start_xr_nodes.erase(self)
 
 
 ## Initialize the XR interface

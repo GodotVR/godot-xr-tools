@@ -112,7 +112,7 @@ var _world_scale: float = 1.0
 @onready var xr_start_node: Node = XRTools.find_xr_child(
 		XRTools.find_xr_ancestor(
 				self,
-				"*Staging",
+				"*",
 				"XRToolsStaging",
 		),
 		"StartXR",

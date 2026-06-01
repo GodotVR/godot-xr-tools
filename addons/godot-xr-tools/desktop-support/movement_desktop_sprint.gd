@@ -47,15 +47,7 @@ var _direct_original_max_speed: float = 0.0
 
 
 ## XRStart node
-@onready var xr_start_node: XRToolsStartXR = XRTools.find_xr_child(
-		XRTools.find_xr_ancestor(
-				self,
-				"*Staging",
-				"XRToolsStaging",
-		),
-		"StartXR",
-		"Node",
-)
+@onready var xr_start_node: XRToolsStartXR = XRToolsStartXR.get_start_xr_node()
 
 # Direct movement node, if any
 @onready var _desktop_direct_move := XRToolsDesktopMovementDirect.find(self)

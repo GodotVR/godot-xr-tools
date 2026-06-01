@@ -33,15 +33,7 @@ extends XRToolsMovementProvider
 
 
 ## XRStart node
-@onready var xr_start_node: XRToolsStartXR = XRTools.find_xr_child(
-		XRTools.find_xr_ancestor(
-				self,
-				"*Staging",
-				"XRToolsStaging",
-		),
-		"StartXR",
-		"Node",
-)
+@onready var xr_start_node: XRToolsStartXR = XRToolsStartXR.get_start_xr_node()
 
 
 ## Find the right [XRToolsDesktopMovementDirect] node.

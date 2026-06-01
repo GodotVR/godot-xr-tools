@@ -61,7 +61,7 @@ var _turn_step: float = 0.0
 @onready var xr_start_node: XRToolsStartXR = XRTools.find_xr_child(
 		XRTools.find_xr_ancestor(
 				self,
-				"*Staging",
+				"*",
 				"XRToolsStaging",
 		),
 		"StartXR",
