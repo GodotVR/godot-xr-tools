@@ -11,6 +11,9 @@ enum Type {
 	## Pointer pressed target
 	PRESSED,
 
+	## Pointer double click target
+	DOUBLECLICK,
+
 	## Pointer released target
 	RELEASED,
 
@@ -85,6 +88,19 @@ static func pressed(
 	report(
 		XRToolsPointerEvent.new(
 			Type.PRESSED,
+			pointer,
+			target,
+			at,
+			at))
+
+## Report pointer doubleclick event
+static func doubleclick(
+		pointer : Node3D,
+		target : Node3D,
+		at : Vector3) -> void:
+	report(
+		XRToolsPointerEvent.new(
+			Type.DOUBLECLICK,
 			pointer,
 			target,
 			at,
