@@ -379,9 +379,11 @@ func _property_can_revert(property : StringName) -> bool:
 
 
 # Provide revert values for custom properties
-func _property_get_revert(property : StringName): # Variant
+func _property_get_revert(property : StringName) -> Variant:
 	if property == "player_material":
 		return _DefaultMaterial
+
+	return null
 
 
 # Set enabled property
