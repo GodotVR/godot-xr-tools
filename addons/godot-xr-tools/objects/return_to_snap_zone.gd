@@ -3,39 +3,33 @@
 class_name XRToolsReturnToSnapZone
 extends Node
 
-
 ## XR Tools Return to Snap Zone
 ##
-## This node can be added to an XRToolsPickable to make it return to a specified
-## snap-zone when the object is dropped.
+## This node can be added to an [XRToolsPickable] to make it return to a
+## specified snap-zone when the object is dropped.
 
 
 ## Snap zone path
-@export var snap_zone_path : NodePath
+@export var snap_zone_path: NodePath
 
-## Return delay
-@export var return_delay : float = 1.0
+## Number of seconds before a Pickable returns to a Snap Zone
+@export_custom(PROPERTY_HINT_NONE, "suffix:s") var return_delay := 1.0
 
 
 # Pickable object to control
-var _pickable : XRToolsPickable
+var _pickable: XRToolsPickable
 
 # Snap zone to return to
-var _snap_zone : XRToolsSnapZone
+var _snap_zone: XRToolsSnapZone
 
-# Return counter
-var _return_counter : float = 0.0
+# Number of seconds that the Pickable has been dropped and not returned to the Snap Zone
+var _return_counter := 0.0
 
-# Is the pickable held
+# Whether the pickable is held
 var _held := false
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsReturnToSnapZone"
-
-
-# Called when the node enters the scene tree for the first time.
+# When the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Get the pickable (parent of this node)
 	_pickable = get_parent() as XRToolsPickable
@@ -49,8 +43,8 @@ func _ready() -> void:
 		set_process(false)
 
 
-# Handle the return counter
-func _process(delta : float) -> void:
+# Handles the return counter
+func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
@@ -67,38 +61,7 @@ func _process(delta : float) -> void:
 		_snap_zone.pick_up_object(_pickable)
 
 
-# Set the snap-zone
-func set_snap_zone(snap_zone : XRToolsSnapZone) -> void:
-	# Set the snap zone
-	_snap_zone = snap_zone
-	_return_counter = 0.0
-
-	# Control counting
-	if _snap_zone and not _held:
-		set_process(true)
-	else:
-		set_process(false)
-
-
-# Handle the object being picked up
-func _on_picked_up(_pickable) -> void:
-	# Set held and stop counting
-	_held = true
-	set_process(false)
-
-
-# Handle the object being dropped
-func _on_dropped(_pickable) -> void:
-	# Clear held and reset counter
-	_held = false
-	_return_counter = 0.0
-
-	# Start counter if snap-zone specified
-	if _snap_zone:
-		set_process(true)
-
-
-# This method verifies the pose area has a valid configuration.
+# Verifies the pose area has a valid configuration.
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
@@ -108,3 +71,36 @@ func _get_configuration_warnings() -> PackedStringArray:
 
 	# Return warnings
 	return warnings
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsReturnToSnapZone"
+
+
+## Sets the snap-zone
+func set_snap_zone(snap_zone: XRToolsSnapZone) -> void:
+	# Set the snap zone
+	_snap_zone = snap_zone
+	_return_counter = 0.0
+
+	# Control counting
+	set_process(_snap_zone and not _held)
+
+
+# Handles the object being picked up
+func _on_picked_up(_pickable: XRToolsPickable) -> void:
+	# Set held and stop counting
+	_held = true
+	set_process(false)
+
+
+# Handles the object being dropped
+func _on_dropped(_pickable: XRToolsPickable) -> void:
+	# Clear held and reset counter
+	_held = false
+	_return_counter = 0.0
+
+	# Start counter if snap-zone specified
+	if _snap_zone:
+		set_process(true)
