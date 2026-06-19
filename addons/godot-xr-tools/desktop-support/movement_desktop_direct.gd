@@ -58,10 +58,10 @@ func physics_movement(
 		_delta: float,
 		player_body: XRToolsPlayerBody,
 		_disabled: bool,
-) -> void:
+) -> bool:
 	# Skip if the controller isn't active
 	if not player_body.enabled or xr_start_node.is_xr_active():
-		return
+		return false
 
 	# Calculate input vector
 	var input_dir = Input.get_vector(
@@ -82,3 +82,5 @@ func physics_movement(
 	var length := player_body.ground_control_velocity.length()
 	if length > max_speed:
 		player_body.ground_control_velocity *= max_speed / length
+
+	return false

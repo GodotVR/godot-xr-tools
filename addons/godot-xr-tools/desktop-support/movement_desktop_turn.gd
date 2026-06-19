@@ -106,13 +106,13 @@ func physics_movement(
 		delta: float,
 		player_body: XRToolsPlayerBody,
 		_disabled: bool
-) -> void:
+) -> bool:
 	# Skip if the player body isn't active
 	plr_body = player_body
 	if not player_body.enabled or xr_start_node.is_xr_active():
 		if clear_mouse_move_when_body_not_active:
 			mouse_move_vector = Vector2.ZERO
-		return
+		return false
 
 	# Read the left/right joystick axis to handle smooth rotation
 	var deadzone: float = 0.1
@@ -129,7 +129,8 @@ func physics_movement(
 			89.999,
 	)
 	mouse_move_vector = Vector2.ZERO
-	return
+
+	return false
 
 
 # Test if snap turning should be used

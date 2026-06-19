@@ -99,7 +99,7 @@ func physics_movement(
 		delta: float,
 		player_body: XRToolsPlayerBody,
 		disabled: bool,
-) -> void:
+) -> bool:
 	# Disable flying if requested, or if no controller
 	if (
 			disabled
@@ -108,7 +108,7 @@ func physics_movement(
 			or xr_start_node.is_xr_active()
 	):
 		set_flying(false)
-		return
+		return false
 
 	# Detect press of flight button
 	var old_flight_button: bool = _flight_button
@@ -120,7 +120,7 @@ func physics_movement(
 
 	# Skip if not flying
 	if not is_active:
-		return
+		return false
 
 	# Select the pitch vector as the vertical part of the 'head' forwards vector
 	var pitch_vector: Vector3 = -_camera.transform.basis.z.y * player_body.up_player
@@ -158,11 +158,11 @@ func physics_movement(
 	# If exclusive then perform the exclusive move-and-slide
 	if exclusive:
 		player_body.velocity = player_body.move_player(flight_velocity)
-		return
+		return true
 
 	# Update velocity and return for additional effects
 	player_body.velocity = flight_velocity
-	return
+	return false
 
 
 func set_flying(active: bool) -> void:
