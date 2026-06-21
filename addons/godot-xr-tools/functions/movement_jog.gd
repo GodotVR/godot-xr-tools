@@ -2,13 +2,12 @@
 class_name XRToolsMovementJog
 extends XRToolsMovementProvider
 
-
 ## XR Tools Movement Provider for Jog Movement
 ##
 ## This script provides jog-in-place movement for the player. This script
 ## works with the [XRToolsPlayerBody] attached to the players [XROrigin3D].
 ##
-## The implementation uses filtering of the controller Y velocities to measure
+## The implementation uses filtering of the controllers' Y-velocities to measure
 ## the approximate frequency of jog arm-swings, and uses that to
 ## switch between stopped, slow, and fast movement speeds.
 
@@ -28,14 +27,14 @@ const JOG_SLOW_FREQ := 3.5
 const JOG_FAST_FREQ := 5.5
 
 
-## Movement provider order
-@export var order : int = 10
+## Order in which movement is processed
+@export var order: int = 10
 
 ## Slow jogging speed in meters-per-second
-@export var slow_speed : float = 1.0
+@export_custom(PROPERTY_HINT_NONE, "suffix:m/s") var slow_speed := 1.0
 
 ## Fast jogging speed in meters-per-second
-@export var fast_speed : float = 3.0
+@export_custom(PROPERTY_HINT_NONE, "suffix:m/s") var fast_speed := 3.0
 
 
 # Jog arm-swing "stroke" detector "confidence-hat" signal
@@ -58,17 +57,21 @@ var _speed_mode := SpeedMode.STOPPED
 @onready var _right_controller := XRHelpers.get_right_controller(self)
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsMovementJog" or super(xr_name)
 
 
-# Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+## Performs jump movement
+func physics_movement(
+		delta: float,
+		player_body: XRToolsPlayerBody,
+		_disabled: bool,
+) -> bool:
 	# Skip if the either controller is inactive
-	if !_left_controller.get_is_active() or !_right_controller.get_is_active():
+	if not _left_controller.get_is_active() or not _right_controller.get_is_active():
 		_speed_mode = SpeedMode.STOPPED
-		return
+		return false
 
 	# Get the arm-swing stroke frequency in Hz
 	var freq := _get_stroke_frequency(delta)
@@ -97,9 +100,11 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 	if length > fast_speed:
 		player_body.ground_control_velocity *= fast_speed / length
 
+	return false
 
-# Get the frequency of the last arm-swing "stroke" in Hz.
-func _get_stroke_frequency(delta : float) -> float:
+
+# Gets the frequency of the last arm-swing "stroke" in Hz.
+func _get_stroke_frequency(delta: float) -> float:
 	# Get the controller velocities
 	var vl := _left_controller.get_pose().linear_velocity.y
 	var vr := _right_controller.get_pose().linear_velocity.y
