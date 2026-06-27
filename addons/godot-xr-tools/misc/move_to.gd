@@ -1,14 +1,13 @@
 class_name XRToolsMoveTo
 extends Node
 
-
 ## XR Tools Move To Node
 ##
 ## This node moves a control node to the specified target node at a
 ## requested speed.
 
 
-## Signal invoked when the move finishes
+## Emitted when the move finishes
 signal move_complete
 
 
@@ -28,21 +27,16 @@ var _offset: Transform3D
 var _duration: float
 
 # Move time
-var _time: float = 0.0
+var _time := 0.0
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsMoveTo"
-
-
-## Initialize the XRToolsMoveTo
-func _init():
+# Initialises the XRToolsMoveTo
+func _init() -> void:
 	# Disable processing until needed
 	set_process(false)
 
 
-## Process the movement
+# Processes the movement
 func _process(delta: float) -> void:
 	# Calculate the destination
 	var destination := _target.global_transform * _offset
@@ -59,17 +53,28 @@ func _process(delta: float) -> void:
 		_control.global_transform = destination
 
 		# Report the move as complete
-		emit_signal("move_complete")
+		move_complete.emit()
 		return
 
 	# Interpolate to the target
 	_control.global_transform = _start.interpolate_with(
-		destination,
-		_time / _duration)
+			destination,
+			_time / _duration,
+	)
 
 
-## Start the move
-func start(control: Node3D, target: Node3D, offset: Transform3D, speed: float) -> void:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsMoveTo"
+
+
+## Starts the move
+func start(
+		control: Node3D,
+		target: Node3D,
+		offset: Transform3D,
+		speed: float,
+) -> void:
 	# Save the control and target
 	_control = control
 	_target = target
@@ -87,6 +92,6 @@ func start(control: Node3D, target: Node3D, offset: Transform3D, speed: float) -
 	set_process(true)
 
 
-## Stop the move
+## Stops the move
 func stop() -> void:
 	set_process(false)
