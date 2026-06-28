@@ -1,14 +1,16 @@
 extends Node3D
 
+## Emitted when the shader cache has finished loading
 signal cooldown_finished
 
-var countdown = 2
+## Frames needed to load the shader cache
+var countdown: int = 2
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(_delta: float) -> void:
 	countdown = countdown - 1
 	if countdown == 0:
 		visible = false
 		set_process(false)
-		emit_signal("cooldown_finished")
+		cooldown_finished.emit()
