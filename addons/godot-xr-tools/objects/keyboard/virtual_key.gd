@@ -3,10 +3,10 @@ class_name XRToolsVirtualKey
 extends Node2D
 
 
-## Key pressed event
+## Emitted when a key is pressed
 signal pressed
 
-## Key released event
+## Emitted when a key is released
 signal released
 
 
@@ -33,17 +33,17 @@ signal released
 
 
 # TouchScreenButton node
-var _button : TouchScreenButton
+var _button: TouchScreenButton
 
 # ColorRect node
-var _color : ColorRect
+var _color: ColorRect
 
 # Label node
-var _label : Label
+var _label: Label
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# Construct the ColorRect node
 	_color = ColorRect.new()
 
@@ -79,46 +79,56 @@ func _on_button_released() -> void:
 	released.emit()
 
 
-func _set_key_size(p_key_size : Vector2) -> void:
-	key_size = p_key_size
-	if is_inside_tree():
-		_update_key_size()
-
-
-func _set_key_text(p_key_text : String) -> void:
-	key_text = p_key_text
-	if is_inside_tree():
-		_update_key_text()
-
-
-func _set_key_normal(p_key_normal : Color) -> void:
-	key_normal = p_key_normal
+func _set_highlighted(p_highlighted: bool) -> void:
+	highlighted = p_highlighted
 	if is_inside_tree():
 		_update_highlighted()
 
 
-func _set_key_highlight(p_key_highlight : Color) -> void:
+func _set_key_highlight(p_key_highlight: Color) -> void:
 	key_highlight = p_key_highlight
 	if is_inside_tree():
 		_update_highlighted()
 
 
-func _set_text_normal(p_text_normal : Color) -> void:
-	text_normal = p_text_normal
+func _set_key_normal(p_key_normal: Color) -> void:
+	key_normal = p_key_normal
 	if is_inside_tree():
 		_update_highlighted()
 
 
-func _set_text_highlight(p_text_highlight : Color) -> void:
+func _set_key_size(p_key_size: Vector2) -> void:
+	key_size = p_key_size
+	if is_inside_tree():
+		_update_key_size()
+
+
+func _set_key_text(p_key_text: String) -> void:
+	key_text = p_key_text
+	if is_inside_tree():
+		_update_key_text()
+
+
+func _set_text_highlight(p_text_highlight: Color) -> void:
 	text_highlight = p_text_highlight
 	if is_inside_tree():
 		_update_highlighted()
 
 
-func _set_highlighted(p_highlighted : bool) -> void:
-	highlighted = p_highlighted
+func _set_text_normal(p_text_normal: Color) -> void:
+	text_normal = p_text_normal
 	if is_inside_tree():
 		_update_highlighted()
+
+
+func _update_highlighted() -> void:
+	# Pick colors
+	var key := key_highlight if highlighted else key_normal
+	var text := text_highlight if highlighted else text_normal
+
+	# Set colors
+	_color.color = key
+	_label.add_theme_color_override("font_color", text)
 
 
 func _update_key_size() -> void:
@@ -138,13 +148,3 @@ func _update_key_size() -> void:
 
 func _update_key_text() -> void:
 	_label.text = key_text
-
-
-func _update_highlighted() -> void:
-	# Pick colors
-	var key := key_highlight if highlighted else key_normal
-	var text := text_highlight if highlighted else text_normal
-
-	# Set colors
-	_color.color = key
-	_label.add_theme_color_override("font_color", text)
