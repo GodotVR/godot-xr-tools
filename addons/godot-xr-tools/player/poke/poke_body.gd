@@ -2,35 +2,25 @@
 extends XRToolsForceBody
 
 
-## Signal called when we start to contact an object
-signal body_contact_start(node)
+## Emitted when we start to contact an object
+signal body_contact_start(node: Node3D)
 
-## Signal called when we end contact with an object
-signal body_contact_end(node)
+## Emitted when we end contact with an object
+signal body_contact_end(node:Node3D)
 
 
 ## Distance at which we teleport our poke body
-@export var teleport_distance : float = 0.1
+@export_custom(PROPERTY_HINT_NONE, "suffix:m") var teleport_distance := 0.1
 
 
 # Node currently in contact with
-var _contact : Node3D = null
+var _contact: Node3D = null
 
 # Target XRToolsPoke
-@onready var _target : XRToolsPoke = get_parent()
+@onready var _target: XRToolsPoke = get_parent()
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsPokeBody" or super(xr_name)
-
-
-func _validate_property(property):
-	if property.name == "top_level":
-		property.usage = PROPERTY_USAGE_NONE
-
-
-func _ready():
+func _ready() -> void:
 	# Do not initialise if in the editor
 	if Engine.is_editor_hint():
 		# In editor, show it at its start location
@@ -42,14 +32,14 @@ func _ready():
 	top_level = true
 
 	# Connect to player body signals (if applicable)
-	var player_body = XRToolsPlayerBody.find_instance(self)
+	var player_body := XRToolsPlayerBody.find_instance(self)
 	if player_body:
 		player_body.player_moved.connect(_on_player_moved)
 		player_body.player_teleported.connect(_on_player_teleported)
 
 
-# Try moving to the parent Poke node
-func _physics_process(_delta):
+# Tries moving to the parent Poke node
+func _physics_process(_delta: float) -> void:
 	# Do not process if in the editor
 	if Engine.is_editor_hint():
 		return
@@ -77,9 +67,19 @@ func _physics_process(_delta):
 		body_contact_start.emit(_contact)
 
 
-# If our player moved, attempt to move our poke.
-func _on_player_moved(delta_transform : Transform3D):
-	var target : Transform3D = delta_transform * global_transform
+func _validate_property(property: Dictionary) -> void:
+	if property.name == "top_level":
+		property.usage = PROPERTY_USAGE_NONE
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsPokeBody" or super(xr_name)
+
+
+# Attempts to move our poke if our player moved
+func _on_player_moved(delta_transform: Transform3D) -> void:
+	var target: Transform3D = delta_transform * global_transform
 
 	# Rotate
 	global_basis = target.basis
@@ -90,7 +90,7 @@ func _on_player_moved(delta_transform : Transform3D):
 	force_update_transform()
 
 
-# If our player teleported, just move.
-func _on_player_teleported(delta_transform : Transform3D):
+# Moves the poke if the player teleports
+func _on_player_teleported(delta_transform: Transform3D) -> void:
 	global_transform = delta_transform * global_transform
 	force_update_transform()
