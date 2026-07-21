@@ -104,7 +104,11 @@ static func get_default_snap_turning() -> bool:
 ## [b]Note[/b]: this is a guestimate, and that (in theory) rotations can vary
 ## between runtimes.
 static func get_grip_rotation(profile: String) -> float:
-	# TODO: add in a way for users to override this through a setting.
+	if not ProjectSettings.get_setting("godot_xr_tools/input/grip_rotation_override"):
+		return deg_to_rad(ProjectSettings.get_setting(
+				"godot_xr_tools/input/grip_rotation"
+		))
+
 	if grip_rotations.has(profile):
 		return grip_rotations[profile]
 
