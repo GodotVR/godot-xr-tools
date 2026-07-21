@@ -137,6 +137,24 @@ func _enter_tree():
 			"1.0,2.5,0.05",
 			1.85)
 
+	# Add an toggle for overriding grip rotation
+	_define_project_setting(
+			"godot_xr_tools/input/grip_rotation_override",
+			TYPE_BOOL,
+			PROPERTY_HINT_NONE,
+			"",
+			false,
+	)
+
+	# Add a grip rotation override
+	_define_project_setting(
+			"godot_xr_tools/input/overridden_grip_rotation",
+			TYPE_FLOAT,
+			PROPERTY_HINT_RANGE,
+			"%f,%f,%f,degrees" % [-90.0, 0.0, 5.0],
+			-45.0,
+	)
+
 	# Register our autoload user settings object
 	add_autoload_singleton(
 			"XRToolsUserSettings",
