@@ -2,24 +2,26 @@
 class_name XRToolsTeleportArea
 extends Area3D
 
+## Checks for an [XRToolsPlayerBody] entering, and teleports them to a specific
+## [Node3D]
 
-## Target node
-@export var target : Node3D
-
-
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsTeleportArea"
+## Node at the target location
+@export var target: Node3D
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# Handle body entered
 	body_entered.connect(_on_body_entered)
 
 
-# Handle body entering area
-func _on_body_entered(body : Node3D) -> void:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsTeleportArea"
+
+
+# Handles bodies entering this area
+func _on_body_entered(body: Node3D) -> void:
 	# Test if the body is the player
 	var player_body := body as XRToolsPlayerBody
 	if not player_body:
