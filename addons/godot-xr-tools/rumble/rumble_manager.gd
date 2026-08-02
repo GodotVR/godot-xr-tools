@@ -1,11 +1,9 @@
 extends Node
 
-
 ## XR Tools Rumble (Controllers) Manager Script
 ##
 ## This script uses the controller's existing rumble intensity variable,
-## and allows you to rumble the controller for a certain amount
-## of time 'beats'.
+## and allows you to rumble the controller for a certain amount of time 'beats'.
 ##
 ## Example: something hits you while you're mowing the lawn,
 ## i.e. a short intense rumble happens during long low rumble.
@@ -14,43 +12,16 @@ extends Node
 ## Name in the OpenXR Action Map for haptics
 const HAPTIC_ACTION := &"haptic" # TODO: Migrate
 
-# Shorthand for all trackers, in use to be substituted with _queues.keys()
-const ALL_TRACKERS := [&"all"]
+## Shorthand for all trackers, in use to be substituted with _queues.keys()
+const ALL_TRACKERS: Array[StringName] = [&"all"]
 
 
-# A Queue Per Haptic device (Dictionary<StringName, XRToolsRumbleManagerQueue>)
-var _queues: Dictionary = {}
-
-
-## Add support for is_xr_class
-func is_xr_class(xr_name: String) -> bool:
-	return xr_name == "XRToolsRumbleManager"
-
-
-## Get the default Haptics Scale value
-func get_default_haptics_scale() -> float:
-	var default = 1.0
-
-	# Check if the project has overridden the addon's default
-	if ProjectSettings.has_setting("godot_xr_tools/input/haptics_scale"):
-		default = ProjectSettings.get_setting("godot_xr_tools/input/haptics_scale")
-
-	if default < 0.0 or default > 1.0:
-		# out of bounds? reset to default
-		default = 1.0
-
-	return default
-
-
-## Used to convert gamepad magnitudes to equivalent XR haptic magnitude
-func combine_magnitudes(weak: float, strong: float) -> float:
-	if strong >= 0.01:
-		return 0.5 + clamp(strong / 2, 0.0, 0.5)
-	return clamp(weak / 2, 0.0, 0.5)
+# A queue per haptic device
+var _queues: Dictionary[StringName, XRToolsRumbleManagerQueue] = {}
 
 
 # On Ready
-func _ready():
+func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 
@@ -62,30 +33,31 @@ func _ready():
 	_queues[&"right_hand"] = XRToolsRumbleManagerQueue.new()
 
 
-# Determine how much to - and perform the - rumbles each tick
+# Determines how much to - and perform the - rumbles each tick
 func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		return
 
 	# We'll be subtracting this from the event remaining ms
-	var delta_ms = int(delta * 1000)
+	var delta_ms := int(delta * 1000)
 
-	for tracker_name in _queues:
-		var haptic_queue : XRToolsRumbleManagerQueue = _queues[tracker_name]
+	for tracker_name: StringName in _queues:
+		var haptic_queue: XRToolsRumbleManagerQueue = _queues[tracker_name]
 
-		# default to noXRToolsRumbleManagerQueuensure it's a float, or it rounds to all or nothing!)
-		var magnitude: float = 0.0
+		# default to no XRToolsRumbleManagerQueue
+		# (if unsure it's a float, or it rounds to all or nothing!)
+		var magnitude := 0.0
 
 		# Iterate over the events
-		for key in haptic_queue.events.keys():
-			var event : XRToolsRumbleEvent = haptic_queue.events[key]
+		for key: Variant in haptic_queue.events.keys():
+			var event: XRToolsRumbleEvent = haptic_queue.events[key]
 
 			# if we're paused and it's not supposed to be active, skip
 			if get_tree().paused and not event.active_during_pause:
 				continue
 
 			# If we've passed the threshold from positive to negative, the event is done
-			if !event.indefinite and haptic_queue.time_remaining[key] < 0:
+			if not event.indefinite and haptic_queue.time_remaining[key] < 0:
 				clear(key, [tracker_name])
 				continue
 
@@ -102,17 +74,49 @@ func _process(delta: float) -> void:
 		# Make that tracker rumble
 		if magnitude > 0 and XRServer.primary_interface:
 			XRServer.primary_interface.trigger_haptic_pulse(
-				HAPTIC_ACTION,
-				tracker_name, # if the tracker name isn't valid, it will error but continue
-				0,
-				magnitude,
-				0.1,
-				0)
+					HAPTIC_ACTION,
+					tracker_name, # if the tracker name isn't valid,
+					# it will error but continue
+					0,
+					magnitude,
+					0.1,
+					0,
+			)
 
 
-# Add an event
-func add(event_key: Variant, event: XRToolsRumbleEvent,
-		trackers: Array = ALL_TRACKERS) -> void:
+## Adds support for [method is_xr_class]
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsRumbleManager"
+
+
+## Get the default Haptics Scale value
+func get_default_haptics_scale() -> float:
+	var default := 1.0
+
+	# Check if the project has overridden the addon's default
+	if ProjectSettings.has_setting("godot_xr_tools/input/haptics_scale"):
+		default = ProjectSettings.get_setting("godot_xr_tools/input/haptics_scale")
+
+	if default < 0.0 or default > 1.0:
+		# out of bounds? reset to default
+		default = 1.0
+
+	return default
+
+
+## Converts gamepad magnitudes to equivalent XR haptic magnitudes
+func combine_magnitudes(weak: float, strong: float) -> float:
+	if strong >= 0.01:
+		return 0.5 + clamp(strong / 2, 0.0, 0.5)
+	return clamp(weak / 2, 0.0, 0.5)
+
+
+## Adds an [XRToolsRumbleEvent]
+func add(
+		event_key: Variant,
+		event: XRToolsRumbleEvent,
+		trackers: Array = ALL_TRACKERS,
+) -> void:
 	if not event_key:
 		push_error("Event key is invalid!")
 		return
@@ -125,7 +129,7 @@ func add(event_key: Variant, event: XRToolsRumbleEvent,
 	if trackers == ALL_TRACKERS:
 		trackers = _queues.keys()
 
-	for tracker in trackers:
+	for tracker: Variant in trackers:
 		if tracker is XRNode3D:
 			tracker = tracker.tracker
 
@@ -138,7 +142,7 @@ func add(event_key: Variant, event: XRToolsRumbleEvent,
 		_queues[tracker].time_remaining[event_key] = event.duration_ms
 
 
-# Remove an event
+## Removes an [XRToolsRumbleEvent]
 func clear(event_key: Variant, trackers: Array = ALL_TRACKERS) -> void:
 	if not event_key:
 		push_error("Event key is invalid!")
@@ -148,7 +152,7 @@ func clear(event_key: Variant, trackers: Array = ALL_TRACKERS) -> void:
 	if trackers == ALL_TRACKERS:
 		trackers = _queues.keys()
 
-	for tracker in trackers:
+	for tracker: Variant in trackers:
 		if tracker is XRNode3D:
 			tracker = tracker.tracker
 
