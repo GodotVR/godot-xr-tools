@@ -1,13 +1,12 @@
 class_name XRToolsVelocityAveragerLinear
 
-
 ## XR Tools Linear Velocity Averager class
 ##
 ## This class assists in calculating the average linear velocity of an
-## object. It accepts the following types of input:
-##  - Periodic distances
-##  - Periodic velocities
-##  - Periodic transforms (for the origin position)
+## object. It accepts the following types of input:[br]
+##  - Periodic distances[br]
+##  - Periodic velocities[br]
+##  - Periodic transforms (for the origin position)[br][br]
 ##
 ## It provides the average velocity calculated from the total distance
 ## divided by the total time.
@@ -17,30 +16,25 @@ class_name XRToolsVelocityAveragerLinear
 var _count: int
 
 # Array of time deltas (in float seconds)
-var _time_deltas := Array()
+var _time_deltas: Array[float]
 
 # Array of linear distances (in Vector3)
-var _linear_distances := Array()
+var _linear_distances: Array[Vector3]
 
 # Last transform
 var _last_transform := Transform3D()
 
-# Has last transform flag
+# Whether we have the last transform
 var _has_last_transform := false
 
 
-## Initialize the VelocityAverager with an averaging count
-func _init(count: int):
+# Initialises the VelocityAverager with an averaging count
+func _init(count: int) -> void:
 	_count = count
 
-## Clear the averages
-func clear():
-	_time_deltas.clear()
-	_linear_distances.clear()
-	_has_last_transform = false
 
-## Add a linear distance to the averager
-func add_distance(delta: float, linear_distance: Vector3):
+## Adds a linear distance to the averager
+func add_distance(delta: float, linear_distance: Vector3) -> void:
 	# Add data averaging arrays
 	_time_deltas.push_back(delta)
 	_linear_distances.push_back(linear_distance)
@@ -50,14 +44,11 @@ func add_distance(delta: float, linear_distance: Vector3):
 		_time_deltas.pop_front()
 		_linear_distances.pop_front()
 
-## Add a linear velocity to the averager
-func add_velocity(delta: float, linear_velocity: Vector3):
-	add_distance(delta, linear_velocity * delta)
 
-## Add a transform to the averager
-func add_transform(delta: float, transform: Transform3D):
+## Adds a transform to the averager
+func add_transform(delta: float, transform: Transform3D) -> void:
 	# Handle saving the first transform
-	if !_has_last_transform:
+	if not _has_last_transform:
 		_last_transform = transform
 		_has_last_transform = true
 		return
@@ -71,11 +62,24 @@ func add_transform(delta: float, transform: Transform3D):
 	# Add distance
 	add_distance(delta, linear_distance)
 
-## Calculate the average linear velocity
+
+## Adds a linear velocity to the averager
+func add_velocity(delta: float, linear_velocity: Vector3) -> void:
+	add_distance(delta, linear_velocity * delta)
+
+
+## Clears the averages
+func clear() -> void:
+	_time_deltas.clear()
+	_linear_distances.clear()
+	_has_last_transform = false
+
+
+## Calculates the average linear velocity
 func velocity() -> Vector3:
 	# Calculate the total time
 	var total_time := 0.0
-	for dt in _time_deltas:
+	for dt: float in _time_deltas:
 		total_time += dt
 
 	# Safety check to prevent division by zero
@@ -84,7 +88,7 @@ func velocity() -> Vector3:
 
 	# Calculate the total distance
 	var total_linear := Vector3.ZERO
-	for dd in _linear_distances:
+	for dd: Vector3 in _linear_distances:
 		total_linear += dd
 
 	# Return the average
