@@ -11,26 +11,26 @@ enum KeyboardMode {
 }
 
 
-# Shift button down
+# Whether the Shift button is pressed down
 var _shift_down := false
 
-# Caps button down
+# Whether the Caps Lock button is pressed down
 var _caps_down := false
 
-# Alt button down
+# Whether the Alt button is pressed down
 var _alt_down := false
 
 # Current keyboard mode
 var _mode: int = KeyboardMode.LOWER_CASE
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsVirtualKeyboard2D"
 
 
-# Handle key pressed from VirtualKey
-func on_key_pressed(scan_code_text: String, unicode: int, shift: bool):
+## Handles key presses from [XRToolsVirtualKey]
+func on_key_pressed(scan_code_text: String, unicode: int, shift: bool) -> void:
 	# Find the scan code
 	var scan_code := OS.find_keycode_from_string(scan_code_text)
 
@@ -51,11 +51,11 @@ func on_key_pressed(scan_code_text: String, unicode: int, shift: bool):
 		_update_visible()
 
 
-func _on_toggle_shift_pressed() -> void:
+func _on_toggle_alt_pressed() -> void:
 	# Update toggle keys
-	_shift_down = not _shift_down
+	_alt_down = not _alt_down
+	_shift_down = false
 	_caps_down = false
-	_alt_down = false
 	_update_visible()
 
 
@@ -67,15 +67,15 @@ func _on_toggle_caps_pressed() -> void:
 	_update_visible()
 
 
-func _on_toggle_alt_pressed() -> void:
+func _on_toggle_shift_pressed() -> void:
 	# Update toggle keys
-	_alt_down = not _alt_down
-	_shift_down = false
+	_shift_down = not _shift_down
 	_caps_down = false
+	_alt_down = false
 	_update_visible()
 
 
-# Update switching the visible case keys
+# Updates switching the visible case keys
 func _update_visible() -> void:
 	# Ensure the control buttons are set correctly
 	$Background/Standard/ToggleShift.highlighted = _shift_down
