@@ -63,7 +63,7 @@ func physics_movement(
 		_delta: float,
 		player_body: XRToolsPlayerBody,
 		disabled: bool,
-) -> void:
+) -> bool:
 	# Skip if the controller isn't active or is not enabled
 	if (
 			not player_body.enabled
@@ -72,7 +72,7 @@ func physics_movement(
 			or not enabled
 	):
 		set_sprinting(false)
-		return
+		return false
 
 	# Detect sprint button down and pressed states
 	var sprint_button_down := Input.is_action_pressed(sprint_button)
@@ -94,6 +94,8 @@ func physics_movement(
 	# Update sprinting state
 	if sprinting != is_active:
 		set_sprinting(sprinting)
+
+	return false
 
 
 ## Toggles sprinting

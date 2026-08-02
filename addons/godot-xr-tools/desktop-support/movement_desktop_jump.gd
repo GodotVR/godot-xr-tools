@@ -33,11 +33,13 @@ func physics_movement(
 		_delta: float,
 		player_body: XRToolsPlayerBody,
 		_disabled: bool,
-) -> void:
+) -> bool:
 	# Skip if the jump controller isn't active
 	if not player_body.enabled or xr_start_node.is_xr_active():
-		return
+		return false
 
 	# Request jump if the button is pressed
 	if Input.is_action_pressed(jump_button_action):
 		player_body.request_jump()
+
+	return false
