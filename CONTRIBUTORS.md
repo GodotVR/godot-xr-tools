@@ -25,6 +25,7 @@ Other people who have helped out by submitting fixes, enhancements, etc are:
 - [Kai Tödter](https://github.com/toedter)
 - [Malcolm Nixon](https://github.com/malcolmnixon)
 - [Miodrag Sejic](https://github.com/DigitalN8m4r3)
+- [Mubinul Haque](https://github.com/mubinulhaque)
 - [NetroScript](https://github.com/NetroScript)
 - [Pietru2004](https://github.com/pietru2004)
 - [Rahul Ghosh](https://github.com/SYBIOTE)
