@@ -2,7 +2,6 @@
 class_name XRToolsMovementGrapple
 extends XRToolsMovementProvider
 
-
 ## XR Tools Movement Provider for Grapple Movement
 ##
 ## This script provide simple grapple based movement - "bat hook" style
@@ -11,10 +10,10 @@ extends XRToolsMovementProvider
 ## [XROrigin3D].
 
 
-## Signal emitted when grapple starts
+## Emitted when grapple starts
 signal grapple_started()
 
-## Signal emitted when grapple finishes
+## Emitted when grapple finishes
 signal grapple_finished()
 
 
@@ -26,89 +25,90 @@ enum GrappleState {
 }
 
 
-# Default grapple collision mask of 1-5 (world)
+## Default grapple collision mask of 1-5 (world)
 const DEFAULT_COLLISION_MASK := 0b0000_0000_0000_0000_0000_0000_0001_1111
 
-# Default grapple enable mask of 5:grapple-target
+## Default grapple enable mask of 5:grapple-target
 const DEFAULT_ENABLE_MASK := 0b0000_0000_0000_0000_0000_0000_0001_0000
 
 
-## Movement provider order
-@export var order : int = 20
+## Order in which movement is processed
+@export var order: int = 20
 
 ## Grapple length - use to adjust maximum distance for possible grapple hooking.
-@export var grapple_length : float = 15.0
+@export_custom(PROPERTY_HINT_NONE, "suffix:m") var grapple_length := 15.0
 
 ## Grapple collision mask
-@export_flags_3d_physics var grapple_collision_mask : int = DEFAULT_COLLISION_MASK:
+@export_flags_3d_physics var grapple_collision_mask := DEFAULT_COLLISION_MASK:
 	set = _set_grapple_collision_mask
 
 ## Grapple enable mask
-@export_flags_3d_physics var grapple_enable_mask : int = DEFAULT_ENABLE_MASK
+@export_flags_3d_physics var grapple_enable_mask := DEFAULT_ENABLE_MASK
 
 ## Impulse speed applied to the player on first grapple
-@export var impulse_speed : float = 10.0
+@export_custom(PROPERTY_HINT_NONE, "suffix:m/s") var impulse_speed := 10.0
 
 ## Winch speed applied to the player while the grapple is held
-@export var winch_speed : float = 2.0
+@export_custom(PROPERTY_HINT_NONE, "suffix:m/s") var winch_speed := 2.0
 
 ## Probably need to add export variables for line size, maybe line material at
 ## some point so dev does not need to make children editable to do this.
 ## For now, right click on grapple node and make children editable to edit these
 ## facets.
-@export var rope_width : float = 0.02
+@export_custom(PROPERTY_HINT_NONE, "suffix:m") var rope_width := 0.02
 
 ## Air friction while grappling
-@export var friction : float = 0.1
+@export var friction := 0.1
 
-## Grapple button (triggers grappling movement).  Be sure this button does not
+## Input action that triggers grappling movement. Be sure this button does not
 ## conflict with other functions.
-@export var grapple_button_action : String = "trigger_click"
+@export var grapple_button_action := "trigger_click"
 
 ## Hand offset to apply based on our controller pose
 ## You can use auto if you're using the default aim_pose or grip_pose poses.
-@export_enum("auto", "aim", "grip", "palm", "disable") var hand_offset_mode : int = 0:
-	set(value):
-		hand_offset_mode = value
-		notify_property_list_changed()
-		if is_inside_tree():
-			_update_transform()
+@export_enum("auto", "aim", "grip", "palm", "disable") var hand_offset_mode: int = 0:
+		set(value):
+			hand_offset_mode = value
+			notify_property_list_changed()
+			if is_inside_tree():
+				_update_transform()
 
 
 # Hook related variables
-var hook_object : Node3D = null
+var hook_object: Node3D = null
 var hook_local := Vector3(0,0,0)
 var hook_point := Vector3(0,0,0)
 
 # Grapple button state
 var _grapple_button := false
 
-# Get Controller node - consider way to universalize this if user wanted to
+# Controller node - consider way to universalize this if user wanted to
 # attach this to a gun instead of player's hand.  Could consider variable to
 # select controller instead.
-var _controller : XRController3D
+var _controller: XRController3D
 
-# Keep track of our tracker and pose
-var _controller_tracker_and_pose : String = ""
+# Keep strack of our tracker and pose
+var _controller_tracker_and_pose := ""
 
-# Get line creation nodes
-@onready var _line_helper : Node3D = $LineHelper
-@onready var _line : CSGCylinder3D = $LineHelper/Line
+# Line creation nodes
+@onready var _line_helper: Node3D = $LineHelper
+@onready var _line: CSGCylinder3D = $LineHelper/Line
 
 # Get Raycast node
-@onready var _grapple_raycast : RayCast3D = $Grapple_RayCast
+@onready var _grapple_raycast: RayCast3D = $Grapple_RayCast
 
 # Get Grapple Target Node
-@onready var _grapple_target : Node3D = $Grapple_Target
+@onready var _grapple_target: Node3D = $Grapple_Target
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsMovementGrapple" or super(xr_name)
+func _enter_tree() -> void:
+	_controller = XRHelpers.get_xr_controller(self)
+
+	_update_transform()
 
 
-# Function run when node is added to scene
-func _ready():
+# Runs when node is added to scene
+func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
@@ -130,34 +130,11 @@ func _ready():
 	_line.hide()
 
 
-func _enter_tree():
-	_controller = XRHelpers.get_xr_controller(self)
-
-	_update_transform()
-
-
-func _exit_tree():
-	_controller = null
-
-
-# Check property config
-func _validate_property(property):
-	if hand_offset_mode != 4 and (property.name == "position" or property.name == "rotation" or property.name == "scale" or property.name == "rotation_edit_mode" or property.name == "rotation_order"):
-		# We control these, don't let the user set them.
-		property.usage = PROPERTY_USAGE_NONE
-
-
-# Update our transform so we are positioned on our palm
-func _update_transform() -> void:
-	if hand_offset_mode != 4:
-		transform = XRTools.get_palm_offset(hand_offset_mode, _controller)
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(_delta: float) -> void:
 	# If we have a controller, make sure our hand transform is updated when needed.
 	if _controller:
-		var tracker_and_pose = _controller.tracker + "." + _controller.pose
+		var tracker_and_pose: String = _controller.tracker + "." + _controller.pose
 		if _controller_tracker_and_pose != tracker_and_pose:
 			_controller_tracker_and_pose = tracker_and_pose
 			if hand_offset_mode == 0:
@@ -165,7 +142,7 @@ func _process(_delta):
 
 
 # Update the grappling line and target
-func _physics_process(_delta : float):
+func _physics_process(_delta: float) -> void:
 	# Skip if running in the editor
 	if Engine.is_editor_hint():
 		return
@@ -189,12 +166,50 @@ func _physics_process(_delta : float):
 		_line.visible = false
 
 
-# Perform grapple movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func _exit_tree() -> void:
+	_controller = null
+
+
+# Verifies the movement provider has a valid configuration.
+func _get_configuration_warnings() -> PackedStringArray:
+	var warnings := super()
+
+	# Check the controller node
+	if not XRHelpers.get_xr_controller(self):
+		warnings.append("This node must be within a branch of an XRController3D node")
+
+	# Return warnings
+	return warnings
+
+
+# Check property config
+func _validate_property(property: Dictionary) -> void:
+	if hand_offset_mode != 4 and (
+			property.name == "position"
+			or property.name == "rotation"
+			or property.name == "scale"
+			or property.name == "rotation_edit_mode"
+			or property.name == "rotation_order"
+	):
+		# We control these, don't let the user set them.
+		property.usage = PROPERTY_USAGE_NONE
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsMovementGrapple" or super(xr_name)
+
+
+## Performs grapple movement
+func physics_movement(
+		delta: float,
+		player_body: XRToolsPlayerBody,
+		disabled: bool,
+) -> bool:
 	# Disable if requested
-	if disabled or !enabled or !_controller.get_is_active():
+	if disabled or not enabled or not _controller.get_is_active():
 		_set_grappling(false)
-		return
+		return false
 
 	# Update grapple button
 	var old_grapple_button := _grapple_button
@@ -202,9 +217,9 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Enable/disable grappling
 	var do_impulse := false
-	if is_active and !_grapple_button:
+	if is_active and not _grapple_button:
 		_set_grappling(false)
-	elif _grapple_button and !old_grapple_button and _is_raycast_valid():
+	elif _grapple_button and not old_grapple_button and _is_raycast_valid():
 		hook_object = _grapple_raycast.get_collider()
 		hook_point = _grapple_raycast.get_collision_point()
 		hook_local = hook_point * hook_object.global_transform
@@ -212,8 +227,8 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		_set_grappling(true)
 
 	# Skip if not grappling
-	if !is_active:
-		return
+	if not is_active:
+		return false
 
 	# Get hook direction
 	hook_point = hook_object.global_transform * hook_local
@@ -230,7 +245,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 		speed = 0.0
 
 	# Ensure velocity is at least winch_speed towards hook
-	var vdot = player_body.velocity.dot(hook_direction)
+	var vdot: float = player_body.velocity.dot(hook_direction)
 	if vdot < speed:
 		player_body.velocity += hook_direction * (speed - vdot)
 
@@ -242,14 +257,25 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 	return true
 
 
-# Called when the grapple collision mask has been modified
+# Tests if the raycast is striking a valid target
+func _is_raycast_valid() -> bool:
+	# Test if the raycast hit a collider
+	var target := _grapple_raycast.get_collider()
+	if not is_instance_valid(target):
+		return false
+
+	# Check collider layer
+	return true if target.collision_layer & grapple_enable_mask else false
+
+
+# When the grapple collision mask has been modified
 func _set_grapple_collision_mask(new_value: int) -> void:
 	grapple_collision_mask = new_value
 	if is_inside_tree() and _grapple_raycast:
 		_grapple_raycast.collision_mask = new_value
 
 
-# Set the grappling state and fire any signals
+# Sets the grappling state and fire any signals
 func _set_grappling(active: bool) -> void:
 	# Skip if no change
 	if active == is_active:
@@ -260,29 +286,12 @@ func _set_grappling(active: bool) -> void:
 
 	# Report transition
 	if is_active:
-		emit_signal("grapple_started")
+		grapple_started.emit()
 	else:
-		emit_signal("grapple_finished")
+		grapple_finished.emit()
 
 
-# Test if the raycast is striking a valid target
-func _is_raycast_valid() -> bool:
-	# Test if the raycast hit a collider
-	var target = _grapple_raycast.get_collider()
-	if not is_instance_valid(target):
-		return false
-
-	# Check collider layer
-	return true if target.collision_layer & grapple_enable_mask else false
-
-
-# This method verifies the movement provider has a valid configuration.
-func _get_configuration_warnings() -> PackedStringArray:
-	var warnings := super()
-
-	# Check the controller node
-	if !XRHelpers.get_xr_controller(self):
-		warnings.append("This node must be within a branch of an XRController3D node")
-
-	# Return warnings
-	return warnings
+# Updates our transform so we are positioned on our palm
+func _update_transform() -> void:
+	if hand_offset_mode != 4:
+		transform = XRTools.get_palm_offset(hand_offset_mode, _controller)
