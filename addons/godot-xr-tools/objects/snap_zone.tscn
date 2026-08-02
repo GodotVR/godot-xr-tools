@@ -4,7 +4,7 @@
 
 [sub_resource type="SphereShape3D" id="1"]
 resource_local_to_scene = true
-radius = 0.1
+radius = 0.3
 
 [node name="SnapZone" type="Area3D"]
 collision_layer = 4
