@@ -2,53 +2,44 @@
 class_name XRToolsForceBody
 extends AnimatableBody3D
 
-
 ## XRTools Force Body script
 ##
-## This script enhances AnimatableBody3D with move_and_slide and the ability
+## This script enhances [AnimatableBody3D] with [method move_and_slide] and the ability
 ## to push bodies by emparting forces on them.
 
 
-## Force Body Collision
-class ForceBodyCollision:
-	## Collider object
-	var collider : Node3D
+## Toggles pushing bodies
+@export var push_bodies := true
 
-	## Collision point
-	var position : Vector3
+## Stiffness of the body
+@export var stiffness := 10.0
 
-	## Collision normal
-	var normal : Vector3
-
-
-## Enables or disables pushing bodies
-@export var push_bodies : bool = true
-
-## Control the stiffness of the body
-@export var stiffness : float = 10.0
-
-## Control the maximum push force
-@export var maximum_force : float = 1.0
+## Maximum push force
+@export var maximum_force := 1.0
 
 ## Maximum slides
-@export var max_slides : int = 4
+@export var max_slides: int = 4
 
 
-## Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+func _ready() -> void:
+	process_physics_priority = -90
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsForceBody"
 
 
-## This function moves and slides along the [param move] vector. It returns
-## information about the last collision, or null if no collision
-func move_and_slide(move : Vector3) -> ForceBodyCollision:
+## Moves and slides along the [param move] vector. It returns information about
+## the last collision, or null if no collision
+func move_and_slide(move: Vector3) -> ForceBodyCollision:
 	# Make sure this is off or weird shit happens...
 	sync_to_physics = false
 
 	# Loop performing the movement steps
 	var step_move := move
-	var ret : ForceBodyCollision = null
-	for step in max_slides:
+	var ret: ForceBodyCollision = null
+	for step: int in max_slides:
 		# Take the next step
 		var collision := move_and_collide(step_move)
 
@@ -85,8 +76,9 @@ func move_and_slide(move : Vector3) -> ForceBodyCollision:
 
 				# Apply the lost momentum as an impulse to the body we hit
 				body.apply_impulse(
-					(lost_momentum * stiffness).limit_length(maximum_force),
-					position - body.global_position)
+						(lost_momentum * stiffness).limit_length(maximum_force),
+						position - body.global_position,
+				)
 
 		# Update the remaining movement
 		step_move = next_move
@@ -100,30 +92,30 @@ func move_and_slide(move : Vector3) -> ForceBodyCollision:
 
 
 ## Attempts to rotate our object until it collides
-func rotate_and_collide( \
-	target_global_basis : Basis, \
-	step_angle : float = deg_to_rad(5.0) \
-	) -> ForceBodyCollision:
+func rotate_and_collide(
+		target_global_basis: Basis,
+		step_angle: float = deg_to_rad(5.0),
+) -> ForceBodyCollision:
 	# Make sure this is off or weird shit happens...
 	sync_to_physics = false
 
-	var ret : ForceBodyCollision = null
+	var ret: ForceBodyCollision = null
 
-	var space = PhysicsServer3D.body_get_space(get_rid())
-	var direct_state = PhysicsServer3D.space_get_direct_state(space)
+	var space := PhysicsServer3D.body_get_space(get_rid())
+	var direct_state := PhysicsServer3D.space_get_direct_state(space)
 
 	# We don't seem to have a rotational movement query for collisions,
 	# so best we can do is to rotate in steps and test
-	var from_quat : Quaternion = Quaternion(global_basis)
-	var to_quat : Quaternion = Quaternion(target_global_basis)
-	var angle : float = from_quat.angle_to(to_quat)
-	var steps : float = ceil(angle / step_angle)
+	var from_quat := Quaternion(global_basis)
+	var to_quat := Quaternion(target_global_basis)
+	var angle := from_quat.angle_to(to_quat)
+	var steps := ceil(angle / step_angle)
 
 	# Convert collision exceptions to a RID array
-	var exception_rids : Array[RID]
-	for collision_exception in get_collision_exceptions():
-		# It is our responsibility to remove exceptions before freeing the object, but sometimes
-		# that is hard.
+	var exception_rids: Array[RID]
+	for collision_exception: PhysicsBody3D in get_collision_exceptions():
+		# It is our responsibility to remove exceptions before freeing the
+		# object, but sometimes that is hard.
 		if is_instance_valid(collision_exception):
 			exception_rids.push_back(collision_exception.get_rid())
 		else:
@@ -133,34 +125,34 @@ func rotate_and_collide( \
 	exception_rids.push_back(get_rid())
 
 	# Find our shape ids
-	var shape_rids : Array[RID]
-	for node in get_children(true):
+	var shape_rids: Array[RID]
+	for node: Node in get_children(true):
 		if node is CollisionShape3D:
-			var col_shape : CollisionShape3D = node
+			var col_shape: CollisionShape3D = node
 			if not col_shape.disabled:
 				shape_rids.push_back(col_shape.shape.get_rid())
 
 	# Our physics query
-	var query : PhysicsShapeQueryParameters3D = PhysicsShapeQueryParameters3D.new()
+	var query := PhysicsShapeQueryParameters3D.new()
 	query.collide_with_areas = false
 	query.collide_with_bodies = true
 	query.collision_mask = collision_mask
 	query.exclude = exception_rids
 
 	# Check our collisions
-	var step : float = 0.0
-	var new_quat : Quaternion = from_quat
-	var t = global_transform
+	var step := 0.0
+	var new_quat := from_quat
+	var t := global_transform
 	while step < steps and not ret:
 		step += 1.0
 
-		var test_quat : Quaternion = from_quat.slerp(to_quat, step / steps)
+		var test_quat := from_quat.slerp(to_quat, step / steps)
 		t.basis = Basis(test_quat)
 		query.transform = t
 
-		for rid in shape_rids:
+		for rid: RID in shape_rids:
 			query.shape_rid = rid
-			var collision = direct_state.get_rest_info(query)
+			var collision: Dictionary = direct_state.get_rest_info(query)
 			if not collision.is_empty():
 				ret = ForceBodyCollision.new()
 				ret.collider = instance_from_id(collision["collider_id"])
@@ -183,5 +175,13 @@ func rotate_and_collide( \
 	return ret
 
 
-func _ready():
-	process_physics_priority = -90
+## Force Body Collision
+class ForceBodyCollision:
+	## Collider object
+	var collider: Node3D
+
+	## Collision point
+	var position: Vector3
+
+	## Collision normal
+	var normal: Vector3
