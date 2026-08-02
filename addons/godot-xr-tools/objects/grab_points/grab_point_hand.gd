@@ -2,10 +2,9 @@
 class_name XRToolsGrabPointHand
 extends XRToolsGrabPoint
 
-
 ## XR Tools Grab Point Hand Script
 ##
-## This script allows specifying a grab point for a specific hand. Additionally
+## This script allows specifying a grab point for a specific hand. Additionally,
 ## the grab point can be used to control the pose of the hand, and to allow the
 ## grab point position to be fine-tuned in the editor.
 
@@ -38,57 +37,60 @@ const RIGHT_HAND_PATH := "res://addons/godot-xr-tools/hands/scenes/lowpoly/right
 
 
 ## Grab-point handle
-@export var handle : String
+@export var handle: String
 
 ## Which hand this grab point is for
-@export var hand : Hand: set = _set_hand
+@export var hand: Hand: set = _set_hand
 
 ## Hand grab mode
-@export var mode : Mode = Mode.GENERAL
+@export var mode := Mode.GENERAL
 
-## Snap the hand mesh to the grab-point
-@export var snap_hand : bool = true
+## Whether to snap the hand mesh to the grab-point
+@export var snap_hand := true
 
-## Hand pose
-@export var hand_pose : XRToolsHandPoseSettings: set = _set_hand_pose
+## Hand pose to use when grabbed
+@export var hand_pose: XRToolsHandPoseSettings: set = _set_hand_pose
 
-## If true, the hand is shown in the editor
-@export var editor_preview_mode : PreviewMode = PreviewMode.CLOSED: set = _set_editor_preview_mode
+## Whether the hand is shown in the editor
+@export var editor_preview_mode := PreviewMode.CLOSED: set = _set_editor_preview_mode
 
 ## How much this grab-point drives the position
-@export var drive_position : float = 1.0
+@export var drive_position := 1.0
 
 ## How much this grab-point drives the angle
-@export var drive_angle : float = 1.0
+@export var drive_angle := 1.0
 
 ## How much this grab-point drives the aim
-@export var drive_aim : float = 0.0
+@export var drive_aim := 0.0
 
 ## Hand to use for editor preview
-var _editor_preview_hand : XRToolsHand
-
-# Adjust the grab point from our old aim positioning, to our palm positioning.
-func get_palm_transform(global : bool = false) -> Transform3D:
-	var adj_transform : Transform3D = global_transform if global else transform
-
-	# Historically our hands have always been positioned based on our aim,
-	# So we apply our old hardcoded offset, but adjusted for our palm center.
-	var aim_offset := Transform3D()
-	aim_offset.origin = Vector3(-0.02 if hand == Hand.LEFT else 0.02, -0.05, 0.10)
-	adj_transform = adj_transform * aim_offset
-
-	return adj_transform
+var _editor_preview_hand: XRToolsHand
 
 
-## Called when the node enters the scene tree for the first time.
-func _ready():
+# Gets the controller associated with a grabber
+static func _get_grabber_controller(grabber: Node3D) -> XRController3D:
+	# Ensure the grabber is valid
+	if not is_instance_valid(grabber):
+		return null
+
+	# Ensure the pickup is a function pickup for a controller
+	var pickup := grabber as XRToolsFunctionPickup
+	if not pickup:
+		return null
+
+	# Get the controller associated with the pickup
+	return pickup.get_controller()
+
+
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# If in the editor then update the preview
 	if Engine.is_editor_hint():
 		_update_editor_preview()
 
 
-## Test if a grabber can grab by this grab-point
-func can_grab(grabber : Node3D, current : XRToolsGrabPoint) -> float:
+## Tests if a grabber can grab by this grab-point
+func can_grab(grabber: Node3D, current: XRToolsGrabPoint) -> float:
 	# Skip if not enabled
 	if not enabled:
 		return 0.0
@@ -111,73 +113,25 @@ func can_grab(grabber : Node3D, current : XRToolsGrabPoint) -> float:
 	return fitness
 
 
-func _set_hand(new_value : Hand) -> void:
-	hand = new_value
-	if Engine.is_editor_hint():
-		_update_editor_preview()
+## Adjusts the grab point from our old aim positioning to our palm positioning.
+func get_palm_transform(global: bool = false) -> Transform3D:
+	var adj_transform: Transform3D = global_transform if global else transform
+
+	# Historically our hands have always been positioned based on our aim,
+	# So we apply our old hardcoded offset, but adjusted for our palm center.
+	var aim_offset := Transform3D()
+	aim_offset.origin = Vector3(
+			-0.02 if hand == Hand.LEFT else 0.02,
+			-0.05,
+			0.10,
+	)
+	adj_transform = adj_transform * aim_offset
+
+	return adj_transform
 
 
-func _set_hand_pose(new_value : XRToolsHandPoseSettings) -> void:
-	# Unsubscribe from the old hand-pose changed signal
-	if Engine.is_editor_hint() and hand_pose:
-		hand_pose.changed.disconnect(_update_editor_preview)
-
-	# Save the hand pose
-	hand_pose = new_value
-
-	# Update the editor preview
-	if Engine.is_editor_hint() and hand_pose:
-		hand_pose.changed.connect(_update_editor_preview)
-		_update_editor_preview()
-
-
-func _set_editor_preview_mode(new_value : PreviewMode) -> void:
-	editor_preview_mode = new_value
-	if Engine.is_editor_hint():
-		_update_editor_preview()
-
-
-func _update_editor_preview() -> void:
-	# Discard any existing hand model
-	if _editor_preview_hand:
-		remove_child(_editor_preview_hand)
-		_editor_preview_hand.queue_free()
-		_editor_preview_hand = null
-
-	# Pick the hand scene
-	var hand_path := LEFT_HAND_PATH if hand == Hand.LEFT else RIGHT_HAND_PATH
-	var hand_scene : PackedScene = load(hand_path)
-	if !hand_scene:
-		return
-
-	# Construct the model
-	_editor_preview_hand = hand_scene.instantiate()
-	_editor_preview_hand.hand_offset_mode = 4 # Disabled
-
-	# Set the pose
-	if hand_pose:
-		_editor_preview_hand.add_pose_override(self, 0.0, hand_pose)
-
-	# Set the grip override
-	if editor_preview_mode == PreviewMode.CLOSED:
-		_editor_preview_hand.force_grip_trigger(1.0, 1.0)
-	else:
-		_editor_preview_hand.force_grip_trigger(0.0, 0.0)
-
-	# Add the editor-preview hand as a child
-	add_child(_editor_preview_hand, false, Node.INTERNAL_MODE_BACK)
-
-	# Keep this backwards compatible,
-	# position the hand according to the original aim logic
-	var hand_node : Node3D = _editor_preview_hand.get_child(0)
-	if hand_node:
-		var custom_offset := Transform3D()
-		custom_offset.origin = Vector3(-0.03 if hand == Hand.LEFT else 0.03, -0.05, 0.15)
-		hand_node.transform = custom_offset
-
-
-# Is the grabber for the correct hand
-func _is_correct_hand(grabber : Node3D) -> bool:
+# Tests if the grabber is for the correct hand
+func _is_correct_hand(grabber: Node3D) -> bool:
 	# Find the controller
 	var controller := _get_grabber_controller(grabber)
 	if not controller:
@@ -186,20 +140,18 @@ func _is_correct_hand(grabber : Node3D) -> bool:
 	# Get the positional tracker
 	var tracker := XRServer.get_tracker(controller.tracker) as XRPositionalTracker
 
-	# If left hand then verify left controller
-	if hand == Hand.LEFT and tracker.hand != XRPositionalTracker.TRACKER_HAND_LEFT:
-		return false
-
-	# If right hand then verify right controller
-	if hand == Hand.RIGHT and tracker.hand != XRPositionalTracker.TRACKER_HAND_RIGHT:
-		return false
-
-	# Controller matches hand
-	return true
+	# Check if the controller matches hand
+	return (
+			hand == Hand.LEFT
+			and tracker.hand == XRPositionalTracker.TRACKER_HAND_LEFT
+	) or (
+			hand == Hand.RIGHT
+			and tracker.hand == XRPositionalTracker.TRACKER_HAND_RIGHT
+	)
 
 
-# Test if hand grab is permitted
-func _is_valid_hand_grab(current : XRToolsGrabPoint) -> bool:
+# Tests if hand grab is permitted
+func _is_valid_hand_grab(current: XRToolsGrabPoint) -> bool:
 	# Not a valid hand grab if currently held by something other than a hand
 	var current_hand := current as XRToolsGrabPointHand
 	if current and not current_hand:
@@ -221,16 +173,70 @@ func _is_valid_hand_grab(current : XRToolsGrabPoint) -> bool:
 	return true
 
 
-# Get the controller associated with a grabber
-static func _get_grabber_controller(grabber : Node3D) -> XRController3D:
-	# Ensure the grabber is valid
-	if not is_instance_valid(grabber):
-		return null
+func _set_editor_preview_mode(new_value: PreviewMode) -> void:
+	editor_preview_mode = new_value
+	if Engine.is_editor_hint():
+		_update_editor_preview()
 
-	# Ensure the pickup is a function pickup for a controller
-	var pickup := grabber as XRToolsFunctionPickup
-	if not pickup:
-		return null
 
-	# Get the controller associated with the pickup
-	return pickup.get_controller()
+func _set_hand(new_value: Hand) -> void:
+	hand = new_value
+	if Engine.is_editor_hint():
+		_update_editor_preview()
+
+
+func _set_hand_pose(new_value: XRToolsHandPoseSettings) -> void:
+	# Unsubscribe from the old hand-pose changed signal
+	if Engine.is_editor_hint() and hand_pose:
+		hand_pose.changed.disconnect(_update_editor_preview)
+
+	# Save the hand pose
+	hand_pose = new_value
+
+	# Update the editor preview
+	if Engine.is_editor_hint() and hand_pose:
+		hand_pose.changed.connect(_update_editor_preview)
+		_update_editor_preview()
+
+
+func _update_editor_preview() -> void:
+	# Discard any existing hand model
+	if _editor_preview_hand:
+		remove_child(_editor_preview_hand)
+		_editor_preview_hand.queue_free()
+		_editor_preview_hand = null
+
+	# Pick the hand scene
+	var hand_path := LEFT_HAND_PATH if hand == Hand.LEFT else RIGHT_HAND_PATH
+	var hand_scene : PackedScene = load(hand_path)
+	if not hand_scene:
+		return
+
+	# Construct the model
+	_editor_preview_hand = hand_scene.instantiate()
+	_editor_preview_hand.hand_offset_mode = 4 # Disabled
+
+	# Set the pose
+	if hand_pose:
+		_editor_preview_hand.add_pose_override(self, 0.0, hand_pose)
+
+	# Set the grip override
+	if editor_preview_mode == PreviewMode.CLOSED:
+		_editor_preview_hand.force_grip_trigger(1.0, 1.0)
+	else:
+		_editor_preview_hand.force_grip_trigger(0.0, 0.0)
+
+	# Add the editor-preview hand as a child
+	add_child(_editor_preview_hand, false, Node.INTERNAL_MODE_BACK)
+
+	# Keep this backwards compatible,
+	# position the hand according to the original aim logic
+	var hand_node: Node3D = _editor_preview_hand.get_child(0)
+	if hand_node:
+		var custom_offset := Transform3D()
+		custom_offset.origin = Vector3(
+				-0.03 if hand == Hand.LEFT else 0.03,
+				-0.05,
+				0.15,
+		)
+		hand_node.transform = custom_offset
