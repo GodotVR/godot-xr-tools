@@ -1,12 +1,17 @@
 class_name XRToolsRumbleManagerQueue
 extends Resource
 
-# All currently-active events (Dictionary<Variant, XRToolsRumbleEvent>)
-var events: Dictionary
+## XR Tools Rumble Manager Queue
+##
+## Used to sort rumble events in order of arrival
 
-# All currently-active events' time remaining (Dictionary<Variant, int>)
-var time_remaining: Dictionary
+## All currently-active events
+var events: Dictionary[Variant, XRToolsRumbleEvent]
 
-func _init():
+## All currently-active events' remaining time
+var time_remaining: Dictionary[Variant, int]
+
+
+func _init() -> void:
 	events = {}
 	time_remaining = {}
