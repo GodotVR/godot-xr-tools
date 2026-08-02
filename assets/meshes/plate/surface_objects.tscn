@@ -1,9 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://54qovguk25i5"]
+[gd_scene load_steps=27 format=3 uid="uid://54qovguk25i5"]
 
 [ext_resource type="Texture2D" uid="uid://cqgdloakbawp" path="res://assets/wahooney.itch.io/white_grid.png" id="1"]
 [ext_resource type="PackedScene" uid="uid://c8jtmtuihfujs" path="res://addons/godot-xr-tools/audio/surface_audio.tscn" id="2"]
 [ext_resource type="PackedScene" uid="uid://cegpwqy2053ct" path="res://assets/meshes/plate/plate.glb" id="3"]
-[ext_resource type="Material" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="4"]
+[ext_resource type="Material" uid="uid://coj0ouho8vphv" path="res://assets/wahooney.itch.io/brown_grid_triplanar.tres" id="4"]
 [ext_resource type="AudioStream" uid="uid://dkladw5jiqfnb" path="res://assets/footsteps/puddle_footstep.wav" id="4_ql6qg"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/green_grid_triplanar.tres" id="5"]
 [ext_resource type="Material" path="res://assets/wahooney.itch.io/blue_grid.tres" id="6"]
@@ -64,6 +64,29 @@ walk_pitch_maximum = 1.2
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qcyph"]
 albedo_texture = ExtResource("1")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dvc4m"]
+shading_mode = 0
+
+[sub_resource type="TextMesh" id="TextMesh_dvc4m"]
+material = SubResource("StandardMaterial3D_dvc4m")
+text = "Puddle"
+font_size = 64
+
+[sub_resource type="TextMesh" id="TextMesh_28klg"]
+material = SubResource("StandardMaterial3D_dvc4m")
+text = "Snow"
+font_size = 64
+
+[sub_resource type="TextMesh" id="TextMesh_71bbu"]
+material = SubResource("StandardMaterial3D_dvc4m")
+text = "Mud"
+font_size = 64
+
+[sub_resource type="TextMesh" id="TextMesh_0d7bu"]
+material = SubResource("StandardMaterial3D_dvc4m")
+text = "Grass"
+font_size = 64
+
 [node name="surface_objects" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0)
 
@@ -82,7 +105,7 @@ shape = SubResource("1")
 surface_audio_type = SubResource("Resource_rpp4f")
 
 [node name="plate_mud_s" parent="." instance=ExtResource("3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -5)
 
 [node name="Plane" parent="plate_mud_s" index="0"]
 material_override = ExtResource("4")
@@ -96,7 +119,7 @@ shape = SubResource("2")
 surface_audio_type = SubResource("Resource_rwibv")
 
 [node name="plate_grass_s" parent="." instance=ExtResource("3")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0, -5)
 
 [node name="Plane" parent="plate_grass_s" index="0"]
 material_override = ExtResource("5")
@@ -178,6 +201,22 @@ shape = SubResource("5")
 
 [node name="SurfaceAudio" parent="plate_snow/Plane/StaticBody" instance=ExtResource("2")]
 surface_audio_type = SubResource("Resource_58enk")
+
+[node name="PuddleText" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -11, 2.5, -17)
+mesh = SubResource("TextMesh_dvc4m")
+
+[node name="SnowText" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 11, 2.5, -17)
+mesh = SubResource("TextMesh_28klg")
+
+[node name="MudText" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, -0.707107, 11, 2.5, 5)
+mesh = SubResource("TextMesh_71bbu")
+
+[node name="GrassText" type="MeshInstance3D" parent="."]
+transform = Transform3D(-0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, -0.707107, -11, 2.5, 5)
+mesh = SubResource("TextMesh_0d7bu")
 
 [editable path="plate_puddle_s"]
 [editable path="plate_mud_s"]
