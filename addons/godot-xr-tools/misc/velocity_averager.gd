@@ -1,12 +1,11 @@
 class_name XRToolsVelocityAverager
 
-
 ## XR Tools Velocity Averager class
 ##
 ## This class assists in calculating the velocity (both linear and angular)
-## of an object. It accepts the following types of input:
-##  - Periodic distances
-##  - Periodic transforms (for the origin position)
+## of an object. It accepts the following types of input:[br]
+##  - Periodic distances[br]
+##  - Periodic transforms (for the origin position)[br][br]
 ##
 ## It provides the average velocity calculated from the total distance
 ## divided by the total time.
@@ -16,34 +15,32 @@ class_name XRToolsVelocityAverager
 var _count: int
 
 # Array of time deltas (in float seconds)
-var _time_deltas := Array()
+var _time_deltas: Array[float]
 
-# Array of linear distances (Vector3 Castesian Distances)
-var _linear_distances := Array()
+# Array of linear distances (Vector3 Cartesian Distances)
+var _linear_distances: Array[Vector3]
 
 # Array of angular distances (Vector3 Euler Distances)
-var _angular_distances := Array()
+var _angular_distances: Array[Vector3]
 
 # Last transform
 var _last_transform := Transform3D()
 
-# Has last transform flag
+# Whether we have the last transform
 var _has_last_transform := false
 
 
-## Initialize the XRToolsVelocityAverager with an averaging count
-func _init(count: int):
+# Initialises the [XRToolsVelocityAverager] with an averaging count
+func _init(count: int) -> void:
 	_count = count
 
-## Clear the averages
-func clear():
-	_time_deltas.clear()
-	_linear_distances.clear()
-	_angular_distances.clear()
-	_has_last_transform = false
 
-## Add linear and angular distances to the averager
-func add_distance(delta: float, linear_distance: Vector3, angular_distance: Vector3):
+## Adds linear and angular distances to the averager
+func add_distance(
+		delta: float,
+		linear_distance: Vector3,
+		angular_distance: Vector3,
+) -> void:
 	# Sanity check
 	assert(delta > 0, "Velocity averager requires positive time-deltas")
 
@@ -58,10 +55,11 @@ func add_distance(delta: float, linear_distance: Vector3, angular_distance: Vect
 		_linear_distances.pop_front()
 		_angular_distances.pop_front()
 
-## Add a transform to the averager
-func add_transform(delta: float, transform: Transform3D):
+
+## Adds a transform to the averager
+func add_transform(delta: float, transform: Transform3D) -> void:
 	# Handle saving the first transform
-	if !_has_last_transform:
+	if not _has_last_transform:
 		_last_transform = transform
 		_has_last_transform = true
 		return
@@ -70,7 +68,9 @@ func add_transform(delta: float, transform: Transform3D):
 	var linear_distance := transform.origin - _last_transform.origin
 
 	# Calculate the euler angular distance
-	var angular_distance := (transform.basis * _last_transform.basis.inverse()).get_euler()
+	var angular_distance := (
+			transform.basis * _last_transform.basis.inverse()
+	).get_euler()
 
 	# Update the last transform
 	_last_transform = transform
@@ -78,26 +78,8 @@ func add_transform(delta: float, transform: Transform3D):
 	# Add distances
 	add_distance(delta, linear_distance, angular_distance)
 
-## Calculate the average linear velocity
-func linear_velocity() -> Vector3:
-	# Skip if no averages
-	if _time_deltas.size() == 0:
-		return Vector3.ZERO
 
-	# Calculate the total time in the average window
-	var total_time := 0.0
-	for dt in _time_deltas:
-		total_time += dt
-
-	# Sum the cartesian distances in the average window
-	var total_linear := Vector3.ZERO
-	for dd in _linear_distances:
-		total_linear += dd
-
-	# Return the average cartesian-velocity
-	return total_linear / total_time
-
-## Calculate the average angular velocity as a Vector3 euler-velocity
+## Calculates the average angular velocity as a Vector3 euler-velocity
 func angular_velocity() -> Vector3:
 	# Skip if no averages
 	if _time_deltas.size() == 0:
@@ -105,7 +87,7 @@ func angular_velocity() -> Vector3:
 
 	# Calculate the total time in the average window
 	var total_time := 0.0
-	for dt in _time_deltas:
+	for dt: float in _time_deltas:
 		total_time += dt
 
 	# At first glance the following operations may look incorrect as they appear
@@ -123,8 +105,36 @@ func angular_velocity() -> Vector3:
 
 	# Sum the euler-velocities in the average window
 	var total_angular := Vector3.ZERO
-	for dd in _angular_distances:
+	for dd: Vector3 in _angular_distances:
 		total_angular += dd
 
 	# Calculate the average euler-velocity
 	return total_angular / total_time
+
+
+## Clears the averages
+func clear() -> void:
+	_time_deltas.clear()
+	_linear_distances.clear()
+	_angular_distances.clear()
+	_has_last_transform = false
+
+
+## Calculates the average linear velocity
+func linear_velocity() -> Vector3:
+	# Skip if no averages
+	if _time_deltas.size() == 0:
+		return Vector3.ZERO
+
+	# Calculate the total time in the average window
+	var total_time := 0.0
+	for dt: float in _time_deltas:
+		total_time += dt
+
+	# Sum the cartesian distances in the average window
+	var total_linear := Vector3.ZERO
+	for dd: Vector3 in _linear_distances:
+		total_linear += dd
+
+	# Return the average cartesian-velocity
+	return total_linear / total_time
