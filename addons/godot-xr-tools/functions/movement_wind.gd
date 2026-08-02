@@ -2,51 +2,46 @@
 class_name XRToolsMovementWind
 extends XRToolsMovementProvider
 
-
 ## XR Tools Movement Provider for Wind
 ##
 ## This script provides wind mechanics for the player. This script works
-## with the [XRToolsPlayerBody] attached to the players [XROrigin3D].
+## with the [XRToolsPlayerBody] attached to the player's [XROrigin3D].[br][br]
 ##
 ## When the player enters an [XRToolsWindArea], the wind pushes the player
 ## around, and can even lift the player into the air.
 
 
-## Signal invoked when changing active wind areas
-signal wind_area_changed(active_wind_area)
+## Emitted when changing active wind areas
+signal wind_area_changed(active_wind_area: XRToolsWindArea)
 
 
-# Default wind area collision mask of 20:player-body
+## Default wind area collision mask of 20:player-body
 const DEFAULT_MASK := 0b0000_0000_0000_1000_0000_0000_0000_0000
 
 
-## Movement provider order
-@export var order : int = 25
+## Order in which movement is processed
+@export var order: int = 25
 
 ## Drag multiplier for the player
-@export var drag_multiplier : float = 1.0
+@export var drag_multiplier := 1.0
 
-# Set our collision mask
-@export_flags_3d_physics var collision_mask : int = DEFAULT_MASK: set = set_collision_mask
+## Physics layers that can collide with the wind
+@export_flags_3d_physics var collision_mask := DEFAULT_MASK:
+		set = set_collision_mask
 
 
 # Wind detection area
-var _sense_area : Area3D
+var _sense_area: Area3D
 
 # Array of wind areas the player is in
-var _in_wind_areas := Array()
+var _in_wind_areas: Array[XRToolsWindArea]
 
 # Currently active wind area
-var _active_wind_area : XRToolsWindArea
+var _active_wind_area: XRToolsWindArea
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
-	return xr_name == "XRToolsMovementWind" or super(xr_name)
-
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
@@ -56,7 +51,7 @@ func _ready():
 
 	# Skip if we don't have a camera
 	var camera := XRHelpers.get_xr_camera(self)
-	if !camera:
+	if not camera:
 		return
 
 	# Construct the sphere shape
@@ -82,16 +77,45 @@ func _ready():
 	_sense_area.area_exited.connect(_on_area_exited)
 
 
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
+	return xr_name == "XRToolsMovementWind" or super(xr_name)
+
+
+## Performs wind movement
+func physics_movement(
+		delta: float,
+		player_body: XRToolsPlayerBody,
+		_disabled: bool,
+) -> bool:
+	# Skip if no active wind area
+	if not _active_wind_area:
+		return false
+
+	# Calculate the global wind velocity of the wind area
+	var wind_velocity := (
+			_active_wind_area.global_transform.basis
+			* _active_wind_area.wind_vector
+	)
+
+	# Drag the player into the wind
+	var drag_factor := _active_wind_area.drag * drag_multiplier * delta
+	drag_factor = clamp(drag_factor, 0.0, 1.0)
+	player_body.velocity = player_body.velocity.lerp(wind_velocity, drag_factor)
+
+	return false
+
+
 func set_collision_mask(new_mask: int) -> void:
 	collision_mask = new_mask
 	if is_inside_tree() and _sense_area:
 		_sense_area.collision_mask = collision_mask
 
 
-func _on_area_entered(area: Area3D):
+func _on_area_entered(area: Area3D) -> void:
 	# Skip if not wind area
-	var wind_area = area as XRToolsWindArea
-	if !wind_area:
+	var wind_area := area as XRToolsWindArea
+	if not wind_area:
 		return
 
 	# Save area and set active
@@ -99,10 +123,10 @@ func _on_area_entered(area: Area3D):
 	_active_wind_area = wind_area
 
 	# Report the wind area change
-	emit_signal("wind_area_changed", _active_wind_area)
+	wind_area_changed.emit(_active_wind_area)
 
 
-func _on_area_exited(area: Area3D):
+func _on_area_exited(area: Area3D) -> void:
 	# Erase from the wind area
 	_in_wind_areas.erase(area)
 
@@ -117,19 +141,4 @@ func _on_area_exited(area: Area3D):
 		_active_wind_area = _in_wind_areas.front()
 
 	# Report the wind area change
-	emit_signal("wind_area_changed", _active_wind_area)
-
-
-# Perform wind movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
-	# Skip if no active wind area
-	if !_active_wind_area:
-		return
-
-	# Calculate the global wind velocity of the wind area
-	var wind_velocity := _active_wind_area.global_transform.basis * _active_wind_area.wind_vector
-
-	# Drag the player into the wind
-	var drag_factor := _active_wind_area.drag * drag_multiplier * delta
-	drag_factor = clamp(drag_factor, 0.0, 1.0)
-	player_body.velocity = player_body.velocity.lerp(wind_velocity, drag_factor)
+	wind_area_changed.emit(_active_wind_area)
