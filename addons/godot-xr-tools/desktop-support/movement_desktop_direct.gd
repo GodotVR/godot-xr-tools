@@ -41,10 +41,10 @@ func is_xr_class(xr_name:  String) -> bool:
 
 
 # Perform jump movement
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool) -> bool:
 	# Skip if the controller isn't active
 	if !player_body.enabled or xr_start_node.is_xr_active():
-		return
+		return false
 
 	#Calculate input vector
 	var input_dir = Input.get_vector(input_left, input_right, input_backward, input_forward)
@@ -60,6 +60,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 	var length := player_body.ground_control_velocity.length()
 	if length > max_speed:
 		player_body.ground_control_velocity *= max_speed / length
+
+	return false
 
 ## Find the right [XRToolsDesktopMovementDirect] node.
 ##

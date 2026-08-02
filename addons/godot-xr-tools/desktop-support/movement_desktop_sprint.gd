@@ -70,11 +70,11 @@ func _ready():
 
 
 # Perform sprinting
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool) -> bool:
 	# Skip if the controller isn't active or is not enabled
 	if !player_body.enabled or xr_start_node.is_xr_active() or disabled == true or !enabled:
 		set_sprinting(false)
-		return
+		return false
 
 	# Detect sprint button down and pressed states
 	var sprint_button_down := Input.is_action_pressed(sprint_button)
@@ -96,6 +96,8 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	# Update sprinting state
 	if sprinting != is_active:
 		set_sprinting(sprinting)
+
+	return false
 
 
 # Public function used to set sprinting active or not active

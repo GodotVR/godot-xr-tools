@@ -89,11 +89,11 @@ func _ready():
 
 
 # Process physics movement for flight
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bool) -> bool:
 	# Disable flying if requested, or if no controller
 	if disabled or !enabled or !player_body.enabled or xr_start_node.is_xr_active():
 		set_flying(false)
-		return
+		return false
 
 	# Detect press of flight button
 	var old_flight_button = _flight_button
@@ -103,7 +103,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Skip if not flying
 	if !is_active:
-		return
+		return false
 
 	# Select the pitch vector
 	var pitch_vector: Vector3
@@ -144,7 +144,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, disabled: bo
 
 	# Update velocity and return for additional effects
 	player_body.velocity = flight_velocity
-	return
+	return false
 
 
 func set_flying(active: bool) -> void:

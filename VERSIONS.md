@@ -1,3 +1,10 @@
+# 4.5.2
+- Fix _property_get_revert() throwing error
+- Change physics_movement() return type to bool
+
+# 4.5.1
+- Fix export issue
+
 # 4.5.0
 - Minimum Godot version changed to 4.4
 - Added UIDs for all classes

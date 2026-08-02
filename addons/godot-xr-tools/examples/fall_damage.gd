@@ -61,11 +61,11 @@ func _ready():
 	is_active = true
 
 
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: bool) -> bool:
 	# Skip if not enabled
 	if disabled or !enabled:
 		_previous_velocity = player_body.velocity
-		return
+		return false
 
 	# Calculate the instantaneous acceleration
 	var accel_vec := player_body.velocity - _previous_velocity
@@ -81,7 +81,7 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	if ground_only:
 		# Ignore if not on ground
 		if not player_body.on_ground:
-			return
+			return false
 
 		# Only consider vertical acceleration
 		accel_vec *= Vector3.UP
@@ -90,3 +90,5 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, disabled: b
 	var accel := accel_vec.length()
 	if accel > damage_threshold:
 		emit_signal("player_fall_damage", accel)
+
+	return false

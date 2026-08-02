@@ -52,10 +52,10 @@ func is_xr_class(xr_name:  String) -> bool:
 
 
 # Perform jump movement
-func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: bool) -> bool:
 	# Skip if the controller isn't active
 	if !player_body.enabled or xr_start_node.is_xr_active():
-		return
+		return false
 
 	# Detect crouch button down and pressed states
 	var crouch_button_down := Input.is_action_pressed(crouch_button_action)
@@ -81,3 +81,5 @@ func physics_movement(_delta: float, player_body: XRToolsPlayerBody, _disabled: 
 			player_body.override_player_height(self, crouch_height)
 		else:
 			player_body.override_player_height(self)
+
+	return false
