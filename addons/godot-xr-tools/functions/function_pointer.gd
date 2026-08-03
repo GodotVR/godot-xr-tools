@@ -15,6 +15,8 @@ extends XRToolsHandAimOffset
 ## Emitted when this object points at another object
 signal pointing_event(event: XRToolsPointerEvent)
 
+signal is_interacting(interacting: bool)
+
 
 ## Enumeration of laser show modes
 enum LaserShow {
@@ -230,6 +232,7 @@ func _process(delta: float) -> void:
 	if new_target and not last_target:
 		# Pointer entered new_target
 		XRToolsPointerEvent.entered(self, new_target, new_at)
+		is_interacting.emit(true)
 
 		# Pointer moved on new_target for the first time
 		XRToolsPointerEvent.moved(self, new_target, new_at, new_at)
@@ -239,6 +242,7 @@ func _process(delta: float) -> void:
 	elif not new_target and last_target:
 		# Pointer exited last_target
 		XRToolsPointerEvent.exited(self, last_target, last_collided_at)
+		is_interacting.emit(false)
 
 		# Update visible artifacts for miss
 		_visible_miss()
