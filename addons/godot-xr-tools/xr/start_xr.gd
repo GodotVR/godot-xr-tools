@@ -320,6 +320,8 @@ func _set_xr_frame_rate() -> void:
 # Performs OpenXR setup
 func _setup_for_openxr() -> bool:
 	print("OpenXR: Configuring interface")
+	# Get our viewport
+	var vp: Viewport = get_xr_viewport()
 
 	# Set the render target size multiplier
 	xr_interface.render_target_size_multiplier = render_target_size_multiplier
@@ -349,8 +351,14 @@ func _setup_for_openxr() -> bool:
 	DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
 	# Switch the viewport to XR
-	get_xr_viewport().transparent_bg = enable_passthrough
-	get_xr_viewport().use_xr = true
+	vp.transparent_bg = enable_passthrough
+	vp.use_xr = true
+
+	# Enable VRS
+	if RenderingServer.get_rendering_device():
+		vp.vrs_mode = Viewport.VRS_XR
+	elif int(ProjectSettings.get_setting("xr/openxr/foveation_level")) == 0:
+		push_warning("OpenXR: Recommend setting Foveation level to High in Project Settings")
 
 	# Report success
 	return true
