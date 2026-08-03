@@ -2,12 +2,12 @@ extends TabContainer
 
 signal player_height_changed(new_height: float)
 
-@onready var snap_turning_button: CheckBox = $Input/InputVBox/SnapTurning/SnapTurningCB
-@onready var haptics_scale_slider: HSlider = $Input/InputVBox/HapticsScale/HapticsScaleSlider
-@onready var y_deadzone_slider: HSlider = $Input/InputVBox/yAxisDeadZone/yAxisDeadZoneSlider
-@onready var x_deadzone_slider: HSlider = $Input/InputVBox/xAxisDeadZone/xAxisDeadZoneSlider
-@onready var player_height_slider: HSlider = $Player/PlayerVBox/PlayerHeight/PlayerHeightSlider
-@onready var webxr_primary_button: OptionButton = $WebXR/WebXRVBox/WebXR/WebXRPrimary
+@onready var snap_turning_button: CheckBox = $Input/InputVBox/GridContainer/SnapTurningCB
+@onready var haptics_scale_slider: HSlider = $Input/InputVBox/GridContainer/HapticsScaleSlider
+@onready var y_deadzone_slider: HSlider = $Input/InputVBox/GridContainer/yAxisDeadZoneSlider
+@onready var x_deadzone_slider: HSlider = $Input/InputVBox/GridContainer/xAxisDeadZoneSlider
+@onready var player_height_slider: HSlider = $Player/PlayerVBox/GridContainer/PlayerHeightSlider
+@onready var webxr_primary_button: OptionButton = $WebXR/WebXRVBox/GridContainer/WebXRPrimary
 
 
 # When the node enters the scene tree for the first time.
