@@ -39,9 +39,8 @@ Information about how to use this plugin can be found [on the website](https://g
 
 This repository now contains a full demo for XR Tools with the XR Tools add on included in this demo.
 
-After cloning this repository you will need to install the OpenXR plugin for it to work. The OpenXR plugin is not included within this repository.
-You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/releases) or download it from the asset library within Godot.
-
+If you're using a version of Godot prior to 4.0, you will need to install the OpenXR plugin after cloning this repository for it to work. The OpenXR plugin is not included within this repository.
+You can obtain the OpenXR plugin [here](https://github.com/GodotVR/godot_openxr/releases) or download it from the asset library within Godot. For Godot 4.x users, no installation is required.
 ### XR Tools library
 
 To obtain just the XR Tools library for your own project, please check [releases](https://github.com/GodotVR/godot-xr-tools/releases) or download it from the asset library within Godot.
