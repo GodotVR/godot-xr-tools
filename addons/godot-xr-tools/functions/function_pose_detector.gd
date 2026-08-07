@@ -17,22 +17,21 @@ const DEFAULT_MASK := 0b0000_0000_0010_0000_0000_0000_0000_0000
 @export_flags_3d_physics var collision_mask := DEFAULT_MASK: set = set_collision_mask
 
 
-## Hand to control
+# Hand to control
 var _hand: XRToolsHand
+# Area3D to sense hand poses
+var _sense_area: Area3D
 
 
-@onready var _sense_area: Area3D = $SenseArea
-
-
-# Called when we enter our tree
+# When we enter our tree
 func _enter_tree() -> void:
 	super._enter_tree()
 
 	_hand = XRToolsHand.find_instance(self)
 
-	# Connect signals (if controller and hand are valid)
-	await get_tree().process_frame
+	_sense_area = $SenseArea
 
+	# Connect signals (if controller and hand are valid)
 	if _controller and _hand:
 		if _sense_area.area_entered.connect(_on_area_entered):
 			push_error("Unable to connect area_entered signal")
