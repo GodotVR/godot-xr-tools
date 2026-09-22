@@ -71,6 +71,7 @@ bones/23/rotation = Quaternion(0.00687177, 0.00357275, 0.211953, 0.977249)
 
 [node name="mesh_Hand_Nails_low_R" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="0"]
 surface_material_override/0 = ExtResource("5")
+skeleton = NodePath("..")
 
 [node name="BoneRoot" type="BoneAttachment3D" parent="Hand_Nails_low_R/Armature/Skeleton3D" index="1"]
 transform = Transform3D(1, 1.83077e-05, -1.52659e-08, -1.52668e-08, 0.00166774, 0.999999, 1.83077e-05, -0.999999, 0.00166774, -3.86425e-08, -1.86975e-05, 0.0271756)
