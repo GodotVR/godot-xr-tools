@@ -69,9 +69,6 @@ var _target_overrides: Array[TargetOverride]
 var _target: Node3D
 
 
-@onready var _anim_tree: AnimationTree = $AnimationTree
-
-
 ## Finds an [XRToolsHand] node by searching from the specified node for an
 ## [XRToolsHand], assuming the node is a sibling of the hand under an
 ## [XROrigin3D].
@@ -188,8 +185,8 @@ func _physics_process(_delta: float) -> void:
 		if _force_trigger >= 0.0:
 			trigger = _force_trigger
 
-		_anim_tree.set("parameters/Grip/blend_amount", grip)
-		_anim_tree.set("parameters/Trigger/blend_amount", trigger)
+		_animation_tree.set("parameters/Grip/blend_amount", grip)
+		_animation_tree.set("parameters/Trigger/blend_amount", trigger)
 
 	# Move to target
 	var target_transform: Transform3D
@@ -284,10 +281,10 @@ func force_grip_trigger(grip: float = -1.0, trigger: float = -1.0) -> void:
 	_force_trigger = trigger
 
 	# Update the animation if forcing to specific values
-	if grip >= 0.0:
-		_anim_tree.set("parameters/Grip/blend_amount", grip)
-	if trigger >= 0.0:
-		_anim_tree.set("parameters/Trigger/blend_amount", trigger)
+	if grip >= 0.0 and _animation_tree:
+		_animation_tree.set("parameters/Grip/blend_amount", grip)
+	if trigger >= 0.0 and _animation_tree:
+		_animation_tree.set("parameters/Trigger/blend_amount", trigger)
 
 
 func remove_pose_override(who: Node) -> void:

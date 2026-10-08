@@ -121,19 +121,23 @@ var scene_proxy_configuration: Dictionary = {}
 var viewport_texture: ViewportTexture
 var time_since_last_update := 0.0
 
-var _screen_material: StandardMaterial3D
+var _collider: CollisionShape3D
 var _dirty := _DIRTY_ALL
-
-
-@onready var _collider: CollisionShape3D = $StaticBody3D/CollisionShape3D
-@onready var _screen: MeshInstance3D = $Screen
-@onready var _static_body: StaticBody3D = $StaticBody3D
-@onready var _viewport: SubViewport = $Viewport
+var _screen: MeshInstance3D
+var _screen_material: StandardMaterial3D
+var _static_body: StaticBody3D
+var _viewport: SubViewport
 
 
 # When the node enters the scene tree for the first time.
 func _ready() -> void:
 	is_ready = true
+
+	# Get child nodes
+	_collider = $StaticBody3D/CollisionShape3D
+	_screen = $Screen
+	_static_body = $StaticBody3D
+	_viewport = $Viewport
 
 	# Listen for pointer events on the screen body
 	_static_body.connect("pointer_event", _on_pointer_event)
@@ -148,7 +152,6 @@ func _ready() -> void:
 
 	# Update the render objects
 	await RenderingServer.frame_post_draw
-	await get_tree().process_frame
 	_update_render()
 
 
