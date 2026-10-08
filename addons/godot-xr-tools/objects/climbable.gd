@@ -46,7 +46,7 @@ func can_pick_up(_by: Node3D) -> bool:
 
 ## Gets the grab handle
 func get_grab_handle(by: Node3D) -> Node3D:
-	return _grabs.get(by)
+	return _grabs[by]
 
 
 ## Whether this is picked up
@@ -74,7 +74,7 @@ func pick_up(by: Node3D) -> void:
 	var point := _get_grab_point(by)
 	if not point:
 		# Get a temporary grab-point for the pickup
-		point = _grab_temps.get(by)
+		point = _grab_temps[by]
 		if not point:
 			# Create a new temporary grab-point childed to the climbable
 			point = Node3D.new()

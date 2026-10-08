@@ -28,9 +28,9 @@ func can_pick_up(_by: Node3D) -> bool:
 	return true
 
 
-## Gets the grab handle
+## Gets the grab handle for a pickup node
 func get_grab_handle(p: Node3D) -> Node3D:
-	return grab_locations.get(p.get_instance_id())
+	return grab_locations[p.get_instance_id()]
 
 
 ## Called by [XRToolsFunctionPickup] when this is let go by a controller
@@ -58,14 +58,14 @@ func pick_up(by: Node3D) -> void:
 	var id := by.get_instance_id()
 
 	# Get or construct the grab handle
-	var handle = grab_locations.get(id)
+	var handle := grab_locations[id]
 	if not handle:
 		handle = Node3D.new()
 		add_child(handle)
 		grab_locations[id] = handle
 
-	# Set the handles global transform. As it's a child of this
-	# climbable it will move as the climbable moves
+	# Set the handle's global transform. As it's a child of this
+	# climbable, it will move as the climbable moves
 	handle.global_transform = by.global_transform
 
 
