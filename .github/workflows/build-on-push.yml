@@ -15,7 +15,7 @@ jobs:
     steps:
       # Check out into demo/godot-xr-tools
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
         with:
           path: demo/godot-xr-tools
 
@@ -34,7 +34,7 @@ jobs:
 
       # Upload plugin
       - name: Create XR tools library artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: godot-xr-tools
           path: |
@@ -42,7 +42,7 @@ jobs:
 
       # Upload demo
       - name: Create XR tools demo artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: godot-xr-tools-demo
           path: |
