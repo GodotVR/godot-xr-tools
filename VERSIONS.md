@@ -5,6 +5,8 @@
 - Fixed issue with highlighting causing errors
 - Fix issue with distance pickup
 - Fix double button presses (pointer for 2D viewport)
+- Added gizmos to help align interactable joints
+- Add check/setting for foveated rendering
 
 # 4.5.0
 - Minimum Godot version changed to 4.4
