@@ -79,7 +79,7 @@ func physics_movement(
 		_player_body: XRToolsPlayerBody,
 		_disabled: bool,
 ) -> bool:
-	pass
+	return false
 
 
 # Adds a [XRToolsPlayerBody] to the scene tree if missing
