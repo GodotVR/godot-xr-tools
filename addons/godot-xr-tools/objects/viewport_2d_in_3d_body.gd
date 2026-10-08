@@ -195,6 +195,7 @@ func _report_touch_down(index: int, at: Vector2) -> void:
 	event.index = index
 	event.position = at
 	event.pressed = true
+    event.device = InputEvent.DEVICE_ID_EMULATION
 	_viewport.push_input(event)
 
 
@@ -210,6 +211,7 @@ func _report_touch_move(
 	event.position = to
 	event.pressure = 1.0 if pressed else 0.0
 	event.relative = to - from
+    event.device = InputEvent.DEVICE_ID_EMULATION
 	_viewport.push_input(event)
 
 
@@ -219,4 +221,5 @@ func _report_touch_up(index: int, at: Vector2) -> void:
 	event.index = index
 	event.position = at
 	event.pressed = false
+    event.device = InputEvent.DEVICE_ID_EMULATION
 	_viewport.push_input(event)
