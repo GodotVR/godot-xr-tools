@@ -22,56 +22,48 @@ metadata/_tab_index = 0
 [node name="InputVBox" type="VBoxContainer" parent="Input"]
 layout_mode = 2
 
-[node name="SnapTurning" type="HBoxContainer" parent="Input/InputVBox"]
+[node name="GridContainer" type="GridContainer" parent="Input/InputVBox"]
 layout_mode = 2
+columns = 2
 
-[node name="Label" type="Label" parent="Input/InputVBox/SnapTurning"]
+[node name="SnapTurningLabel" type="Label" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Snap turning:"
+text = "Snap turning"
 
-[node name="SnapTurningCB" type="CheckBox" parent="Input/InputVBox/SnapTurning"]
+[node name="SnapTurningCB" type="CheckBox" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 
-[node name="yAxisDeadZone" type="HBoxContainer" parent="Input/InputVBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Input/InputVBox/yAxisDeadZone"]
+[node name="yAxisDeadZoneLabel" type="Label" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Y axis dead zone"
 
-[node name="yAxisDeadZoneSlider" type="HSlider" parent="Input/InputVBox/yAxisDeadZone"]
+[node name="yAxisDeadZoneSlider" type="HSlider" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 0.5
 step = 0.01
 value = 0.1
 
-[node name="xAxisDeadZone" type="HBoxContainer" parent="Input/InputVBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Input/InputVBox/xAxisDeadZone"]
+[node name="xAxisDeadZoneLabel" type="Label" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "X axis dead zone"
 
-[node name="xAxisDeadZoneSlider" type="HSlider" parent="Input/InputVBox/xAxisDeadZone"]
+[node name="xAxisDeadZoneSlider" type="HSlider" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 0.5
 step = 0.01
 value = 0.2
 
-[node name="HapticsScale" type="HBoxContainer" parent="Input/InputVBox"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="Input/InputVBox/HapticsScale"]
+[node name="HapticsScaleLabel" type="Label" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Haptics Scale"
+text = "Haptics scale"
 
-[node name="HapticsScaleSlider" type="HSlider" parent="Input/InputVBox/HapticsScale"]
+[node name="HapticsScaleSlider" type="HSlider" parent="Input/InputVBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 max_value = 1.0
@@ -88,7 +80,7 @@ alignment = 1
 [node name="Save" type="Button" parent="Input/InputVBox/Buttons"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Apply"
+text = "Save"
 
 [node name="Reset" type="Button" parent="Input/InputVBox/Buttons"]
 layout_mode = 2
@@ -107,15 +99,16 @@ metadata/_tab_index = 1
 [node name="PlayerVBox" type="VBoxContainer" parent="Player"]
 layout_mode = 2
 
-[node name="PlayerHeight" type="HBoxContainer" parent="Player/PlayerVBox"]
+[node name="GridContainer" type="GridContainer" parent="Player/PlayerVBox"]
 layout_mode = 2
+columns = 2
 
-[node name="Label" type="Label" parent="Player/PlayerVBox/PlayerHeight"]
+[node name="PlayerHeightLabel" type="Label" parent="Player/PlayerVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Height adjust:"
+text = "Height"
 
-[node name="PlayerHeightSlider" type="HSlider" parent="Player/PlayerVBox/PlayerHeight"]
+[node name="PlayerHeightSlider" type="HSlider" parent="Player/PlayerVBox/GridContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 min_value = 1.0
@@ -133,7 +126,7 @@ alignment = 1
 [node name="Save" type="Button" parent="Player/PlayerVBox/Buttons"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Apply"
+text = "Save"
 
 [node name="Reset" type="Button" parent="Player/PlayerVBox/Buttons"]
 layout_mode = 2
@@ -152,15 +145,16 @@ metadata/_tab_index = 2
 [node name="WebXRVBox" type="VBoxContainer" parent="WebXR"]
 layout_mode = 2
 
-[node name="WebXR" type="HBoxContainer" parent="WebXR/WebXRVBox"]
+[node name="GridContainer" type="GridContainer" parent="WebXR/WebXRVBox"]
 layout_mode = 2
+columns = 2
 
-[node name="Label" type="Label" parent="WebXR/WebXRVBox/WebXR"]
+[node name="WebXRLabel" type="Label" parent="WebXR/WebXRVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "WebXR primary:"
+text = "WebXR primary"
 
-[node name="WebXRPrimary" type="OptionButton" parent="WebXR/WebXRVBox/WebXR"]
+[node name="WebXRPrimary" type="OptionButton" parent="WebXR/WebXRVBox/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 selected = 0
@@ -182,22 +176,22 @@ alignment = 1
 [node name="Save" type="Button" parent="WebXR/WebXRVBox/Buttons"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
-text = "Apply"
+text = "Save"
 
 [node name="Reset" type="Button" parent="WebXR/WebXRVBox/Buttons"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 12
 text = "Reset"
 
-[connection signal="pressed" from="Input/InputVBox/SnapTurning/SnapTurningCB" to="." method="_on_SnapTurningCB_pressed"]
-[connection signal="value_changed" from="Input/InputVBox/yAxisDeadZone/yAxisDeadZoneSlider" to="." method="_on_y_axis_dead_zone_slider_value_changed"]
-[connection signal="value_changed" from="Input/InputVBox/xAxisDeadZone/xAxisDeadZoneSlider" to="." method="_on_x_axis_dead_zone_slider_value_changed"]
-[connection signal="value_changed" from="Input/InputVBox/HapticsScale/HapticsScaleSlider" to="." method="_on_haptics_scale_slider_value_changed"]
+[connection signal="pressed" from="Input/InputVBox/GridContainer/SnapTurningCB" to="." method="_on_SnapTurningCB_pressed"]
+[connection signal="value_changed" from="Input/InputVBox/GridContainer/yAxisDeadZoneSlider" to="." method="_on_y_axis_dead_zone_slider_value_changed"]
+[connection signal="value_changed" from="Input/InputVBox/GridContainer/xAxisDeadZoneSlider" to="." method="_on_x_axis_dead_zone_slider_value_changed"]
+[connection signal="value_changed" from="Input/InputVBox/GridContainer/HapticsScaleSlider" to="." method="_on_haptics_scale_slider_value_changed"]
 [connection signal="pressed" from="Input/InputVBox/Buttons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Input/InputVBox/Buttons/Reset" to="." method="_on_Reset_pressed"]
-[connection signal="drag_ended" from="Player/PlayerVBox/PlayerHeight/PlayerHeightSlider" to="." method="_on_PlayerHeightSlider_drag_ended"]
+[connection signal="drag_ended" from="Player/PlayerVBox/GridContainer/PlayerHeightSlider" to="." method="_on_PlayerHeightSlider_drag_ended"]
 [connection signal="pressed" from="Player/PlayerVBox/Buttons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="Player/PlayerVBox/Buttons/Reset" to="." method="_on_Reset_pressed"]
-[connection signal="item_selected" from="WebXR/WebXRVBox/WebXR/WebXRPrimary" to="." method="_on_web_xr_primary_item_selected"]
+[connection signal="item_selected" from="WebXR/WebXRVBox/GridContainer/WebXRPrimary" to="." method="_on_web_xr_primary_item_selected"]
 [connection signal="pressed" from="WebXR/WebXRVBox/Buttons/Save" to="." method="_on_Save_pressed"]
 [connection signal="pressed" from="WebXR/WebXRVBox/Buttons/Reset" to="." method="_on_Reset_pressed"]
