@@ -125,7 +125,7 @@ jobs:
     steps:
       # Check out the repository
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       # Install the OpenXR Vendors Plugin
       - name: Install OpenXR Vendors Plugin
@@ -142,7 +142,7 @@ jobs:
       # If targeting android then install JDK
       - name: Set up JDK 17
         if: matrix.platform == 'android'
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           java-version: '17'
           distribution: 'temurin'
@@ -150,7 +150,7 @@ jobs:
       # If targeting android then install Android SDK
       - name: Setup Android SDK
         if: matrix.platform == 'android'
-        uses: android-actions/setup-android@v3
+        uses: android-actions/setup-android@v4
 
       # If targeting android then install Android SDK Packages
       - name: Install Android SDK Packages
