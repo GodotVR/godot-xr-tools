@@ -6,7 +6,7 @@
 [sub_resource type="BoxMesh" id="1"]
 resource_local_to_scene = true
 material = ExtResource("1")
-size = Vector3(0.002, 0.002, 10)
+size = Vector3(0.002, 0.002, 1)
 subdivide_depth = 20
 
 [sub_resource type="SphereMesh" id="2"]
@@ -28,7 +28,7 @@ target_position = Vector3(0, 0, -10)
 collision_mask = 5242880
 
 [node name="Laser" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.013, -5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 10, 0, -0.013, -5)
 cast_shadow = 0
 mesh = SubResource("1")
 

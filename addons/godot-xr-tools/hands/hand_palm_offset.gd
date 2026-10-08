@@ -26,6 +26,9 @@ var _apply_to: Node3D
 # Additional transform to apply
 var _base_transform: Transform3D = Transform3D()
 
+# World scale
+var _was_world_scale: float = 1.0
+
 
 # When we're added to the tree
 func _enter_tree() -> void:
@@ -34,6 +37,7 @@ func _enter_tree() -> void:
 
 	_controller = XRHelpers.get_xr_controller(self)
 
+	_was_world_scale = XRServer.world_scale
 	_update_transform()
 
 
@@ -42,7 +46,8 @@ func _process(_delta: float) -> void:
 	# If we have a controller, make sure our hand transform is updated when needed.
 	if _controller:
 		var tracker_and_pose: String = _controller.tracker + "." + _controller.pose
-		if _controller_tracker_and_pose != tracker_and_pose:
+		if _was_world_scale != XRServer.world_scale or _controller_tracker_and_pose != tracker_and_pose:
+			_was_world_scale = XRServer.world_scale
 			_controller_tracker_and_pose = tracker_and_pose
 			if hand_offset_mode == 0:
 				_update_transform()
@@ -104,7 +109,11 @@ func set_base_transform(base_transform: Transform3D) -> void:
 # Updates our transform so we are positioned on our palm
 func _update_transform() -> void:
 	if _apply_to and hand_offset_mode != 4:
-		_apply_to.transform = XRTools.get_palm_offset(
+		var new_transform = XRTools.get_palm_offset(
 				hand_offset_mode,
 				_controller,
 		) * _base_transform
+
+		new_transform.origin *= XRServer.world_scale
+
+		_apply_to.transform = new_transform

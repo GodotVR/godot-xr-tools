@@ -7,6 +7,7 @@
 - Fix double button presses (pointer for 2D viewport)
 - Added gizmos to help align interactable joints
 - Add check/setting for foveated rendering
+- Fix issues with applying world_scale
 
 # 4.5.0
 - Minimum Godot version changed to 4.4
