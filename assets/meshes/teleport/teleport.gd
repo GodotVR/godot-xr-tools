@@ -138,7 +138,7 @@ func _property_can_revert(property : StringName) -> bool:
 
 
 # Provide revert values for custom properties
-func _property_get_revert(property : StringName): # Variant
+func _property_get_revert(property : StringName) -> Variant:
 	match property:
 		"spawn_point_name":
 			return ""
@@ -146,6 +146,8 @@ func _property_get_revert(property : StringName): # Variant
 			return Vector3.ZERO
 		"spawn_point_transform":
 			return Transform3D.IDENTITY
+		_:
+			return null
 
 
 func set_collision_disabled(p_disable : bool) -> void:

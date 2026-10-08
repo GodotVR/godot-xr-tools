@@ -84,7 +84,7 @@ func _process(_delta: float) -> void:
 
 
 # Perform jump movement
-func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool):
+func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: bool) -> bool:
 	# Skip if the player body isn't active
 	plr_body=player_body
 	if !player_body.enabled or xr_start_node.is_xr_active():
@@ -92,7 +92,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 			mouse_move_vector=Vector2.ZERO
 		#if clear_cam_x_when_body_not_active:
 		#	player_body.camera_node.rotation_degrees.x=0
-		return
+		return false
 
 	var deadzone = 0.1
 #	if _snap_turning():
@@ -114,7 +114,7 @@ func physics_movement(delta: float, player_body: XRToolsPlayerBody, _disabled: b
 		-89.999,
 		89.999)
 	mouse_move_vector=Vector2.ZERO
-	return
+	return false
 
 
 
