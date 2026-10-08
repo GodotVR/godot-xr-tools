@@ -507,7 +507,8 @@ func _update_y_offset() -> void:
 func _visible_hit(at: Vector3) -> void:
 	# Show target if enabled
 	if show_target:
-		_target.global_transform.origin = at
+		_target.global_basis = Basis.from_scale(Vector3(_world_scale, _world_scale, _world_scale))
+		_target.global_position = at
 		_target.visible = true
 
 	# Control laser visibility
@@ -518,10 +519,10 @@ func _visible_hit(at: Vector3) -> void:
 		# Adjust laser length
 		if laser_length == LaserLength.COLLIDE:
 			var collide_len: float = at.distance_to(global_transform.origin)
-			_laser.mesh.size.z = collide_len
+			_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, collide_len))
 			_laser.position.z = collide_len * -0.5
 		else:
-			_laser.mesh.size.z = distance
+			_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, distance))
 			_laser.position.z = distance * -0.5
 
 		# Show laser
@@ -543,7 +544,7 @@ func _visible_miss() -> void:
 	_laser.visible = show_laser == LaserShow.SHOW
 
 	# Restore laser length if set to collide-length
-	_laser.mesh.size.z = distance
+	_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, distance))
 	_laser.position.z = distance * -0.5
 
 
@@ -551,10 +552,11 @@ func _visible_miss() -> void:
 func _visible_move(at: Vector3) -> void:
 	# Move target if configured
 	if show_target:
+		_target.global_basis = Basis.from_scale(Vector3(_world_scale, _world_scale, _world_scale))
 		_target.global_transform.origin = at
 
 	# Adjust laser length if set to collide-length
 	if laser_length == LaserLength.COLLIDE:
-		var collide_len: float = at.distance_to(global_transform.origin)
-		_laser.mesh.size.z = collide_len
+		var collide_len : float = at.distance_to(global_transform.origin)
+		_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, collide_len))
 		_laser.position.z = collide_len * -0.5
