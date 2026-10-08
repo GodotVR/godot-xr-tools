@@ -33,7 +33,7 @@ signal action_pressed(pickable: XRToolsPickable)
 signal action_released(pickable: XRToolsPickable)
 
 ## Emitted when the highlight state changes
-signal highlight_updated(pickable: XRToolsPickable, enable: bool)
+signal highlight_updated(pickable: Node3D, enable: bool)
 
 
 ## How to grab objects from afar

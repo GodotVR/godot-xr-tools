@@ -9,11 +9,11 @@ signal has_picked_up(what: Node3D)
 ## Emitted when the snap-zone drops something
 signal has_dropped
 
-## Emitted when the highlight state changes
-signal highlight_updated(pickable: XRToolsSnapZone, enable: bool)
+## Emitted when the highlight is toggled
+signal highlight_updated(pickable: Node3D, enable: bool)
 
-## Emitted when the highlight state changes
-signal close_highlight_updated(pickable: XRToolsSnapZone, enable: bool)
+## Emitted when the close highlight is toggled
+signal close_highlight_updated(pickable: Node3D, enable: bool)
 
 
 ## When to snap objects
@@ -68,7 +68,7 @@ var _object_in_grab_area: Array[Node3D]
 
 func _ready() -> void:
 	# Set collision shape radius
-	if has_node("CollisionShape3D") and "radius" in _collider.shape:
+	if "radius" in _collider.shape:
 		_collider.shape.radius = grab_distance
 
 	# Add important connections
@@ -195,8 +195,8 @@ func pick_up_object(target: Node3D) -> void:
 	# Pick up our target. Note, target may do instant drop_and_free
 	picked_up_object = target
 	if has_node("AudioStreamPlayer3D"):
-		var player = get_node("AudioStreamPlayer3D")
-		if is_instance_valid(player):
+		var player: AudioStreamPlayer3D = get_node("AudioStreamPlayer3D")
+		if player:
 			if player.playing:
 				player.stop()
 
@@ -235,7 +235,7 @@ func _initial_object_check() -> void:
 	)
 
 	# Only stop if the user doesn't intend to auto-play
-	if audio is AudioStreamPlayer3D and !audio.autoplay:
+	if audio is AudioStreamPlayer3D and not audio.autoplay:
 		audio.stop()
 
 

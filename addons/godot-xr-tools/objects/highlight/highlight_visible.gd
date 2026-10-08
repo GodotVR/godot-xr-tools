@@ -36,5 +36,5 @@ func is_xr_class(xr_name: String) -> bool:
 
 
 # When the pickable highlight changes
-func _on_highlight_updated(_pickable: XRToolsPickable, enable: bool) -> void:
+func _on_highlight_updated(_pickable: Node3D, enable: bool) -> void:
 	visible = enable
