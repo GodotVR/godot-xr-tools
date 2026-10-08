@@ -37,7 +37,7 @@ enum WebXRPrimary {
 
 
 ## File name to persist user settings
-var settings_file_name := "user://xtools_user_settings.json"
+var settings_file_name := "user://xr_tools_user_settings.cfg"
 
 ## Records the first input to generate input (thumbstick or trackpad).
 var webxr_auto_primary := 0
@@ -106,36 +106,23 @@ func reset_to_defaults() -> void:
 	haptics_scale = XRToolsRumbleManager.get_default_haptics_scale()
 
 
-## Saves the settings to file
+## Saves the settings to a .cfg file
 func save() -> void:
-	# Convert the settings to a dictionary
-	var settings := {
-		"input": {
-			"default_snap_turning": snap_turning,
-			"y_axis_dead_zone": y_axis_dead_zone,
-			"x_axis_dead_zone": x_axis_dead_zone,
-			"haptics_scale": haptics_scale,
-		},
-		"player": {
-			"height": player_height,
-		},
-		"webxr": {
-			"webxr_primary": webxr_primary,
-		}
-	}
+	# Create a new Config File
+	var config := ConfigFile.new()
 
-	# Convert the settings dictionary to text
-	var settings_text := JSON.stringify(settings)
+	# Add the settings to the Config File
+	config.set_value("input", "default_snap_turning", snap_turning)
+	config.set_value("input", "x_axis_dead_zone", x_axis_dead_zone)
+	config.set_value("input", "y_axis_dead_zone", y_axis_dead_zone)
+	config.set_value("input", "haptics_scale", haptics_scale)
 
-	# Attempt to open the settings file for writing
-	var file := FileAccess.open(settings_file_name, FileAccess.WRITE)
-	if not file:
-		push_warning("Unable to write to %s" % settings_file_name)
-		return
+	config.set_value("player", "height", player_height)
 
-	# Write the settings text to the file
-	file.store_line(settings_text)
-	file.close()
+	config.set_value("webxr", "primary", webxr_primary)
+
+	# Save the Config File
+	config.save(settings_file_name)
 
 
 ## Sets the player's height
@@ -156,7 +143,7 @@ func set_webxr_primary(new_value: WebXRPrimary) -> void:
 		webxr_primary_changed.emit(webxr_primary)
 
 
-# Loads the settings from file
+# Loads the settings from the Config File
 func _load() -> void:
 	# First reset our values
 	reset_to_defaults()
@@ -166,45 +153,42 @@ func _load() -> void:
 		return
 
 	# Attempt to open the settings file for reading
-	var file := FileAccess.open(settings_file_name, FileAccess.READ)
-	if not file:
+	var config := ConfigFile.new()
+	var err = config.load(settings_file_name)
+
+	if err != OK:
 		push_warning("Unable to read from %s" % settings_file_name)
 		return
 
-	# Read the settings text
-	var settings_text := file.get_as_text()
-	file.close()
+	# Load the settings from the Config File
+	snap_turning = config.get_value(
+			"input",
+			"default_snap_turning",
+			XRTools.get_default_snap_turning(),
+	)
+	x_axis_dead_zone = config.get_value(
+			"input",
+			"x_axis_dead_zone",
+			XRTools.get_x_axis_dead_zone(),
+	)
+	y_axis_dead_zone = config.get_value(
+			"input",
+			"y_axis_dead_zone",
+			XRTools.get_y_axis_dead_zone(),
+	)
+	haptics_scale = config.get_value(
+			"input",
+			"haptics_scale",
+			XRToolsRumbleManager.get_default_haptics_scale(),
+	)
 
-	# Parse the settings text and verify it's a dictionary
-	var settings_raw = JSON.parse_string(settings_text)
-	if typeof(settings_raw) != TYPE_DICTIONARY:
-		push_warning("Settings file %s is corrupt" % settings_file_name)
-		return
+	player_height = config.get_value(
+			"player",
+			"height",
+			XRTools.get_player_standard_height(),
+	)
 
-	# Parse our input settings
-	var settings: Dictionary = settings_raw
-	if settings.has("input"):
-		var input: Dictionary = settings["input"]
-		if input.has("default_snap_turning"):
-			snap_turning = input["default_snap_turning"]
-		if input.has("y_axis_dead_zone"):
-			y_axis_dead_zone = input["y_axis_dead_zone"]
-		if input.has("x_axis_dead_zone"):
-			x_axis_dead_zone = input["x_axis_dead_zone"]
-		if input.has("haptics_scale"):
-			haptics_scale = input["haptics_scale"]
-
-	# Parse our player settings
-	if settings.has("player"):
-		var player: Dictionary = settings["player"]
-		if player.has("height"):
-			player_height = player["height"]
-
-	# Parse our WebXR settings
-	if settings.has("webxr"):
-		var webxr: Dictionary = settings["webxr"]
-		if webxr.has("webxr_primary"):
-			webxr_primary = webxr["webxr_primary"]
+	webxr_primary = config.get_value("webxr", "primary", WebXRPrimary.AUTO)
 
 
 # Connects to tracker events when using WebXR.
