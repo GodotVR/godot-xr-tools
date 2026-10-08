@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://c0j857ar3agno" path="res://addons/godot-xr-tools/interactables/interactable_joystick.gd" id="1"]
 
-[node name="InteractableJoystick" type="Spatial"]
+[node name="InteractableJoystick" type="Node3D"]
 script = ExtResource("1")

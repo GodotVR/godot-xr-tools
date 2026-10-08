@@ -2,7 +2,6 @@
 class_name XRToolsInteractableHandle
 extends XRToolsPickable
 
-
 ## XR Tools Interactable Handle script
 ##
 ## The interactable handle is a (usually invisible) object extending from
@@ -20,19 +19,19 @@ extends XRToolsPickable
 
 
 ## Distance from the handle origin to auto-snap the grab
-@export var snap_distance : float = 0.3
+@export var snap_distance := 0.3
 
 
-# Handle origin spatial node
+## Handle's parent node
 @onready var handle_origin: Node3D = get_parent()
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsInteractableHandle" or super(xr_name)
 
 
-# Called when this handle is added to the scene
+# When this handle is added to the scene
 func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
@@ -44,30 +43,25 @@ func _ready() -> void:
 	set_process(false)
 
 
-# Called on every frame when the handle is held to check for snapping
+# When the handle is held to check for snapping
 func _process(_delta: float) -> void:
 	# Skip if not picked up
 	if not is_picked_up():
 		return
 
 	# If too far from the origin then drop the handle
-	var origin_pos = handle_origin.global_transform.origin
-	var handle_pos = global_transform.origin
+	var origin_pos := handle_origin.global_transform.origin
+	var handle_pos := global_transform.origin
 	if handle_pos.distance_to(origin_pos) > snap_distance:
 		drop()
 
 
-# Called when the handle is picked up
-func pick_up(by) -> void:
-	# Call the base-class to perform the pickup
-	super(by)
-
-	# Enable the process function while held
-	set_process(true)
-
-
-# Called when the handle is dropped
-func let_go(by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector3) -> void:
+## When the handle is dropped
+func let_go(
+		by: Node3D,
+		_p_linear_velocity: Vector3,
+		_p_angular_velocity: Vector3,
+) -> void:
 	# Call the base-class to perform the drop, but with no velocity
 	super(by, Vector3.ZERO, Vector3.ZERO)
 
@@ -78,11 +72,20 @@ func let_go(by: Node3D, _p_linear_velocity: Vector3, _p_angular_velocity: Vector
 	transform = Transform3D.IDENTITY
 
 
-# Check handle configurationv
+## When the handle is picked up
+func pick_up(by: Node3D) -> void:
+	# Call the base-class to perform the pickup
+	super(by)
+
+	# Enable the process function while held
+	set_process(true)
+
+
+# Checks handle configuration
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings := PackedStringArray()
 
-	if !transform.is_equal_approx(Transform3D.IDENTITY):
+	if transform.is_equal_approx(Transform3D.IDENTITY):
 		warnings.append("Interactable handle must have no transform from its parent handle origin")
 
 	return warnings

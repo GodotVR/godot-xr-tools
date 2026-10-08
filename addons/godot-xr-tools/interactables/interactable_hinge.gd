@@ -2,7 +2,6 @@
 class_name XRToolsInteractableHinge
 extends XRToolsInteractableHandleDriven
 
-
 ## XR Tools Interactable Hinge script
 ##
 ## The interactable hinge is a hinge transform node controlled by the
@@ -15,51 +14,44 @@ extends XRToolsInteractableHandleDriven
 ## to any collisions.
 
 
-## Signal for hinge moved
-signal hinge_moved(angle)
+## Emitted when the hinge is moved
+signal hinge_moved(angle: float)
 
-
-## Hinge minimum limit
-@export var hinge_limit_min : float = -45.0: set = _set_hinge_limit_min
-
-## Hinge maximum limit
-@export var hinge_limit_max : float = 45.0: set = _set_hinge_limit_max
 
 ## Hinge step size (zero for no steps)
-@export var hinge_steps : float = 0.0: set = _set_hinge_steps
+@export var hinge_steps := 0.0: set = _set_hinge_steps
 
 ## Hinge position
-@export var hinge_position : float = 0.0: set = _set_hinge_position
+@export var hinge_position := 0.0: set = _set_hinge_position
 
 ## Default position
-@export var default_position : float = 0.0: set = _set_default_position
+@export var default_position := 0.0: set = _set_default_position
 
-## If true, the hinge moves to the default position when releases
-@export var default_on_release : bool = false
-
-
-# Hinge values in radians
-@onready var _hinge_limit_min_rad : float = deg_to_rad(hinge_limit_min)
-@onready var _hinge_limit_max_rad : float = deg_to_rad(hinge_limit_max)
-@onready var _hinge_steps_rad : float = deg_to_rad(hinge_steps)
-@onready var _hinge_position_rad : float = deg_to_rad(hinge_position)
-@onready var _default_position_rad : float = deg_to_rad(default_position)
+## Whether the hinge moves to the default position when released
+@export var default_on_release := false
 
 
-# Add support for is_xr_class on XRTools classes
-func is_xr_class(xr_name:  String) -> bool:
+## Hinge origin
+var _origin: XRToolsInteractableHingeOrigin
+
+
+## Adds support for [method is_xr_class] on XRTools classes
+func is_xr_class(xr_name: String) -> bool:
 	return xr_name == "XRToolsInteractableHinge" or super(xr_name)
 
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
+# When the node enters the scene tree for the first time.
+func _ready() -> void:
 	# In Godot 4 we must now manually call our super class ready function
 	super()
 
+	# Get the parent origin
+	_origin = get_parent()
+
 	# Set the initial position to match the initial hinge position value
 	transform = Transform3D(
-		Basis.from_euler(Vector3(_hinge_position_rad, 0, 0)),
-		Vector3.ZERO
+			Basis.from_euler(Vector3(-deg_to_rad(hinge_position), 0, 0)),
+			Vector3.ZERO,
 	)
 
 	# Connect signals
@@ -67,89 +59,96 @@ func _ready():
 		push_error("Cannot connect hinge released signal")
 
 
-# Called every frame when one or more handles are held by the player
+# Checks for configuration warnings
+func _get_configuration_warnings() -> PackedStringArray:
+	var ret := PackedStringArray()
+
+	# Check for origin
+	var origin := get_parent() as XRToolsInteractableHingeOrigin
+	if not origin:
+		ret.append("Must be a child of an XRToolsInteractableHingeOrigin")
+
+	return ret
+
+
+# When one or more handles are held by the player
 func _process(_delta: float) -> void:
 	# Get the total handle angular offsets
 	var offset_sum := 0.0
+
 	for item in grabbed_handles:
 		var handle := item as XRToolsInteractableHandle
 		var to_handle: Vector3 = handle.global_transform.origin * global_transform
 		var to_handle_origin: Vector3 = handle.handle_origin.global_transform.origin * global_transform
-		to_handle.x = 0.0
-		to_handle_origin.x = 0.0
-		offset_sum += to_handle_origin.signed_angle_to(to_handle, Vector3.RIGHT)
+		to_handle = to_handle.slide(Vector3.LEFT)
+		to_handle_origin = to_handle_origin.slide(Vector3.LEFT)
+		offset_sum += rad_to_deg(to_handle_origin.signed_angle_to(to_handle, Vector3.LEFT))
 
 	# Average the angular offsets
 	var offset := offset_sum / grabbed_handles.size()
 
 	# Move the hinge by the requested offset
-	move_hinge(_hinge_position_rad + offset)
+	move_hinge(hinge_position + offset)
 
 
 # Move the hinge to the specified position
-func move_hinge(pos: float) -> void:
+func move_hinge(p_position: float) -> void:
 	# Do the hinge move
-	pos = _do_move_hinge(pos)
-	if pos == _hinge_position_rad:
+	p_position = _do_move_hinge(p_position)
+	if p_position == hinge_position:
 		return
 
 	# Update the current positon
-	_hinge_position_rad = pos
-	hinge_position = rad_to_deg(pos)
+	hinge_position = p_position
 
 	# Emit the moved signal
-	emit_signal("hinge_moved", hinge_position)
+	emit_signal("hinge_moved", p_position)
 
 
 # Handle release of hinge
 func _on_hinge_released(_interactable: XRToolsInteractableHinge):
 	if default_on_release:
-		move_hinge(_default_position_rad)
-
-
-# Called when hinge_limit_min is set externally
-func _set_hinge_limit_min(value: float) -> void:
-	hinge_limit_min = value
-	_hinge_limit_min_rad = deg_to_rad(value)
-
-
-# Called when hinge_limit_max is set externally
-func _set_hinge_limit_max(value: float) -> void:
-	hinge_limit_max = value
-	_hinge_limit_max_rad = deg_to_rad(value)
+		move_hinge(default_position)
 
 
 # Called when hinge_steps is set externally
-func _set_hinge_steps(value: float) -> void:
-	hinge_steps = value
-	_hinge_steps_rad = deg_to_rad(value)
+func _set_hinge_steps(p_hinge_steps: float) -> void:
+	hinge_steps = maxf(0.0, p_hinge_steps)
 
 
 # Called when hinge_position is set externally
-func _set_hinge_position(value: float) -> void:
-	var pos = _do_move_hinge(deg_to_rad(value))
-	hinge_position = rad_to_deg(pos)
-	_hinge_position_rad = pos
+func _set_hinge_position(p_hinge_position: float) -> void:
+	hinge_position = _do_move_hinge(p_hinge_position)
 
 
 # Called when default_position is set externally
-func _set_default_position(value: float) -> void:
-	default_position = value
-	_default_position_rad = deg_to_rad(value)
+func _set_default_position(p_default_position: float) -> void:
+	default_position = _clamp_position(p_default_position)
 
 
 # Do the hinge move
-func _do_move_hinge(pos: float) -> float:
-	# Apply hinge step-quantization
-	if _hinge_steps_rad:
-		pos = round(pos / _hinge_steps_rad) * _hinge_steps_rad
-
-	# Apply hinge limits
-	pos = clamp(pos, _hinge_limit_min_rad, _hinge_limit_max_rad)
+func _do_move_hinge(p_position: float) -> float:
+	# Clamp the position
+	p_position = _clamp_position(p_position)
 
 	# Move if necessary
-	if pos != _hinge_position_rad:
-		transform.basis = Basis.from_euler(Vector3(pos, 0.0, 0.0))
+	if p_position != hinge_position:
+		transform.basis = Basis.from_euler(
+			Vector3(-deg_to_rad(p_position), 0.0, 0.0))
 
 	# Return the updated position
-	return pos
+	return p_position
+
+
+# Clamp the position based on the hinge rules
+func _clamp_position(p_position : float) -> float:
+	# Apply hinge step-quantization
+	if hinge_steps:
+		p_position = snappedf(p_position, hinge_steps)
+
+	# Apply hinge limits
+	if _origin:
+		p_position = clamp(p_position, _origin.limit_minimum, _origin.limit_maximum)
+
+	# Return the updated position
+	return p_position
