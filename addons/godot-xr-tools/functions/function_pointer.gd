@@ -203,6 +203,8 @@ func _process(delta: float) -> void:
 	if (_world_scale != new_world_scale):
 		_world_scale = new_world_scale
 		_update_y_offset()
+		_update_distance()
+		_update_suppress_radius()
 
 	# Find the new pointer target
 	var new_target: Node3D
@@ -456,7 +458,7 @@ func _update_collision_mask() -> void:
 
 # Sets the target position of the Ray Cast
 func _update_distance() -> void:
-	_ray.target_position.z = -distance
+	_ray.target_position.z = -distance * _world_scale
 	_update_pointer()
 
 
@@ -483,7 +485,7 @@ func _update_suppress_mask() -> void:
 
 # Sets the radius in which we suppress collisions
 func _update_suppress_radius() -> void:
-	_suppress_collider.shape.radius = suppress_radius
+	_suppress_collider.shape.radius = suppress_radius * _world_scale
 
 
 # Sets the material of the hit indicator
@@ -522,8 +524,9 @@ func _visible_hit(at: Vector3) -> void:
 			_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, collide_len))
 			_laser.position.z = collide_len * -0.5
 		else:
-			_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, distance))
-			_laser.position.z = distance * -0.5
+			var laser_len := distance * _world_scale
+			_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, laser_len))
+			_laser.position.z = laser_len * -0.5
 
 		# Show laser
 		_laser.visible = true
@@ -544,8 +547,9 @@ func _visible_miss() -> void:
 	_laser.visible = show_laser == LaserShow.SHOW
 
 	# Restore laser length if set to collide-length
-	_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, distance))
-	_laser.position.z = distance * -0.5
+	var laser_len := distance * _world_scale
+	_laser.basis = Basis.from_scale(Vector3(_world_scale, _world_scale, laser_len))
+	_laser.position.z = laser_len * -0.5
 
 
 # Change the visuals if we hit a target and then move
