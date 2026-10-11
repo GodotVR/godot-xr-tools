@@ -71,6 +71,23 @@ var _target: Node3D
 
 @onready var _anim_tree: AnimationTree = $AnimationTree
 
+# On Godot 4.6.x, AnimationMixer/AnimationTree can silently stop applying
+# its automatic per-frame blend output to the skeleton: parameters update
+# and is_processing_internal() still reports true, but bone poses never
+# change. A manual advance() call applies correctly, so this is used as a
+# targeted workaround, scoped by engine version so unaffected versions
+# keep their normal single automatic apply per frame. Remove once fixed
+# engine-side (see godotengine/godot upstream).
+@onready var _needs_manual_animation_advance := _engine_needs_manual_animation_advance()
+
+
+# Detects the Godot 4.6.x AnimationMixer auto-apply regression by engine
+# version rather than probing is_processing_internal(), which reports
+# true even when the bug is active and so cannot distinguish good engines
+# from affected ones.
+static func _engine_needs_manual_animation_advance() -> bool:
+	var version := Engine.get_version_info()
+	return version.major == 4 and version.minor == 6
 
 ## Finds an [XRToolsHand] node by searching from the specified node for an
 ## [XRToolsHand], assuming the node is a sibling of the hand under an
@@ -190,6 +207,9 @@ func _physics_process(_delta: float) -> void:
 
 		_anim_tree.set("parameters/Grip/blend_amount", grip)
 		_anim_tree.set("parameters/Trigger/blend_amount", trigger)
+
+		if _needs_manual_animation_advance:
+			_anim_tree.advance(_delta)
 
 	# Move to target
 	var target_transform: Transform3D
