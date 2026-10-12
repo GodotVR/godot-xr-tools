@@ -121,11 +121,11 @@ var _controller_right_node: XRController3D
 # Currently active controller
 var _active_controller: XRController3D
 
-@onready var _laser: MeshInstance3D = $Laser
-@onready var _ray: RayCast3D = $RayCast
-@onready var _suppress_area: Area3D = $SuppressArea
-@onready var _suppress_collider: CollisionShape3D = $SuppressArea/CollisionShape3D
-@onready var _target: MeshInstance3D = $Target
+var _laser: MeshInstance3D
+var _ray: RayCast3D
+var _suppress_area: Area3D
+var _suppress_collider: CollisionShape3D
+var _target: MeshInstance3D
 
 
 # Called when the node enters the scene tree for the first time.
@@ -172,8 +172,14 @@ func _enter_tree() -> void:
 				_on_button_released.bind(_controller_right_node)
 		)
 
+	# Get child nodes
+	_laser = $Laser
+	_ray = $RayCast
+	_suppress_area = $SuppressArea
+	_suppress_collider = $SuppressArea/CollisionShape3D
+	_target = $Target
+
 	# init our state
-	await get_tree().process_frame
 	_update_y_offset()
 	_update_distance()
 	_update_pointer()
