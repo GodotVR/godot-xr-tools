@@ -22,6 +22,7 @@ parameter_name = "bar_color"
 [sub_resource type="VisualShaderNodeTexture2DParameter" id="17"]
 parameter_name = "bar_texture"
 texture_type = 1
+texture_filter = 3
 
 [sub_resource type="VisualShaderNodeVectorOp" id="18"]
 operator = 2
@@ -66,7 +67,7 @@ code = "shader_type spatial;
 render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx, unshaded;
 
 uniform vec4 bar_color : source_color;
-uniform sampler2D bar_texture : source_color;
+uniform sampler2D bar_texture : source_color, filter_nearest_mipmap;
 uniform vec3 cutout = vec3(4.850000, 0.330000, 0.000000);
 uniform float progress;
 
