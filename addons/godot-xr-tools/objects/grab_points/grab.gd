@@ -179,8 +179,9 @@ func set_grab_point(p_point: XRToolsGrabPoint) -> void:
 
 	# Report switch
 	print_verbose("%s> switched grab point to %s", [what.name, point.name])
-	what.released.emit(what, by)
-	what.grabbed.emit(what, by)
+	if _arrived:
+		what.released.emit(what, by)
+		what.grabbed.emit(what, by)
 
 
 # Adds collision exceptions for the grabbed object and any of its children

@@ -83,9 +83,6 @@ static func create_snap(
 	driver.primary = p_grab
 	driver.global_transform = p_grab.by.global_transform * p_grab.transform.affine_inverse()
 
-	# Snapped to grab-point so report arrived
-	p_grab.set_arrived()
-
 	# Add the driver as a neighbor of the target as RemoteTransform3D nodes
 	# cannot be descendands of the targets they drive.
 	p_target.get_parent().add_child(driver)
@@ -165,19 +162,19 @@ func _physics_process(delta: float) -> void:
 			# Lerp completed
 			state = GrabState.SNAP
 			_update_weight()
-			if primary:
-				primary.set_arrived()
-			if secondary:
-				secondary.set_arrived()
 
-	if global_transform.is_equal_approx(destination):
-		return
+	if not global_transform.is_equal_approx(destination):
+		# Apply the destination transform before reporting arrival.
+		global_transform = destination
+		force_update_transform()
+		if is_instance_valid(target):
+			target.force_update_transform()
 
-	# Apply the destination transform
-	global_transform = destination
-	force_update_transform()
-	if is_instance_valid(target):
-		target.force_update_transform()
+	if state == GrabState.SNAP:
+		if primary:
+			primary.set_arrived()
+		if secondary:
+			secondary.set_arrived()
 
 
 ## Sets the secondary grab point

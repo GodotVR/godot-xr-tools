@@ -14,13 +14,13 @@ extends RigidBody3D
 ## child nodes controlling hand and snap-zone grab locations.
 
 
-## Emitted when this object is picked up (held by a player or snap-zone)
+## Emitted when pickup starts (held by a player or snap-zone), before arrival
 signal picked_up(pickable: XRToolsPickable)
 
 ## Emitted when this object is dropped
 signal dropped(pickable: XRToolsPickable)
 
-## Emitted when this object is grabbed (primary or secondary)
+## Emitted when this object arrives at a grab-point (primary or secondary)
 signal grabbed(pickable: XRToolsPickable, by: Node3D)
 
 ## Emitted when this object is released (primary or secondary)
@@ -350,9 +350,6 @@ func pick_up(by: Node3D) -> void:
 			var by_grab_point := _get_grab_point(by, _grab_driver.primary.point)
 			var grab := Grab.new(grabber, self, by_grab_point, true)
 			_grab_driver.add_grab(grab)
-
-			# Report the secondary grab
-			grabbed.emit(self, by)
 			return
 
 		# Swapping hands, let go with the primary grab
@@ -379,19 +376,24 @@ func pick_up(by: Node3D) -> void:
 	var by_grab_point := _get_grab_point(by, null)
 
 	# Construct the grab driver
-	if by.picked_up_ranged:
-		var grab := Grab.new(grabber, self, by_grab_point, false)
-		if ranged_grab_method == RangedMethod.LERP:
-			_grab_driver = XRToolsGrabDriver.create_lerp(self, grab, ranged_grab_speed)
-		else:
-			_grab_driver = XRToolsGrabDriver.create_snap(self, grab)
+	var grab := Grab.new(grabber, self, by_grab_point, not by.picked_up_ranged)
+	if by.picked_up_ranged and ranged_grab_method == RangedMethod.LERP:
+		_grab_driver = XRToolsGrabDriver.create_lerp(self, grab, ranged_grab_speed)
 	else:
-		var grab := Grab.new(grabber, self, by_grab_point, true)
 		_grab_driver = XRToolsGrabDriver.create_snap(self, grab)
 
-	# Report picked up and grabbed
+	# Report pickup before arrival, with the driver available to signal handlers.
+	var driver := _grab_driver
 	picked_up.emit(self)
-	grabbed.emit(self, by)
+
+	# A pickup handler may have dropped or replaced this grab.
+	if (
+			is_instance_valid(driver)
+			and _grab_driver == driver
+			and driver.get_grab(by) == grab
+			and driver.state == XRToolsGrabDriver.GrabState.SNAP
+	):
+		grab.set_arrived()
 
 
 ## Requests highlighting of the [XRToolsPickable].
